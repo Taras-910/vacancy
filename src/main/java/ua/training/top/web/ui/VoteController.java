@@ -41,21 +41,19 @@ public class VoteController {
 
     public void delete(int id) {
         log.info("delete vote {} for userId {}", id, authUserId());
-//        checkNotFound(LocalTime.now().isBefore(сhangeVoteTime), id + " for change vote up to 11:00");
         checkNotFoundWithId(repository.delete(id, authUserId()), id);
     }
 
-    public Vote create(int restaurantId) {
-        log.info("create vote for restaurantId {}", restaurantId);
-        Vote vote = new Vote(null, thisDay, restaurantId, authUserId());
+    public Vote create(int vacancyId) {
+        log.info("create vote for employerId {}", vacancyId);
+        Vote vote = new Vote(null, thisDay, vacancyId, authUserId());
         return repository.save(vote, authUserId());
     }
 
-    public void update(int voteId, int restaurantId) {
-        log.info("update vote {} for restaurantId {} of user {}", voteId, restaurantId, authUserId());
-        Vote vote = new Vote(voteId, thisDay, restaurantId, authUserId());
+    public void update(int voteId, int vacancyId) {
+        log.info("update vote {} for employerId {} of user {}", voteId, vacancyId, authUserId());
+        Vote vote = new Vote(voteId, thisDay, vacancyId, authUserId());
         Assert.notNull(vote, "vote must not be null");
-//        checkNotFound(LocalTime.now().isBefore(сhangeVoteTime), voteId + " for change vote up to 11:00");
         checkNotFoundWithId(repository.save(vote, authUserId()), voteId);
     }
 }

@@ -3,7 +3,7 @@ package ua.training.top.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import ua.training.top.AbstractTestUI;
+import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.testData.UserTestData;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.assertThrows;
 import static ua.training.top.testData.UserTestData.*;
 
-public class UserServiceTest extends AbstractTestUI {
+public class UserServiceTest extends AbstractServiceTest {
 
     @Autowired
     private UserService service;

@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
-import ua.training.top.AbstractTestUI;
+import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Vacancy;
 import ua.training.top.testData.VacancyTestData;
 import ua.training.top.util.exception.NotFoundException;
@@ -20,7 +20,7 @@ import static ua.training.top.testData.UserTestData.NOT_FOUND;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
 
-public class VacancyServiceTest extends AbstractTestUI {
+public class VacancyServiceTest extends AbstractServiceTest {
 
     @Autowired
     VacancyService service;

@@ -24,11 +24,6 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public Vote get(int id) {
-        return null;
-    }
-
-    @Override
     public List<Vote> getAllForAuthUser(int userId) {
         return null;
     }

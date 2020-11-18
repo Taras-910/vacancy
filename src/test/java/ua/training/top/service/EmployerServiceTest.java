@@ -3,7 +3,7 @@ package ua.training.top.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.training.top.AbstractTestUI;
+import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Employer;
 import ua.training.top.util.exception.NotFoundException;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThrows;
 import static ua.training.top.testData.EmployerTestData.*;
 import static ua.training.top.testData.UserTestData.NOT_FOUND;
 
-public class EmployerServiceTest extends AbstractTestUI {
+public class EmployerServiceTest extends AbstractServiceTest {
 
     @Autowired
     EmployerService service;

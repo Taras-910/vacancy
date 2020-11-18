@@ -48,7 +48,7 @@ public class VacancyServlet extends HttpServlet {
             dishController.update(meal, getId(request));
         }
 */
-        response.sendRedirect("meals");
+        response.sendRedirect("vacancies");
     }
 
     @Override

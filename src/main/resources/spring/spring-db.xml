@@ -38,16 +38,7 @@
         <property name="username" value="${database.username}"/>
         <property name="password" value="${database.password}"/>
     </bean>
-<!--database.url=jdbc:postgresql://localhost:5432/vacancy
-database.username=user
-database.password=password
 
-database.init=true
-jdbc.initLocation=classpath:db/initDB.sql
-jpa.showSql=true
-hibernate.format_sql=true
-hibernate.use_sql_comments=false
--->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
           p:packagesToScan="ua.training.**.model">

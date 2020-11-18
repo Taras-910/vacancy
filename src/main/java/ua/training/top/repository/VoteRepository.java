@@ -16,9 +16,6 @@ public interface VoteRepository {
     Vote get(int id, int userId);
 
     // null if not found
-    Vote get(int id);
-
-    // null if not found
     List<Vote> getAllForAuthUser(int userId);
 
     List<Vote> getAll();
