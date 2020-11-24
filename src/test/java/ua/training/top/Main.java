@@ -2,9 +2,7 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.training.top.repository.VacancyRepository;
-
-import static ua.training.top.testData.VacancyTestData.VACANCY2;
+import ua.training.top.web.ui.EmployerController;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,19 +12,24 @@ public class Main {
         appCtx.refresh();
 /*
         System.out.println("Bean definition names: ");
+        System.out.println("========================================");
         for(String s : appCtx.getBeanDefinitionNames()) {
             System.out.println(s);
         }
+        System.out.println("========================================");
 */
 
+/*
         VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
 
         System.out.println(vacancyRepository.getAll());
         System.out.println("========================================");
         System.out.println(VACANCY2);
+*/
 
-
-
+        EmployerController employerController = appCtx.getBean(EmployerController.class);
+        System.out.println("========================================");
+        System.out.println(employerController.getAllWithVacancies());
 
 
         appCtx.close();    }

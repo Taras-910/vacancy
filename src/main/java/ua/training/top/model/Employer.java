@@ -24,7 +24,7 @@ public class Employer extends AbstractBaseEntity{
     @Column(name="address")
     String address;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonManagedReference
     private List<Vacancy> vacancies;
 

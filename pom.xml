@@ -8,7 +8,7 @@
 
   <version>1.0-SNAPSHOT</version>
 
-  <name>Vacancies</name>
+  <name>Vacancy</name>
   <!--<url>http://topjava.herokuapp.com/</url>-->
 
   <properties>
@@ -16,9 +16,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <spring.version>5.2.9.RELEASE</spring.version>
-    <spring.security.version>5.3.1.RELEASE</spring.security.version>
-    <jackson-json.version>2.11.2</jackson-json.version>
+    <spring.version>5.3.0</spring.version>
+    <spring-data-jpa.version>2.4.0</spring-data-jpa.version>
+    <jackson-json.version>2.11.3</jackson-json.version>
+    <tomcat.version>9.0.39</tomcat.version>
 
     <!-- Logging -->
     <logback.version>1.2.3</logback.version>
@@ -26,24 +27,23 @@
 
     <!--DB-->
     <postgresql.version>42.2.17</postgresql.version>
-    <hsqldb.version>2.5.0</hsqldb.version>
-
     <!--    Tests  -->
-    <junit.version>4.13.1</junit.version>
+    <junit.jupiter.version>5.7.0</junit.jupiter.version>
     <assertj.version>3.17.2</assertj.version>
+    <hamcrest.version>2.2</hamcrest.version>
 
     <!-- Hibernate -->
     <hibernate.version>5.4.22.Final</hibernate.version>
     <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
     <javax-el.version>3.0.1-b12</javax-el.version>
-    <!--Tools-->
-    <ehcache.version>3.9.0</ehcache.version>
 
+    <!--Cache-->
+    <ehcache.version>3.9.0</ehcache.version>
 
   </properties>
 
   <build>
-    <finalName>top</finalName>
+    <finalName>Vacancy</finalName>
     <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
@@ -55,6 +55,7 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -63,8 +64,121 @@
           <argLine>-Dfile.encoding=UTF-8</argLine>
         </configuration>
       </plugin>
+-->
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.8.2</version>
+        <configuration>
+          <container>
+            <containerId>tomcat9x</containerId>
+            <systemProperties>
+              <file.encoding>UTF-8</file.encoding>
+              <spring.profiles.active>tomcat,datajpa</spring.profiles.active>
+            </systemProperties>
+            <dependencies>
+              <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+              </dependency>
+            </dependencies>
+          </container>
+          <configuration>
+            <configfiles>
+              <configfile>
+                <file>src/main/resources/tomcat/context.xml</file>
+                <todir>conf/Catalina/localhost/</todir>
+                <tofile>${project.build.finalName}.xml</tofile>
+              </configfile>
+            </configfiles>
+          </configuration>
+          <deployables>
+            <deployable>
+              <groupId>ua.training</groupId>
+              <artifactId>top</artifactId>
+              <type>war</type>
+              <properties>
+                <context>${project.build.finalName}</context>
+              </properties>
+            </deployable>
+          </deployables>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
+<!--
+  <build>
+    <finalName>Vacancy</finalName>
+    <defaultGoal>package</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      &lt;!&ndash; http://stackoverflow.com/questions/4305935/is-it-possible-to-supply-tomcat6s-context-xml-file-via-the-maven-cargo-plugin#4417945 &ndash;&gt;
+      &lt;!&ndash; https://codehaus-cargo.github.io/cargo/Tomcat+9.x.html &ndash;&gt;
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.8.2</version>
+        <configuration>
+          <container>
+            <containerId>tomcat9x</containerId>
+            <systemProperties>
+              <file.encoding>UTF-8</file.encoding>
+              &lt;!&ndash;<spring.profiles.active>tomcat,datajpa</spring.profiles.active>&ndash;&gt;
+            </systemProperties>
+            <dependencies>
+            </dependencies>
+          </container>
+          <configuration>
+            <configfiles>
+              <configfile>
+                <file>src/main/resources/tomcat/context.xml</file>
+                <todir>conf/Catalina/localhost/</todir>
+                <tofile>${project.build.finalName}.xml</tofile>
+              </configfile>
+            </configfiles>
+          </configuration>
+          <deployables>
+            <deployable>
+              <groupId>ua.training</groupId>
+              <artifactId>Vacancy</artifactId>
+              <type>war</type>
+              <properties>
+                <context>${project.build.finalName}</context>
+              </properties>
+            </deployable>
+          </deployables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>1.1.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.1.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+-->
+
 
   <dependencies>
     <!-- Logging with SLF4J & LogBack -->
@@ -90,6 +204,7 @@
     </dependency>
 
     <!-- Spring -->
+<!--
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -106,6 +221,11 @@
       <version>${spring.security.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+-->
 
     <!--DataBase-->
     <dependency>
@@ -119,6 +239,16 @@
       <version>2.3.4</version>
     </dependency>
 
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+      <version>${spring-data-jpa.version}</version>
+    </dependency>
 
     <!--- ORM -->
     <dependency>
@@ -130,6 +260,11 @@
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>${hibernate-validator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jcache</artifactId>
+      <version>${hibernate.version}</version>
     </dependency>
 
     <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
@@ -151,16 +286,6 @@
       <artifactId>ehcache</artifactId>
       <scope>runtime</scope>
       <version>${ehcache.version}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jaxb-runtime</artifactId>
-          <groupId>org.glassfish.jaxb</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->
@@ -172,9 +297,9 @@
 
     <!--Web-->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-servlet-api</artifactId>
+      <version>${tomcat.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -184,17 +309,46 @@
       <version>1.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+
+    <!--JSON-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-json.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate5</artifactId>
+      <version>${jackson-json.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson-json.version}</version>
+    </dependency>
+
     <!--Test-->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>${hamcrest.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>${spring.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -203,16 +357,33 @@
       <version>${assertj.version}</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-annotations</artifactId>
-          <version>2.11.2</version>
-      </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/junit/junit -->
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13</version>
+      <scope>test</scope>
+    </dependency>
+
+
   </dependencies>
+
 
   <profiles>
   </profiles>
 
   <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-framework-bom</artifactId>
+        <version>${spring.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
 </project>

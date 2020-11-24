@@ -19,6 +19,7 @@ public class VacancyController {
     private final VacancyService service;
 
     public VacancyController(VacancyService service) {
+        log.info("constructor VacancyController service {}", service==null);
         this.service = service;
     }
 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import static ua.training.top.util.DateTimeUtil.toDate;
@@ -55,6 +56,7 @@ public class VacancyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+        log.info("action {}", action);
         switch (action == null ? "all" : action) {
             case "delete":
                 int employerId = Integer.parseInt(request.getParameter("employerId"));
@@ -71,7 +73,9 @@ public class VacancyServlet extends HttpServlet {
                 break;
             case "all":
             default:
-                request.setAttribute("vacancies", controller.getAll());
+                List<Vacancy> list = controller.getAll();
+                log.info("list {}", list);
+                request.setAttribute("vacancies", list);
                 request.getRequestDispatcher("/vacancies.jsp").forward(request, response);
                 break;
         }

@@ -17,7 +17,7 @@ import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 public class VoteController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    private VoteRepository repository;
+    private final VoteRepository repository;
 
     public VoteController(VoteRepository repository) {
         this.repository = repository;

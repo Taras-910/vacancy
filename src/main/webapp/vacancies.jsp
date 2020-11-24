@@ -29,30 +29,86 @@
             <th></th>
         </tr>
         </thead>
+        <jsp:useBean id="menu" type="ua.training.top.to.VacancyTo"/>
         <c:forEach items="${vacancies}" var="vacancy">
             <tr>
-                <jsp:useBean id="menu" type="ua.training.top.to.VacancyTo"/>
                 <td>${vacancy.name}</td>
                 <td hidden>${vacancy.restaurant.id}</td>
-                <td>
-                    <c:forEach items="${menu.restaurant.dishes}" var="dish">
-                        <tr1>
-                            <jsp:useBean id="dish" type="ua.training.top.to.VacancyTo"/>
-                            <td1>${vacancy.name}</td1>
-                            /
-                            <td1>${vacancy.price}</td1>
-                            <td1><a href="vacancy?action=update&id=${dish.id}">Update</a></td1>
-                            <td1><a href="vacancy?action=delete&id=${dish.id}">Delete</a></td1>
-                        </tr1>
-                        <br>
-                    </c:forEach>
-                    <a  href="/rest/admin/dishes/add">
-                        Add Dish
-                    </a>
-                </td>
+
+
                 <td>${vacancy.toVote}</td>
-                <td><a href="vacancy?action=update&id=${menu.restaurant.id}">Update</a></td>
+                <td><a href="vacancy?action=update&id=${vacancy.restaurant.id}">Update</a></td>
                 <td><a href="vacancy?action=delete&id=${menu.restaurant.id}">Delete</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+</section>
+</body>
+</html>
+
+
+
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
+<html>
+<head>
+    <title>Meals</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section>
+    <h3><a href="index.jsp">Home</a></h3>
+    <hr/>
+    <h2>Meals</h2>
+    <form method="get" action="meals">
+        <input type="hidden" name="action" value="filter">
+        <dl>
+            <dt>From Date (inclusive):</dt>
+            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
+        </dl>
+        <dl>
+            <dt>To Date (inclusive):</dt>
+            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
+        </dl>
+        <dl>
+            <dt>From Time (inclusive):</dt>
+            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
+        </dl>
+        <dl>
+            <dt>To Time (exclusive):</dt>
+            <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
+        </dl>
+        <button type="submit">Filter</button>
+    </form>
+    <hr/>
+    <a href="meals?action=create">Add Meal</a>
+    <br><br>
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Calories</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <c:forEach items="${meals}" var="meal">
+            <jsp:useBean id="meal" type="ua.training.top.to.VacancyTo"/>
+            <tr data-mealExcess="${meal.excess}">
+                <td>
+                        <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
+                        <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
+                        <%--${fn:replace(meal.dateTime, 'T', ' ')}--%>
+                        ${fn:formatDateTime(meal.dateTime)}
+                </td>
+                <td>${meal.description}</td>
+                <td>${meal.calories}</td>
+                <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
+                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
