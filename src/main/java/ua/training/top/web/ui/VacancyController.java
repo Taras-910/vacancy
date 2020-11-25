@@ -19,7 +19,6 @@ public class VacancyController {
     private final VacancyService service;
 
     public VacancyController(VacancyService service) {
-        log.info("constructor VacancyController service {}", service==null);
         this.service = service;
     }
 
@@ -40,7 +39,7 @@ public class VacancyController {
 
     public void deleteListOfVacancies(int employerId) {
         log.info("deleteAll for employerId {}", employerId);
-        service.deleteListOfVacancies(employerId);
+        service.deleteEmployerVacancies(employerId);
     }
     @Transactional
     public Vacancy create(Vacancy vacancy, int employerId) {

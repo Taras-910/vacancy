@@ -5,6 +5,8 @@ import org.springframework.util.Assert;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import static ua.training.top.util.ValidationUtil.checkNotFound;
@@ -19,7 +21,7 @@ public class UserService {
         this.repository = repository;
     }
 
-    public User create(User user) {
+    public User create(@Valid @NotEmpty User user) {
         Assert.notNull(user, "user must not be null");
         return repository.save(user);
     }
@@ -41,7 +43,7 @@ public class UserService {
         return repository.getAll();
     }
 
-    public void update(User user) {
+    public void update(@Valid @NotEmpty User user) {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.id());
     }

@@ -7,7 +7,6 @@ import ua.training.top.model.Vote;
 import ua.training.top.testData.VoteTestData;
 import ua.training.top.util.exception.NotFoundException;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -31,7 +30,7 @@ public class VoteControllerTest extends AbstractServiceTest {
 
     @Test
     public void getNotFound() throws Exception {
-        assertThrows(NoResultException.class, () -> controller.get(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> controller.get(NOT_FOUND));
     }
 
     @Test
@@ -49,7 +48,7 @@ public class VoteControllerTest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         controller.delete(VOTE1_ID);
-        assertThrows(NoResultException.class, () -> controller.get(VOTE1_ID));
+        assertThrows(NotFoundException.class, () -> controller.get(VOTE1_ID));
     }
 
     @Test
@@ -77,7 +76,7 @@ public class VoteControllerTest extends AbstractServiceTest {
 
     @Test
     public void updateIllegalArgument() throws Exception {
-        assertThrows(NoResultException.class, () -> controller.update(NOT_FOUND, VACANCY2_ID));
+        assertThrows(NotFoundException.class, () -> controller.update(NOT_FOUND, VACANCY2_ID));
     }
 
     @Test

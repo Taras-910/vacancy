@@ -8,6 +8,8 @@ import ua.training.top.model.Employer;
 import ua.training.top.repository.EmployerRepository;
 import ua.training.top.util.exception.NotFoundException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import static ua.training.top.util.ValidationUtil.checkNotFound;
@@ -38,7 +40,7 @@ public class EmployerService {
         return repository.getAllWithVacancies();
     }
 
-    public void update(Employer employer) {
+    public void update(@Valid @NotEmpty Employer employer) {
         try {
             Assert.notNull(employer, "user must not be null");
             checkNotFoundWithId(repository.save(employer), employer.id());
@@ -46,10 +48,8 @@ public class EmployerService {
             throw new NotFoundException("error data employer=" + employer);
         }
     }
-//        assertThrows(IllegalArgumentException.class, () -> service.update(null));
-//        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
-//        assertThrows(DataIntegrityViolationException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
-    public Employer create(Employer employer) {
+
+    public Employer create(@Valid @NotEmpty Employer employer) {
         Assert.notNull(employer, "user must not be null");
         return repository.save(employer);
     }

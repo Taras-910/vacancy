@@ -1,6 +1,8 @@
 package ua.training.top.service;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
@@ -9,7 +11,6 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.testData.VacancyTestData;
 import ua.training.top.util.exception.NotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -21,9 +22,9 @@ import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
 
 public class VacancyServiceTest extends AbstractServiceTest {
-
+    private Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
-    VacancyService service;
+    private VacancyService service;
 
     @Test
     public void get() {
@@ -65,8 +66,8 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
 
     @Test
-    public void deleteListOfVacancies() {
-        service.deleteListOfVacancies(EMPLOYER2_ID);
+    public void deleteEmployerVacancies() {
+        service.deleteEmployerVacancies(EMPLOYER2_ID);
         assertThrows(NotFoundException.class, () -> service.get(VACANCY1_ID, EMPLOYER2_ID));
     }
 
@@ -111,10 +112,10 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void createListErrorData() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(VACANCY1, VACANCY2), EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(null, VACANCY3), EMPLOYER2_ID));
-        assertThrows(EntityNotFoundException.class, () -> service.createListOfVacancies(asList(VACANCY3, VACANCY4), NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(new Vacancy(VACANCY1), new Vacancy(VACANCY2)), EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(null, new Vacancy(VACANCY3)), EMPLOYER2_ID));
         assertThrows(NotFoundException.class, () -> service.createListOfVacancies(null, EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(new Vacancy(VACANCY3)), NOT_FOUND));
     }
 
     @Test
@@ -123,7 +124,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
         service.update(updated, EMPLOYER1_ID);
         VACANCY_MATCHER.assertMatch(service.get(VACANCY1_ID, EMPLOYER1_ID), updated);
     }
-//        return new Vacancy(VACANCY1_ID, "update Developer", new Date(2020, 10, 26), 700, "xxx", "update knowledge");
+
     @Test
     public void updateNotOwn() throws Exception {
         assertThrows(NotFoundException.class, () -> service.update(VacancyTestData.getUpdated(), EMPLOYER2_ID));

@@ -16,5 +16,6 @@ public interface VacancyRepository {
 
     List<Vacancy> saveAll(List<Vacancy> vacancies, int employerId);
 
-    boolean deleteListOfVacancies(int employerId);
+    boolean deleteEmployerVacancies(int employerId);
 }
+

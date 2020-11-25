@@ -24,7 +24,7 @@ public class Employer extends AbstractBaseEntity{
     @Column(name="address")
     String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
     @JsonManagedReference
     private List<Vacancy> vacancies;
 
@@ -62,5 +62,14 @@ public class Employer extends AbstractBaseEntity{
 
     public void setVacancies(List<Vacancy> vacancies) {
         this.vacancies = vacancies;
+    }
+
+    @Override
+    public String toString() {
+        return "Employer{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

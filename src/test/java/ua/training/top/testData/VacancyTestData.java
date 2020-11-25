@@ -21,8 +21,8 @@ public class VacancyTestData {
     public static final Vacancy VACANCY2 = new Vacancy(VACANCY2_ID, "Middle Java-разработчик", toDate(2020, 10, 25),
             0, "https://grc.ua/vacancy/40006938?query=java",
             "...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения");
-    public static final Vacancy VACANCY3 = new Vacancy(VACANCY1_ID,"new Game Developer", toDate(2020, 10, 25), 1, "1", "1");
-    public static final Vacancy VACANCY4 = new Vacancy(VACANCY1_ID,"new Developer", toDate(2020, 10, 25),2, "2", "2");
+    public static final Vacancy VACANCY3 = new Vacancy(null,"new Game Developer", toDate(2020, 10, 25), 1, "1", "1");
+    public static final Vacancy VACANCY4 = new Vacancy(null,"new Developer", toDate(2020, 10, 25),2, "2", "2");
 
     public static final List<Vacancy> VACANCIES_GET_ALL = Arrays.asList(VACANCY1, VACANCY2);
 

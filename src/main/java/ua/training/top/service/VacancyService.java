@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
+import ua.training.top.util.ValidationUtil;
 import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.ui.VacancyController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,12 +44,12 @@ public class VacancyService {
         checkNotFoundWithId(repository.delete(vacancyId, employerId), vacancyId);
     }
 
-    public void deleteListOfVacancies(int employerId) {
+    public void deleteEmployerVacancies(int employerId) {
         log.info("deleteAll for employerId {}", employerId);
-        checkNotFoundWithId(repository.deleteListOfVacancies(employerId), employerId);
+        checkNotFoundWithId(repository.deleteEmployerVacancies(employerId), employerId);
     }
     @Transactional
-    public Vacancy create(Vacancy vacancy, int employerId) {
+    public Vacancy create(@Valid @NotEmpty Vacancy vacancy, int employerId) {
         log.info("create vacancy {} for employerId {}", vacancy, employerId);
         Assert.notNull(vacancy, "vacancy must not be null");
         checkNew(vacancy);
@@ -55,11 +57,11 @@ public class VacancyService {
     }
 
     @Transactional
-    public List<Vacancy> createListOfVacancies(List<Vacancy> vacancies, int employerId) {
-        log.info("for employerId {} create vacancies {}", employerId, vacancies);
-        List<Vacancy> created = null;
+    public List<Vacancy> createListOfVacancies(@Valid @NotEmpty List<@NotEmpty Vacancy> vacancies, int employerId) {
+        log.info("for employerId {} create vacancies {}\n..........", employerId, vacancies);
+        List<Vacancy> created;
         try {
-//            vacancies.forEach(ValidationUtil::checkNew);
+            vacancies.forEach(ValidationUtil::checkNew);
             vacancies.forEach(v -> Assert.notNull(v, "vacancy must not be null"));
             vacancies.stream().map(vacancy -> vacancy.getName().toLowerCase()).distinct().collect(Collectors.toList());
             created = checkNotFound(repository.saveAll(vacancies, employerId), "employerId=" + employerId);
