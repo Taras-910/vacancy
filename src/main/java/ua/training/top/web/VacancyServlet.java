@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Vacancy;
+import ua.training.top.to.VacancyTo;
 import ua.training.top.web.ui.VacancyController;
 
 import javax.servlet.ServletConfig;
@@ -73,7 +74,7 @@ public class VacancyServlet extends HttpServlet {
                 break;
             case "all":
             default:
-                List<Vacancy> list = controller.getAll();
+                List<VacancyTo> list = controller.getAll();
                 log.info("list {}", list);
                 request.setAttribute("vacancies", list);
                 request.getRequestDispatcher("/vacancies.jsp").forward(request, response);

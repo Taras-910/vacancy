@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vacancy;
+import ua.training.top.model.Vote;
 import ua.training.top.service.VacancyService;
+import ua.training.top.to.VacancyTo;
+import ua.training.top.util.VacancyUtil;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,19 +20,16 @@ public class VacancyController {
     private static final Logger log = LoggerFactory.getLogger(VacancyController.class);
 
     private final VacancyService service;
+    private final VoteController controller;
 
-    public VacancyController(VacancyService service) {
+    public VacancyController(VacancyService service, VoteController controller) {
         this.service = service;
+        this.controller = controller;
     }
 
     public Vacancy get(int id, int employerId) {
         log.info("get vacancy for id {}", id);
         return service.get(id, employerId);
-    }
-
-    public List<Vacancy> getAll() {
-        log.info("getAll");
-        return service.getAll();
     }
 
     public void delete(int vacancyId, int employerId) {
@@ -57,5 +57,12 @@ public class VacancyController {
         log.info("update vacancy {} for vacancyId {} and employerId {}", vacancy, vacancyId, employerId);
         assureIdConsistent(vacancy, vacancyId);
         service.update(vacancy, employerId);
+    }
+
+    public List<VacancyTo> getAll() {
+        log.info("getAll");
+        List<Vacancy> vacancies = service.getAll();
+        List<Vote> votes = controller.getAllForAuthUser();
+        return VacancyUtil.getTos(vacancies, votes);
     }
 }

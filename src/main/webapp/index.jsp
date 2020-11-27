@@ -6,9 +6,10 @@
 </head>
 <body>
 <h3>Проект Java Enterprise (Top)</h3>
+<td><a href="users">Users</a></td>
 <hr>
 <form method="post" action="users">
-    <b>Meals of&nbsp;</b>
+    <b>Select user&nbsp;</b>
     <select name="userId">
         <option value="100000">User</option>
         <option value="100001">Admin</option>

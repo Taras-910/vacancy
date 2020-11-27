@@ -34,7 +34,6 @@ public class DateTimeFormatters {
         }
     }
 
-
     public static class LocalDateFormatter implements Formatter<LocalDate> {
 
         @Override

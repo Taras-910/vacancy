@@ -3,17 +3,10 @@ package ua.training.top.testData;
 import ua.training.top.TestMatcher;
 import ua.training.top.to.VacancyTo;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static ua.training.top.testData.EmployerTestData.*;
-import static ua.training.top.testData.VacancyTestData.VACANCY1;
-import static ua.training.top.testData.VacancyTestData.VACANCY2;
-
 public class VacancyToTestData {
     public static TestMatcher<VacancyTo> EMPLOYER_MATCHER = TestMatcher.usingFieldsComparator();
 
-    public static VacancyTo getNew() {
+/*    public static VacancyTo getNew() {
         return new VacancyTo(EMPLOYER1_ID,"Microsoft", Arrays.asList(VACANCY1), false);
     }
 
@@ -28,5 +21,5 @@ public class VacancyToTestData {
         VacancyTo VACANCY1 = new VacancyTo(EMPLOYER1.id(), EMPLOYER1.getName(), EMPLOYER1.getVacancies(), false);
         VacancyTo VACANCY2 = new VacancyTo(EMPLOYER2.id(), EMPLOYER2.getName(), EMPLOYER2.getVacancies(), false);
         return Arrays.asList(VACANCY1, VACANCY2);
-    }
+    }*/
 }
