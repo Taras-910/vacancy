@@ -14,13 +14,13 @@ INSERT INTO user_roles (role, user_id)
 VALUES ('ADMIN', 100000),
        ('USER', 100001);
 
-INSERT INTO employer (name, address)
-VALUES ('Huuuge Games', 'Киев'),
-       ('RedLab', 'Киев');
+INSERT INTO employer (name, address, site_name)
+VALUES ('Huuuge Games', 'Киев', 'https://grc.ua'),
+       ('RedLab', 'Киев', 'https://grc.ua');
 
-INSERT INTO vacancy (title, local_date, salary, link, skills, employer_id)
-VALUES ('Middle Game Developer','2020-10-25', 0, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…',100002),
-       ('Middle Java-разработчик','2020-10-25', 0, 'https://grc.ua/vacancy/40006938?query=java', '...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения', 100003);
+INSERT INTO vacancy (title, local_date, salary_min, salary_max, link, skills, employer_id)
+VALUES ('Middle Game Developer','2020-10-25', 0, 1, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…',100002),
+       ('Middle Java-разработчик','2020-10-25', 0, 1, 'https://grc.ua/vacancy/40006938?query=java', '...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения', 100003);
 
 INSERT INTO vote (local_date, vacancy_id, user_id)
 VALUES ('2020-10-25', 100004, 100000),

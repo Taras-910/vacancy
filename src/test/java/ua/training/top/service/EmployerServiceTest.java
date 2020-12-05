@@ -54,8 +54,8 @@ public class EmployerServiceTest extends AbstractServiceTest {
     @Test
     public void updateErrorData() throws Exception {
         assertThrows(NotFoundException.class, () -> service.update(null));
-        assertThrows(NotFoundException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
-        assertThrows(NotFoundException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
+        assertThrows(NotFoundException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
+        assertThrows(NotFoundException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Test
     public void createErrorDate() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.update(new Employer(null, null, "newAddress")));
+        assertThrows(NotFoundException.class, () -> service.update(new Employer(null, null, "newAddress", "https://grc.ua")));
     }
 
     @Test

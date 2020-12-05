@@ -20,7 +20,9 @@ public class VacancyTo {
     @NotNull
     private Date localDate;
 
-    private Integer salary;
+    private Integer salaryMin;
+
+    private Integer salaryMax;
 
     @NotNull
     String link;
@@ -31,13 +33,14 @@ public class VacancyTo {
     private boolean toVote = false;
 
     public VacancyTo(@NotNull Integer vacancyId, @NotNull String employerName, @NotNull String address, @NotNull String title,
-                     @NotNull Date localDate, Integer salary, String link, String skills, boolean toVote) {
+                     @NotNull Date localDate, Integer salaryMin, Integer salaryMax, String link, String skills, boolean toVote) {
         this.vacancyId = vacancyId;
         this.employerName = employerName;
         this.address = address;
         this.title = title;
         this.localDate = localDate;
-        this.salary = salary;
+        this.salaryMin = salaryMin;
+        this.salaryMax = salaryMax;
         this.link = link;
         this.skills = skills;
         this.toVote = toVote;
@@ -83,12 +86,20 @@ public class VacancyTo {
         this.localDate = localDate;
     }
 
-    public Integer getSalary() {
-        return salary;
+    public Integer getSalaryMin() {
+        return salaryMin;
     }
 
-    public void setSalary(Integer salary) {
-        this.salary = salary;
+    public void setSalaryMin(Integer salaryMin) {
+        this.salaryMin = salaryMin;
+    }
+
+    public Integer getSalaryMax() {
+        return salaryMax;
+    }
+
+    public void setSalaryMax(Integer salaryMax) {
+        this.salaryMax = salaryMax;
     }
 
     public String getLink() {
@@ -117,16 +128,17 @@ public class VacancyTo {
 
     @Override
     public String toString() {
-        return "VacancyTo{" +
-                "vacancyId=" + vacancyId +
-                ", employerName='" + employerName + '\'' +
-                ", address='" + address + '\'' +
-                ", title='" + title + '\'' +
-                ", localDate=" + localDate +
-                ", salary=" + salary +
-                ", link='" + link + '\'' +
-                ", skills='" + skills + '\'' +
-                ", toVote=" + toVote +
+        return "\nVacancyTo{" +
+                "\nvacancyId=" + vacancyId +
+                ", \nemployerName='" + employerName + '\'' +
+                ", \naddress='" + address + '\'' +
+                ", \ntitle='" + title + '\'' +
+                ", \nlocalDate=" + localDate +
+                ", \nsalary=" + salaryMin +
+                ", \nsalary=" + salaryMax +
+                ", \nlink='" + link + '\'' +
+                ", \nskills='" + skills + '\'' +
+                ", \ntoVote=" + toVote +
                 '}';
     }
 }

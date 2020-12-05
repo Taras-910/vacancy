@@ -2,18 +2,19 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
+    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "localDate","name");
     private Logger log = LoggerFactory.getLogger(getClass());
 
     CrudVacancyRepository vacancyRepository;
@@ -46,25 +47,28 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     public List<Vacancy> getAll() {
-        return vacancyRepository.findAll();
+        return vacancyRepository.findAll(SORT_DATE_NAME);
     }
 
     @Override
     @Transactional
     public List<Vacancy> saveAll(List<Vacancy> vacancies, int employerId) {
         Employer employer = employerRepository.getOne(employerId);
-        if(employer == null) return null;
-        List<Vacancy> created = new ArrayList<>();
-        vacancies.forEach(v -> {
-            v.setEmployer(employer);
-            created.add(new Vacancy(vacancyRepository.save(v)));
-        });
-        return created;
+        if(employer != null) {
+            vacancies.forEach(v -> v.setEmployer(employer));
+        }
+        return vacancyRepository.saveAll(vacancies);
     }
 
     @Override
     public boolean deleteEmployerVacancies(int employerId) {
         return vacancyRepository.deleteEmployerVacancies(employerId) != 0;
     }
+
+    @Override
+    public void deleteAll() {
+        vacancyRepository.deleteAll();
+    }
+
 }
 

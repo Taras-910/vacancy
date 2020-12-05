@@ -51,4 +51,16 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     public List<Employer> getAllWithVacancies() {
         return Optional.of(repository.getAllWithVacancies()).orElse(null);
     }
+
+    @Override
+    public List<Employer> createAll(List<Employer> employers) {
+        if(employers != null) log.info("employers {}", employers.size());
+//        repository.deleteAll();
+        return repository.saveAll(employers);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

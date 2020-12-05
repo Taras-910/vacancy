@@ -21,11 +21,13 @@ public class VacancyUtil {
     }
 
     private static VacancyTo createTo(Vacancy v, List<Vote> votes) {
-        log.info("--------------------------------------------------------------------");
-        log.info("votes {}", votes);
+//        log.info("--------------------------------------------------------------------");
+//        log.info("votes {}", votes);
         boolean toVote = votes.stream().filter(vote -> v.getId().equals(vote.getVacancyId())).count() != 0;
-        log.info("\n\ntoVote {}\n", toVote);
+//        log.info("\n\ntoVote {}\n", toVote);
         return new VacancyTo(v.getId(), v.getEmployer().getName(), v.getEmployer().getAddress(), v.getName(),
-                clearTime(v.getLocalDate()), v.getSalary(), v.getLink(), v.getSkills(), toVote);
+                clearTime(v.getLocalDate()), v.getSalaryMin(), v.getSalaryMax(), v.getLink(), v.getSkills(), toVote);
     }
+
+
 }

@@ -57,4 +57,13 @@ public class EmployerService {
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id), id);
     }
+
+    public List<Employer> createAll(List<Employer> employers) {
+        employers.forEach(employer -> Assert.notNull(employer, "user must not be null"));
+        return repository.createAll(employers);
+    }
+
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

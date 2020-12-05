@@ -2,7 +2,7 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.training.top.web.ui.EmployerController;
+import ua.training.top.aggregator.AggregatorController;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,10 +27,14 @@ public class Main {
         System.out.println(VACANCY2);
 */
 
+/*
         EmployerController employerController = appCtx.getBean(EmployerController.class);
         System.out.println("========================================");
         System.out.println(employerController.getAllWithVacancies());
+*/
+        AggregatorController aggregatorController = appCtx.getBean(AggregatorController.class);
 
+        aggregatorController.refreshDB("за_рубежем", "java");
 
         appCtx.close();    }
 }

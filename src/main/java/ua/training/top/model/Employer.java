@@ -22,22 +22,26 @@ public class Employer extends AbstractBaseEntity{
     private String name;
 
     @Column(name="address")
-    String address;
+    private String address;
+
+    @Column(name="site_name")
+    private String siteName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
     @JsonManagedReference
     private List<Vacancy> vacancies;
 
-    public Employer(Integer id, String name, String address) {
+    public Employer(Integer id, String name, String address, String siteName) {
         super(id);
         this.name = name;
         this.address = address;
+        this.siteName = siteName;
     }
 
     public Employer(){}
 
     public Employer(Employer employer) {
-        this(employer.getId(), employer.getName(), employer.getAddress());
+        this(employer.getId(), employer.getName(), employer.getAddress(), employer.getSiteName());
     }
 
     public String getName() {
@@ -64,12 +68,32 @@ public class Employer extends AbstractBaseEntity{
         this.vacancies = vacancies;
     }
 
+    public String getSiteName() { return siteName; }
+
+    public void setSiteName(String siteName) { this.siteName = siteName; }
+
+    @Override
+    public boolean equals(Object o) {
+
+        Employer employer = (Employer) o;
+
+        return getName().trim().equalsIgnoreCase(employer.getName().toLowerCase().trim());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + getName().toLowerCase().trim().hashCode();
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Employer{" +
-                "name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", id=" + id +
+                "\nname='" + name + '\'' +
+                ", \naddress='" + address + '\'' +
+                ", \nsiteName='" + siteName + '\'' +
+                ", \nid=" + id +
                 '}';
     }
 }

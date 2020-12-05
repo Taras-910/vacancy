@@ -16,34 +16,53 @@
     <hr/>
     <%--<a href="vacancy/create">Add</a>--%>
     <br><br>
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-        <tr>
-            <th hidden>VacancyId</th>
-            <th>Вакансия</th>
-            <th>Требования</th>
-            <th>Компания</th>
-            <th>Адрес</th>
-            <th>Зарплата</th>
-            <th>Дата публикации</th>
-            <th></th>
-        </tr>
-        </thead>
-        <jsp:useBean id="vacancies" scope="request" type="java.util.List"/>
-        <c:forEach items="${vacancies}" var="vacancy">
-            <jsp:useBean id="vacancy" type="ua.training.top.to.VacancyTo"/>
-            <tr data-toVote="${vacancy.toVote}">
-                <td hidden>${vacancy.vacancyId}</td>
-                <td><a href="${vacancy.link}">${vacancy.title}</a></td>
-                <td>${vacancy.skills}</td>
-                <td>${vacancy.employerName}</td>
-                <td>${vacancy.address}</td>
-                <td>${vacancy.salary}</td>
-                <td>${fn:formatDateTime(vacancy.localDate)}</td>
-                <td><input type="checkbox" <c:if test="${vacancy.toVote}">checked</c:if>/></td>
+    <form method="post" action="/vacancy/vacancies">
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+            <tr>
+                <th hidden>VacancyId</th>
+                <th>Вакансия</th>
+                <th>Компания</th>
+                <th>Адрес</th>
+                <th>usd cent from</th>
+                <th>usd cent to</th>
+                <th>Требования</th>
+                <th>Дата публикации</th>
+                <th></th>
             </tr>
-        </c:forEach>
-    </table>
+            </thead>
+            <jsp:useBean id="vacancies" scope="request" type="java.util.List"/>
+            <c:forEach items="${vacancies}" var="vacancy">
+                <jsp:useBean id="vacancy" type="ua.training.top.to.VacancyTo"/>
+                <tr data-toVote="${vacancy.toVote}">
+                    <td hidden>${vacancy.vacancyId}</td>
+                    <td><a href="${vacancy.link}">${vacancy.title}</a></td>
+                    <td>${vacancy.employerName}</td>
+                    <td>${vacancy.address}</td>
+                    <td>${vacancy.salaryMin}</td>
+                    <td>${vacancy.salaryMax}</td>
+                    <td>${vacancy.skills}</td>
+                    <td>${fn:formatDateTime(vacancy.localDate)}</td>
+
+                    <td>
+                    <%--td><input <type="checkbox" checked="checked" value="<c:out value='${vacancy.vacancyId}' />"/></td>--%>
+
+                    <input type="checkbox" name="toVote" value="${vacancy.vacancyId}" id="${vacancy.vacancyId}">
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+
+    </form>
 </section>
 </body>
 </html>
+<%--<form action="modifyAcl" method="post">
+<label><input type='checkbox' name="fullControl" value='FullControl' checked='checked'/>Full Control</label>
+...all your other checkboxes...
+
+<input type="submit" value="Modify ACL" />
+</form>
+--%>

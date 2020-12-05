@@ -46,4 +46,14 @@ public class DataJpaVoteRepository implements VoteRepository {
         return voteRepository.findAll();
     }
 
+    @Override
+    public List<Vote> saveAll(List<Vote> newVotes) {
+        return voteRepository.saveAll(newVotes);
+    }
+
+    @Override
+    public void deleteAll() {
+        voteRepository.deleteAll();
+    }
+
 }

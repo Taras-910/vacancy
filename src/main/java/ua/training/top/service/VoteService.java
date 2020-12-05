@@ -57,4 +57,12 @@ public class VoteService {
         checkNotFoundWithId(repository.save(vote, authUserId()), voteId);
     }
 
+    public List<Vote> createAll(List<Vote> newVotes) {
+        return repository.saveAll(newVotes);
+    }
+
+    public void deleteAll() {
+        log.info("deleteAll");
+        repository.deleteAll();
+    }
 }

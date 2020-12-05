@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ua.training.top.model.Employer;
 import ua.training.top.service.EmployerService;
+import ua.training.top.util.ValidationUtil;
 
 import java.util.List;
 
@@ -43,6 +44,12 @@ public class EmployerController {
         return service.create(employer);
     }
 
+    public List<Employer> createAll(List<Employer> employers) {
+        log.info("createAll");
+        employers.forEach(ValidationUtil::checkNew);
+        return service.createAll(employers);
+    }
+
     public void delete(int id) {
         log.info("delete {}", id);
         service.delete(id);
@@ -52,5 +59,10 @@ public class EmployerController {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         service.update(user);
+    }
+
+    public void deleteAll() {
+        log.info("deleteAll");
+        service.deleteAll();
     }
 }

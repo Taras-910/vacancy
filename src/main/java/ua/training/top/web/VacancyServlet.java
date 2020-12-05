@@ -38,24 +38,29 @@ public class VacancyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-/*
-        Dish dish = new Dish(
-                LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("calories")));
+        log.info("doPost toVote");
+        String action = request.getParameter("action");
+        log.info("action {}", action);
+        String id = request.getParameter("action");
+        log.info("id {}", id);
 
-        if (StringUtils.isEmpty(request.getParameter("id"))) {
-            dishController.create(dish);
-        } else {
-            dishController.update(meal, getId(request));
-        }
-*/
+        int vacancyId = 0;
+        if(id != null)  vacancyId = Integer.parseInt(id);
+        boolean toVote  =  true;
+        // extract other information to set the obj, username, accessType, and allowDeny variables
+
+        log.info("vacancyId {}", vacancyId);
+        log.info("toVote {}", toVote);
+
+        controller.enable(100055, toVote);
+
         response.sendRedirect("vacancies");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        log.info("doGet toVote");
         String action = request.getParameter("action");
         log.info("action {}", action);
         switch (action == null ? "all" : action) {
@@ -67,15 +72,15 @@ public class VacancyServlet extends HttpServlet {
             case "create":
             case "update":
                 final Vacancy vacancy = "create".equals(action) ?
-                        new Vacancy("new Developer", toDate(2020, 10, 26), 500, "", "new knowledge") :
+                        new Vacancy("new Developer", toDate(2020, 10, 26), 100, 500, "", "new knowledge") :
                         controller.get(getId(request), getId(request));
                 request.setAttribute("vacancy", vacancy);
                 request.getRequestDispatcher("/vacancyForm.jsp").forward(request, response);
                 break;
             case "all":
             default:
-                List<VacancyTo> list = controller.getAll();
-                log.info("list {}", list);
+                List<VacancyTo> list = controller.getAllTos();
+//                log.info("list {}", list);
                 request.setAttribute("vacancies", list);
                 request.getRequestDispatcher("/vacancies.jsp").forward(request, response);
                 break;

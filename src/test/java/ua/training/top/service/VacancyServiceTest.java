@@ -90,20 +90,20 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void createErrorData() throws Exception {
-        Vacancy vacancy = new Vacancy(VACANCY1_ID, "Created Developer", DATE_TEST, 110, "", "");
+        Vacancy vacancy = new Vacancy(VACANCY1_ID, "Created Developer", DATE_TEST, 100,110, "", "");
         assertThrows(IllegalArgumentException.class, () -> service.create(vacancy, EMPLOYER1_ID));
-        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy(null, DATE_TEST, 110, "", ""), EMPLOYER1_ID));
-        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy("Developer", null, 110, "", ""), EMPLOYER1_ID));
-        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, -110, "", ""), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 110, null, ""), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 110, "", null), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 110, "", ""), NOT_FOUND));
+        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy(null, DATE_TEST, 100,110, "", ""), EMPLOYER1_ID));
+        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy("Developer", null, 100,110, "", ""), EMPLOYER1_ID));
+        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, -100,110, "", ""), EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 100,110, null, ""), EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 100,110, "", null), EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 100,110, "", ""), NOT_FOUND));
     }
 
     @Test
     public void createListOfVacancies() throws Exception {
         List<Vacancy> actual = VacancyTestData.getListVacancies();
-        List<Vacancy> created = service.createListOfVacancies(actual, EMPLOYER1_ID);
+        List<Vacancy> created = service.createAll(actual, EMPLOYER1_ID);
         for(int i = 0; i < created.size(); i++) {
             actual.get(i).setId(created.get(i).getId());
         }
@@ -112,10 +112,10 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void createListErrorData() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(new Vacancy(VACANCY1), new Vacancy(VACANCY2)), EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(null, new Vacancy(VACANCY3)), EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(null, EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createListOfVacancies(asList(new Vacancy(VACANCY3)), NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.createAll(asList(new Vacancy(VACANCY1), new Vacancy(VACANCY2)), EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.createAll(asList(null, new Vacancy(VACANCY3)), EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.createAll(null, EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.createAll(asList(new Vacancy(VACANCY3)), NOT_FOUND));
     }
 
     @Test

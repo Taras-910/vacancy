@@ -30,9 +30,11 @@ CREATE TABLE user_roles
 
 CREATE TABLE employer
 (
-    id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name      VARCHAR  NOT NULL,
-    address   VARCHAR  NOT NULL
+    id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name        VARCHAR  NOT NULL,
+    address     VARCHAR  NOT NULL,
+    site_name   VARCHAR  NOT NULL,
+    CONSTRAINT employer_idx UNIQUE (name)
 );
 
 CREATE TABLE vacancy
@@ -40,11 +42,12 @@ CREATE TABLE vacancy
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     title          TEXT         NOT NULL,
     local_date     TIMESTAMP    NOT NULL,
-    salary         INTEGER      NOT NULL,
+    salary_min     INTEGER      NOT NULL,
+    salary_max     INTEGER      NOT NULL,
     link           TEXT         NOT NULL,
     skills         TEXT         NOT NULL,
     employer_id    INTEGER      NOT NULL,
-    CONSTRAINT vacancy_idx UNIQUE (local_date, title),
+    CONSTRAINT vacancy_idx UNIQUE (skills),
     FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE
 );
 

@@ -19,4 +19,8 @@ public interface EmployerRepository {
     Employer getByName(String name);
 
     List<Employer> getAllWithVacancies();
+
+    List<Employer> createAll(List<Employer> employers);
+
+    void deleteAll();
 }

@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vacancy;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
 
@@ -22,5 +24,8 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
 
     @Query("SELECT v FROM Vacancy v WHERE v.id=:id AND v.employer.id=:employerId")
     Vacancy get(@Param("id") int id, @Param("employerId") int employerId);
+
+    @Query("SELECT v FROM Vacancy v ORDER BY v.localDate DESC")
+    List<Vacancy> getAll();
 }
 

@@ -49,4 +49,14 @@ public class VoteController {
         log.info("update vote {} for vacancy {}", voteId, vacancyId);
         service.update(voteId, vacancyId);
     }
+
+    public List<Vote> createAll(List<Vote> newVotes) {
+        log.info("createAll newVotes {}", newVotes);
+        return service.createAll(newVotes);
+    }
+
+    public void deleteAll() {
+        log.info("deleteAll");
+        service.deleteAll();
+    }
 }

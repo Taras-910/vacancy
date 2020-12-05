@@ -20,15 +20,7 @@ public interface VoteRepository {
 
     List<Vote> getAll();
 
-/*
-    List<Vote> getBetween(Date startDate, Date endDate, int userId);
+    List<Vote> saveAll(List<Vote> newVotes);
 
-    Vote getByDateForAuth(Date localDate, int userId);
-
-    List<Vote> getByEmployer(int employerId);
-
-    List<Vote> getByEmployerAuth(int id, int authUserId);
-
-    List<Vote> getByDate(Date localDate);
-*/
+    void deleteAll();
 }

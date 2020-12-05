@@ -3,20 +3,20 @@ package ua.training.top.util;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     public static final String DATE_PATTERN = "yyyy-MM-dd";
-
     public static final Date DATE_TEST = toDate(2020, 7, 30);
-
     public static final LocalTime TIME_TEST_IN = LocalTime.now().plusMinutes(10);
     public static final LocalTime TIME_TEST_OUT = LocalTime.now().minusMinutes(10);
 
@@ -32,13 +32,11 @@ public class DateTimeUtil {
         DateTimeUtil.thisDay = thisDay;
     }
 
-    public static @Nullable
-    LocalTime parseLocalTime(@Nullable String str) {
+    public static @Nullable LocalTime parseLocalTime(@Nullable String str) {
         return StringUtils.isEmpty(str) ? null : LocalTime.parse(str);
     }
 
-    public static @Nullable
-    LocalDate parseLocalDate(@Nullable String str) {
+    public static @Nullable LocalDate parseLocalDate(@Nullable String str) {
         return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
     }
 
@@ -61,5 +59,16 @@ public class DateTimeUtil {
     public static String print(Date dt) {
         return new SimpleDateFormat(DATE_PATTERN).format(dt);
     }
+
+    public static Date parse(String text, Locale locale) {
+        Date localDate;
+        try {
+            localDate = new SimpleDateFormat("yyyy-MM-dd").parse(text);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("error argument localDate=" + text);
+        }
+        return localDate;
+    }
+
 
 }

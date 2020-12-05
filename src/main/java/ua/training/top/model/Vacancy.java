@@ -12,8 +12,7 @@ import java.util.Date;
         @NamedQuery(name = Vacancy.ALL_SORTED, query = "SELECT v FROM Vacancy v ORDER BY v.localDate DESC"),
 })
 @Entity
-@Table(name = "vacancy", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"local_date", "title", "employer_id"}, name = "vacancies_date_employer_idx")})
+@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames = "skills", name = "vacancies_title_skills_idx")})
 public class Vacancy extends AbstractBaseEntity {
 
     public static final String DELETE = "Vacancy.delete";
@@ -27,15 +26,19 @@ public class Vacancy extends AbstractBaseEntity {
     @NotNull
     private Date localDate;
 
-    @Column(name="salary")
+    @Column(name="salary_min")
     @Range(max = 10000000)
-    private Integer salary;
+    private Integer salaryMin;
+
+    @Column(name="salary_max")
+    @Range(max = 10000000)
+    private Integer salaryMax;
 
     @Column(name="link")
-    String link;
+    private String link;
 
     @Column(name="skills")
-    String skills;
+    private String skills;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employer_id", nullable = false)
@@ -45,21 +48,32 @@ public class Vacancy extends AbstractBaseEntity {
     public Vacancy() {
     }
 
-    public Vacancy(String name, Date localDate, Integer salary, String link, String skills) {
-        this(null, name, localDate, salary, link, skills);
+    public Vacancy(String name, Date localDate, Integer salaryMin, Integer salaryMax, String link, String skills) {
+        this(null, name, localDate, salaryMin, salaryMax, link, skills);
     }
 
-    public Vacancy(Integer id, String name, Date localDate, Integer salary, String link, String skills) {
+    public Vacancy(Integer id, String name, Date localDate, Integer salaryMin, Integer salaryMax, String link, String skills) {
         super(id);
         this.name = name;
         this.localDate = localDate;
-        this.salary = salary;
+        this.salaryMin = salaryMin;
+        this.salaryMax = salaryMax;
+        this.link = link;
+        this.skills = skills;
+    }
+
+    public Vacancy(Integer id, String name, Date localDate, Integer salaryMin, Integer salaryMax, String link, String skills, Employer employer) {
+        super(id);
+        this.name = name;
+        this.localDate = localDate;
+        this.salaryMin = salaryMin;
+        this.salaryMax = salaryMax;
         this.link = link;
         this.skills = skills;
     }
 
     public Vacancy(Vacancy v) {
-        this(v.getId(), v.getName(), v.getLocalDate(), v.getSalary(), v.getLink(), v.getSkills());
+        this(v.getId(), v.getName(), v.getLocalDate(), v.getSalaryMin(), v.getSalaryMax(), v.getLink(), v.getSkills());
     }
 
     public String getName() {
@@ -78,12 +92,20 @@ public class Vacancy extends AbstractBaseEntity {
         this.localDate = localDate;
     }
 
-    public Integer getSalary() {
-        return salary;
+    public Integer getSalaryMin() {
+        return salaryMin;
     }
 
-    public void setSalary(Integer salary) {
-        this.salary = salary;
+    public void setSalaryMin(Integer salaryMin) {
+        this.salaryMin = salaryMin;
+    }
+
+    public Integer getSalaryMax() {
+        return salaryMax;
+    }
+
+    public void setSalaryMax(Integer salaryMax) {
+        this.salaryMax = salaryMax;
     }
 
     public String getLink() {
@@ -115,11 +137,29 @@ public class Vacancy extends AbstractBaseEntity {
         return "\nVacancy{" +
                 "\nname='" + name + '\'' +
                 ", \nlocalDate=" + localDate +
-                ", \nsalary=" + salary +
+                ", \nsalaryMin=" + salaryMin +
+                ", \nsalaryMax=" + salaryMax +
                 ", \nlink='" + link + '\'' +
                 ", \nskills='" + skills + '\'' +
                 ", \nemployer=" + employer +
                 ", \nid=" + id +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        Vacancy vacancy = (Vacancy) o;
+
+        if (!getName().equals(vacancy.getName())) return false;
+        return getLink().equals(vacancy.getLink());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getLink().hashCode();
+        return result;
     }
 }

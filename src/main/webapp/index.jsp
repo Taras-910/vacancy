@@ -8,6 +8,8 @@
 <h3>Проект Java Enterprise (Top)</h3>
 <td><a href="users">Users</a></td>
 <hr>
+<a href="users?action=refresh">Обновить</a>
+<hr/>
 <form method="post" action="users">
     <b>Select user&nbsp;</b>
     <select name="userId">

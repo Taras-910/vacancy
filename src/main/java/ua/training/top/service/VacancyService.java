@@ -57,8 +57,8 @@ public class VacancyService {
     }
 
     @Transactional
-    public List<Vacancy> createListOfVacancies(@Valid @NotEmpty List<@NotEmpty Vacancy> vacancies, int employerId) {
-        log.info("for employerId {} create vacancies {}\n..........", employerId, vacancies);
+    public List<Vacancy> createAll(@Valid @NotEmpty List<@NotEmpty Vacancy> vacancies, int employerId) {
+        if (vacancies != null) log.info("createAll {} vacancies for employerId {}", vacancies.size(), employerId);
         List<Vacancy> created;
         try {
             vacancies.forEach(ValidationUtil::checkNew);
@@ -79,6 +79,11 @@ public class VacancyService {
         } catch (IllegalArgumentException | DataIntegrityViolationException | NullPointerException e) {
             throw new NotFoundException("error data of " + vacancy);
         }
+    }
+
+    public void deleteAll() {
+        log.info("deleteAll");
+        repository.deleteAll();
     }
 
 }
