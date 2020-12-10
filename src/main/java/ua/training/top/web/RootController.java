@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.training.top.SecurityUtil;
 import ua.training.top.service.UserService;
-import ua.training.top.service.VacancyService;
+import ua.training.top.web.jsp.VacancyController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 public class RootController {
     @Autowired
     private UserService userService;
-
     @Autowired
-    private VacancyService vacancyService;
+    private VacancyController vacancyController;
+
 
     @GetMapping("/")
     public String root() {
@@ -30,6 +30,13 @@ public class RootController {
         return "users";
     }
 
+/*
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+*/
+
     @PostMapping("/users")
     public String setUser(HttpServletRequest request) {
         int userId = Integer.parseInt(request.getParameter("userId"));
@@ -38,8 +45,8 @@ public class RootController {
     }
 
     @GetMapping("/vacancies")
-    public String getMeals(Model model) {
-        model.addAttribute("vacancies", vacancyService.getAll());
+    public String getVacancies(Model model) {
+        model.addAttribute("vacancies", vacancyController.getAllTos());
         return "vacancies";
     }
 }

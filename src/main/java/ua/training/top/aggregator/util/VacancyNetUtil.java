@@ -7,15 +7,16 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyNet;
 import ua.training.top.util.DateTimeUtil;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class VacancyNetUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyNetUtil.class);
 
-    public static List<Vacancy> getVacancies(List<VacancyNet> vacancyNets) {
+    public static List<Vacancy> getVacancies(List<VacancyNet> vacancyNets, String language, String residence) {
         List<Vacancy> list = vacancyNets.stream()
-                .map(vacancy -> createVacancy(vacancy))
+                .map(vacancy -> createVacancy(vacancy, language, residence))
                 .distinct()
                 .collect(Collectors.toList());
         Set<Vacancy> set = new HashSet<>(list);
@@ -24,9 +25,9 @@ public class VacancyNetUtil {
         return list;
     }
 
-    private static Vacancy createVacancy(VacancyNet v) {
-        return new Vacancy(null, v.getTitle(), DateTimeUtil.parse(v.getDate(), null),
-                salaryMin(v.getSalary()), salaryMax(v.getSalary()), v.getUrl(), v.getSkills());
+    private static Vacancy createVacancy(VacancyNet v, String language, String residence) {
+        return new Vacancy(null, v.getTitle(), salaryMin(v.getSalary()),
+                salaryMax(v.getSalary()), v.getUrl(), v.getSkills(), DateTimeUtil.parse(v.getDate(), null), language, residence, LocalDateTime.now());
     }
 
     private static Integer salaryMin(String salary) {
@@ -39,14 +40,14 @@ public class VacancyNetUtil {
         return salary.contains("-") ?  Integer.parseInt(salary.split("-")[1]) : 1;
     }
 
-    public static Map<Integer, List<Vacancy>> getMapVacancies(List<Employer> employersDb, List<VacancyNet> vacanciesNet) {
+    public static Map<Integer, List<Vacancy>> getMapVacancies(List<Employer> employersDb, List<VacancyNet> vacanciesNet, String language, String workplace) {
         Map<Integer, List<Vacancy>> map = new HashMap<>();
         for(Employer empl : employersDb) {
             List<VacancyNet> listNet = vacanciesNet.stream()
                     .filter(v -> empl.getName().equals(v.getCompanyName()))
                     .distinct()
                     .collect(Collectors.toList());
-            List<Vacancy> vacancies  = getVacancies(listNet);
+            List<Vacancy> vacancies  = getVacancies(listNet, language, workplace);
             map.put(empl.getId(), vacancies);
         }
         return map;

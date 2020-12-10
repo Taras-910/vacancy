@@ -17,6 +17,8 @@ public class DateTimeUtil {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final Date DATE_TEST = toDate(2020, 7, 30);
+    public static final LocalDateTime LOCAL_DATE_TIME_TEST = LocalDateTime.of(2020, 7, 30, 12, 0);
+
     public static final LocalTime TIME_TEST_IN = LocalTime.now().plusMinutes(10);
     public static final LocalTime TIME_TEST_OUT = LocalTime.now().minusMinutes(10);
 

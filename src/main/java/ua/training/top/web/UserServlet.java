@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.SecurityUtil;
 import ua.training.top.aggregator.AggregatorController;
-import ua.training.top.web.ui.UserController;
+import ua.training.top.web.jsp.UserController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -45,9 +45,9 @@ public class UserServlet extends HttpServlet {
         String action = request.getParameter("action");
         log.info("action {}", action);
         if(action.equals("refresh")) {
-            aggController.refreshDB("за_рубежем", "java");
+            aggController.refreshDB("за_рубежем", "typescript");
             try {
-                TimeUnit.SECONDS.sleep(30);
+                TimeUnit.SECONDS.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

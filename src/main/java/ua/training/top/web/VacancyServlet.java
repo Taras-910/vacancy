@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.web.ui.VacancyController;
+import ua.training.top.web.jsp.VacancyController;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,7 +73,8 @@ public class VacancyServlet extends HttpServlet {
             case "create":
             case "update":
                 final Vacancy vacancy = "create".equals(action) ?
-                        new Vacancy("new Developer", toDate(2020, 10, 26), 100, 500, "", "new knowledge") :
+                        new Vacancy("new Developer", 100, 500, "",
+                                "new knowledge", toDate(2020, 10, 26), "newLanguage", "newResidence", LocalDateTime.now()) :
                         controller.get(getId(request), getId(request));
                 request.setAttribute("vacancy", vacancy);
                 request.getRequestDispatcher("/vacancyForm.jsp").forward(request, response);

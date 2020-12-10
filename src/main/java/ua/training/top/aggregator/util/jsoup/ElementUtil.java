@@ -14,11 +14,13 @@ import static ua.training.top.aggregator.util.ToCorrectDataUtil.*;
 
 public class ElementUtil {
 
-    public static List<VacancyNet> getVacanciesGrc(Elements elements){
+    public static List<VacancyNet> getVacanciesGrc(Elements elements, String language){
         List<VacancyNet> list = new ArrayList<>();
         elements.forEach(element -> {
-            if (element != null){
                 VacancyNet vacancy = new VacancyNet();
+                String title = element.getElementsByTag("a").first().text().trim().toLowerCase();
+                String skills = element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase();
+                if (title.contains(language) || skills.contains(language)) {
                 vacancy.setSiteName("http://grc.ua");
                 vacancy.setUrl(element.getElementsByTag("a").first().attr("href").trim());
                 vacancy.setTitle(element.getElementsByTag("a").first().text().trim());
@@ -52,7 +54,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyNet> getVacanciesJabs(Elements elements) {
+    public static List<VacancyNet> getVacanciesJobs(Elements elements) {
         List<VacancyNet> list = new ArrayList();
         elements.forEach(element -> {
             VacancyNet vacancy = new VacancyNet();
@@ -69,11 +71,13 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyNet> getVacanciesRabota(Elements elements) {
+    public static List<VacancyNet> getVacanciesRabota(Elements elements, String language) {
         List<VacancyNet> list = new ArrayList<>();
         for(Element element : elements) {
-            if (element != null) {
                 VacancyNet vacancy = new VacancyNet();
+                String title = element.getElementsByClass("card-title").text().trim().toLowerCase();
+                String skills = element.getElementsByClass("card-description").text().trim().toLowerCase();
+            if (title.contains(language) || skills.contains(language)) {
                 vacancy.setDate(getCorrectDate(element.getElementsByClass("publication-time").text().trim()));
                 vacancy.setSiteName("https://rabota.ua");
                 vacancy.setUrl(vacancy.getSiteName().concat("/company")
@@ -108,11 +112,13 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyNet> getVacanciesJooble(Elements elements){
+    public static List<VacancyNet> getVacanciesJooble(Elements elements, String language){
         List<VacancyNet> list = new ArrayList();
         for (Element element : elements) {
-            if (element != null) {
-                VacancyNet vacancy = new VacancyNet();
+            VacancyNet vacancy = new VacancyNet();
+            String title = element.getElementsByClass("position").tagName("span").text().trim().toLowerCase();
+            String skills = element.getElementsByClass("description").text().trim().toLowerCase();
+            if (title.contains(language) || skills.contains(language)) {
                 vacancy.setDate(getCorrectDate(element.getElementsByClass("date_from_creation").tagName("span").text().trim()));
                 vacancy.setSiteName("https://ua.jooble.org");
                 vacancy.setUrl(element.getElementsByClass("link-position job-marker-js").attr("href").trim());
@@ -131,11 +137,13 @@ public class ElementUtil {
 //skills include salary -> need to divide :
 // Salary: 110-125 (B2B) PLN / hour. Requirements: Java, Spring, JPA, REST, Java EE. Tools: Jira, Agile, Scrum. Additionally: Sport subscription, Private healthcare, International projects. Java, Spring, JPA, REST, Java EE, JUnit, Angular, SQL, OOP, JavaScript, English,...
 
-    public static List<VacancyNet> getVacanciesWork(Elements elements) {
+    public static List<VacancyNet> getVacanciesWork(Elements elements, String language) {
         List<VacancyNet> list = new ArrayList<>();
         for (Element element : elements) {
-            if (element != null) {
                 VacancyNet vacancy = new VacancyNet();
+                String title = element.getElementsByTag("a").first().text().trim().toLowerCase();
+                String skills = element.getElementsByClass("overflow").text().trim().toLowerCase();
+                if (title.contains(language) || skills.contains(language)) {
                 vacancy.setSiteName("https://www.work.ua");
                 vacancy.setUrl(vacancy.getSiteName().concat(element.getElementsByTag("a").attr("href")));
                 vacancy.setTitle(getCorrectTitle(element.getElementsByTag("a").first().text()));

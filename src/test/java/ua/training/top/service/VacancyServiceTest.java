@@ -20,6 +20,7 @@ import static ua.training.top.testData.EmployerTestData.EMPLOYER2_ID;
 import static ua.training.top.testData.UserTestData.NOT_FOUND;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
+import static ua.training.top.util.DateTimeUtil.LOCAL_DATE_TIME_TEST;
 
 public class VacancyServiceTest extends AbstractServiceTest {
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -28,76 +29,66 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void get() {
-        Vacancy vacancy = service.get(VACANCY1_ID, EMPLOYER1_ID);
+        Vacancy vacancy = service.get(VACANCY1_ID);
         VACANCY_MATCHER.assertMatch(vacancy, VACANCY1);
     }
 
     @Test
     public void getNotFound() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND, EMPLOYER2_ID));
-    }
-
-    @Test
-    public void getNotOwn() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.get(VACANCY1_ID, EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
     @Test
     public void getAll() {
         List<Vacancy> all = service.getAll();
-        VACANCY_MATCHER.assertMatch(all, VACANCY1, VACANCY2);
+        VACANCY_MATCHER.assertMatch(all, VACANCY2, VACANCY1);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(VACANCY2_ID, EMPLOYER2_ID);
-        assertThrows(NotFoundException.class, () -> service.get(VACANCY2_ID, EMPLOYER2_ID));
+        service.delete(VACANCY2_ID);
+        assertThrows(NotFoundException.class, () -> service.get(VACANCY2_ID));
     }
 
     @Test
     public void deleteNotFound() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND, EMPLOYER2_ID));
-    }
-
-    @Test
-    public void deleteNotOwn() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.delete(VACANCY1_ID, EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 
 
     @Test
     public void deleteEmployerVacancies() {
         service.deleteEmployerVacancies(EMPLOYER2_ID);
-        assertThrows(NotFoundException.class, () -> service.get(VACANCY1_ID, EMPLOYER2_ID));
+        assertThrows(NotFoundException.class, () -> service.get(VACANCY1_ID));
     }
 
     @Test
     public void create() throws Exception {
         Vacancy newVacancy = VacancyTestData.getNew();
-        Vacancy created = service.create(newVacancy, EMPLOYER1_ID);
+        Vacancy created = service.createByEmployerId(newVacancy, EMPLOYER1_ID);
         int newId = created.id();
         newVacancy.setId(newId);
         VACANCY_MATCHER.assertMatch(newVacancy, created);
-        VACANCY_MATCHER.assertMatch(newVacancy, service.get(newId, EMPLOYER1_ID));
+        VACANCY_MATCHER.assertMatch(newVacancy, service.get(newId));
     }
 
     @Test
     public void createDuplicate() throws Exception {
         Vacancy created = new Vacancy(VACANCY1);
         created.setId(null);
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(created, EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.createByEmployerId(created, EMPLOYER1_ID));
     }
 
     @Test
     public void createErrorData() throws Exception {
-        Vacancy vacancy = new Vacancy(VACANCY1_ID, "Created Developer", DATE_TEST, 100,110, "", "");
-        assertThrows(IllegalArgumentException.class, () -> service.create(vacancy, EMPLOYER1_ID));
-        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy(null, DATE_TEST, 100,110, "", ""), EMPLOYER1_ID));
-        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy("Developer", null, 100,110, "", ""), EMPLOYER1_ID));
-        assertThrows(TransactionSystemException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, -100,110, "", ""), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 100,110, null, ""), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 100,110, "", null), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.create(new Vacancy("Developer", DATE_TEST, 100,110, "", ""), NOT_FOUND));
+        Vacancy vacancy = new Vacancy(VACANCY1_ID, "Created Developer", 100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST);
+        assertThrows(IllegalArgumentException.class, () -> service.createByEmployerId(vacancy, EMPLOYER1_ID));
+        assertThrows(TransactionSystemException.class, () -> service.createByEmployerId(new Vacancy(null, 100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
+        assertThrows(TransactionSystemException.class, () -> service.createByEmployerId(new Vacancy("Developer", 100,110, "", "", null, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
+        assertThrows(TransactionSystemException.class, () -> service.createByEmployerId(new Vacancy("Developer", -100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.createByEmployerId(new Vacancy("Developer", 100,110, null, "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.createByEmployerId(new Vacancy("Developer", 100,110, "", null, DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
+        assertThrows(DataIntegrityViolationException.class, () -> service.createByEmployerId(new Vacancy("Developer", 100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), NOT_FOUND));
     }
 
     @Test
@@ -122,7 +113,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
     public void update() throws Exception {
         Vacancy updated = VacancyTestData.getUpdated();
         service.update(updated, EMPLOYER1_ID);
-        VACANCY_MATCHER.assertMatch(service.get(VACANCY1_ID, EMPLOYER1_ID), updated);
+        VACANCY_MATCHER.assertMatch(service.get(VACANCY1_ID), updated);
     }
 
     @Test

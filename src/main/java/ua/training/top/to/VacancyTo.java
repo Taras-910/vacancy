@@ -3,10 +3,7 @@ package ua.training.top.to;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-public class VacancyTo {
-
-    @NotNull
-    Integer vacancyId;
+public class VacancyTo extends BaseTo{
 
     @NotNull
     private String employerName;
@@ -31,27 +28,18 @@ public class VacancyTo {
     String skills;
 
     private boolean toVote = false;
-
-    public VacancyTo(@NotNull Integer vacancyId, @NotNull String employerName, @NotNull String address, @NotNull String title,
-                     @NotNull Date localDate, Integer salaryMin, Integer salaryMax, String link, String skills, boolean toVote) {
-        this.vacancyId = vacancyId;
+    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address,
+                     Integer salaryMin, Integer salaryMax, String link, String skills, @NotNull Date localDate, boolean toVote) {
+        super(id);
+        this.title = title;
         this.employerName = employerName;
         this.address = address;
-        this.title = title;
-        this.localDate = localDate;
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
         this.link = link;
         this.skills = skills;
+        this.localDate = localDate;
         this.toVote = toVote;
-    }
-
-    public Integer getVacancyId() {
-        return vacancyId;
-    }
-
-    public void setVacancyId(Integer vacancyId) {
-        this.vacancyId = vacancyId;
     }
 
     public String getEmployerName() {
@@ -129,15 +117,15 @@ public class VacancyTo {
     @Override
     public String toString() {
         return "\nVacancyTo{" +
-                "\nvacancyId=" + vacancyId +
+                "\nid=" + id +
+                ", \ntitle='" + title + '\'' +
                 ", \nemployerName='" + employerName + '\'' +
                 ", \naddress='" + address + '\'' +
-                ", \ntitle='" + title + '\'' +
-                ", \nlocalDate=" + localDate +
                 ", \nsalary=" + salaryMin +
                 ", \nsalary=" + salaryMax +
                 ", \nlink='" + link + '\'' +
                 ", \nskills='" + skills + '\'' +
+                ", \nlocalDate=" + localDate +
                 ", \ntoVote=" + toVote +
                 '}';
     }

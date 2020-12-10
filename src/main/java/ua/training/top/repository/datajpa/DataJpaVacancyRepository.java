@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
-    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "localDate","name");
+    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "localDate","title");
     private Logger log = LoggerFactory.getLogger(getClass());
 
     CrudVacancyRepository vacancyRepository;
@@ -36,13 +36,13 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
-    public boolean delete(int id, int employerId) {
-        return Optional.of(vacancyRepository.delete(id, employerId)).orElse(0) != 0;
+    public boolean delete(int id) {
+        return Optional.of(vacancyRepository.delete(id)).orElse(0) != 0;
     }
 
     @Override
-    public Vacancy get(int id, int employerId) {
-        return Optional.ofNullable(vacancyRepository.get(id, employerId)).orElse(null);
+    public Vacancy get(int id) {
+        return vacancyRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -68,6 +68,13 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     @Override
     public void deleteAll() {
         vacancyRepository.deleteAll();
+    }
+
+    @Override
+    public List<Vacancy> getVacanciesByLangLocFilter(String language, String workplace) {
+        List<Vacancy> vacancies = Optional.ofNullable(vacancyRepository.getVacanciesByLangLocFilter(language, workplace)).orElse(null);
+        log.info("vacancies {}", vacancies);
+        return vacancies;
     }
 
 }

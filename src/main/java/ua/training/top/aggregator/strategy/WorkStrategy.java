@@ -43,7 +43,7 @@ public class WorkStrategy implements Strategy {
             Document doc = getDocument(city, language, valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card card-hover card-visited wordwrap job-link");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesWork(elements));
+            set.addAll(getVacanciesWork(elements, language));
             if (page < limitCallPages) page++;
             else break;
         }

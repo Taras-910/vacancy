@@ -41,11 +41,14 @@ CREATE TABLE vacancy
 (
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     title          TEXT         NOT NULL,
-    local_date     TIMESTAMP    NOT NULL,
     salary_min     INTEGER      NOT NULL,
     salary_max     INTEGER      NOT NULL,
     link           TEXT         NOT NULL,
     skills         TEXT         NOT NULL,
+    local_date     TIMESTAMP    NOT NULL,
+    language       TEXT,
+    workplace      TEXT,
+    recorded_date  TIMESTAMP,
     employer_id    INTEGER      NOT NULL,
     CONSTRAINT vacancy_idx UNIQUE (skills),
     FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE

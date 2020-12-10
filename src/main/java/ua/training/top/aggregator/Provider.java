@@ -17,6 +17,7 @@ public class Provider {
     }
 
     public List<VacancyNet> getJavaVacancies(String city, String language) throws IOException {
+        language = language.toLowerCase();
         List<VacancyNet> list = strategy.getVacancies(city, language);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list;

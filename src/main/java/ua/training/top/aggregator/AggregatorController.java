@@ -9,17 +9,17 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyNet;
-import ua.training.top.web.ui.EmployerController;
-import ua.training.top.web.ui.VacancyController;
-import ua.training.top.web.ui.VoteController;
+import ua.training.top.web.jsp.EmployerController;
+import ua.training.top.web.jsp.VacancyController;
+import ua.training.top.web.jsp.VoteController;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.util.EmployerNetUtil.getEmployers;
 import static ua.training.top.aggregator.util.ProviderUtil.getAllProviders;
+import static ua.training.top.aggregator.util.ToCorrectDataUtil.getCorrectSalary;
 
 @Controller
 public class AggregatorController {
@@ -37,10 +37,10 @@ public class AggregatorController {
         this.voteController = voteController;
     }
 
-    public void refreshDB(String city, String language){
-        log.info("refreshDB by city {} and language {}", city, language);
+    public void refreshDB(String workplace, String language){
+        log.info("refreshDB by city {} and language {}", workplace, language);
         // проверка на наличе обновления в этот день ?
-        List<VacancyNet> vacanciesNet = getAllProviders().selectBy(city, language);
+        List<VacancyNet> vacanciesNet = getAllProviders().selectBy(workplace, language);
 
         List<Employer> preparedEmployers = getEmployers(vacanciesNet).stream()
                 .distinct()
@@ -55,7 +55,7 @@ public class AggregatorController {
         List<Vacancy> oldVacancies = vacancyController.getAll();
         vacancyController.deleteAll();
         List<Vacancy> newVacancies = new ArrayList<>();
-        Map<Integer, List<Vacancy>> mapVacancies = VacancyNetUtil.getMapVacancies(newEmployers, vacanciesNet);
+        Map<Integer, List<Vacancy>> mapVacancies = VacancyNetUtil.getMapVacancies(newEmployers, vacanciesNet, language, workplace);
         mapVacancies.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyController.createAll(vacancies, employerId)));
 
         refreshVotes(oldVacancies, newVacancies);
@@ -83,16 +83,17 @@ public class AggregatorController {
     }
 
     public static void main(String[] args) throws IOException {
+        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("за_рубежем", "java");
 //        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("за_рубежем", "java");
-        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("киев", "java");
+//        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("киев", "java");
 
-        AtomicInteger i = new AtomicInteger(1);
+ /*       AtomicInteger i = new AtomicInteger(1);
         vacanciesFrom.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacanciesFrom.size());
+*/
 
-//        String text = "3 800-4 200 usd.";
-//        System.out.println(getCorrectSalary(text));
+
+        String text = "Europa Workintense spol. s r.o. · Агентство · Другие страны";
+        System.out.println("test   " + getCorrectSalary(text));
     }
 }
-
-// https://jobs.dou.ua/companies/-jmind-systems-/vacancies/140525/      employerName=  { j:Mind.Systems }

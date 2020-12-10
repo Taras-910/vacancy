@@ -17,7 +17,7 @@ public class ProviderUtil {
         return new AggregatorService(
                 new Provider(new GrcStrategy()),
                 new Provider(new HabrStrategy()),
-                new Provider(new JabsStrategy()),
+                new Provider(new JobsStrategy()),
                 new Provider(new RabotaStrategy()),
                 new Provider(new UAIndeedStrategy()),  //
                 new Provider(new UAJoobleStrategy()),  //

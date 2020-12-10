@@ -40,13 +40,11 @@ public class RabotaStrategy implements Strategy {
             Document doc = getDocument(city, language, String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesRabota(elements));
+            set.addAll(getVacanciesRabota(elements, language));
             if(page < limitCallPages) page++;
             else break;
         }
         reCall(set.size(), new RabotaStrategy());
-        set.stream().filter(vn -> vn.getTitle().toLowerCase().contains(language.toLowerCase())
-                || vn.getSkills().toLowerCase().contains(language.toLowerCase()));
         return new ArrayList<>(set);
     }
 }

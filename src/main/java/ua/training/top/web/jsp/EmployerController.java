@@ -1,4 +1,4 @@
-package ua.training.top.web.ui;
+package ua.training.top.web.jsp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

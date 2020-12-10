@@ -25,9 +25,7 @@ public class VacancyUtil {
 //        log.info("votes {}", votes);
         boolean toVote = votes.stream().filter(vote -> v.getId().equals(vote.getVacancyId())).count() != 0;
 //        log.info("\n\ntoVote {}\n", toVote);
-        return new VacancyTo(v.getId(), v.getEmployer().getName(), v.getEmployer().getAddress(), v.getName(),
-                clearTime(v.getLocalDate()), v.getSalaryMin(), v.getSalaryMax(), v.getLink(), v.getSkills(), toVote);
+        return new VacancyTo(v.getId(), v.getTitle(), v.getEmployer().getName(), v.getEmployer().getAddress(),
+                v.getSalaryMin(), v.getSalaryMax(), v.getLink(), v.getSkills(), clearTime(v.getLocalDate()), toVote);
     }
-
-
 }

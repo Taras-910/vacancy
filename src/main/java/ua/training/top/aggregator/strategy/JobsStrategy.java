@@ -15,10 +15,10 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static ua.training.top.aggregator.util.ProviderUtil.reCall;
-import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesJabs;
+import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesJobs;
 
-public class JabsStrategy implements Strategy {
-    private final static Logger log = LoggerFactory.getLogger(JabsStrategy.class);
+public class JobsStrategy implements Strategy {
+    private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
     private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?category=%s&search=%s&%s";
     //киев https://jobs.dou.ua/vacancies/?category=Java&search=Middle&city=Киев
     // за рубежем  https://jobs.dou.ua/vacancies/?category=Java&search=middle&relocation=
@@ -37,9 +37,9 @@ public class JabsStrategy implements Strategy {
             Document doc = getDocument(city, language, p);
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesJabs(elements));
+            set.addAll(getVacanciesJobs(elements));
         }
-        reCall(set.size(), new JabsStrategy());
+        reCall(set.size(), new JobsStrategy());
         return new ArrayList<>(set);
     }
 }

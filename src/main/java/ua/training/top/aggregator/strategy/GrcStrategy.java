@@ -49,7 +49,7 @@ public class GrcStrategy implements Strategy {
             Document doc = getDocument(city, language, String.valueOf(page));
             Elements elements = doc == null ? null : doc.select("[data-qa=vacancy-serp__vacancy]");
             if(elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesGrc(elements));
+            set.addAll(getVacanciesGrc(elements, language));
             if(page < limitCallPages) page++;
             else break;
         }
@@ -64,7 +64,7 @@ public class GrcStrategy implements Strategy {
             Document doc = getDocument(country, language, null);
             Elements elements = doc == null ? null : doc.select("[data-qa=vacancy-serp__vacancy]");
             if(elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesGrc(elements));
+            set.addAll(getVacanciesGrc(elements, language));
         }
         return new ArrayList<>(set);
     }

@@ -1,4 +1,4 @@
-package ua.training.top.web.ui;
+package ua.training.top.web.jsp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,22 +32,23 @@ public class VacancyController {
 
     public Vacancy get(int id, int employerId) {
         log.info("get vacancy for id {}", id);
-        return service.get(id, employerId);
+        return service.get(id);
     }
 
     public void delete(int vacancyId, int employerId) {
-        log.info("delete vacancy {} of employer {}", vacancyId, employerId);
-        service.delete(vacancyId, employerId);
+        log.info("delete vacancy {}", vacancyId);
+        service.delete(vacancyId);
     }
 
     public void deleteListOfVacancies(int employerId) {
         log.info("deleteAll for employerId {}", employerId);
         service.deleteEmployerVacancies(employerId);
     }
+
     @Transactional
     public Vacancy create(Vacancy vacancy, int employerId) {
         log.info("create vacancy {} for employerId {}", vacancy, employerId);
-        return service.create(vacancy, employerId);
+        return service.createByEmployerId(vacancy, employerId);
     }
 
 
