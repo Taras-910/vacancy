@@ -3,6 +3,7 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.model.Vote;
 import ua.training.top.repository.VoteRepository;
@@ -64,5 +65,17 @@ public class VoteService {
     public void deleteAll() {
         log.info("deleteAll");
         repository.deleteAll();
+    }
+
+    @Transactional
+    public void enable(int vacancyId, boolean enabled) {
+        log.info(enabled ? "enable {}" : "disable {}", vacancyId);
+        if (!enabled){
+            log.info("deleteByVacancyId {}", vacancyId);
+            checkNotFoundWithId(repository.deleteByVacancyId(vacancyId, authUserId()), vacancyId);
+        } else {
+            log.info("create vote for vacancyId {} userId {}", vacancyId, authUserId());
+            create(vacancyId);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package ua.training.top.service;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -50,7 +49,7 @@ public class UserService {
         checkNotFoundWithId(repository.save(user), user.id());
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+//    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {
         User user = get(id);

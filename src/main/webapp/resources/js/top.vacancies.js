@@ -73,6 +73,14 @@ $(function () {
             "info": true,
             "columns": [
                 {
+                    "data": "id",
+                    "visible": false
+                },
+                {
+                    "data": "url",
+                    "visible": false
+                },
+                {
                     "data": "title"
                 },
                 {
@@ -88,13 +96,10 @@ $(function () {
                     "data": "salaryMax"
                 },
                 {
-                    "data": "link"
-                },
-                {
                     "data": "skills"
                 },
                 {
-                    "data": "localDate"
+                    "data": "releaseDate"
                 },
                 {
                     "data": "toVote"
@@ -110,7 +115,7 @@ $(function () {
             ],
             "order": [
                 [
-                    7,
+                    8,
                     "desc"
                 ]
             ]

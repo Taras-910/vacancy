@@ -8,9 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import static javax.persistence.FetchType.EAGER;
+
 @NamedQueries({
         @NamedQuery(name = Vacancy.DELETE, query = "DELETE FROM Vacancy v WHERE v.id=:id AND v.employer.id=:employerId"),
-        @NamedQuery(name = Vacancy.ALL_SORTED, query = "SELECT v FROM Vacancy v ORDER BY v.localDate DESC"),
+        @NamedQuery(name = Vacancy.ALL_SORTED, query = "SELECT v FROM Vacancy v ORDER BY v.releaseDate DESC"),
 })
 @Entity
 @Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames = "skills", name = "vacancies_title_skills_idx")})
@@ -23,10 +25,6 @@ public class Vacancy extends AbstractBaseEntity {
     @NotNull
     private String title;
 
-    @Column(name="local_date", nullable = false)
-    @NotNull
-    private Date localDate;
-
     @Column(name="salary_min")
     @Range(max = 10000000)
     private Integer salaryMin;
@@ -36,10 +34,14 @@ public class Vacancy extends AbstractBaseEntity {
     private Integer salaryMax;
 
     @Column(name="link")
-    private String link;
+    private String url;
 
     @Column(name="skills")
     private String skills;
+
+    @Column(name="local_date", nullable = false)
+    @NotNull
+    private Date releaseDate;
 
     @Column(name="language")
     private String language;
@@ -50,7 +52,7 @@ public class Vacancy extends AbstractBaseEntity {
     @Column(name="recorded_date")
     private LocalDateTime recordedDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "employer_id", nullable = false)
     @JsonBackReference
     private Employer employer;
@@ -58,46 +60,44 @@ public class Vacancy extends AbstractBaseEntity {
     public Vacancy() {
     }
 
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String link, String skills, Date localDate, String language, String workplace, LocalDateTime recordedDate) {
-        this(null, title, salaryMin, salaryMax, link, skills, localDate, language, workplace, recordedDate);
+    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate, String language, String workplace, LocalDateTime recordedDate) {
+        this(null, title, salaryMin, salaryMax, url, skills, releaseDate, language, workplace, recordedDate);
     }
 
-    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String link, String skills, Date localDate, String language, String workplace, LocalDateTime recordedDate) {
+    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate, String language, String workplace, LocalDateTime recordedDate) {
         super(id);
         this.title = title;
-
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
-        this.link = link;
+        this.url = url;
         this.skills = skills;
-        this.localDate = localDate;
-
+        this.releaseDate = releaseDate;
         this.language = language;
         this.workplace = workplace;
         this.recordedDate = recordedDate;
     }
 
-    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String link, String skills, Date localDate, Employer employer) {
+    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate, Employer employer) {
         super(id);
         this.title = title;
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
-        this.link = link;
+        this.url = url;
         this.skills = skills;
-        this.localDate = localDate;
+        this.releaseDate = releaseDate;
     }
 
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String link, String skills, Date localDate) {
+    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate) {
         this.title = title;
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
-        this.link = link;
+        this.url = url;
         this.skills = skills;
-        this.localDate = localDate;
+        this.releaseDate = releaseDate;
     }
 
     public Vacancy(Vacancy v) {
-        this(v.getId(), v.getTitle(), v.getSalaryMin(), v.getSalaryMax(), v.getLink(), v.getSkills(), v.getLocalDate(), v.getLanguage(), v.getWorkplace(), v.getRecordedDate());
+        this(v.getId(), v.getTitle(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(), v.getSkills(), v.getReleaseDate(), v.getLanguage(), v.getWorkplace(), v.getRecordedDate());
     }
 
     public String getTitle() {
@@ -108,12 +108,12 @@ public class Vacancy extends AbstractBaseEntity {
         this.title = title;
     }
 
-    public Date getLocalDate() {
-        return localDate;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setLocalDate(Date localDate) {
-        this.localDate = localDate;
+    public void setReleaseDate(Date localDate) {
+        this.releaseDate = localDate;
     }
 
     public Integer getSalaryMin() {
@@ -132,12 +132,12 @@ public class Vacancy extends AbstractBaseEntity {
         this.salaryMax = salaryMax;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setUrl(String link) {
+        this.url = link;
     }
 
     public String getSkills() {
@@ -186,9 +186,9 @@ public class Vacancy extends AbstractBaseEntity {
                 "\ntitle='" + title + '\'' +
                 ", \nsalaryMin=" + salaryMin +
                 ", \nsalaryMax=" + salaryMax +
-                ", \nlink='" + link + '\'' +
+                ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
-                ", \nlocalDate=" + localDate +
+                ", \nreleaseDate=" + releaseDate +
                 ", \nlanguage='" + language + '\'' +
                 ", \nworkplace='" + workplace + '\'' +
                 ", \nrecordedDate='" + recordedDate + '\'' +
@@ -203,14 +203,14 @@ public class Vacancy extends AbstractBaseEntity {
         Vacancy vacancy = (Vacancy) o;
 
         if (!getTitle().equals(vacancy.getTitle())) return false;
-        return getLink().equals(vacancy.getLink());
+        return getUrl().equals(vacancy.getUrl());
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + getTitle().hashCode();
-        result = 31 * result + getLink().hashCode();
+        result = 31 * result + getUrl().hashCode();
         return result;
     }
 }

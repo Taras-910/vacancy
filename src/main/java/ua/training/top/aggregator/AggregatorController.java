@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.util.EmployerNetUtil.getEmployers;
 import static ua.training.top.aggregator.util.ProviderUtil.getAllProviders;
-import static ua.training.top.aggregator.util.ToCorrectDataUtil.getCorrectSalary;
 
 @Controller
 public class AggregatorController {
@@ -83,7 +82,7 @@ public class AggregatorController {
     }
 
     public static void main(String[] args) throws IOException {
-        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("за_рубежем", "java");
+//        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("за_рубежем", "java");
 //        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("за_рубежем", "java");
 //        List<VacancyNet> vacanciesFrom = getAllProviders().selectBy("киев", "java");
 
@@ -93,7 +92,17 @@ public class AggregatorController {
 */
 
 
+/*
         String text = "Europa Workintense spol. s r.o. · Агентство · Другие страны";
         System.out.println("test   " + getCorrectSalary(text));
+*/
+
+        //"yyyy-MM-dd"
+        String text = "https://datatables.net/examples/basic_init/hidden_columns.html";
+
+
+//        System.out.println(text.contains("http") ? text.replace("/", " ").split(":")[1].trim().split(" ")[0] : text);
+//        System.out.println(text.replace("https://", "").split("/")[0]);
     }
+
 }

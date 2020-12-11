@@ -2,7 +2,6 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.training.top.aggregator.AggregatorController;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,9 +31,22 @@ public class Main {
         System.out.println("========================================");
         System.out.println(employerController.getAllWithVacancies());
 */
+/*
         AggregatorController aggregatorController = appCtx.getBean(AggregatorController.class);
-
         aggregatorController.refreshDB("за_рубежем", "java");
+*/
+
+/*
+        VacancyController vacancyController = appCtx.getBean(VacancyController.class);
+        List<Vacancy> vacancies = vacancyController.getAll();
+        Date vacancyDate = vacancies.get(0).getReleaseDate();
+
+
+        System.out.println(vacancyDate);
+        System.out.println(print(vacancyDate));
+*/
+
+
 
         appCtx.close();    }
 }

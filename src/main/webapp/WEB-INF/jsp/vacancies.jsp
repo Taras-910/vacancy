@@ -54,6 +54,7 @@
             <thead>
             <tr>
                 <th hidden>id</th>
+                <th hidden>link</th>
                 <th>Вакансия</th>
                 <th>Компания</th>
                 <th>Адрес</th>
@@ -70,13 +71,14 @@
                 <jsp:useBean id="vacancy" type="ua.training.top.to.VacancyTo"/>
                 <tr vacancy-toVote="${vacancy.toVote}">
                     <td hidden>${vacancy.id}</td>
-                    <td><a href="${vacancy.link}">${vacancy.title}</a></td>
+                    <td hidden>${vacancy.url}</td>
+                    <td><a href="${vacancy.url}">${vacancy.title}</a></td>
                     <td><c:out value="${vacancy.employerName}"/></td>
                     <td><c:out value="${vacancy.address}"/></td>
                     <td><c:out value="${vacancy.salaryMin}"/></td>
                     <td><c:out value="${vacancy.salaryMax}"/></td>
                     <td><c:out value="${vacancy.skills}"/></td>
-                    <td><c:out value="${fn:formatDateTime(vacancy.localDate)}"/></td>
+                    <td><c:out value="${fn:formatDateTime(vacancy.releaseDate)}"/></td>
                     <td><input type="checkbox" <c:if test="${vacancy.toVote}">checked</c:if> onclick="vote($(this), ${vacancy.id})"/></td>
                     <td><a><span class="fa fa-pencil"></span></a></td>
                     <td><a onclick="deleteRow(${vacancy.id})"><span class="fa fa-remove"></span></a></td>
@@ -100,7 +102,7 @@
                     <div class="form-group">
                         <label for="title" class="col-form-label">Название вакансии</label>
                         <input type="text" class="form-control" id="title" name="title"
-                               placeholder="${Название}">
+                               placeholder="Название">
                     </div>
                     <div class="form-group">
                         <label for="employerName" class="col-form-label">Работодатель</label>
@@ -123,8 +125,8 @@
                                placeholder="1">
                     </div>
                     <div class="form-group">
-                        <label for="link" class="col-form-label"></label>
-                        <input type="text" class="form-control" id="link" name="link"
+                        <label for="url" class="col-form-label"></label>
+                        <input type="text" class="form-control" id="url" name="url"
                                placeholder="https://www.example.com">
                     </div>
                     <div class="form-group">
@@ -133,8 +135,8 @@
                                placeholder="Требуемые знания, навыки, ...">
                     </div>
                     <div class="form-group">
-                        <label for="lang" class="col-form-label">Язык программирования</label>
-                        <input type="text" class="form-control" id="lang" name="lang"
+                        <label for="languageCode" class="col-form-label">Язык программирования</label>
+                        <input type="text" class="form-control" id="languageCode" name="languageCode"
                                placeholder="java">
                     </div>
 

@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import ua.training.top.SecurityUtil;
-import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.service.VacancyService;
@@ -17,7 +16,6 @@ import ua.training.top.util.VacancyUtil;
 import java.util.List;
 
 import static ua.training.top.util.ValidationUtil.assureIdConsistent;
-import static ua.training.top.util.ValidationUtil.checkNew;
 
 public abstract class AbstractVacancyController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -44,11 +42,9 @@ public abstract class AbstractVacancyController {
         return VacancyUtil.getTos(vacancyService.getAll(), list);
     }
 
-    public Vacancy create(Vacancy vacancy, Employer employer) {
-        checkNew(vacancy);
-        checkNew(employer);
-        log.info("create vacancy {} for employer {}", vacancy, employer);
-        return vacancyService.create(vacancy, employer);
+    public Vacancy create(VacancyTo vacancyTo) {
+        log.info("create vacancy {}", vacancyTo);
+        return vacancyService.create(vacancyTo);
     }
 
     public void update(Vacancy vacancy, int id) {
@@ -66,6 +62,11 @@ public abstract class AbstractVacancyController {
     public List<VacancyTo> getVacanciesByLangLocFilter(@Nullable String language, @Nullable String workplace) {
         log.info("vacancyLangLocFilter language {} residence {}", language, workplace);
         return VacancyUtil.getTos(vacancyService.getVacanciesByLangLocFilter(language, workplace), voteService.getAll());
+    }
+
+    public void enable(int vacancyId, boolean enabled) {
+        log.info(enabled ? "enable {}" : "disable {}", vacancyId);
+        voteService.enable(vacancyId, enabled);
     }
 }
 

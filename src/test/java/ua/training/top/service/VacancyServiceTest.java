@@ -28,7 +28,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
     private VacancyService service;
 
     @Test
-    public void get() {
+    public void get() throws Exception {
         Vacancy vacancy = service.get(VACANCY1_ID);
         VACANCY_MATCHER.assertMatch(vacancy, VACANCY1);
     }
@@ -39,9 +39,9 @@ public class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAll() throws Exception {
         List<Vacancy> all = service.getAll();
-        VACANCY_MATCHER.assertMatch(all, VACANCY2, VACANCY1);
+        VACANCY_MATCHER.assertMatch(all, VACANCIES_GET_ALL);
     }
 
     @Test
@@ -57,9 +57,9 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
 
     @Test
-    public void deleteEmployerVacancies() {
+    public void deleteEmployerVacancies() throws Exception {
         service.deleteEmployerVacancies(EMPLOYER2_ID);
-        assertThrows(NotFoundException.class, () -> service.get(VACANCY1_ID));
+        assertThrows(NotFoundException.class, () -> service.get(VACANCY2_ID));
     }
 
     @Test
@@ -113,7 +113,8 @@ public class VacancyServiceTest extends AbstractServiceTest {
     public void update() throws Exception {
         Vacancy updated = VacancyTestData.getUpdated();
         service.update(updated, EMPLOYER1_ID);
-        VACANCY_MATCHER.assertMatch(service.get(VACANCY1_ID), updated);
+        Vacancy vacancyDb = service.get(VACANCY1_ID);
+        VACANCY_MATCHER.assertMatch(updated, vacancyDb);
     }
 
     @Test

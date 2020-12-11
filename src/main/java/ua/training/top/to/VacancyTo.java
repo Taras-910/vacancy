@@ -1,44 +1,42 @@
 package ua.training.top.to;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-public class VacancyTo extends BaseTo{
-
-    @NotNull
-    private String employerName;
-
-    @NotNull
-    private String address;
+public class VacancyTo extends BaseTo implements Serializable {
 
     @NotNull
     private String title;
-
     @NotNull
-    private Date localDate;
-
+    private String employerName;
+    @NotNull
+    private String address;
     private Integer salaryMin;
-
     private Integer salaryMax;
-
     @NotNull
-    String link;
-
+    String url;
     @NotNull
     String skills;
+    @NotNull
+    private Date releaseDate;
+
+    private String language;
 
     private boolean toVote = false;
-    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address,
-                     Integer salaryMin, Integer salaryMax, String link, String skills, @NotNull Date localDate, boolean toVote) {
+
+    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin,
+                     Integer salaryMax, String url, String skills, @NotNull Date releaseDate, String language, boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
         this.address = address;
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
-        this.link = link;
+        this.url = url;
         this.skills = skills;
-        this.localDate = localDate;
+        this.releaseDate = releaseDate;
+        this.language = language;
         this.toVote = toVote;
     }
 
@@ -66,12 +64,12 @@ public class VacancyTo extends BaseTo{
         this.title = title;
     }
 
-    public Date getLocalDate() {
-        return localDate;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setLocalDate(Date localDate) {
-        this.localDate = localDate;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Integer getSalaryMin() {
@@ -90,12 +88,12 @@ public class VacancyTo extends BaseTo{
         this.salaryMax = salaryMax;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getSkills() {
@@ -104,6 +102,14 @@ public class VacancyTo extends BaseTo{
 
     public void setSkills(String skills) {
         this.skills = skills;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public boolean isToVote() {
@@ -123,9 +129,10 @@ public class VacancyTo extends BaseTo{
                 ", \naddress='" + address + '\'' +
                 ", \nsalary=" + salaryMin +
                 ", \nsalary=" + salaryMax +
-                ", \nlink='" + link + '\'' +
+                ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
-                ", \nlocalDate=" + localDate +
+                ", \nreleaseDate=" + releaseDate +
+                ", \nlanguage=" + language +
                 ", \ntoVote=" + toVote +
                 '}';
     }

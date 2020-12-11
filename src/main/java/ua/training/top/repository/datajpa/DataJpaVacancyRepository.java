@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
-    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "localDate","title");
+    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "releaseDate","title");
     private Logger log = LoggerFactory.getLogger(getClass());
 
     CrudVacancyRepository vacancyRepository;

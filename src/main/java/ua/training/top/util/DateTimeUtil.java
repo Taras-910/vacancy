@@ -3,6 +3,7 @@ package ua.training.top.util;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -72,5 +73,12 @@ public class DateTimeUtil {
         return localDate;
     }
 
+    public static Date getTimestamp(String testDate){
+        return new Timestamp(parse("2020-10-25", null).getTime());
+    }
+
+    public static Date getTimestamp(@Nullable int year, @Nullable int month, @Nullable int day){
+        return new Timestamp(toDate(year, month, day).getTime());
+    }
 
 }

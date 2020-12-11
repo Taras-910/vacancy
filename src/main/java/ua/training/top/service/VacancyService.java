@@ -10,6 +10,7 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
+import ua.training.top.to.VacancyTo;
 import ua.training.top.util.ValidationUtil;
 import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.jsp.VacancyController;
@@ -19,8 +20,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.training.top.util.VacancyUtil.LANGUAGE_DEFAULT;
-import static ua.training.top.util.VacancyUtil.WORKPLACE_DEFAULT;
+import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -63,12 +63,10 @@ public class VacancyService {
     }
 
     @Transactional
-    public Vacancy create(@Valid @NotEmpty Vacancy vacancy, Employer employer) {
-        log.info("create vacancy {} for employer {}", vacancy, employer);
-        Employer newEmployer = checkNotFound(employerRepository.save(employer), "this data");
-        Assert.notNull(vacancy, "vacancy must not be null");
-        checkNew(vacancy);
-        return checkNotFound(vacancyRepository.save(vacancy, newEmployer.getId()), "employerId=" + newEmployer.getId());
+    public Vacancy create(@Valid @NotEmpty VacancyTo vacancyTo) {
+        log.info("create vacancyTo {}", vacancyTo);
+        Employer newEmployer = checkNotFound(employerRepository.save(getEmployerFromTo(vacancyTo)), "this data");
+        return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), newEmployer.getId()), "employerId=" + newEmployer.getId());
     }
 
 

@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
@@ -44,8 +43,8 @@ public class VacancyRestController extends AbstractVacancyController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vacancy> createWithLocation(@RequestBody Vacancy vacancy, @RequestParam String employerName) {
-        Vacancy created = super.create(vacancy, new Employer(null, employerName, vacancy.getWorkplace(), vacancy.getLink()));
+    public ResponseEntity<Vacancy> createWithLocation(@RequestBody VacancyTo vacancyTo) {
+        Vacancy created = super.create(vacancyTo);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

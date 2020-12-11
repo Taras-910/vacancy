@@ -6,13 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
-import ua.training.top.model.Employer;
-import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+
+import static ua.training.top.util.DateTimeUtil.thisDay;
 
 @RestController
 @RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,37 +32,35 @@ public class VacancyUIController extends AbstractVacancyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestParam String title,
+    public void create(@RequestParam @Nullable String title,
+                       @RequestParam @Nullable String employerName,
+                       @RequestParam @Nullable String address,
                        @RequestParam @Nullable Integer salaryMin,
                        @RequestParam @Nullable Integer salaryMax,
-                       @RequestParam @Nullable String link,
+                       @RequestParam @Nullable String url,
                        @RequestParam @Nullable String skills,
-                       @RequestParam @Nullable Date dateTime,
-                       @RequestParam @Nullable String lang,
-                       @RequestParam @Nullable String workplace,
-                       @RequestParam @Nullable String employerName ){
-        super.create(new Vacancy(title, salaryMin, salaryMax, link, skills, dateTime, lang, workplace, LocalDateTime.now()),
-                new Employer(null, employerName, workplace, link));
+                       @RequestParam @Nullable String languageCode ){
+                super.create(new VacancyTo(null, title, employerName, address, salaryMin, salaryMax, url, skills, thisDay, languageCode, false));
     }
 
-/*    @PostMapping
+ /*   @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> createOrUpdate(@Valid User user, BindingResult result) {
+    public ResponseEntity<String> createOrUpdate(@Valid Vacancy vacancy, BindingResult result) {
+
         if (result.hasErrors()) {
             String errorFieldsMsg = result.getFieldErrors().stream()
                     .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
                     .collect(Collectors.joining("<br>"));
             return ResponseEntity.unprocessableEntity().body(errorFieldsMsg);
         }
-        if (user.isNew()) {
-            super.create(user);
+        if (vacancy.isNew()) {
+            super.create(vacancy);
         } else {
-            super.update(user, user.id());
+            super.update(vacancy, vacancy.id());
         }
         return ResponseEntity.ok().build();
     }
 */
-
 
 
     @Override
@@ -76,42 +72,12 @@ public class VacancyUIController extends AbstractVacancyController {
         List<VacancyTo> vacanciesTo = super.getVacanciesByLangLocFilter(language, workplace);
         return vacanciesTo;
     }
-}
-/*
-*
-* @RestController
-@RequestMapping(value = "/profile/meals", produces = MediaType.APPLICATION_JSON_VALUE)
-public class MealUIController extends AbstractMealController {
 
     @Override
-    @GetMapping
-    public List<MealTo> getAll() {
-        return super.getAll();
-    }
-
-    @Override
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        super.delete(id);
+    public void enable(@PathVariable(name = "id") int vacancyId, @RequestParam boolean enabled) {
+        super.enable(vacancyId, enabled);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void create(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
-                       @RequestParam String description,
-                       @RequestParam int calories) {
-        super.create(new Meal(null, dateTime, description, calories));
-    }
-
-    @Override
-    @GetMapping(value = "/filter")
-    public List<MealTo> getBetween(
-            @RequestParam @Nullable LocalDate startDate,
-            @RequestParam @Nullable LocalTime startTime,
-            @RequestParam @Nullable LocalDate endDate,
-            @RequestParam @Nullable LocalTime endTime) {
-        return super.getBetween(startDate, startTime, endDate, endTime);
-    }
 }
-*/
