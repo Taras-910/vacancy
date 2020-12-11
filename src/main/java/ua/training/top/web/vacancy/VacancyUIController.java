@@ -72,8 +72,8 @@ public class VacancyUIController extends AbstractVacancyController {
     public List<VacancyTo> getVacanciesByLangLocFilter(
             @RequestParam String language,
             @RequestParam String workplace) {
+        log.info("getVacanciesByLangLocFilter language {} workplace {}", language, workplace);
         List<VacancyTo> vacanciesTo = super.getVacanciesByLangLocFilter(language, workplace);
-        log.info("vacanciesTo {}", vacanciesTo);
         return vacanciesTo;
     }
 }

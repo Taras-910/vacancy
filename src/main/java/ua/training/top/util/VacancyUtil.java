@@ -14,8 +14,13 @@ import static ua.training.top.util.DateTimeUtil.clearTime;
 public class VacancyUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
 
+    public static final String WORKPLACE_DEFAULT = "киев";
+    public static final String LANGUAGE_DEFAULT = "java";
+
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
-        return vacancies.stream()
+        return vacancies.size() == 0 ? List.of(new VacancyTo(null, "", "", "", 0, 0,
+                "", "по данному фильтру вакансий нет", null, false ))
+                : vacancies.stream()
                 .map(vacancy -> createTo(vacancy, votes))
                 .collect(Collectors.toList());
     }

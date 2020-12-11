@@ -26,8 +26,8 @@
                         <div class="offset-1 col-1">
                         </div>
                         <div class="col-5">
-                            <label for="residence">Место расположения вакансии (город или страна):</label>
-                            <input class="form-control" type="text" value="за_рубежем" name="residence" id="residence">
+                            <label for="workplace">Место расположения вакансии (город или страна):</label>
+                            <input class="form-control" type="text" value="Киев" name="workplace" id="workplace">
                         </div>
                     </div>
                 </form>
@@ -102,7 +102,17 @@
                         <input type="text" class="form-control" id="title" name="title"
                                placeholder="${Название}">
                     </div>
-                    <%--<div class="form-group">
+                    <div class="form-group">
+                        <label for="employerName" class="col-form-label">Работодатель</label>
+                        <input type="text" class="form-control" id="employerName" name="employerName"
+                               placeholder="Название">
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-form-label">Адрес</label>
+                        <input type="text" class="form-control" id="address" name="address"
+                               placeholder="Киев">
+                    </div>
+                    <div class="form-group">
                         <label for="salaryMin" class="col-form-label">з/п мин (usв cent)</label>
                         <input type="number" class="form-control" id="salaryMin" name="salaryMin"
                                value="1">
@@ -123,25 +133,10 @@
                                placeholder="Требуемые знания, навыки, ...">
                     </div>
                     <div class="form-group">
-                        <label for="localDate" class="col-form-label">Дата публикации</label>
-                        <input type="datetime-local" class="form-control" id="localDate" name="localDate"
-                               placeholder="Дата">
-                    </div>
-                    <div class="form-group">
                         <label for="lang" class="col-form-label">Язык программирования</label>
                         <input type="text" class="form-control" id="lang" name="lang"
                                placeholder="java">
                     </div>
-                    <div class="form-group">
-                        <label for="workplace" class="col-form-label">Город или страна</label>
-                        <input type="text" class="form-control" id="workplace" name="workplace"
-                               placeholder="за рубежем">
-                    </div>
-                    <div class="form-group">
-                        <label for="employerName" class="col-form-label">Работодатель</label>
-                        <input type="text" class="form-control" id="employerName" name="employerName"
-                               placeholder="Название">
-                    </div>--%>
 
                 </form>
             </div>

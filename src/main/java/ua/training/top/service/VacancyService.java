@@ -19,6 +19,8 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ua.training.top.util.VacancyUtil.LANGUAGE_DEFAULT;
+import static ua.training.top.util.VacancyUtil.WORKPLACE_DEFAULT;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -102,8 +104,8 @@ public class VacancyService {
 
     public List<Vacancy> getVacanciesByLangLocFilter(String language, String workplace) {
         log.info("getVacancyLangLocFilter");
-        language = language.toLowerCase();
-        workplace = workplace.toLowerCase();
+        language = language != null ? language.toLowerCase() : LANGUAGE_DEFAULT;
+        workplace = workplace != null ? workplace.toLowerCase() : WORKPLACE_DEFAULT;
         return vacancyRepository.getVacanciesByLangLocFilter(language, workplace);
     }
 }

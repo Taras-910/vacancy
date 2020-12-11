@@ -15,6 +15,7 @@ function enable(chkbox, id) {
     });
 }
 
+// $(document).ready(function () {
 $(function () {
     ctx = {
         ajaxUrl: userAjaxUrl,

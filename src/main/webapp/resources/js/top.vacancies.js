@@ -1,7 +1,7 @@
 var ctx, vacancyAjaxUrl = "profile/vacancies/";
-var form = $('#detailsForm');
-var ajaxUrl = vacancyAjaxUrl;
-var datatableApi;
+// var form = $('#detailsForm');
+// var ajaxUrl = vacancyAjaxUrl;
+// var datatableApi;
 
 function vote(chkbox, id) {
     var toVote = chkbox.is(":checked");
@@ -30,6 +30,7 @@ function clearFilter() {
     $.get(vacancyAjaxUrl, updateTableByData);
 }
 
+/*
 function save() {
     $.ajax({
         type: "POST",
@@ -41,7 +42,9 @@ function save() {
         successNoty("Saved");
     });
 }
+*/
 
+/*
 function deleteRow(id) {
     if (confirm('Are you sure?')) {
         $.ajax({
@@ -53,11 +56,15 @@ function deleteRow(id) {
         });
     }
 }
+*/
 
+/*
 function updateTableByData(data) {
-    datatableApi.clear().rows.add(data).draw();
+    ctx.datatableApi.clear().rows.add(data).draw();
 }
+*/
 
+// $(document).ready(function () {
 $(function () {
     ctx = {
         ajaxUrl : vacancyAjaxUrl,
@@ -67,6 +74,12 @@ $(function () {
             "columns": [
                 {
                     "data": "title"
+                },
+                {
+                    "data": "employerName"
+                },
+                {
+                    "data": "address"
                 },
                 {
                     "data": "salaryMin"
@@ -84,6 +97,9 @@ $(function () {
                     "data": "localDate"
                 },
                 {
+                    "data": "toVote"
+                },
+                {
                     "defaultContent": "Edit",
                     "orderable": false
                 },
@@ -94,12 +110,12 @@ $(function () {
             ],
             "order": [
                 [
-                    1,
+                    7,
                     "desc"
                 ]
             ]
         }),
-//        updateTable: updateFilteredTable
+       updateTable: updateFilteredTable
     };
     makeEditable(ctx);
 });
