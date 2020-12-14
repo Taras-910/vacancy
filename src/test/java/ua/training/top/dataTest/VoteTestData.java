@@ -1,4 +1,4 @@
-package ua.training.top.testData;
+package ua.training.top.dataTest;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Vote;
@@ -6,11 +6,11 @@ import ua.training.top.model.Vote;
 import java.util.Arrays;
 import java.util.List;
 
+import static ua.training.top.dataTest.UserTestData.ADMIN_ID;
+import static ua.training.top.dataTest.UserTestData.USER_ID;
+import static ua.training.top.dataTest.VacancyTestData.VACANCY1_ID;
+import static ua.training.top.dataTest.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
-import static ua.training.top.testData.UserTestData.ADMIN_ID;
-import static ua.training.top.testData.UserTestData.USER_ID;
-import static ua.training.top.testData.VacancyTestData.VACANCY1_ID;
-import static ua.training.top.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.util.DateTimeUtil.thisDay;
 import static ua.training.top.util.DateTimeUtil.toDate;
 

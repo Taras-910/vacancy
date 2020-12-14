@@ -5,6 +5,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
 import java.io.IOException;
@@ -28,14 +29,14 @@ public class UAIndeedStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(String city, String language) throws IOException {
+    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
         Set<VacancyNet> set = new LinkedHashSet<>();
-        if(city.equals("за_рубежем")){
+        if(wordTo.getWorkplaceTask().contains("за_рубежем")){
             return new ArrayList<>();
         }
         int page = 0;
         while (true) {
-            Document doc = getDocument(city, language, String.valueOf(page));
+            Document doc = getDocument(wordTo.getWorkplaceTask(), wordTo.getLanguageTask(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("jobsearch-SerpJobCard unifiedRow row result");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesIndeed(elements));

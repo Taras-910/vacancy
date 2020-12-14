@@ -1,10 +1,10 @@
-package ua.training.top.testData;
+package ua.training.top.dataTest;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.to.VacancyTo;
 
 public class VacancyToTestData {
-    public static TestMatcher<VacancyTo> EMPLOYER_MATCHER = TestMatcher.usingFieldsComparator();
+    public static TestMatcher<VacancyTo> EMPLOYER_MATCHER = TestMatcher.usingFieldsComparator("");
 
 /*    public static VacancyTo getNew() {
         return new VacancyTo(EMPLOYER1_ID,"Microsoft", Arrays.asList(VACANCY1), false);

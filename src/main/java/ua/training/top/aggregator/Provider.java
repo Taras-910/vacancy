@@ -3,6 +3,7 @@ package ua.training.top.aggregator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.strategy.Strategy;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
 import java.io.IOException;
@@ -16,9 +17,8 @@ public class Provider {
         this.strategy = strategy;
     }
 
-    public List<VacancyNet> getJavaVacancies(String city, String language) throws IOException {
-        language = language.toLowerCase();
-        List<VacancyNet> list = strategy.getVacancies(city, language);
+    public List<VacancyNet> getJavaVacancies(DoubleWordTo task) throws IOException {
+        List<VacancyNet> list = strategy.getVacancies(task);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list;
     }

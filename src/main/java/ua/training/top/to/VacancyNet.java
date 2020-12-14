@@ -10,7 +10,24 @@ public class VacancyNet {
     private String city;
     private String siteName;
     private String companyName;
+/*    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin,
+                     Integer salaryMax, String url, String skills, @NotNull Date releaseDate, String language, boolean toVote) {
+        super(id);
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.salaryMin = salaryMin;
+        this.salaryMax = salaryMax;
+        this.url = url;
+        this.skills = skills;
+         this.address = address;
 
+        this.employerName = employerName;
+
+
+
+        this.language = language;
+        this.toVote = toVote;
+*/
     public VacancyNet(String title, String date, String salary, String url, String skills, String city,
                       String siteName, String companyName) {
         this.title = title;

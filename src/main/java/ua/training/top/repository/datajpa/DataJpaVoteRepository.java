@@ -61,4 +61,9 @@ public class DataJpaVoteRepository implements VoteRepository {
         return voteRepository.deleteByVacancyId(vacancyId, authUserId) != 0;
     }
 
+    @Override
+    public boolean deleteAllByVacancyId(int vacancyId) {
+        return voteRepository.deleteAllByVacancyId(vacancyId) != 0;
+    }
+
 }

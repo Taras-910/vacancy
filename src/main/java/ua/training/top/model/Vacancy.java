@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.EAGER;
         @NamedQuery(name = Vacancy.ALL_SORTED, query = "SELECT v FROM Vacancy v ORDER BY v.releaseDate DESC"),
 })
 @Entity
-@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames = "skills", name = "vacancies_title_skills_idx")})
+@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames = "skills", name = "vacancies_skills_idx")})
 public class Vacancy extends AbstractBaseEntity {
 
     public static final String DELETE = "Vacancy.delete";
@@ -40,7 +40,6 @@ public class Vacancy extends AbstractBaseEntity {
     private String skills;
 
     @Column(name="local_date", nullable = false)
-    @NotNull
     private Date releaseDate;
 
     @Column(name="language")

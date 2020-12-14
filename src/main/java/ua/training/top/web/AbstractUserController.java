@@ -1,4 +1,4 @@
-package ua.training.top.web.user;
+package ua.training.top.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

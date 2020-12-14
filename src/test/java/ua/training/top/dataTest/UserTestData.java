@@ -1,4 +1,4 @@
-package ua.training.top.testData;
+package ua.training.top.dataTest;
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;

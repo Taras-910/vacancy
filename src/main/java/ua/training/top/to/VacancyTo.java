@@ -1,32 +1,45 @@
 package ua.training.top.to;
 
+import org.hibernate.validator.constraints.URL;
+import org.springframework.lang.Nullable;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class VacancyTo extends BaseTo implements Serializable {
 
     @NotNull
+    @Size(min = 2, max = 100)
     private String title;
-    @NotNull
+
     private String employerName;
-    @NotNull
+
     private String address;
+
     private Integer salaryMin;
+
     private Integer salaryMax;
-    @NotNull
+
+    @URL
     String url;
+
     @NotNull
+    @Size(min = 2, max = 1000)
     String skills;
-    @NotNull
+
     private Date releaseDate;
 
+    @NotNull
+    @Size(min = 2, max = 100)
     private String language;
 
     private boolean toVote = false;
 
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin,
-                     Integer salaryMax, String url, String skills, @NotNull Date releaseDate, String language, boolean toVote) {
+                     Integer salaryMax, String url, String skills, @Nullable Date releaseDate, String language, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -118,6 +131,21 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     public void setToVote(boolean toVote) {
         this.toVote = toVote;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VacancyTo vacancyTo = (VacancyTo) o;
+        return  Objects.equals(title, vacancyTo.title) &&
+                Objects.equals(employerName, vacancyTo.employerName) &&
+                Objects.equals(skills, vacancyTo.skills);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, employerName, skills);
     }
 
     @Override

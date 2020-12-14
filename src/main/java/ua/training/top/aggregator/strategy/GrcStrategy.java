@@ -5,6 +5,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
 import java.io.IOException;
@@ -34,10 +35,10 @@ public class GrcStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(String city, String language) throws IOException {
-        log.info("getVacancies city={} language={}", city, language);
-        boolean other = city.equalsIgnoreCase("за_рубежем");
-        List<VacancyNet> list = other ? getOther(language) : getCity(city, language);
+    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
+        log.info("getVacancies city={} language={}", wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
+        boolean other = wordTo.getWorkplaceTask().contains("за_рубежем");
+        List<VacancyNet> list = other ? getOther(wordTo.getLanguageTask()) : getCity(wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
         reCall(list.size(), new GrcStrategy());
         return list ;
     }

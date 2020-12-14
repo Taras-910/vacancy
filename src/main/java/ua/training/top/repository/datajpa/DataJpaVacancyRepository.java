@@ -9,6 +9,7 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,10 +72,18 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
-    public List<Vacancy> getVacanciesByLangLocFilter(String language, String workplace) {
-        List<Vacancy> vacancies = Optional.ofNullable(vacancyRepository.getVacanciesByLangLocFilter(language, workplace)).orElse(null);
-        log.info("vacancies {}", vacancies);
-        return vacancies;
+    public List<Vacancy> getAllByFilter(String language, String workplace) {
+        return Optional.ofNullable(vacancyRepository.getAllByFilter(language, workplace)).orElse(new ArrayList<>());
+    }
+
+    @Override
+    public List<Vacancy> getAllByWorkplace(String language) {
+        return Optional.ofNullable(vacancyRepository.getAllByWorkplace(language)).orElse(new ArrayList<>());
+    }
+
+    @Override
+    public List<Vacancy> getAllByLanguage(String workplace) {
+        return Optional.ofNullable(vacancyRepository.getAllByLanguage(workplace)).orElse(new ArrayList<>());
     }
 
 }

@@ -2,6 +2,7 @@ package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
 import java.io.IOException;
@@ -16,12 +17,12 @@ public class AggregatorService {
         this.providers = providers;
     }
 
-    public List<VacancyNet> selectBy(String city, String language){
+    public List<VacancyNet> selectBy(DoubleWordTo task){
         allProviders = new ArrayDeque<>(Arrays.asList(providers));
         Set<VacancyNet> set = new HashSet<>();
         while(allProviders.peek()!=null){
             try {
-                set.addAll(allProviders.pollFirst().getJavaVacancies(city, language));
+                set.addAll(allProviders.pollFirst().getJavaVacancies(task));
             } catch (IOException e) {
                 log.info("e {}", e.getMessage());
             }

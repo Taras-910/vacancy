@@ -1,4 +1,4 @@
-package ua.training.top.web.vacancy;
+package ua.training.top.web.rest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.web.AbstractVacancyController;
 
 import java.net.URI;
 import java.util.List;
@@ -18,7 +19,7 @@ public class VacancyRestController extends AbstractVacancyController {
 
     @Override
     @GetMapping("/{id}")
-    public Vacancy get(@PathVariable int id) {
+    public VacancyTo get(@PathVariable int id) {
         return super.get(id);
     }
 
@@ -38,13 +39,13 @@ public class VacancyRestController extends AbstractVacancyController {
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Vacancy vacancy, @PathVariable int id) {
-        super.update(vacancy, id);
+    public void update(@RequestBody VacancyTo vacancyTo) {
+        super.update(vacancyTo);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vacancy> createWithLocation(@RequestBody VacancyTo vacancyTo) {
-        Vacancy created = super.create(vacancyTo);
+    public ResponseEntity<Vacancy> createVacancyEmployer(@RequestBody VacancyTo vacancyTo) {
+        Vacancy created = super.createVacancyAndEmployer(vacancyTo);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

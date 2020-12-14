@@ -8,10 +8,11 @@ import ua.training.top.aggregator.util.VacancyNetUtil;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
+import ua.training.top.service.EmployerService;
+import ua.training.top.service.VacancyService;
+import ua.training.top.service.VoteService;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
-import ua.training.top.web.jsp.EmployerController;
-import ua.training.top.web.jsp.VacancyController;
-import ua.training.top.web.jsp.VoteController;
 
 import java.io.IOException;
 import java.util.*;
@@ -24,44 +25,44 @@ import static ua.training.top.aggregator.util.ProviderUtil.getAllProviders;
 public class AggregatorController {
     private final static Logger log = LoggerFactory.getLogger(AggregatorController.class);
     @Autowired
-    private final VacancyController vacancyController;
+    private final VacancyService vacancyService;
     @Autowired
-    private final EmployerController employerController;
+    private final EmployerService employerService;
     @Autowired
-    private final VoteController voteController;
+    private final VoteService voteService;
 
-    public AggregatorController(VoteController voteController, EmployerController employerController, VacancyController vacancyController) {
-        this.vacancyController = vacancyController;
-        this.employerController = employerController;
-        this.voteController = voteController;
+    public AggregatorController(VoteService voteService, EmployerService employerService, VacancyService vacancyService) {
+        this.vacancyService = vacancyService;
+        this.employerService = employerService;
+        this.voteService = voteService;
     }
 
-    public void refreshDB(String workplace, String language){
-        log.info("refreshDB by city {} and language {}", workplace, language);
+    public void refreshDB(DoubleWordTo task){
+        log.info("refreshDB by task {}", task);
         // проверка на наличе обновления в этот день ?
-        List<VacancyNet> vacanciesNet = getAllProviders().selectBy(workplace, language);
+        List<VacancyNet> vacanciesNet = getAllProviders().selectBy(task);
 
         List<Employer> preparedEmployers = getEmployers(vacanciesNet).stream()
                 .distinct()
                 .collect(Collectors.toList());
 
-        List<Employer> oldEmployers = employerController.getAll();
+        List<Employer> oldEmployers = employerService.getAll();
         Map<Integer, Employer> oldEmployersMap = new HashMap<>();
         oldEmployers.forEach(e ->  oldEmployersMap.put(e.getId(), e));
-        employerController.deleteAll();
-        List<Employer> newEmployers = employerController.createAll(preparedEmployers);
+        employerService.deleteAll();
+        List<Employer> newEmployers = employerService.createAll(preparedEmployers);
 
-        List<Vacancy> oldVacancies = vacancyController.getAll();
-        vacancyController.deleteAll();
+        List<Vacancy> oldVacancies = vacancyService.getAll();
+        vacancyService.deleteAll();
         List<Vacancy> newVacancies = new ArrayList<>();
-        Map<Integer, List<Vacancy>> mapVacancies = VacancyNetUtil.getMapVacancies(newEmployers, vacanciesNet, language, workplace);
-        mapVacancies.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyController.createAll(vacancies, employerId)));
+        Map<Integer, List<Vacancy>> mapVacancies = VacancyNetUtil.getMapVacancies(newEmployers, vacanciesNet, task);
+        mapVacancies.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createAll(vacancies, employerId)));
 
         refreshVotes(oldVacancies, newVacancies);
 }
 
     private void refreshVotes(List<Vacancy> oldVacancies, List<Vacancy> newVacancies) {
-        List <Vote> oldVotes = voteController.getAll();
+        List <Vote> oldVotes = voteService.getAll();
         Set <Vote> preparedVotes = new LinkedHashSet<>();
 
         newVacancies.forEach(newVacancy -> {
@@ -77,8 +78,8 @@ public class AggregatorController {
                 }
             });
         });
-        voteController.deleteAll();
-        voteController.createAll(new ArrayList<>(preparedVotes));
+        voteService.deleteAll();
+        voteService.createAll(new ArrayList<>(preparedVotes));
     }
 
     public static void main(String[] args) throws IOException {
@@ -98,11 +99,20 @@ public class AggregatorController {
 */
 
         //"yyyy-MM-dd"
-        String text = "https://datatables.net/examples/basic_init/hidden_columns.html";
+//        String text = "https://datatables.net/examples/basic_init/hidden_columns.html";
 
 
 //        System.out.println(text.contains("http") ? text.replace("/", " ").split(":")[1].trim().split(" ")[0] : text);
 //        System.out.println(text.replace("https://", "").split("/")[0]);
+        DoubleWordTo task = new DoubleWordTo("", "Киев");
+
+        String test = null;
+        System.out.println(test.isEmpty());
+        System.out.println(test.equals(""));
+        System.out.println(test.translateEscapes());
+
+
+
     }
 
 }

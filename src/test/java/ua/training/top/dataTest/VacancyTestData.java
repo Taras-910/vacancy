@@ -1,21 +1,22 @@
-package ua.training.top.testData;
+package ua.training.top.dataTest;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Vacancy;
+import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static ua.training.top.dataTest.EmployerTestData.EMPLOYER1;
+import static ua.training.top.dataTest.EmployerTestData.EMPLOYER2;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
-import static ua.training.top.testData.EmployerTestData.EMPLOYER1;
-import static ua.training.top.testData.EmployerTestData.EMPLOYER2;
 import static ua.training.top.util.DateTimeUtil.getTimestamp;
 import static ua.training.top.util.DateTimeUtil.toDate;
 
 public class VacancyTestData {
-    public static TestMatcher<Vacancy> VACANCY_MATCHER = TestMatcher.usingFieldsComparator("employer");
+    public static TestMatcher<Vacancy> VACANCY_MATCHER = TestMatcher.usingFieldsComparator("employer", "recordedDate");
 
     public static final int VACANCY1_ID = START_SEQ + 4;
     public static final int VACANCY2_ID = VACANCY1_ID + 1;
@@ -44,13 +45,15 @@ public class VacancyTestData {
         return Arrays.asList(VACANCY3, VACANCY4);
     }
 
-    public static Vacancy getNew() {
-        return new Vacancy("new Developer", 100, 500, "", "new knowledge",
-                toDate(2020, 10, 26), "java", "киев", LocalDateTime.of(2020, 11, 1, 12, 00));
+    public static VacancyTo getNew() {
+        return new VacancyTo(null, "Junior", "newEmployment", "киев", 100, 500, "https://www.baeldung.com/spring-type-conversions", "new knowledge",
+                toDate(2020, 10, 26), "java", false);
     }
 
-    public static Vacancy getUpdated() {
-        return new Vacancy(VACANCY1_ID, "update Developer", 200,700, "", "update knowledge",
-                new Date(2020, 10, 26), "java", "киев", LocalDateTime.of(2020, 11, 1, 12, 00));
+    public static VacancyTo getUpdated() {
+        return new VacancyTo(VACANCY1_ID, "update Developer", "updatedEmployer", "киев",200,700, "", "update knowledge",
+                new Date(2020, 10, 26), "java", false);
     }
+//    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin,
+//                     Integer salaryMax, String url, String skills, @NotNull Date releaseDate, String language, boolean toVote) {
 }

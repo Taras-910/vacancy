@@ -20,6 +20,10 @@ public interface VacancyRepository {
 
     void deleteAll();
 
-    List<Vacancy> getVacanciesByLangLocFilter(String language, String workplace);
+    List<Vacancy> getAllByFilter(String language, String workplace);
+
+    List<Vacancy> getAllByWorkplace(String language);
+
+    List<Vacancy> getAllByLanguage(String workplace);
 }
 

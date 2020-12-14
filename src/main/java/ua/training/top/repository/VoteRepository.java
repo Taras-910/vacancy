@@ -25,4 +25,6 @@ public interface VoteRepository {
     void deleteAll();
 
     boolean deleteByVacancyId(int vacancyId, int authUserId);
+
+    boolean deleteAllByVacancyId(int vacancyId);
 }

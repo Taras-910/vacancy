@@ -5,6 +5,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
 import java.io.IOException;
@@ -32,15 +33,15 @@ public class RabotaStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(String city, String language) throws IOException {
-        log.info("city={} language={}", city, language);
+    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
+        log.info("city={} language={}", wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
         Set<VacancyNet> set = new LinkedHashSet<>();
         int page = 1;
         while(true) {
-            Document doc = getDocument(city, language, String.valueOf(page));
+            Document doc = getDocument(wordTo.getWorkplaceTask(), wordTo.getLanguageTask(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesRabota(elements, language));
+            set.addAll(getVacanciesRabota(elements, wordTo.getLanguageTask()));
             if(page < limitCallPages) page++;
             else break;
         }

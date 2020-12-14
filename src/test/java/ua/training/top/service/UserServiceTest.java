@@ -4,15 +4,15 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import ua.training.top.AbstractServiceTest;
+import ua.training.top.dataTest.UserTestData;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.testData.UserTestData;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
-import static ua.training.top.testData.UserTestData.*;
+import static ua.training.top.dataTest.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {
 

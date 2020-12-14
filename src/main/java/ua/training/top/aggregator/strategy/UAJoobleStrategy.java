@@ -5,8 +5,10 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -30,10 +32,10 @@ public class UAJoobleStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(String city, String language){
-        log.info("getVacancies city {} language={}", city, language);
-        boolean other = city.equals("за_рубежем");
-        String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{city};
+    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
+        log.info("getVacancies city {} language={}", wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
+        boolean other = wordTo.getWorkplaceTask().contains("за_рубежем");
+        String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{wordTo.getWorkplaceTask()};
         List<VacancyNet> result = new ArrayList<>();
         for(String c : cityOrCountry) {
             Set<VacancyNet> set = new LinkedHashSet<>();
@@ -41,7 +43,7 @@ public class UAJoobleStrategy implements Strategy {
             int page = 1;
             int limitEmptyDoc = 3;
             while (true) {
-                Document doc = getDocument(c, language, String.valueOf(page));
+                Document doc = getDocument(c, wordTo.getLanguageTask(), String.valueOf(page));
 //                Elements elements = doc == null ? null : doc.getElementsByAttribute("data-sgroup");
 //                Elements elements = doc == null ? null : doc.getElementsByClass("left-static-block");
                 Elements elements = doc == null ? null : doc.getElementsByClass("vacancy_wrapper");
@@ -51,7 +53,7 @@ public class UAJoobleStrategy implements Strategy {
                 }
                 if (limitEmptyDoc == 0) break;
                 tempDoc = doc.text();
-                set.addAll(getVacanciesJooble(elements, language));
+                set.addAll(getVacanciesJooble(elements, wordTo.getLanguageTask()));
                 if (page < limitCallPages) page++;
                 else break;
             }

@@ -1,4 +1,4 @@
-package ua.training.top.web.user;
+package ua.training.top.web.rest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.User;
+import ua.training.top.web.AbstractUserController;
 
 import java.net.URI;
 import java.util.List;

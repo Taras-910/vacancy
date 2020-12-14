@@ -36,16 +36,15 @@ public class Main {
         aggregatorController.refreshDB("за_рубежем", "java");
 */
 
-/*
-        VacancyController vacancyController = appCtx.getBean(VacancyController.class);
-        List<Vacancy> vacancies = vacancyController.getAll();
-        Date vacancyDate = vacancies.get(0).getReleaseDate();
+//        VacancyController vacancyController = appCtx.getBean(VacancyController.class);
+//        VacancyService vacancyService = appCtx.getBean(VacancyService.class);
+//        List<Vacancy> vacancy = vacancyService.getVacancyByFilter("java", "за_рубежем");
+//
+//
+//        System.out.println(vacancy);
+//        System.out.println(print(vacancyDate));
 
-
-        System.out.println(vacancyDate);
-        System.out.println(print(vacancyDate));
-*/
-
+        
 
 
         appCtx.close();    }

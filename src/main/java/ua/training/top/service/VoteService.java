@@ -45,6 +45,15 @@ public class VoteService {
         checkNotFoundWithId(repository.delete(id, authUserId()), id);
     }
 
+    public void deleteAllByVacancyId(int vacancyId) {
+        repository.deleteAllByVacancyId(vacancyId);
+    }
+
+    public void deleteAll() {
+        log.info("deleteAll");
+        repository.deleteAll();
+    }
+
     public Vote create(int vacancyId) {
         log.info("create vote for employerId {}", vacancyId);
         Vote vote = new Vote(null, thisDay, vacancyId, authUserId());
@@ -62,13 +71,8 @@ public class VoteService {
         return repository.saveAll(newVotes);
     }
 
-    public void deleteAll() {
-        log.info("deleteAll");
-        repository.deleteAll();
-    }
-
     @Transactional
-    public void enable(int vacancyId, boolean enabled) {
+    public void setVote(int vacancyId, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", vacancyId);
         if (!enabled){
             log.info("deleteByVacancyId {}", vacancyId);
@@ -78,4 +82,5 @@ public class VoteService {
             create(vacancyId);
         }
     }
+
 }

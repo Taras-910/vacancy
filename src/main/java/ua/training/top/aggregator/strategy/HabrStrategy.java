@@ -5,6 +5,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.to.DoubleWordTo;
 import ua.training.top.to.VacancyNet;
 
 import java.io.IOException;
@@ -29,12 +30,12 @@ public class HabrStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(String city, String language) throws IOException {
+    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
         Set<VacancyNet> set = new LinkedHashSet<>();
-        if(city.equals("за_рубежем")){
+        if(wordTo.getWorkplaceTask().contains("за_рубежем")){
             return new ArrayList<>();
         }
-        Document doc = getDocument(city, language);
+        Document doc = getDocument(wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
         Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
         if (elements != null) {
             set.addAll(getVacanciesHabr(elements));

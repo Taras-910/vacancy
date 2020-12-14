@@ -3,18 +3,18 @@ package ua.training.top.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.training.top.AbstractServiceTest;
+import ua.training.top.dataTest.VoteTestData;
 import ua.training.top.model.Vote;
-import ua.training.top.testData.VoteTestData;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
-import static ua.training.top.testData.UserTestData.ADMIN_ID;
-import static ua.training.top.testData.UserTestData.NOT_FOUND;
-import static ua.training.top.testData.VacancyTestData.VACANCY2_ID;
-import static ua.training.top.testData.VoteTestData.*;
+import static ua.training.top.dataTest.UserTestData.ADMIN_ID;
+import static ua.training.top.dataTest.UserTestData.NOT_FOUND;
+import static ua.training.top.dataTest.VacancyTestData.VACANCY2_ID;
+import static ua.training.top.dataTest.VoteTestData.*;
 import static ua.training.top.util.DateTimeUtil.thisDay;
 
 public class VoteServiceTest extends AbstractServiceTest {

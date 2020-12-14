@@ -1,7 +1,25 @@
 var ctx, vacancyAjaxUrl = "profile/vacancies/";
-// var form = $('#detailsForm');
-// var ajaxUrl = vacancyAjaxUrl;
-// var datatableApi;
+
+function refreshDB() {
+    $("#modalTitle").html('refresh');
+    $('#detailsRefreshForm').find(":input").val("");
+    $("#refreshRow").modal();
+}
+
+function sendRefresh() {
+    $.ajax({
+        type: "POST",
+        url: vacancyAjaxUrl + "refresh",
+        data: $("#detailsRefreshForm").serialize()
+    }).done(function () {
+        $("#refreshRow").modal("hide");
+//        ctx.updateTable();
+        successNoty("Update has started");
+    });
+}
+
+
+
 
 function vote(chkbox, id) {
     var toVote = chkbox.is(":checked");
@@ -30,45 +48,15 @@ function clearFilter() {
     $.get(vacancyAjaxUrl, updateTableByData);
 }
 
-/*
-function save() {
-    $.ajax({
-        type: "POST",
-        url: vacancyAjaxUrl,
-        data: form.serialize()
-    }).done(function () {
-        $("#editRow").modal("hide");
-        updateFilteredTable();
-        successNoty("Saved");
-    });
-}
-*/
-
-/*
-function deleteRow(id) {
-    if (confirm('Are you sure?')) {
-        $.ajax({
-            url: vacancyAjaxUrl + id,
-            type: "DELETE"
-        }).done(function () {
-            updateFilteredTable();
-            successNoty("Deleted");
-        });
-    }
-}
-*/
-
-/*
-function updateTableByData(data) {
-    ctx.datatableApi.clear().rows.add(data).draw();
-}
-*/
-
 // $(document).ready(function () {
 $(function () {
     ctx = {
         ajaxUrl : vacancyAjaxUrl,
         datatableApi: $("#datatable").DataTable({
+            "ajax": {
+                "url": vacancyAjaxUrl,
+                "dataSrc": ""
+            },
             "paging": false,
             "info": true,
             "columns": [
@@ -99,18 +87,32 @@ $(function () {
                     "data": "skills"
                 },
                 {
-                    "data": "releaseDate"
+                    "data": "releaseDate",
+                    "render": function (date, type, row) {
+                        if (type === "display") {
+                            return date.substring(0, 10);
+                        }
+                        return date;
+                    }
                 },
                 {
-                    "data": "toVote"
+                    "data": "toVote",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='vote($(this)," + row.id + ");'/>";
+                        }
+                        return data;
+                    }
                 },
                 {
-                    "defaultContent": "Edit",
-                    "orderable": false
+                    "orderable": false,
+                    "defaultContent": "",
+                    "render": renderEditBtn
                 },
                 {
-                    "defaultContent": "Delete",
-                    "orderable": false
+                    "orderable": false,
+                    "defaultContent": "",
+                    "render": renderDeleteBtn
                 }
             ],
             "order": [
@@ -118,9 +120,17 @@ $(function () {
                     8,
                     "desc"
                 ]
-            ]
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                if (!data.toVote) {
+                    $(row).attr("vacancy-toVote", false);
+                } else {
+                    $(row).attr("vacancy-toVote", true);
+                }
+            }
         }),
        updateTable: updateFilteredTable
     };
     makeEditable(ctx);
 });
+
