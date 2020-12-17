@@ -9,6 +9,7 @@ import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,6 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.util.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
 import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesWork;
-import static ua.training.top.util.VacancyUtil.getTestList;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
@@ -47,7 +47,7 @@ public class WorkStrategy implements Strategy {
             else break;
         }
         reCall(set.size(), new WorkStrategy());
-//        return new ArrayList<>(set);
-        return getTestList();
+        return new ArrayList<>(set);
+//        return getTestList();
     }
 }
