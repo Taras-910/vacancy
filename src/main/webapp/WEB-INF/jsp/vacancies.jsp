@@ -19,13 +19,13 @@
                     <div class="row">
                         <div class="offset-1"></div>
                         <div class="col-4 text-left">
-                            <label for="language">Язык: java, php, python,...</label>
+                            <label for="language"><h7 class="text-center">java, php, python,... По умолчанию: java</h7></label>
                             <input class="form-control" type="text" placeholder="java" name="language" id="language">
                         </div>
                         <div class="offset-1 col-1">
                         </div>
                         <div class="col-4 text-left">
-                            <label for="workplace">Местонахождение: за_рубежем, Киев,...</label>
+                            <label for="workplace"><h7 class="text-center">за_рубежем, Киев,... По умолчанию: Киев</h7></label>
                             <input class="form-control" type="text" placeholder="за_рубежем" name="workplace" id="workplace">
                         </div>
                     <div class="offset-1 col-1">
@@ -73,7 +73,7 @@
                 <th>От $</th>
                 <th>До $</th>
                 <th>Требования</th>
-                <th>Датировано</th>
+                <th>Дата</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -94,18 +94,19 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
+                    <h7>* - эти параметры не редактируются</h7>
                     <div class="form-group">
-                        <label for="title" class="col-form-label">Название вакансии</label>
+                        <label for="title" class="col-form-label">* Название вакансии</label>
                         <input type="text" class="form-control" id="title" name="title"
                                placeholder="Название">
                     </div>
                     <div class="form-group">
-                        <label for="employerName" class="col-form-label">Работодатель</label>
+                        <label for="employerName" class="col-form-label">* Работодатель</label>
                         <input type="text" class="form-control" id="employerName" name="employerName"
                                placeholder="Название">
                     </div>
                     <div class="form-group">
-                        <label for="address" class="col-form-label">Локализация</label>
+                        <label for="address" class="col-form-label">* Локализация</label>
                         <input type="text" class="form-control" id="address" name="address"
                                placeholder="Киев">
                     </div>
@@ -154,7 +155,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">DB обновится по параметрам:</h5>
+                <h5 class="modal-title">Обновить DB по параметрам:</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -162,12 +163,12 @@
                     <div class="form-group">
                         <label for="languageTask" class="col-form-label">язык (java, php, python, ...)</label>
                         <input type="text" class="form-control" id="languageTask" name="languageTask"
-                               placeholder="Java">
+                               placeholder="Java">[
                     </div>
                     <div class="form-group">
                         <label for="workplaceTask" class="col-form-label">местонахождение (за_рубежем, Киев, Санкт-Петербург...)</label>
                         <input type="text" class="form-control" id="workplaceTask" name="workplaceTask"
-                               value="за_рубежем">
+                               placeholder="за_рубежем">
                     </div>
                 </form>
             </div>

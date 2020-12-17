@@ -40,11 +40,13 @@ public class VoteService {
         return repository.getAll();
     }
 
+    @Transactional
     public void delete(int id) {
         log.info("delete vote {} for userId {}", id, authUserId());
         checkNotFoundWithId(repository.delete(id, authUserId()), id);
     }
 
+    @Transactional
     public void deleteAllByVacancyId(int vacancyId) {
         repository.deleteAllByVacancyId(vacancyId);
     }
@@ -54,12 +56,14 @@ public class VoteService {
         repository.deleteAll();
     }
 
+    @Transactional
     public Vote create(int vacancyId) {
         log.info("create vote for employerId {}", vacancyId);
         Vote vote = new Vote(null, thisDay, vacancyId, authUserId());
         return repository.save(vote, authUserId());
     }
 
+    @Transactional
     public void update(int voteId, int vacancyId) {
         log.info("update vote {} for employerId {} of user {}", voteId, vacancyId, authUserId());
         Vote vote = new Vote(voteId, thisDay, vacancyId, authUserId());
@@ -83,4 +87,7 @@ public class VoteService {
         }
     }
 
+    public List<Vote> getAllByVacancyId(Integer vacancyId) {
+        return repository.getAllByVacancyId(vacancyId);
+    }
 }

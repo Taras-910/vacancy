@@ -34,7 +34,7 @@ CREATE TABLE employer
     name        VARCHAR  NOT NULL,
     address     VARCHAR  NOT NULL,
     site_name   VARCHAR  NOT NULL,
-    CONSTRAINT employer_idx UNIQUE (name)
+    CONSTRAINT employer_idx UNIQUE (name, address)
 );
 
 CREATE TABLE vacancy
@@ -50,7 +50,7 @@ CREATE TABLE vacancy
     workplace      TEXT,
     recorded_date  TIMESTAMP,
     employer_id    INTEGER      NOT NULL,
-    CONSTRAINT vacancy_idx UNIQUE (skills),
+    CONSTRAINT vacancy_idx UNIQUE (title, skills),
     FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE
 );
 

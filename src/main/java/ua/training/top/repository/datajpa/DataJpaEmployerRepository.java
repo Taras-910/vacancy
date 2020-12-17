@@ -48,11 +48,6 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     }
 
     @Override
-    public List<Employer> getAllWithVacancies() {
-        return Optional.of(repository.getAllWithVacancies()).orElse(null);
-    }
-
-    @Override
     public List<Employer> createAll(List<Employer> employers) {
         if(employers != null) log.info("employers {}", employers.size());
 //        repository.deleteAll();
@@ -60,7 +55,7 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     }
 
     @Override
-    public void deleteAll() {
-        repository.deleteAll();
+    public void deleteEmptyEmployers(int size) {
+        repository.deleteEmptyEmployers(0);
     }
 }

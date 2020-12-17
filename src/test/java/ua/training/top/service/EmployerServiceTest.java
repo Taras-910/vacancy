@@ -35,11 +35,6 @@ public class EmployerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void getAllWithVacancies() {
-        Assert.assertEquals(service.getAllWithVacancies(), allWithVacancies());
-    }
-
-    @Test
     public void getErrorData() throws Exception {
         assertThrows(NotFoundException.class, () -> service.getById(NOT_FOUND));
     }

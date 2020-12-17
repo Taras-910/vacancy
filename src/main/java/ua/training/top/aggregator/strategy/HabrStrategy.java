@@ -5,8 +5,8 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleWordTo;
-import ua.training.top.to.VacancyNet;
+import ua.training.top.to.DoubleString;
+import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.util.ProviderUtil.reCall;
+import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
 import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesHabr;
 
 public class HabrStrategy implements Strategy {
@@ -30,15 +30,15 @@ public class HabrStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
-        Set<VacancyNet> set = new LinkedHashSet<>();
-        if(wordTo.getWorkplaceTask().contains("за_рубежем")){
+    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+        Set<VacancyTo> set = new LinkedHashSet<>();
+        if(doubleString.getWorkplaceTask().contains("за_рубежем")){
             return new ArrayList<>();
         }
-        Document doc = getDocument(wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
+        Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
         Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
         if (elements != null) {
-            set.addAll(getVacanciesHabr(elements));
+            set.addAll(getVacanciesHabr(elements, doubleString));
         }
         reCall(set.size(), new HabrStrategy());
         return new ArrayList<>(set);

@@ -33,8 +33,8 @@
         <jdbc:script location="${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
--->
 
+-->
     <!--no pooling-->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -71,3 +71,7 @@
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
 </beans>
+
+
+<!--       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+-->

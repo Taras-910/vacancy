@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ua.training.top.model.Vote;
 import ua.training.top.repository.VoteRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +65,11 @@ public class DataJpaVoteRepository implements VoteRepository {
     @Override
     public boolean deleteAllByVacancyId(int vacancyId) {
         return voteRepository.deleteAllByVacancyId(vacancyId) != 0;
+    }
+
+    @Override
+    public List<Vote> getAllByVacancyId(Integer vacancyId) {
+        return Optional.of(voteRepository.getAllByVacancyId(vacancyId)).orElse(new ArrayList<Vote>());
     }
 
 }

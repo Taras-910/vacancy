@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vacancy;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -22,6 +23,11 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
     @Query("DELETE FROM Vacancy v WHERE v.id=:id")
     int delete(@Param("id") int id);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Vacancy v WHERE v.recordedDate>=:recordedDate")
+    int deleteBeforeDate(@Param("recordedDate") LocalDateTime recordedDate);
+
     @Query("SELECT v FROM Vacancy v WHERE v.id=:id AND v.employer.id=:employerId")
     Vacancy get(@Param("id") int id, @Param("employerId") int employerId);
 
@@ -36,5 +42,8 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
 
     @Query("SELECT v FROM Vacancy v WHERE v.workplace=:workplace ORDER BY v.releaseDate DESC")
     List<Vacancy> getAllByLanguage(@Param("workplace") String workplace);
+
+    @Query("SELECT v FROM Vacancy v WHERE v.title=:title AND v.skills=:skills")
+    Vacancy getByTitleSkills(@Param("title") String title, @Param("skills") String skills);
 }
 

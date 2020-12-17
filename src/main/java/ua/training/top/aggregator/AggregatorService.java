@@ -2,11 +2,12 @@ package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleWordTo;
-import ua.training.top.to.VacancyNet;
+import ua.training.top.to.DoubleString;
+import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AggregatorService {
     private Logger log = LoggerFactory.getLogger(AggregatorService.class);
@@ -17,17 +18,23 @@ public class AggregatorService {
         this.providers = providers;
     }
 
-    public List<VacancyNet> selectBy(DoubleWordTo task){
+    public List<VacancyTo> selectBy(DoubleString doubleString){
         allProviders = new ArrayDeque<>(Arrays.asList(providers));
-        Set<VacancyNet> set = new HashSet<>();
+        Set<VacancyTo> set = new HashSet<>();
         while(allProviders.peek()!=null){
             try {
-                set.addAll(allProviders.pollFirst().getJavaVacancies(task));
+                set.addAll(allProviders.pollFirst().getJavaVacancies(doubleString));
             } catch (IOException e) {
                 log.info("e {}", e.getMessage());
             }
         }
         log.info("Common number vacancies = {}", set.size());
-        return new ArrayList<>(set);
+        return set.stream().map(vacancyTo -> {
+            vacancyTo.setId(null);
+            vacancyTo.setWorkPlace(doubleString.getWorkplaceTask());
+            vacancyTo.setLanguage(doubleString.getLanguageTask());
+            vacancyTo.setToVote(false);
+            return vacancyTo;
+        }).collect(Collectors.toList());
     }
 }

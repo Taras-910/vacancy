@@ -2,6 +2,7 @@ package ua.training.top.repository;
 
 import ua.training.top.model.Vacancy;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface VacancyRepository {
@@ -18,12 +19,12 @@ public interface VacancyRepository {
 
     boolean deleteEmployerVacancies(int employerId);
 
-    void deleteAll();
-
     List<Vacancy> getAllByFilter(String language, String workplace);
 
     List<Vacancy> getAllByWorkplace(String language);
 
     List<Vacancy> getAllByLanguage(String workplace);
+
+    void deleteBeforeDate(LocalDateTime recordedDate);
 }
 

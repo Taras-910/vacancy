@@ -16,11 +16,11 @@ public class RateUtil {
     }
 
     public static String plnToUsd(String pln) throws NumberFormatException{
-        return checkValue((int) ((Float.parseFloat(pln) * 1000) / PLN_TO_USD_RATE) * 100);
+        return checkValue((int) ((Float.parseFloat(pln) * 10000) / PLN_TO_USD_RATE));
     }
 
     public static String checkValue(int value){
-        return  value > 4000000 ? valueOf((int) (value / 10)) : valueOf(value);
+        return  value > 40000000 ? valueOf((int) (value / 100)) : valueOf(value);
     }
 
 }

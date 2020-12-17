@@ -27,25 +27,28 @@ public class Main {
 */
 
 /*
-        EmployerController employerController = appCtx.getBean(EmployerController.class);
+        EmployerService employerService = appCtx.getBean(EmployerService.class);
         System.out.println("========================================");
-        System.out.println(employerController.getAllWithVacancies());
+        System.out.println(employerService.getAll());
+        System.out.println("========================================");
 */
+//        AggregatorController aggregatorController = appCtx.getBean(AggregatorController.class);
+//        aggregatorController.refreshDB(new DoubleString("java", "киев"));
 /*
-        AggregatorController aggregatorController = appCtx.getBean(AggregatorController.class);
-        aggregatorController.refreshDB("за_рубежем", "java");
+        VacancyService vacancyService = appCtx.getBean(VacancyService.class);
+        EmployerService employerService = appCtx.getBean(EmployerService.class);
+        DoubleString doubleString = new DoubleString("java", "киев");
+
+
+        System.out.println("==============================================================================");
+        vacancyService.deleteBeforeDate(valid_date);
+        System.out.println();
+        System.out.println("==============================================================================");
 */
 
-//        VacancyController vacancyController = appCtx.getBean(VacancyController.class);
-//        VacancyService vacancyService = appCtx.getBean(VacancyService.class);
-//        List<Vacancy> vacancy = vacancyService.getVacancyByFilter("java", "за_рубежем");
-//
-//
-//        System.out.println(vacancy);
-//        System.out.println(print(vacancyDate));
-
-        
 
 
-        appCtx.close();    }
+        appCtx.close();
+
+    }
 }

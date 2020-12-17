@@ -46,13 +46,13 @@ public class VacancyTestData {
     }
 
     public static VacancyTo getNew() {
-        return new VacancyTo(null, "Junior", "newEmployment", "киев", 100, 500, "https://www.baeldung.com/spring-type-conversions", "new knowledge",
-                toDate(2020, 10, 26), "java", false);
+        return new VacancyTo(null, "Junior", "newEmployment", "киев, метро Вокзальная", 100, 500, "https://www.baeldung.com/spring-type-conversions", "new knowledge",
+                toDate(2020, 10, 26), "https://www.baeldung.com", "java", "киев", false);
     }
 
     public static VacancyTo getUpdated() {
-        return new VacancyTo(VACANCY1_ID, "update Developer", "updatedEmployer", "киев",200,700, "", "update knowledge",
-                new Date(2020, 10, 26), "java", false);
+        return new VacancyTo(VACANCY1_ID, "update Developer", "updatedEmployer", "киев, метро Вокзальная",200,700, "", "update knowledge",
+                new Date(2020, 10, 26), "", "java", "киев", false);
     }
 //    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin,
 //                     Integer salaryMax, String url, String skills, @NotNull Date releaseDate, String language, boolean toVote) {

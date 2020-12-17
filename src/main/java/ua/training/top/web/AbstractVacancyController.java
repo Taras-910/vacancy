@@ -9,7 +9,7 @@ import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
-import ua.training.top.to.DoubleWordTo;
+import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 
@@ -33,15 +33,15 @@ public abstract class AbstractVacancyController {
         return createTo(vacancyService.get(id), voteService.getAllForAuthUser(authUserId()));
     }
 
-    public void delete(int id) {
-        log.info("delete vacancy id {}", id);
-        vacancyService.delete(id);
-    }
-
     public List<VacancyTo> getAll() {
         int userId = authUserId();
         log.info("getAll for user {}", userId);
         return VacancyUtil.getTos(vacancyService.getAll(), voteService.getAllForAuthUser(userId));
+    }
+
+    public void delete(int id) {
+        log.info("delete vacancy id {}", id);
+        vacancyService.delete(id);
     }
 
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
@@ -56,8 +56,13 @@ public abstract class AbstractVacancyController {
 
     public List<VacancyTo> getTosByFilter(@Nullable String language, @Nullable String workplace) {
         log.info("vacancyLangLocFilter language {} residence {}", language, workplace);
-        List<Vacancy> vacancy = vacancyService.getByFilter(language, workplace);
-        return vacancy.isEmpty() ? VacancyUtil.getEmptyVacancyTos() : getTos(vacancy, voteService.getAll());
+        return getTos(vacancyService.getByFilter(language, workplace), voteService.getAll());
+    }
+
+    public static List<Vacancy> filteredTos(List<Vacancy> byFilter, String language, String workplace){
+        byFilter.forEach(v -> {
+        });
+        return byFilter;
     }
 
     public void setVote(int vacancyId, boolean enabled) {
@@ -65,7 +70,7 @@ public abstract class AbstractVacancyController {
         voteService.setVote(vacancyId, enabled);
     }
 
-    protected void refreshDB(DoubleWordTo task){
+    protected void refreshDB(DoubleString task){
         log.info("refreshDB {}", task);
         aggregatorController.refreshDB(getLowerCase(task));
     }

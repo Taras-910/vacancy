@@ -9,6 +9,7 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
+    @Transactional
     public Vacancy save(Vacancy vacancy, int employerId) {
         Employer employer = employerRepository.getOne(employerId);
         vacancy.setEmployer(employer);
@@ -37,10 +39,32 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
+    @Transactional
+    public List<Vacancy> saveAll(List<Vacancy> vacancies, int employerId) {
+        Employer employer = employerRepository.getOne(employerId);
+        if(employer != null) {
+            vacancies.forEach(v -> v.setEmployer(employer));
+        }
+        return Optional.of(vacancyRepository.saveAll(vacancies)).orElse(new ArrayList<>());
+    }
+
+    @Override
+    @Transactional
     public boolean delete(int id) {
         return Optional.of(vacancyRepository.delete(id)).orElse(0) != 0;
     }
 
+    @Override
+    @Transactional
+    public boolean deleteEmployerVacancies(int employerId) {
+        return Optional.of(vacancyRepository.deleteEmployerVacancies(employerId)).orElse(0) != 0;
+    }
+
+    @Override
+    @Transactional
+    public void deleteBeforeDate(LocalDateTime recordedDate) {
+        Optional.of(vacancyRepository.deleteBeforeDate(recordedDate)).orElse(0);
+    }
     @Override
     public Vacancy get(int id) {
         return vacancyRepository.findById(id).orElse(null);
@@ -49,26 +73,6 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     @Override
     public List<Vacancy> getAll() {
         return vacancyRepository.findAll(SORT_DATE_NAME);
-    }
-
-    @Override
-    @Transactional
-    public List<Vacancy> saveAll(List<Vacancy> vacancies, int employerId) {
-        Employer employer = employerRepository.getOne(employerId);
-        if(employer != null) {
-            vacancies.forEach(v -> v.setEmployer(employer));
-        }
-        return vacancyRepository.saveAll(vacancies);
-    }
-
-    @Override
-    public boolean deleteEmployerVacancies(int employerId) {
-        return vacancyRepository.deleteEmployerVacancies(employerId) != 0;
-    }
-
-    @Override
-    public void deleteAll() {
-        vacancyRepository.deleteAll();
     }
 
     @Override

@@ -69,7 +69,9 @@ $(function () {
                     "visible": false
                 },
                 {
-                    "data": "title"
+                    "data": function (data, type, row) {
+                        return '<a href="'+ data.url +'">' + data.title + '</a>'
+                    }
                 },
                 {
                     "data": "employerName"

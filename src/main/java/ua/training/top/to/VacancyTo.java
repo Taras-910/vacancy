@@ -32,14 +32,16 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     private Date releaseDate;
 
-    @NotNull
-    @Size(min = 2, max = 100)
+    private String siteName;
+
     private String language;
+
+    private String workPlace;
 
     private boolean toVote = false;
 
-    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin,
-                     Integer salaryMax, String url, String skills, @Nullable Date releaseDate, String language, @Nullable boolean toVote) {
+    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin, Integer salaryMax,
+                     String url, String skills, @Nullable Date releaseDate, String siteName, String language, String workPlace, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -49,9 +51,13 @@ public class VacancyTo extends BaseTo implements Serializable {
         this.url = url;
         this.skills = skills;
         this.releaseDate = releaseDate;
+        this.siteName = siteName;
         this.language = language;
         this.toVote = toVote;
+        this.workPlace = workPlace;
     }
+
+    public VacancyTo(){}
 
     public String getEmployerName() {
         return employerName;
@@ -133,6 +139,22 @@ public class VacancyTo extends BaseTo implements Serializable {
         this.toVote = toVote;
     }
 
+    public String getWorkPlace() {
+        return workPlace;
+    }
+
+    public void setWorkPlace(String workPlace) {
+        this.workPlace = workPlace;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -150,7 +172,7 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     @Override
     public String toString() {
-        return "\nVacancyTo{" +
+        return "\n        VacancyTo{" +
                 "\nid=" + id +
                 ", \ntitle='" + title + '\'' +
                 ", \nemployerName='" + employerName + '\'' +
@@ -160,7 +182,9 @@ public class VacancyTo extends BaseTo implements Serializable {
                 ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
                 ", \nreleaseDate=" + releaseDate +
+                ", \nsiteName=" + siteName +
                 ", \nlanguage=" + language +
+                ", \nworkPlace=" + workPlace +
                 ", \ntoVote=" + toVote +
                 '}';
     }

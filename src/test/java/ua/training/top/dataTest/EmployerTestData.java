@@ -21,7 +21,7 @@ public class EmployerTestData {
     public static List<Employer> allWithVacancies() {
         EMPLOYER1.setVacancies(Arrays.asList(VACANCY1));
         EMPLOYER2.setVacancies(Arrays.asList(VACANCY2));
-        return Arrays.asList(EMPLOYER2, EMPLOYER1);
+        return Arrays.asList(EMPLOYER1, EMPLOYER2);
     }
 
     public static Employer employer1WithDishes() {

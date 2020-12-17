@@ -5,15 +5,16 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleWordTo;
-import ua.training.top.to.VacancyNet;
+import ua.training.top.to.DoubleString;
+import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.util.ProviderUtil.limitCallPages;
-import static ua.training.top.aggregator.util.ProviderUtil.reCall;
+import static ua.training.top.aggregator.util.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
 import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesGrc;
 
 public class GrcStrategy implements Strategy {
@@ -35,37 +36,38 @@ public class GrcStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
-        log.info("getVacancies city={} language={}", wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
-        boolean other = wordTo.getWorkplaceTask().contains("за_рубежем");
-        List<VacancyNet> list = other ? getOther(wordTo.getLanguageTask()) : getCity(wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
+    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+        log.info("getVacancies city={} language={}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
+        boolean other = doubleString.getWorkplaceTask().contains("за_рубежем");
+        List<VacancyTo> list = other ? getOther(doubleString) : getCity(doubleString);
         reCall(list.size(), new GrcStrategy());
         return list ;
     }
 
-    private List<VacancyNet> getCity(String city, String language){
-        Set<VacancyNet> set = new HashSet<>();
+    private List<VacancyTo> getCity(DoubleString doubleString){
+        log.info("getCity {}", doubleString.getWorkplaceTask());
+        Set<VacancyTo> set = new HashSet<>();
         int page = 0;
         while (true){
-            Document doc = getDocument(city, language, String.valueOf(page));
+            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.select("[data-qa=vacancy-serp__vacancy]");
             if(elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesGrc(elements, language));
+            set.addAll(getVacanciesGrc(elements, doubleString));
             if(page < limitCallPages) page++;
             else break;
         }
-        return new ArrayList<>(set);
+        return set.stream().filter(v -> v.getAddress().toLowerCase().contains(doubleString.getWorkplaceTask())).collect(Collectors.toList());
     }
 
-    private List<VacancyNet> getOther(String language){
-        log.info("getOtherCountryVacancy language={}", language);
-        Set<VacancyNet> set = new LinkedHashSet<>();
+    private List<VacancyTo> getOther(DoubleString doubleString){
+        log.info("getOtherCountryVacancy language={}", doubleString.getLanguageTask());
+        Set<VacancyTo> set = new LinkedHashSet<>();
         String[] countries = new String[]{"33", "85", "27", "149", "207"};
         for(String country : countries) {
-            Document doc = getDocument(country, language, null);
+            Document doc = getDocument(country, doubleString.getLanguageTask(), null);
             Elements elements = doc == null ? null : doc.select("[data-qa=vacancy-serp__vacancy]");
             if(elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesGrc(elements, language));
+            set.addAll(getVacanciesGrc(elements, doubleString));
         }
         return new ArrayList<>(set);
     }

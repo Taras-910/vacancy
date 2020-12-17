@@ -3,26 +3,26 @@ package ua.training.top.to;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class DoubleWordTo implements Serializable {
+public class DoubleString implements Serializable {
 
     @NotNull
     private String languageTask;
     @NotNull
     private String workplaceTask;
 
-    public DoubleWordTo(String languageTask, String workplaceTask) {
-        this.languageTask = languageTask;
-        this.workplaceTask = workplaceTask;
+    public DoubleString(String languageTask, String workplaceTask) {
+        this.languageTask = languageTask.toLowerCase();
+        this.workplaceTask = workplaceTask.toLowerCase();
     }
 
-    public DoubleWordTo(){}
+    public DoubleString(){}
 
     public String getLanguageTask() {
         return languageTask;
     }
 
     public void setLanguageTask(String languageTask) {
-        this.languageTask = languageTask;
+        this.languageTask = languageTask.toLowerCase();
     }
 
     public String getWorkplaceTask() {
@@ -30,14 +30,14 @@ public class DoubleWordTo implements Serializable {
     }
 
     public void setWorkplaceTask(String workplaceTask) {
-        this.workplaceTask = workplaceTask;
+        this.workplaceTask = workplaceTask.toLowerCase();
     }
 
     @Override
     public String toString() {
-        return "DoubleWordTo{" +
-                "\nlanguageTask='" + languageTask + '\'' +
-                ", \nworkplaceTask='" + workplaceTask + '\'' +
+        return "DoubleString{" +
+                "languageTask='" + languageTask + '\'' +
+                ", workplaceTask='" + workplaceTask + '\'' +
                 '}';
     }
 }

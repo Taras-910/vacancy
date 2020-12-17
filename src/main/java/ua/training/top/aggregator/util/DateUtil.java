@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -12,22 +13,9 @@ public class DateUtil {
     private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
 
     public static final String DATE_PATTERN_STRATEGY = "dd.MM.yyyy";
-    public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
     public static final String DATE_PATTERN = "yyyy-MM-dd";
-    public static final String DATE_PATTERN_YEAR = "yyyy";
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
-    public static Date toDate( int year, int month, int day) {
-        Date date = new Date(year - 1900, month - 1, day);
-        return clearTime(date);
-    }
-
-    public static Date clearTime(Date date) {
-        date.setSeconds(0);
-        date.setMinutes(0);
-        date.setHours(0);
-        return date;
-    }
     public static LocalDate parseLocalDate( String str) {
         return str.isEmpty() ? null : LocalDate.parse(str);
     }
@@ -88,6 +76,14 @@ public class DateUtil {
     }
 
     public static String getDateHH(String date){
+        if (date == null || date.equals("")) {
+            return LocalDate.now().minusWeeks(1).toString();
+        }
+        date = date.trim();
+        if (date.split(" ").length < 3){
+            date.concat(" ").concat(getCurrentYear());
+        }
+
         StringBuilder sb = new StringBuilder(getCurrentYear());
         sb.append("-").append(getMonth(date.split(" ")[1])).append("-");
         String day = date.split(" ")[0];
@@ -100,26 +96,32 @@ public class DateUtil {
     }
 
     public static String getCorrectDate(String myDate){
-        LocalDate currentDate = LocalDate.now();
+
+        if(myDate == null || myDate.isEmpty()){
+            return LocalDate.now().minusDays(7).toString();
+        }
         myDate = myDate.toLowerCase().trim();
-
-        if(myDate.contains("ч.") || myDate.contains("год") || myDate.contains("мин") || myDate.contains("хв") || myDate.contains("добавлено")){
-            return print(currentDate);
+        try {
+            if(myDate.contains("мин") || myDate.contains("хв") || myDate.contains("сегодня") || myDate.contains("только что")){
+                return print(LocalDate.now());
+            }
+            if(myDate.contains("ч") || myDate.contains("час") || myDate.contains("год")){
+                    return LocalDateTime.now().minusHours(Integer.parseInt(myDate.replaceAll("\\W+", "").trim())).toLocalDate().toString();
+            }
+            if(myDate.length() > 1 && (myDate.contains("місяц") || myDate.contains("месяц"))){
+                myDate = myDate.contains("більше") ? myDate.replace("більше", "").trim() : myDate;
+                return print(LocalDate.now().minusMonths(Integer.parseInt(myDate.substring(0, 2).trim())).minusDays(1));
+            }
+            if(myDate.length() > 1 && (myDate.contains("день") || myDate.contains("дн"))){
+                return print(LocalDate.now().minusDays(Integer.parseInt(myDate.trim().substring(0, 2).trim())));
+            }
+            if(myDate.length() > 1 && myDate.contains("вчера")){
+                return print(LocalDate.now().minusDays(1));
+            }
+        } catch (NumberFormatException e) {
+            log.info("Wrong data {} exception {}", myDate, e.getMessage());
+            return LocalDate.now().minusDays(7).toString();
         }
-
-        if(myDate.length() > 1 && (myDate.contains("місяц"))){
-            myDate = myDate.contains("більше") ? myDate.replace("більше", "").trim() : myDate;
-            return print(currentDate.minusMonths(Integer.parseInt(myDate.substring(0, 2).trim())).minusDays(1));
-        }
-
-        if(myDate.length() > 1 && (myDate.contains("день") || myDate.contains("дн"))){
-            return print(currentDate.minusDays(Integer.parseInt(myDate.trim().substring(0, 2).trim())));
-        }
-
-        if(myDate.length() > 1 && myDate.contains("вчера")){
-            return print(currentDate.minusDays(1));
-        }
-
         return getCurrentDate();
     }
 }

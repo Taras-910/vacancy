@@ -5,8 +5,8 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.util.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleWordTo;
-import ua.training.top.to.VacancyNet;
+import ua.training.top.to.DoubleString;
+import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.util.ProviderUtil.reCall;
+import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
 import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesJobs;
 
 public class JobsStrategy implements Strategy {
@@ -30,15 +30,15 @@ public class JobsStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyNet> getVacancies(DoubleWordTo wordTo) throws IOException {
-        log.info("getVacancies city {} language {}", wordTo.getWorkplaceTask(), wordTo.getLanguageTask());
-        Set<VacancyNet> set = new LinkedHashSet<>();
+    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+        log.info("getVacancies city {} language {}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
+        Set<VacancyTo> set = new LinkedHashSet<>();
         String[] positions = new String[]{"middle", "developer", "java"};
         for(String p : positions) {
-            Document doc = getDocument(wordTo.getWorkplaceTask(), wordTo.getLanguageTask(), p);
+            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), p);
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesJobs(elements));
+            set.addAll(getVacanciesJobs(elements, doubleString));
         }
         reCall(set.size(), new JobsStrategy());
         return new ArrayList<>(set);

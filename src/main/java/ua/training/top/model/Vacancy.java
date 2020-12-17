@@ -1,12 +1,12 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.EAGER;
         @NamedQuery(name = Vacancy.ALL_SORTED, query = "SELECT v FROM Vacancy v ORDER BY v.releaseDate DESC"),
 })
 @Entity
-@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames = "skills", name = "vacancies_skills_idx")})
+@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames ={ "title", "skills"}, name = "vacancy_idx")})
 public class Vacancy extends AbstractBaseEntity {
 
     public static final String DELETE = "Vacancy.delete";
@@ -26,11 +26,9 @@ public class Vacancy extends AbstractBaseEntity {
     private String title;
 
     @Column(name="salary_min")
-    @Range(max = 10000000)
     private Integer salaryMin;
 
     @Column(name="salary_max")
-    @Range(max = 10000000)
     private Integer salaryMax;
 
     @Column(name="link")
@@ -180,36 +178,33 @@ public class Vacancy extends AbstractBaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "\nVacancy{" +
-                "\ntitle='" + title + '\'' +
-                ", \nsalaryMin=" + salaryMin +
-                ", \nsalaryMax=" + salaryMax +
-                ", \nurl='" + url + '\'' +
-                ", \nskills='" + skills + '\'' +
-                ", \nreleaseDate=" + releaseDate +
-                ", \nlanguage='" + language + '\'' +
-                ", \nworkplace='" + workplace + '\'' +
-                ", \nrecordedDate='" + recordedDate + '\'' +
-                ", \nemployer=" + employer +
-                ", \nid=" + id +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Vacancy vacancy = (Vacancy) o;
-
-        if (!getTitle().equals(vacancy.getTitle())) return false;
-        return getUrl().equals(vacancy.getUrl());
+        return  Objects.equals(title, vacancy.title) &&
+                Objects.equals(skills, vacancy.skills);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getTitle().hashCode();
-        result = 31 * result + getUrl().hashCode();
-        return result;
+        return Objects.hash(title, skills);
+    }
+
+    @Override
+    public String toString() {
+        return "\n\nVacancy{" +
+                "\ntitle='" + title + '\'' +
+//                ", \nsalaryMin=" + salaryMin +
+//                ", \nsalaryMax=" + salaryMax +
+//                ", \nurl='" + url + '\'' +
+                ", \nskills='" + skills + '\'' +
+//                ", \nreleaseDate=" + releaseDate +
+//                ", \nlanguage='" + language + '\'' +
+//                ", \nworkplace='" + workplace + '\'' +
+                ", \nrecordedDate='" + recordedDate + '\'' +
+                ", \nid=" + id +
+                ", \nemployer=" + employer +
+                '}';
     }
 }
