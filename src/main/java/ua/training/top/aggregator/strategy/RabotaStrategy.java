@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.aggregator.jsoup.DocumentUtil;
 import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 
@@ -15,10 +15,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import static ua.training.top.aggregator.util.DateUtil.printStrategyRabota;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
-import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesRabota;
+import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesRabota;
+import static ua.training.top.aggregator.jsoup.date.DateUtil.printStrategyRabota;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 
 public class RabotaStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(RabotaStrategy.class);

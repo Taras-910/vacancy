@@ -15,17 +15,17 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesIndeed;
+import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesDjinni;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 
-public class UAIndeedStrategy implements Strategy {
-    private final static Logger log = LoggerFactory.getLogger(UAIndeedStrategy.class);
-    private static final String URL_FORMAT = "https://ua.indeed.com/jobs?q=%s&l=%s&sort=date&fromage=7&start=%s";
-    // за 7 дней https://ua.indeed.com/jobs?q=java&l=киев&sort=date&fromage=7&start=10
+public class DjinniStrategy implements Strategy{
+    private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
+    private static final String URL_FORMAT = "https://djinni.co/jobs/keyword-%s/%s/?page=%s";
+    // https://djinni.co/jobs/keyword-java/kyiv/?page=1
 
     protected Document getDocument(String city, String language, String page) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, language, city, page.equals("0") ? "" : page.concat("0")));
+        return DocumentUtil.getDocument(format(URL_FORMAT, language, city, page));
     }
 
     @Override
@@ -34,21 +34,16 @@ public class UAIndeedStrategy implements Strategy {
         if(doubleString.getWorkplaceTask().contains("за_рубежем")){
             return new ArrayList<>();
         }
-        int page = 0;
+        int page = 1;
         while (true) {
             Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), String.valueOf(page));
-            Elements elements = doc == null ? null : doc.getElementsByClass("jobsearch-SerpJobCard unifiedRow row result");
+            Elements elements = doc == null ? null : doc.getElementsByClass("list-jobs__item");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesIndeed(elements, doubleString));
+            set.addAll(getVacanciesDjinni(elements, doubleString));
             if(page < limitCallPages) page++;
             else break;
         }
-        reCall(set.size(), new UAIndeedStrategy());
-       return new ArrayList<VacancyTo>(set);
-    }
-
-    public  static String getCorrectUrl(String url){
-        StringBuilder sb = new StringBuilder("https://ua.indeed.com/описание-вакансии?jk=");
-        return sb.append(url).toString();
+        reCall(set.size(), new DjinniStrategy());
+        return new ArrayList<VacancyTo>(set);
     }
 }

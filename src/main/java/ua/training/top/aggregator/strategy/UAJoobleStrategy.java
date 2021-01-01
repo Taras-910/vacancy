@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.aggregator.jsoup.DocumentUtil;
 import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 
@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
-import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesJooble;
+import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesJooble;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 
 public class UAJoobleStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAJoobleStrategy.class);
@@ -41,13 +41,13 @@ public class UAJoobleStrategy implements Strategy {
             Set<VacancyTo> set = new LinkedHashSet<>();
             String tempDoc = "";
             int page = 1;
-            int limitEmptyDoc = 3;
+            int limitEmptyDoc = 1;
             while (true) {
                 Document doc = getDocument(c, doubleString.getLanguageTask(), String.valueOf(page));
 //                Elements elements = doc == null ? null : doc.getElementsByAttribute("data-sgroup");
 //                Elements elements = doc == null ? null : doc.getElementsByClass("left-static-block");
-                Elements elements = doc == null ? null : doc.getElementsByClass("vacancy_wrapper");
-
+//                Elements elements = doc == null ? null : doc.getElementsByClass("vacancy_wrapper");
+                Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0 || tempDoc.equals(doc.text())) {
                     limitEmptyDoc --;
                 }

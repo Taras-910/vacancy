@@ -21,11 +21,11 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static ua.training.top.aggregator.util.ProviderUtil.getAllProviders;
+import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
-import static ua.training.top.util.refresh.EmployerUtil.getEmployerFromTo;
-import static ua.training.top.util.refresh.RefreshUtil.getMapVacanciesForCreate;
-import static ua.training.top.util.refresh.RefreshUtil.getMapVacanciesForUpdate;
+import static ua.training.top.util.fromto.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.fromto.MapVacanciesUtil.getMapVacanciesForCreate;
+import static ua.training.top.util.fromto.MapVacanciesUtil.getMapVacanciesForUpdate;
 
 @Controller
 public class AggregatorController {
@@ -54,7 +54,7 @@ public class AggregatorController {
         List<Employer> employersDb = employerService.getAll();
         List<Vacancy> vacanciesDb = vacancyService.getByFilter(doubleString.getLanguageTask(), doubleString.getWorkplaceTask());
 
-//        vacancyService.deleteBeforeDate(validReleaseDate);
+//        vacancyService.deleteBeforeDate(reasonToKeepDate);
         Set<Employer> employersForCreate = new HashSet();
         Set<Employer> employersForUpdate = new HashSet();
         Set<Vacancy> vacanciesForUpdate = new HashSet<>();
@@ -110,27 +110,61 @@ public class AggregatorController {
 
     public static void main(String[] args) throws IOException {
 
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "Киев"));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "за_рубежем"));
-
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "киев"));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "за_рубежем"));
 
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
-
- //       String salary = "15.0k-20.0k (B2B) PLN / month. Requirements: Java, Spring, Hibernate, Apache CXF, SOAP. Tools: Jira, Confluence, GIT, Jenkins, Agile, Scrum. Additionally: Sport subscription, Training budget, Private healthcare, Flat structure, Free coffee, Canteen, Bike parking...";
- //       String text = "...1.0..";
-//        String cleaned = "150-200";
-//        String result = plnToUsd(cleaned.split("\\W")[0].concat("00")).concat("-").concat(plnToUsd(cleaned.split("\\W")[1].concat("00")));
-//        System.out.println(cleaned.matches("\\d+\\W\\d+"));
-//       System.out.println("salaryMax=" + salaryMax(getCorrectSalary(salary)));
-//        temp = salary.contains("(b2b)") ? temp.substring(temp.indexOf(":") + 1, temp.indexOf("(b2b)") + 1) : temp;
-//        temp = temp.contains("(uop)") ? temp.substring(temp.indexOf(":") + 1, temp.indexOf("(uop)") + 1) : temp;
-//        System.out.println(salary.substring(salary.indexOf(":") + 1));
-
-        //        System.out.println(text.matches(".*\\W\\d\\W+.*"));
-
     }
-
 }
+//String temp = "..we are currently looking for a remote lead java software engineer with 5+ years of experience working with java8+ to join our team. the customer is one of the world’s leading broadband";
+//String temp = "1v510810";
+//String temp = "salary: 120000k—160000k (uop) pln / year. requirements: java";
+//String temp = "salary: 175000k—200000k (uop) pln / year. requirements: java";
+//String temp = "1v378378";
+//String temp = "...code platforms like decisions";
+//String temp = "...agile";
+//String temp = "Salary: intermediate or higher ~Ability to develop native iOS and / or Android components to integrate with React Native (Swift/Objective-C/2 300 - 3 600 $";
+//String temp = "Salary: PLN per month: 7.0k-13.5k (B2B), 6.5k-10.0k (UoP).·";
+//           String temp = "Salary: 4.0k-5.3k (B2B) USD / month.·4 000 - 5 300 $";
+//String temp = "Salary: 16.8k-21.8k (B2B) PLN / month.·";
+//String temp = "Salary: 10.0k-20.0k (B2B) PLN / month.·";
+//          String temp = "Salary: 1.0k-1.3k (B2B) PLN / day.·";
+// String temp = "Salary: 750-800 (B2B) PLN / day.·";
+//          String temp = "Salary: 700-1.0k (B2B) PLN / day.· Scala,";
+//        String temp = "Salary: 700-0.7k (B2B) PLN / day.· Scala,";
+//        String temp = "Salary: 0.7K-700 (B2B) PLN / day.· Scala,";
+//String temp = "Salary: 100-110 (B2B) PLN / hour.·";
+//          String temp = "Salary: PLN: 100-130 (B2B) / hour, 12.0k-16.5k (UoP) / month.·";
+//        String temp = "Salary: 700-1.0k (B2B) PLN / day. Requirements: Scala,";
+//
+//
+//        System.out.println("correct="+ getCorrectSalary(temp));
+//        System.out.println("min="+ salaryMin(getCorrectSalary(temp)) + " max="+ salaryMax(getCorrectSalary(temp)));
+
+//String temp = "48 000 — 67 000 грн";
+//String temp = "130 000 — 145 000 грн";
+//String temp = "30 000 — 90 000 грн";
+
+//        System.out.println("validateAndFormat="+validateAndFormat(temp));
+//        System.out.println("correct="+ getCorrectSalary(temp));
+//        System.out.println("min="+ salaryMin(getCorrectSalary(temp)) + " max="+ salaryMax(getCorrectSalary(temp)));
+
+//        String temp = "Extreme Idea";
+//
+//        System.out.println("validateAndFormat="+validateAndFormat(temp));
+//        System.out.println("correct="+ getCorrectSalary(temp));
+//        System.out.println("min="+ salaryMin(getCorrectSalary(temp)) + " max="+ salaryMax(getCorrectSalary(temp)));
+
+
+//        salary = salary.replaceAll("–", "—");
+//        salary = salary.replaceAll("-", "—");
+
+
+//        String text = "31 декабря 2020";
+//        System.out.println(text);
+//        System.out.println("supportDate=" + supportDate(text));
+//        System.out.println("parse=" + parse(supportDate(text), null));
+//        System.out.println("clearTime=" + clearTime(parse(supportDate(text), null)));

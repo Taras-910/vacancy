@@ -50,7 +50,7 @@ CREATE TABLE vacancy
     workplace      TEXT,
     recorded_date  TIMESTAMP,
     employer_id    INTEGER      NOT NULL,
-    CONSTRAINT vacancy_idx UNIQUE (title, skills),
+    CONSTRAINT vacancy_idx UNIQUE (title, skills, employer_id),
     FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE
 );
 

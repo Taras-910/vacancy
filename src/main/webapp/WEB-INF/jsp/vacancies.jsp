@@ -69,7 +69,7 @@
                 <th hidden>link</th>
                 <th>Вакансия</th>
                 <th>Компания</th>
-                <th>Локализация</th>
+                <th>Город</th>
                 <th>От $</th>
                 <th>До $</th>
                 <th>Требования</th>
@@ -163,7 +163,7 @@
                     <div class="form-group">
                         <label for="languageTask" class="col-form-label">язык (java, php, python, ...)</label>
                         <input type="text" class="form-control" id="languageTask" name="languageTask"
-                               placeholder="Java">[
+                               placeholder="Java">
                     </div>
                     <div class="form-group">
                         <label for="workplaceTask" class="col-form-label">местонахождение (за_рубежем, Киев, Санкт-Петербург...)</label>

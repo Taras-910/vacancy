@@ -15,14 +15,15 @@ import ua.training.top.util.exception.NotFoundException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
 import static ua.training.top.util.ValidationUtil.checkNotFound;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
-import static ua.training.top.util.refresh.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.fromto.EmployerUtil.getEmployerFromTo;
 
 @Service
 public class VacancyService {
@@ -59,11 +60,19 @@ public class VacancyService {
         log.info("deleteAll for employerId {}", employerId);
         checkNotFoundWithId(vacancyRepository.deleteEmployerVacancies(employerId), employerId);
     }
+    @Transactional
+    public void deleteList(List<Vacancy> list) {
+        log.info("deleteList {}", list);
+        vacancyRepository.deleteList(list);
+    }
 
     @Transactional
-    public void deleteBeforeDate(LocalDateTime recordedDate) {
-        log.info("deleteByDateRecorded recordedDate {}", recordedDate);
-        vacancyRepository.deleteBeforeDate(recordedDate);
+    public void deleteBeforeDate(LocalDate localDate) {
+        log.info("deleteByDateRecorded reasonToKeepDate {}", localDate);
+        List<Vacancy> listToDelete = vacancyRepository.getAll().stream()
+                .filter(vacancyTo -> localDate.isAfter(vacancyTo.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
+                .collect(Collectors.toList());
+        deleteList(listToDelete);
     }
 
     @Transactional
@@ -126,22 +135,22 @@ public class VacancyService {
             vacancies.addAll(vacancyRepository.getAllByFilter(language, workplace));
             vacancies.stream().filter(v ->
                     (v.getTitle().toLowerCase().contains(language) || v.getSkills().toLowerCase().contains(language))
-                    && (v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace)))
+                            && (v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace)))
                     .collect(Collectors.toList());
         }
         if (workplace.isEmpty()) {
             if(language.isEmpty())
-            vacancies.addAll(getAll());
+                vacancies.addAll(getAll());
             else  {
-                vacancies.addAll(getAllByWorkplace(workplace));
-                vacancies.stream().filter(v -> v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace))
-                        .collect(Collectors.toList());
+                vacancies.addAll(getAllByLanguage(language));
+                vacancies.stream().filter(v -> (v.getTitle().toLowerCase().contains(language)
+                        || v.getSkills().toLowerCase().contains(language))).collect(Collectors.toList());
             }
         }
         else {
-            vacancies.addAll(getAllByLanguage(language));
-            vacancies.stream().filter(v -> (v.getTitle().toLowerCase().contains(language)
-                    || v.getSkills().toLowerCase().contains(language))).collect(Collectors.toList());
+            vacancies.addAll(getAllByWorkplace(workplace));
+            vacancies.stream().filter(v -> v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace))
+                    .collect(Collectors.toList());
         }
         return new ArrayList<>(vacancies);
     }

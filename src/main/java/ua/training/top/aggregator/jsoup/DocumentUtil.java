@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.util.jsoup;
+package ua.training.top.aggregator.jsoup;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +18,7 @@ public class DocumentUtil {
                     .get();
 
         } catch (IOException e) {
-            log.info("IOException {}", e.getMessage());
+            log.info("There is exception={} by url={} ", e.getMessage(), url);
         }
         return document;
     }

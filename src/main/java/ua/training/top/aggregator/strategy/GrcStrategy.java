@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.aggregator.jsoup.DocumentUtil;
 import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 
@@ -13,9 +13,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
-import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesGrc;
+import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesGrc;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 
 public class GrcStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(GrcStrategy.class);
@@ -24,7 +24,7 @@ public class GrcStrategy implements Strategy {
 
     private static final String URL_FORMAT_OTHER = "https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=%s&L_save_area=true&area=%s&from=cluster_area&showClusters=true";
     //израиль        //https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=java&L_save_area=true&area=33&from=cluster_area&showClusters=true
-
+    //сша            //https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=java&L_save_area=true&area=85&from=cluster_area&showClusters=true
     protected Document getDocument(String city, String language, String page) { //33 израиль 85 сша 27 германия 149 швеция 207 норвегия
         boolean other = city.equals("33") || city.equals("85") || city.equals("27") || city.equals("149") || city.equals("207");
         switch (city){

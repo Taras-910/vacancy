@@ -29,12 +29,13 @@ public class AggregatorService {
             }
         }
         log.info("Common number vacancies = {}", set.size());
-        return set.stream().map(vacancyTo -> {
-            vacancyTo.setId(null);
-            vacancyTo.setWorkPlace(doubleString.getWorkplaceTask());
-            vacancyTo.setLanguage(doubleString.getLanguageTask());
-            vacancyTo.setToVote(false);
-            return vacancyTo;
-        }).collect(Collectors.toList());
+        return set.stream()
+                .map(vacancyTo -> {
+                    vacancyTo.setId(null);
+                    vacancyTo.setWorkPlace(doubleString.getWorkplaceTask());
+                    vacancyTo.setLanguage(doubleString.getLanguageTask());
+                    vacancyTo.setToVote(false);
+                    return vacancyTo; })
+                .collect(Collectors.toList());
     }
 }

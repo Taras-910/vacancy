@@ -177,8 +177,8 @@ public class VacancyTo extends BaseTo implements Serializable {
                 ", \ntitle='" + title + '\'' +
                 ", \nemployerName='" + employerName + '\'' +
                 ", \naddress='" + address + '\'' +
-                ", \nsalary=" + salaryMin +
-                ", \nsalary=" + salaryMax +
+                ", \nsalaryMin=" + salaryMin +
+                ", \nsalaryMax=" + salaryMax +
                 ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
                 ", \nreleaseDate=" + releaseDate +

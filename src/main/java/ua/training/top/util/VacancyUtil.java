@@ -86,7 +86,7 @@ public class VacancyUtil {
 //  100004
         VacancyTo VACANCY_T05 = new VacancyTo(null,"Middle проверка vote Developer", "Huuuge Games", "",200000, 300000, "https проверка vote",
                 "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
-                getTimestamp(2020, 10, 25), "https проверка vote", "java", "киев", false);
+                getTimestamp(2020, 12, 25), "https проверка vote", "java", "киев", false);
 
 
 //100004,Middle Game Developer,0,1,https://grc.ua/vacancy/40006938?query=java,Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…,2020-10-25 00:00:00.000000,java,киев,2020-11-01 12:00:00.000000,100002

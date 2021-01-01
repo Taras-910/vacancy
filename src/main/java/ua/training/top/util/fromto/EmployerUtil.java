@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh;
+package ua.training.top.util.fromto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

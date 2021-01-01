@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh;
+package ua.training.top.util.fromto;
 
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
@@ -8,7 +8,7 @@ import java.util.*;
 
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
 
-public class RefreshUtil {
+public class MapVacanciesUtil {
 
     public static Map<Integer, List<Vacancy>> getMapVacanciesForUpdate(Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate) {
         Map<Integer, List<Vacancy>> mapForUpdate = new HashMap<>();

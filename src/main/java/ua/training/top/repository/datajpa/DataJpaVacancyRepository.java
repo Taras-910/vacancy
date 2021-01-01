@@ -9,7 +9,6 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,9 +61,10 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     @Transactional
-    public void deleteBeforeDate(LocalDateTime recordedDate) {
-        Optional.of(vacancyRepository.deleteBeforeDate(recordedDate)).orElse(0);
+    public void deleteList(List<Vacancy> listToDelete) {
+        vacancyRepository.deleteAll(listToDelete);
     }
+
     @Override
     public Vacancy get(int id) {
         return vacancyRepository.findById(id).orElse(null);

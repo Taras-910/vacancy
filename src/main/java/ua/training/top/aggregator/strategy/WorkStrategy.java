@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.util.jsoup.DocumentUtil;
+import ua.training.top.aggregator.jsoup.DocumentUtil;
 import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 
@@ -16,9 +16,9 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.aggregator.util.installation.InstallationUtil.reCall;
-import static ua.training.top.aggregator.util.jsoup.ElementUtil.getVacanciesWork;
+import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesWork;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);

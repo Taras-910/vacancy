@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.util.rate;
+package ua.training.top.aggregator.jsoup.salary;
 
 import static java.lang.String.valueOf;
 
@@ -16,7 +16,7 @@ public class RateUtil {
     }
 
     public static String plnToUsd(String pln) throws NumberFormatException{
-        return checkValue((int) ((Float.parseFloat(pln) * 10000) / PLN_TO_USD_RATE));
+        return checkValue((int) ((Float.parseFloat(pln) * 100) / PLN_TO_USD_RATE));
     }
 
     public static String checkValue(int value){
