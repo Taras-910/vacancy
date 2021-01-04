@@ -15,7 +15,7 @@ public class SalaryUtil {
     public static String getCorrectSalary(String salary){
         String temp = validateAndFormat(salary);
         try {
-            if (salary.contains("salary:") && !(salary.contains("$") || salary.contains("usd"))) {
+            if ((temp.contains("salary:") || temp.contains("pln"))&& !(salary.contains("$") || salary.contains("usd"))) {
                 return getPln(temp);
             }
             if (salary.contains("$") || salary.contains("usd")) {

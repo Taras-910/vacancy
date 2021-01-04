@@ -12,7 +12,7 @@ import static ua.training.top.aggregator.AggregatorService.allProviders;
 
 public class InstallationUtil {
     private static Logger log = LoggerFactory.getLogger(InstallationUtil.class);
-    public static int limitCallPages = 1;
+    public static int limitCallPages = 5;
     private static int repeatToCall = 3;
     public static LocalDate reasonToLoadDate = LocalDateTime.now().toLocalDate().minusDays(7);
     public static LocalDate reasonToKeepDate = LocalDateTime.now().toLocalDate().minusDays(21);

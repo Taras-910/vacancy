@@ -80,7 +80,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
     }
 
 /*
-    @Test
+    @TestStrategy
     public void createListOfVacancies() throws Exception {
         List<Vacancy> actual = VacancyTestData.getListVacancies();
         List<Vacancy> created = service.createAll(actual, EMPLOYER1_ID);
@@ -90,7 +90,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
         VACANCY_MATCHER.assertMatch(created, actual);
     }
 
-    @Test
+    @TestStrategy
     public void createListErrorData() throws Exception {
         assertThrows(NotFoundException.class, () -> service.createAll(asList(new Vacancy(VACANCY1), new Vacancy(VACANCY2)), EMPLOYER2_ID));
         assertThrows(NotFoundException.class, () -> service.createAll(asList(null, new Vacancy(VACANCY3)), EMPLOYER2_ID));

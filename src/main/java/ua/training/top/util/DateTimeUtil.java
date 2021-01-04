@@ -76,9 +76,9 @@ public class DateTimeUtil {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
     }
 
-    public static String print(Date dt) {
-        return new SimpleDateFormat(DATE_PATTERN).format(dt);
-    }
+//    public static String print(Date dt) {
+//        return new SimpleDateFormat(DATE_PATTERN).format(dt);
+//    }
 
     public static String print(LocalDate ldt) {
         return ldt == null ? "" : ldt.format(DATE_FORMATTER);

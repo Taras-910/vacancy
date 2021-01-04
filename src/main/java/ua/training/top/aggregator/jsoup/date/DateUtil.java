@@ -32,26 +32,21 @@ public class DateUtil {
     }
 
     public static String supportDate(String dateTime){
-        if (dateTime == null || dateTime.equals("")) {
+        if (dateTime.split(" ").length < 2 || dateTime == null || dateTime.isEmpty()) {
             return LocalDate.now().minusWeeks(1).toString();
         }
-        String[] date = dateTime.split(" ");
-        if (date.length < 3){
-            if(LocalDate.now().getMonth().equals("JANUARY") && dateTime.contains("декабря")){
-                dateTime.concat(" ").concat(String.valueOf(LocalDate.now().minusYears(1).getYear()));
-            } else {
-                dateTime.concat(" ").concat(getCurrentYear());
-            }
-        }
-        StringBuilder sb = new StringBuilder(getCurrentYear());
-        sb.append("-").append(getMonth(dateTime.split(" ")[1])).append("-");
-        String day = dateTime.split(" ")[0];
-        if (day.length() == 2) {
-            sb.append(day);
-        } else {
-            sb.append("0").append(day);
-        }
-        return sb.toString();
+        dateTime = dateTime.split(" ").length < 3 ? toAddYear(dateTime) : dateTime;
+        String[] dateParts = dateTime.split(" ");
+        StringBuilder sb = new StringBuilder(dateParts[2]);
+        sb.append("-").append(getMonth(dateParts[1])).append("-");
+        return sb.append(dateParts[0].length() == 2 ? dateParts[0] : "0".concat(dateParts[0])).toString();
     }
 
+    private static String toAddYear(String dateTime) {
+        if(LocalDate.now().getMonth().toString().equals("JANUARY") && dateTime.contains("декабря")){
+            return dateTime.concat(" ").concat(String.valueOf(LocalDate.now().minusYears(1).getYear()));
+        } else {
+            return dateTime.concat(" ").concat(getCurrentYear());
+        }
+    }
 }

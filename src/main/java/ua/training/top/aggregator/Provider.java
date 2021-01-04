@@ -25,7 +25,8 @@ public class Provider {
         List<VacancyTo> list = strategy.getVacancies(doubleString);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list.stream()
-                .filter(vacancyTo -> !reasonToLoadDate.isAfter(vacancyTo.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
+                .filter(v -> !reasonToLoadDate.isAfter(v.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
+                .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguageTask()) || v.getSkills().toLowerCase().contains(doubleString.getLanguageTask())))
                 .collect(Collectors.toList());
     }
 }

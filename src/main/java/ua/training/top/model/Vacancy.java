@@ -37,7 +37,7 @@ public class Vacancy extends AbstractBaseEntity {
     @Column(name="skills")
     private String skills;
 
-    @Column(name="local_date", nullable = false)
+    @Column(name="release_date", nullable = false)
     private Date releaseDate;
 
     @Column(name="language")
@@ -195,13 +195,13 @@ public class Vacancy extends AbstractBaseEntity {
     public String toString() {
         return "\n\nVacancy{" +
                 "\ntitle='" + title + '\'' +
-//                ", \nsalaryMin=" + salaryMin +
-//                ", \nsalaryMax=" + salaryMax +
-//                ", \nurl='" + url + '\'' +
+                ", \nsalaryMin=" + salaryMin +
+                ", \nsalaryMax=" + salaryMax +
+                ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
-//                ", \nreleaseDate=" + releaseDate +
-//                ", \nlanguage='" + language + '\'' +
-//                ", \nworkplace='" + workplace + '\'' +
+                ", \nreleaseDate=" + releaseDate +
+                ", \nlanguage='" + language + '\'' +
+                ", \nworkplace='" + workplace + '\'' +
                 ", \nrecordedDate='" + recordedDate + '\'' +
                 ", \nid=" + id +
                 ", \nemployer=" + employer +

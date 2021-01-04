@@ -20,10 +20,10 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ua.training.top.util.VacancyUtil.getSiteName;
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
 import static ua.training.top.util.ValidationUtil.checkNotFound;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
-import static ua.training.top.util.fromto.EmployerUtil.getEmployerFromTo;
 
 @Service
 public class VacancyService {
@@ -85,9 +85,9 @@ public class VacancyService {
     @Transactional
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
         log.info("create vacancyTo {}", vacancyTo);
-        Employer newEmployer = checkNotFound(employerRepository.save(getEmployerFromTo(vacancyTo)), "this data");
-        return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), newEmployer.getId()),
-                "employerId=" + newEmployer.getId());
+        Employer employer = employerRepository.getOrCreate(new Employer(null, vacancyTo.getEmployerName(), vacancyTo.getAddress(), getSiteName(vacancyTo.getUrl())));
+        return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), employer.getId()),
+                "employerId=" + employer.getId());
     }
 
     @Transactional
@@ -131,28 +131,30 @@ public class VacancyService {
     public List<Vacancy> getByFilter(String language, String workplace) {
         log.info("getByFilter language={} workplace={}",language ,workplace);
         Set<Vacancy> vacancies = new LinkedHashSet<>();
-        if (!language.isEmpty() && !workplace.isEmpty()) {
-            vacancies.addAll(vacancyRepository.getAllByFilter(language, workplace));
-            vacancies.stream().filter(v ->
-                    (v.getTitle().toLowerCase().contains(language) || v.getSkills().toLowerCase().contains(language))
-                            && (v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace)))
-                    .collect(Collectors.toList());
-        }
-        if (workplace.isEmpty()) {
-            if(language.isEmpty())
-                vacancies.addAll(getAll());
-            else  {
-                vacancies.addAll(getAllByLanguage(language));
-                vacancies.stream().filter(v -> (v.getTitle().toLowerCase().contains(language)
-                        || v.getSkills().toLowerCase().contains(language))).collect(Collectors.toList());
+        vacancies.addAll(getAll());
+        if(language.isEmpty()){
+            if (!workplace.isEmpty()){
+                return new ArrayList<>(vacancies.stream()
+                        .filter(v -> v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace))
+                        .collect(Collectors.toList()));
+            }
+            else {
+                return new ArrayList<>(vacancies);
             }
         }
         else {
-            vacancies.addAll(getAllByWorkplace(workplace));
-            vacancies.stream().filter(v -> v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace))
-                    .collect(Collectors.toList());
+            if(workplace.isEmpty()){
+                return new ArrayList<>(vacancies.stream()
+                        .filter(v -> (v.getTitle().toLowerCase().contains(language) || v.getSkills().toLowerCase().contains(language)))
+                        .collect(Collectors.toList()));
+            }
+            else{
+                return new ArrayList<>(vacancies.stream()
+                        .filter(v -> (v.getTitle().toLowerCase().contains(language) || v.getSkills().toLowerCase().contains(language))
+                                        && (v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace)))
+                        .collect(Collectors.toList()));
+            }
         }
-        return new ArrayList<>(vacancies);
     }
 
     @Transactional

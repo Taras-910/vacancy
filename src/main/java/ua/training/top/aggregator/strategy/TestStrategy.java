@@ -8,7 +8,7 @@ import java.util.List;
 
 import static ua.training.top.util.VacancyUtil.getTestList;
 
-public class Test implements Strategy{
+public class TestStrategy implements Strategy{
     @Override
     public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
         return getTestList();

@@ -12,7 +12,7 @@ public class CheckUtil {
 
     public static boolean checkSalary(String salary) {
         return (salary.contains("грн") || salary.contains("$") || salary.contains("usd") || salary.contains("eur")
-                || salary.contains("€") || (salary.contains("(b2b)") || salary.contains("(uop)")) && (salary.contains("pln")));
+                || salary.contains("€") || salary.contains("pln") || salary.contains("salary"));
     }
 
     public static String validateAndFormat(String salary) {
@@ -29,7 +29,7 @@ public class CheckUtil {
         salary = salary.contains("·") ? salary.split("·")[0] : salary;
 
         if(salary.matches(".*?\\.\\d?\\dk.*?")){
-            String temp1 = salary.replaceAll("[A-Za-hl-zа-я ·:\\/(),]","");
+            String temp1 = salary.replaceAll("[A-Za-jl-zа-я ·:\\/(),]","");
             List<String> list = Arrays.stream(temp1.split("—")).filter(s -> s.matches("\\d+\\.\\dk.*")).collect(Collectors.toList());
             for(String find : list) {
                 find = find.substring(0, find.indexOf("k"));

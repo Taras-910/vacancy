@@ -39,9 +39,9 @@ public class VacancyUtil {
 
     public static VacancyTo createTo(Vacancy v, List<Vote> votes) {
         boolean toVote = votes.stream().filter(vote -> v.getId().equals(vote.getVacancyId())).count() != 0;
-//        log.info("\n\ntoVote {}\n", toVote);
+        log.info("\n\ntoVote {}\n", toVote);
         return new VacancyTo(v.getId(), v.getTitle(), v.getEmployer().getName(), v.getEmployer().getAddress(), v.getSalaryMin(),
-                v.getSalaryMax(), v.getUrl(), v.getSkills(), clearTime(v.getReleaseDate()), v.getEmployer().getSiteName(), v.getLanguage(), v.getWorkplace(), toVote);
+                v.getSalaryMax(), v.getUrl(), v.getSkills(), v.getReleaseDate(), v.getEmployer().getSiteName(), v.getLanguage(), v.getWorkplace(), toVote);
     }
 
     public static String getSiteName(String url) {
@@ -53,8 +53,8 @@ public class VacancyUtil {
     }
 
     public static DoubleString getLowerCase(DoubleString task) {
-        String language = task.getLanguageTask() != null && !task.getLanguageTask().equals("") ? task.getLanguageTask().toLowerCase() : LANGUAGE_DEFAULT;
-        String workplace = task.getWorkplaceTask() != null && !task.getWorkplaceTask().equals("") ? task.getWorkplaceTask().toLowerCase() : WORKPLACE_DEFAULT;
+        String language = task.getLanguageTask() != null && !task.getLanguageTask().isEmpty() ? task.getLanguageTask().toLowerCase() : LANGUAGE_DEFAULT;
+        String workplace = task.getWorkplaceTask() != null && !task.getWorkplaceTask().isEmpty() ? task.getWorkplaceTask().toLowerCase() : WORKPLACE_DEFAULT;
         return new DoubleString(language, workplace);
     }
 

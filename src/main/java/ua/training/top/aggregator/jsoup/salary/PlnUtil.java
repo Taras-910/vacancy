@@ -37,11 +37,14 @@ public class PlnUtil {
                 if(salary.contains("month")){
                     return  "1".concat("—").concat(plnToUsd(cleaned));
                 }
+                if(salary.contains("day")){
+                    return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
+                }
                 if(salary.contains("hour")){
-                    return "1".concat("—").concat(plnToUsd(String.valueOf(Float.parseFloat(cleaned) * 8 * 20 / 1000)));
+                    return "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 8 * 22))));
                 }
             }
-            salary = "1".concat("—").concat(plnToUsd(cleaned.concat("00")));
+   //         salary = "1".concat("—").concat(plnToUsd(cleaned.concat("00")));
         } catch (NumberFormatException e) {
             log.info("there is exception on getCorrectSalary method during parse line:\n{}\n", salary);
         }

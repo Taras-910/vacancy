@@ -45,7 +45,7 @@ CREATE TABLE vacancy
     salary_max     INTEGER      NOT NULL,
     link           TEXT         NOT NULL,
     skills         TEXT         NOT NULL,
-    local_date     TIMESTAMP    NOT NULL,
+    release_date   TIMESTAMP    NOT NULL,
     language       TEXT,
     workplace      TEXT,
     recorded_date  TIMESTAMP,

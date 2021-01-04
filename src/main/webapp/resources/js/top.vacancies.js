@@ -13,7 +13,7 @@ function sendRefresh() {
         data: $("#detailsRefreshForm").serialize()
     }).done(function () {
         $("#refreshRow").modal("hide");
-//        ctx.updateTable();
+        ctx.updateTable();
         successNoty("Update has started");
     });
 }

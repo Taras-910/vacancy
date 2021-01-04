@@ -21,4 +21,7 @@ public interface EmployerRepository {
     List<Employer> createAll(List<Employer> employers);
 
     void deleteEmptyEmployers(int size);
+
+    Employer getOrCreate(Employer employer);
+
 }

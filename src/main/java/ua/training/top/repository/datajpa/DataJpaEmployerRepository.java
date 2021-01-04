@@ -58,4 +58,14 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     public void deleteEmptyEmployers(int size) {
         repository.deleteEmptyEmployers(0);
     }
+
+    @Override
+    public Employer getOrCreate(Employer employer) {
+        log.info("employer={}", employer);
+        Employer employerDb = null;
+        try {
+            employerDb = repository.getByNameAndAddress(employer.getName(), employer.getAddress());
+        } catch (Exception e) {}
+        return employerDb == null ? save(employer) : employerDb;
+    }
 }

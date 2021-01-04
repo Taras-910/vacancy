@@ -20,7 +20,7 @@ tr[vacancy-toVote="false"] {
 }
 
 tr[vacancy-toVote="true"] {
-    color: forestgreen;
+    color: #05ae2a;
 }
 
 header, footer {

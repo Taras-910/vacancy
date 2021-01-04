@@ -21,9 +21,6 @@ public interface CrudEmployerRepository extends JpaRepository<Employer, Integer>
     @Query("SELECT e FROM Employer e ORDER BY e.name ASC")
     List<Employer> getAll();
 
-    @Query("SELECT DISTINCT e FROM Employer e LEFT JOIN FETCH e.vacancies v ORDER BY e.name ASC")
-    List<Employer> getAllWithVacancies();
-
     @Query("SELECT e FROM Employer e WHERE e.name=:name")
     Employer getByName(@Param("name") String name);
 
@@ -31,4 +28,7 @@ public interface CrudEmployerRepository extends JpaRepository<Employer, Integer>
     @Modifying
     @Query("DELETE FROM Employer e WHERE e.vacancies.size=:size")
     void deleteEmptyEmployers(@Param("size") int size);
+
+    @Query("SELECT e FROM Employer e WHERE e.name=:name AND e.address=:address")
+    Employer getByNameAndAddress(@Param("name")String name, @Param("address")String address);
 }
