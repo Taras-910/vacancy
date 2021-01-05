@@ -12,7 +12,7 @@ public class CheckUtil {
 
     public static boolean checkSalary(String salary) {
         return (salary.contains("грн") || salary.contains("$") || salary.contains("usd") || salary.contains("eur")
-                || salary.contains("€") || salary.contains("pln") || salary.contains("salary"));
+                || salary.contains("€") || salary.contains("pln") || salary.contains("salary:"));
     }
 
     public static String validateAndFormat(String salary) {
@@ -20,11 +20,9 @@ public class CheckUtil {
         if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary)) {
             return "1";
         }
-        salary = salary.replaceAll(" ", "");
-        salary = salary.replaceAll(" ", "");
-        salary = salary.replaceAll("–", "—");
-        salary = salary.replaceAll("-", "—");
-        salary = salary.replaceAll("b2b", "");
+        salary = salary.replaceAll(" ", "").replaceAll(" ", "").replaceAll("b2b", "");
+        salary = salary.replaceAll("–", "—").replaceAll("-", "—");
+        salary = salary.contains("salary:") ? "salary:".concat(salary.split("salary:")[1]) : salary;
         salary = salary.contains(",") ? salary.split(",")[0] : salary;
         salary = salary.contains("·") ? salary.split("·")[0] : salary;
 

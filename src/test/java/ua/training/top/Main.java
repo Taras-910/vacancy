@@ -2,11 +2,8 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
-import ua.training.top.service.EmployerService;
 import ua.training.top.service.VacancyService;
-import ua.training.top.to.DoubleString;
 import ua.training.top.web.ui.VacancyUIController;
 
 public class Main {
@@ -51,9 +48,9 @@ public class Main {
         VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
         VacancyService vacancyService = appCtx.getBean(VacancyService.class);
         VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
-        EmployerService employerService = appCtx.getBean(EmployerService.class);
-        DoubleString doubleString = new DoubleString("java", "киев");
-        EmployerRepository employerRepository = appCtx.getBean(EmployerRepository.class);
+//        EmployerService employerService = appCtx.getBean(EmployerService.class);
+//        DoubleString doubleString = new DoubleString("java", "киев");
+//        EmployerRepository employerRepository = appCtx.getBean(EmployerRepository.class);
 
 //        System.out.println(Optional.ofNullable(employerRepository.getByName("Brat1")).orElse(null));
 //        System.out.println(Optional.ofNullable(vacancyService.get(10)).orElse(null));
@@ -62,7 +59,7 @@ public class Main {
 
 
 //        System.out.println("------------------------------------------------------------------------------");
-//        System.out.println("before="+ vacancyService.getAll().size());
+        System.out.println("before="+ vacancyUIController.getByFilter("php", "киев"));
 //        System.out.println("==============================================================================");
 //        vacancyService.deleteBeforeDate(reasonToKeepDate);
 //        System.out.println("------------------------------------------------------------------------------");

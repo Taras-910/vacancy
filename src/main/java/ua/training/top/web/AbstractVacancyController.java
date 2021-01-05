@@ -54,8 +54,8 @@ public abstract class AbstractVacancyController {
         vacancyService.update(vacancyTo);
     }
 
-    public List<VacancyTo> getTosByFilter(@Nullable String language, @Nullable String workplace) {
-        log.info("vacancyLangLocFilter language {} workplace {}", language, workplace);
+    public List<VacancyTo> getByFilter(@Nullable String language, @Nullable String workplace) {
+        log.info("getByFilter language={} workplace={}", language, workplace);
         return getTos(vacancyService.getByFilter(language, workplace), voteService.getAll());
     }
 

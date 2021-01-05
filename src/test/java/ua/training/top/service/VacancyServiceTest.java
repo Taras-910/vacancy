@@ -59,7 +59,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void deleteEmployerVacancies() throws Exception {
-        service.deleteEmployerVacancies(EMPLOYER2_ID);
+        service.deleteVacanciesOfEmployer(EMPLOYER2_ID);
         assertThrows(NotFoundException.class, () -> service.get(VACANCY2_ID));
     }
 

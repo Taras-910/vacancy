@@ -55,8 +55,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     @Transactional
-    public boolean deleteEmployerVacancies(int employerId) {
-        return Optional.of(vacancyRepository.deleteEmployerVacancies(employerId)).orElse(0) != 0;
+    public boolean deleteVacanciesOfEmployer(int employerId) {
+        return Optional.of(vacancyRepository.deleteVacanciesOfEmployer(employerId)).orElse(0) != 0;
     }
 
     @Override
@@ -77,17 +77,17 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     public List<Vacancy> getAllByFilter(String language, String workplace) {
-        return Optional.ofNullable(vacancyRepository.getAllByFilter(language, workplace)).orElse(new ArrayList<>());
+        return Optional.of(vacancyRepository.getAllByFilter(language, workplace)).orElse(new ArrayList<>());
     }
 
     @Override
     public List<Vacancy> getAllByWorkplace(String language) {
-        return Optional.ofNullable(vacancyRepository.getAllByWorkplace(language)).orElse(new ArrayList<>());
+        return Optional.of(vacancyRepository.getAllByWorkplace(language)).orElse(new ArrayList<>());
     }
 
     @Override
     public List<Vacancy> getAllByLanguage(String workplace) {
-        return Optional.ofNullable(vacancyRepository.getAllByLanguage(workplace)).orElse(new ArrayList<>());
+        return Optional.of(vacancyRepository.getAllByLanguage(workplace)).orElse(new ArrayList<>());
     }
 
 }

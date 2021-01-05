@@ -131,7 +131,7 @@ $(function () {
                 }
             }
         }),
-       updateTable: updateFilteredTable
+        updateTable: updateFilteredTable
     };
     makeEditable(ctx);
 });

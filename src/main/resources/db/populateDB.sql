@@ -19,7 +19,7 @@ VALUES ('Huuuge Games', 'Киев', 'https://grc.ua'),
        ('RedLab', 'Киев', 'https://grc.ua');
 
 INSERT INTO vacancy (title, salary_min, salary_max, link, skills, release_date, language, workplace, recorded_date, employer_id)
-VALUES ('Middle Game Developer', 0, 1, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…', '2020-10-25','java', 'киев', '2020-11-01 12:00',100002),
+VALUES ('Middle Game Developer', 0, 1, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…', '2020-10-25','php', 'киев', '2020-11-01 12:00',100002),
        ('Middle Java-разработчик',0, 1, 'https://grc.ua/vacancy/40006938?query=java', '...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения', '2020-10-25', 'java', 'киев', '2020-11-01 12:00', 100003);
 
 INSERT INTO vote (local_date, vacancy_id, user_id)

@@ -15,7 +15,7 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
     @Transactional
     @Modifying
     @Query("DELETE FROM Vacancy v WHERE v.employer.id=:employerId")
-    int deleteEmployerVacancies(@Param("employerId") int employerId);
+    int deleteVacanciesOfEmployer(@Param("employerId") int employerId);
 
     @Transactional
     @Modifying

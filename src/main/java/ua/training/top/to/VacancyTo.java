@@ -6,7 +6,7 @@ import org.springframework.lang.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class VacancyTo extends BaseTo implements Serializable {
@@ -30,7 +30,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     @Size(min = 2, max = 1000)
     String skills;
 
-    private Date releaseDate;
+    private LocalDate releaseDate;
 
     private String siteName;
 
@@ -41,7 +41,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     private boolean toVote = false;
 
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin, Integer salaryMax,
-                     String url, String skills, @Nullable Date releaseDate, String siteName, String language, String workPlace, @Nullable boolean toVote) {
+                     String url, String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workPlace, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -83,11 +83,11 @@ public class VacancyTo extends BaseTo implements Serializable {
         this.title = title;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

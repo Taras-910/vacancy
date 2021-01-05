@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
@@ -62,7 +61,7 @@ public class AggregatorController {
 
         vacancyTos.forEach(vacancyTo -> {
             AtomicBoolean unDouble = new AtomicBoolean(true);
-            Vacancy v = getVacancyFromTo(vacancyTo);
+            Vacancy vacancyFromTo = getVacancyFromTo(vacancyTo);
             List<Employer> tempEmployersForUpdate = null;
             List<Employer> tempEmployersForCreate = null;
             List<Vacancy> tempVacanciesForUpdate = null;
@@ -73,10 +72,10 @@ public class AggregatorController {
                 tempEmployersForCreate = new ArrayList<>();
                 tempVacanciesForUpdate = new ArrayList<>();
                 tempTosExistEmployers = new ArrayList<>();
-                if(!vacanciesDb.contains(v)){
+                if(!vacanciesDb.contains(vacancyFromTo)){
                     if (vacancyTo.getEmployerName().equals(employer.getName())) {
-                        v.setEmployer(employer);
-                        tempVacanciesForUpdate.add(v);
+                        vacancyFromTo.setEmployer(employer);
+                        tempVacanciesForUpdate.add(vacancyFromTo);
                         tempEmployersForUpdate.add(employer);
                         unDouble.set(false);
                     } else if (unDouble.get()) {
@@ -86,9 +85,9 @@ public class AggregatorController {
                 }
                 else{
                     Vacancy vFind = vacanciesDb.stream()
-                            .filter(vDb -> vDb.getSkills().equals(v.getSkills()) && vDb.getTitle().equals(v.getTitle())
+                            .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills()) && vDb.getTitle().equals(vacancyFromTo.getTitle())
 //                            && vDb.getEmployer().getName().equals(vacancyTo.getEmployerName())
-                            && vDb.getEmployer().getName().equals(employer.getName()))
+                                    && vDb.getEmployer().getName().equals(employer.getName()))
                             .findAny().orElse(null);
                     if (vFind != null && unDouble.get()) {
                         vacancyTo.setId(vFind.getId());
@@ -102,6 +101,7 @@ public class AggregatorController {
             vacanciesForUpdate.addAll(tempVacanciesForUpdate);
             tosExistEmployers.addAll(tempTosExistEmployers);
         });
+
         List<Employer> employersCreated = employerService.createAll(new ArrayList<>(employersForCreate));
         vacancyService.createByMap(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
         vacancyService.createByMap(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
@@ -109,6 +109,7 @@ public class AggregatorController {
     }
 
     public static void main(String[] args) throws IOException {
+/*
 
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "киев"));
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "за_рубежем"));
@@ -117,6 +118,7 @@ public class AggregatorController {
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
+*/
 
 
     }
@@ -213,3 +215,19 @@ public class AggregatorController {
 
 //        System.out.println("correct="+ getCorrectSalary(corrected));
 //        System.out.println("min="+ salaryMin(getCorrectSalary(corrected)) + " max="+ salaryMax(getCorrectSalary(corrected)));
+
+//    String text = "киев, м. тараса шевченко";
+//    salaryMax(getCorrectSalary(getXssCleaned(text)));
+//        System.out.println("correct="+ getCorrectSalary(text));
+//        System.out.println("min="+ salaryMin(getCorrectSalary(text)) + " max="+ salaryMax(getCorrectSalary(text)));
+
+/*
+        String salary = "ASAPSalary: 620 - 720 (B2B) PLN / dayCategory...";
+//        String test = "..dress code, Kitchen. English, Team player, Communication skills, Leadership skills, Critical thinking, Problem solving, Proactivity, Java, AIX Team Captain with Java background @ Dynatrace ESSENTIALS:Location: Gdańsk POLStart Date: ASAPSalary: 14.0k-22.0k (UoP)...";
+        salary = salary.replaceAll(" ", "").replaceAll(" ", "").replaceAll("b2b", "");
+        salary = salary.replaceAll("–", "—").replaceAll("-", "—");
+
+        System.out.println("getCorrectSalary=" + getCorrectSalary(salary));
+        System.out.println("salaryMax=" + salaryMax(getCorrectSalary(salary)));
+
+*/

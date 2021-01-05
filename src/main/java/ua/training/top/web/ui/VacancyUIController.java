@@ -47,7 +47,7 @@ public class VacancyUIController extends AbstractVacancyController {
     public ResponseEntity<String> createOrUpdate(@Valid VacancyTo vacancyTo, BindingResult result) {
         if (result.hasErrors()) {
             getResult(result);
-         }
+        }
         if (vacancyTo.isNew()) {
             super.createVacancyAndEmployer(vacancyTo);
         } else {
@@ -58,9 +58,10 @@ public class VacancyUIController extends AbstractVacancyController {
 
     @Override
     @GetMapping(value = "/filter")
-    public List<VacancyTo> getTosByFilter(@RequestParam String language, @RequestParam String workplace) {
-        log.info("getVacanciesByLangLocFilter language {} workplace {}", language, workplace);
-        return super.getTosByFilter(language, workplace);
+    public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
+        log.info("getByFilter language={} workplace={}", language, workplace);
+        List<VacancyTo> vacancyTos =  super.getByFilter(language, workplace);
+        return vacancyTos;
     }
 
     @Override

@@ -16,8 +16,9 @@ import ua.training.top.util.exception.NotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ua.training.top.util.VacancyUtil.getSiteName;
@@ -56,9 +57,9 @@ public class VacancyService {
     }
 
     @Transactional
-    public void deleteEmployerVacancies(int employerId) {
+    public void deleteVacanciesOfEmployer(int employerId) {
         log.info("deleteAll for employerId {}", employerId);
-        checkNotFoundWithId(vacancyRepository.deleteEmployerVacancies(employerId), employerId);
+        checkNotFoundWithId(vacancyRepository.deleteVacanciesOfEmployer(employerId), employerId);
     }
     @Transactional
     public void deleteList(List<Vacancy> list) {
@@ -70,7 +71,7 @@ public class VacancyService {
     public void deleteBeforeDate(LocalDate localDate) {
         log.info("deleteByDateRecorded reasonToKeepDate {}", localDate);
         List<Vacancy> listToDelete = vacancyRepository.getAll().stream()
-                .filter(vacancyTo -> localDate.isAfter(vacancyTo.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
+                .filter(vacancyTo -> localDate.isAfter(vacancyTo.getReleaseDate()))
                 .collect(Collectors.toList());
         deleteList(listToDelete);
     }
@@ -118,42 +119,21 @@ public class VacancyService {
         }
     }
 
-    public List<Vacancy> getAllByLanguage(String language) {
-        log.info("getAllByLanguage {}", language);
-        return vacancyRepository.getAllByLanguage(language);
-    }
-
-    public List<Vacancy> getAllByWorkplace(String workplace) {
-        log.info("getAllByWorkplace {}", workplace);
-        return vacancyRepository.getAllByWorkplace(workplace);
-    }
-
     public List<Vacancy> getByFilter(String language, String workplace) {
-        log.info("getByFilter language={} workplace={}",language ,workplace);
-        Set<Vacancy> vacancies = new LinkedHashSet<>();
-        vacancies.addAll(getAll());
-        if(language.isEmpty()){
-            if (!workplace.isEmpty()){
-                return new ArrayList<>(vacancies.stream()
-                        .filter(v -> v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace))
-                        .collect(Collectors.toList()));
+        log.info("getByFilter language={} workplace={}", language, workplace);
+        if (!language.isEmpty()) {
+            if (!workplace.isEmpty()) {
+                log.info("getByFilter language={} workplace={}", language, workplace);
+                return vacancyRepository.getAllByFilter(language, workplace);
+            } else {
+                log.info("getAllByLanguage language={}", language);
+                return vacancyRepository.getAllByLanguage(language);
             }
-            else {
-                return new ArrayList<>(vacancies);
-            }
-        }
-        else {
-            if(workplace.isEmpty()){
-                return new ArrayList<>(vacancies.stream()
-                        .filter(v -> (v.getTitle().toLowerCase().contains(language) || v.getSkills().toLowerCase().contains(language)))
-                        .collect(Collectors.toList()));
-            }
-            else{
-                return new ArrayList<>(vacancies.stream()
-                        .filter(v -> (v.getTitle().toLowerCase().contains(language) || v.getSkills().toLowerCase().contains(language))
-                                        && (v.getEmployer().getAddress().toLowerCase().contains(workplace) || v.getWorkplace().equals(workplace)))
-                        .collect(Collectors.toList()));
-            }
+        } else {
+            if (!workplace.isEmpty()) {
+                log.info("getByFilter workplace={}", workplace);
+                return vacancyRepository.getAllByWorkplace(workplace);
+            } else return getAll();
         }
     }
 

@@ -7,7 +7,6 @@ import ua.training.top.to.DoubleString;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class Provider {
         List<VacancyTo> list = strategy.getVacancies(doubleString);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list.stream()
-                .filter(v -> !reasonToLoadDate.isAfter(v.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
+                .filter(v -> reasonToLoadDate.isBefore(v.getReleaseDate()))
                 .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguageTask()) || v.getSkills().toLowerCase().contains(doubleString.getLanguageTask())))
                 .collect(Collectors.toList());
     }

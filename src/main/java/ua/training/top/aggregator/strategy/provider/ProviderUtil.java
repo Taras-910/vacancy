@@ -16,7 +16,7 @@ public class ProviderUtil {
                 new Provider(new UAIndeedStrategy()),     // нет за_рубежем
                 new Provider(new UAJoobleStrategy()),     // проблемный меняет теги
                 new Provider(new WorkStrategy())          // по запросу за_рубежем нет
-               /* new Provider(new TestStrategy())*/
+                /* new Provider(new TestStrategy())*/
         );
     }
 }

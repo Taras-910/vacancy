@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 import static javax.persistence.FetchType.EAGER;
@@ -38,7 +38,7 @@ public class Vacancy extends AbstractBaseEntity {
     private String skills;
 
     @Column(name="release_date", nullable = false)
-    private Date releaseDate;
+    private LocalDate releaseDate;
 
     @Column(name="language")
     private String language;
@@ -57,11 +57,11 @@ public class Vacancy extends AbstractBaseEntity {
     public Vacancy() {
     }
 
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate, String language, String workplace, LocalDateTime recordedDate) {
+    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, String language, String workplace, LocalDateTime recordedDate) {
         this(null, title, salaryMin, salaryMax, url, skills, releaseDate, language, workplace, recordedDate);
     }
 
-    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate, String language, String workplace, LocalDateTime recordedDate) {
+    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, String language, String workplace, LocalDateTime recordedDate) {
         super(id);
         this.title = title;
         this.salaryMin = salaryMin;
@@ -74,7 +74,7 @@ public class Vacancy extends AbstractBaseEntity {
         this.recordedDate = recordedDate;
     }
 
-    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate, Employer employer) {
+    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, Employer employer) {
         super(id);
         this.title = title;
         this.salaryMin = salaryMin;
@@ -84,7 +84,7 @@ public class Vacancy extends AbstractBaseEntity {
         this.releaseDate = releaseDate;
     }
 
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, Date releaseDate) {
+    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate) {
         this.title = title;
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
@@ -105,11 +105,11 @@ public class Vacancy extends AbstractBaseEntity {
         this.title = title;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date localDate) {
+    public void setReleaseDate(LocalDate localDate) {
         this.releaseDate = localDate;
     }
 

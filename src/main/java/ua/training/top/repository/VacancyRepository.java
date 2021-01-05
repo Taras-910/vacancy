@@ -16,7 +16,7 @@ public interface VacancyRepository {
 
     List<Vacancy> saveAll(List<Vacancy> vacancies, int employerId);
 
-    boolean deleteEmployerVacancies(int employerId);
+    boolean deleteVacanciesOfEmployer(int employerId);
 
     List<Vacancy> getAllByFilter(String language, String workplace);
 
