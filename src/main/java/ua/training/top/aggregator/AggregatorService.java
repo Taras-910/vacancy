@@ -2,7 +2,7 @@ package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class AggregatorService {
         this.providers = providers;
     }
 
-    public List<VacancyTo> selectBy(DoubleString doubleString){
+    public List<VacancyTo> selectBy(DoubleTo doubleString){
         allProviders = new ArrayDeque<>(Arrays.asList(providers));
         Set<VacancyTo> set = new HashSet<>();
         while(allProviders.peek()!=null){

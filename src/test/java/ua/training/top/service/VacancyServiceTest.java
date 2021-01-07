@@ -4,126 +4,126 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.transaction.TransactionSystemException;
-import ua.training.top.AbstractServiceTest;
-import ua.training.top.dataTest.VacancyTestData;
+import ua.training.top.dataTest.VacancyToTestData;
+import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static org.junit.Assert.assertThrows;
-import static ua.training.top.dataTest.EmployerTestData.EMPLOYER1_ID;
-import static ua.training.top.dataTest.EmployerTestData.EMPLOYER2_ID;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ua.training.top.dataTest.EmployerTestData.*;
 import static ua.training.top.dataTest.UserTestData.NOT_FOUND;
 import static ua.training.top.dataTest.VacancyTestData.*;
+import static ua.training.top.dataTest.VacancyToTestData.VACANCY_TO_MATCHER;
+import static ua.training.top.dataTest.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
-import static ua.training.top.util.DateTimeUtil.LOCAL_DATE_TIME_TEST;
+import static ua.training.top.util.VacancyUtil.createTo;
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
+import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
 
 public class VacancyServiceTest extends AbstractServiceTest {
     private Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
-    private VacancyService service;
+    private VacancyService vacancyService;
+    @Autowired
+    private VoteService voteService;
+    @Autowired
+    private EmployerService employerService;
 
     @Test
     public void get() throws Exception {
-        Vacancy vacancy = service.get(VACANCY1_ID);
-        VACANCY_MATCHER.assertMatch(vacancy, VACANCY1);
+        Vacancy vacancy = vacancyService.get(VACANCY1_ID);
+        VACANCY_MATCHER.assertMatch(vacancy, vacancy1);
     }
 
     @Test
     public void getNotFound() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> vacancyService.get(NOT_FOUND));
     }
 
     @Test
     public void getAll() throws Exception {
-        List<Vacancy> all = service.getAll();
+        List<Vacancy> all = vacancyService.getAll();
         VACANCY_MATCHER.assertMatch(all, VACANCIES_GET_ALL);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(VACANCY2_ID);
-        assertThrows(NotFoundException.class, () -> service.get(VACANCY2_ID));
+        vacancyService.delete(VACANCY2_ID);
+        assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY2_ID));
     }
 
     @Test
     public void deleteNotFound() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
-    }
-
-
-    @Test
-    public void deleteEmployerVacancies() throws Exception {
-        service.deleteVacanciesOfEmployer(EMPLOYER2_ID);
-        assertThrows(NotFoundException.class, () -> service.get(VACANCY2_ID));
+        assertThrows(NotFoundException.class, () -> vacancyService.delete(NOT_FOUND));
     }
 
     @Test
     public void createDuplicate() throws Exception {
-        Vacancy created = new Vacancy(VACANCY1);
+        VacancyTo created = new VacancyTo(vacancyTo1);
         created.setId(null);
-        assertThrows(DataIntegrityViolationException.class, () -> service.createUpdate(created, EMPLOYER1_ID));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(created));
     }
 
     @Test
     public void createErrorData() throws Exception {
-        assertThrows(TransactionSystemException.class, () -> service.createUpdate(new Vacancy(null, 100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
-//        assertThrows(TransactionSystemException.class, () -> service.createUpdate(new Vacancy("Developer", -100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.createUpdate(new Vacancy("Developer", 100,110, null, "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.createUpdate(new Vacancy("Developer", 100,110, "", null, DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), EMPLOYER1_ID));
-        assertThrows(DataIntegrityViolationException.class, () -> service.createUpdate(new Vacancy("Developer", 100,110, "", "", DATE_TEST, "java", "киев", LOCAL_DATE_TIME_TEST), NOT_FOUND));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "A" , 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", null, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", null, DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "A", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11",null, "киев", false)));
     }
 
-/*
-    @TestStrategy
+    @Test
     public void createListOfVacancies() throws Exception {
-        List<Vacancy> actual = VacancyTestData.getListVacancies();
-        List<Vacancy> created = service.createAll(actual, EMPLOYER1_ID);
+        List<Vacancy> actual = List.of(vacancy3, vacancy4);
+        List<Vacancy> created = vacancyService.createList(actual, EMPLOYER1_ID);
         for(int i = 0; i < created.size(); i++) {
             actual.get(i).setId(created.get(i).getId());
         }
         VACANCY_MATCHER.assertMatch(created, actual);
     }
 
-    @TestStrategy
+    @Test
     public void createListErrorData() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.createAll(asList(new Vacancy(VACANCY1), new Vacancy(VACANCY2)), EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createAll(asList(null, new Vacancy(VACANCY3)), EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createAll(null, EMPLOYER2_ID));
-        assertThrows(NotFoundException.class, () -> service.createAll(asList(new Vacancy(VACANCY3)), NOT_FOUND));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy1), new Vacancy(vacancy2)), EMPLOYER2_ID));
+        assertThrows(NullPointerException.class, () -> vacancyService.createList(List.of(null, new Vacancy(vacancy3)), EMPLOYER2_ID));
+        assertThrows(NullPointerException.class, () -> vacancyService.createList(null, EMPLOYER2_ID));
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy3)), NOT_FOUND));
     }
-*/
 
     @Test
     public void update() throws Exception {
-        VacancyTo updated = VacancyTestData.getUpdated();
-        service.update(updated);
-        Vacancy vacancyDb = service.get(VACANCY1_ID);
-        VACANCY_MATCHER.assertMatch(getVacancyFromTo(updated), vacancyDb);
+        VacancyTo vTo = VacancyToTestData.getUpdate();
+        Vacancy updated = vacancyService.update(vTo);
+        VACANCY_MATCHER.assertMatch(getVacancyFromTo(vTo), updated);
     }
 
     @Test
     public void updateErrorData() throws Exception {
-        assertThrows(NullPointerException.class, () -> service.update(null));
-    }
-
-    @Test
-    public void createByToAndEmployerId() throws Exception  {
-        VacancyTo newVacancyTo = VacancyTestData.getNew();
-        Vacancy vacancyFromTo = getVacancyFromTo(newVacancyTo);
-        Vacancy created = service.createUpdate(vacancyFromTo, EMPLOYER1_ID);
-        int newId = created.id();
-        vacancyFromTo.setId(newId);
-        VACANCY_MATCHER.assertMatch(vacancyFromTo, created);
-        VACANCY_MATCHER.assertMatch(vacancyFromTo, service.get(newId));
+        assertThrows(IllegalArgumentException.class, () -> vacancyService.update(new VacancyTo()));
     }
 
     @Test
     public void createVacancyAndEmployer() throws Exception  {
+        VacancyTo newVacancyTo = VacancyToTestData.getNew();
+        Vacancy createdVacancy = vacancyService.createVacancyAndEmployer(newVacancyTo);
+        int newIdVacancy = createdVacancy.id();
+        newVacancyTo.setId(newIdVacancy);
+        VACANCY_MATCHER.assertMatch(createdVacancy, getVacancyFromTo(newVacancyTo));
+        Employer newEmployer = getEmployerFromTo(newVacancyTo);
+        Employer createdEmployer = employerService.getOrCreate(getEmployerFromTo(newVacancyTo));
+        int newIdEmployer = createdEmployer.id();
+        newEmployer.setId(newIdEmployer);
+        EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
+        VACANCY_TO_MATCHER.assertMatch(createTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
     }
+
 }

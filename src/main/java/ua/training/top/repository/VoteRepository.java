@@ -7,26 +7,25 @@ import java.util.List;
 public interface VoteRepository {
 
     // null if not found, when updated
-    Vote save(Vote vote, int userId);
-
-    // false if not found
-    boolean delete(int id, int userId);
-
     // null if not found
     Vote get(int id, int userId);
+
+    List<Vote> getAll();
 
     // null if not found
     List<Vote> getAllForAuthUser(int userId);
 
-    List<Vote> getAll();
+    List<Vote> getAllByVacancyId(Integer vacancyId);
 
-    List<Vote> saveAll(List<Vote> newVotes);
+    Vote save(Vote vote, int userId);
 
-    void deleteAll();
+    List<Vote> saveList(List<Vote> votes);
+
+    // false if not found
+    boolean delete(int id, int userId);
 
     boolean deleteByVacancyId(int vacancyId, int authUserId);
 
-    boolean deleteAllByVacancyId(int vacancyId);
+    boolean deleteListByVacancyId(int vacancyId);
 
-    List<Vote> getAllByVacancyId(Integer vacancyId);
 }

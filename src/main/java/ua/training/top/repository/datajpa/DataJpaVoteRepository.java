@@ -29,6 +29,11 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
+    public List<Vote> saveList(List<Vote> votes) {
+        return voteRepository.saveAll(votes);
+    }
+
+    @Override
     public boolean delete(int id, int userId) { return voteRepository.delete(id, userId) != 0; }
 
     @Override
@@ -48,23 +53,13 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public List<Vote> saveAll(List<Vote> newVotes) {
-        return voteRepository.saveAll(newVotes);
-    }
-
-    @Override
-    public void deleteAll() {
-        voteRepository.deleteAll();
-    }
-
-    @Override
     public boolean deleteByVacancyId(int vacancyId, int authUserId) {
         return voteRepository.deleteByVacancyId(vacancyId, authUserId) != 0;
     }
 
     @Override
-    public boolean deleteAllByVacancyId(int vacancyId) {
-        return voteRepository.deleteAllByVacancyId(vacancyId) != 0;
+    public boolean deleteListByVacancyId(int vacancyId) {
+        return voteRepository.deleteListByVacancyId(vacancyId) != 0;
     }
 
     @Override

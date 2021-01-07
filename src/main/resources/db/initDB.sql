@@ -46,9 +46,9 @@ CREATE TABLE vacancy
     link           TEXT         NOT NULL,
     skills         TEXT         NOT NULL,
     release_date   TIMESTAMP    NOT NULL,
-    language       TEXT,
-    workplace      TEXT,
-    recorded_date  TIMESTAMP,
+    language       TEXT         NOT NULL,
+    workplace      TEXT         NOT NULL,
+    recorded_date  TIMESTAMP    NOT NULL,
     employer_id    INTEGER      NOT NULL,
     CONSTRAINT vacancy_idx UNIQUE (title, skills, employer_id),
     FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE

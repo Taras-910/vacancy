@@ -3,7 +3,8 @@ package ua.training.top.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.training.top.AbstractServiceTest;
+import org.springframework.transaction.TransactionSystemException;
+import ua.training.top.dataTest.EmployerTestData;
 import ua.training.top.model.Employer;
 import ua.training.top.util.exception.NotFoundException;
 
@@ -20,56 +21,51 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Test
     public void getById() {
-        Assert.assertEquals(service.getById(EMPLOYER1_ID), EMPLOYER1);
+        Assert.assertEquals(service.get(EMPLOYER1_ID), employer1);
     }
 
     @Test
     public void getAll() {
         List<Employer> all = service.getAll();
-        EMPLOYER_MATCHER.assertMatch(all, EMPLOYER1, EMPLOYER2);
-    }
-
-    @Test
-    public void getByName() {
-        EMPLOYER_MATCHER.assertMatch(service.getByName("RedLab"), EMPLOYER2);
+        EMPLOYER_MATCHER.assertMatch(all, employer1, employer2);
     }
 
     @Test
     public void getErrorData() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.getById(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
     @Test
     public void update() {
         Employer updated = getUpdated();
         service.update(updated);
-        EMPLOYER_MATCHER.assertMatch(service.getById(EMPLOYER1_ID), getUpdated());
+        EMPLOYER_MATCHER.assertMatch(service.get(EMPLOYER1_ID), getUpdated());
     }
 
     @Test
     public void updateErrorData() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.update(null));
-        assertThrows(NotFoundException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
-        assertThrows(NotFoundException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
+        assertThrows(IllegalArgumentException.class, () -> service.update(null));
+        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
+        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
     }
 
     @Test
     public void create() {
-        Employer newRestaurant = getNew();
-        Employer created = service.create(newRestaurant);
-        newRestaurant.setId(created.getId());
-        EMPLOYER_MATCHER.assertMatch(created, newRestaurant);
+        Employer newEmployer = EmployerTestData.getNew();
+        Employer created = service.create(newEmployer);
+        newEmployer.setId(created.getId());
+        EMPLOYER_MATCHER.assertMatch(created, newEmployer);
     }
 
     @Test
     public void createErrorDate() throws Exception {
-        assertThrows(NotFoundException.class, () -> service.update(new Employer(null, null, "newAddress", "https://grc.ua")));
+        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(null, null, "newAddress", "https://grc.ua")));
     }
 
     @Test
     public void delete() {
         service.delete(EMPLOYER1_ID);
-        assertThrows(NotFoundException.class, () -> service.getById(EMPLOYER1_ID));
+        assertThrows(NotFoundException.class, () -> service.get(EMPLOYER1_ID));
     }
 
     @Test

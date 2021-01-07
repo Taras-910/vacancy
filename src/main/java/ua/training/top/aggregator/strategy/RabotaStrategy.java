@@ -4,9 +4,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.jsoup.DocumentUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -15,10 +15,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesRabota;
-import static ua.training.top.aggregator.jsoup.date.DateUtil.printStrategyRabota;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.util.jsoup.ElementUtil.getVacanciesRabota;
+import static ua.training.top.util.jsoup.date.DateUtil.printStrategyRabota;
 
 public class RabotaStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(RabotaStrategy.class);
@@ -33,7 +33,7 @@ public class RabotaStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
         log.info("city={} language={}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;

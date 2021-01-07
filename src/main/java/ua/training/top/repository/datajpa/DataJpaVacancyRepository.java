@@ -39,7 +39,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     @Transactional
-    public List<Vacancy> saveAll(List<Vacancy> vacancies, int employerId) {
+    public List<Vacancy> saveList(List<Vacancy> vacancies, int employerId) {
         Employer employer = employerRepository.getOne(employerId);
         if(employer != null) {
             vacancies.forEach(v -> v.setEmployer(employer));
@@ -51,12 +51,6 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     @Transactional
     public boolean delete(int id) {
         return Optional.of(vacancyRepository.delete(id)).orElse(0) != 0;
-    }
-
-    @Override
-    @Transactional
-    public boolean deleteVacanciesOfEmployer(int employerId) {
-        return Optional.of(vacancyRepository.deleteVacanciesOfEmployer(employerId)).orElse(0) != 0;
     }
 
     @Override
@@ -74,21 +68,5 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     public List<Vacancy> getAll() {
         return vacancyRepository.findAll(SORT_DATE_NAME);
     }
-
-    @Override
-    public List<Vacancy> getAllByFilter(String language, String workplace) {
-        return Optional.of(vacancyRepository.getAllByFilter(language, workplace)).orElse(new ArrayList<>());
-    }
-
-    @Override
-    public List<Vacancy> getAllByWorkplace(String language) {
-        return Optional.of(vacancyRepository.getAllByWorkplace(language)).orElse(new ArrayList<>());
-    }
-
-    @Override
-    public List<Vacancy> getAllByLanguage(String workplace) {
-        return Optional.of(vacancyRepository.getAllByLanguage(workplace)).orElse(new ArrayList<>());
-    }
-
 }
 

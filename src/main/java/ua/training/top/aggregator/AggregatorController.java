@@ -10,21 +10,20 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.service.EmployerService;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
-import static ua.training.top.util.fromto.EmployerUtil.getEmployerFromTo;
-import static ua.training.top.util.fromto.MapVacanciesUtil.getMapVacanciesForCreate;
-import static ua.training.top.util.fromto.MapVacanciesUtil.getMapVacanciesForUpdate;
+import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForCreate;
+import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForUpdate;
 
 @Controller
 public class AggregatorController {
@@ -43,17 +42,16 @@ public class AggregatorController {
     }
 
     @Transactional
-    public void refreshDB(DoubleString doubleString){
+    public void refreshDB(DoubleTo doubleString){
         log.info("refreshDB by doubleString {}", doubleString);
 
         // проверка на наличе обновления в этот день ?
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(doubleString);
-//        List<VacancyTo> vacancyTos = getTestList();    // test data
 
         List<Employer> employersDb = employerService.getAll();
         List<Vacancy> vacanciesDb = vacancyService.getByFilter(doubleString.getLanguageTask(), doubleString.getWorkplaceTask());
 
-//        vacancyService.deleteBeforeDate(reasonToKeepDate);
+//        deleteVacanciesBeforeDate(reasonDateToKeep);
         Set<Employer> employersForCreate = new HashSet();
         Set<Employer> employersForUpdate = new HashSet();
         Set<Vacancy> vacanciesForUpdate = new HashSet<>();
@@ -103,16 +101,33 @@ public class AggregatorController {
         });
 
         List<Employer> employersCreated = employerService.createAll(new ArrayList<>(employersForCreate));
-        vacancyService.createByMap(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
-        vacancyService.createByMap(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
+        createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
+        createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
         employerService.deleteEmptyEmployers();
+    }
+
+    @Transactional
+    public List<Vacancy> createVacancies(Map<Integer, List<Vacancy>> map) {
+        log.info("createByMap {}", map != null ? map.size() : "there is map = null");
+        List<Vacancy> newVacancies = new ArrayList<>();
+        map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId)));
+        return newVacancies;
+    }
+
+    @Transactional
+    public void deleteVacanciesBeforeDate(LocalDate reasonDateToKeep) {
+        log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
+        List<Vacancy> listToDelete = vacancyService.getAll().stream()
+                .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
+                .collect(Collectors.toList());
+        vacancyService.deleteList(listToDelete);
     }
 
     public static void main(String[] args) throws IOException {
 /*
 
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "киев"));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleString("java", "за_рубежем"));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleTo("java", "киев"));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new DoubleTo("java", "за_рубежем"));
 
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));

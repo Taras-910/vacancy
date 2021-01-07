@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static ua.training.top.util.json.JacksonObjectMapper.getMapper;
+import static ua.training.top.web.json.JacksonObjectMapper.getMapper;
 
 public class JsonUtil {
 

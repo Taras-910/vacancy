@@ -2,14 +2,12 @@ package ua.training.top.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.training.top.AbstractServiceTest;
 import ua.training.top.dataTest.VoteTestData;
 import ua.training.top.model.Vote;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
 import static ua.training.top.dataTest.UserTestData.ADMIN_ID;
 import static ua.training.top.dataTest.UserTestData.NOT_FOUND;
@@ -25,7 +23,7 @@ public class VoteServiceTest extends AbstractServiceTest {
     @Test
     public void get() throws Exception {
         Vote vote = service.get(VOTE1_ID);
-        VOTE_MATCHER.assertMatch(VOTE1, vote);
+        VOTE_MATCHER.assertMatch(vote1, vote);
     }
 
     @Test
@@ -35,14 +33,14 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        List<Vote> all = service.getAll();
+        List<Vote> all = service.getAllForAuthUser();
         VOTE_MATCHER.assertMatch(allVotes(), all);
     }
 
     @Test
     public void getAllForAuthUser() throws Exception {
-        List<Vote> all = service.getAllForAuthUser(ADMIN_ID);
-        VOTE_MATCHER.assertMatch(asList(VOTE1), all);
+        List<Vote> all = service.getAllForAuthUser();
+        VOTE_MATCHER.assertMatch(List.of(vote1), all);
     }
 
     @Test

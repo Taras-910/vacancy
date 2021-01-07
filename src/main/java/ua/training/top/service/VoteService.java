@@ -30,30 +30,14 @@ public class VoteService {
         return checkNotFoundWithId(vote, id);
     }
 
-    public List<Vote> getAllForAuthUser(int userId) {
-        log.info("get all for User {}", userId);
-        return repository.getAllForAuthUser(userId);
-    }
-
-    public List<Vote> getAll() {
+/*    public List<Vote> getAll() {
         log.info("getAll votes");
         return repository.getAll();
-    }
+    }*/
 
-    @Transactional
-    public void delete(int id) {
-        log.info("delete vote {} for userId {}", id, authUserId());
-        checkNotFoundWithId(repository.delete(id, authUserId()), id);
-    }
-
-    @Transactional
-    public void deleteAllByVacancyId(int vacancyId) {
-        repository.deleteAllByVacancyId(vacancyId);
-    }
-
-    public void deleteAll() {
-        log.info("deleteAll");
-        repository.deleteAll();
+    public List<Vote> getAllForAuthUser() {
+        log.info("get all for User {}", authUserId());
+        return repository.getAllForAuthUser(authUserId());
     }
 
     @Transactional
@@ -63,16 +47,16 @@ public class VoteService {
         return repository.save(vote, authUserId());
     }
 
+    public List<Vote> createList(List<Vote> votes) {
+        return repository.saveList(votes);
+    }
+
     @Transactional
     public void update(int voteId, int vacancyId) {
         log.info("update vote {} for employerId {} of user {}", voteId, vacancyId, authUserId());
         Vote vote = new Vote(voteId, thisDay, vacancyId, authUserId());
         Assert.notNull(vote, "vote must not be null");
         checkNotFoundWithId(repository.save(vote, authUserId()), voteId);
-    }
-
-    public List<Vote> createAll(List<Vote> newVotes) {
-        return repository.saveAll(newVotes);
     }
 
     @Transactional
@@ -87,7 +71,15 @@ public class VoteService {
         }
     }
 
-    public List<Vote> getAllByVacancyId(Integer vacancyId) {
-        return repository.getAllByVacancyId(vacancyId);
+    @Transactional
+    public void delete(int id) {
+        log.info("delete vote {} for userId {}", id, authUserId());
+        checkNotFoundWithId(repository.delete(id, authUserId()), id);
     }
+
+    @Transactional
+    public void deleteListByVacancyId(int vacancyId) {
+        repository.deleteListByVacancyId(vacancyId);
+    }
+
 }

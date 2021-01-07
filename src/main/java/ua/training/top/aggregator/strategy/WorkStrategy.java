@@ -4,9 +4,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.jsoup.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesWork;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.util.jsoup.ElementUtil.getVacanciesWork;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
@@ -35,7 +35,7 @@ public class WorkStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 0;
         while (true) {

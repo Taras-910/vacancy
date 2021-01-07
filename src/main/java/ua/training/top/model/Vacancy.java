@@ -1,9 +1,12 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -21,25 +24,35 @@ public class Vacancy extends AbstractBaseEntity {
     public static final String DELETE = "Vacancy.delete";
     public static final String ALL_SORTED = "Vacancy.getAll";
 
-    @Column(name = "title", nullable = false, unique = true)
     @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 100)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
+    @NotNull
+    @Range(min = 1, max = 10000000)
     @Column(name="salary_min")
     private Integer salaryMin;
 
+    @NotNull
+    @Range(min = 1, max = 10000000)
     @Column(name="salary_max")
     private Integer salaryMax;
 
     @Column(name="link")
     private String url;
 
+    @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 256)
     @Column(name="skills")
     private String skills;
 
-    @Column(name="release_date", nullable = false)
+    @Column(name="release_date")
     private LocalDate releaseDate;
 
+    @NotNull
     @Column(name="language")
     private String language;
 

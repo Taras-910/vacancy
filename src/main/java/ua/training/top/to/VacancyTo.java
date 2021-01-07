@@ -1,8 +1,10 @@
 package ua.training.top.to;
 
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -12,21 +14,30 @@ import java.util.Objects;
 public class VacancyTo extends BaseTo implements Serializable {
 
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(min = 2, max = 126)
     private String title;
 
+    @NotNull
+    @Size(min = 2, max = 100)
     private String employerName;
 
+    @NotNull
+    @Size(min = 2, max = 100)
     private String address;
 
+    @NotNull
+    @Range(min = 1, max = 20000000)
     private Integer salaryMin;
 
+    @NotNull
+    @Range(min = 1, max = 20000000)
     private Integer salaryMax;
 
+    @NotNull
     @URL
     String url;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2, max = 1000)
     String skills;
 
@@ -34,6 +45,7 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     private String siteName;
 
+    @NotNull
     private String language;
 
     private String workPlace;
@@ -58,6 +70,11 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public VacancyTo(){}
+
+    public VacancyTo(VacancyTo v){
+        this(v.getId(), v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(),
+                v.getSkills(), v.getReleaseDate(), v.getSiteName(), v.getLanguage(), v.getWorkPlace(), v.isToVote());
+    }
 
     public String getEmployerName() {
         return employerName;

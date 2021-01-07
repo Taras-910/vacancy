@@ -4,9 +4,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.jsoup.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesJobs;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.util.jsoup.ElementUtil.getVacanciesJobs;
 
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
@@ -30,7 +30,7 @@ public class JobsStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
         log.info("getVacancies city {} language {}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
         Set<VacancyTo> set = new LinkedHashSet<>();
         String[] positions = new String[]{"middle", "developer", "java"};

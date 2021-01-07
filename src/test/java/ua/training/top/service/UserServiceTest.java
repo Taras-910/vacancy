@@ -3,7 +3,6 @@ package ua.training.top.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import ua.training.top.AbstractServiceTest;
 import ua.training.top.dataTest.UserTestData;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
@@ -66,8 +65,8 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     public void update() throws Exception {
         User updated = getUpdated();
-        service.update(updated);
-        USER_MATCHER.assertMatch(service.get(USER_ID), getUpdated());
+        service.update(updated, ADMIN_ID);
+        USER_MATCHER.assertMatch(service.get(ADMIN_ID), getUpdated());
     }
 
     @Test

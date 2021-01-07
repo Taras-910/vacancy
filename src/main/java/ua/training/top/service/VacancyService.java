@@ -2,41 +2,36 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
-import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.exception.NotFoundException;
+import ua.training.top.util.VacancyUtil;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ua.training.top.util.VacancyUtil.getSiteName;
-import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
+import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.checkNotFound;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
+import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
 
 @Service
 public class VacancyService {
     private static final Logger log = LoggerFactory.getLogger(VacancyService.class);
-
     private final VacancyRepository vacancyRepository;
-    private final EmployerRepository employerRepository;
+    private final EmployerService employerService;
     private final VoteService voteService;
 
-    public VacancyService(VacancyRepository repository, EmployerRepository employerRepository, VoteService voteService) {
+    public VacancyService(VacancyRepository repository, EmployerService employerService, VoteService voteService) {
         this.vacancyRepository = repository;
-        this.employerRepository = employerRepository;
+        this.employerService = employerService;
         this.voteService = voteService;
     }
 
@@ -45,9 +40,63 @@ public class VacancyService {
         return checkNotFoundWithId(vacancyRepository.get(id), id);
     }
 
+    public VacancyTo getTo(int id) {
+        log.info("getTo vacancy {}", id);
+        return createTo(get(id), voteService.getAllForAuthUser());
+    }
+
     public List<Vacancy> getAll() {
         log.info("getAll");
         return vacancyRepository.getAll();
+    }
+
+    public List<VacancyTo> getAllTos() {
+        log.info("getAllTos for user {}", authUserId());
+        return VacancyUtil.getTos(getAll(), voteService.getAllForAuthUser());
+    }
+
+
+    public List<Vacancy> getByFilter(String language, String workplace) {
+        log.info("getByFilter language={} workplace={}", language, workplace);
+        return getAll().stream()
+                .filter(v -> workplace.isEmpty() || v.getWorkplace().contains(workplace))
+                .filter(v -> language.isEmpty() || v.getLanguage().contains(language))
+                .collect(Collectors.toList());
+    }
+
+    public List<VacancyTo> getTosByFilter(@Nullable String language, @Nullable String workplace) {
+        log.info("getTosByFilter language={} workplace={}", language, workplace);
+        return getTos(getByFilter(language, workplace), voteService.getAllForAuthUser());
+    }
+
+    @Transactional
+    public Vacancy createVacancyAndEmployer(@Valid VacancyTo vacancyTo) {
+        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+        Employer employer = employerService.getOrCreate(getEmployerFromTo(vacancyTo));
+        return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), employer.getId()), "employerId=" + employer.getId());
+    }
+
+    @Transactional
+    public List<Vacancy> createList(List<@Valid Vacancy> vacancies, int employerId) {
+        if (vacancies != null) log.info("createAll {} vacancies for employerId {}", vacancies.size(), employerId);
+        List<Vacancy> created;
+//        vacancies.forEach(ValidationUtil::checkNew);
+        vacancies.forEach(v -> Assert.notNull(v, "vacancy must not be null"));
+        vacancies.stream().map(vacancy -> vacancy.getTitle().toLowerCase()).distinct().collect(Collectors.toList());
+        created = checkNotFound(vacancyRepository.saveList(vacancies, employerId), "employerId=" + employerId);
+        return created;
+    }
+
+    @Transactional
+    public Vacancy update(@Valid VacancyTo vacancyTo) {
+        log.info("update vacancyTo {}", vacancyTo);
+        Vacancy vacancyDb = get(vacancyTo.id());
+        Vacancy newVacancy = getVacancyForUpdate(vacancyTo, vacancyDb);
+        Vacancy updated = checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId()), vacancyTo.id());
+        if(!vacancyTo.getSkills().equals(newVacancy.getSkills())){
+            voteService.deleteListByVacancyId(vacancyTo.id());
+        }
+        return updated;
     }
 
     @Transactional
@@ -57,91 +106,8 @@ public class VacancyService {
     }
 
     @Transactional
-    public void deleteVacanciesOfEmployer(int employerId) {
-        log.info("deleteAll for employerId {}", employerId);
-        checkNotFoundWithId(vacancyRepository.deleteVacanciesOfEmployer(employerId), employerId);
-    }
-    @Transactional
     public void deleteList(List<Vacancy> list) {
         log.info("deleteList {}", list);
         vacancyRepository.deleteList(list);
-    }
-
-    @Transactional
-    public void deleteBeforeDate(LocalDate localDate) {
-        log.info("deleteByDateRecorded reasonToKeepDate {}", localDate);
-        List<Vacancy> listToDelete = vacancyRepository.getAll().stream()
-                .filter(vacancyTo -> localDate.isAfter(vacancyTo.getReleaseDate()))
-                .collect(Collectors.toList());
-        deleteList(listToDelete);
-    }
-
-    @Transactional
-    public Vacancy createUpdate(Vacancy vacancy, int employerId) {
-        log.info("create vacancy {} for employer {}", vacancy, employerId);
-        Assert.notNull(vacancy, "vacancy must not be null");
-        return checkNotFound(vacancyRepository.save(vacancy, employerId), "employerId=" + employerId);
-    }
-
-    @Transactional
-    public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
-        log.info("create vacancyTo {}", vacancyTo);
-        Employer employer = employerRepository.getOrCreate(new Employer(null, vacancyTo.getEmployerName(), vacancyTo.getAddress(), getSiteName(vacancyTo.getUrl())));
-        return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), employer.getId()),
-                "employerId=" + employer.getId());
-    }
-
-    @Transactional
-    public List<Vacancy> createAll(@Valid @NotEmpty List<@NotEmpty Vacancy> vacancies, int employerId) {
-        if (vacancies != null) log.info("createAll {} vacancies for employerId {}", vacancies.size(), employerId);
-        List<Vacancy> created;
-        try {
-//            vacancies.forEach(ValidationUtil::checkNew);
-            vacancies.forEach(v -> Assert.notNull(v, "vacancy must not be null"));
-            vacancies.stream().map(vacancy -> vacancy.getTitle().toLowerCase()).distinct().collect(Collectors.toList());
-            created = checkNotFound(vacancyRepository.saveAll(vacancies, employerId), "employerId=" + employerId);
-        } catch (IllegalArgumentException | DataIntegrityViolationException | NullPointerException | ExceptionInInitializerError e) {
-            throw new NotFoundException(this.getClass().getSimpleName().concat(" method createAll:")
-                    .concat(" error argument List = ").concat(vacancies.toString()));
-        }
-        return created;
-    }
-
-    @Transactional
-    public void update(VacancyTo vacancyTo) {
-        log.info("update vacancyTo {}", vacancyTo);
-        try {
-            Vacancy vacancy = getVacancyFromTo(vacancyTo);
-            checkNotFoundWithId(vacancyRepository.save(vacancy, get(vacancyTo.id()).getEmployer().id()), vacancyTo.id());
-            voteService.deleteAllByVacancyId(vacancyTo.id());
-        } catch (IllegalArgumentException | DataIntegrityViolationException | NullPointerException e) {
-            throw new NotFoundException(this.getClass().getSimpleName().concat(" method update:").concat(" error data of ").concat(vacancyTo.toString()));
-        }
-    }
-
-    public List<Vacancy> getByFilter(String language, String workplace) {
-        log.info("getByFilter language={} workplace={}", language, workplace);
-        if (!language.isEmpty()) {
-            if (!workplace.isEmpty()) {
-                log.info("getByFilter language={} workplace={}", language, workplace);
-                return vacancyRepository.getAllByFilter(language, workplace);
-            } else {
-                log.info("getAllByLanguage language={}", language);
-                return vacancyRepository.getAllByLanguage(language);
-            }
-        } else {
-            if (!workplace.isEmpty()) {
-                log.info("getByFilter workplace={}", workplace);
-                return vacancyRepository.getAllByWorkplace(workplace);
-            } else return getAll();
-        }
-    }
-
-    @Transactional
-    public List<Vacancy> createByMap(Map<Integer, List<Vacancy>> map) {
-        log.info("createByMap {}", map != null ? map.size() : "there is map = null");
-        List<Vacancy> newVacancies = new ArrayList<>();
-        map.forEach((employerId, vacancies) -> newVacancies.addAll(createAll(vacancies, employerId)));
-        return newVacancies;
     }
 }

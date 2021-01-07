@@ -24,7 +24,7 @@ public class DataJpaEmployerRepository implements EmployerRepository {
         if(employer.isNew()){
             return repository.save(employer);
         }
-        return getById(employer.getId()) != null ? repository.save(employer) : null;
+        return get(employer.getId()) != null ? repository.save(employer) : null;
     }
 
     @Override
@@ -33,18 +33,13 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     }
 
     @Override
-    public Employer getById(int id) {
+    public Employer get(int id) {
         return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<Employer> getAll() {
         return Optional.of(repository.getAll()).orElse(null);
-    }
-
-    @Override
-    public Employer getByName(String name) {
-        return Optional.of(repository.getByName(name)).orElse(null);
     }
 
     @Override

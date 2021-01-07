@@ -4,18 +4,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.jsoup.DocumentUtil;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.jsoup.DocumentUtil;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.jsoup.ElementUtil.getVacanciesGrc;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.util.jsoup.ElementUtil.getVacanciesGrc;
 
 public class GrcStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(GrcStrategy.class);
@@ -36,7 +36,7 @@ public class GrcStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleString doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
         log.info("getVacancies city={} language={}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
         boolean other = doubleString.getWorkplaceTask().contains("за_рубежем");
         List<VacancyTo> list = other ? getOther(doubleString) : getCity(doubleString);
@@ -44,7 +44,7 @@ public class GrcStrategy implements Strategy {
         return list ;
     }
 
-    private List<VacancyTo> getCity(DoubleString doubleString){
+    private List<VacancyTo> getCity(DoubleTo doubleString){
         log.info("getCity {}", doubleString.getWorkplaceTask());
         Set<VacancyTo> set = new HashSet<>();
         int page = 0;
@@ -59,7 +59,7 @@ public class GrcStrategy implements Strategy {
         return set.stream().filter(v -> v.getAddress().toLowerCase().contains(doubleString.getWorkplaceTask())).collect(Collectors.toList());
     }
 
-    private List<VacancyTo> getOther(DoubleString doubleString){
+    private List<VacancyTo> getOther(DoubleTo doubleString){
         log.info("getOtherCountryVacancy language={}", doubleString.getLanguageTask());
         Set<VacancyTo> set = new LinkedHashSet<>();
         String[] countries = new String[]{"33", "85", "27", "149", "207"};

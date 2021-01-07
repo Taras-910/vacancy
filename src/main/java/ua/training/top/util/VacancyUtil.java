@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
@@ -49,23 +49,31 @@ public class VacancyUtil {
         return url;
     }
 
-    public static DoubleString getLowerCase(DoubleString task) {
-        String language = task.getLanguageTask() != null && !task.getLanguageTask().isEmpty() ? task.getLanguageTask().toLowerCase() : LANGUAGE_DEFAULT;
-        String workplace = task.getWorkplaceTask() != null && !task.getWorkplaceTask().isEmpty() ? task.getWorkplaceTask().toLowerCase() : WORKPLACE_DEFAULT;
-        return new DoubleString(language, workplace);
-    }
-
-
     public static Vacancy getVacancyFromTo(VacancyTo vTo) {
-        return new Vacancy(vTo.getId() == null ? null : vTo.id(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
-                vTo.getReleaseDate() != null? vTo.getReleaseDate() : LocalDate.now(), vTo.getLanguage(), vTo.getWorkPlace(), LocalDateTime.now());
+        return new Vacancy(vTo.getId() == null ? null : vTo.id(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(),
+                vTo.getUrl(), vTo.getSkills(), vTo.getReleaseDate() != null? vTo.getReleaseDate() : LocalDate.now(),
+                vTo.getLanguage(), nullOrEmpty(vTo.getWorkPlace()) ? vTo.getWorkPlace() : vTo.getAddress().toLowerCase(), LocalDateTime.now());
     }
 
+    public static Vacancy getVacancyForUpdate(VacancyTo vTo, Vacancy v) {
+        return new Vacancy(v.getId(), v.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
+                vTo.getReleaseDate() == null ? v.getReleaseDate() : vTo.getReleaseDate(), vTo.getLanguage(),
+                vTo.getWorkPlace() == null ? v.getWorkplace() : vTo.getAddress().toLowerCase(), v.getRecordedDate());
+    }
+
+    public static boolean nullOrEmpty(String obj){
+        return obj == null || obj.isEmpty();
+    }
     public static List<VacancyTo> getEmptyVacancyTos() {
         return List.of(new VacancyTo(null, "", "", "", 0, 0,
                 "", "для этого фильтра нет вакансий", null, null, null, null,false));
     }
 
+    public static DoubleTo orDefault(DoubleTo task) {
+        String language = task.getLanguageTask() != null && !task.getLanguageTask().isEmpty() ? task.getLanguageTask().toLowerCase() : LANGUAGE_DEFAULT;
+        String workplace = task.getWorkplaceTask() != null && !task.getWorkplaceTask().isEmpty() ? task.getWorkplaceTask().toLowerCase() : WORKPLACE_DEFAULT;
+        return new DoubleTo(language, workplace);
+    }
 
     public static List<VacancyTo> getTestList(){
         Employer EMPLOYER1 = new Employer(100002, "Huuuge Games", "Киев", "https://grc.ua");

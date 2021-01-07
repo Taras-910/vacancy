@@ -3,14 +3,14 @@ package ua.training.top.aggregator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.strategy.Strategy;
-import ua.training.top.to.DoubleString;
+import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonToLoadDate;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonDateToLoad;
 
 public class Provider {
     private static final Logger log = LoggerFactory.getLogger(Provider.class);
@@ -20,11 +20,11 @@ public class Provider {
         this.strategy = strategy;
     }
 
-    public List<VacancyTo> getJavaVacancies(DoubleString doubleString) throws IOException {
+    public List<VacancyTo> getJavaVacancies(DoubleTo doubleString) throws IOException {
         List<VacancyTo> list = strategy.getVacancies(doubleString);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list.stream()
-                .filter(v -> reasonToLoadDate.isBefore(v.getReleaseDate()))
+                .filter(v -> reasonDateToLoad.isBefore(v.getReleaseDate()))
                 .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguageTask()) || v.getSkills().toLowerCase().contains(doubleString.getLanguageTask())))
                 .collect(Collectors.toList());
     }
