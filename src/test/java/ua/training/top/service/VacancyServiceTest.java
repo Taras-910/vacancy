@@ -6,20 +6,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.transaction.TransactionSystemException;
-import ua.training.top.dataTest.VacancyToTestData;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
+import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ua.training.top.dataTest.EmployerTestData.*;
-import static ua.training.top.dataTest.UserTestData.NOT_FOUND;
-import static ua.training.top.dataTest.VacancyTestData.*;
-import static ua.training.top.dataTest.VacancyToTestData.VACANCY_TO_MATCHER;
-import static ua.training.top.dataTest.VacancyToTestData.vacancyTo1;
+import static ua.training.top.testData.EmployerTestData.*;
+import static ua.training.top.testData.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.VacancyTestData.*;
+import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
+import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
 import static ua.training.top.util.VacancyUtil.createTo;
 import static ua.training.top.util.VacancyUtil.getVacancyFromTo;

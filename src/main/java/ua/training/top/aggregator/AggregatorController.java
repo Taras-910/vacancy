@@ -100,7 +100,7 @@ public class AggregatorController {
             tosExistEmployers.addAll(tempTosExistEmployers);
         });
 
-        List<Employer> employersCreated = employerService.createAll(new ArrayList<>(employersForCreate));
+        List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
         createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
         createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
         employerService.deleteEmptyEmployers();

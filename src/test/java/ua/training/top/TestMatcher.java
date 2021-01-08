@@ -1,7 +1,7 @@
 package ua.training.top;
 
 import org.springframework.test.web.servlet.ResultMatcher;
-import ua.training.top.dataTest.TestUtil;
+import ua.training.top.testData.TestUtil;
 
 import java.util.Arrays;
 import java.util.List;

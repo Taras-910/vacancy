@@ -4,15 +4,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.TransactionSystemException;
-import ua.training.top.dataTest.EmployerTestData;
 import ua.training.top.model.Employer;
+import ua.training.top.testData.EmployerTestData;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
-import static ua.training.top.dataTest.EmployerTestData.*;
-import static ua.training.top.dataTest.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.EmployerTestData.*;
+import static ua.training.top.testData.UserTestData.NOT_FOUND;
 
 public class EmployerServiceTest extends AbstractServiceTest {
 

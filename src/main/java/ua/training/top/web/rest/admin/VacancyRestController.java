@@ -27,8 +27,8 @@ import static ua.training.top.util.VacancyUtil.orDefault;
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VacancyRestController {
-    public static final Logger log = LoggerFactory.getLogger(VacancyRestController.class);
     static final String REST_URL = "/rest/profile/vacancies";
+    public static final Logger log = LoggerFactory.getLogger(VacancyRestController.class);
     @Autowired
     private VacancyService vacancyService;
     @Autowired
@@ -69,7 +69,6 @@ public class VacancyRestController {
 
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
-        log.info("getByFilter language={} workplace={}", language, workplace);
         return vacancyService.getTosByFilter(language, workplace);
     }
 
@@ -82,7 +81,6 @@ public class VacancyRestController {
     @PostMapping(value = "/refresh")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> refreshDB(@Nullable DoubleTo doubleString, BindingResult result) {
-        log.info("refreshDB task {}", doubleString);
         if (result.hasErrors()) {
             getResult(result);
         }

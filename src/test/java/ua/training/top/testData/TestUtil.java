@@ -1,4 +1,4 @@
-package ua.training.top.dataTest;
+package ua.training.top.testData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

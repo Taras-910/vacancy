@@ -17,7 +17,6 @@ import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class VoteService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-
     private final VoteRepository repository;
 
     public VoteService(VoteRepository repository) {
@@ -30,10 +29,10 @@ public class VoteService {
         return checkNotFoundWithId(vote, id);
     }
 
-/*    public List<Vote> getAll() {
+    public List<Vote> getAll() {
         log.info("getAll votes");
         return repository.getAll();
-    }*/
+    }
 
     public List<Vote> getAllForAuthUser() {
         log.info("get all for User {}", authUserId());
@@ -53,22 +52,10 @@ public class VoteService {
 
     @Transactional
     public void update(int voteId, int vacancyId) {
-        log.info("update vote {} for employerId {} of user {}", voteId, vacancyId, authUserId());
+        log.info("update vote {} for vacancyId {} of user {}", voteId, vacancyId, authUserId());
         Vote vote = new Vote(voteId, thisDay, vacancyId, authUserId());
         Assert.notNull(vote, "vote must not be null");
         checkNotFoundWithId(repository.save(vote, authUserId()), voteId);
-    }
-
-    @Transactional
-    public void setVote(int vacancyId, boolean enabled) {
-        log.info(enabled ? "enable {}" : "disable {}", vacancyId);
-        if (!enabled){
-            log.info("deleteByVacancyId {}", vacancyId);
-            checkNotFoundWithId(repository.deleteByVacancyId(vacancyId, authUserId()), vacancyId);
-        } else {
-            log.info("create vote for vacancyId {} userId {}", vacancyId, authUserId());
-            create(vacancyId);
-        }
     }
 
     @Transactional
@@ -82,4 +69,15 @@ public class VoteService {
         repository.deleteListByVacancyId(vacancyId);
     }
 
+    @Transactional
+    public void setVote(int vacancyId, boolean toVote) {
+        log.info(toVote ? "enable {}" : "disable {}", vacancyId);
+        if (!toVote){
+            log.info("deleteByVacancyId {}", vacancyId);
+            checkNotFoundWithId(repository.deleteByVacancyId(vacancyId, authUserId()), vacancyId);
+        } else {
+            log.info("create vote for vacancyId {} userId {}", vacancyId, authUserId());
+            create(vacancyId);
+        }
+    }
 }

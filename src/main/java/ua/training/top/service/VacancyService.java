@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
+import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
@@ -26,12 +27,12 @@ import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
 public class VacancyService {
     private static final Logger log = LoggerFactory.getLogger(VacancyService.class);
     private final VacancyRepository vacancyRepository;
-    private final EmployerService employerService;
+    private final EmployerRepository employerRepository;
     private final VoteService voteService;
 
-    public VacancyService(VacancyRepository repository, EmployerService employerService, VoteService voteService) {
+    public VacancyService(VacancyRepository repository, EmployerRepository employerRepository, VoteService voteService) {
         this.vacancyRepository = repository;
-        this.employerService = employerService;
+        this.employerRepository = employerRepository;
         this.voteService = voteService;
     }
 
@@ -55,7 +56,6 @@ public class VacancyService {
         return VacancyUtil.getTos(getAll(), voteService.getAllForAuthUser());
     }
 
-
     public List<Vacancy> getByFilter(String language, String workplace) {
         log.info("getByFilter language={} workplace={}", language, workplace);
         return getAll().stream()
@@ -72,19 +72,16 @@ public class VacancyService {
     @Transactional
     public Vacancy createVacancyAndEmployer(@Valid VacancyTo vacancyTo) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
-        Employer employer = employerService.getOrCreate(getEmployerFromTo(vacancyTo));
+        Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
         return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), employer.getId()), "employerId=" + employer.getId());
     }
 
     @Transactional
     public List<Vacancy> createList(List<@Valid Vacancy> vacancies, int employerId) {
         if (vacancies != null) log.info("createAll {} vacancies for employerId {}", vacancies.size(), employerId);
-        List<Vacancy> created;
-//        vacancies.forEach(ValidationUtil::checkNew);
         vacancies.forEach(v -> Assert.notNull(v, "vacancy must not be null"));
         vacancies.stream().map(vacancy -> vacancy.getTitle().toLowerCase()).distinct().collect(Collectors.toList());
-        created = checkNotFound(vacancyRepository.saveList(vacancies, employerId), "employerId=" + employerId);
-        return created;
+        return checkNotFound(vacancyRepository.saveList(vacancies, employerId), "employerId=" + employerId);
     }
 
     @Transactional
@@ -92,11 +89,10 @@ public class VacancyService {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
         Vacancy newVacancy = getVacancyForUpdate(vacancyTo, vacancyDb);
-        Vacancy updated = checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId()), vacancyTo.id());
-        if(!vacancyTo.getSkills().equals(newVacancy.getSkills())){
+        if(checkFaultVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
-        return updated;
+        return checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId()), vacancyTo.id());
     }
 
     @Transactional
@@ -109,5 +105,10 @@ public class VacancyService {
     public void deleteList(List<Vacancy> list) {
         log.info("deleteList {}", list);
         vacancyRepository.deleteList(list);
+    }
+
+    public boolean checkFaultVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
+        return !vacancyDb.getSkills().equals(newVacancy.getSkills()) || !vacancyDb.getTitle().equals(newVacancy.getTitle()) ||
+                !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
     }
 }

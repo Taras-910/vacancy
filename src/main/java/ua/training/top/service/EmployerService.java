@@ -28,9 +28,9 @@ public class EmployerService {
         return repository.getAll();
     }
 
-    public void update(@Valid @NotEmpty Employer employer) {
-            Assert.notNull(employer, "user must not be null");
-            checkNotFoundWithId(repository.save(employer), employer.id());
+    public Employer getOrCreate(@Valid @NotEmpty Employer employer) {
+        Assert.notNull(employer, "user must not be null");
+        return repository.getOrCreate(employer);
     }
 
     public Employer create(@Valid @NotEmpty Employer employer) {
@@ -38,14 +38,14 @@ public class EmployerService {
         return repository.save(employer);
     }
 
-    public Employer getOrCreate(@Valid @NotEmpty Employer employer) {
-        Assert.notNull(employer, "user must not be null");
-        return repository.getOrCreate(employer);
+    public List<Employer> createList(List<Employer> employers) {
+        employers.forEach(employer -> Assert.notNull(employer, "user must not be null"));
+        return repository.saveList(employers);
     }
 
-    public List<Employer> createAll(List<Employer> employers) {
-        employers.forEach(employer -> Assert.notNull(employer, "user must not be null"));
-        return repository.createAll(employers);
+    public void update(@Valid @NotEmpty Employer employer) {
+        Assert.notNull(employer, "user must not be null");
+        checkNotFoundWithId(repository.save(employer), employer.id());
     }
 
     public void delete(int id) {
@@ -53,7 +53,7 @@ public class EmployerService {
     }
 
     public void deleteEmptyEmployers() {
-        repository.deleteEmptyEmployers(0);
+        repository.deleteAllEmpty(0);
     }
 
 }

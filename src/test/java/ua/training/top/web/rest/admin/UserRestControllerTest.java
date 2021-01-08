@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.top.dataTest.TestUtil.readFromJson;
-import static ua.training.top.dataTest.UserTestData.*;
+import static ua.training.top.testData.TestUtil.readFromJson;
+import static ua.training.top.testData.UserTestData.*;
 
 class UserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = UserRestController.REST_URL + '/';
@@ -82,11 +82,9 @@ class UserRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newUser)))
                 .andExpect(status().isCreated());
         User created = readFromJson(action, User.class);
-        log.info("created {}", created);
-        int newId = created.getId();
-        newUser.setId(newId);
+        newUser.setId(created.getId());
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(service.get(newId), newUser);
+        USER_MATCHER.assertMatch(service.get(created.getId()), newUser);
     }
 
     @Test

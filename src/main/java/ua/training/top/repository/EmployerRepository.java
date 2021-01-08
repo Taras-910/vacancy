@@ -12,13 +12,13 @@ public interface EmployerRepository {
 
     Employer getOrCreate(Employer employer);
 
-    List<Employer> createAll(List<Employer> employers);
-
     // null if not found, when updated
     Employer save(Employer employer);
+
+    List<Employer> saveList(List<Employer> employers);
 
     // false if not found
     boolean delete(int id);
 
-    void deleteEmptyEmployers(int size);
+    void deleteAllEmpty(int sizeVacanciesList);
 }

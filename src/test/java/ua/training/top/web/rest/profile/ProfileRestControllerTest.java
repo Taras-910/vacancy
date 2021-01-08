@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.top.dataTest.UserTestData.USER_MATCHER;
-import static ua.training.top.dataTest.UserTestData.admin;
+import static ua.training.top.testData.UserTestData.USER_MATCHER;
+import static ua.training.top.testData.UserTestData.admin;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ProfileRestController.REST_URL;

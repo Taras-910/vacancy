@@ -13,21 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional(readOnly = true)
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
     private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "releaseDate","title");
-    private Logger log = LoggerFactory.getLogger(getClass());
-
-    CrudVacancyRepository vacancyRepository;
-    CrudEmployerRepository employerRepository;
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final CrudVacancyRepository vacancyRepository;
+    private final CrudEmployerRepository employerRepository;
 
     public DataJpaVacancyRepository(CrudVacancyRepository vacancyRepository, CrudEmployerRepository employerRepository) {
         this.vacancyRepository = vacancyRepository;
         this.employerRepository = employerRepository;
     }
 
-    @Override
     @Transactional
+    @Override
     public Vacancy save(Vacancy vacancy, int employerId) {
         Employer employer = employerRepository.getOne(employerId);
         vacancy.setEmployer(employer);
@@ -37,8 +37,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         return vacancyRepository.get(vacancy.id(), employerId) != null ? vacancyRepository.save(vacancy) : null;
     }
 
-    @Override
     @Transactional
+    @Override
     public List<Vacancy> saveList(List<Vacancy> vacancies, int employerId) {
         Employer employer = employerRepository.getOne(employerId);
         if(employer != null) {
@@ -47,14 +47,14 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         return Optional.of(vacancyRepository.saveAll(vacancies)).orElse(new ArrayList<>());
     }
 
-    @Override
     @Transactional
+    @Override
     public boolean delete(int id) {
         return Optional.of(vacancyRepository.delete(id)).orElse(0) != 0;
     }
 
-    @Override
     @Transactional
+    @Override
     public void deleteList(List<Vacancy> listToDelete) {
         vacancyRepository.deleteAll(listToDelete);
     }

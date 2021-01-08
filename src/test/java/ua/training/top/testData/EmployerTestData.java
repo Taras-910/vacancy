@@ -1,4 +1,4 @@
-package ua.training.top.dataTest;
+package ua.training.top.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Employer;
@@ -6,9 +6,9 @@ import ua.training.top.model.Employer;
 import java.util.Arrays;
 import java.util.List;
 
-import static ua.training.top.dataTest.VacancyTestData.vacancy1;
-import static ua.training.top.dataTest.VacancyTestData.vacancy2;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
+import static ua.training.top.testData.VacancyTestData.vacancy1;
+import static ua.training.top.testData.VacancyTestData.vacancy2;
 
 public class EmployerTestData {
     public static TestMatcher<Employer> EMPLOYER_MATCHER = TestMatcher.usingFieldsComparator(Employer.class,"vacancies");

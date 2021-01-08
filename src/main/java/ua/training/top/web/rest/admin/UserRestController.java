@@ -18,7 +18,7 @@ public class UserRestController {
     static final String REST_URL = "/rest/admin/users";
 
     @Autowired
-    UserService service;
+    private UserService service;
 
     @GetMapping
     public List<User> getAll() {
