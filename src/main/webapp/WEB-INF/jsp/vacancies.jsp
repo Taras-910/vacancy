@@ -75,6 +75,8 @@
                 <th>Требования</th>
                 <th>Дата</th>
                 <th></th>
+                <th hidden>work place</th>
+                <th hidden>language</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -162,12 +164,12 @@
                 <form id="detailsRefreshForm">
                     <div class="form-group">
                         <label for="languageTask" class="col-form-label">язык (java, php, python, ...)</label>
-                        <input type="text" class="form-control" id="languageTask" name="languageTask"
+                        <input type="text" class="form-control" id="languageTask" name="language"
                                placeholder="Java">
                     </div>
                     <div class="form-group">
                         <label for="workplaceTask" class="col-form-label">местонахождение (за_рубежем, Киев, Санкт-Петербург...)</label>
-                        <input type="text" class="form-control" id="workplaceTask" name="workplaceTask"
+                        <input type="text" class="form-control" id="workplaceTask" name="workplace"
                                placeholder="за_рубежем">
                     </div>
                 </form>

@@ -15,13 +15,13 @@ public class SalaryUtil {
     public static String getCorrectSalary(String salary){
         String temp = validateAndFormat(salary);
         try {
-            if ((temp.contains("salary:") || temp.contains("pln"))&& !(salary.contains("$") || salary.contains("usd"))) {
+            if ((temp.contains("salary:") || temp.contains("pln") || temp.contains("(uop)"))&& !(salary.contains("$") || salary.contains("usd"))) {
                 return getPln(temp);
             }
             if (salary.contains("$") || salary.contains("usd")) {
                 return getUsd(temp);
             } else
-            if (salary.contains("eur") || salary.contains("€")) {
+            if (temp.contains("eur") || salary.contains("€")) {
                 return getEur(temp);
             } else
             if (salary.contains("грн")) {

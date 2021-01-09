@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.jsoup.DocumentUtil;
 
@@ -35,11 +35,11 @@ public class WorkStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 0;
         while (true) {
-            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), valueOf(page));
+            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card card-hover card-visited wordwrap job-link");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesWork(elements, doubleString));
@@ -48,6 +48,5 @@ public class WorkStrategy implements Strategy {
         }
         reCall(set.size(), new WorkStrategy());
         return new ArrayList<>(set);
-//        return getTestList();
     }
 }

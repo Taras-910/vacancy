@@ -35,6 +35,6 @@ public class ToCorrectDate {
             log.info("Wrong data {} exception {}", myDate, e.getMessage());
             return LocalDate.now().minusDays(7);
         }
-        return LocalDate.now();
+        return LocalDate.now().minusDays(7);
     }
 }

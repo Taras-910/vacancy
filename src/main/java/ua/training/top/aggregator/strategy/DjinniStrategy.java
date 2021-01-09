@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.jsoup.DocumentUtil;
 
@@ -29,14 +29,14 @@ public class DjinniStrategy implements Strategy{
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if(doubleString.getWorkplaceTask().contains("за_рубежем")){
+        if(doubleString.getWorkplace().contains("за_рубежем")){
             return new ArrayList<>();
         }
         int page = 1;
         while (true) {
-            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), String.valueOf(page));
+            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("list-jobs__item");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesDjinni(elements, doubleString));

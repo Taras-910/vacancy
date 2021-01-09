@@ -48,12 +48,12 @@ public class VacancyTo extends BaseTo implements Serializable {
     @NotNull
     private String language;
 
-    private String workPlace;
+    private String workplace;
 
     private boolean toVote = false;
 
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin, Integer salaryMax,
-                     String url, String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workPlace, @Nullable boolean toVote) {
+                     String url, String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workplace, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -66,14 +66,14 @@ public class VacancyTo extends BaseTo implements Serializable {
         this.siteName = siteName;
         this.language = language;
         this.toVote = toVote;
-        this.workPlace = workPlace;
+        this.workplace = workplace;
     }
 
     public VacancyTo(){}
 
     public VacancyTo(VacancyTo v){
         this(v.getId(), v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(),
-                v.getSkills(), v.getReleaseDate(), v.getSiteName(), v.getLanguage(), v.getWorkPlace(), v.isToVote());
+                v.getSkills(), v.getReleaseDate(), v.getSiteName(), v.getLanguage(), v.getWorkplace(), v.isToVote());
     }
 
     public String getEmployerName() {
@@ -156,12 +156,12 @@ public class VacancyTo extends BaseTo implements Serializable {
         this.toVote = toVote;
     }
 
-    public String getWorkPlace() {
-        return workPlace;
+    public String getWorkplace() {
+        return workplace;
     }
 
-    public void setWorkPlace(String workPlace) {
-        this.workPlace = workPlace;
+    public void setWorkplace(String workplace) {
+        this.workplace = workplace;
     }
 
     public String getSiteName() {
@@ -201,7 +201,7 @@ public class VacancyTo extends BaseTo implements Serializable {
                 ", \nreleaseDate=" + releaseDate +
                 ", \nsiteName=" + siteName +
                 ", \nlanguage=" + language +
-                ", \nworkPlace=" + workPlace +
+                ", \nworkplace=" + workplace +
                 ", \ntoVote=" + toVote +
                 '}';
     }

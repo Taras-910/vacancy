@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.jsoup.DocumentUtil;
 
@@ -30,22 +30,20 @@ public class HabrStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleTo doubleString) {
+    public List<VacancyTo> getVacancies(Freshen doubleString) {
         Set<VacancyTo> set = new LinkedHashSet<>();
         try {
-            if(doubleString.getWorkplaceTask().contains("за_рубежем")){
+            if(doubleString.getWorkplace().contains("за_рубежем")){
                 return new ArrayList<>();
             }
-            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
-//         log.info("dac={}", doc);
+            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage());
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
-//            log.info("elements={}", elements);
             if (elements != null) {
                 set.addAll(getVacanciesHabr(elements, doubleString));
             }
             reCall(set.size(), new HabrStrategy());
         } catch (Exception e) {
-            log.info("There is fault on {} because of {}", HabrStrategy.class.getSimpleName(), e.getMessage());
+            log.info("There is fault on 'HabrStrategy' because of {}", e.getLocalizedMessage());
             return new ArrayList<>(set);
         }
         return new ArrayList<>(set);

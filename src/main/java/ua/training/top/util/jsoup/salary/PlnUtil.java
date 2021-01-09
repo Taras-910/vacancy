@@ -29,6 +29,7 @@ public class PlnUtil {
                     return plnToUsd(getSpring(cleaned.split("\\W")[0], 8 * 22)).concat("—")
                             .concat(plnToUsd(getSpring(cleaned.split("\\W")[1], 8 * 22)));
                 }
+                return plnToUsd(cleaned.split("\\W")[0]).concat("—").concat(plnToUsd(cleaned.split("—")[1]));
             } else{
 //String.valueOf((int)(Float.parseFloat(s) * factor))
                 if(salary.contains("year")){
@@ -37,12 +38,13 @@ public class PlnUtil {
                 if(salary.contains("month")){
                     return  "1".concat("—").concat(plnToUsd(cleaned));
                 }
-                if(salary.contains("day")){
-                    return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
-                }
                 if(salary.contains("hour")){
                     return "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 8 * 22))));
                 }
+                if(salary.contains("day")){
+                    return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
+                }
+                return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
             }
    //         salary = "1".concat("—").concat(plnToUsd(cleaned.concat("00")));
         } catch (NumberFormatException e) {

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS freshen;
 DROP TABLE IF EXISTS vote;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS vacancy;
@@ -62,5 +63,15 @@ CREATE TABLE vote
     user_id            INTEGER   NOT NULL,
     CONSTRAINT votes_idx UNIQUE (vacancy_id, user_id),
     FOREIGN KEY (vacancy_id) REFERENCES VACANCY (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
+);
+
+CREATE TABLE freshen
+(
+    id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    freshen_date_time    TIMESTAMP NOT NULL,
+    language             TEXT   NOT NULL,
+    workplace            TEXT   NOT NULL,
+    user_id              INTEGER   NOT NULL,
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );

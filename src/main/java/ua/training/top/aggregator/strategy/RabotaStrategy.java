@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.jsoup.DocumentUtil;
 
@@ -33,12 +33,12 @@ public class RabotaStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
-        log.info("city={} language={}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
+    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
+        log.info("city={} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while(true) {
-            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), String.valueOf(page));
+            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesRabota(elements, doubleString));
@@ -46,6 +46,6 @@ public class RabotaStrategy implements Strategy {
             else break;
         }
         reCall(set.size(), new RabotaStrategy());
-        return new ArrayList<VacancyTo>(set);
+        return new ArrayList<>(set);
     }
 }

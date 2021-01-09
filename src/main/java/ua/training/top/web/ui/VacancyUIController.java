@@ -9,16 +9,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.top.aggregator.AggregatorController;
+import ua.training.top.model.Freshen;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
-import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
 import java.util.List;
 
 import static ua.training.top.util.VacancyUtil.getResult;
-import static ua.training.top.util.VacancyUtil.orDefault;
+import static ua.training.top.util.VacancyUtil.getValidFreshen;
 
 @RestController
 @RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,11 +76,11 @@ public class VacancyUIController {
 
     @PostMapping(value = "/refresh")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void refreshDB(@Nullable DoubleTo doubleString, BindingResult result) {
+    public void refreshDB(@Nullable Freshen doubleString, BindingResult result) {
         log.info("refreshDB task {}", doubleString);
         if (result.hasErrors()) {
             getResult(result);
         }
-        aggregatorController.refreshDB(orDefault(doubleString));
+        aggregatorController.refreshDB(getValidFreshen(doubleString));
     }
 }

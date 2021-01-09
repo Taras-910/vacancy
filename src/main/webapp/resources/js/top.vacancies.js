@@ -107,6 +107,14 @@ $(function () {
                     }
                 },
                 {
+                    "data": "workplace",
+                    "visible": false
+                },
+                {
+                    "data": "language",
+                    "visible": false
+                },
+                {
                     "orderable": false,
                     "defaultContent": "",
                     "render": renderEditBtn

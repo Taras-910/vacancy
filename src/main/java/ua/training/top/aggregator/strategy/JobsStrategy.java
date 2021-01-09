@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.jsoup.DocumentUtil;
 
@@ -30,12 +30,12 @@ public class JobsStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
-        log.info("getVacancies city {} language {}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
+    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
+        log.info("getVacancies city {} language {}", doubleString.getWorkplace(), doubleString.getLanguage());
         Set<VacancyTo> set = new LinkedHashSet<>();
         String[] positions = new String[]{"middle", "developer", "java"};
         for(String p : positions) {
-            Document doc = getDocument(doubleString.getWorkplaceTask(), doubleString.getLanguageTask(), p);
+            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), p);
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesJobs(elements, doubleString));

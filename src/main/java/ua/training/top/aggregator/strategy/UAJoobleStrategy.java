@@ -4,7 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.jsoup.DocumentUtil;
 
@@ -32,10 +32,10 @@ public class UAJoobleStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(DoubleTo doubleString) throws IOException {
-        log.info("getVacancies city {} language={}", doubleString.getWorkplaceTask(), doubleString.getLanguageTask());
-        boolean other = doubleString.getWorkplaceTask().contains("за_рубежем");
-        String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{doubleString.getWorkplaceTask()};
+    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
+        log.info("getVacancies city {} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
+        boolean other = doubleString.getWorkplace().contains("за_рубежем");
+        String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{doubleString.getWorkplace()};
         List<VacancyTo> result = new ArrayList<>();
         for(String c : cityOrCountry) {
             Set<VacancyTo> set = new LinkedHashSet<>();
@@ -43,10 +43,7 @@ public class UAJoobleStrategy implements Strategy {
             int page = 1;
             int limitEmptyDoc = 1;
             while (true) {
-                Document doc = getDocument(c, doubleString.getLanguageTask(), String.valueOf(page));
-//                Elements elements = doc == null ? null : doc.getElementsByAttribute("data-sgroup");
-//                Elements elements = doc == null ? null : doc.getElementsByClass("left-static-block");
-//                Elements elements = doc == null ? null : doc.getElementsByClass("vacancy_wrapper");
+                Document doc = getDocument(c, doubleString.getLanguage(), String.valueOf(page));
                 Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0 || tempDoc.equals(doc.text())) {
                     limitEmptyDoc --;

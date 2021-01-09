@@ -3,9 +3,7 @@ package ua.training.top.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,20 +20,20 @@ public class Employer extends AbstractBaseEntity{
     public static final String ALL_SORTED = "Employer.getAllSorted";
 
     @NotNull
-    @NotEmpty
-    @Size(min = 2, max = 126)
+//    @NotEmpty
+//    @Size(min = 2, max = 256)
     @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
-    @NotEmpty
-    @Size(min = 2, max = 126)
+//    @NotEmpty
+//    @Size(min = 2, max = 256)
     @Column(name="address")
     private String address;
 
     @NotNull
-    @NotEmpty
-    @Size(min = 2, max = 126)
+//    @NotEmpty
+//    @Size(min = 2, max = 256)
     @Column(name="site_name")
     private String siteName;
 

@@ -11,10 +11,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.aggregator.AggregatorController;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
-import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
@@ -22,7 +22,7 @@ import java.net.URI;
 import java.util.List;
 
 import static ua.training.top.util.VacancyUtil.getResult;
-import static ua.training.top.util.VacancyUtil.orDefault;
+import static ua.training.top.util.VacancyUtil.getValidFreshen;
 
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,11 +80,11 @@ public class VacancyRestController {
 
     @PostMapping(value = "/refresh")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> refreshDB(@Nullable DoubleTo doubleString, BindingResult result) {
+    public ResponseEntity<String> refreshDB(@Nullable Freshen doubleString, BindingResult result) {
         if (result.hasErrors()) {
             getResult(result);
         }
-        aggregatorController.refreshDB(orDefault(doubleString));
+        aggregatorController.refreshDB(getValidFreshen(doubleString));
         return ResponseEntity.ok().build();
     }
 }

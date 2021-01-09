@@ -18,7 +18,7 @@ public class DocumentUtil {
                     .get();
 
         } catch (IOException e) {
-            log.info("There is exception={} by url={} ", e.getMessage(), url);
+            log.error("There may be no internet connection or exception={} by url={} ", e.getMessage(), url);
         }
         return document;
     }

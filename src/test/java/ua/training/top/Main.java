@@ -49,14 +49,14 @@ public class Main {
 //        System.out.println(voteService.getAll().size());
 //        System.out.println("========================================");
 //        AggregatorController aggregatorController = appCtx.getBean(AggregatorController.class);
-//        aggregatorController.refreshDB(new DoubleTo("java", "киев"));
+//        aggregatorController.refreshDB(new Freshen("java", "киев"));
 //        VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
         VacancyService vacancyService = appCtx.getBean(VacancyService.class);
         VoteService voteService = appCtx.getBean(VoteService.class);
 /*
         VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
         EmployerService employerService = appCtx.getBean(EmployerService.class);
-        DoubleTo doubleString = new DoubleTo("java", "киев");
+        Freshen doubleString = new Freshen("java", "киев");
         EmployerRepository employerRepository = appCtx.getBean(EmployerRepository.class);
 */
 

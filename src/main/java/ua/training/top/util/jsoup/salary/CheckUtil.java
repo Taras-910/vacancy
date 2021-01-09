@@ -20,7 +20,8 @@ public class CheckUtil {
         if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary)) {
             return "1";
         }
-        salary = salary.replaceAll(" ", "").replaceAll(" ", "").replaceAll("b2b", "");
+        salary = salary.replaceAll(" ", "").replaceAll(" ", "")
+                .replaceAll("b2b", "").replaceAll("\\(uop\\)", "").replaceAll("[.]{2,}", "");
         salary = salary.replaceAll("–", "—").replaceAll("-", "—");
         salary = salary.contains("salary:") ? "salary:".concat(salary.split("salary:")[1]) : salary;
         salary = salary.contains(",") ? salary.split(",")[0] : salary;
@@ -32,7 +33,7 @@ public class CheckUtil {
             for(String find : list) {
                 find = find.substring(0, find.indexOf("k"));
                 String newString = String.valueOf((int) (Float.parseFloat(find) * 1000));
-                salary = salary.replace(find, newString);
+                salary = salary.replace(find, newString).trim();
             }
         }
         return salary;

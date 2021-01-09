@@ -1,3 +1,4 @@
+DELETE FROM freshen;
 DELETE FROM vote;
 DELETE FROM user_roles;
 DELETE FROM employer;
@@ -26,3 +27,6 @@ INSERT INTO vote (local_date, vacancy_id, user_id)
 VALUES ('2020-10-25', 100004, 100000),
        ('2020-10-25', 100005, 100001);
 
+INSERT INTO freshen (freshen_date_time, language, workplace, user_id)
+VALUES ('2020-10-25 12:00:00', 'java', 'киев', 100000),
+       ('2020-10-25 13:00:00', 'java', 'киев', 100001);

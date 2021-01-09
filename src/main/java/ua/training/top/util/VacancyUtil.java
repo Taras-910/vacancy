@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import ua.training.top.model.Employer;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
-import ua.training.top.to.DoubleTo;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
 
 public class VacancyUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
@@ -52,13 +55,13 @@ public class VacancyUtil {
     public static Vacancy getVacancyFromTo(VacancyTo vTo) {
         return new Vacancy(vTo.getId() == null ? null : vTo.id(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(),
                 vTo.getUrl(), vTo.getSkills(), vTo.getReleaseDate() != null? vTo.getReleaseDate() : LocalDate.now(),
-                vTo.getLanguage(), nullOrEmpty(vTo.getWorkPlace()) ? vTo.getWorkPlace() : vTo.getAddress().toLowerCase(), LocalDateTime.now());
+                vTo.getLanguage(), nullOrEmpty(vTo.getWorkplace()) ? vTo.getWorkplace() : vTo.getAddress().toLowerCase(), LocalDateTime.now());
     }
 
     public static Vacancy getVacancyForUpdate(VacancyTo vTo, Vacancy v) {
         return new Vacancy(v.getId(), v.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
                 vTo.getReleaseDate() == null ? v.getReleaseDate() : vTo.getReleaseDate(), vTo.getLanguage(),
-                vTo.getWorkPlace() == null ? v.getWorkplace() : vTo.getAddress().toLowerCase(), v.getRecordedDate());
+                vTo.getWorkplace() == null ? v.getWorkplace() : vTo.getAddress().toLowerCase(), v.getRecordedDate());
     }
 
     public static boolean nullOrEmpty(String obj){
@@ -68,11 +71,9 @@ public class VacancyUtil {
         return List.of(new VacancyTo(null, "", "", "", 0, 0,
                 "", "для этого фильтра нет вакансий", null, null, null, null,false));
     }
-
-    public static DoubleTo orDefault(DoubleTo task) {
-        String language = task.getLanguageTask() != null && !task.getLanguageTask().isEmpty() ? task.getLanguageTask().toLowerCase() : LANGUAGE_DEFAULT;
-        String workplace = task.getWorkplaceTask() != null && !task.getWorkplaceTask().isEmpty() ? task.getWorkplaceTask().toLowerCase() : WORKPLACE_DEFAULT;
-        return new DoubleTo(language, workplace);
+//    public Freshen(Integer id, LocalDateTime freshenDateTime, String language, String workplace, Integer userId) {
+    public static Freshen getValidFreshen(Freshen f) {
+        return new Freshen(null, LocalDateTime.now(), getXssCleaned(f.getLanguage()).toLowerCase(), getXssCleaned(f.getWorkplace()).toLowerCase(), authUserId());
     }
 
     public static List<VacancyTo> getTestList(){

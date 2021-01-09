@@ -2,7 +2,7 @@ package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.to.DoubleTo;
+import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
@@ -18,22 +18,22 @@ public class AggregatorService {
         this.providers = providers;
     }
 
-    public List<VacancyTo> selectBy(DoubleTo doubleString){
+    public List<VacancyTo> selectBy(Freshen doubleString){
         allProviders = new ArrayDeque<>(Arrays.asList(providers));
         Set<VacancyTo> set = new HashSet<>();
         while(allProviders.peek()!=null){
             try {
                 set.addAll(allProviders.pollFirst().getJavaVacancies(doubleString));
             } catch (IOException e) {
-                log.info("e {}", e.getMessage());
+                log.error("e {}", e.getMessage());
             }
         }
         log.info("Common number vacancies = {}", set.size());
         return set.stream()
                 .map(vacancyTo -> {
                     vacancyTo.setId(null);
-                    vacancyTo.setWorkPlace(doubleString.getWorkplaceTask());
-                    vacancyTo.setLanguage(doubleString.getLanguageTask());
+                    vacancyTo.setWorkplace(doubleString.getWorkplace());
+                    vacancyTo.setLanguage(doubleString.getLanguage());
                     vacancyTo.setToVote(false);
                     return vacancyTo; })
                 .collect(Collectors.toList());

@@ -12,10 +12,11 @@ import static ua.training.top.aggregator.AggregatorService.allProviders;
 
 public class InstallationUtil {
     private static Logger log = LoggerFactory.getLogger(InstallationUtil.class);
-    public static int limitCallPages = 10;
     private static int repeatToCall = 3;
-    public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(10);
-    public static LocalDate reasonDateToKeep = LocalDateTime.now().toLocalDate().minusDays(21);
+    public static int limitCallPages = 10;
+    public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
+    public static LocalDate reasonDateToKeep = LocalDateTime.now().toLocalDate().minusDays(28);
+    public static Integer reasonTimeBetweenRefresh = 30;
 
     public static void reCall(int listSize, Strategy strategy){
         if (listSize == 0 && repeatToCall > 0){
