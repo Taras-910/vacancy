@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.fromTo;
-import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.VacancyUtil.getEmployerFromTo;
 import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForCreate;
 import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForUpdate;
 
@@ -105,11 +105,11 @@ public class AggregatorController {
 
     @Transactional
     protected void updateDb(Set<Employer> employersForCreate, Set<VacancyTo> tosExistEmployers, Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
+        Freshen createdFreshen = freshenService.create(freshen);
         List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
-        createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
-        createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
+        createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers), createdFreshen);
+        createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate), createdFreshen);
         employerService.deleteEmptyEmployers();
-        freshenService.create(freshen);
     }
 
     private boolean checkTimingRefresh(Freshen freshen) {
@@ -121,10 +121,10 @@ public class AggregatorController {
     }
 
     @Transactional
-    public List<Vacancy> createVacancies(Map<Integer, List<Vacancy>> map) {
+    public List<Vacancy> createVacancies(Map<Integer, List<Vacancy>> map, Freshen freshen) {
         log.info("createByMap {}", map != null ? map.size() : "there is map = null");
         List<Vacancy> newVacancies = new ArrayList<>();
-        map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId)));
+        map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
         return newVacancies;
     }
 

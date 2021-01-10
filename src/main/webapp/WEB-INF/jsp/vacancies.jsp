@@ -167,8 +167,8 @@
             <div class="modal-body">
                 <form id="detailsRefreshForm">
                     <div class="form-group">
-                        <label type="hidden" for="freshenDateTime" class="col-form-label"></label>
-                        <input type="hidden" class="form-control" id="freshenDateTime" name="freshenDateTime">
+                        <label type="hidden" for="recordedDate" class="col-form-label"></label>
+                        <input type="hidden" class="form-control" id="recordedDate" name="recordedDate">
                     </div>
                     <div class="form-group">
                         <label for="languageTask" class="col-form-label">язык (java, php, python, ...)</label>

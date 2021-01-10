@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.model.Employer;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
@@ -19,9 +20,7 @@ import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.ValidationUtil.checkNotFound;
-import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
-import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.ValidationUtil.*;
 
 @Service
 public class VacancyService {
@@ -29,11 +28,13 @@ public class VacancyService {
     private final VacancyRepository vacancyRepository;
     private final EmployerRepository employerRepository;
     private final VoteService voteService;
+    private final FreshenService freshenService;
 
-    public VacancyService(VacancyRepository repository, EmployerRepository employerRepository, VoteService voteService) {
+    public VacancyService(VacancyRepository repository, EmployerRepository employerRepository, VoteService voteService, FreshenService freshenService) {
         this.vacancyRepository = repository;
         this.employerRepository = employerRepository;
         this.voteService = voteService;
+        this.freshenService = freshenService;
     }
 
     public Vacancy get(int id) {
@@ -59,8 +60,8 @@ public class VacancyService {
     public List<Vacancy> getByFilter(String language, String workplace) {
         log.info("getByFilter language={} workplace={}", language, workplace);
         return getAll().stream()
-                .filter(v -> workplace.isEmpty() || v.getWorkplace().contains(workplace))
-                .filter(v -> language.isEmpty() || v.getLanguage().contains(language))
+                .filter(v -> workplace.isEmpty() || v.getFreshen().getWorkplace().contains(workplace))
+                .filter(v -> language.isEmpty() || v.getFreshen().getLanguage().contains(language))
                 .collect(Collectors.toList());
     }
 
@@ -73,26 +74,27 @@ public class VacancyService {
     public Vacancy createVacancyAndEmployer(@Valid VacancyTo vacancyTo) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
-        return checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId()), "employerId=" + employer.getId());
+        Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
+        return checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId(), freshen.getId()), "employerId=" + employer.getId());
     }
 
     @Transactional
-    public List<Vacancy> createList(List<@Valid Vacancy> vacancies, int employerId) {
+    public List<Vacancy> createList(List<@Valid Vacancy> vacancies, int employerId, int freshenId) {
         if (vacancies != null) log.info("createAll {} vacancies for employerId {}", vacancies.size(), employerId);
         vacancies.forEach(v -> Assert.notNull(v, "vacancy must not be null"));
         vacancies.stream().map(vacancy -> vacancy.getTitle().toLowerCase()).distinct().collect(Collectors.toList());
-        return checkNotFound(vacancyRepository.saveList(vacancies, employerId), "employerId=" + employerId);
+        return checkNotFound(vacancyRepository.saveList(vacancies, employerId, freshenId), "employerId=" + employerId);
     }
 
     @Transactional
-    public Vacancy update(@Valid VacancyTo vacancyTo) {
+    public Vacancy update(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
-        if(checkFaultVote(vacancyTo, vacancyDb, newVacancy)){
+        if(checkValidVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
-        return checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId()), vacancyTo.id());
+        return checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId(), vacancyDb.getFreshen().getId()), vacancyTo.id());
     }
 
     @Transactional
@@ -105,10 +107,5 @@ public class VacancyService {
     public void deleteList(List<Vacancy> list) {
         log.info("deleteList {}", list);
         vacancyRepository.deleteList(list);
-    }
-
-    public boolean checkFaultVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
-        return !vacancyDb.getSkills().equals(newVacancy.getSkills()) || !vacancyDb.getTitle().equals(newVacancy.getTitle())
-                || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
     }
 }

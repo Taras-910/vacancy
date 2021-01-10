@@ -9,6 +9,7 @@ import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.transaction.TransactionSystemException;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
+import ua.training.top.testData.FreshenTestData;
 import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
@@ -18,13 +19,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ua.training.top.testData.EmployerTestData.*;
+import static ua.training.top.testData.FreshenTestData.FRESHEN2_ID;
 import static ua.training.top.testData.UserTestData.NOT_FOUND;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
 import static ua.training.top.util.VacancyUtil.fromTo;
-import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.VacancyUtil.getEmployerFromTo;
 
 public class VacancyServiceTest extends AbstractServiceTest {
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -34,6 +36,8 @@ public class VacancyServiceTest extends AbstractServiceTest {
     private VoteService voteService;
     @Autowired
     private EmployerService employerService;
+    @Autowired
+    private FreshenService freshenService;
 
     @Test
     public void get() throws Exception {
@@ -74,18 +78,19 @@ public class VacancyServiceTest extends AbstractServiceTest {
     public void createErrorData() throws Exception {
         assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
         assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "A" , 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "A" , 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
         assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", null, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
         assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", null, DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//        assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "A", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
+ //       assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "A", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
         assertThrows(TransactionSystemException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11",null, "киев", false)));
     }
 
     @Test
     public void createListOfVacancies() throws Exception {
         List<Vacancy> actual = List.of(vacancy3, vacancy4);
-        List<Vacancy> created = vacancyService.createList(actual, EMPLOYER1_ID);
+        int freshenId = freshenService.create(FreshenTestData.getNew()).getId();
+        List<Vacancy> created = vacancyService.createList(actual, EMPLOYER1_ID, freshenId);
         for(int i = 0; i < created.size(); i++) {
             actual.get(i).setId(created.get(i).getId());
         }
@@ -95,9 +100,10 @@ public class VacancyServiceTest extends AbstractServiceTest {
     @Test
     public void createListErrorData() throws Exception {
 //        assertThrows(TransactionSystemException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy1), new Vacancy(vacancy2)), EMPLOYER2_ID));
-        assertThrows(NullPointerException.class, () -> vacancyService.createList(List.of(null, new Vacancy(vacancy3)), EMPLOYER2_ID));
-        assertThrows(NullPointerException.class, () -> vacancyService.createList(null, EMPLOYER2_ID));
-        assertThrows(JpaObjectRetrievalFailureException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), NOT_FOUND));
+        assertThrows(NullPointerException.class, () -> vacancyService.createList(List.of(null, new Vacancy(vacancy3)), EMPLOYER2_ID, FRESHEN2_ID));
+        assertThrows(NullPointerException.class, () -> vacancyService.createList(null, EMPLOYER2_ID, FRESHEN2_ID));
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), NOT_FOUND, FRESHEN2_ID));
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), EMPLOYER2_ID, NOT_FOUND));
     }
 
     @Test

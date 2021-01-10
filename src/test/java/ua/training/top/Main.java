@@ -2,10 +2,14 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ua.training.top.model.Vacancy;
+import ua.training.top.repository.VacancyRepository;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
+import ua.training.top.to.VacancyTo;
+import ua.training.top.util.VacancyUtil;
 
-import static ua.training.top.util.VacancyUtil.getTos;
+import static ua.training.top.testData.VacancyTestData.vacancy1;
 
 public class Main {
     public static void main(String[] args) {
@@ -50,7 +54,7 @@ public class Main {
 //        System.out.println("========================================");
 //        AggregatorController aggregatorController = appCtx.getBean(AggregatorController.class);
 //        aggregatorController.refreshDB(new Freshen("java", "киев"));
-//        VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
+        VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
         VacancyService vacancyService = appCtx.getBean(VacancyService.class);
         VoteService voteService = appCtx.getBean(VoteService.class);
 /*
@@ -60,7 +64,9 @@ public class Main {
         EmployerRepository employerRepository = appCtx.getBean(EmployerRepository.class);
 */
 
-        System.out.println(getTos(vacancyService.getAll(), voteService.getAllForAuthUser()));
+        Vacancy vacancy = vacancy1;
+        VacancyTo vacancyTo = VacancyUtil.getTo(vacancy, voteService.getAllForAuthUser());
+        System.out.println(vacancyTo);
 
 
 

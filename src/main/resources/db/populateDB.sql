@@ -7,6 +7,7 @@ DELETE FROM users;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
+
 INSERT INTO users (name, email, password, registered)
 VALUES ('Admin', 'admin@gmail.com', 'admin', '2020-01-30 8:00:00'),
        ('User', 'user@yandex.ru', 'password', '2020-01-30 8:00:00');
@@ -19,14 +20,17 @@ INSERT INTO employer (name, address, site_name)
 VALUES ('Huuuge Games', 'Киев', 'https://grc.ua'),
        ('RedLab', 'Киев', 'https://grc.ua');
 
-INSERT INTO vacancy (title, salary_min, salary_max, link, skills, release_date, language, workplace, recorded_date, employer_id)
-VALUES ('Middle Game Developer', 0, 1, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…', '2020-10-25','php', 'киев', '2020-11-01 12:00',100002),
-       ('Middle Java-разработчик',0, 1, 'https://grc.ua/vacancy/40006938?query=java', '...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения', '2020-10-25', 'java', 'киев', '2020-11-01 12:00', 100003);
-
-INSERT INTO vote (local_date, vacancy_id, user_id)
-VALUES ('2020-10-25', 100004, 100000),
-       ('2020-10-25', 100005, 100001);
-
 INSERT INTO freshen (recorded_date, language, workplace, user_id)
 VALUES ('2020-10-25 12:00:00', 'java', 'киев', 100000),
-       ('2020-10-25 13:00:00', 'java', 'киев', 100001);
+       ('2020-10-25 13:00:00', 'php', 'киев', 100001);
+
+INSERT INTO vacancy (title, salary_min, salary_max, link, skills, release_date, employer_id, freshen_id)
+VALUES ('Middle Game Developer', 100000, 200000, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…', '2020-10-25',100002, 100004),
+       ('Middle Java-разработчик', 150000, 300000, 'https://grc.ua/vacancy/40006938?query=java', '...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения', '2020-10-25', 100003, 100005);
+
+INSERT INTO vote (local_date, vacancy_id, user_id)
+VALUES ('2020-10-25', 100006, 100000),
+       ('2020-10-25', 100007, 100001);
+
+
+

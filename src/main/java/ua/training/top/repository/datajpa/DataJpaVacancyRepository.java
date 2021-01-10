@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
@@ -20,17 +21,21 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final CrudVacancyRepository vacancyRepository;
     private final CrudEmployerRepository employerRepository;
+    private final CrudFreshenRepository freshenRepository;
 
-    public DataJpaVacancyRepository(CrudVacancyRepository vacancyRepository, CrudEmployerRepository employerRepository) {
+    public DataJpaVacancyRepository(CrudVacancyRepository vacancyRepository, CrudEmployerRepository employerRepository, CrudFreshenRepository freshenRepository) {
         this.vacancyRepository = vacancyRepository;
         this.employerRepository = employerRepository;
+        this.freshenRepository = freshenRepository;
     }
 
     @Transactional
     @Override
-    public Vacancy save(Vacancy vacancy, int employerId) {
+    public Vacancy save(Vacancy vacancy, int employerId, int freshenId) {
         Employer employer = employerRepository.getOne(employerId);
+        Freshen freshen = freshenRepository.getOne(freshenId);
         vacancy.setEmployer(employer);
+        vacancy.setFreshen(freshen);
         if(vacancy.isNew()){
             return vacancyRepository.save(vacancy);
         }
@@ -39,10 +44,14 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Transactional
     @Override
-    public List<Vacancy> saveList(List<Vacancy> vacancies, int employerId) {
+    public List<Vacancy> saveList(List<Vacancy> vacancies, int employerId, int freshenId) {
         Employer employer = employerRepository.getOne(employerId);
-        if(employer != null) {
-            vacancies.forEach(v -> v.setEmployer(employer));
+        Freshen freshen = freshenRepository.getOne(freshenId);
+        if(employer != null && freshen != null) {
+            vacancies.forEach(v -> {
+                v.setEmployer(employer);
+                v.setFreshen(freshen);
+            });
         }
         return Optional.of(vacancyRepository.saveAll(vacancies)).orElse(new ArrayList<>());
     }

@@ -1,6 +1,8 @@
 package ua.training.top.util;
 
 import ua.training.top.model.AbstractBaseEntity;
+import ua.training.top.model.Vacancy;
+import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.NotFoundException;
 
 public class ValidationUtil {
@@ -40,6 +42,11 @@ public class ValidationUtil {
         } else if (entity.id() != id) {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
+    }
+
+    public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
+        return !vacancyDb.getSkills().equals(newVacancy.getSkills()) || !vacancyDb.getTitle().equals(newVacancy.getTitle())
+                || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
     }
 }
 

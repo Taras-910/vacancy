@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS freshen;
 DROP TABLE IF EXISTS vote;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS vacancy;
+DROP TABLE IF EXISTS freshen;
 DROP TABLE IF EXISTS employer;
 DROP TABLE IF EXISTS users CASCADE;
 
@@ -38,6 +38,16 @@ CREATE TABLE employer
     CONSTRAINT employer_idx UNIQUE (name, address)
 );
 
+CREATE TABLE freshen
+(
+    id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    recorded_date    TIMESTAMP NOT NULL,
+    language             TEXT   NOT NULL,
+    workplace            TEXT   NOT NULL,
+    user_id              INTEGER   NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
+);
+
 CREATE TABLE vacancy
 (
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
@@ -47,12 +57,11 @@ CREATE TABLE vacancy
     link           TEXT         NOT NULL,
     skills         TEXT         NOT NULL,
     release_date   TIMESTAMP    NOT NULL,
-    language       TEXT         NOT NULL,
-    workplace      TEXT         NOT NULL,
-    recorded_date  TIMESTAMP    NOT NULL,
     employer_id    INTEGER      NOT NULL,
+    freshen_id     INTEGER      NOT NULL,
     CONSTRAINT vacancy_idx UNIQUE (title, skills, employer_id),
-    FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE
+    FOREIGN KEY (employer_id) REFERENCES employer (id) ON DELETE CASCADE,
+    FOREIGN KEY (freshen_id)  REFERENCES freshen (id) ON DELETE CASCADE
 );
 
 CREATE TABLE vote
@@ -66,12 +75,3 @@ CREATE TABLE vote
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
-CREATE TABLE freshen
-(
-    id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    recorded_date    TIMESTAMP NOT NULL,
-    language             TEXT   NOT NULL,
-    workplace            TEXT   NOT NULL,
-    user_id              INTEGER   NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
-);

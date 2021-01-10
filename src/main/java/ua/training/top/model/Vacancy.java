@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static javax.persistence.FetchType.EAGER;
@@ -47,29 +46,24 @@ public class Vacancy extends AbstractBaseEntity {
     @Column(name="release_date")
     private LocalDate releaseDate;
 
-    @NotNull
-    @Column(name="language")
-    private String language;
-
-    @Column(name="workplace")
-    private String workplace;
-
-    @Column(name="recorded_date")
-    private LocalDateTime recordedDate;
-
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "employer_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value="employer-movement")  //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Employer employer;
+
+    @ManyToOne(fetch = EAGER)
+    @JoinColumn(name = "freshen_id", nullable = false)
+    @JsonBackReference(value="freshen-movement")    //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
+    private Freshen freshen;
 
     public Vacancy() {
     }
 
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, String language, String workplace, LocalDateTime recordedDate) {
-        this(null, title, salaryMin, salaryMax, url, skills, releaseDate, language, workplace, recordedDate);
+    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate) {
+        this(null, title, salaryMin, salaryMax, url, skills, releaseDate);
     }
 
-    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, String language, String workplace, LocalDateTime recordedDate) {
+    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate) {
         super(id);
         this.title = title;
         this.salaryMin = salaryMin;
@@ -77,9 +71,6 @@ public class Vacancy extends AbstractBaseEntity {
         this.url = url;
         this.skills = skills;
         this.releaseDate = releaseDate;
-        this.language = language;
-        this.workplace = workplace;
-        this.recordedDate = recordedDate;
     }
 
     public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, Employer employer) {
@@ -92,17 +83,8 @@ public class Vacancy extends AbstractBaseEntity {
         this.releaseDate = releaseDate;
     }
 
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate) {
-        this.title = title;
-        this.salaryMin = salaryMin;
-        this.salaryMax = salaryMax;
-        this.url = url;
-        this.skills = skills;
-        this.releaseDate = releaseDate;
-    }
-
     public Vacancy(Vacancy v) {
-        this(v.getId(), v.getTitle(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(), v.getSkills(), v.getReleaseDate(), v.getLanguage(), v.getWorkplace(), v.getRecordedDate());
+        this(v.getId(), v.getTitle(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(), v.getSkills(), v.getReleaseDate());
     }
 
     public String getTitle() {
@@ -161,28 +143,12 @@ public class Vacancy extends AbstractBaseEntity {
         this.employer = employer;
     }
 
-    public String getLanguage() {
-        return language;
+    public Freshen getFreshen() {
+        return freshen;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getWorkplace() {
-        return workplace;
-    }
-
-    public void setWorkplace(String workplace) {
-        this.workplace = workplace;
-    }
-
-    public LocalDateTime getRecordedDate() {
-        return recordedDate;
-    }
-
-    public void setRecordedDate(LocalDateTime recordedDate) {
-        this.recordedDate = recordedDate;
+    public void setFreshen(Freshen freshen) {
+        this.freshen = freshen;
     }
 
     @Override
@@ -208,11 +174,9 @@ public class Vacancy extends AbstractBaseEntity {
                 ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
                 ", \nreleaseDate=" + releaseDate +
-                ", \nlanguage='" + language + '\'' +
-                ", \nworkplace='" + workplace + '\'' +
-                ", \nrecordedDate='" + recordedDate + '\'' +
                 ", \nid=" + id +
                 ", \nemployer=" + employer +
+                ", \nfreshen=" + freshen +
                 '}';
     }
 }

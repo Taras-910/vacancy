@@ -35,9 +35,7 @@ import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
-import static ua.training.top.util.VacancyUtil.fromTo;
-import static ua.training.top.util.VacancyUtil.getTos;
-import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.VacancyUtil.*;
 
 class VacancyRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VacancyRestController.REST_URL + '/';
@@ -148,13 +146,13 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void createVacancyEmployer() throws Exception {
-        VacancyTo newVacancyTo = VacancyToTestData.getNew();
+    void createVacancyAndEmployer() throws Exception {
+        VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValue(newVacancyTo))
 //                .with(userHttpBasic(user))
-        );
+        ).andDo(print()).andExpect(status().isCreated());
         Vacancy createdVacancy = readFromJson(action, Vacancy.class);
         int newIdVacancy = createdVacancy.id();
         newVacancyTo.setId(newIdVacancy);
@@ -197,18 +195,20 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void getByFilter() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-                        .param("language", "java").param("workplace", "киев")
+                        .param("language", "java")
+                        .param("workplace", "киев")
                 //               .with(userHttpBasic(user))
         )
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2), voteService.getAllForAuthUser())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1), voteService.getAllForAuthUser())));
     }
 
     @Test
-    void getByFilterAll() throws Exception {
+    void getByEmptyFilter() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-                        .param("language", "").param("workplace", "")
+                        .param("language", "")
+                        .param("workplace", "")
                 //               .with(userHttpBasic(user))
         )
                 .andExpect(status().isOk())

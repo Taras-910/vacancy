@@ -2,6 +2,7 @@ package ua.training.top.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
 import ua.training.top.testData.FreshenTestData;
 import ua.training.top.util.exception.NotFoundException;
@@ -27,13 +28,12 @@ public class FreshenServiceTest extends AbstractServiceTest{
         FRESHEN_MATCHER.assertMatch(service.get(newId), newFreshen);
     }
 
-/*
     @Test
+    @Transactional
     public void delete() throws Exception {
         service.delete(FRESHEN1_ID);
         assertThrows(NotFoundException.class, () -> service.get(FRESHEN1_ID));
     }
-*/
 
     @Test
     public void deletedNotFound() throws Exception {

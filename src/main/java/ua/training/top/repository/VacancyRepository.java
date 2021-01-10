@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface VacancyRepository {
 
-    Vacancy save(Vacancy vacancy, int employerId);
+    Vacancy save(Vacancy vacancy, int employerId, int freshenId);
 
-    List<Vacancy> saveList(List<Vacancy> vacancies, int employerId);
+    List<Vacancy> saveList(List<Vacancy> vacancies, int employerId, int freshenId);
 
     Vacancy get(int id);
 

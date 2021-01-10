@@ -38,7 +38,7 @@ public class Employer extends AbstractBaseEntity{
     private String siteName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
-    @JsonManagedReference
+    @JsonManagedReference(value="employer-movement") // https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private List<Vacancy> vacancies;
 
     public Employer(Integer id, String name, String address, String siteName) {

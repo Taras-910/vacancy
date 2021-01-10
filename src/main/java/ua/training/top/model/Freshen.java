@@ -1,18 +1,20 @@
 package ua.training.top.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
 
 @Entity
 @Table(name = "freshen")
-public class Freshen extends AbstractBaseEntity {
+public class Freshen extends AbstractBaseEntity implements Serializable {
 
     @NotNull
     @Column(name = "recorded_date", nullable = false)
@@ -30,6 +32,10 @@ public class Freshen extends AbstractBaseEntity {
 
     @Column(name = "user_id", nullable = false)
     private Integer userId;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "freshen"/*, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}*/)
+    @JsonManagedReference(value="freshen-movement") //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
+    private List<Vacancy> vacancies;
 
     public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Integer userId) {
         super(id);
@@ -50,8 +56,8 @@ public class Freshen extends AbstractBaseEntity {
         return recordedDate;
     }
 
-    public void setRecordedDate(LocalDateTime freshenDateTime) {
-        this.recordedDate = freshenDateTime;
+    public void setRecordedDate(LocalDateTime recordedDate) {
+        this.recordedDate = recordedDate;
     }
 
     public String getLanguage() {
@@ -59,7 +65,7 @@ public class Freshen extends AbstractBaseEntity {
     }
 
     public void setLanguage(String language) {
-        this.language = language == null ? "" : getXssCleaned(language).toLowerCase();
+        this.language = language;
     }
 
     public String getWorkplace() {
@@ -67,7 +73,7 @@ public class Freshen extends AbstractBaseEntity {
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = workplace == null ? "" : getXssCleaned(workplace).toLowerCase();
+        this.workplace = workplace;
     }
 
     public Integer getUserId() {
@@ -76,6 +82,14 @@ public class Freshen extends AbstractBaseEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public List<Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(List<Vacancy> vacancies) {
+        this.vacancies = vacancies;
     }
 
     @Override

@@ -26,14 +26,14 @@ public class VacanciesMapUtil {
 
     public static Map<Integer, List<Vacancy>> getMapVacanciesForCreate(List<Employer> employersCreated, Set<VacancyTo> tosExistdEmployers) {
         Map<Integer, List<Vacancy>> mapForCreate = new HashMap<>();
-        employersCreated.forEach(e -> {
+        employersCreated.forEach(employer -> {
             List<Vacancy> vacancies =  new ArrayList<>();
-            tosExistdEmployers.forEach(t -> {
-                if(e.getName().equals(t.getEmployerName())){
-                    vacancies.add(fromTo(t));
+            tosExistdEmployers.forEach(vacancyTo -> {
+                if(employer.getName().equals(vacancyTo.getEmployerName())){
+                    vacancies.add(fromTo(vacancyTo));
                 }
             });
-            mapForCreate.put(e.getId(), vacancies);
+            mapForCreate.put(employer.getId(), vacancies);
         });
         return mapForCreate;
     }

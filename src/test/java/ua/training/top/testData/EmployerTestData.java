@@ -24,7 +24,7 @@ public class EmployerTestData {
         return Arrays.asList(employer1, employer2);
     }
 
-    public static Employer employer1WithDishes() {
+    public static Employer employer1WithVacancies() {
         employer1.setVacancies(Arrays.asList(vacancy1));
         return employer1;
     }
