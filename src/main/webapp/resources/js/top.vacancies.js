@@ -1,9 +1,15 @@
 var ctx, vacancyAjaxUrl = "profile/vacancies/";
 
 function refreshDB() {
-    $("#modalTitle").html('refresh');
+    $.ajaxSetup({cacheURL: false});
     $('#detailsRefreshForm').find(":input").val("");
-    $("#refreshRow").modal();
+    $("#modalTitle").html('refresh');
+    $.get(ctx.ajaxUrl + "refresh", function (data) {
+        $.each(data, function (key, value) {
+            $('#detailsRefreshForm').find("input[name='" + key + "']").val(value);
+        });
+        $('#refreshRow').modal();
+    });
 }
 
 function sendRefresh() {
@@ -57,7 +63,7 @@ $(function () {
                 "url": vacancyAjaxUrl,
                 "dataSrc": ""
             },
-            "paging": false,
+            "pagingType": "full_numbers",
             "info": true,
             "columns": [
                 {

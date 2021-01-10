@@ -19,10 +19,11 @@ import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.VacancyUtil.getResult;
-import static ua.training.top.util.VacancyUtil.getValidFreshen;
 
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -78,13 +79,19 @@ public class VacancyRestController {
         voteService.setVote(vacancyId, enabled);
     }
 
+    @GetMapping(value = "/refresh")
+    public Freshen getNewFreshen() {
+        log.info("getNewFreshen by user {}", authUserId());
+        return new Freshen(null, LocalDateTime.now(), "", "", authUserId());
+    }
+
     @PostMapping(value = "/refresh")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> refreshDB(@Nullable Freshen doubleString, BindingResult result) {
         if (result.hasErrors()) {
             getResult(result);
         }
-        aggregatorController.refreshDB(getValidFreshen(doubleString));
+        aggregatorController.refreshDB(doubleString);
         return ResponseEntity.ok().build();
     }
 }

@@ -57,4 +57,7 @@ tr[data-userEnabled="false"] {
     opacity: 0.3;
 }
 
-
+.col-12{
+    flex: 0 0 100%;
+    max-width: 100%;
+}

@@ -69,7 +69,7 @@ CREATE TABLE vote
 CREATE TABLE freshen
 (
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    freshen_date_time    TIMESTAMP NOT NULL,
+    recorded_date    TIMESTAMP NOT NULL,
     language             TEXT   NOT NULL,
     workplace            TEXT   NOT NULL,
     user_id              INTEGER   NOT NULL,

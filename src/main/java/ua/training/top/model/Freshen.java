@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,23 +14,26 @@ import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
 @Table(name = "freshen")
 public class Freshen extends AbstractBaseEntity {
 
-    @Column(name = "freshen_date_time", nullable = false)
-    private LocalDateTime freshenDateTime;
+    @NotNull
+    @Column(name = "recorded_date", nullable = false)
+    private LocalDateTime recordedDate;
 
     @NotNull
+    @Size(min = 2, max = 100)
     @Column(name="language")
     private String language;
 
     @NotNull
+    @Size(min = 2, max = 100)
     @Column(name="workplace")
     private String workplace;
 
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
-    public Freshen(Integer id, LocalDateTime freshenDateTime, String language, String workplace, Integer userId) {
+    public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Integer userId) {
         super(id);
-        this.freshenDateTime = freshenDateTime;
+        this.recordedDate = recordedDate;
         this.language = language == null ? "" : getXssCleaned(language).toLowerCase();
         this.workplace = workplace == null ? "" : getXssCleaned(workplace).toLowerCase();
         this.userId = userId;
@@ -39,15 +43,15 @@ public class Freshen extends AbstractBaseEntity {
     }
 
     public Freshen(Freshen f){
-        this(f.getId(), f.freshenDateTime, f.language, f.workplace, f.userId);
+        this(f.getId(), f.recordedDate, f.language, f.workplace, f.userId);
     }
 
-    public LocalDateTime getFreshenDateTime() {
-        return freshenDateTime;
+    public LocalDateTime getRecordedDate() {
+        return recordedDate;
     }
 
-    public void setFreshenDateTime(LocalDateTime freshenDateTime) {
-        this.freshenDateTime = freshenDateTime;
+    public void setRecordedDate(LocalDateTime freshenDateTime) {
+        this.recordedDate = freshenDateTime;
     }
 
     public String getLanguage() {
@@ -55,7 +59,7 @@ public class Freshen extends AbstractBaseEntity {
     }
 
     public void setLanguage(String language) {
-        this.language = language == null ? "" : getXssCleaned(language);
+        this.language = language == null ? "" : getXssCleaned(language).toLowerCase();
     }
 
     public String getWorkplace() {
@@ -63,7 +67,7 @@ public class Freshen extends AbstractBaseEntity {
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = workplace == null ? "" : getXssCleaned(workplace);
+        this.workplace = workplace == null ? "" : getXssCleaned(workplace).toLowerCase();
     }
 
     public Integer getUserId() {
@@ -78,7 +82,7 @@ public class Freshen extends AbstractBaseEntity {
     public String toString() {
         return "Freshen{" +
                 "id=" + id +
-                ", freshenDateTime=" + freshenDateTime +
+                ", recordedDate=" + recordedDate +
                 ", language='" + language + '\'' +
                 ", workplace='" + workplace + '\'' +
                 ", userId=" + userId +
@@ -91,11 +95,11 @@ public class Freshen extends AbstractBaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         Freshen freshen = (Freshen) o;
 
-        return freshenDateTime.equals(freshen.freshenDateTime) && language.equals(freshen.language) && workplace.equals(freshen.workplace);
+        return recordedDate.equals(freshen.recordedDate) && language.equals(freshen.language) && workplace.equals(freshen.workplace);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(freshenDateTime, language, workplace);
+        return Objects.hash(recordedDate, language, workplace);
     }
 }

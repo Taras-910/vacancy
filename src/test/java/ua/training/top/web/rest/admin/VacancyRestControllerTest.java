@@ -18,6 +18,7 @@ import ua.training.top.service.VoteService;
 import ua.training.top.testData.VacancyTestData;
 import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
@@ -34,7 +35,8 @@ import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
-import static ua.training.top.util.VacancyUtil.*;
+import static ua.training.top.util.VacancyUtil.fromTo;
+import static ua.training.top.util.VacancyUtil.getTos;
 import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
 
 class VacancyRestControllerTest extends AbstractControllerTest {
@@ -55,7 +57,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VACANCY_TO_MATCHER.contentJson(createTo(vacancy1, voteService.getAllForAuthUser())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(VacancyUtil.getTo(vacancy1, voteService.getAllForAuthUser())));
     }
 
 /*
@@ -116,7 +118,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        VACANCY_MATCHER.assertMatch(vacancyService.get(VACANCY1_ID), getVacancyFromTo(updated));
+        VACANCY_MATCHER.assertMatch(vacancyService.get(VACANCY1_ID), fromTo(updated));
     }
 
     @Test
@@ -156,13 +158,13 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         Vacancy createdVacancy = readFromJson(action, Vacancy.class);
         int newIdVacancy = createdVacancy.id();
         newVacancyTo.setId(newIdVacancy);
-        VACANCY_MATCHER.assertMatch(createdVacancy, getVacancyFromTo(newVacancyTo));
+        VACANCY_MATCHER.assertMatch(createdVacancy, fromTo(newVacancyTo));
         Employer newEmployer = getEmployerFromTo(newVacancyTo);
         Employer createdEmployer = employerService.getOrCreate(getEmployerFromTo(newVacancyTo));
         int newIdEmployer = createdEmployer.id();
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
-        VACANCY_TO_MATCHER.assertMatch(createTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
+        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
     }
 
     @Test

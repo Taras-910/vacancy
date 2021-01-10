@@ -11,6 +11,7 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
@@ -22,8 +23,7 @@ import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
-import static ua.training.top.util.VacancyUtil.createTo;
-import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
+import static ua.training.top.util.VacancyUtil.fromTo;
 import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
 
 public class VacancyServiceTest extends AbstractServiceTest {
@@ -104,7 +104,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
     public void update() throws Exception {
         VacancyTo vTo = VacancyToTestData.getUpdate();
         Vacancy updated = vacancyService.update(vTo);
-        VACANCY_MATCHER.assertMatch(getVacancyFromTo(vTo), updated);
+        VACANCY_MATCHER.assertMatch(fromTo(vTo), updated);
     }
 
     @Test
@@ -118,13 +118,13 @@ public class VacancyServiceTest extends AbstractServiceTest {
         Vacancy createdVacancy = vacancyService.createVacancyAndEmployer(newVacancyTo);
         int newIdVacancy = createdVacancy.id();
         newVacancyTo.setId(newIdVacancy);
-        VACANCY_MATCHER.assertMatch(createdVacancy, getVacancyFromTo(newVacancyTo));
+        VACANCY_MATCHER.assertMatch(createdVacancy, fromTo(newVacancyTo));
         Employer newEmployer = getEmployerFromTo(newVacancyTo);
         Employer createdEmployer = employerService.getOrCreate(getEmployerFromTo(newVacancyTo));
         int newIdEmployer = createdEmployer.id();
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
-        VACANCY_TO_MATCHER.assertMatch(createTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
+        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
     }
 
 }

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.top.aggregator.AggregatorController;
@@ -15,10 +14,11 @@ import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.VacancyUtil.getResult;
-import static ua.training.top.util.VacancyUtil.getValidFreshen;
 
 @RestController
 @RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,13 +74,19 @@ public class VacancyUIController {
         voteService.setVote(vacancyId, enabled);
     }
 
+    @GetMapping(value = "/refresh")
+    public Freshen getNewFreshen() {
+        log.info("getNewFreshen by user {}", authUserId());
+        return new Freshen(null, LocalDateTime.now(), null, null, authUserId());
+    }
+
     @PostMapping(value = "/refresh")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void refreshDB(@Nullable Freshen doubleString, BindingResult result) {
-        log.info("refreshDB task {}", doubleString);
+    public void refreshDB(@Valid Freshen freshen, BindingResult result) {
+        log.info("refreshDB freshen {}", freshen);
         if (result.hasErrors()) {
             getResult(result);
         }
-        aggregatorController.refreshDB(getValidFreshen(doubleString));
+        aggregatorController.refreshDB(freshen);
     }
 }

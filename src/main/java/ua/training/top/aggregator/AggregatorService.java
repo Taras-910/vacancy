@@ -18,12 +18,12 @@ public class AggregatorService {
         this.providers = providers;
     }
 
-    public List<VacancyTo> selectBy(Freshen doubleString){
+    public List<VacancyTo> selectBy(Freshen freshen){
         allProviders = new ArrayDeque<>(Arrays.asList(providers));
         Set<VacancyTo> set = new HashSet<>();
         while(allProviders.peek()!=null){
             try {
-                set.addAll(allProviders.pollFirst().getJavaVacancies(doubleString));
+                set.addAll(allProviders.pollFirst().getJavaVacancies(freshen));
             } catch (IOException e) {
                 log.error("e {}", e.getMessage());
             }
@@ -32,8 +32,8 @@ public class AggregatorService {
         return set.stream()
                 .map(vacancyTo -> {
                     vacancyTo.setId(null);
-                    vacancyTo.setWorkplace(doubleString.getWorkplace());
-                    vacancyTo.setLanguage(doubleString.getLanguage());
+                    vacancyTo.setWorkplace(freshen.getWorkplace());
+                    vacancyTo.setLanguage(freshen.getLanguage());
                     vacancyTo.setToVote(false);
                     return vacancyTo; })
                 .collect(Collectors.toList());

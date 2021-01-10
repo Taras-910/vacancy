@@ -28,6 +28,7 @@
         <property name="formatters">
             <set>
                 <bean class="ua.training.top.util.formatter.DateTimeFormatters.DateFormatter"/>
+                <bean class="ua.training.top.util.formatter.DateTimeFormatters.LocalDateTimeFormatter"/>
                 <bean class="ua.training.top.util.formatter.DateTimeFormatters.LocalTimeFormatter"/>
                 <bean class="ua.training.top.util.formatter.DateTimeFormatters.LocalDateFormatter"/>
             </set>

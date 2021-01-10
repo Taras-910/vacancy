@@ -6,7 +6,7 @@ import ua.training.top.to.VacancyTo;
 
 import java.util.*;
 
-import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
+import static ua.training.top.util.VacancyUtil.fromTo;
 
 public class VacanciesMapUtil {
 
@@ -30,7 +30,7 @@ public class VacanciesMapUtil {
             List<Vacancy> vacancies =  new ArrayList<>();
             tosExistdEmployers.forEach(t -> {
                 if(e.getName().equals(t.getEmployerName())){
-                    vacancies.add(getVacancyFromTo(t));
+                    vacancies.add(fromTo(t));
                 }
             });
             mapForCreate.put(e.getId(), vacancies);

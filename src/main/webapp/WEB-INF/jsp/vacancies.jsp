@@ -11,7 +11,7 @@
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron pt-4">
-    <div class="container">
+    <div class="container-fluid row-cols-lg-10" >
         <h3 class="text-center">Вакансии</h3>
         <div class="card border-dark">
             <div class="card-body pb-0">
@@ -62,18 +62,21 @@
                 Обновить DB
             </button>
         </div>
-        <table class="table table-striped" id="datatable">
+
+
+        <table class="table table-striped table-light" id="datatable">
+            <div class="row">
             <thead>
             <tr>
                 <th hidden>id</th>
                 <th hidden>link</th>
-                <th>Вакансия</th>
-                <th>Компания</th>
-                <th>Город</th>
-                <th>От $</th>
-                <th>До $</th>
-                <th>Требования</th>
-                <th>Дата</th>
+                <th class="col-auto">Вакансия</th>
+                <th class="col-auto">Компания</th>
+                <th class="col-auto">Город</th>
+                <th class="col-auto">От $</th>
+                <th class="col-auto">До $</th>
+                <th class="col">Требования</th>
+                <th class="col">Дата</th>
                 <th></th>
                 <th hidden>work place</th>
                 <th hidden>language</th>
@@ -81,6 +84,7 @@
                 <th></th>
             </tr>
             </thead>
+            </div>
         </table>
         <br>
     </div>
@@ -163,14 +167,20 @@
             <div class="modal-body">
                 <form id="detailsRefreshForm">
                     <div class="form-group">
+                        <label type="hidden" for="freshenDateTime" class="col-form-label"></label>
+                        <input type="hidden" class="form-control" id="freshenDateTime" name="freshenDateTime">
+                    </div>
+                    <div class="form-group">
                         <label for="languageTask" class="col-form-label">язык (java, php, python, ...)</label>
-                        <input type="text" class="form-control" id="languageTask" name="language"
-                               placeholder="Java">
+                        <input type="text" class="form-control" id="languageTask" name="language">
                     </div>
                     <div class="form-group">
                         <label for="workplaceTask" class="col-form-label">местонахождение (за_рубежем, Киев, Санкт-Петербург...)</label>
-                        <input type="text" class="form-control" id="workplaceTask" name="workplace"
-                               placeholder="за_рубежем">
+                        <input type="text" class="form-control" id="workplaceTask" name="workplace">
+                    </div>
+                    <div class="form-group">
+                        <label type="hidden" for="userId" class="col-form-label"></label>
+                        <input type="hidden" class="form-control" id="userId" name="userId">
                     </div>
                 </form>
             </div>

@@ -43,7 +43,7 @@ public class VacancyService {
 
     public VacancyTo getTo(int id) {
         log.info("getTo vacancy {}", id);
-        return createTo(get(id), voteService.getAllForAuthUser());
+        return VacancyUtil.getTo(get(id), voteService.getAllForAuthUser());
     }
 
     public List<Vacancy> getAll() {
@@ -73,7 +73,7 @@ public class VacancyService {
     public Vacancy createVacancyAndEmployer(@Valid VacancyTo vacancyTo) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
-        return checkNotFound(vacancyRepository.save(getVacancyFromTo(vacancyTo), employer.getId()), "employerId=" + employer.getId());
+        return checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId()), "employerId=" + employer.getId());
     }
 
     @Transactional
@@ -88,7 +88,7 @@ public class VacancyService {
     public Vacancy update(@Valid VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
-        Vacancy newVacancy = getVacancyForUpdate(vacancyTo, vacancyDb);
+        Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
         if(checkFaultVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
@@ -108,7 +108,7 @@ public class VacancyService {
     }
 
     public boolean checkFaultVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
-        return !vacancyDb.getSkills().equals(newVacancy.getSkills()) || !vacancyDb.getTitle().equals(newVacancy.getTitle()) ||
-                !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
+        return !vacancyDb.getSkills().equals(newVacancy.getSkills()) || !vacancyDb.getTitle().equals(newVacancy.getTitle())
+                || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
     }
 }

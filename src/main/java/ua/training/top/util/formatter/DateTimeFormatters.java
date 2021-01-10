@@ -5,13 +5,13 @@ import org.springframework.format.Formatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
-import static ua.training.top.util.DateTimeUtil.parseLocalDate;
-import static ua.training.top.util.DateTimeUtil.parseLocalTime;
+import static ua.training.top.util.DateTimeUtil.*;
 
 public class DateTimeFormatters {
 
@@ -31,6 +31,19 @@ public class DateTimeFormatters {
         @Override
         public String print(Date dt, Locale locale) {
             return new SimpleDateFormat("yyyy-MM-dd").format(dt);
+        }
+    }
+
+    public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
+
+        @Override
+        public LocalDateTime parse(String text, Locale locale) {
+            return parseLocalDateTime(text);
+        }
+
+        @Override
+        public String print(LocalDateTime lt, Locale locale) {
+            return lt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
     }
 

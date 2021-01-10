@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
-import static ua.training.top.util.VacancyUtil.getVacancyFromTo;
+import static ua.training.top.util.VacancyUtil.fromTo;
 import static ua.training.top.util.jsoup.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForCreate;
 import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForUpdate;
@@ -40,7 +40,6 @@ public class AggregatorController {
         this.freshenService = freshenService;
     }
 
-    @Transactional
     public void refreshDB(Freshen freshen){
         log.info("refreshDB by doubleString {}", freshen);
 
@@ -60,7 +59,7 @@ public class AggregatorController {
 
             vacancyTos.forEach(vacancyTo -> {
                 AtomicBoolean unDouble = new AtomicBoolean(true);
-                Vacancy vacancyFromTo = getVacancyFromTo(vacancyTo);
+                Vacancy vacancyFromTo = fromTo(vacancyTo);
                 List<Employer> tempEmployersForUpdate = null;
                 List<Employer> tempEmployersForCreate = null;
                 List<Vacancy> tempVacanciesForUpdate = null;
@@ -100,12 +99,17 @@ public class AggregatorController {
                 tosExistEmployers.addAll(tempTosExistEmployers);
             });
 
-            List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
-            createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
-            createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
-            employerService.deleteEmptyEmployers();
-            freshenService.create(freshen);
+            updateDb(employersForCreate, tosExistEmployers, employersForUpdate, vacanciesForUpdate, freshen);
         }
+    }
+
+    @Transactional
+    protected void updateDb(Set<Employer> employersForCreate, Set<VacancyTo> tosExistEmployers, Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
+        List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
+        createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers));
+        createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate));
+        employerService.deleteEmptyEmployers();
+        freshenService.create(freshen);
     }
 
     private boolean checkTimingRefresh(Freshen freshen) {

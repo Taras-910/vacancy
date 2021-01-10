@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import ua.training.top.model.Employer;
 import ua.training.top.to.VacancyTo;
 
-import static ua.training.top.util.VacancyUtil.getSiteName;
+import static ua.training.top.util.jsoup.datas.CorrectSiteName.getSiteName;
 
 public class EmployerUtil {
     private static Logger log = LoggerFactory.getLogger(EmployerUtil.class);
