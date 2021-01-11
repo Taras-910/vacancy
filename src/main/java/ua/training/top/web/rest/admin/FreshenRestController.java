@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
-import static ua.training.top.util.VacancyUtil.getResult;
 
 @RestController
 @RequestMapping(value = FreshenRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +54,8 @@ public class FreshenRestController {
         service.update(freshen, id);
     }
 
-    @PostMapping
+/*
+    @PostMapping("/refresh")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid Freshen freshen, BindingResult result) {
         log.info("refreshDB freshen {}", freshen);
@@ -67,5 +64,6 @@ public class FreshenRestController {
         }
         service.refreshDB(freshen);
     }
+*/
 
 }

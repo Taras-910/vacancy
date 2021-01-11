@@ -12,8 +12,8 @@
 
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
-        <h3 class="text-center">Вакансии</h3>
-        <div class="card border-dark">
+        <h3 class="text-center text-secondary">Вакансии</h3>
+        <%--<div class="card border-dark">
             <div class="card-body pb-0">
                 <form id="filter">
                     <div class="row">
@@ -48,17 +48,19 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>--%>
         <br>
         <div class="row card-footer">
-            <button class="col-2 btn btn-danger" onclick="addVacancy()">
-            <span class="fa fa-plus text-left"></span>
-                    Добавить
-                </button>
+
+            <button class="col-2 btn btn-outline-primary" onclick="addVacancy()">
+                <span class="fa fa-plus text-left"></span>
+                   Добавить
+            </button>
+
             <a class="offset-4 col-3">
             </a>
-            <button class="col-2 btn btn-info text-left" onclick="refreshDB()">
-                <span class="fa fa-refresh text-right"></span>
+            <button class="col-2 btn btn-outline-success float-right" onclick="refreshDB()">
+                <span class="fa fa-refresh text-left pull-right"></span>
                 Обновить DB
             </button>
         </div>
@@ -74,7 +76,7 @@
                 <th class="col-auto">Город</th>
                 <th class="col-auto">От $</th>
                 <th class="col-auto">До $</th>
-                <th class="col" style="text-align: center">Требования</th>
+                <th class="col" style="text-align: center;">Требования</th>
                 <th class="col">Дата</th>
                 <th hidden>siteName</th>
                 <th hidden>toVote</th>

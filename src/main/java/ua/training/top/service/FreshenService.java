@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
@@ -17,11 +16,9 @@ import static ua.training.top.util.ValidationUtil.*;
 public class FreshenService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     private final FreshenRepository repository;
-    private final AggregatorController aggregatorController;
 
-    public FreshenService(FreshenRepository repository, AggregatorController aggregatorController) {
+    public FreshenService(FreshenRepository repository) {
         this.repository = repository;
-        this.aggregatorController = aggregatorController;
     }
 
     public Freshen get(int id) {
@@ -58,8 +55,5 @@ public class FreshenService {
         return repository.getByDoubleString(workplace, language);
     }
 
-    public void refreshDB(Freshen freshen) {
-        log.info("refreshDB freshen{}", freshen);
-        aggregatorController.refreshDB(freshen);
-    }
+
 }

@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Freshen;
-import ua.training.top.service.FreshenService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class FreshenUIController {
     public static final Logger log = LoggerFactory.getLogger(FreshenUIController.class);
 
     @Autowired
-    private FreshenService service;
+    private AggregatorController controller;
 
 
     @GetMapping
@@ -38,6 +38,6 @@ public class FreshenUIController {
         if (result.hasErrors()) {
             getResult(result);
         }
-        service.refreshDB(freshen);
+        controller.refreshDB(freshen);
     }
 }
