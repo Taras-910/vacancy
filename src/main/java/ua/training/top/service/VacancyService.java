@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.ValidationUtil.*;
+import static ua.training.top.util.ValidationUtil.checkNotFound;
+import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class VacancyService {
@@ -72,9 +73,10 @@ public class VacancyService {
 
     @Transactional
     public Vacancy createVacancyAndEmployer(@Valid VacancyTo vacancyTo) {
-        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+        log.info("createVacancyAndEmployer");
         Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
         Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
+        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         return checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId(), freshen.getId()), "employerId=" + employer.getId());
     }
 
@@ -87,7 +89,7 @@ public class VacancyService {
     }
 
     @Transactional
-    public Vacancy update(VacancyTo vacancyTo) {
+    public Vacancy updateTo(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);

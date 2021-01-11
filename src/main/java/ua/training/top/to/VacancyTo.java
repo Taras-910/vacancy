@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -37,7 +36,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     @URL
     String url;
 
-    @NotEmpty
+    @NotNull
     @Size(min = 2, max = 1000)
     String skills;
 
@@ -52,8 +51,8 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     private boolean toVote = false;
 
-    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, Integer salaryMin, Integer salaryMax,
-                     String url, String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workplace, @Nullable boolean toVote) {
+    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin, @NotNull Integer salaryMax,
+                     @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workplace, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -65,8 +64,8 @@ public class VacancyTo extends BaseTo implements Serializable {
         this.releaseDate = releaseDate;
         this.siteName = siteName;
         this.language = language;
-        this.toVote = toVote;
         this.workplace = workplace;
+        this.toVote = toVote;
     }
 
     public VacancyTo(){}

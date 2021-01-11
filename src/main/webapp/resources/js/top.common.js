@@ -19,7 +19,8 @@ function add() {
 function updateRow(id) {
     $.ajaxSetup({cacheURL: false});
     form.find(":input").val("");
-    $("#modalTitle").html('edit');
+    $('#modalTitle').html('edit');
+    // $('.not_update_visible').animate({width: "toggle"});
     $.get(ctx.ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
@@ -59,6 +60,8 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
+        $("#addRow").modal("hide");
+        $("#updateRow").modal("hide");
         ctx.updateTable();
         successNoty("Saved");
     });

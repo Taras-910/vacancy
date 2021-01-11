@@ -109,13 +109,13 @@ public class VacancyServiceTest extends AbstractServiceTest {
     @Test
     public void update() throws Exception {
         VacancyTo vTo = VacancyToTestData.getUpdate();
-        Vacancy updated = vacancyService.update(vTo);
+        Vacancy updated = vacancyService.updateTo(vTo);
         VACANCY_MATCHER.assertMatch(fromTo(vTo), updated);
     }
 
     @Test
     public void updateErrorData() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> vacancyService.update(new VacancyTo()));
+        assertThrows(IllegalArgumentException.class, () -> vacancyService.updateTo(new VacancyTo()));
     }
 
     @Test

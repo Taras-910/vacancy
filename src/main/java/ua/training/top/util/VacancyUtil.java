@@ -49,22 +49,26 @@ public class VacancyUtil {
                 vTo.getReleaseDate() == null ? v.getReleaseDate() : vTo.getReleaseDate());
     }
 
-    public static boolean check(String text){
-        return text == null || text.isEmpty();
-    }
-
     public static List<VacancyTo> getEmptyTos() {
-        return List.of(new VacancyTo(null, "", "", "", 0, 0,"",
-                "для этого фильтра нет вакансий", null, null, null, null,false));
+        return List.of(new VacancyTo(null, "", "", "", null, null,"",
+                "no suitable vacancies", null, null, null, null,false));
     }
 
     public static Employer getEmployerFromTo(VacancyTo vTo) {
         return new Employer(null, vTo.getEmployerName(), vTo.getAddress(),
-                vTo.getSiteName() == null ? getSiteName(vTo.getUrl()) : vTo.getSiteName());
+                checkText(vTo.getSiteName()) ? getSiteName(vTo.getUrl()) : vTo.getSiteName());
     }
 
     public static Freshen getFreshenFromTo(VacancyTo vTo) {
-        return new Freshen(null, LocalDateTime.now(), vTo.getLanguage(), vTo.getAddress(), authUserId());
+        return new Freshen(null, LocalDateTime.now(), vTo.getLanguage(),
+                checkText(vTo.getWorkplace()) ? vTo.getAddress() : vTo.getWorkplace(), authUserId());
     }
 
+    public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
+        return !vacancyDb.getTitle().equals(newVacancy.getTitle()) || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
+    }
+
+    public static boolean checkText(String text){
+        return text == null || text.isEmpty();
+    }
 }

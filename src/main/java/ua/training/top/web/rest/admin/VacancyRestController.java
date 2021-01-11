@@ -56,7 +56,7 @@ public class VacancyRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody @Valid VacancyTo vacancyTo) {
-        vacancyService.update(vacancyTo);
+        vacancyService.updateTo(vacancyTo);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

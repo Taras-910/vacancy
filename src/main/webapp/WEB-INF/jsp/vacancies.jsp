@@ -51,7 +51,7 @@
         </div>
         <br>
         <div class="row card-footer">
-            <button class="col-2 btn btn-danger" onclick="add()">
+            <button class="col-2 btn btn-danger" onclick="addVacancy()">
             <span class="fa fa-plus text-left"></span>
                     Добавить
                 </button>
@@ -62,7 +62,6 @@
                 Обновить DB
             </button>
         </div>
-
 
         <table class="table table-striped table-light" id="datatable">
             <div class="row">
@@ -75,9 +74,10 @@
                 <th class="col-auto">Город</th>
                 <th class="col-auto">От $</th>
                 <th class="col-auto">До $</th>
-                <th class="col">Требования</th>
+                <th class="col" style="text-align: center">Требования</th>
                 <th class="col">Дата</th>
-                <th></th>
+                <th hidden>siteName</th>
+                <th hidden>toVote</th>
                 <th hidden>work place</th>
                 <th hidden>language</th>
                 <th></th>
@@ -90,7 +90,8 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" id="editRow">
+<%--add Vacancy--%>
+<div class="modal fade" tabindex="-1" id="addRow">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,47 +101,57 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
-                    <h7>* - эти параметры не редактируются</h7>
-                    <div class="form-group">
-                        <label for="title" class="col-form-label">* Название вакансии</label>
-                        <input type="text" class="form-control" id="title" name="title"
-                               placeholder="Название">
+
+                    <div class="form-group not_update_visible">
+                        <label for="title" class="col-form-label">Название вакансии</label>
+                        <input type="text" class="form-control" id="title" name="title">
                     </div>
-                    <div class="form-group">
-                        <label for="employerName" class="col-form-label">* Работодатель</label>
-                        <input type="text" class="form-control" id="employerName" name="employerName"
-                               placeholder="Название">
+
+                    <div class="form-group not_update_visible">
+                        <label for="employerName" class="col-form-label">Работодатель</label>
+                        <input type="text" class="form-control" id="employerName" name="employerName">
                     </div>
-                    <div class="form-group">
-                        <label for="address" class="col-form-label">* Локализация</label>
-                        <input type="text" class="form-control" id="address" name="address"
-                               placeholder="Киев">
+
+                    <div class="form-group not_update_visible">
+                        <label for="address" class="col-form-label">Адрес</label>
+                        <input type="text" class="form-control" id="address" name="address">
                     </div>
                     <div class="form-group">
                         <label for="salaryMin" class="col-form-label">з/п от (usd cent)</label>
-                        <input type="number" class="form-control" id="salaryMin" name="salaryMin"
-                               placeholder="1">
+                        <input type="number" class="form-control" id="salaryMin" name="salaryMin">
                     </div>
                     <div class="form-group">
                         <label for="salaryMax" class="col-form-label">з/п до (usd cent)</label>
-                        <input type="number" class="form-control" id="salaryMax" name="salaryMax"
-                               placeholder="1">
+                        <input type="number" class="form-control" id="salaryMax" name="salaryMax">
                     </div>
+
                     <div class="form-group">
-                        <label for="url" class="col-form-label"></label>
+                        <label for="url" class="col-form-label">Ссылка</label>
                         <input type="text" class="form-control" id="url" name="url"
                                placeholder="https://www.example.com">
                     </div>
                     <div class="form-group">
-                        <label for="skills" class="col-form-label">Требования</label>
-                        <input type="text" class="form-control" id="skills" name="skills"
-                               placeholder="Требуемые знания, навыки, ...">
+                        <label for="skills" class="col-form-label">Требуемые знания, навыки, ...</label>
+                        <input type="text" class="form-control" id="skills" name="skills">
                     </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="releaseDate" name="releaseDate">
+                    </div>
+
+                    <div class="form-group not_update_visible">
+                        <input type="hidden" class="form-control" id="siteName" name="siteName">
+                    </div>
+
                     <div class="form-group">
                         <label for="language" class="col-form-label">Язык программирования</label>
-                        <input type="text" class="form-control" id="languageCode" name="language"
-                               placeholder="java" aria-valuenow="java">
+                        <input type="text" class="form-control" id="languageCode" name="language">
                     </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="workplace1" name="workplace">
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -157,6 +168,73 @@
     </div>
 </div>
 
+<%--update vacancy--%>
+<div class="modal fade" tabindex="-1" id="updateRow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Редактировать</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="detailsUpdateForm">
+                    <input type="hidden" id="idUpdate" name="id">
+                    <div class="form-group not_update_visible">
+                        <input type="hidden" class="form-control" id="titleUpdate" name="title">
+                    </div>
+                    <div class="form-group not_update_visible">
+                        <input type="hidden" class="form-control" id="employerNameUpdate" name="employerName">
+                    </div>
+                    <div class="form-group not_update_visible">
+                        <input type="hidden" class="form-control" id="addressUpdate" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="salaryMin" class="col-form-label">з/п от (usd cent)</label>
+                        <input type="number" class="form-control" id="salaryMinUpdate" name="salaryMin">
+                    </div>
+                    <div class="form-group">
+                        <label for="salaryMax" class="col-form-label">з/п до (usd cent)</label>
+                        <input type="number" class="form-control" id="salaryMaxUpdate" name="salaryMax">
+                    </div>
+                    <div class="form-group">
+                        <label for="url" class="col-form-label"></label>
+                        <input type="text" class="form-control" id="urlUpdate" name="url"
+                               placeholder="https://www.example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="skills" class="col-form-label">Требования</label>
+                        <input type="text" class="form-control" id="skillsUpdate" name="skills">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="releaseDateUpdate" name="releaseDate">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="siteNameUpdate" name="siteName">
+                    </div>
+                    <div class="form-group">
+                        <label for="language" class="col-form-label">Язык программирования</label>
+                        <input type="text" class="form-control" id="languageCodeUpdate" name="language">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="workplaceUpdate" name="workplace">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
+                    <span class="fa fa-close"></span>
+                    Отменить
+                </button>
+                <button type="button" class="btn btn-primary" onclick="updateVacancyTo()">
+                    <span class="fa fa-check"></span>
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--refresh--%>
 <div class="modal fade" tabindex="-1" id="refreshRow">
     <div class="modal-dialog">
         <div class="modal-content">

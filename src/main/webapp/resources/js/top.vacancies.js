@@ -4,7 +4,7 @@ function refreshDB() {
     $.ajaxSetup({cacheURL: false});
     $('#detailsRefreshForm').find(":input").val("");
     $("#modalTitle").html('refresh');
-    $.get(ctx.ajaxUrl + "refresh", function (data) {
+    $.get("profile/refresh", function (data) {
         $.each(data, function (key, value) {
             $('#detailsRefreshForm').find("input[name='" + key + "']").val(value);
         });
@@ -15,7 +15,7 @@ function refreshDB() {
 function sendRefresh() {
     $.ajax({
         type: "POST",
-        url: vacancyAjaxUrl + "refresh",
+        url: "profile/refresh",
         data: $("#detailsRefreshForm").serialize()
     }).done(function () {
         $("#refreshRow").modal("hide");
@@ -24,8 +24,36 @@ function sendRefresh() {
     });
 }
 
+function addVacancy() {
+    $("#modalTitle").html('add');
+    form.find(":input").val("");
+    $("#addRow").modal();
+}
 
+function updateRowVacancy(id) {
+    $.ajaxSetup({cacheURL: false});
+    $("#modalTitle").html('updateRow');
+    $('#detailsUpdateForm').find(":input").val("");
+//    $('.not_update_visible').fadeOut();
+    $.get(ctx.ajaxUrl + id, function (data) {
+        $.each(data, function (key, value) {
+            $('#detailsUpdateForm').find("input[name='" + key + "']").val(value);
+        });
+        $('#updateRow').modal();
+    });
+}
 
+function updateVacancyTo() {
+    $.ajax({
+        type: "POST",
+        url: ctx.ajaxUrl,
+        data: $('#detailsUpdateForm').serialize()
+    }).done(function () {
+        $("#updateRow").modal("hide");
+        ctx.updateTable();
+        successNoty("Saved");
+    });
+}
 
 function vote(chkbox, id) {
     var toVote = chkbox.is(":checked");
@@ -77,22 +105,28 @@ $(function () {
                 {
                     "data": function (data, type, row) {
                         return '<a href="'+ data.url +'">' + data.title + '</a>'
-                    }
+                    },
+                    "width": "80px"
                 },
                 {
-                    "data": "employerName"
+                    "data": "employerName",
+                    "width": "80px"
                 },
                 {
-                    "data": "address"
+                    "data": "address",
+                    "width": "80px"
                 },
                 {
-                    "data": "salaryMin"
+                    "data": "salaryMin",
+                    "width": "20px"
                 },
                 {
-                    "data": "salaryMax"
+                    "data": "salaryMax",
+                    "width": "20px"
                 },
                 {
-                    "data": "skills"
+                    "data": "skills",
+                    "width": "320px"
                 },
                 {
                     "data": "releaseDate",
@@ -101,7 +135,12 @@ $(function () {
                             return date.substring(0, 10);
                         }
                         return date;
-                    }
+                    },
+                    "width": "40px"
+                },
+                {
+                    "data": "siteName",
+                    "visible": false
                 },
                 {
                     "data": "toVote",
@@ -123,7 +162,11 @@ $(function () {
                 {
                     "orderable": false,
                     "defaultContent": "",
-                    "render": renderEditBtn
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return "<a onclick='updateRowVacancy(" + row.id + ");'><span class='fa fa-pencil'></span></a>";
+                        }
+                    }
                 },
                 {
                     "orderable": false,
@@ -149,4 +192,3 @@ $(function () {
     };
     makeEditable(ctx);
 });
-

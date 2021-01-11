@@ -8,16 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.top.aggregator.AggregatorController;
-import ua.training.top.model.Freshen;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.VacancyUtil.getResult;
 
 @RestController
@@ -52,13 +49,14 @@ public class VacancyUIController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@Valid VacancyTo vacancyTo, BindingResult result) {
+        log.info("createOrUpdate vacancyTo={}", vacancyTo);
         if (result.hasErrors()) {
             getResult(result);
         }
         if (vacancyTo.isNew()) {
             vacancyService.createVacancyAndEmployer(vacancyTo);
         } else {
-            vacancyService.update(vacancyTo);
+            vacancyService.updateTo(vacancyTo);
         }
     }
 
@@ -72,21 +70,5 @@ public class VacancyUIController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setVote(@PathVariable(name = "id") int vacancyId, @RequestParam boolean enabled) {
         voteService.setVote(vacancyId, enabled);
-    }
-
-    @GetMapping(value = "/refresh")
-    public Freshen getNewFreshen() {
-        log.info("getNewFreshen by user {}", authUserId());
-        return new Freshen(null, LocalDateTime.now(), null, null, authUserId());
-    }
-
-    @PostMapping(value = "/refresh")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void refreshDB(@Valid Freshen freshen, BindingResult result) {
-        log.info("refreshDB freshen {}", freshen);
-        if (result.hasErrors()) {
-            getResult(result);
-        }
-        aggregatorController.refreshDB(freshen);
     }
 }

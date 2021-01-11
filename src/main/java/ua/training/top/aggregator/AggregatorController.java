@@ -88,7 +88,7 @@ public class AggregatorController {
                                 .findAny().orElse(null);
                         if (vFind != null && unDouble.get()) {
                             vacancyTo.setId(vFind.getId());
-                            vacancyService.update(vacancyTo);
+                            vacancyService.updateTo(vacancyTo);
                             unDouble.set(false);
                         }
                     }
