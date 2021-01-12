@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
@@ -13,15 +12,14 @@ import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
+import ua.training.top.util.ValidationUtil;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.ValidationUtil.checkNotFound;
-import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
+import static ua.training.top.util.ValidationUtil.*;
 
 @Service
 public class VacancyService {
@@ -71,19 +69,30 @@ public class VacancyService {
         return getTos(getByFilter(language, workplace), voteService.getAllForAuthUser());
     }
 
-    @Transactional
-    public Vacancy createVacancyAndEmployer(@Valid VacancyTo vacancyTo) {
-        log.info("createVacancyAndEmployer");
-        Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
-        Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
-        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
-        return checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId(), freshen.getId()), "employerId=" + employer.getId());
+    public List<Vacancy> getByTitle(String title) {
+        log.info("getByTitle title={}", title);
+        return vacancyRepository.getByTitle(title);
     }
 
     @Transactional
-    public List<Vacancy> createList(List<@Valid Vacancy> vacancies, int employerId, int freshenId) {
-        if (vacancies != null) log.info("createAll {} vacancies for employerId {}", vacancies.size(), employerId);
-        vacancies.forEach(v -> Assert.notNull(v, "vacancy must not be null"));
+    public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
+        log.info("createVacancyAndEmployer");
+            checkDoubleVacancies(getByTitle(vacancyTo.getTitle()), vacancyTo);
+            checkDataVacancyTo(vacancyTo);
+            Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
+            Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
+            log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+            Vacancy vacancy = checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId(), freshen.getId()), "employerId=" + employer.getId());
+            return vacancy;
+    }
+
+    @Transactional
+    public List<Vacancy> createList(List<Vacancy> vacancies, Integer employerId, Integer freshenId) {
+        if (vacancies != null) log.info("createAll {} vacancies for employerId={} with freshenId={}", vacancies.size(), employerId, freshenId);
+        vacancies.forEach(ValidationUtil::checkNew);
+        if (employerId == null || freshenId == null) {
+            throw new IllegalArgumentException("must not null employerId=" + employerId + " or freshenId=" + freshenId);
+        }
         vacancies.stream().map(vacancy -> vacancy.getTitle().toLowerCase()).distinct().collect(Collectors.toList());
         return checkNotFound(vacancyRepository.saveList(vacancies, employerId, freshenId), "employerId=" + employerId);
     }
@@ -92,6 +101,7 @@ public class VacancyService {
     public Vacancy updateTo(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
+        checkValidVacancyTo(vacancyTo, vacancyDb);
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
         if(checkValidVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());
@@ -99,13 +109,11 @@ public class VacancyService {
         return checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId(), vacancyDb.getFreshen().getId()), vacancyTo.id());
     }
 
-    @Transactional
     public void delete(int id) {
         log.info("delete vacancy {}", id);
         checkNotFoundWithId(vacancyRepository.delete(id), id);
     }
 
-    @Transactional
     public void deleteList(List<Vacancy> list) {
         log.info("deleteList {}", list);
         vacancyRepository.deleteList(list);

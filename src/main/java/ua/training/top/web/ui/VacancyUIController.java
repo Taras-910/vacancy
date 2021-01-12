@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.service.VacancyService;
@@ -14,8 +13,6 @@ import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static ua.training.top.util.VacancyUtil.getResult;
 
 @RestController
 @RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,11 +45,8 @@ public class VacancyUIController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Valid VacancyTo vacancyTo, BindingResult result) {
+    public void createOrUpdate(@Valid VacancyTo vacancyTo) {
         log.info("createOrUpdate vacancyTo={}", vacancyTo);
-        if (result.hasErrors()) {
-            getResult(result);
-        }
         if (vacancyTo.isNew()) {
             vacancyService.createVacancyAndEmployer(vacancyTo);
         } else {

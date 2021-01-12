@@ -1,32 +1,31 @@
 package ua.training.top;
 
-public class AuthorizedUser {
-}
+import ua.training.top.model.User;
 
-/*public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
+public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
     private static final long serialVersionUID = 1L;
 
-    private UserTo userTo;
+    public User user;
 
     public AuthorizedUser(User user) {
         super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
-        this.userTo = UserUtil.asTo(user);
+        this.user = user;
     }
 
     public int getId() {
-        return userTo.id();
+        return user.id();
     }
 
-    public void update(UserTo newTo) {
-        userTo = newTo;
+    public void update(User newUser) {
+        user = newUser;
     }
 
-    public UserTo getUserTo() {
-        return userTo;
+    public User getUser() {
+        return user;
     }
 
     @Override
     public String toString() {
-        return userTo.toString();
+        return user.toString();
     }
-*/
+}

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class FreshenRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Freshen> createWithLocation(@RequestBody Freshen freshen) {
+    public ResponseEntity<Freshen> create(@RequestBody @Valid Freshen freshen) {
         Freshen created = service.create(freshen);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -50,20 +51,15 @@ public class FreshenRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Freshen freshen, @PathVariable int id) {
+    public void update(@RequestBody @Valid Freshen freshen, @PathVariable int id) {
         service.update(freshen, id);
     }
 
-/*
-    @PostMapping("/refresh")
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void refreshDB(@Valid Freshen freshen, BindingResult result) {
+    public void refreshDB(@Valid Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        if (result.hasErrors()) {
-            getResult(result);
-        }
         service.refreshDB(freshen);
     }
-*/
 
 }

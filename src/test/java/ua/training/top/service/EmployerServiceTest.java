@@ -3,10 +3,11 @@ package ua.training.top.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.TransactionSystemException;
+import org.springframework.dao.DataIntegrityViolationException;
 import ua.training.top.model.Employer;
 import ua.training.top.testData.EmployerTestData;
 import ua.training.top.util.exception.NotFoundException;
+import ua.training.top.web.rest.admin.EmployerRestController;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Autowired
     EmployerService service;
+    @Autowired
+    EmployerRestController controller;
 
     @Test
     public void getById() {
@@ -45,8 +48,8 @@ public class EmployerServiceTest extends AbstractServiceTest {
     @Test
     public void updateErrorData() throws Exception {
         assertThrows(IllegalArgumentException.class, () -> service.update(null));
-        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
-        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
+        assertThrows(NullPointerException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
+        assertThrows(NullPointerException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
     }
 
     @Test
@@ -59,7 +62,7 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Test
     public void createErrorDate() throws Exception {
-        assertThrows(TransactionSystemException.class, () -> service.update(new Employer(null, null, "newAddress", "https://grc.ua")));
+        assertThrows(DataIntegrityViolationException.class, () -> controller.create(new Employer(null, null, "newAddress", "https://grc.ua")));
     }
 
     @Test

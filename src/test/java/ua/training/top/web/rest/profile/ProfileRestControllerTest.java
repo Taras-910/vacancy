@@ -60,7 +60,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     /*@Test
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicate() throws Exception {
-        User updated = new User(null, "newName", "user@yandex.ru", "newPassword", USER);
+        User updated = new User(null, "newName", "user@yandex.ru", "newPassword", user);
 
         perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
 //                .with(userHttpBasic(user))
@@ -77,7 +77,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicate() throws Exception {
         User updated = new User(null, "newName", "user@yandex.ru", "newPassword", USER);
-
         perform(MockMvcRequestBuilders.put(REST_URL).contentType(MediaType.APPLICATION_JSON)
 //                .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(updated)))

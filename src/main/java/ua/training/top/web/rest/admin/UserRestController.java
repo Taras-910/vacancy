@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UserRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@RequestBody User user) {
+    public ResponseEntity<User> createWithLocation(@RequestBody @Valid User user) {
         User created = service.create(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

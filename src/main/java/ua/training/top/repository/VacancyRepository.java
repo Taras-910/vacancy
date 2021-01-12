@@ -17,5 +17,7 @@ public interface VacancyRepository {
     boolean delete(int id);
 
     void deleteList(List<Vacancy> listToDelete);
+
+    List<Vacancy> getByTitle(String title);
 }
 

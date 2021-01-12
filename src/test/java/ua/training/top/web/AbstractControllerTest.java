@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.annotation.PostConstruct;
+//import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",

@@ -32,11 +32,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.testData.EmployerTestData.EMPLOYER_MATCHER;
 import static ua.training.top.testData.TestUtil.readFromJson;
+import static ua.training.top.testData.UserTestData.NOT_FOUND;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.VacancyUtil.*;
 
+@Transactional
 class VacancyRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VacancyRestController.REST_URL + '/';
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -58,22 +60,14 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .andExpect(VACANCY_TO_MATCHER.contentJson(VacancyUtil.getTo(vacancy1, voteService.getAllForAuthUser())));
     }
 
-/*
     @Test
     void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
 //                .with(userHttpBasic(user))
         )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
-*/
-
-    /*@Test
-    void getUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID))
-                .andExpect(status().isUnauthorized());
-    }*/
 
     @Test
     void getAll() throws Exception {
@@ -95,19 +89,18 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY1_ID));
     }
 
-/*
     @Test
     void deleteNotFound() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
 //                .with(userHttpBasic(user))
         )
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
-*/
 
     @Test
+    @Transactional
     void update() throws Exception {
-        VacancyTo updated = VacancyTestData.getUpdated();
+        VacancyTo updated = new VacancyTo(VacancyTestData.getToUpdated());
         perform(MockMvcRequestBuilders
                         .put(REST_URL + VACANCY1_ID)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -120,8 +113,9 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     void updateInvalid() throws Exception {
-        VacancyTo invalid = new VacancyTo(VacancyTestData.getUpdated());
+        VacancyTo invalid = new VacancyTo(VacancyTestData.getToUpdated());
         invalid.setEmployerName(null);
         perform(MockMvcRequestBuilders.put(REST_URL + VACANCY1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -129,7 +123,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
  //               .with(userHttpBasic(user))
         )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -137,22 +131,24 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     void updateDuplicate() throws Exception {
         VacancyTo invalid = new VacancyTo(vacancyTo1);
         perform(MockMvcRequestBuilders.put(REST_URL + VACANCY1_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(invalid))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValue(invalid))
 //                .with(userHttpBasic(user))
         )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
-
     @Test
+    @Transactional
     void createVacancyAndEmployer() throws Exception {
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValue(newVacancyTo))
 //                .with(userHttpBasic(user))
-        ).andDo(print()).andExpect(status().isCreated());
+        )
+                .andDo(print())
+                .andExpect(status().isCreated());
         Vacancy createdVacancy = readFromJson(action, Vacancy.class);
         int newIdVacancy = createdVacancy.id();
         newVacancyTo.setId(newIdVacancy);
@@ -165,17 +161,19 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
     }
 
+
     @Test
+    @Transactional
     void createInvalid() throws Exception {
         VacancyTo invalid = new VacancyTo(VacancyToTestData.getNew());
         invalid.setTitle(null);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+        perform(MockMvcRequestBuilders.post(REST_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValue(invalid))
 //                .with(userHttpBasic(user))
         )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -189,7 +187,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 //                .with(userHttpBasic(admin))
         )
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -229,4 +227,10 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         vote = voteService.getAllForAuthUser().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
         assertTrue(vote != null);
     }
+
+    /*@Test
+    void getUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID))
+                .andExpect(status().isUnauthorized());
+    }*/
 }

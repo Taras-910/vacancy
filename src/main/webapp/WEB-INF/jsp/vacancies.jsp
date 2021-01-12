@@ -13,7 +13,7 @@
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
         <h3 class="text-center text-secondary">Вакансии</h3>
-        <%--<div class="card border-dark">
+        <div class="card border-dark">
             <div class="card-body pb-0">
                 <form id="filter">
                     <div class="row">
@@ -35,20 +35,20 @@
                     <div class="row">
                         <a class="offset-3 col-3">
                         </a>
-                        <button class="col-2 btn btn-danger text-right" onclick="clearFilter()">
+                        <button class="col-2 btn btn-outline-danger text-right" onclick="clearFilter()">
                             <span class="fa fa-remove"></span>
                             Сбросить
                         </button>
                         <a class="col-1">
                         </a>
-                        <button class="col-2 btn btn-primary text-right" onclick="updateFilteredTable()">
+                        <button class="col-2 btn btn-outline-primary text-right" onclick="updateFilteredTable()">
                             <span class="fa fa-filter"></span>
                             Фильтровать
                         </button>
                     </div>
                 </form>
             </div>
-        </div>--%>
+        </div>
         <br>
         <div class="row card-footer">
 
@@ -65,7 +65,7 @@
             </button>
         </div>
 
-        <table class="table table-striped table-light" id="datatable">
+        <table class="table table-striped table-bordered" id="datatable">
             <div class="row">
             <thead>
             <tr>
@@ -214,8 +214,7 @@
                         <input type="hidden" class="form-control" id="siteNameUpdate" name="siteName">
                     </div>
                     <div class="form-group">
-                        <label for="language" class="col-form-label">Язык программирования</label>
-                        <input type="text" class="form-control" id="languageCodeUpdate" name="language">
+                        <input type="hidden" class="form-control" id="languageCodeUpdate" name="language">
                     </div>
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="workplaceUpdate" name="workplace">

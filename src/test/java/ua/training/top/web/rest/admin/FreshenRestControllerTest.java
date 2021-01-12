@@ -10,11 +10,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
 import ua.training.top.testData.FreshenTestData;
+import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,7 +53,7 @@ class FreshenRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        Freshen newFreshen = FreshenTestData.getNew();
+        Freshen newFreshen = new Freshen(FreshenTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
 //                .with(userHttpBasic(ADMIN))
@@ -63,7 +65,6 @@ class FreshenRestControllerTest extends AbstractControllerTest {
         FRESHEN_MATCHER.assertMatch(service.get(created.getId()), newFreshen);
     }
 
-/*
     @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + FRESHEN1_ID)
@@ -73,11 +74,10 @@ class FreshenRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> service.get(FRESHEN1_ID));
     }
-*/
 
     @Test
     void update() throws Exception {
-        Freshen updated = getUpdated();
+        Freshen updated = new Freshen(getUpdated());
         perform(MockMvcRequestBuilders.put(REST_URL + FRESHEN1_ID)
 //                .with(userHttpBasic(ADMIN))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,6 +85,4 @@ class FreshenRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         FRESHEN_MATCHER.assertMatch(service.get(FRESHEN1_ID), updated);
     }
-
-
 }

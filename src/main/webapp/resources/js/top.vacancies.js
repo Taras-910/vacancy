@@ -1,21 +1,16 @@
 var ctx, vacancyAjaxUrl = "profile/vacancies/";
+var freshenUrl = "profile/freshen";
 
 function refreshDB() {
-    $.ajaxSetup({cacheURL: false});
-    $('#detailsRefreshForm').find(":input").val("");
     $("#modalTitle").html('refresh');
-    $.get("profile/refresh", function (data) {
-        $.each(data, function (key, value) {
-            $('#detailsRefreshForm').find("input[name='" + key + "']").val(value);
-        });
-        $('#refreshRow').modal();
-    });
+    $('#detailsRefreshForm').find(":input").val("");
+    $("#refreshRow").modal();
 }
 
 function sendRefresh() {
     $.ajax({
         type: "POST",
-        url: "profile/refresh",
+        url: freshenUrl,
         data: $("#detailsRefreshForm").serialize()
     }).done(function () {
         $("#refreshRow").modal("hide");

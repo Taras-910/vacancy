@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.aggregator.AggregatorController;
-import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
@@ -19,11 +16,7 @@ import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
-
-import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.util.VacancyUtil.getResult;
 
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +53,7 @@ public class VacancyRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vacancy> createVacancyEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
+    public ResponseEntity<Vacancy> createVacancyAndEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
         Vacancy created = vacancyService.createVacancyAndEmployer(vacancyTo);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -77,21 +70,5 @@ public class VacancyRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setVote(@PathVariable(name = "id") int vacancyId, @RequestParam boolean enabled) {
         voteService.setVote(vacancyId, enabled);
-    }
-
-    @GetMapping(value = "/refresh")
-    public Freshen getNewFreshen() {
-        log.info("getNewFreshen by user {}", authUserId());
-        return new Freshen(null, LocalDateTime.now(), "", "", authUserId());
-    }
-
-    @PostMapping(value = "/refresh")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> refreshDB(@Nullable Freshen doubleString, BindingResult result) {
-        if (result.hasErrors()) {
-            getResult(result);
-        }
-        aggregatorController.refreshDB(doubleString);
-        return ResponseEntity.ok().build();
     }
 }

@@ -2,6 +2,7 @@ package ua.training.top.web.rest.admin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +39,16 @@ public class EmployerRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Employer> create(@RequestBody @Valid Employer employer) {
         Employer created = service.create(employer);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
+        ResponseEntity<Employer> entity = null;
+        try {
+            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path(REST_URL + "/{id}")
+                    .buildAndExpand(created.getId()).toUri();
+            entity = ResponseEntity.created(uriOfNewResource).body(created);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException("ошибка данных");
+        }
+        return entity;
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

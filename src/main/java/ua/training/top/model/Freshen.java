@@ -16,7 +16,6 @@ import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
 @Table(name = "freshen")
 public class Freshen extends AbstractBaseEntity implements Serializable {
 
-    @NotNull
     @Column(name = "recorded_date", nullable = false)
     private LocalDateTime recordedDate;
 

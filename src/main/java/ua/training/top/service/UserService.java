@@ -2,6 +2,7 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -28,6 +29,9 @@ public class UserService {
         log.info("create {}", user);
         Assert.notNull(user, "user must not be null");
         checkNew(user);
+        if(repository.getByEmail(user.getEmail()) != null) {
+            throw new DataIntegrityViolationException("такой user в базе данных существует");
+        }
         return repository.save(user);
     }
 
@@ -56,6 +60,7 @@ public class UserService {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         Assert.notNull(user, "user must not be null");
+        checkValidUpdateUser(user, get(id));
         checkNotFoundWithId(repository.save(user), user.id());
     }
 

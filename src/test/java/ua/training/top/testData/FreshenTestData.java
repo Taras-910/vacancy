@@ -28,7 +28,3 @@ public class FreshenTestData {
         return updated;
     }
 }
-// vacancy1 :  "php", "киев", LocalDateTime.of(2020, 11, 1, 12, 00)
-// vacancy2 :  "java", "киев", LocalDateTime.of(2020, 11, 1, 12, 00)
-// vacancy3 :  "java", "киев", LocalDateTime.now()
-// vacancy4 :  "java", "киев", LocalDateTime.now()

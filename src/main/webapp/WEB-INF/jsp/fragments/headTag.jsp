@@ -17,6 +17,9 @@
     <link rel="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
     <link rel="https://cdn.datatables.net/1.10.23/css/dataTables.material.min.css">
 
+    <%--<link rel="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">--%>
+
 
 <%--http://stackoverflow.com/a/24070373/548473--%>
     <script type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js" defer></script>
@@ -26,4 +29,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
     <%--2-й варіант--%>
     <script type="https://cdn.datatables.net/1.10.23/js/dataTables.material.min.js" defer></script>
+
+    <%--<script type="https://code.jquery.com/jquery-3.5.1.js" defer></script>
+    <script type="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" defer></script>
+    <script type="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" defer></script>--%>
+
 </head>

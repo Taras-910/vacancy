@@ -41,11 +41,6 @@ function deleteRow(id) {
     }
 }
 
-/*
-function updateTableByData(data) {
-    ctx.datatableApi.clear().rows.add(data).draw();
-}
-*/
 function updateTableByData(data) {
     var datatable = ctx.datatableApi;
     datatable.clear().draw();
@@ -88,8 +83,10 @@ function successNoty(key) {
 
 function failNoty(jqXHR) {
     closeNoty();
+    var errorInfo = jqXHR.responseJSON;
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + "Error" + ": " + jqXHR.status + (jqXHR.responseJSON ? "<br>" + jqXHR.responseJSON : ""),
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + "Error" + ": " + jqXHR.status +
+            "<br>" + errorInfo.type + "<br>" + errorInfo.details.join("<br>"),
         type: "error",
         layout: "bottomRight"
     }).show();

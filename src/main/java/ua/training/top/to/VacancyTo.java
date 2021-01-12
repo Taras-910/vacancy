@@ -1,7 +1,6 @@
 package ua.training.top.to;
 
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
@@ -33,11 +32,11 @@ public class VacancyTo extends BaseTo implements Serializable {
     private Integer salaryMax;
 
     @NotNull
-    @URL
+    @Size(min = 4, max = 1000)
     String url;
 
     @NotNull
-    @Size(min = 2, max = 1000)
+    @Size(min = 3, max = 1000)
     String skills;
 
     private LocalDate releaseDate;

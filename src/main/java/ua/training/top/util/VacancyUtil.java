@@ -56,19 +56,27 @@ public class VacancyUtil {
 
     public static Employer getEmployerFromTo(VacancyTo vTo) {
         return new Employer(null, vTo.getEmployerName(), vTo.getAddress(),
-                checkText(vTo.getSiteName()) ? getSiteName(vTo.getUrl()) : vTo.getSiteName());
+                checkString(vTo.getSiteName()) ? getSiteName(vTo.getUrl()) : vTo.getSiteName());
     }
 
     public static Freshen getFreshenFromTo(VacancyTo vTo) {
         return new Freshen(null, LocalDateTime.now(), vTo.getLanguage(),
-                checkText(vTo.getWorkplace()) ? vTo.getAddress() : vTo.getWorkplace(), authUserId());
+                checkString(vTo.getWorkplace()) ? vTo.getAddress() : vTo.getWorkplace(), authUserId());
     }
 
-    public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
-        return !vacancyDb.getTitle().equals(newVacancy.getTitle()) || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
+    public static boolean checkStrings(String... text){
+        return List.of(text).stream().filter(t -> checkString(t)).count() != 0;
     }
 
-    public static boolean checkText(String text){
+    public static boolean checkString(String text){
         return text == null || text.isEmpty();
     }
+
+    public static Freshen getFreshen(Freshen f){
+        return new Freshen(f.getId(), f.getRecordedDate() == null ? LocalDateTime.now() : f.getRecordedDate(),
+                f.getLanguage(), f.getWorkplace(), authUserId());
+    }
+
+
+
 }

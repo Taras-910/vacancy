@@ -2,20 +2,24 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
-import javax.validation.Valid;
 import java.util.List;
 
+import static ua.training.top.util.VacancyUtil.getFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
 public class FreshenService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     private final FreshenRepository repository;
+    @Autowired
+    private AggregatorController aggregatorController;
 
     public FreshenService(FreshenRepository repository) {
         this.repository = repository;
@@ -31,7 +35,7 @@ public class FreshenService {
         return repository.getAll();
     }
 
-    public Freshen create(@Valid Freshen freshen) {
+    public Freshen create(Freshen freshen) {
         log.info("create {}", freshen);
         Assert.notNull(freshen, "freshen must not be null");
         checkNew(freshen);
@@ -55,5 +59,8 @@ public class FreshenService {
         return repository.getByDoubleString(workplace, language);
     }
 
-
+    public void refreshDB(Freshen freshen) {
+        log.info("refreshDB freshen {}", freshen);
+        aggregatorController.refreshDB(getFreshen(freshen));
+    }
 }

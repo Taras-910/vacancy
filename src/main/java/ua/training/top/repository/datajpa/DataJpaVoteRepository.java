@@ -41,6 +41,12 @@ public class DataJpaVoteRepository implements VoteRepository {
     @Override
     public boolean delete(int id, int userId) { return voteRepository.delete(id, userId) != 0; }
 
+    @Transactional
+    @Override
+    public boolean deleteByVacancyId(int vacancyId, int authUserId) {
+        return voteRepository.deleteByVacancyId(vacancyId, authUserId) != 0;
+    }
+
     @Override
     public Vote get(int id, int userId) {
         Vote vote = voteRepository.findById(id).orElse(null);
@@ -60,12 +66,6 @@ public class DataJpaVoteRepository implements VoteRepository {
     @Override
     public List<Vote> getAllByVacancyId(Integer vacancyId) {
         return Optional.of(voteRepository.getAllByVacancyId(vacancyId)).orElse(new ArrayList<Vote>());
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteByVacancyId(int vacancyId, int authUserId) {
-        return voteRepository.deleteByVacancyId(vacancyId, authUserId) != 0;
     }
 
     @Transactional
