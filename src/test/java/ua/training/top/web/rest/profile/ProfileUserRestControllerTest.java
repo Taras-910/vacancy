@@ -16,11 +16,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ua.training.top.testData.UserTestData.USER_MATCHER;
 import static ua.training.top.testData.UserTestData.admin;
 
-class ProfileRestControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = ProfileRestController.REST_URL;
+class ProfileUserRestControllerTest extends AbstractControllerTest {
+    private static final String REST_URL = ProfileUserRestController.REST_URL;
 
     @Autowired
-    private ProfileRestController controller;
+    private ProfileUserRestController controller;
 
     @Test
     void get() throws Exception {

@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
@@ -21,14 +20,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VacancyRestController {
-    static final String REST_URL = "/rest/profile/vacancies";
+    static final String REST_URL = "/rest/admin/vacancies";
     public static final Logger log = LoggerFactory.getLogger(VacancyRestController.class);
     @Autowired
     private VacancyService vacancyService;
     @Autowired
     private VoteService voteService;
-    @Autowired
-    private AggregatorController aggregatorController;
 
     @GetMapping("/{id}")
     public VacancyTo get(@PathVariable int id) {

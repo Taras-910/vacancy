@@ -11,7 +11,7 @@ import ua.training.top.repository.FreshenRepository;
 
 import java.util.List;
 
-import static ua.training.top.util.VacancyUtil.getFreshen;
+import static ua.training.top.util.VacancyUtil.fullFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -61,6 +61,6 @@ public class FreshenService {
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        aggregatorController.refreshDB(getFreshen(freshen));
+        aggregatorController.refreshDB(fullFreshen(freshen));
     }
 }

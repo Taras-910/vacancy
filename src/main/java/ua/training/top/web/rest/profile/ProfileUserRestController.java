@@ -10,8 +10,8 @@ import ua.training.top.service.UserService;
 import static ua.training.top.SecurityUtil.authUserId;
 
 @RestController
-@RequestMapping(ProfileRestController.REST_URL)
-public class ProfileRestController {
+@RequestMapping(ProfileUserRestController.REST_URL)
+public class ProfileUserRestController {
     static final String REST_URL = "/rest/profile";
 
     @Autowired

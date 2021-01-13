@@ -106,46 +106,45 @@ public class ValidationUtil {
         if (!checking) {
             return false;
         } else {
-            throw new DataIntegrityViolationException("такая vacancy в базе данных существует");
+            throw new DataIntegrityViolationException("vacancy " + vacancyTo + " exists in the database");
         }
     }
 
-    public static void checkValidVacancyTo (VacancyTo vacancyTo, Vacancy vacancyDb){
+    public static void checkValidVacancyTo(VacancyTo vacancyTo, Vacancy vacancyDb) {
         boolean check = vacancyTo.getSalaryMin().equals(vacancyDb.getSalaryMin())
                 && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
                 && vacancyTo.getUrl().equals(vacancyDb.getUrl())
                 && vacancyTo.getSkills().equals(vacancyDb.getSkills());
-        if(check) throw new IllegalArgumentException("ни один элемент данных не изменялся");
+        if (check) getValidException();
     }
 
-    public static void checkValidUpdateUser (User user, User userDb){
-        boolean check =  user.getEmail().equals(userDb.getEmail())
+    public static void checkValidUpdateUser(User user, User userDb) {
+        boolean check = user.getEmail().equals(userDb.getEmail())
                 && user.getPassword().equals(userDb.getPassword())
                 && user.getName().equals(userDb.getName());
-        if(check) throw new IllegalArgumentException("ни один элемент данных не изменялся");
+        if (check) getValidException();
     }
 
     public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
         return !vacancyDb.getTitle().equals(newVacancy.getTitle()) || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
     }
 
-    public static void checkDataEmployer (Employer e){
+    public static void checkDataEmployer(Employer e) {
         if (checkStrings(e.getName(), e.getAddress())) {
-            throw new IllegalArgumentException("must not null data of employerId=" + e);
-        }
-    }
-    public static void checkDataVacancyTo (VacancyTo v){
-        if (checkStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl(), v.getLanguage(), v.getWorkplace())) {
-            throw new IllegalArgumentException("must not null data of employerId=" + v);
+            getCheckDataException(e);
         }
     }
 
+    public static void checkDataVacancyTo(VacancyTo v) {
+        if (checkStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl(), v.getLanguage(), v.getWorkplace())) {
+            getCheckDataException(v);
+        }
+    }
+     public static void getCheckDataException(Object object) {
+         throw new IllegalArgumentException("must not null data of " + object);
+     }
+
+    private static void getValidException() {
+        throw new IllegalArgumentException("undo editing - no data item has changed");
+    }
 }
-//(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", "Microsoft", "A" , 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", "Microsoft", "London", null, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", null, DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "A", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)));
-//(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11",null, "киев", false)));

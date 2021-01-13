@@ -30,7 +30,7 @@ public class UserService {
         Assert.notNull(user, "user must not be null");
         checkNew(user);
         if(repository.getByEmail(user.getEmail()) != null) {
-            throw new DataIntegrityViolationException("такой user в базе данных существует");
+            throw new DataIntegrityViolationException("user " + user + " exists in the database");
         }
         return repository.save(user);
     }

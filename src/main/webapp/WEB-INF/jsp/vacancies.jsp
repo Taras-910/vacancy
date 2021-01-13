@@ -97,7 +97,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Добавить</h4>
+                <h4 class="modal-title">Добавить вакансию</h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -175,14 +175,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Редактировать</h4>
+                <h4 class="modal-title">Редактирование</h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="detailsUpdateForm">
                     <input type="hidden" id="idUpdate" name="id">
                     <div class="form-group not_update_visible">
-                        <input type="hidden" class="form-control" id="titleUpdate" name="title">
+                        <label for="title" class="col-form-label">Вакансия</label>
+                        <input type="text" class="form-control" id="titleUpdate" name="title">
                     </div>
                     <div class="form-group not_update_visible">
                         <input type="hidden" class="form-control" id="employerNameUpdate" name="employerName">
