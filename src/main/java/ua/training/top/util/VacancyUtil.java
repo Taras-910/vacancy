@@ -76,7 +76,4 @@ public class VacancyUtil {
         return new Freshen(f.getId(), f.getRecordedDate() == null ? LocalDateTime.now() : f.getRecordedDate(),
                 f.getLanguage(), f.getWorkplace(), authUserId());
     }
-
-
-
 }

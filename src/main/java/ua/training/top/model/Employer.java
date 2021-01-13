@@ -21,17 +21,17 @@ public class Employer extends AbstractBaseEntity{
     public static final String ALL_SORTED = "Employer.getAllSorted";
 
     @NotNull
-    @Size(min = 2, max = 256)
+    @Size(min = 2, max = 512)
     @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
-    @Size(min = 2, max = 256)
+    @Size(min = 2, max = 512)
     @Column(name="address")
     private String address;
 
     @NotNull
-    @Size(min = 2, max = 256)
+    @Size(min = 4, max = 512)
     @Column(name="site_name")
     private String siteName;
 
