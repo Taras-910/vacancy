@@ -1,7 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!-- <fmt:setBundle basename="messages.app"/> -->
-<header>
-    <a href="vacancies">Вакансии</a> | <a href="users">Пользователи</a> | <a href="">Home</a>
-</header>
+<nav class="navbar navbar-dark bg-dark py-0">
+    <div class="container">
+      <a href="vacancies" class="navbar-brand"><!-- <img src="resources/images/icon-meal.png"> --> Вакансии</a>
+      <form class="form-inline my-2">
+            <a class="btn btn-info mr-1" href="users">Пользователи</a>
+            <a class="btn btn-primary" href="logout">
+                <span class="fa fa-sign-out"></span>
+            </a>
+        </form>
+    </div>
+</nav>
