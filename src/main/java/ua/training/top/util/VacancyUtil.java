@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import ua.training.top.model.Employer;
-import ua.training.top.model.Freshen;
-import ua.training.top.model.Vacancy;
-import ua.training.top.model.Vote;
+import ua.training.top.model.*;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
@@ -75,5 +72,24 @@ public class VacancyUtil {
     public static Freshen asNewFreshen(Freshen f){
         return new Freshen(f.getId(), f.getRecordedDate() == null ? LocalDateTime.now() : f.getRecordedDate(),
                 f.getLanguage(), f.getWorkplace(), authUserId());
+    }
+
+    public static void checkUpdateVacancyTo(VacancyTo vacancyTo, Vacancy vacancyDb) {
+        boolean check = vacancyTo.getSalaryMin().equals(vacancyDb.getSalaryMin())
+                && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
+                && vacancyTo.getUrl().equals(vacancyDb.getUrl())
+                && vacancyTo.getSkills().equals(vacancyDb.getSkills());
+        if (check) getValidMessage(vacancyTo);
+    }
+
+    public static void checkUpdateUser(User user, User userDb) {
+        boolean check = user.getEmail().equals(userDb.getEmail())
+                && user.getPassword().equals(userDb.getPassword())
+                && user.getName().equals(userDb.getName());
+        if (check) getValidMessage(user);
+    }
+
+    private static void getValidMessage(Object obj) {
+        log.error("no data item has changed on " + obj);
     }
 }

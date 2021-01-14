@@ -44,7 +44,7 @@
                 login Admin
             </button>
         </p>
-        <br/>т
+        <br/>
         <div class="lead py-4">Стек технологий<br>
             <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,

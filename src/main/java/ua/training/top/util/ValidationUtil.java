@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
 import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Employer;
-import ua.training.top.model.User;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.ErrorType;
@@ -110,21 +109,6 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkValidVacancyTo(VacancyTo vacancyTo, Vacancy vacancyDb) {
-        boolean check = vacancyTo.getSalaryMin().equals(vacancyDb.getSalaryMin())
-                && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
-                && vacancyTo.getUrl().equals(vacancyDb.getUrl())
-                && vacancyTo.getSkills().equals(vacancyDb.getSkills());
-        if (check) getValidException();
-    }
-
-    public static void checkValidUpdateUser(User user, User userDb) {
-        boolean check = user.getEmail().equals(userDb.getEmail())
-                && user.getPassword().equals(userDb.getPassword())
-                && user.getName().equals(userDb.getName());
-        if (check) getValidException();
-    }
-
     public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
         return !vacancyDb.getTitle().equals(newVacancy.getTitle()) || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
     }
@@ -143,8 +127,4 @@ public class ValidationUtil {
      public static void getCheckDataException(Object object) {
          throw new IllegalArgumentException("must not null data of " + object);
      }
-
-    private static void getValidException() {
-        throw new IllegalArgumentException("undo editing - no data item has changed");
-    }
 }

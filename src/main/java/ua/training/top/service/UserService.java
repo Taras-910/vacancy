@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+import static ua.training.top.util.VacancyUtil.checkUpdateUser;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -60,7 +61,7 @@ public class UserService {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         Assert.notNull(user, "user must not be null");
-        checkValidUpdateUser(user, get(id));
+        checkUpdateUser(user, get(id));
         checkNotFoundWithId(repository.save(user), user.id());
     }
 
