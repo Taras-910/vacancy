@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
 import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Employer;
+import ua.training.top.model.User;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.ErrorType;
@@ -99,14 +100,23 @@ public class ValidationUtil {
     }
 
     public static boolean checkDoubleVacancies(List<Vacancy> vacancies, VacancyTo vacancyTo) throws DataIntegrityViolationException {
-        boolean checking = vacancies != null && vacancies.stream()
+        boolean check = vacancies != null && vacancies.stream()
                 .filter(v -> v.getEmployer().getName().equals(vacancyTo.getEmployerName()))
                 .filter(v -> v.getSkills().equals(vacancyTo.getSkills())).count() != 0;
-        if (!checking) {
-            return false;
-        } else {
-            throw new DataIntegrityViolationException("vacancy " + vacancyTo + " exists in the database");
+        if (check) {
+            initException(vacancyTo);
         }
+        return false;
+    }
+
+    public static void checkDoubleUser(User user, User userDb) {
+        if(userDb != null && user.getEmail().equals(userDb.getEmail())) {
+            initException(user);
+        };
+    }
+
+    private static void initException(Object obj) {
+        throw new DataIntegrityViolationException("there is " + obj + " exists in the database");
     }
 
     public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {

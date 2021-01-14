@@ -79,17 +79,14 @@ public class VacancyUtil {
                 && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
                 && vacancyTo.getUrl().equals(vacancyDb.getUrl())
                 && vacancyTo.getSkills().equals(vacancyDb.getSkills());
-        if (check) getValidMessage(vacancyTo);
+        if (check) log.error("no data item has changed on " + vacancyTo);
     }
 
     public static void checkUpdateUser(User user, User userDb) {
         boolean check = user.getEmail().equals(userDb.getEmail())
                 && user.getPassword().equals(userDb.getPassword())
                 && user.getName().equals(userDb.getName());
-        if (check) getValidMessage(user);
+        if (check) log.error("no data item has changed on " + user);
     }
 
-    private static void getValidMessage(Object obj) {
-        log.error("no data item has changed on " + obj);
-    }
 }

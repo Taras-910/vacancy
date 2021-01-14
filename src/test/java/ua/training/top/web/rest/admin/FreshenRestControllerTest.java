@@ -22,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.readFromJson;
+import static ua.training.top.testData.TestUtil.userHttpBasic;
+import static ua.training.top.testData.UserTestData.admin;
 
 class FreshenRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = FreshenRestController.REST_URL + '/';
@@ -32,8 +34,7 @@ class FreshenRestControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + FRESHEN1_ID)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -44,8 +45,7 @@ class FreshenRestControllerTest extends AbstractControllerTest {
     void getAll() throws Exception {
         Iterable<Freshen> iterable = List.of(freshen1, freshen2);
         perform(MockMvcRequestBuilders.get(REST_URL)
-//                .with(userHttpBasic(admin))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(FRESHEN_MATCHER.contentJson(iterable));
@@ -56,7 +56,7 @@ class FreshenRestControllerTest extends AbstractControllerTest {
         Freshen newFreshen = new Freshen(FreshenTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
+                .with(userHttpBasic(admin))
                 .content(JsonUtil.writeValue(newFreshen)))
                 .andExpect(status().isCreated());
         Freshen created = readFromJson(action, Freshen.class);
@@ -68,8 +68,7 @@ class FreshenRestControllerTest extends AbstractControllerTest {
     @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + FRESHEN1_ID)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> service.get(FRESHEN1_ID));
@@ -79,7 +78,7 @@ class FreshenRestControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         Freshen updated = new Freshen(getUpdated());
         perform(MockMvcRequestBuilders.put(REST_URL + FRESHEN1_ID)
-//                .with(userHttpBasic(ADMIN))
+                .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());

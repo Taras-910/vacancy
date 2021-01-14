@@ -30,9 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.EmployerTestData.EMPLOYER_MATCHER;
 import static ua.training.top.testData.TestUtil.readFromJson;
+import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
@@ -52,8 +55,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID)
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -63,8 +65,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -72,8 +73,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -83,17 +83,16 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + VACANCY1_ID)
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent());
+        setTestAuthorizedUser(admin);
         assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY1_ID));
     }
 
     @Test
     void deleteNotFound() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isUnprocessableEntity());
     }
 
@@ -105,10 +104,10 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                         .put(REST_URL + VACANCY1_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValue(updated))
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+        setTestAuthorizedUser(admin);
         VACANCY_MATCHER.assertMatch(vacancyService.get(VACANCY1_ID), fromTo(updated));
     }
 
@@ -120,33 +119,19 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.put(REST_URL + VACANCY1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))
- //               .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
-    @Transactional(propagation = Propagation.NEVER)
-    void updateDuplicate() throws Exception {
-        VacancyTo invalid = new VacancyTo(vacancyTo1);
-        perform(MockMvcRequestBuilders.put(REST_URL + VACANCY1_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonUtil.writeValue(invalid))
-//                .with(userHttpBasic(user))
-        )
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
-    }
-    @Test
     @Transactional
     void createVacancyAndEmployer() throws Exception {
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonUtil.writeValue(newVacancyTo))
-//                .with(userHttpBasic(user))
-        )
+                .with(userHttpBasic(admin))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newVacancyTo)))
                 .andDo(print())
                 .andExpect(status().isCreated());
         Vacancy createdVacancy = readFromJson(action, Vacancy.class);
@@ -158,6 +143,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         int newIdEmployer = createdEmployer.id();
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
+        setTestAuthorizedUser(admin);
         VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
     }
 
@@ -168,10 +154,9 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         VacancyTo invalid = new VacancyTo(VacancyToTestData.getNew());
         invalid.setTitle(null);
         perform(MockMvcRequestBuilders.post(REST_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonUtil.writeValue(invalid))
-//                .with(userHttpBasic(user))
-        )
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -184,8 +169,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(duplicate))
-//                .with(userHttpBasic(admin))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isConflict());
     }
@@ -193,10 +177,9 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void getByFilter() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-                        .param("language", "java")
-                        .param("workplace", "киев")
-                //               .with(userHttpBasic(user))
-        )
+                .param("language", "java")
+                .param("workplace", "киев")
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1), voteService.getAllForAuthUser())));
@@ -205,10 +188,9 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Test
     void getByEmptyFilter() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-                        .param("language", "")
-                        .param("workplace", "")
-                //               .with(userHttpBasic(user))
-        )
+                .param("language", "")
+                .param("workplace", "")
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuthUser())));
@@ -220,7 +202,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         assertTrue(vote == null);
         perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)
                 .param("enabled", "true")
-//                .with(userHttpBasic(ADMIN))
+                .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -228,9 +210,9 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         assertTrue(vote != null);
     }
 
-    /*@Test
+    @Test
     void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID))
                 .andExpect(status().isUnauthorized());
-    }*/
+    }
 }

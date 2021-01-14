@@ -20,8 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.TestUtil.readFromJson;
+import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.ADMIN_ID;
+import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.testData.VoteTestData.*;
 
@@ -34,8 +37,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VOTE1_ID)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -47,8 +49,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     void getAll() throws Exception {
         Iterable<Vote> iterable = List.of(vote1, vote2);
         perform(MockMvcRequestBuilders.get(REST_URL)
-//                .with(userHttpBasic(admin))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VOTE_MATCHER.contentJson(iterable));
@@ -57,8 +58,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     @Test
     void getAllForAuthUser() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "auth")
-//                .with(userHttpBasic(admin))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VOTE_MATCHER.contentJson(List.of(vote1)));
@@ -70,12 +70,12 @@ class VoteRestControllerTest extends AbstractControllerTest {
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("vacancyId", String.valueOf(VACANCY2_ID))
                 .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-                )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isCreated());
         Vote created = readFromJson(action, Vote.class);
         newVote.setId(created.getId());
         VOTE_MATCHER.assertMatch(created, newVote);
+        setTestAuthorizedUser(admin);
         VOTE_MATCHER.assertMatch(service.get(created.getId()), newVote);
     }
 
@@ -85,20 +85,21 @@ class VoteRestControllerTest extends AbstractControllerTest {
         updated.setVacancyId(VACANCY2_ID);
         perform(MockMvcRequestBuilders.put(REST_URL + VOTE1_ID)
                 .param("vacancyId", String.valueOf(VACANCY2_ID))
-//                .with(userHttpBasic(ADMIN))
+                .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
+        setTestAuthorizedUser(admin);
         VOTE_MATCHER.assertMatch(service.get(VOTE1_ID), updated);
     }
 
     @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + VOTE1_ID)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+        setTestAuthorizedUser(admin);
         assertThrows(NotFoundException.class, () -> service.get(VOTE1_ID));
     }
 
@@ -107,8 +108,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)
                         .param("toVote", String.valueOf(true))
                         .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk());
     }
 }

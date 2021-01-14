@@ -21,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.testData.EmployerTestData.*;
 import static ua.training.top.testData.TestUtil.readFromJson;
+import static ua.training.top.testData.TestUtil.userHttpBasic;
+import static ua.training.top.testData.UserTestData.admin;
 
 class EmployerRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = EmployerRestController.REST_URL + '/';
@@ -31,8 +33,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + EMPLOYER1_ID)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -44,8 +45,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     void getAll() throws Exception {
         Iterable<Employer> iterable = List.of(employer1, employer2);
         perform(MockMvcRequestBuilders.get(REST_URL)
-//                .with(userHttpBasic(admin))
-        )
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(EMPLOYER_MATCHER.contentJson(iterable));
@@ -56,7 +56,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
         Employer newEmployer = new Employer(null, "newEmployer", "newAddress", "https://habr.com");
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-//                .with(userHttpBasic(ADMIN))
+                .with(userHttpBasic(admin))
                 .content(JsonUtil.writeValue(newEmployer)))
                 .andExpect(status().isCreated());
         Employer created = readFromJson(action, Employer.class);
@@ -71,7 +71,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
         updated.setName("newNameEmployer");
         updated.setSiteName("https://www.newSiteName.com/");
         perform(MockMvcRequestBuilders.put(REST_URL)
-//                .with(userHttpBasic(ADMIN))
+                .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
@@ -81,8 +81,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + EMPLOYER1_ID)
-//                .with(userHttpBasic(ADMIN))
-        )
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> service.get(EMPLOYER1_ID));

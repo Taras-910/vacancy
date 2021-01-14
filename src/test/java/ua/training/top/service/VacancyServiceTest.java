@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import ua.training.top.model.Employer;
+import ua.training.top.model.User;
 import ua.training.top.model.Vacancy;
 import ua.training.top.testData.FreshenTestData;
+import ua.training.top.testData.UserTestData;
 import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
@@ -17,6 +19,7 @@ import ua.training.top.web.ui.VacancyUIController;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.EmployerTestData.*;
 import static ua.training.top.testData.FreshenTestData.FRESHEN2_ID;
 import static ua.training.top.testData.UserTestData.NOT_FOUND;
@@ -118,6 +121,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void createVacancyAndEmployer() throws Exception  {
+        setTestAuthorizedUser(new User(UserTestData.admin));
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
         Vacancy createdVacancy = vacancyService.createVacancyAndEmployer(newVacancyTo);
         int newIdVacancy = createdVacancy.id();

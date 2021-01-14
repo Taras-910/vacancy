@@ -3,6 +3,7 @@ package ua.training.top.testData;
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
+import ua.training.top.web.json.JsonUtil;
 
 import java.util.Collections;
 import java.util.Date;
@@ -31,5 +32,9 @@ public class UserTestData {
         updated.setEnabled(false);
         updated.setRoles(Collections.singletonList(Role.ADMIN));
         return updated;
+    }
+
+    public static String jsonWithPassword(User user, String passw) {
+        return JsonUtil.writeAdditionProps(user, "password", passw);
     }
 }

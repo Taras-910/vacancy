@@ -16,11 +16,9 @@ import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-import static ua.training.top.util.VacancyUtil.checkUpdateUser;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -37,11 +35,11 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User create(@Valid @NotEmpty User user) {
+    public User create(@NotEmpty User user) {
         log.info("create {}", user);
         Assert.notNull(user, "user must not be null");
         checkNew(user);
-        if(repository.getByEmail(user.getEmail()) != null) {
+        if(repository.getByEmail(user.getEmail()) != null){
             throw new DataIntegrityViolationException("user " + user + " exists in the database");
         }
         return repository.save(user);
@@ -72,11 +70,10 @@ public class UserService implements UserDetailsService {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         Assert.notNull(user, "user must not be null");
-        checkUpdateUser(user, get(id));
         checkNotFoundWithId(repository.save(user), user.id());
     }
 
-//    @CacheEvict(value = "users", allEntries = true)
+    //    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
