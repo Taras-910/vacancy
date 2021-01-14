@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="webjars/bootstrap/4.5.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="webjars/noty/3.1.4/demo/font-awesome/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="resources/images/icon-vacancy.png">
     <%--<link rel="stylesheet" href="webjars/datatables/1.10.21/css/dataTables.bootstrap4.min.css">--%>
     <link rel="stylesheet" href="webjars/noty/3.1.4/lib/noty.css"/>
 <%--2-й варіант--%>

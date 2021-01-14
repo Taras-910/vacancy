@@ -2,10 +2,17 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 
@@ -16,14 +23,18 @@ import java.util.List;
 import static ua.training.top.util.VacancyUtil.checkUpdateUser;
 import static ua.training.top.util.ValidationUtil.*;
 
-@Service
-public class UserService {
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Service("UserService")
+public class UserService implements UserDetailsService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
+    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User create(@Valid @NotEmpty User user) {
@@ -74,7 +85,6 @@ public class UserService {
         repository.save(user);  // !! need only for JDBC implementation
     }
 
-/*
     @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.getByEmail(email.toLowerCase());
@@ -83,6 +93,5 @@ public class UserService {
         }
         return new AuthorizedUser(user);
     }
-*/
 
 }

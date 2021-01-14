@@ -19,13 +19,13 @@
                     <div class="row">
                         <div class="offset-1"></div>
                         <div class="col-4 text-left">
-                            <label for="language"><h7 class="text-center">java, php, python,... По умолчанию: java</h7></label>
+                            <label for="language"><h7 class="text-center">Java, PHP, Ruby, Python, JavaScript, Kotlin... </h7></label>
                             <input class="form-control" type="text" placeholder="java" name="language" id="language">
                         </div>
                         <div class="offset-1 col-1">
                         </div>
                         <div class="col-4 text-left">
-                            <label for="workplace"><h7 class="text-center">за_рубежем, Киев,... По умолчанию: Киев</h7></label>
+                            <label for="workplace"><h7 class="text-center">Киев, Днепр, Харьков, За_рубежем, Санкт-Петербург... </h7></label>
                             <input class="form-control" type="text" placeholder="за_рубежем" name="workplace" id="workplace">
                         </div>
                     <div class="offset-1 col-1">
@@ -35,13 +35,13 @@
                     <div class="row">
                         <a class="offset-3 col-3">
                         </a>
-                        <button class="col-2 btn btn-outline-danger text-right" onclick="clearFilter()">
+                        <button class="col-2 btn btn-info text-right" onclick="clearFilter()">
                             <span class="fa fa-remove"></span>
                             Сбросить
                         </button>
                         <a class="col-1">
                         </a>
-                        <button class="col-2 btn btn-outline-primary text-right" onclick="updateFilteredTable()">
+                        <button class="col-2 btn btn-info text-right" onclick="updateFilteredTable()">
                             <span class="fa fa-filter"></span>
                             Фильтровать
                         </button>
@@ -52,7 +52,7 @@
         <br>
         <div class="row card-footer">
 
-            <button class="col-2 btn btn-outline-primary" onclick="addVacancy()">
+            <button class="col-2 btn btn-primary" onclick="addVacancy()">
                 <span class="fa fa-plus text-left"></span>
                    Добавить
             </button>
@@ -251,11 +251,11 @@
                         <input type="hidden" class="form-control" id="recordedDate" name="recordedDate">
                     </div>
                     <div class="form-group">
-                        <label for="languageTask" class="col-form-label">язык (java, php, python, ...)</label>
+                        <label for="languageTask" class="col-form-label">Java, PHP, Ruby, Python, JavaScript, Kotlin...</label>
                         <input type="text" class="form-control" id="languageTask" name="language">
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask" class="col-form-label">местонахождение (за_рубежем, Киев, Санкт-Петербург...)</label>
+                        <label for="workplaceTask" class="col-form-label">Киев, Днепр, Харьков, За_рубежем, Санкт-Петербург...</label>
                         <input type="text" class="form-control" id="workplaceTask" name="workplace">
                     </div>
                     <div class="form-group">
