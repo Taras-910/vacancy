@@ -1,9 +1,42 @@
 package ua.training.top.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ua.training.top.service.VacancyService;
+
 
 @Controller
+public class RootController {
+
+    @Autowired
+    private VacancyService vacancyService;
+
+    @GetMapping("/")
+    public String root() {
+        return "redirect:vacancies";
+    }
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "users";
+    }
+
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/vacancies")
+    public String getMeals(Model model) {
+        model.addAttribute("vacancies", vacancyService.getAll());
+        return "vacancies";
+    }
+}
+
+
+/*@Controller
 public class RootController {
 
     @GetMapping("/")
@@ -25,48 +58,4 @@ public class RootController {
     public String getVacancies() {
         return "vacancies";
     }
-}
-
-/*
-@Controller
-public class RootController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private VacancyController vacancyController;
-
-
-    @GetMapping("/")
-    public String root() {
-        return "index";
-    }
-
-    @GetMapping("/users")
-    public String getUsers(Model model) {
-        model.addAttribute("users", userService.getAll());
-        return "users";
-    }
-
-*/
-/*
-    @GetMapping(value = "/login")
-    public String login() {
-        return "login";
-    }
-*//*
-
-
-    @PostMapping("/users")
-    public String setUser(HttpServletRequest request) {
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        SecurityUtil.setAuthUserId(userId);
-        return "redirect:vacancies";
-    }
-
-    @GetMapping("/vacancies")
-    public String getVacancies(Model model) {
-        model.addAttribute("vacancies", vacancyController.getAllTos());
-        return "vacancies";
-    }
-}
-*/
+}*/
