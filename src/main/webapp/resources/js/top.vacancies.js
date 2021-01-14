@@ -115,7 +115,12 @@ $(function () {
                     "data": "salaryMax"
                 },
                 {
-                    "data": "skills"
+                    "data": function (data, type, row) {
+                        if(data.skills === "see the card on the link") {
+                            return '<a href="' + data.url + '">' + data.skills + '</a>'
+                        }
+                        return data.skills;
+                    }
                 },
                 {
                     "data": "releaseDate",
