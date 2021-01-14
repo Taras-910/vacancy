@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Поиск вакансий IT по названию языка программирования и локации</title>
+    <title>Поиск IT вакансий</title>
     <base href="${pageContext.request.contextPath}/"/>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">

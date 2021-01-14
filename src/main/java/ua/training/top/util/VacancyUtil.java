@@ -4,7 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import ua.training.top.model.*;
+import ua.training.top.model.Employer;
+import ua.training.top.model.Freshen;
+import ua.training.top.model.Vacancy;
+import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
@@ -81,12 +84,4 @@ public class VacancyUtil {
                 && vacancyTo.getSkills().equals(vacancyDb.getSkills());
         if (check) log.error("no data item has changed on " + vacancyTo);
     }
-
-    public static void checkUpdateUser(User user, User userDb) {
-        boolean check = user.getEmail().equals(userDb.getEmail())
-                && user.getPassword().equals(userDb.getPassword())
-                && user.getName().equals(userDb.getName());
-        if (check) log.error("no data item has changed on " + user);
-    }
-
 }

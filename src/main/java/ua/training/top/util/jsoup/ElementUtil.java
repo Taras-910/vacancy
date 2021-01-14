@@ -4,7 +4,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.strategy.UAJoobleStrategy;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.VacancyService;
 import ua.training.top.to.VacancyTo;
@@ -56,8 +55,6 @@ public class ElementUtil {
             VacancyTo v = new VacancyTo();
             String title = element.getElementsByTag("a").first().text().trim().toLowerCase();
             String skills = element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase();
-            String address = element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim().toLowerCase();
-//            log.info("{} {}", doubleString.getWorkplaceTask(), address);
             if (title.contains(doubleString.getLanguage()) || skills.contains(doubleString.getLanguage())){
                 v.setTitle(getXssCleaned(element.getElementsByTag("a").first().text().trim()));
                 v.setEmployerName(getCorrectCompanyName(getXssCleaned(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
@@ -200,7 +197,6 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
             try {
-//                log.info("element={}", element);
                 VacancyTo v = new VacancyTo();
                 String title = element.getElementsByClass("_84af9").text().trim().toLowerCase();
                 String skills = element.getElementsByClass("_0b1c1").text().trim().toLowerCase();
@@ -212,13 +208,12 @@ public class ElementUtil {
                     v.setSalaryMin(salaryMin(getCorrectSalary(getXssCleaned(element.getElementsByClass("_0b1c1").tagName("span").first().text()))));
                     v.setUrl("https://ua.jooble.org/desc/".concat(getXssCleaned(element.getElementsByClass("_31572 _07ebc").attr("id"))));
                     v.setSkills(getXssCleaned(element.getElementsByTag("b").tagName("span").nextAll().text()));
-//   было                 String line = element.getElementsByClass("caption _8d375").next().tagName("span").text().trim();
                     v.setReleaseDate(getCorrectDate(getXssCleaned(element.getElementsByClass("_8d375").last().text().trim())));
                     v.setSiteName("https://ua.jooble.org");
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.info("there is error on ElementUtil {} for parse element {}", UAJoobleStrategy.class.getSimpleName(), element);
+                log.info("there is error UAJoobleStrategy for parse element {}", element);
             }
         }
         return list;

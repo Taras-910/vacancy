@@ -101,8 +101,11 @@ public class ValidationUtil {
 
     public static boolean checkDoubleVacancies(List<Vacancy> vacancies, VacancyTo vacancyTo) throws DataIntegrityViolationException {
         boolean check = vacancies != null && vacancies.stream()
+                .filter(v -> v.getTitle().equals(vacancyTo.getTitle()))
                 .filter(v -> v.getEmployer().getName().equals(vacancyTo.getEmployerName()))
-                .filter(v -> v.getSkills().equals(vacancyTo.getSkills())).count() != 0;
+                .filter(v -> v.getEmployer().getAddress().equals(vacancyTo.getAddress()))
+                .filter(v -> v.getSkills().equals(vacancyTo.getSkills()))
+                .count() != 0;
         if (check) {
             initException(vacancyTo);
         }
@@ -125,16 +128,16 @@ public class ValidationUtil {
 
     public static void checkDataEmployer(Employer e) {
         if (checkStrings(e.getName(), e.getAddress())) {
-            getCheckDataException(e);
+            getException(e);
         }
     }
 
     public static void checkDataVacancyTo(VacancyTo v) {
         if (checkStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl(), v.getLanguage(), v.getWorkplace())) {
-            getCheckDataException(v);
+            getException(v);
         }
     }
-     public static void getCheckDataException(Object object) {
+     public static void getException(Object object) {
          throw new IllegalArgumentException("must not null data of " + object);
      }
 }
