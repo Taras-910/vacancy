@@ -12,7 +12,7 @@ import java.util.Objects;
 public class VacancyTo extends BaseTo implements Serializable {
 
     @NotNull
-    @Size(min = 2, max = 126)
+    @Size(min = 2, max = 250)
     private String title;
 
     @NotNull
@@ -24,11 +24,11 @@ public class VacancyTo extends BaseTo implements Serializable {
     private String address;
 
     @NotNull
-    @Range(min = 1, max = 20000000)
+    @Range(min = 1, max = 10000000)
     private Integer salaryMin;
 
     @NotNull
-    @Range(min = 1, max = 20000000)
+    @Range(min = 1, max = 10000000)
     private Integer salaryMax;
 
     @NotNull

@@ -100,28 +100,22 @@ $(function () {
                 {
                     "data": function (data, type, row) {
                         return '<a href="'+ data.url +'">' + data.title + '</a>'
-                    },
-                    "width": "80px"
+                    }
                 },
                 {
-                    "data": "employerName",
-                    "width": "80px"
+                    "data": "employerName"
                 },
                 {
-                    "data": "address",
-                    "width": "80px"
+                    "data": "address"
                 },
                 {
-                    "data": "salaryMin",
-                    "width": "20px"
+                    "data": "salaryMin"
                 },
                 {
-                    "data": "salaryMax",
-                    "width": "20px"
+                    "data": "salaryMax"
                 },
                 {
-                    "data": "skills",
-                    "width": "320px"
+                    "data": "skills"
                 },
                 {
                     "data": "releaseDate",
@@ -130,8 +124,7 @@ $(function () {
                             return date.substring(0, 10);
                         }
                         return date;
-                    },
-                    "width": "40px"
+                    }
                 },
                 {
                     "data": "siteName",

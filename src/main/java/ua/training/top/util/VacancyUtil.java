@@ -72,7 +72,7 @@ public class VacancyUtil {
         return text == null || text.isEmpty();
     }
 
-    public static Freshen fullFreshen(Freshen f){
+    public static Freshen asNewFreshen(Freshen f){
         return new Freshen(f.getId(), f.getRecordedDate() == null ? LocalDateTime.now() : f.getRecordedDate(),
                 f.getLanguage(), f.getWorkplace(), authUserId());
     }

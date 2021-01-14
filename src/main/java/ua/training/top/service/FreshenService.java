@@ -11,7 +11,7 @@ import ua.training.top.repository.FreshenRepository;
 
 import java.util.List;
 
-import static ua.training.top.util.VacancyUtil.fullFreshen;
+import static ua.training.top.util.VacancyUtil.asNewFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -53,7 +53,7 @@ public class FreshenService {
         Assert.notNull(freshen, "freshen must not be null");
         checkNotFoundWithId(repository.save(freshen), freshen.id());
     }
-
+    // use logic for restricting access
     public List <Freshen> getByDoubleString(String workplace, String language) {
         log.info("getByDoubleString workplace={} language={}", workplace, language);
         return repository.getByDoubleString(workplace, language);
@@ -61,6 +61,6 @@ public class FreshenService {
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        aggregatorController.refreshDB(fullFreshen(freshen));
+        aggregatorController.refreshDB(asNewFreshen(freshen));
     }
 }

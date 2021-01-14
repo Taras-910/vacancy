@@ -77,7 +77,7 @@
                 <th class="col-auto">От $</th>
                 <th class="col-auto">До $</th>
                 <th class="col" style="text-align: center;">Требования</th>
-                <th class="col">Дата</th>
+                <th class="col-auto">Дата</th>
                 <th hidden>siteName</th>
                 <th hidden>toVote</th>
                 <th hidden>work place</th>

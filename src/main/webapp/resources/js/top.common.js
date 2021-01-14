@@ -45,7 +45,7 @@ function updateTableByData(data) {
     var datatable = ctx.datatableApi;
     datatable.clear().draw();
     datatable.rows.add(data).draw(); // Add new data
-    datatable.columns.adjust().draw(); // Redraw the DataTable
+//    datatable.columns.adjust().draw(); // Redraw the DataTable
 }
 
 function save() {
