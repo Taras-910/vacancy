@@ -15,7 +15,7 @@ function sendRefresh() {
     }).done(function () {
         $("#refreshRow").modal("hide");
         ctx.updateTable();
-        successNoty("Update has started");
+        successNoty("Update has finished ");
     });
 }
 

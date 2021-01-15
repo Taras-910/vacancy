@@ -1,5 +1,7 @@
 package ua.training.top.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,6 +16,7 @@ public class Vote extends AbstractBaseEntity {
 
     @Column(name = "local_date", nullable = false)
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate localDate;
 
     @Column(name = "vacancy_id", nullable = false)

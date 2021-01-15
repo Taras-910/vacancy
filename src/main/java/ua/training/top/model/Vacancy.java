@@ -1,6 +1,7 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -44,6 +45,7 @@ public class Vacancy extends AbstractBaseEntity {
     private String skills;
 
     @Column(name="release_date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate releaseDate;
 
     @ManyToOne(fetch = EAGER)

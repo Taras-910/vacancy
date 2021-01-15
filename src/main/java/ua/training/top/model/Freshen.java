@@ -1,6 +1,7 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,10 +18,11 @@ import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
 public class Freshen extends AbstractBaseEntity implements Serializable {
 
     @Column(name = "recorded_date", nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime recordedDate;
 
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(min = 1, max = 100)
     @Column(name="language")
     private String language;
 
