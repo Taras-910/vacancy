@@ -3,6 +3,7 @@ package ua.training.top.web.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,7 @@ import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 
 import javax.validation.Valid;
-
+//•	Поменял путь регистрации с /registered на /profile/registered (в ProfileUIController вместо RootController)
 @Controller
 @RequestMapping("/profile")
 public class ProfileUIController {
@@ -49,15 +50,19 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
 
     @PostMapping("/register")
     public String saveRegister(@Valid User user, BindingResult result, SessionStatus status, ModelMap model) {
-        log.info("saveRegister \nuser={} \nresult={} \nstatus={}, \nmodel={}\n", user, result, status, model);
+        log.info("saveRegister user={} result={} status={}, model={}", user, result, status, model);
         if (result.hasErrors()) {
             log.info("hasErrors");
             model.addAttribute("register", true);
             return "profile";
         } else {
-            service.create(user);
-            status.setComplete();
-            return "redirect:/login?message= You are registered successful\n Enter your login/password&username=" + user.getEmail();
+            try {
+                service.create(user);
+                status.setComplete();
+                return "redirect:/login?message=Вы зарегистрированы. Введите ваш логин/пароль&username=" + user.getEmail();
+            } catch (Exception e) {
+            throw new DataIntegrityViolationException("user " + user + " уже существует в базе данных");
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import ua.training.top.model.User;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.ErrorType;
+import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class ValidationUtil {
 
     public static void checkNew(AbstractBaseEntity entity) {
         if (!entity.isNew()) {
-            throw new IllegalArgumentException(entity + " must be new (id=null)");
+            throw new IllegalRequestDataException(entity + " must be new (id=null)");
         }
     }
 
@@ -53,7 +54,7 @@ public class ValidationUtil {
         if (entity.isNew()) {
             entity.setId(id);
         } else if (entity.id() != id) {
-            throw new IllegalArgumentException(entity + " must be with id=" + id);
+            throw new IllegalRequestDataException(entity + " must be with id=" + id);
         }
     }
 
@@ -119,7 +120,7 @@ public class ValidationUtil {
     }
 
     private static void initException(Object obj) {
-        throw new DataIntegrityViolationException("there is " + obj + " exists in the database");
+        throw new DataIntegrityViolationException(obj.getClass().getSimpleName() + " exists in the database");
     }
 
     public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
@@ -138,6 +139,6 @@ public class ValidationUtil {
         }
     }
      public static void getException(Object object) {
-         throw new IllegalArgumentException("must not null data of " + object);
+         throw new IllegalArgumentException("must not null data of " + object.getClass().getSimpleName());
      }
 }

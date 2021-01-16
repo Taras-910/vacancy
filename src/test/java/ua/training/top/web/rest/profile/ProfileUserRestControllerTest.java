@@ -3,9 +3,12 @@ package ua.training.top.web.rest.profile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.top.model.Role;
 import ua.training.top.model.User;
+import ua.training.top.service.UserService;
 import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
@@ -15,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
+import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.USER_MATCHER;
 import static ua.training.top.testData.UserTestData.user;
@@ -24,6 +28,8 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
 
     @Autowired
     private ProfileUserRestController controller;
+    @Autowired
+    UserService service;
 
     @Test
     void get() throws Exception {
@@ -61,7 +67,6 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
         USER_MATCHER.assertMatch(controller.get(), updated);
     }
 
-/*
     @Test
     void register() throws Exception {
         User newUser = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.USER);
@@ -75,7 +80,6 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userService.get(newId), newUser);
+        USER_MATCHER.assertMatch(service.get(newId), newUser);
     }
-*/
 }

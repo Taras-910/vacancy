@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -10,7 +9,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.common.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancies.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
-
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
         <h3 class="text-center text-secondary">Вакансии</h3>
@@ -36,13 +34,13 @@
                     <div class="row">
                         <a class="offset-3 col-3">
                         </a>
-                        <button class="col-2 btn btn-info text-right" onclick="clearFilter()">
+                        <button class="col-2 btn btn-outline-info text-right" onclick="clearFilter()">
                             <span class="fa fa-remove"></span>
                             Сбросить
                         </button>
                         <a class="col-1">
                         </a>
-                        <button class="col-2 btn btn-info text-right" onclick="updateFilteredTable()">
+                        <button class="col-2 btn btn-outline-info text-right" onclick="updateFilteredTable()">
                             <span class="fa fa-filter"></span>
                             Фильтровать
                         </button>
@@ -51,31 +49,20 @@
             </div>
         </div>
         <br>
-
-
         <div class="row card-footer">
-
             <sec:authorize access="hasRole('ADMIN')">
             <button class="col-2 btn btn-primary" onclick="addVacancy()">
                 <span class="fa fa-plus text-left"></span>
                    Добавить
             </button>
             </sec:authorize>
-
             <a class="offset-4 col-3">
             </a>
-
-
-            <button class="col-2 btn btn-outline-success bs-popover-right" onclick="refreshDB()">
+            <button class="col-2 btn btn-outline-primary bs-popover-right" onclick="refreshDB()">
                 <span class="fa fa-refresh text-left pull-right"></span>
                 Обновить DB
             </button>
-
-
         </div>
-
-
-
         <table class="table table-striped table-bordered" id="datatable">
             <div class="row">
             <thead>
@@ -94,7 +81,8 @@
                 <th hidden>work place</th>
                 <th hidden>language</th>
                 <th ></th>
-                <th class="admin"></th>
+                <th ></th>
+                <th ></th>
             </tr>
             </thead>
             </div>
@@ -102,11 +90,9 @@
         <br>
     </div>
 </div>
-
 <%--add Vacancy--%>
 <div class="modal fade" tabindex="-1" id="addRow">
     <div class="modal-dialog">
-
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Добавить вакансию</h4>
@@ -115,17 +101,14 @@
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
-
                     <div class="form-group not_update_visible">
                         <label for="title" class="col-form-label">Название вакансии</label>
                         <input type="text" class="form-control" id="title" name="title">
                     </div>
-
                     <div class="form-group not_update_visible">
                         <label for="employerName" class="col-form-label">Работодатель</label>
                         <input type="text" class="form-control" id="employerName" name="employerName">
                     </div>
-
                     <div class="form-group not_update_visible">
                         <label for="address" class="col-form-label">Адрес</label>
                         <input type="text" class="form-control" id="address" name="address">
@@ -138,7 +121,6 @@
                         <label for="salaryMax" class="col-form-label">з/п до (usd cent)</label>
                         <input type="number" class="form-control" id="salaryMax" name="salaryMax">
                     </div>
-
                     <div class="form-group">
                         <label for="url" class="col-form-label">Ссылка</label>
                         <input type="text" class="form-control" id="url" name="url"
@@ -148,24 +130,19 @@
                         <label for="skills" class="col-form-label">Требуемые знания, навыки, ...</label>
                         <input type="text" class="form-control" id="skills" name="skills">
                     </div>
-
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="releaseDate" name="releaseDate">
                     </div>
-
                     <div class="form-group not_update_visible">
                         <input type="hidden" class="form-control" id="siteName" name="siteName">
                     </div>
-
                     <div class="form-group">
                         <label for="language" class="col-form-label">Язык программирования</label>
                         <input type="text" class="form-control" id="languageCode" name="language">
                     </div>
-
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="workplace1" name="workplace">
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -182,7 +159,6 @@
 
     </div>
 </div>
-
 <%--update vacancy--%>
 <div class="modal fade" tabindex="-1" id="updateRow">
     <div class="modal-dialog">
@@ -250,7 +226,6 @@
         </div>
     </div>
 </div>
-
 <%--refresh--%>
 <div class="modal fade" tabindex="-1" id="refreshRow">
     <div class="modal-dialog">
@@ -293,7 +268,6 @@
         </div>
     </div>
 </div>
-
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>

@@ -41,7 +41,6 @@ public class ProfileUserRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody User user) {

@@ -32,8 +32,15 @@ public class ExceptionInfoHandler {
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler({NotFoundException.class, NullPointerException.class})
-    public ErrorInfo handleError(HttpServletRequest req, NotFoundException e) {
+    @ExceptionHandler(NullPointerException.class)
+    public ErrorInfo handleError(HttpServletRequest req, NullPointerException e) {
+        return logAndGetErrorInfo(req, e, false, DATA_NOT_FOUND);
+    }
+
+    //  http://stackoverflow.com/a/22358422/548473
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NotFoundException.class})
+    public ErrorInfo notFound(HttpServletRequest req, NotFoundException e) {
         return logAndGetErrorInfo(req, e, false, DATA_NOT_FOUND);
     }
 

@@ -19,6 +19,7 @@ import ua.training.top.repository.UserRepository;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+import static ua.training.top.util.UserUtil.withRoleUser;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -40,9 +41,9 @@ public class UserService implements UserDetailsService {
         Assert.notNull(user, "user must not be null");
         checkNew(user);
         if(repository.getByEmail(user.getEmail()) != null){
-            throw new DataIntegrityViolationException("user " + user + " exists in the database");
+            throw new DataIntegrityViolationException("user " + user + " уже существует в базе данных");
         }
-        return repository.save(user);
+        return repository.save(withRoleUser(user));
     }
 
     public void delete(int id) {

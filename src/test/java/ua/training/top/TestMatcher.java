@@ -17,10 +17,6 @@ public class TestMatcher<T> {
         this.fieldsToIgnore = fieldsToIgnore;
     }
 
-    /*public static <T> TestMatcher<T> usingFieldsComparator(String... fieldsToIgnore) {
-        return new TestMatcher<>(fieldsToIgnore);
-    }*/
-
     public static <T> TestMatcher<T> usingFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
         return new TestMatcher<>(clazz, fieldsToIgnore);
     }

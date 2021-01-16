@@ -32,20 +32,4 @@ public class VoteTestData {
     public static List<Vote> allVotes(){
         return Arrays.asList(vote1);
     }
-
-    public static List<Vote> allForEmployer(){
-        return Arrays.asList(vote1);
-    }
-
-    public static List<Vote> allForAuth(){
-        return Arrays.asList(vote2);
-    }
-
-    public static List<Vote> allForAdmin(){
-        return Arrays.asList(vote1);
-    }
-
-    public static List<Vote> between(){
-        return Arrays.asList(vote1, vote2);
-    }
 }

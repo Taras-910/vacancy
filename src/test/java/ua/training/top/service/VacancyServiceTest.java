@@ -14,7 +14,6 @@ import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
-import ua.training.top.web.ui.VacancyUIController;
 
 import java.util.List;
 
@@ -34,8 +33,6 @@ public class VacancyServiceTest extends AbstractServiceTest {
     private Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     private VacancyService vacancyService;
-    @Autowired
-    private VacancyUIController controller;
     @Autowired
     private VoteService voteService;
     @Autowired
