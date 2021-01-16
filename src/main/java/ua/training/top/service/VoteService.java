@@ -34,9 +34,9 @@ public class VoteService {
         return repository.getAll();
     }
 
-    public List<Vote> getAllForAuthUser() {
+    public List<Vote> getAllForAuth() {
         log.info("get all for User {}", authUserId());
-        return repository.getAllForAuthUser(authUserId());
+        return repository.getAllForAuth(authUserId());
     }
 
     @Transactional

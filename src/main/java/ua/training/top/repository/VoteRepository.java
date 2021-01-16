@@ -13,7 +13,7 @@ public interface VoteRepository {
     List<Vote> getAll();
 
     // null if not found
-    List<Vote> getAllForAuthUser(int userId);
+    List<Vote> getAllForAuth(int userId);
 
     List<Vote> getAllByVacancyId(Integer vacancyId);
 

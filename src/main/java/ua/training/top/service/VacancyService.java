@@ -43,7 +43,7 @@ public class VacancyService {
 
     public VacancyTo getTo(int id) {
         log.info("getTo vacancy {}", id);
-        return VacancyUtil.getTo(get(id), voteService.getAllForAuthUser());
+        return VacancyUtil.getTo(get(id), voteService.getAllForAuth());
     }
 
     public List<Vacancy> getAll() {
@@ -53,7 +53,7 @@ public class VacancyService {
 
     public List<VacancyTo> getAllTos() {
         log.info("getAllTos for user {}", authUserId());
-        return VacancyUtil.getTos(getAll(), voteService.getAllForAuthUser());
+        return VacancyUtil.getTos(getAll(), voteService.getAllForAuth());
     }
 
     public List<Vacancy> getByFilter(String language, String workplace) {
@@ -66,7 +66,7 @@ public class VacancyService {
 
     public List<VacancyTo> getTosByFilter(@Nullable String language, @Nullable String workplace) {
         log.info("getTosByFilter language={} workplace={}", language, workplace);
-        return getTos(getByFilter(language, workplace), voteService.getAllForAuthUser());
+        return getTos(getByFilter(language, workplace), voteService.getAllForAuth());
     }
 
     public List<Vacancy> getByTitle(String title) {

@@ -1,4 +1,4 @@
-package ua.training.top.web.ui;
+package ua.training.top.web.rest.profile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +10,13 @@ import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
-public class VacancyUIController {
-    public static final Logger log = LoggerFactory.getLogger(VacancyUIController.class);
+@RequestMapping(value = ProfileVacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class ProfileVacancyRestController {
+    static final String REST_URL = "/rest/profile/vacancies";
+    public static final Logger log = LoggerFactory.getLogger(ProfileVacancyRestController.class);
     @Autowired
     private VacancyService vacancyService;
     @Autowired
@@ -29,31 +29,11 @@ public class VacancyUIController {
 
     @GetMapping
     public List<VacancyTo> getAll() {
-        List <VacancyTo> vacancyTos = vacancyService.getAllTos();
-        log.info("vacancyTos {}", vacancyTos);
-        return vacancyTos;
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        vacancyService.delete(id);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Valid VacancyTo vacancyTo) {
-        log.info("createOrUpdate vacancyTo={}", vacancyTo);
-        if (vacancyTo.isNew()) {
-            vacancyService.createVacancyAndEmployer(vacancyTo);
-        } else {
-            vacancyService.updateTo(vacancyTo);
-        }
+        return vacancyService.getAllTos();
     }
 
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
-        log.info("getByFilter language={} workplace={}", language, workplace);
         return vacancyService.getTosByFilter(language, workplace);
     }
 

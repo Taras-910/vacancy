@@ -36,14 +36,14 @@ public class VoteServiceTest extends AbstractServiceTest {
     @Test
     public void getAll() throws Exception {
         setTestAuthorizedUser(admin);
-        List<Vote> all = service.getAllForAuthUser();
+        List<Vote> all = service.getAllForAuth();
         VOTE_MATCHER.assertMatch(allVotes(), all);
     }
 
     @Test
     public void getAllForAuthUser() throws Exception {
         setTestAuthorizedUser(admin);
-        List<Vote> all = service.getAllForAuthUser();
+        List<Vote> all = service.getAllForAuth();
         VOTE_MATCHER.assertMatch(List.of(vote1), all);
     }
 

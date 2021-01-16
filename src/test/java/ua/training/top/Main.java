@@ -65,7 +65,7 @@ public class Main {
 */
 
         Vacancy vacancy = vacancy1;
-        VacancyTo vacancyTo = VacancyUtil.getTo(vacancy, voteService.getAllForAuthUser());
+        VacancyTo vacancyTo = VacancyUtil.getTo(vacancy, voteService.getAllForAuth());
         System.out.println(vacancyTo);
 
 

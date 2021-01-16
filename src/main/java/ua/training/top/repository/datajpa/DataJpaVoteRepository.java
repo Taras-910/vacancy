@@ -54,8 +54,8 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public List<Vote> getAllForAuthUser(int userId) {
-        return Optional.ofNullable(voteRepository.getAllForAuthUser(userId)).orElse(null);
+    public List<Vote> getAllForAuth(int userId) {
+        return Optional.ofNullable(voteRepository.getAllForAuth(userId)).orElse(null);
     }
 
     @Override

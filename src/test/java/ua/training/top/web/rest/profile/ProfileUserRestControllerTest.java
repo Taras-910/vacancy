@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.USER_MATCHER;
-import static ua.training.top.testData.UserTestData.admin;
+import static ua.training.top.testData.UserTestData.user;
 
 class ProfileUserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ProfileUserRestController.REST_URL;
@@ -28,36 +28,36 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
-                .with(userHttpBasic(admin)))
+                .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(admin));
+                .andExpect(USER_MATCHER.contentJson(user));
     }
 
     @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL)
-                .with(userHttpBasic(admin)))
+                .with(userHttpBasic(user)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        setTestAuthorizedUser(admin);
+        setTestAuthorizedUser(user);
         assertThrows(NotFoundException.class, () -> controller.delete());
     }
 
     @Test
     @Transactional
     void update() throws Exception {
-        User updated = new User(admin);
+        User updated = new User(user);
         updated.setName("NewName");
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(admin))
+                .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        setTestAuthorizedUser(admin);
+        setTestAuthorizedUser(user);
         USER_MATCHER.assertMatch(controller.get(), updated);
     }
 

@@ -1,4 +1,4 @@
-package ua.training.top.web.rest.admin;
+package ua.training.top.web.rest.profile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +16,13 @@ import java.util.List;
 import static ua.training.top.SecurityUtil.authUserId;
 
 @RestController
-@RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class VoteRestController {
-    static final String REST_URL = "/rest/admin/votes";
+@RequestMapping(value = ProfileVoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class ProfileVoteRestController {
+    static final String REST_URL = "/rest/profile/votes";
     protected final Logger log = LoggerFactory.getLogger(getClass());
     private final VoteService service;
 
-    public VoteRestController(VoteService service) {
+    public ProfileVoteRestController(VoteService service) {
         this.service = service;
     }
 
@@ -33,13 +33,7 @@ public class VoteRestController {
     }
 
     @GetMapping
-    public List<Vote> getAll() {
-        log.info("getAll votes");
-        return service.getAll();
-    }
-
-    @GetMapping("/auth")
-    public List<Vote> getAllForAuthUser() {
+    public List<Vote> getAllForAuth() {
         log.info("get all for authUserId");
         return service.getAllForAuth();
     }
@@ -52,13 +46,6 @@ public class VoteRestController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@PathVariable(name = "id") int voteId, @RequestParam int vacancyId) {
-        log.info("update voteId {} for vacancyId {}", voteId, vacancyId);
-        service.update(voteId, vacancyId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -59,7 +59,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VACANCY_TO_MATCHER.contentJson(VacancyUtil.getTo(vacancy1, voteService.getAllForAuthUser())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(VacancyUtil.getTo(vacancy1, voteService.getAllForAuth())));
     }
 
     @Test
@@ -77,7 +77,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuthUser())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuth())));
     }
 
     @Test
@@ -144,7 +144,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
         setTestAuthorizedUser(admin);
-        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuthUser()), newVacancyTo);
+        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuth()), newVacancyTo);
     }
 
 
@@ -182,7 +182,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1), voteService.getAllForAuthUser())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1), voteService.getAllForAuth())));
     }
 
     @Test
@@ -193,12 +193,12 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuthUser())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuth())));
     }
 
     @Test
     void setVote() throws Exception {
-        Vote vote = voteService.getAllForAuthUser().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
+        Vote vote = voteService.getAllForAuth().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
         assertTrue(vote == null);
         perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)
                 .param("enabled", "true")
@@ -206,7 +206,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        vote = voteService.getAllForAuthUser().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
+        vote = voteService.getAllForAuth().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
         assertTrue(vote != null);
     }
 

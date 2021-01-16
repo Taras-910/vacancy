@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
@@ -50,20 +51,30 @@
             </div>
         </div>
         <br>
+
+
         <div class="row card-footer">
 
+            <sec:authorize access="hasRole('ADMIN')">
             <button class="col-2 btn btn-primary" onclick="addVacancy()">
                 <span class="fa fa-plus text-left"></span>
                    Добавить
             </button>
+            </sec:authorize>
 
             <a class="offset-4 col-3">
             </a>
-            <button class="col-2 btn btn-outline-success float-right" onclick="refreshDB()">
+
+
+            <button class="col-2 btn btn-outline-success bs-popover-right" onclick="refreshDB()">
                 <span class="fa fa-refresh text-left pull-right"></span>
                 Обновить DB
             </button>
+
+
         </div>
+
+
 
         <table class="table table-striped table-bordered" id="datatable">
             <div class="row">
@@ -82,8 +93,8 @@
                 <th hidden>toVote</th>
                 <th hidden>work place</th>
                 <th hidden>language</th>
-                <th></th>
-                <th></th>
+                <th ></th>
+                <th class="admin"></th>
             </tr>
             </thead>
             </div>
@@ -95,6 +106,7 @@
 <%--add Vacancy--%>
 <div class="modal fade" tabindex="-1" id="addRow">
     <div class="modal-dialog">
+
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Добавить вакансию</h4>
@@ -167,6 +179,7 @@
                 </button>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -174,6 +187,7 @@
 <div class="modal fade" tabindex="-1" id="updateRow">
     <div class="modal-dialog">
         <div class="modal-content">
+            <sec:authorize access="hasRole('ADMIN')">
             <div class="modal-header">
                 <h4 class="modal-title">Редактирование</h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
@@ -232,6 +246,7 @@
                     Сохранить
                 </button>
             </div>
+            </sec:authorize>
         </div>
     </div>
 </div>
