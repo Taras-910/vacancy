@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
@@ -13,6 +14,7 @@ import ua.training.top.to.VacancyTo;
 import javax.validation.Valid;
 import java.util.List;
 
+@ApiIgnore
 @RestController
 @RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VacancyUIController {

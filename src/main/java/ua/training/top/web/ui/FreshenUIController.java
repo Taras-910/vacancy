@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
 
 import javax.validation.Valid;
 
+@ApiIgnore
 @RestController
 @RequestMapping(value = "profile/freshen", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FreshenUIController {
