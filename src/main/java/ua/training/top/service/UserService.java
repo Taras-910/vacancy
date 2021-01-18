@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
         Assert.notNull(user, "user must not be null");
         checkNew(user);
         if(repository.getByEmail(user.getEmail()) != null){
-            throw new DataIntegrityViolationException("User with meal " + user.getEmail() + "already exist");
+            throw new DataIntegrityViolationException("User with meal " + user.getEmail() + " already exist");
         }
         return prepareAndSave(user);
     }
