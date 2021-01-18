@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.datas;
+package ua.training.top.util.refresh.datas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

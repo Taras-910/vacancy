@@ -13,6 +13,7 @@ import ua.training.top.testData.UserTestData;
 import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
+import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
@@ -97,11 +98,11 @@ public class VacancyServiceTest extends AbstractServiceTest {
 
     @Test
     public void createListErrorData() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy1), new Vacancy(vacancy2)), EMPLOYER2_ID, FRESHEN2_ID));
+        assertThrows(IllegalRequestDataException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy1), new Vacancy(vacancy2)), EMPLOYER2_ID, FRESHEN2_ID));
         assertThrows(NullPointerException.class, () -> vacancyService.createList(List.of(null, new Vacancy(vacancy3)), EMPLOYER2_ID, FRESHEN2_ID));
         assertThrows(NullPointerException.class, () -> vacancyService.createList(null, EMPLOYER2_ID, FRESHEN2_ID));
-        assertThrows(IllegalArgumentException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), null, FRESHEN2_ID));
-        assertThrows(IllegalArgumentException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), EMPLOYER2_ID, null));
+        assertThrows(IllegalRequestDataException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), null, FRESHEN2_ID));
+        assertThrows(IllegalRequestDataException.class, () -> vacancyService.createList(List.of(new Vacancy(vacancy4)), EMPLOYER2_ID, null));
     }
 
     @Test

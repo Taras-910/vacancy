@@ -36,7 +36,7 @@ public class ProfileFreshenRestController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void refreshDB(@Valid Freshen freshen) {
+    public void refreshDB(@Valid @RequestBody Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
         service.refreshDB(freshen);
     }

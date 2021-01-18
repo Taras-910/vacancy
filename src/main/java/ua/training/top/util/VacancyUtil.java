@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.util.jsoup.datas.CorrectSiteName.getSiteName;
+import static ua.training.top.util.refresh.datas.CorrectSiteName.getSiteName;
 
 public class VacancyUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
@@ -39,6 +39,10 @@ public class VacancyUtil {
                 v.getFreshen().getLanguage(), v.getFreshen().getWorkplace(), toVote);
     }
 
+    public static List<Vacancy> fromTos (List<VacancyTo> vTos) {
+        return vTos.stream().map(vTo -> fromTo(vTo)).collect(Collectors.toList());
+    }
+
     public static Vacancy fromTo(VacancyTo vTo) {
         return new Vacancy(vTo.getId() == null ? null : vTo.id(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(),
                 vTo.getUrl(), vTo.getSkills(), vTo.getReleaseDate() != null? vTo.getReleaseDate() : LocalDate.now());
@@ -54,21 +58,21 @@ public class VacancyUtil {
                 "no suitable vacancies", null, null, null, null,false));
     }
 
+    public static List<Employer> getEmployersFromTos(List<VacancyTo> vTos) {
+        return vTos.stream().map(vTo -> getEmployerFromTo(vTo)).collect(Collectors.toList());
+    }
+
     public static Employer getEmployerFromTo(VacancyTo vTo) {
         return new Employer(null, vTo.getEmployerName(), vTo.getAddress(),
-                checkString(vTo.getSiteName()) ? getSiteName(vTo.getUrl()) : vTo.getSiteName());
+                checkNullString(vTo.getSiteName()) ? getSiteName(vTo.getUrl()) : vTo.getSiteName());
     }
 
     public static Freshen getFreshenFromTo(VacancyTo vTo) {
         return new Freshen(null, LocalDateTime.now(), vTo.getLanguage(),
-                checkString(vTo.getWorkplace()) ? vTo.getAddress() : vTo.getWorkplace(), authUserId());
+                checkNullString(vTo.getWorkplace()) ? vTo.getAddress() : vTo.getWorkplace(), authUserId());
     }
 
-    public static boolean checkStrings(String... text){
-        return List.of(text).stream().filter(t -> checkString(t)).count() != 0;
-    }
-
-    public static boolean checkString(String text){
+     public static boolean checkNullString(String text){
         return text == null || text.isEmpty();
     }
 

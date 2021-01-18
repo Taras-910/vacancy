@@ -23,8 +23,8 @@ import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.fromTo;
 import static ua.training.top.util.VacancyUtil.getEmployerFromTo;
-import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForCreate;
-import static ua.training.top.util.jsoup.VacanciesMapUtil.getMapVacanciesForUpdate;
+import static ua.training.top.util.refresh.VacanciesMapUtil.getMapVacanciesForCreate;
+import static ua.training.top.util.refresh.VacanciesMapUtil.getMapVacanciesForUpdate;
 
 @Controller
 public class AggregatorController {
@@ -141,12 +141,11 @@ public class AggregatorController {
         User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
         setTestAuthorizedUser(admin);
 
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),"java", "киев", authUserId()));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),"java", "за_рубежем", authUserId()));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),"java", "киев", authUserId()));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),"java", "за_рубежем", authUserId()));
 
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-
     }
 }

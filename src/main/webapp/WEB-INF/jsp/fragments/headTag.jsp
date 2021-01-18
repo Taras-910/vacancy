@@ -3,8 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+
     <title>Поиск IT вакансий</title>
     <base href="${pageContext.request.contextPath}/"/>
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="webjars/bootstrap/4.5.3/css/bootstrap.min.css">

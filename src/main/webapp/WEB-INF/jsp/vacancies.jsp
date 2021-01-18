@@ -18,14 +18,14 @@
                     <div class="row">
                         <div class="offset-1"></div>
                         <div class="col-4 text-left">
-                            <label for="language"><h7 class="text-center">Java, PHP, Ruby, Python, JavaScript, Kotlin... </h7></label>
-                            <input class="form-control" type="text" placeholder="java" name="language" id="language">
+                            <label for="language"><h7 class="text-center btn-outline-info"></h7></label>
+                            <input class="form-control" type="text" placeholder="Java, PHP, Ruby, Python, JavaScript, Kotlin... " name="language" id="language">
                         </div>
                         <div class="offset-1 col-1">
                         </div>
                         <div class="col-4 text-left">
-                            <label for="workplace"><h7 class="text-center">Киев, Днепр, Харьков, За_рубежем, Санкт-Петербург... </h7></label>
-                            <input class="form-control" type="text" placeholder="за_рубежем" name="workplace" id="workplace">
+                            <label for="workplace"><h7 class="text-center btn-outline-info"></h7></label>
+                            <input class="form-control" type="text" placeholder="За_рубежем, Киев, Днепр, Харьков, Санкт-Петербург... " name="workplace" id="workplace">
                         </div>
                     <div class="offset-1 col-1">
                         </div>

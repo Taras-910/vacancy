@@ -1,10 +1,10 @@
-package ua.training.top.util.jsoup.salary;
+package ua.training.top.util.refresh.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static ua.training.top.util.jsoup.salary.CheckUtil.getCleaned;
-import static ua.training.top.util.jsoup.salary.RateUtil.eurToUsd;
+import static ua.training.top.util.refresh.salary.CheckUtil.getCleaned;
+import static ua.training.top.util.refresh.salary.RateUtil.eurToUsd;
 
 public class EurUtil {
     public static final Logger log = LoggerFactory.getLogger(EurUtil.class);

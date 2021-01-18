@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup;
+package ua.training.top.util.refresh;
 
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;

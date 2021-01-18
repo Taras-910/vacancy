@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.datas;
+package ua.training.top.util.refresh.datas;
 
 public class CorrectAddress {
     public static String getCorrectAddress(String city){

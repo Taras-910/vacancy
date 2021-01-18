@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.jsoup.DocumentUtil;
+import ua.training.top.util.refresh.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
-import static ua.training.top.util.jsoup.ElementUtil.getVacanciesJobs;
+import static ua.training.top.util.refresh.ElementUtil.getVacanciesJobs;
 
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);

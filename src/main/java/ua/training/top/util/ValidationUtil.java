@@ -16,7 +16,7 @@ import javax.validation.*;
 import java.util.List;
 import java.util.Set;
 
-import static ua.training.top.util.VacancyUtil.checkStrings;
+import static ua.training.top.util.VacancyUtil.checkNullString;
 
 public class ValidationUtil {
 
@@ -100,6 +100,7 @@ public class ValidationUtil {
         }
     }
 
+/*
     public static boolean checkDoubleVacancies(List<Vacancy> vacancies, VacancyTo vacancyTo) throws DataIntegrityViolationException {
         boolean check = vacancies != null && vacancies.stream()
                 .filter(v -> v.getTitle().equals(vacancyTo.getTitle()))
@@ -112,6 +113,7 @@ public class ValidationUtil {
         }
         return false;
     }
+*/
 
     public static void checkDoubleUser(User user, User userDb) {
         if(userDb != null && user.getEmail().equals(userDb.getEmail())) {
@@ -128,17 +130,21 @@ public class ValidationUtil {
     }
 
     public static void checkDataEmployer(Employer e) {
-        if (checkStrings(e.getName(), e.getAddress())) {
+        if (checkNullStrings(e.getName(), e.getAddress())) {
             getException(e);
         }
     }
 
-    public static void checkDataVacancyTo(VacancyTo v) {
-        if (checkStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl(), v.getLanguage(), v.getWorkplace())) {
+    public static void checkNullDataVacancyTo(VacancyTo v) {
+        if (checkNullStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl(), v.getLanguage())) {
             getException(v);
         }
     }
      public static void getException(Object object) {
          throw new IllegalArgumentException("must not null data of " + object.getClass().getSimpleName());
      }
+
+    public static boolean checkNullStrings(String... data){
+        return List.of(data).stream().filter(text -> checkNullString(text)).count() != 0;
+    }
 }

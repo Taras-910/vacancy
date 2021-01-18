@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.salary;
+package ua.training.top.util.refresh.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

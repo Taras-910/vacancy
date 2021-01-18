@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.salary;
+package ua.training.top.util.refresh.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class CheckUtil {
         if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary)) {
             return "1";
         }
-        salary = salary.replaceAll(" ", "").replaceAll(" ", "")
+        salary = salary.replaceAll(" ", "").replaceAll(" ", "").replaceAll("&nbsp;", "")
                 .replaceAll("b2b", "").replaceAll("\\(uop\\)", "").replaceAll("[.]{2,}", "");
         salary = salary.replaceAll("–", "—").replaceAll("-", "—");
         salary = salary.contains("salary:") ? "salary:".concat(salary.split("salary:")[1]) : salary;

@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.date;
+package ua.training.top.util.refresh.date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import static ua.training.top.util.jsoup.date.MonthUtil.getMonth;
+import static ua.training.top.util.refresh.date.MonthUtil.getMonth;
 
 public class DateUtil {
     private static final Logger log = LoggerFactory.getLogger(DateUtil.class);

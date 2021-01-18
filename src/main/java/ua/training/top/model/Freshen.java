@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
+import static ua.training.top.util.xss.xssUtil.getXssCleaned;
 
 @Entity
 @Table(name = "freshen")

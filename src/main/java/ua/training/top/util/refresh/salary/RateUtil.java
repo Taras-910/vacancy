@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.salary;
+package ua.training.top.util.refresh.salary;
 
 import static java.lang.String.valueOf;
 

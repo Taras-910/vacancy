@@ -3,7 +3,7 @@ package ua.training.top.util.xss;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
-public class SafeFromXssUtil {
+public class xssUtil {
 
     public static String getXssCleaned(String unsafe){
         return Jsoup.clean(unsafe, Whitelist.basic());

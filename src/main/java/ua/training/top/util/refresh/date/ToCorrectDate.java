@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup.date;
+package ua.training.top.util.refresh.date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

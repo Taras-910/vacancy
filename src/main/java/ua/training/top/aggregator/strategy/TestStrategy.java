@@ -18,18 +18,18 @@ public class TestStrategy implements Strategy{
     }
 
     public static List<VacancyTo> getTestList(){
-        VacancyTo VACANCY_T05 = new VacancyTo(null,"Middle проверка vote Developer", "New Company Games", "киев",200000, 300000, "https проверка vote",
-                "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting java…",
-                LocalDate.now().minusDays(7), "https://ukr.net/проверка/vote", null, null, false);
-
-        VacancyTo VACANCY_T01 = new VacancyTo(null,"Junior java", "Games", "Poznan",300000, 450000, "https://grc.ua/vacancy/40006938?query=java",
+        VacancyTo vacancyTo1 = new VacancyTo(null,"Junior java", "Games", "Poznan",300000, 450000, "https://grc.ua/vacancy/40006938?query=java",
                 "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
                 LocalDate.now().minusDays(5), "https://grc.ua", null, null, false);
 
-        VacancyTo VACANCY_T02 = new VacancyTo(null, "Java-разработчик", "New Company", "Warshaw",
+        VacancyTo vacancyTo2 = new VacancyTo(null,"Middle проверка vote Developer", "New Company Games", "киев",200000, 300000, "https проверка vote",
+                "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting java…",
+                LocalDate.now().minusDays(7), "https://ukr.net/проверка/vote", null, null, false);
+
+        VacancyTo vacancyTo3 = new VacancyTo(null, "Java-разработчик", "New Company", "Warshaw",
                 100000, 150000, "https://grc.ua/vacancy/40006938?query=java",
                 "Java. Понимание javaScript",
                 LocalDate.now().minusDays(3), "https://grc.ua", null, null, false);
-        return List.of(VACANCY_T05, VACANCY_T02, VACANCY_T01);
+        return List.of(vacancyTo1, vacancyTo2, vacancyTo3);
     }
 }

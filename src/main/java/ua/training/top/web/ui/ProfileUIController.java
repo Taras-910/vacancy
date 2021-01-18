@@ -16,7 +16,7 @@ import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 
 import javax.validation.Valid;
-//•	Поменял путь регистрации с /registered на /profile/registered (в ProfileUIController вместо RootController)
+
 @Controller
 @RequestMapping("/profile")
 public class ProfileUIController {
@@ -33,11 +33,15 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
     public String updateProfile(@Valid User user, BindingResult result, SessionStatus status) {
         if (result.hasErrors()) {
             return "profile";
-        } else {
+        }
+        try {
             service.update(user, SecurityUtil.authUserId());
             SecurityUtil.get().update(user);
             status.setComplete();
-            return "redirect:vacancies";
+            return "redirect:/vacancies";
+        } catch (DataIntegrityViolationException ex) {
+            result.rejectValue("email", null,"User with this meal already exist");
+            return "profile";
         }
     }
 
@@ -50,20 +54,19 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
 
     @PostMapping("/register")
     public String saveRegister(@Valid User user, BindingResult result, SessionStatus status, ModelMap model) {
-        log.info("saveRegister user={} result={} status={}, model={}", user, result, status, model);
         if (result.hasErrors()) {
-            log.info("hasErrors");
             model.addAttribute("register", true);
             return "profile";
         } else {
             try {
                 service.create(user);
                 status.setComplete();
-                return "redirect:/login?message=Вы зарегистрированы. Введите ваш логин/пароль&username=" + user.getEmail();
-            } catch (Exception e) {
-            throw new DataIntegrityViolationException("user " + user + " уже существует в базе данных");
+                return "redirect:/login?message=You are registered. Please Sign in&username=" + user.getEmail();
+            } catch (DataIntegrityViolationException e) {
+                result.rejectValue("email", null, "User with this meal already exist");
+                model.addAttribute("register", true);
+                return "profile";
             }
         }
     }
 }
-

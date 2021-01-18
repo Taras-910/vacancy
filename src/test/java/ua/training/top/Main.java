@@ -2,8 +2,8 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.training.top.repository.VacancyRepository;
-import ua.training.top.service.UserService;
+
+import static ua.training.top.util.ValidationUtil.checkNullStrings;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,11 +28,14 @@ public class Main {
         System.out.println("========================================");
 */
 
-        VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
-        UserService service = appCtx.getBean(UserService.class);
-        System.out.println(service.get(100016));
+//        VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
+//        UserService service = appCtx.getBean(UserService.class);
+
+        System.out.println("1 "+ checkNullStrings("d", "s"));
+        System.out.println(checkNullStrings("d", ""));
 
         System.out.println("==============================================================================");
+
 
 
 

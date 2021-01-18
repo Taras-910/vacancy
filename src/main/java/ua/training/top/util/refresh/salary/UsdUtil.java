@@ -1,9 +1,9 @@
-package ua.training.top.util.jsoup.salary;
+package ua.training.top.util.refresh.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static ua.training.top.util.jsoup.salary.CheckUtil.getCleaned;
+import static ua.training.top.util.refresh.salary.CheckUtil.getCleaned;
 
 public class UsdUtil {
     public static final Logger log = LoggerFactory.getLogger(UsdUtil.class);

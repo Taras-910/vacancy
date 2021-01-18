@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -20,26 +18,28 @@
         </form>
     </div>
 </nav>
-
 <div class="jumbotron py-0">
     <div class="container">
         <c:if test="${param.error}">
             <div class="error">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</div>
         </c:if>
         <c:if test="${not empty param.message}">
-            <div class="message">"${param.message}"</div>
+            <div class="message">
+                "${param.message}"
+            </div>
         </c:if>
+
         <br/>
         <sec:authorize access="isAnonymous()">
-        <p>
-            <a class="btn btn-lg btn-success" href="profile/register">регистрация &raquo;</a>
-            <button type="submit" class="btn btn-lg btn-primary" onclick="login('user@yandex.ru', 'password')">
-                login User
-            </button>
-            <button type="submit" class="btn btn-lg btn-primary" onclick="login('admin@gmail.com', 'admin')">
-                login Admin
-            </button>
-        </p>
+            <p>
+                <a class="btn btn-lg btn-success" href="profile/register">регистрация &raquo;</a>
+                <button type="submit" class="btn btn-lg btn-primary" onclick="login('user@yandex.ru', 'password')">
+                    login User
+                </button>
+                <button type="submit" class="btn btn-lg btn-primary" onclick="login('admin@gmail.com', 'admin')">
+                    login Admin
+                </button>
+            </p>
         </sec:authorize>
         <br/>
         <div class="lead py-4">Стек технологий<br>
@@ -67,17 +67,48 @@
     </div>
 </div>
 <div class="container lead">
-    <a href="https://github.com/Taras-910/vacancy">Java Enterprise проект</a> с регистрацией/авторизацией и правами доступа на основе ролей (USER, ADMIN). \
-    Администратор может создавать/редактировать/удалять пользователей, а пользователи - управлять своим профилем и данными (едой) через UI (по AJAX) и по REST интерфейсу с базовой авторизацией. \
-    Возможна фильтрация еды по датам и времени. Цвет записи таблицы еды зависит от того, превышает ли сумма калорий за день норму (редактируемый параметр в профиле пользователя). \
-    Весь REST интерфейс покрывается JUnit тестами, используя Spring MVC Test и Spring Security Test.
+    <a href="https://github.com/Taras-910/vacancy">Java Enterprise проект</a> с регистрацией/авторизацией и правами
+    доступа на основе ролей (USER, ADMIN). <br/>Администратор может создавать/редактировать/ удалять пользователей и
+    вакансии, обновлять базу данных, а пользователи могут управлять своим профилем, отмечать выбранные вакансии через UI
+    (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных. Возможна фильтрация вакансий по языку
+    программирования и локации. Цвет записи индивидуально изменяется, если вакансия была отмечена пользователем. Весь
+    REST интерфейс покрывается JUnit тестами, используя Spring MVC Test и Spring Security Test.<br/>
+    База обновляется данными:
+    <a href="https://djinni.co">Джин</a>,
+    <a href="http://grc.ua">HeadHunter</a>,
+    <a href="https://career.habr.com">Habr</a>,
+    <a href="https://jobs.dou.ua"> DOU.ua</a>,
+    <a href="https://www.linkedin.com">LinkedIn</a>,
+    <a href="https://nofluffjobs.com/">No Fluff Jobs</a>,
+    <a href="https://rabota.ua">robota.ua</a>,
+    <a href="https://ua.indeed.com">Indeed</a>,
+    <a href="https://ua.jooble.org">Jooble</a>,
+    <a href="https://www.work.ua">Work.ua</a>
+</div>
+
+
+<div class="jumbotron py-0">
+    <div class="container lead">
+
+        <%--<div class="lead py-4">База обновляется из сайтов:
+            <a href="https://djinni.co">Джин</a>,
+            <a href="http://grc.ua">HeadHunter</a>,
+            <a href="https://career.habr.com">Habr</a>,
+            <a href="https://jobs.dou.ua"> DOU.ua</a>,
+            <a href="https://www.linkedin.com">LinkedIn</a>,
+            <a href="https://nofluffjobs.com/">No Fluff Jobs</a>,
+            <a href="https://rabota.ua">robota.ua</a>,
+            <a href="https://ua.indeed.com">Indeed</a>,
+            <a href="https://ua.jooble.org">Jooble</a>,
+            <a href="https://www.work.ua">Work.ua</a>
+        </div>--%>
+    </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 <script type="text/javascript">
     <c:if test="${not empty param.username}">
     setCredentials("${param.username}", "");
     </c:if>
-
     function login(username, password) {
         setCredentials(username, password);
         $("#login_form").submit();

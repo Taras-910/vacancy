@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 import ua.training.top.testData.UserTestData;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.*;
 
@@ -84,15 +86,33 @@ class UserRestControllerTest extends AbstractControllerTest {
     void create() throws Exception {
         User newUser = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(UserTestData.jsonWithPassword(newUser, "newPass"))
                 .content(JsonUtil.writeValue(newUser)))
+                .andDo(print())
                 .andExpect(status().isCreated());
-//        User created = readFromJson(action, User.class);
-//        newUser.setId(created.getId());
-//        USER_MATCHER.assertMatch(created, newUser);
-//        USER_MATCHER.assertMatch(service.get(created.getId()), newUser);
+        User created = readFromJson(action, User.class);
+        newUser.setId(created.getId());
+        USER_MATCHER.assertMatch(created, newUser);
+        USER_MATCHER.assertMatch(service.get(created.getId()), newUser);
+    }
+
+    @Test
+    void register() throws Exception {
+        User newUser = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.USER);
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
+                .with(userHttpBasic(admin))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newUser)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        User created = readFromJson(action, User.class);
+        int newId = created.id();
+        newUser.setId(newId);
+        USER_MATCHER.assertMatch(created, newUser);
+        USER_MATCHER.assertMatch(service.get(newId), newUser);
     }
 
     @Test

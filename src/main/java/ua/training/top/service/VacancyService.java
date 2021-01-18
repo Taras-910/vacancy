@@ -2,6 +2,7 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,21 +70,23 @@ public class VacancyService {
         return getTos(getByFilter(language, workplace), voteService.getAllForAuth());
     }
 
-    public List<Vacancy> getByTitle(String title) {
+    public List<Vacancy> getByTitleAndSkillsAndEmployer(String title, String skills, String employerName) {
         log.info("getByTitle title={}", title);
-        return vacancyRepository.getByTitle(title);
+        return vacancyRepository.getByTitleAndSkillsAndEmployer(title, skills, employerName);
     }
 
     @Transactional
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
         log.info("createVacancyAndEmployer");
-            checkDoubleVacancies(getByTitle(vacancyTo.getTitle()), vacancyTo);
-            checkDataVacancyTo(vacancyTo);
-            Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
-            Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
-            log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
-            Vacancy vacancy = checkNotFound(vacancyRepository.save(fromTo(vacancyTo), employer.getId(), freshen.getId()), "employerId=" + employer.getId());
-            return vacancy;
+        if(!getByTitleAndSkillsAndEmployer(vacancyTo.getTitle(), vacancyTo.getSkills(), vacancyTo.getEmployerName()).isEmpty()){
+            throw new DataIntegrityViolationException("vacancy already exists in the database");
+        }
+        Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
+        checkNullDataVacancyTo(vacancyTo);
+        Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
+        Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
+        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+        return checkNotFound(vacancyRepository.save(vacancy, employer.getId(), freshen.getId()), "employerId=" + employer.getId());
     }
 
     @Transactional

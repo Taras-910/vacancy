@@ -17,6 +17,14 @@ public class InstallationUtil {
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonDateToKeep = LocalDateTime.now().toLocalDate().minusDays(28);
     public static Integer reasonTimeBetweenRefresh = 30;
+    public static boolean jUnitTest = false;
+
+    public static void setJUnitTest() {
+        InstallationUtil.jUnitTest = true;
+    }
+    public static void dropJUnitTest() {
+        InstallationUtil.jUnitTest = false;
+    }
 
     public static void reCall(int listSize, Strategy strategy){
         if (listSize == 0 && repeatToCall > 0){
@@ -25,5 +33,4 @@ public class InstallationUtil {
             repeatToCall--;
         }
     }
-
 }

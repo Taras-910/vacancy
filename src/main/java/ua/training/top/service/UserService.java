@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,20 +12,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
+import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.Collections;
 import java.util.List;
 
-import static ua.training.top.util.UserUtil.withRoleUser;
+import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Service("UserService")
 public class UserService implements UserDetailsService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -41,9 +41,9 @@ public class UserService implements UserDetailsService {
         Assert.notNull(user, "user must not be null");
         checkNew(user);
         if(repository.getByEmail(user.getEmail()) != null){
-            throw new DataIntegrityViolationException("user " + user + " уже существует в базе данных");
+            throw new DataIntegrityViolationException("User with meal " + user.getEmail() + "already exist");
         }
-        return repository.save(withRoleUser(user));
+        return prepareAndSave(user);
     }
 
     public void delete(int id) {
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
         Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
+        return checkNotFound(repository.getByEmail(email), "mail " + email);
     }
 
     public List<User> getAll() {
@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         Assert.notNull(user, "user must not be null");
-        checkNotFoundWithId(repository.save(user), user.id());
+        checkNotFoundWithId(prepareAndSave(user), user.id());
     }
 
     //    @CacheEvict(value = "users", allEntries = true)
@@ -87,9 +87,14 @@ public class UserService implements UserDetailsService {
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.getByEmail(email.toLowerCase());
         if (user == null) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
+            throw new UsernameNotFoundException("User with email " + email + " is not found");
         }
         return new AuthorizedUser(user);
+    }
+
+    private User prepareAndSave(User user) {
+        user.setRoles(Collections.singleton(Role.USER));
+        return repository.save(prepareToSave(user, passwordEncoder));
     }
 
 }

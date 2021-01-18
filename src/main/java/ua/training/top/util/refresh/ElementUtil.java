@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup;
+package ua.training.top.util.refresh;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,15 +17,15 @@ import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validAddre
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validDate;
 import static ua.training.top.aggregator.strategy.UAIndeedStrategy.getCorrectUrl;
 import static ua.training.top.util.DateTimeUtil.parseLocalDate;
-import static ua.training.top.util.jsoup.datas.CorrectAddress.getCorrectAddress;
-import static ua.training.top.util.jsoup.datas.CorrectCompanyName.getCorrectCompanyName;
-import static ua.training.top.util.jsoup.datas.CorrectTitle.getCorrectTitle;
-import static ua.training.top.util.jsoup.date.DateUtil.supportDate;
-import static ua.training.top.util.jsoup.date.ToCorrectDate.getCorrectDate;
-import static ua.training.top.util.jsoup.salary.MinMax.salaryMax;
-import static ua.training.top.util.jsoup.salary.MinMax.salaryMin;
-import static ua.training.top.util.jsoup.salary.SalaryUtil.getCorrectSalary;
-import static ua.training.top.util.xss.SafeFromXssUtil.getXssCleaned;
+import static ua.training.top.util.refresh.datas.CorrectAddress.getCorrectAddress;
+import static ua.training.top.util.refresh.datas.CorrectCompanyName.getCorrectCompanyName;
+import static ua.training.top.util.refresh.datas.CorrectTitle.getCorrectTitle;
+import static ua.training.top.util.refresh.date.DateUtil.supportDate;
+import static ua.training.top.util.refresh.date.ToCorrectDate.getCorrectDate;
+import static ua.training.top.util.refresh.salary.MinMax.salaryMax;
+import static ua.training.top.util.refresh.salary.MinMax.salaryMin;
+import static ua.training.top.util.refresh.salary.SalaryUtil.getCorrectSalary;
+import static ua.training.top.util.xss.xssUtil.getXssCleaned;
 
 public class ElementUtil {
     public static final Logger log = LoggerFactory.getLogger(ElementUtil.class);

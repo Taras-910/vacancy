@@ -1,4 +1,4 @@
-package ua.training.top.util.jsoup;
+package ua.training.top.util.refresh;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

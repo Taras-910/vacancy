@@ -69,13 +69,9 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
-    public List<Vacancy> getByTitle(String title) {
-        List<Vacancy> vacancies = null;
-        try {
-            vacancies = vacancyRepository.getByTitle(title);
-        } catch (Exception e) {}
-        return vacancies;
-    }
+    public List<Vacancy> getByTitleAndSkillsAndEmployer(String title, String skills, String employerName) {
+        return Optional.of(vacancyRepository.getByTitleAndSkillsAndEmployer(title, skills, employerName)).orElse(new ArrayList<>());
+     }
 
     @Override
     public Vacancy get(int id) {
