@@ -27,8 +27,8 @@ import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
+import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
-import static ua.training.top.util.VacancyUtil.getEmployerFromTo;
 
 public class VacancyServiceTest extends AbstractServiceTest {
     private Logger log = LoggerFactory.getLogger(getClass());

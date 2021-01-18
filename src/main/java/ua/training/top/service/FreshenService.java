@@ -11,7 +11,7 @@ import ua.training.top.repository.FreshenRepository;
 
 import java.util.List;
 
-import static ua.training.top.util.VacancyUtil.asNewFreshen;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service

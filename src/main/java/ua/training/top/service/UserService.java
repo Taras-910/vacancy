@@ -12,12 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
-import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.util.UserUtil.prepareToSave;
@@ -93,7 +91,6 @@ public class UserService implements UserDetailsService {
     }
 
     private User prepareAndSave(User user) {
-        user.setRoles(Collections.singleton(Role.USER));
         return repository.save(prepareToSave(user, passwordEncoder));
     }
 

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import static ua.training.top.util.xss.xssUtil.getXssCleaned;
+import static ua.training.top.util.xss.xssUtil.xssClear;
 
 @Entity
 @Table(name = "freshen")
@@ -41,8 +41,8 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Integer userId) {
         super(id);
         this.recordedDate = recordedDate;
-        this.language = language == null ? "" : getXssCleaned(language).toLowerCase();
-        this.workplace = workplace == null ? "" : getXssCleaned(workplace).toLowerCase();
+        this.language = language == null ? "" : xssClear(language).toLowerCase();
+        this.workplace = workplace == null ? "" : xssClear(workplace).toLowerCase();
         this.userId = userId;
     }
 

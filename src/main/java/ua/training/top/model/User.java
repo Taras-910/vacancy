@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
+import static ua.training.top.util.xss.xssUtil.xssClear;
+
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
         @NamedQuery(name = User.BY_EMAIL, query = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
@@ -29,7 +31,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-    @Size(max = 100)
+    @Size(min = 5, max = 100)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -64,8 +66,8 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
 
     public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
         super(id, name);
-        this.email = email;
-        this.password = password;
+        this.email = xssClear(email);
+        this.password = xssClear(password);
         this.enabled = enabled;
         this.registered = registered;
         setRoles(roles);
@@ -99,11 +101,11 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
     public void setEmail(String email) {
-        this.email = email;
+        this.email = xssClear(email);
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = xssClear(password);
     }
 
     @Override

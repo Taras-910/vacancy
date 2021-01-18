@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.*;
 

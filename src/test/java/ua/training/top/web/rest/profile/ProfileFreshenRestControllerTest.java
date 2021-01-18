@@ -27,8 +27,8 @@ import static ua.training.top.aggregator.strategy.installation.InstallationUtil.
 import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.user;
+import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
 import static ua.training.top.util.VacancyUtil.fromTos;
-import static ua.training.top.util.VacancyUtil.getEmployersFromTos;
 
 
 class ProfileFreshenRestControllerTest extends AbstractControllerTest {

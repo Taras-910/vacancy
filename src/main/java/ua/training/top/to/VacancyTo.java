@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static ua.training.top.util.xss.xssUtil.xssClear;
+
 public class VacancyTo extends BaseTo implements Serializable {
 
     @NotNull
@@ -43,7 +45,6 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     private String siteName;
 
-    @NotNull
     private String language;
 
     private String workplace;
@@ -53,17 +54,17 @@ public class VacancyTo extends BaseTo implements Serializable {
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin, @NotNull Integer salaryMax,
                      @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workplace, @Nullable boolean toVote) {
         super(id);
-        this.title = title;
-        this.employerName = employerName;
-        this.address = address;
+        this.title = xssClear(title);
+        this.employerName = xssClear(employerName);
+        this.address = xssClear(address);
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
-        this.url = url;
-        this.skills = skills;
+        this.url = xssClear(url);
+        this.skills = xssClear(skills);
         this.releaseDate = releaseDate;
-        this.siteName = siteName;
-        this.language = language;
-        this.workplace = workplace;
+        this.siteName = xssClear(siteName);
+        this.language = xssClear(language);
+        this.workplace = xssClear(workplace);
         this.toVote = toVote;
     }
 
@@ -79,7 +80,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setEmployerName(String employerName) {
-        this.employerName = employerName;
+        this.employerName = xssClear(employerName);
     }
 
     public String getAddress() {
@@ -87,7 +88,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = xssClear(address);
     }
 
     public String getTitle() {
@@ -95,7 +96,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = xssClear(title);
     }
 
     public LocalDate getReleaseDate() {
@@ -127,7 +128,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.url = xssClear(url);
     }
 
     public String getSkills() {
@@ -135,7 +136,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setSkills(String skills) {
-        this.skills = skills;
+        this.skills = xssClear(skills);
     }
 
     public String getLanguage() {
@@ -143,7 +144,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setLanguage(String language) {
-        this.language = language;
+        this.language = xssClear(language);
     }
 
     public boolean isToVote() {
@@ -159,7 +160,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = workplace;
+        this.workplace = xssClear(workplace);
     }
 
     public String getSiteName() {
@@ -167,7 +168,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     }
 
     public void setSiteName(String siteName) {
-        this.siteName = siteName;
+        this.siteName = xssClear(siteName);
     }
 
     @Override

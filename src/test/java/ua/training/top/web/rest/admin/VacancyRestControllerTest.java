@@ -39,7 +39,9 @@ import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
-import static ua.training.top.util.VacancyUtil.*;
+import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.VacancyUtil.fromTo;
+import static ua.training.top.util.VacancyUtil.getTos;
 
 @Transactional
 class VacancyRestControllerTest extends AbstractControllerTest {

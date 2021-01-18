@@ -2,12 +2,12 @@ package ua.training.top.util.xss;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.springframework.util.StringUtils;
 
 public class xssUtil {
 
-    public static String getXssCleaned(String unsafe){
-        return Jsoup.clean(unsafe, Whitelist.basic());
-    }
+    public static String xssClear(String unsafe) {
+        return StringUtils.hasText(unsafe) ? Jsoup.clean(unsafe, Whitelist.basic()) : unsafe; }
 }
 
 // safe from xss

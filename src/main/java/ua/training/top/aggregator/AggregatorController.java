@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
+import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
-import static ua.training.top.util.VacancyUtil.getEmployerFromTo;
 import static ua.training.top.util.refresh.VacanciesMapUtil.getMapVacanciesForCreate;
 import static ua.training.top.util.refresh.VacanciesMapUtil.getMapVacanciesForUpdate;
 

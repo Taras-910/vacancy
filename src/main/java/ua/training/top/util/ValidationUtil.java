@@ -2,6 +2,7 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.util.StringUtils;
 import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Employer;
 import ua.training.top.model.User;
@@ -15,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
 import java.util.List;
 import java.util.Set;
-
-import static ua.training.top.util.VacancyUtil.checkNullString;
 
 public class ValidationUtil {
 
@@ -100,21 +99,6 @@ public class ValidationUtil {
         }
     }
 
-/*
-    public static boolean checkDoubleVacancies(List<Vacancy> vacancies, VacancyTo vacancyTo) throws DataIntegrityViolationException {
-        boolean check = vacancies != null && vacancies.stream()
-                .filter(v -> v.getTitle().equals(vacancyTo.getTitle()))
-                .filter(v -> v.getEmployer().getName().equals(vacancyTo.getEmployerName()))
-                .filter(v -> v.getEmployer().getAddress().equals(vacancyTo.getAddress()))
-                .filter(v -> v.getSkills().equals(vacancyTo.getSkills()))
-                .count() != 0;
-        if (check) {
-            initException(vacancyTo);
-        }
-        return false;
-    }
-*/
-
     public static void checkDoubleUser(User user, User userDb) {
         if(userDb != null && user.getEmail().equals(userDb.getEmail())) {
             initException(user);
@@ -145,6 +129,6 @@ public class ValidationUtil {
      }
 
     public static boolean checkNullStrings(String... data){
-        return List.of(data).stream().filter(text -> checkNullString(text)).count() != 0;
+        return List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() != 0;
     }
 }
