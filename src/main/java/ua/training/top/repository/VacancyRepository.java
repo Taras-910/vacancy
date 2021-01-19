@@ -18,6 +18,6 @@ public interface VacancyRepository {
 
     void deleteList(List<Vacancy> listToDelete);
 
-    List<Vacancy> getByTitleAndSkillsAndEmployer(String title, String skills, String employerName);
+    List<Vacancy> getByParams(String title, String skills, String employerName);
 }
 

@@ -49,17 +49,6 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
-
-    <beans profile="hsqldb">
-        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
-        <bean id="dataSource"
-              class="org.apache.tomcat.jdbc.pool.DataSource"
-              p:driverClassName="org.hsqldb.jdbcDriver"
-              p:url="${database.url}"
-              p:username="${database.username}"
-              p:password="${database.password}"/>
-    </beans>
-
     <beans profile="postgres">
         <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
             <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>

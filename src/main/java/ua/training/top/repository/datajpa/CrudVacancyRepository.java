@@ -24,6 +24,6 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
     List<Vacancy> getAll();
 
     @Query("SELECT v FROM Vacancy v WHERE v.title=:title AND v.skills=:skills AND v.employer.name=:employerName")
-    List<Vacancy> getByTitleAndSkillsAndEmployer(@Param("title")String title, @Param("skills")String skills, @Param("employerName")String employerName);
+    List<Vacancy> getByParams(@Param("title")String title, @Param("skills")String skills, @Param("employerName")String employerName);
 }
 

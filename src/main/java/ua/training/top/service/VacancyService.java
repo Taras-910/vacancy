@@ -72,22 +72,21 @@ public class VacancyService {
         return getTos(getByFilter(language, workplace), voteService.getAllForAuth());
     }
 
-    public List<Vacancy> getByTitleAndSkillsAndEmployer(String title, String skills, String employerName) {
+    public List<Vacancy> getByParams(String title, String skills, String employerName) {
         log.info("getByTitle title={}", title);
-        return vacancyRepository.getByTitleAndSkillsAndEmployer(title, skills, employerName);
+        return vacancyRepository.getByParams(title, skills, employerName);
     }
 
     @Transactional
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
-        log.info("createVacancyAndEmployer");
-        if(!getByTitleAndSkillsAndEmployer(vacancyTo.getTitle(), vacancyTo.getSkills(), vacancyTo.getEmployerName()).isEmpty()){
+        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+        if(!getByParams(vacancyTo.getTitle(), vacancyTo.getSkills(), vacancyTo.getEmployerName()).isEmpty()){
             throw new DataIntegrityViolationException("vacancy already exists in the database");
         }
         Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
         checkNullDataVacancyTo(vacancyTo);
         Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
         Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
-        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         return checkNotFound(vacancyRepository.save(vacancy, employer.getId(), freshen.getId()), "employerId=" + employer.getId());
     }
 
