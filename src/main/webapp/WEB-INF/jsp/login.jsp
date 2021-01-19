@@ -40,8 +40,7 @@
                 </button>
             </p>
         </sec:authorize>
-        <br/>
-        <div class="lead py-4">Стек технологий<br>
+        <div class="lead py-3">Стек технологий<br>
             <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
             <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,
@@ -65,13 +64,13 @@
         </div>
     </div>
 </div>
-<div class="container lead">
+<div class="container lead py-3">
     <a href="https://github.com/Taras-910/vacancy">Java Enterprise проект</a> с регистрацией/авторизацией и правами
     доступа на основе ролей (USER, ADMIN). <br/>Администратор может создавать/редактировать/ удалять пользователей и
     вакансии, обновлять базу данных, а пользователи могут управлять своим профилем, отмечать выбранные вакансии через UI
-    (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных. Возможна фильтрация вакансий по языку
-    программирования и локации. Цвет записи индивидуально изменяется, если вакансия была отмечена пользователем. Весь
-    REST интерфейс покрывается JUnit тестами, используя Spring MVC Test и Spring Security Test.<br/>
+    (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных<%--. Возможна фильтрация--%> вакансий по языку
+    программирования и локации. <br/>Цвет записи индивидуально изменяется, если вакансия была отмечена пользователем. Весь
+    REST интерфейс покрывается JUnit тестами, используется Spring MVC Test и Spring Security Test.<br/>
     База обновляется данными:
     <a href="https://djinni.co">Джин</a>,
     <a href="http://grc.ua">HeadHunter</a>,
@@ -84,9 +83,9 @@
     <a href="https://ua.jooble.org">Jooble</a>,
     <a href="https://www.work.ua">Work.ua</a>
 </div>
-<div class="jumbotron py-4">
+<div class="jumbotron lead py-1">
     <div class="container lead">Описание<br>
-         <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
+        <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
