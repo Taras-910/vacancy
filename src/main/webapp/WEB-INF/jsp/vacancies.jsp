@@ -12,7 +12,7 @@
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
         <h3 class="text-center text-secondary">Вакансии</h3>
-        <div class="card border-dark">
+        <%--<div class="card border-dark">
             <div class="card-body pb-0">
                 <form id="filter">
                     <div class="row">
@@ -47,7 +47,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>--%>
         <br>
         <div class="row card-footer">
             <sec:authorize access="hasRole('ADMIN')">
