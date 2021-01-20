@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.service.VacancyService;
@@ -54,7 +55,7 @@ public class VacancyUIController {
     }
 
     @GetMapping(value = "/filter")
-    public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
+    public List<VacancyTo> getByFilter(@RequestParam @Nullable String language, @RequestParam @Nullable String workplace) {
         log.info("getByFilter language={} workplace={}", language, workplace);
         return vacancyService.getTosByFilter(language, workplace);
     }

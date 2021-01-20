@@ -3,9 +3,9 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
@@ -62,12 +62,12 @@ public class VacancyService {
     public List<Vacancy> getByFilter(String language, String workplace) {
         log.info("getByFilter language={} workplace={}", language, workplace);
         return getAll().stream()
-                .filter(v -> workplace.isEmpty() || v.getFreshen().getWorkplace().contains(workplace))
-                .filter(v -> language.isEmpty() || v.getFreshen().getLanguage().contains(language))
+                .filter(v -> !StringUtils.hasText(workplace) || v.getFreshen().getWorkplace().contains(workplace))
+                .filter(v -> !StringUtils.hasText(language) || v.getFreshen().getLanguage().contains(language))
                 .collect(Collectors.toList());
     }
 
-    public List<VacancyTo> getTosByFilter(@Nullable String language, @Nullable String workplace) {
+    public List<VacancyTo> getTosByFilter(String language, String workplace) {
         log.info("getTosByFilter language={} workplace={}", language, workplace);
         return getTos(getByFilter(language, workplace), voteService.getAllForAuth());
     }
