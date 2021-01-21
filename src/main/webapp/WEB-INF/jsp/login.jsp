@@ -47,7 +47,7 @@
             <a href="http://spring.io/blog/2014/05/07/preview-spring-security-test-method-security">Spring Security Test</a>,
             <a href="http://hibernate.org/orm/">Hibernate ORM</a>,
             <a href="http://hibernate.org/validator/">Hibernate Validator</a>,
-            <a href="http://www.slf4j.org/">SLF4J</a>,
+            <a href="http://www.slf4j.org/">SLF4J</a>,<br>
             <a href="https://github.com/FasterXML/jackson">Json Jackson</a>,
             <a href="http://ru.wikipedia.org/wiki/JSP">JSP</a>,
             <a href="http://en.wikipedia.org/wiki/JavaServer_Pages_Standard_Tag_Library">JSTL</a>,
@@ -57,7 +57,7 @@
             <a href="http://ehcache.org">EHCACHE</a>,
             <a href="http://www.postgresql.org/">PostgreSQL</a>,
             <a href="http://junit.org/">JUnit</a>,
-            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,
+            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,<br>
             <a href="http://jquery.com/">jQuery</a>,
             <a href="http://ned.im/noty/">jQuery notification</a>,
             <a href="http://getbootstrap.com/">Bootstrap</a>.
@@ -67,24 +67,25 @@
 <div class="container lead py-3">
     <a href="https://github.com/Taras-910/vacancy">Java Enterprise проект</a> с регистрацией/авторизацией и правами
     доступа на основе ролей (USER, ADMIN). <br/>Администратор может создавать/редактировать/ удалять пользователей и
-    вакансии, обновлять базу данных, а пользователи могут управлять своим профилем, отмечать выбранные вакансии через UI
-    (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных<%--. Возможна фильтрация--%> вакансий по языку
-    программирования и локации. <br/>Цвет записи индивидуально изменяется, если вакансия была отмечена пользователем. Весь
-    REST интерфейс покрывается JUnit тестами, используется Spring MVC Test и Spring Security Test.<br/>
-    База обновляется данными:
+    вакансии, обновлять базу данных, пользователи могут управлять своим профилем, отмечать выбранные вакансии через UI
+    (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных<%--. Возможна фильтрация--%> вакансий
+    по языку программирования, локации. <br/>Пользователь может индивидуально отмечать вакансию, данные запоминаются
+    в базе, цвет строки меняется.<br/>Весь REST интерфейс покрывается JUnit тестами, используется Spring MVC Test и
+    Spring Security Test.<br/>
+    База обновляется данными ресурсов:
     <a href="https://djinni.co">Джин</a>,
-    <a href="http://grc.ua">HeadHunter</a>,
+    <a href="http://grc.ua">HH</a>,
     <a href="https://career.habr.com">Habr</a>,
-    <a href="https://jobs.dou.ua"> DOU.ua</a>,
+    <a href="https://jobs.dou.ua"> DOU</a>,
     <a href="https://www.linkedin.com">LinkedIn</a>,
     <a href="https://nofluffjobs.com/">No Fluff Jobs</a>,
-    <a href="https://rabota.ua">robota.ua</a>,
+    <a href="https://rabota.ua">robota</a>,
     <a href="https://ua.indeed.com">Indeed</a>,
     <a href="https://ua.jooble.org">Jooble</a>,
-    <a href="https://www.work.ua">Work.ua</a>
+    <a href="https://www.work.ua">Work</a>
 </div>
 <div class="jumbotron lead py-1">
-    <div class="container lead">Описание<br>
+    <div class="container lead">Описание:<br>
         <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
     </div>
 </div>

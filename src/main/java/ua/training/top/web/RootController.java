@@ -26,7 +26,7 @@ public class RootController {
     }
 
     @GetMapping("/vacancies")
-    public String getMeals() {
+    public String getVacancies() {
         return "vacancies";
     }
 }
