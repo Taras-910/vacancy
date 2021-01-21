@@ -18,11 +18,11 @@ public class VacancyTo extends BaseTo implements Serializable {
     private String title;
 
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(min = 2, max = 512)
     private String employerName;
 
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(min = 2, max = 512)
     private String address;
 
     @NotNull
@@ -38,7 +38,7 @@ public class VacancyTo extends BaseTo implements Serializable {
     String url;
 
     @NotNull
-    @Size(min = 3, max = 1000)
+    @Size(min = 3, max = 1024)
     String skills;
 
     private LocalDate releaseDate;

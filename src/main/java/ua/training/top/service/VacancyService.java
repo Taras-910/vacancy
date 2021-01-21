@@ -105,7 +105,7 @@ public class VacancyService {
     public Vacancy updateTo(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
-        checkUpdateVacancyTo(vacancyTo, vacancyDb);
+//        checkUpdateVacancyTo(vacancyTo, vacancyDb);
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
         if(checkValidVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());

@@ -43,11 +43,11 @@ public class VacancyUtil {
                 "no suitable vacancies", null, null, null, null,false));
     }
 
-    public static void checkUpdateVacancyTo(VacancyTo vacancyTo, Vacancy vacancyDb) {
-        boolean check = vacancyTo.getSalaryMin().equals(vacancyDb.getSalaryMin())
-                && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
-                && vacancyTo.getUrl().equals(vacancyDb.getUrl())
-                && vacancyTo.getSkills().equals(vacancyDb.getSkills());
-        if (check) log.error("no data item has changed on " + vacancyTo);
-    }
+//    public static void checkUpdateVacancyTo(VacancyTo vacancyTo, Vacancy vacancyDb) {
+//        boolean check = vacancyTo.getSalaryMin().equals(vacancyDb.getSalaryMin())
+//                && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
+//                && vacancyTo.getUrl().equals(vacancyDb.getUrl())
+//                && vacancyTo.getSkills().equals(vacancyDb.getSkills());
+//        if (check) log.error("no data item has changed on " + vacancyTo);
+//    }
 }

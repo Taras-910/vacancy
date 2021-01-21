@@ -33,7 +33,8 @@ public class AggregatorController {
     private final EmployerService employerService;
     private final FreshenService freshenService;
 
-    public AggregatorController(VacancyService vacancyService, EmployerService employerService, FreshenService freshenService) {
+    public AggregatorController(VacancyService vacancyService,
+                                EmployerService employerService, FreshenService freshenService) {
         this.vacancyService = vacancyService;
         this.employerService = employerService;
         this.freshenService = freshenService;
@@ -81,7 +82,8 @@ public class AggregatorController {
                         }
                     } else {
                         Vacancy vFind = vacanciesDb.stream()
-                                .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills()) && vDb.getTitle().equals(vacancyFromTo.getTitle())
+                                .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills())
+                                        && vDb.getTitle().equals(vacancyFromTo.getTitle())
 //                            && vDb.getEmployer().getName().equals(vacancyTo.getEmployerName())
                                         && vDb.getEmployer().getName().equals(employer.getName()))
                                 .findAny().orElse(null);
@@ -97,17 +99,29 @@ public class AggregatorController {
                 vacanciesForUpdate.addAll(tempVacanciesForUpdate);
                 tosExistEmployers.addAll(tempTosExistEmployers);
             });
-
             updateDb(employersForCreate, tosExistEmployers, employersForUpdate, vacanciesForUpdate, freshen);
         }
     }
 
     @Transactional
-    protected void updateDb(Set<Employer> employersForCreate, Set<VacancyTo> tosExistEmployers, Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
+    protected void updateDb(Set<Employer> employersForCreate, Set<VacancyTo> tosExistEmployers,
+                            Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
         Freshen createdFreshen = freshenService.create(freshen);
         List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
-        createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers), createdFreshen);
-        createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate), createdFreshen);
+        System.out.println("---------------------------------------------------------------------------");
+        log.info("\n\ntosExistEmployers={}", tosExistEmployers.size());
+        log.info("\n\nvacanciesForUpdate={}", vacanciesForUpdate.size());
+        System.out.println("---------------------------------------------------------------------------");
+
+        List<Vacancy> created = createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers), createdFreshen);
+        List<Vacancy> updated = createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate), createdFreshen);
+
+        System.out.println("============================================================================");
+        log.info("\n\ncreated={}", created.size());
+        log.info("\n\nupdated={}", updated.size());
+        System.out.println("============================================================================");
+
+
         employerService.deleteEmptyEmployers();
     }
 
@@ -123,7 +137,8 @@ public class AggregatorController {
     public List<Vacancy> createVacancies(Map<Integer, List<Vacancy>> map, Freshen freshen) {
         log.info("createByMap {}", map != null ? map.size() : "there is map = null");
         List<Vacancy> newVacancies = new ArrayList<>();
-        map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
+        map.forEach((employerId, vacancies) -> newVacancies
+                .addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
         return newVacancies;
     }
 

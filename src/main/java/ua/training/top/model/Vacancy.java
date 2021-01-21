@@ -35,7 +35,6 @@ public class Vacancy extends AbstractBaseEntity {
     private String url;
 
     @NotNull
-    @Size(min = 2, max = 256)
     @Column(name="skills")
     private String skills;
 

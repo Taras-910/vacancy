@@ -295,7 +295,7 @@
                 </button>
                 <button type="button" class="btn btn-primary" onclick="sendRefresh()">
                     <span class="fa fa-check"></span>
-                    Отправить
+                    Обновить
                 </button>
             </div>
         </div>
