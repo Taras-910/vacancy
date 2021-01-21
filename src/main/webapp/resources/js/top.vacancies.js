@@ -38,6 +38,7 @@ function updateRowVacancy(id) {
     });
 }
 
+
 function updateVacancyTo() {
     $.ajax({
         type: "POST",
@@ -47,6 +48,25 @@ function updateVacancyTo() {
         $("#updateRow").modal("hide");
         ctx.updateTable();
         successNoty("Saved");
+    });
+}
+
+function deleteRowVacancy(id) {
+    $.ajaxSetup({cacheURL: false});
+    $("#modalTitle").html('deleteRow');
+    $('#detailsDeleteForm').find(":input[name='id']").val(id);
+    $('#deleteRow').modal();
+}
+
+function deleteVacancyTo() {
+    var id = document.getElementById("idDelete").value;
+    $.ajax({
+        url: ctx.ajaxUrl + id,
+        type: "DELETE",
+    }).done(function () {
+        $("#deleteRow").modal("hide");
+        ctx.updateTable();
+        successNoty("Deleted");
     });
 }
 
@@ -69,8 +89,18 @@ function updateFilteredTable() {
         type: "GET",
         url: vacancyAjaxUrl + "filter",
         data: $("#filter").serialize()
-    }).done(updateTableByData);
+    }).done(function (data) {
+        ctx.datatableApi.clear().rows.add(data).draw();
+        successNoty("filtered");
+    });
 }
+/*function updateFilteredTable() {
+    $.ajax({
+        type: "GET",
+        url: vacancyAjaxUrl + "filter",
+        data: $("#filter").serialize()
+    }).done(updateTableByData);
+}*/
 
 function clearFilter() {
     $("#filter")[0].reset();
@@ -155,7 +185,7 @@ $(function () {
                 {
                     "orderable": false,
                     "defaultContent": "",
-                    "render": function (data, type, row) {
+                    "render": function (data, type, row) {  // update
                         if (type === "display") {
                             return "<a onclick='updateRowVacancy(" + row.id + ");'><span class='fa fa-pencil'></span></a>";
                         }
@@ -164,7 +194,11 @@ $(function () {
                 {
                     "orderable": false,
                     "defaultContent": "",
-                    "render": renderDeleteBtn
+                    "render": function (data, type, row) {  // delete
+                        if (type === "display") {
+                            return "<a onclick='deleteRowVacancy(" + row.id + ");'><span class='fa fa-remove'></span></a>";
+                        }
+                    }
                 }
             ],
             "order": [

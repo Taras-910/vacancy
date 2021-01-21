@@ -51,8 +51,9 @@ public class VacancyTo extends BaseTo implements Serializable {
 
     private boolean toVote = false;
 
-    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin, @NotNull Integer salaryMax,
-                     @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate, String siteName, String language, String workplace, @Nullable boolean toVote) {
+    public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin,
+                     @NotNull Integer salaryMax, @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate,
+                     @Nullable String siteName, @Nullable String language, @Nullable String workplace, @Nullable boolean toVote) {
         super(id);
         this.title = xssClear(title);
         this.employerName = xssClear(employerName);

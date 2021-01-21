@@ -8,17 +8,10 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
-@NamedQueries({
-        @NamedQuery(name = Employer.WITH_VACANCIES, query = "SELECT e FROM Employer e LEFT JOIN FETCH e.vacancies ORDER BY e.name"),
-        @NamedQuery(name = Employer.BY_NAME, query = "SELECT e FROM Employer e WHERE e.name=:name"),
-        @NamedQuery(name = Employer.ALL_SORTED, query = "SELECT e FROM Employer e ORDER BY e.name")
-})
+
 @Entity
 @Table(name = "employer", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "address"}, name = "employers_idx")})
 public class Employer extends AbstractBaseEntity{
-    public static final String WITH_VACANCIES = "Employer.getAllWithVacancies";
-    public static final String BY_NAME = "Employer.getByName";
-    public static final String ALL_SORTED = "Employer.getAllSorted";
 
     @NotNull
     @Size(min = 2, max = 512)

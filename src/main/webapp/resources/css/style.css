@@ -68,3 +68,16 @@ tr[data-userEnabled="false"] {
     background-color: #c6fbc2;
     border: 1px solid #9feba6;
 }
+
+.box{
+    background: #28b7bc;
+    display: -webkit-flex;
+    width: 100%;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #098696;
+    line-height: 40px;
+    font-size: 24px;
+    color: aliceblue;
+}

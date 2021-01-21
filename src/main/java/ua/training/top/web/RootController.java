@@ -2,7 +2,6 @@ package ua.training.top.web;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -27,7 +26,7 @@ public class RootController {
     }
 
     @GetMapping("/vacancies")
-    public String getMeals(Model model) {
+    public String getMeals() {
         return "vacancies";
     }
 }
