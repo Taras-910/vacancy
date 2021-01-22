@@ -33,9 +33,8 @@ public class VacancyUIController {
 
     @GetMapping
     public List<VacancyTo> getAll() {
-        List <VacancyTo> vacancyTos = vacancyService.getAllTos();
-        log.info("vacancyTos {}", vacancyTos);
-        return vacancyTos;
+        log.info("\n---------getAll------------------getAll------------------getAll------------------getAll------------------getAll---------\n");
+        return vacancyService.getAllTos();
     }
 
     @DeleteMapping("/{id}")
@@ -58,6 +57,7 @@ public class VacancyUIController {
     @Transactional
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@RequestParam @Nullable String language, @RequestParam @Nullable String workplace) {
+        log.info("\n==========getByFilter============\n");
         log.info("getByFilter language={} workplace={}", language, workplace);
         return vacancyService.getTosByFilter(language, workplace);
     }

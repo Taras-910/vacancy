@@ -1,3 +1,4 @@
+/*
 var ctx, vacancyAjaxUrl = "profile/vacancies/";
 var freshenUrl = "profile/freshen";
 
@@ -98,13 +99,13 @@ function updateFilteredTable() {
         successNoty("filtered");
     });
 }
-/*function updateFilteredTable() {
+/!*function updateFilteredTable() {
     $.ajax({
         type: "GET",
         url: vacancyAjaxUrl + "filter",
         data: $("#filter").serialize()
     }).done(updateTableByData);
-}*/
+}*!/
 
 function clearFilter() {
     $("#filter")[0].reset();
@@ -223,3 +224,4 @@ $(function () {
     };
     makeEditable(ctx);
 });
+*/

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
@@ -32,6 +33,7 @@ public class ProfileVacancyRestController {
         return vacancyService.getAllTos();
     }
 
+    @Transactional
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
         return vacancyService.getTosByFilter(language, workplace);

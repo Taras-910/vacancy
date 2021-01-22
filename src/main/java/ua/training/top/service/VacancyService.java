@@ -67,6 +67,7 @@ public class VacancyService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<VacancyTo> getTosByFilter(String language, String workplace) {
         log.info("getTosByFilter language={} workplace={}", language, workplace);
         return getTos(getByFilter(language, workplace), voteService.getAllForAuth());

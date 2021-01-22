@@ -2,8 +2,9 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import static ua.training.top.util.ValidationUtil.checkNullStrings;
+import ua.training.top.web.rest.admin.VacancyRestController;
+import ua.training.top.web.rest.profile.ProfileVacancyRestController;
+import ua.training.top.web.ui.VacancyUIController;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,13 +29,13 @@ public class Main {
         System.out.println("========================================");
 */
 
-//        VacancyRepository vacancyRepository = appCtx.getBean(VacancyRepository.class);
-//        UserService service = appCtx.getBean(UserService.class);
+        VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
+        ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
+        VacancyRestController vacancyRestController = appCtx.getBean(VacancyRestController.class);
 
-        System.out.println("1 "+ checkNullStrings("d", "s"));
-        System.out.println(checkNullStrings("d", ""));
+        System.out.println(".............................................................................");
 
-        System.out.println("==============================================================================");
+        vacancyUIController.getByFilter("java", "киев");
 
 
 
