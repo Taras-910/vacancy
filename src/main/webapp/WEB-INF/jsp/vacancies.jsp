@@ -8,6 +8,7 @@
 <body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.common.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancies.js" defer></script>
+<%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancyHelper.js" defer></script>--%>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
@@ -100,7 +101,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Добавить вакансию</h4>
+                    <h4 class="modal-title">Добавить</h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -168,7 +169,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Редактирование</h4>
+                    <h4 class="modal-title">Редактировать</h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -233,7 +234,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header box" style="text-align: center;">
-                    <h6><em>Подтвердите ваше действие на http://localhost:8080</em></h6>
+                    <h6><em>Подтвердите ваше действие !</em></h6>
                 </div>
                 <div class="modal-body">
                     <form id="detailsDeleteForm">

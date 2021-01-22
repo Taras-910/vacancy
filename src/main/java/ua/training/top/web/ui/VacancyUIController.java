@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.service.VacancyService;
@@ -54,6 +55,7 @@ public class VacancyUIController {
         }
     }
 
+    @Transactional
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@RequestParam @Nullable String language, @RequestParam @Nullable String workplace) {
         log.info("getByFilter language={} workplace={}", language, workplace);

@@ -80,6 +80,14 @@ function vote(chkbox, id) {
     });
 }
 
+
+
+
+
+
+
+
+
 function updateFilteredTable() {
     $.ajax({
         type: "GET",
