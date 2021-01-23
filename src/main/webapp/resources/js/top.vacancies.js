@@ -96,12 +96,13 @@ $(function () {
     makeEditable({
         ajaxUrl: ajaxUrl,
         datatableApi: $("#datatable").DataTable({
-            "ajax": {
-                "url": ajaxUrl,
-                "dataSrc": ""
-            },
+            "pageLength" : 7,
             "pagingType": "full_numbers",
             "info": true,
+            "ajax": {
+                "url" : ajaxUrl + `?language=${$("#language").val()}&workplace=${$("#workplace").val()}`,
+                "dataSrc": ""
+            },
             "columns": [
                 {
                     "data": "id",

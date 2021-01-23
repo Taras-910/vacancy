@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,17 +13,14 @@ import java.util.Objects;
 public class Employer extends AbstractBaseEntity{
 
     @NotNull
-    @Size(min = 2, max = 512)
     @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
-    @Size(min = 2, max = 512)
     @Column(name="address")
     private String address;
 
     @NotNull
-    @Size(min = 4, max = 512)
     @Column(name="site_name")
     private String siteName;
 

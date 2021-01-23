@@ -15,22 +15,8 @@ import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 
 public class Main {
     public static void main(String[] args) {
-
-        // safe from xss
-        /*String unsafe =
-                "<p><a href='http://example.com/' onclick='stealCookies()'>Link</a></p>";
-        String safe = Jsoup.clean(unsafe, Whitelist.basic());
-        // now: <p><a href="http://example.com/" rel="nofollow">Link</a></p>
-        System.out.println(safe);*/
-//        try (GenericXmlApplicationContext appCtx = new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml"}, false)) {
-//            appCtx.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile());
-//            appCtx.load("spring/inmemory.xml");
-//            appCtx.refresh();
-//            appCtx.load("spring/spring-app.xml");
-//            appCtx.refresh();
-
         ConfigurableApplicationContext appCtx =
-                new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml", "spring/spring-mvc.xml"}, false);
+                new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml"}, false);
         appCtx.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile());
         appCtx.refresh();
 
@@ -50,12 +36,12 @@ public class Main {
         ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
         VacancyRestController vacancyRestController = appCtx.getBean(VacancyRestController.class);
 
-//        List<VacancyTo> vacancyTos = vacancyUIController.getByFilter("php", "киев");
-//        List<VacancyTo> vacancyTos2 = profileVacancyRestController.getByFilter("php", "киев");
-        List<VacancyTo> vacancyTos3 = vacancyRestController.getByFilter("php", "киев");
+        List<VacancyTo> vacancyTos = vacancyUIController.getByFilter("php", "киев");
+//        List<VacancyTo> vacancyTos = profileVacancyRestController.getByFilter("php", "киев");
+//        List<VacancyTo> vacancyTos = vacancyRestController.getByFilter("php", "киев");
 
         System.out.println(".............................................................................");
-        System.out.println(vacancyTos3);
+        System.out.println(vacancyTos);
 
 
 

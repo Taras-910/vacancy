@@ -252,7 +252,7 @@
                     </button>
                     <button type="button" class="btn btn-primary" onclick="deleteVacancyTo()">
                         <span class="fa fa-check"></span>
-                        Подтвердить
+                        Удалить
                     </button>
                 </div>
             </div>

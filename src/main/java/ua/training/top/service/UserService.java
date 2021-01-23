@@ -22,7 +22,7 @@ import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Service("UserService")
+@Service("userService")
 public class UserService implements UserDetailsService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
