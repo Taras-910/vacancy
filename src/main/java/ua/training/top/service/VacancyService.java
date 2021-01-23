@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
+import ua.training.top.model.Vote;
 import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
@@ -70,7 +71,8 @@ public class VacancyService {
     @Transactional
     public List<VacancyTo> getTosByFilter(String language, String workplace) {
         log.info("getTosByFilter language={} workplace={}", language, workplace);
-        return getTos(getByFilter(language, workplace), voteService.getAllForAuth());
+        List<Vote> votes = voteService.getAllForAuth();
+        return getTos(getByFilter(language, workplace), votes);
     }
 
     public List<Vacancy> getByParams(String title, String skills, String employerName) {
