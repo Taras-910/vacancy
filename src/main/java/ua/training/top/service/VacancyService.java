@@ -14,7 +14,6 @@ import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.ValidationUtil;
-import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,9 +65,10 @@ public class VacancyService {
                 .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
                 .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
                 .collect(Collectors.toList());
-        if(vacancies.isEmpty()) {
-            throw new NotFoundException("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
-        }
+//        if(vacancies.isEmpty()) {
+//            return getEmpty();
+//            throw new NotFoundException("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
+//        }
         return vacancies;
     }
 

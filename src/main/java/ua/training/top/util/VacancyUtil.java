@@ -14,7 +14,12 @@ public class VacancyUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
-        return vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
+        return vacancies.isEmpty() ? getEmpty() : vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
+    }
+
+    private static List<VacancyTo> getEmpty() {
+        return List.of(new VacancyTo(1000000, "not exists", "not exists", "not exists", 2, 2,"not exists",
+                "no suitable vacancies", LocalDate.now(), "not exists", "not exists", "not exists",false));
     }
 
     public static VacancyTo getTo(Vacancy v, List<Vote> votes) {

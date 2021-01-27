@@ -2,6 +2,7 @@ package ua.training.top.repository;
 
 import ua.training.top.model.Freshen;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface FreshenRepository {
@@ -16,7 +17,5 @@ public interface FreshenRepository {
 
     List<Freshen> getAll();
 
-    List <Freshen> getByDoubleString(String workplace, String language);
-
-    Freshen getLastAuth(int userId);
+    List<Freshen> getBetween(LocalDateTime tomorrow, LocalDateTime yesterday);
 }

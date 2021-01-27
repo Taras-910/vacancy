@@ -9,31 +9,25 @@ import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.DateTimeUtil.tomorrow;
+import static ua.training.top.util.DateTimeUtil.yesterday;
+import static ua.training.top.util.FreshenUtil.checkLimitTime;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
 public class FreshenService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private final FreshenRepository repository;
+    @Autowired
+    private FreshenRepository repository;
     @Autowired
     private AggregatorController aggregatorController;
-
-    public FreshenService(FreshenRepository repository) {
-        this.repository = repository;
-    }
 
     public Freshen get(int id) {
         log.info("get by id {}", id);
         return checkNotFoundWithId(repository.get(id), id);
-    }
-
-    public Freshen getLastAuth() {
-        log.info("get by userId {}", authUserId());
-        return repository.getLastAuth(authUserId());
     }
 
     public List<Freshen> getAll() {
@@ -59,14 +53,15 @@ public class FreshenService {
         Assert.notNull(freshen, "freshen must not be null");
         checkNotFoundWithId(repository.save(freshen), freshen.id());
     }
-    // use logic for restricting access
-    public List <Freshen> getByDoubleString(String workplace, String language) {
-        log.info("getByDoubleString workplace={} language={}", workplace, language);
-        return repository.getByDoubleString(workplace, language);
+
+    public List <Freshen> getBetween(LocalDateTime endDate, LocalDateTime startDate) {
+        log.info("getToday endDate {} startDate {}", endDate, startDate);
+        return repository.getBetween(endDate, startDate);
     }
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        aggregatorController.refreshDB(asNewFreshen(freshen));
+        checkLimitTime(freshen, getBetween(tomorrow, yesterday));
+        aggregatorController.refreshDB(freshen);
     }
 }

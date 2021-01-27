@@ -67,7 +67,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     }
 
     public void setLanguage(String language) {
-        this.language = hasText(language) ? xssClear(language).toLowerCase() : "all";
+        this.language = xssClear(language).toLowerCase();
     }
 
     public String getWorkplace() {
@@ -75,7 +75,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = hasText(workplace) ? xssClear(workplace).toLowerCase() : "all";
+        this.workplace = xssClear(workplace).toLowerCase();
     }
 
     public Integer getUserId() {
@@ -111,11 +111,11 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Freshen freshen = (Freshen) o;
 
-        return recordedDate.equals(freshen.recordedDate) && language.equals(freshen.language) && workplace.equals(freshen.workplace);
+        return language.equals(freshen.language) && workplace.equals(freshen.workplace);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recordedDate, language, workplace);
+        return Objects.hash(language, workplace);
     }
 }

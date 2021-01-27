@@ -4,9 +4,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
+import ua.training.top.service.FreshenService;
 import ua.training.top.web.rest.admin.VacancyRestController;
 import ua.training.top.web.rest.profile.ProfileVacancyRestController;
 import ua.training.top.web.ui.VacancyUIController;
+
+import java.time.LocalDateTime;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 
@@ -32,12 +35,11 @@ public class Main {
         VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
         ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
         VacancyRestController vacancyRestController = appCtx.getBean(VacancyRestController.class);
-
+        FreshenService freshenService = appCtx.getBean(FreshenService.class);
 
         System.out.println(".............................................................................");
 
-
-
+        System.out.println(LocalDateTime.now().plusHours(1).getHour());
 
         appCtx.close();
 

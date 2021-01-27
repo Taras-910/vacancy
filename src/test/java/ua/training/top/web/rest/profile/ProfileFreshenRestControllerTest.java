@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.aggregator.strategy.TestStrategy.getTestList;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.setJUnitTest;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.setTestProvider;
 import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.user;
@@ -66,7 +66,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         List<Vacancy> vacanciesDbBefore = vacancyService.getAll();
         List<Freshen> freshensDbBefore = freshenService.getAll();
         List<Employer> employersDbBefore = employerService.getAll();
-        setJUnitTest();
+        setTestProvider();
 
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -30,7 +30,7 @@ public class FreshenUIController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        service.refreshDB(freshen);
+        service.refreshDB(asNewFreshen(freshen));
     }
 
     @PostMapping("/create")

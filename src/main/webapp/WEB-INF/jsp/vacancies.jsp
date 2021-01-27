@@ -38,14 +38,13 @@
                                 <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name">
                                 <datalist id="city_name">
-                                    <%--<select name="workplace">--%>
                                     <option value='all' selected>all</option>
                                     <option value='Киев'>Киев</option>
                                     <option value='Днепр'>Днепр</option>
+                                    <option value='Львов'>Львов</option>
                                     <option value='Харьков'>Харьков</option>
                                     <option value='За_рубежем'>За_рубежем</option>
                                     <option value='Санкт-Петербург'>Санкт-Петербург</option>
-                                    <%--</select>--%>
                                 </datalist>
                             </div>
                         </form>
@@ -182,7 +181,7 @@
     <div class="modal fade" tabindex="-1" id="updateRow">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header box">
                     <h4 class="modal-title">Редактировать</h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
@@ -274,7 +273,7 @@
 <div class="modal fade" tabindex="-1" id="refreshRow">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header box">
                 <h5 class="modal-title">Обновить DB по параметрам:</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
@@ -285,16 +284,33 @@
                         <input type="hidden" class="form-control" id="recordedDate" name="recordedDate">
                     </div>
                     <div class="form-group">
-                        <label for="languageTask" class="col-form-label">
-                            <em>Java, PHP, Ruby, Python, JavaScript, Kotlin...</em>
-                        </label>
-                        <input type="text" class="form-control" id="languageTask" name="language">
+                        <label for="languageTask"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
+                        <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2">
+                        <datalist id="language_name_2">
+                            <option value='all' selected>all</option>
+                            <option value='Java'>Java</option>
+                            <option value='Php'>Php</option>
+                            <option value='Ruby'>Ruby</option>
+                            <option value='JavaScript'>JavaScript</option>
+                            <option value='TypeScript'>TypeScript</option>
+                            <option value='Kotlin'>Kotlin</option>
+                            <option value='Python'>Python</option>
+                            <option value='C#'>C#</option>
+                            <option value='C++'>C++</option>
+                        </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask" class="col-form-label">
-                            <em>Киев, Днепр, Харьков, За_рубежем, Санкт-Петербург...</em>
-                        </label>
-                        <input type="text" class="form-control" id="workplaceTask" name="workplace">
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
+                        <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
+                        <datalist id="city_name_2">
+                            <option value='all' selected>all</option>
+                            <option value='Киев'>Киев</option>
+                            <option value='Днепр'>Днепр</option>
+                            <option value='Львов'>Львов</option>
+                            <option value='Харьков'>Харьков</option>
+                            <option value='За_рубежем'>За_рубежем</option>
+                            <option value='Санкт-Петербург'>Санкт-Петербург</option>
+                        </datalist>
                     </div>
                     <div class="form-group">
                         <label type="hidden" for="userId" class="col-form-label"></label>
