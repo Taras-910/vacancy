@@ -15,9 +15,11 @@ import ua.training.top.service.FreshenService;
 
 import javax.validation.Valid;
 
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
+
 @ApiIgnore
 @RestController
-@RequestMapping(value = "profile/freshen", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/profile/freshen", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FreshenUIController {
     public static final Logger log = LoggerFactory.getLogger(FreshenUIController.class);
 
@@ -28,6 +30,13 @@ public class FreshenUIController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-         service.refreshDB(freshen);
+        service.refreshDB(freshen);
+    }
+
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void create(@Valid Freshen freshen) {
+        log.info("refreshDB freshen {}", freshen);
+        service.create(asNewFreshen(freshen));
     }
 }

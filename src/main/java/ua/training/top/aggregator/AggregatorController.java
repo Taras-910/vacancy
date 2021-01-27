@@ -49,7 +49,7 @@ public class AggregatorController {
             List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
 
             List<Employer> employersDb = employerService.getAll();
-            List<Vacancy> vacanciesDb = vacancyService.getByFilter(freshen.getLanguage(), freshen.getWorkplace());
+            List<Vacancy> vacanciesDb = vacancyService.getByFilter(freshen);
 
 //        deleteOutdated(reasonDateToKeep);
             Set<Employer> employersForCreate = new HashSet();

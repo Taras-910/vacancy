@@ -7,11 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ua.training.top.model.Freshen;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
+import javax.validation.Valid;
 import java.util.List;
+
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 
 @RestController
 @RequestMapping(value = ProfileVacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,8 +39,9 @@ public class ProfileVacancyRestController {
 
     @Transactional
     @GetMapping(value = "/filter")
-    public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
-        return vacancyService.getTosByFilter(language, workplace);
+    public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
+        log.info("getByFilter freshen={}", freshen);
+        return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 
     @PostMapping("/{id}")

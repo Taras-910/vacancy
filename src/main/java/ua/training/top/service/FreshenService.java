@@ -11,6 +11,7 @@ import ua.training.top.repository.FreshenRepository;
 
 import java.util.List;
 
+import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
@@ -28,6 +29,11 @@ public class FreshenService {
     public Freshen get(int id) {
         log.info("get by id {}", id);
         return checkNotFoundWithId(repository.get(id), id);
+    }
+
+    public Freshen getLastAuth() {
+        log.info("get by userId {}", authUserId());
+        return repository.getLastAuth(authUserId());
     }
 
     public List<Freshen> getAll() {

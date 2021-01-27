@@ -12,63 +12,80 @@
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
-        <h3 class="text-center text-secondary">Вакансии</h3>
+        <p class="text-info"><h3 class="text-center">Вакансии</h3></p>
         <div class="card border-dark">
             <div class="card-body pb-0">
-                <form id="filter">
-                    <div class="row">
-                        <div class="offset-1"></div>
-                        <div class="col-4 text-left">
-                            <label for="language"><h7 class="text-center btn-outline-info"></h7></label>
-                            <input class="form-control" type="text"
-                                   placeholder="Java, PHP, Ruby, Python, JavaScript, Kotlin... "
-                                   name="language" id="language">
+                <div class="container rounded-lg" style="width: 90%">
+                    <div class="row justify-content-md-between align-items-center">
+                        <form class="col-8 form-row needs-validation" id="filter">
+                            <div class="col-md-4 mb-3">
+                                <label for="language">
+                                    <h7 class="btn-outline-info">
+                                        <em>Java, Php, Ruby, JavaScript...</em>
+                                    </h7>
+                                </label>
+                                <input class="form-control" type="text" name="language" id="language" list="language_name">
+                                <datalist id="language_name">
+                                    <option selected value="all">all</option>
+                                    <option>Java</option>
+                                    <option>Php</option>
+                                    <option>Ruby</option>
+                                    <option>JavaScript</option>
+                                    <option>TypeScript</option>
+                                    <option>Kotlin</option>
+                                    <option>Python</option>
+                                    <option>C#</option>
+                                    <option>C++</option>
+                                </datalist>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <label for="workplace">
+                                    <h7 class="btn-outline-info">
+                                        <em>Киев, Днепр, Харьков, За_рубежем, Санкт-Петербург...</em>
+                                    </h7>
+                                </label>
+                                <input class="form-control" type="text" name="workplace" id="workplace" list="city_name">
+                                <datalist id="city_name">
+                                    <option selected value="all">all</option>
+                                    <option>Киев</option>
+                                    <option>Днепр</option>
+                                    <option>Харьков</option>
+                                    <option>За_рубежем</option>
+                                    <option>Санкт-Петербург</option>
+                                </datalist>
+                            </div>
+                        </form>
+                        <div class="col-2">
+                            <button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
+                                <span class="fa fa-filter"></span>
+                                Фильтровать
+                            </button>
                         </div>
-                        <div class="offset-1 col-1">
-                        </div>
-                        <div class="col-4 text-left">
-                            <label for="workplace"><h7 class="text-center btn-outline-info"></h7></label>
-                            <input class="form-control" type="text"
-                                   placeholder="За_рубежем, Киев, Днепр, Харьков, Санкт-Петербург... "
-                                   name="workplace" id="workplace">
-                        </div>
-                        <div class="offset-1 col-1">
+                        <div class="col-md-2 ml-md-auto">
+                            <label><h7 class="invisible">Сброс<br></h7></label>
+                            <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
+                                <span class="fa fa-remove"></span>
+                                Сбросить
+                            </button>
                         </div>
                     </div>
-                    <br/>
-                    <div class="row">
-                        <a class="offset-3 col-3">
-                        </a>
-                        <button class="col-2 btn btn-outline-info text-right" onclick="clearFilter()">
-                            <span class="fa fa-remove"></span>
-                            Сбросить
-                        </button>
-                        <a class="col-1">
-                        </a>
-                        <button class="col-2 btn btn-outline-info text-right" onclick="updateFilteredTable()">
-                            <span class="fa fa-filter"></span>
-                            Фильтровать
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
         <br>
-        <div class="row card-footer">
+        <div class="row card-footer justify-content-between" style="width: 100%">
             <sec:authorize access="hasRole('ADMIN')">
-                <button class="col-2 btn btn-primary" onclick="addVacancy()">
+                <button class="col-2 btn btn-primary" onclick="add()">
                     <span class="fa fa-plus text-left"></span>
                     Добавить
                 </button>
             </sec:authorize>
-            <a class="offset-4 col-3">
-            </a>
-            <button class="col-2 btn btn-outline-primary bs-popover-right" onclick="refreshDB()">
+            <button class="offset-8 col-md-2 btn btn-outline-info bs-popover-right" onclick="refreshDB()">
                 <span class="fa fa-refresh text-left pull-right"></span>
                 Обновить DB
             </button>
         </div>
-        <table class="table table-striped table-bordered" id="datatable">
+        <table class="table table-striped table-bordered" id="datatable" style="width: 100%">
             <div class="row">
                 <thead>
                 <tr>
@@ -76,17 +93,14 @@
                     <th hidden>link</th>
                     <th class="col-auto">Вакансия</th>
                     <th class="col-auto">Компания</th>
-
                     <th class="col-auto">Город</th>
                     <th class="col-auto">От $</th>
                     <th class="col-auto">До $</th>
                     <th class="col" style="text-align: center;">Требования</th>
-
-                    <th class="col-auto">Дата</th>
+                    <th class="col-auto text-nowrap">Дата</th>
                     <th hidden>siteName</th>
                     <th hidden>toVote</th>
                     <th hidden>work place</th>
-
                     <th hidden>language</th>
                     <th ></th>
                     <th ></th>
@@ -100,7 +114,7 @@
 </div>
 <sec:authorize access="hasRole('ADMIN')">
     <%--add VacancyTo--%>
-    <div class="modal fade" tabindex="-1" id="addRow">
+    <div class="modal fade" tabindex="-1" id="editRow">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,7 +160,7 @@
                             <input type="hidden" class="form-control" id="siteName" name="siteName">
                         </div>
                         <div class="form-group">
-                            <label for="language" class="col-form-label">Язык программирования</label>
+                            <label for="languageCode" class="col-form-label">Язык программирования</label>
                             <input type="text" class="form-control" id="languageCode" name="language">
                         </div>
                         <div class="form-group">

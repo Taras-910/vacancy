@@ -18,7 +18,7 @@ public class InstallationUtil {
     public static LocalDate reasonDateToKeep = LocalDateTime.now().toLocalDate().minusDays(28);
     public static Integer reasonTimeBetweenRefresh = 30;
 
-    public static boolean jUnitTest = false;
+    public static boolean jUnitTest = true;
     public static void setJUnitTest() {
         InstallationUtil.jUnitTest = true;
     }

@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
@@ -16,6 +17,8 @@ import ua.training.top.to.VacancyTo;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,8 +62,9 @@ public class VacancyRestController {
     }
 
     @GetMapping(value = "/filter")
-    public List<VacancyTo> getByFilter(@RequestParam String language, @RequestParam String workplace) {
-        return vacancyService.getTosByFilter(language, workplace);
+    public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
+        log.info("getByFilter freshen={}", freshen);
+        return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 
     @PostMapping("/{id}")

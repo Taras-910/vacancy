@@ -17,4 +17,6 @@ public interface FreshenRepository {
     List<Freshen> getAll();
 
     List <Freshen> getByDoubleString(String workplace, String language);
+
+    Freshen getLastAuth(int userId);
 }

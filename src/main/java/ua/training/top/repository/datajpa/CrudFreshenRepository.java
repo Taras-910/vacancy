@@ -18,4 +18,7 @@ public interface CrudFreshenRepository extends JpaRepository<Freshen, Integer> {
 
     @Query("SELECT f FROM Freshen f WHERE f.workplace=:workplace AND f.language=:language")
     List<Freshen> getByDoubleString(@Param("workplace") String workplace, @Param("language") String language);
+
+    @Query("SELECT f FROM Freshen f WHERE f.userId=:userId")
+    List<Freshen> getAllAuth(@Param("userId") int userId);
 }

@@ -22,7 +22,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     private LocalDateTime recordedDate;
 
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 2, max = 100)
     @Column(name="language")
     private String language;
 
@@ -41,8 +41,8 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Integer userId) {
         super(id);
         this.recordedDate = recordedDate;
-        this.language = language == null ? "" : xssClear(language).toLowerCase();
-        this.workplace = workplace == null ? "" : xssClear(workplace).toLowerCase();
+        this.language = language == null ? "all" : xssClear(language).toLowerCase();
+        this.workplace = workplace == null ? "all" : xssClear(workplace).toLowerCase();
         this.userId = userId;
     }
 
@@ -66,7 +66,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     }
 
     public void setLanguage(String language) {
-        this.language = language;
+        this.language = language == null ? "all" : xssClear(language).toLowerCase();
     }
 
     public String getWorkplace() {
@@ -74,7 +74,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = workplace;
+        this.workplace = workplace == null ? "all" : xssClear(workplace).toLowerCase();
     }
 
     public Integer getUserId() {

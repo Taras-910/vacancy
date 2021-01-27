@@ -14,7 +14,7 @@ public class VacancyUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
-        return vacancies.size() == 0 ? getEmptyTos() : vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
+        return vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
     }
 
     public static VacancyTo getTo(Vacancy v, List<Vote> votes) {
@@ -37,17 +37,4 @@ public class VacancyUtil {
         return new Vacancy(v.getId(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
                 vTo.getReleaseDate() == null ? v.getReleaseDate() : vTo.getReleaseDate());
     }
-
-    public static List<VacancyTo> getEmptyTos() {
-        return List.of(new VacancyTo(null, "", "", "", null, null,"",
-                "no suitable vacancies", null, null, null, null,false));
-    }
-
-//    public static void checkUpdateVacancyTo(VacancyTo vacancyTo, Vacancy vacancyDb) {
-//        boolean check = vacancyTo.getSalaryMin().equals(vacancyDb.getSalaryMin())
-//                && vacancyTo.getSalaryMax().equals(vacancyDb.getSalaryMax())
-//                && vacancyTo.getUrl().equals(vacancyDb.getUrl())
-//                && vacancyTo.getSkills().equals(vacancyDb.getSkills());
-//        if (check) log.error("no data item has changed on " + vacancyTo);
-//    }
 }

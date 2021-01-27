@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
@@ -15,6 +14,7 @@ import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.ValidationUtil;
+import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,19 +60,23 @@ public class VacancyService {
         return VacancyUtil.getTos(getAll(), voteService.getAllForAuth());
     }
 
-    public List<Vacancy> getByFilter(String language, String workplace) {
-        log.info("getByFilter language={} workplace={}", language, workplace);
-        return getAll().stream()
-                .filter(v -> !StringUtils.hasText(workplace) || v.getFreshen().getWorkplace().contains(workplace))
-                .filter(v -> !StringUtils.hasText(language) || v.getFreshen().getLanguage().contains(language))
+    public List<Vacancy> getByFilter(Freshen f) {
+        log.info("getByFilter freshen={}", f);
+        List<Vacancy> vacancies = getAll().stream()
+                .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
+                .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
                 .collect(Collectors.toList());
+        if(vacancies.isEmpty()) {
+            throw new NotFoundException("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
+        }
+        return vacancies;
     }
 
     @Transactional
-    public List<VacancyTo> getTosByFilter(String language, String workplace) {
-        log.info("getTosByFilter language={} workplace={}", language, workplace);
+    public List<VacancyTo> getTosByFilter(Freshen freshen) {
+        log.info("getTosByFilter freshen={}", freshen);
         List<Vote> votes = voteService.getAllForAuth();
-        return getTos(getByFilter(language, workplace), votes);
+        return getTos(getByFilter(freshen), votes);
     }
 
     public List<Vacancy> getByParams(String title, String skills, String employerName) {

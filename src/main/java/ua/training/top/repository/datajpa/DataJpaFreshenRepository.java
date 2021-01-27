@@ -7,6 +7,8 @@ import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Repository
@@ -47,6 +49,14 @@ public class DataJpaFreshenRepository implements FreshenRepository {
             freshens = crudRepository.getByDoubleString(workplace, language);
         } catch (Exception e) {}
         return freshens;
+    }
+
+    @Override
+    public Freshen getLastAuth(int userId) {
+        List<Freshen> freshens = Optional.of(crudRepository.getAllAuth(userId)).orElse(null);
+        return freshens == null ? new Freshen(null, null, "", "", userId) : freshens.stream()
+                .sorted((f1, f2) -> f1.getRecordedDate().compareTo(f2.getRecordedDate()))
+                .collect(Collectors.toList()).get(freshens.size() - 1);
     }
 }
 

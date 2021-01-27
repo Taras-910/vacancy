@@ -30,7 +30,6 @@ public class RootController {
 
     @GetMapping("/vacancies")
     public String getVacancies() {
-        log.info("\n+++++++++RootController+++++++++++++++++++RootController+++++++++++++++++++RootController+++++++++++++++++++RootController+++++++++\n");
         return "vacancies";
     }
 }

@@ -4,12 +4,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.to.VacancyTo;
 import ua.training.top.web.rest.admin.VacancyRestController;
 import ua.training.top.web.rest.profile.ProfileVacancyRestController;
 import ua.training.top.web.ui.VacancyUIController;
-
-import java.util.List;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 
@@ -36,12 +33,8 @@ public class Main {
         ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
         VacancyRestController vacancyRestController = appCtx.getBean(VacancyRestController.class);
 
-        List<VacancyTo> vacancyTos = vacancyUIController.getByFilter("php", "киев");
-//        List<VacancyTo> vacancyTos = profileVacancyRestController.getByFilter("php", "киев");
-//        List<VacancyTo> vacancyTos = vacancyRestController.getByFilter("php", "киев");
 
         System.out.println(".............................................................................");
-        System.out.println(vacancyTos);
 
 
 
