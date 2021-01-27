@@ -19,39 +19,33 @@
                     <div class="row justify-content-md-between align-items-center">
                         <form class="col-8 form-row needs-validation" id="filter">
                             <div class="col-md-4 mb-3">
-                                <label for="language">
-                                    <h7 class="btn-outline-info">
-                                        <em>Java, Php, Ruby, JavaScript...</em>
-                                    </h7>
-                                </label>
+                                <label for="language"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
                                 <input class="form-control" type="text" name="language" id="language" list="language_name">
                                 <datalist id="language_name">
-                                    <option selected value="all">all</option>
-                                    <option>Java</option>
-                                    <option>Php</option>
-                                    <option>Ruby</option>
-                                    <option>JavaScript</option>
-                                    <option>TypeScript</option>
-                                    <option>Kotlin</option>
-                                    <option>Python</option>
-                                    <option>C#</option>
-                                    <option>C++</option>
+                                    <option value='all' selected>all</option>
+                                    <option value='Java'>Java</option>
+                                    <option value='Php'>Php</option>
+                                    <option value='Ruby'>Ruby</option>
+                                    <option value='JavaScript'>JavaScript</option>
+                                    <option value='TypeScript'>TypeScript</option>
+                                    <option value='Kotlin'>Kotlin</option>
+                                    <option value='Python'>Python</option>
+                                    <option value='C#'>C#</option>
+                                    <option value='C++'>C++</option>
                                 </datalist>
                             </div>
                             <div class="col-md-8 mb-3">
-                                <label for="workplace">
-                                    <h7 class="btn-outline-info">
-                                        <em>Киев, Днепр, Харьков, За_рубежем, Санкт-Петербург...</em>
-                                    </h7>
-                                </label>
+                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name">
                                 <datalist id="city_name">
-                                    <option selected value="all">all</option>
-                                    <option>Киев</option>
-                                    <option>Днепр</option>
-                                    <option>Харьков</option>
-                                    <option>За_рубежем</option>
-                                    <option>Санкт-Петербург</option>
+                                    <%--<select name="workplace">--%>
+                                    <option value='all' selected>all</option>
+                                    <option value='Киев'>Киев</option>
+                                    <option value='Днепр'>Днепр</option>
+                                    <option value='Харьков'>Харьков</option>
+                                    <option value='За_рубежем'>За_рубежем</option>
+                                    <option value='Санкт-Петербург'>Санкт-Петербург</option>
+                                    <%--</select>--%>
                                 </datalist>
                             </div>
                         </form>
@@ -72,18 +66,21 @@
                 </div>
             </div>
         </div>
-        <br>
-        <div class="row card-footer justify-content-between" style="width: 100%">
-            <sec:authorize access="hasRole('ADMIN')">
-                <button class="col-2 btn btn-primary" onclick="add()">
-                    <span class="fa fa-plus text-left"></span>
-                    Добавить
+        <div class="card-body pb-0">
+            <div class="row card-footer justify-content-between" style="width: 103%">
+                <div class="col">
+                <sec:authorize access="hasRole('ADMIN')">
+                    <button class="col-md-2 btn btn-primary" onclick="add()">
+                        <span class="fa fa-plus text-left"></span>
+                        Добавить
+                    </button>
+                </sec:authorize>
+                </div>
+                <button class="offset-8 col-md-2 btn btn-outline-info bs-popover-right" onclick="refreshDB()">
+                    <span class="fa fa-refresh text-left pull-right"></span>
+                    Обновить DB
                 </button>
-            </sec:authorize>
-            <button class="offset-8 col-md-2 btn btn-outline-info bs-popover-right" onclick="refreshDB()">
-                <span class="fa fa-refresh text-left pull-right"></span>
-                Обновить DB
-            </button>
+            </div>
         </div>
         <table class="table table-striped table-bordered" id="datatable" style="width: 100%">
             <div class="row">

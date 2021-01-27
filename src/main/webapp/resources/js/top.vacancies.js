@@ -80,17 +80,15 @@ function vote(chkbox, id) {
     });
 }
 
-/*function updateFilteredTable() {
-    $.ajax({
-        type: "GET",
-        url: vacancyAjaxUrl + "filter",
-        data: $("#filter").serialize()
-    }).done(function (data) {
-        ctx.datatableApi.clear().rows.add(data).draw();
-        successNoty("filtered");
-    });
-}*/
 function updateFilteredTable() {
+    let inputLanguage = document.getElementById('language');
+    let inputWorkplace = document.getElementById('workplace');
+    if (!inputLanguage.value) {
+        inputLanguage.value = 'all';
+    }
+    if (!inputWorkplace.value) {
+        inputWorkplace.value = 'all';
+    }
     $.ajax({
         type: "GET",
         url: ajaxUrl + "filter",
