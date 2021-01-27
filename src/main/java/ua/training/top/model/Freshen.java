@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import static org.springframework.util.StringUtils.hasText;
 import static ua.training.top.util.xss.xssUtil.xssClear;
 
 @Entity
@@ -41,8 +42,8 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Integer userId) {
         super(id);
         this.recordedDate = recordedDate;
-        this.language = language == null ? "all" : xssClear(language).toLowerCase();
-        this.workplace = workplace == null ? "all" : xssClear(workplace).toLowerCase();
+        this.language = hasText(language) ? xssClear(language).toLowerCase() : "all";
+        this.workplace = hasText(workplace) ? xssClear(workplace).toLowerCase() : "all";
         this.userId = userId;
     }
 
@@ -66,7 +67,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     }
 
     public void setLanguage(String language) {
-        this.language = language == null ? "all" : xssClear(language).toLowerCase();
+        this.language = hasText(language) ? xssClear(language).toLowerCase() : "all";
     }
 
     public String getWorkplace() {
@@ -74,7 +75,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = workplace == null ? "all" : xssClear(workplace).toLowerCase();
+        this.workplace = hasText(workplace) ? xssClear(workplace).toLowerCase() : "all";
     }
 
     public Integer getUserId() {

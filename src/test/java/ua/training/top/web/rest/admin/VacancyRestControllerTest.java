@@ -178,6 +178,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByFilter() throws Exception {
+        setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
                 .param("language", "java")
                 .param("workplace", "киев")
@@ -189,6 +190,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByEmptyFilter() throws Exception {
+        setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
                 .param("language", "")
                 .param("workplace", "")
