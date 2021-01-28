@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import static ua.training.top.util.xss.xssUtil.xssClear;
+import static ua.training.top.util.xss.XssUtil.xssClear;
 
 public class VacancyTo extends BaseTo implements Serializable {
 

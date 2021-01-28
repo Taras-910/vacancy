@@ -1,11 +1,11 @@
 package ua.training.top.util;
 
 import org.slf4j.Logger;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Employer;
-import ua.training.top.model.User;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.ErrorType;
@@ -14,10 +14,12 @@ import ua.training.top.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class ValidationUtil {
+    public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
 
     private ValidationUtil() {
     }
@@ -99,20 +101,6 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkDoubleUser(User user, User userDb) {
-        if(userDb != null && user.getEmail().equals(userDb.getEmail())) {
-            initException(user);
-        };
-    }
-
-    private static void initException(Object obj) {
-        throw new DataIntegrityViolationException(obj.getClass().getSimpleName() + " exists in the database");
-    }
-
-    public static boolean checkValidVote(VacancyTo vacancyTo, Vacancy vacancyDb, Vacancy newVacancy) {
-        return !vacancyDb.getTitle().equals(newVacancy.getTitle()) || !vacancyDb.getEmployer().getName().equals(vacancyTo.getEmployerName());
-    }
-
     public static void checkDataEmployer(Employer e) {
         if (checkNullStrings(e.getName(), e.getAddress())) {
             getException(e);
@@ -131,4 +119,25 @@ public class ValidationUtil {
     public static boolean checkNullStrings(String... data){
         return List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() != 0;
     }
+
+    public static void checkNotFoundData(boolean found, Object id) {
+        if (!found) {
+            log.error("Not found entity with " + id);
+        }
+    }
+
+    public static List<Vacancy> checkNotFoundList(List<Vacancy> list, Freshen f) {
+        if (list.isEmpty()) {
+            log.error("there are no suitable vacancies in the database on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
+            return new ArrayList<>();
+        }
+        return list;
+    }
+
+    public static void checkNotFoundId(Integer employerId, Integer freshenId) {
+        if (employerId == null || freshenId == null) {
+            throw new IllegalArgumentException("must not null employerId=" + employerId + " or freshenId=" + freshenId);
+        }
+    }
+
 }

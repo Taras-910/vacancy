@@ -1,5 +1,6 @@
 package ua.training.top.model;
 
+import org.hibernate.annotations.BatchSize;
 import org.springframework.util.CollectionUtils;
 import ua.training.top.HasIdAndEmail;
 
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static ua.training.top.util.xss.xssUtil.xssClear;
+import static ua.training.top.util.xss.XssUtil.xssClear;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
@@ -41,6 +42,8 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique_idx")})
     @Column(name = "role")
+//    @Fetch(FetchMode.SUBSELECT)
+    @BatchSize(size = 300)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

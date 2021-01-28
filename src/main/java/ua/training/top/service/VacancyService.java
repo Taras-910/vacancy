@@ -65,11 +65,7 @@ public class VacancyService {
                 .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
                 .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
                 .collect(Collectors.toList());
-        if(vacancies.isEmpty()) {
-            log.error("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
-//            throw new NotFoundException("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
-        }
-        return vacancies;
+        return checkNotFoundList(vacancies, f);
     }
 
     @Transactional
@@ -101,10 +97,7 @@ public class VacancyService {
     public List<Vacancy> createList(List<Vacancy> vacancies, Integer employerId, Integer freshenId) {
         if (vacancies != null) log.info("createAll {} vacancies for employerId={} with freshenId={}", vacancies.size(), employerId, freshenId);
         vacancies.forEach(ValidationUtil::checkNew);
-        if (employerId == null || freshenId == null) {
-            throw new IllegalArgumentException("must not null employerId=" + employerId + " or freshenId=" + freshenId);
-        }
-        vacancies.stream().map(vacancy -> vacancy.getTitle().toLowerCase()).distinct().collect(Collectors.toList());
+        checkNotFoundId(employerId, freshenId);
         return checkNotFound(vacancyRepository.saveList(vacancies, employerId, freshenId), "employerId=" + employerId);
     }
 
@@ -113,10 +106,17 @@ public class VacancyService {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = vacancyRepository.get(vacancyTo.id());
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
-        if(checkValidVote(vacancyTo, vacancyDb, newVacancy)){
+        if(checkNotSimilarVacancy(vacancyDb, vacancyTo)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
-        return checkNotFoundWithId(vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId(), vacancyDb.getFreshen().getId()), vacancyTo.id());
+        Vacancy v = vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId(), vacancyDb.getFreshen().getId());
+        return checkNotFoundWithId(v, vacancyTo.id());
+    }
+
+    @Transactional
+    public Vacancy update(Vacancy vacancy, Integer freshenId) {
+        if (vacancy != null) log.info("update vacancy {} with freshenId={}", vacancy, freshenId);
+        return checkNotFound(vacancyRepository.save(vacancy, vacancy.getEmployer().getId(), freshenId), "vacancyId=" + vacancy.getId());
     }
 
     public void delete(int id) {

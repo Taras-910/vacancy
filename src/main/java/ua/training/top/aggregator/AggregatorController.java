@@ -22,9 +22,7 @@ import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
-import static ua.training.top.util.VacancyUtil.fromTo;
-import static ua.training.top.util.refresh.VacanciesMapUtil.getMapVacanciesForCreate;
-import static ua.training.top.util.refresh.VacanciesMapUtil.getMapVacanciesForUpdate;
+import static ua.training.top.util.VacancyUtil.*;
 
 @Controller
 public class AggregatorController {
@@ -50,95 +48,86 @@ public class AggregatorController {
 
 //        deleteOutdated(reasonDateToKeep);
         Set<Employer> employersForCreate = new HashSet();
-        Set<Employer> employersForUpdate = new HashSet();
         Set<Vacancy> vacanciesForUpdate = new HashSet<>();
         Set<VacancyTo> tosExistEmployers = new HashSet();
 
-        vacancyTos.forEach(v_To -> {
+        vacancyTos.forEach(vTo -> {
             AtomicBoolean unDouble = new AtomicBoolean(true);
-            Vacancy vacancyFromTo = fromTo(v_To);
-            List<Employer> tempEmployersForUpdate = null;
+            Vacancy vacancyFromTo = fromTo(vTo);
             List<Employer> tempEmployersForCreate = null;
-            List<Vacancy> tempVacanciesForUpdate = null;
             List<VacancyTo> tempTosExistEmployers = null;
 
             for (Employer e_Db : employersDb) {
-                tempEmployersForUpdate = new ArrayList<>();
                 tempEmployersForCreate = new ArrayList<>();
-                tempVacanciesForUpdate = new ArrayList<>();
                 tempTosExistEmployers = new ArrayList<>();
                 if (!vacanciesDb.contains(vacancyFromTo)) {
-                    if (v_To.getEmployerName().equals(e_Db.getName())) {
+//                if (testNotSimilar(vacanciesDb,vTo)) {
+
+
+                    if (vTo.getEmployerName().equals(e_Db.getName())) {
                         vacancyFromTo.setEmployer(e_Db);
-                        tempVacanciesForUpdate.add(vacancyFromTo);
-                        tempEmployersForUpdate.add(e_Db);
                         unDouble.set(false);
                     } else if (unDouble.get()) {
-                        tempEmployersForCreate.add(getEmployerFromTo(v_To));
-                        tempTosExistEmployers.add(v_To);
+                        tempEmployersForCreate.add(getEmployerFromTo(vTo));
+                        tempTosExistEmployers.add(vTo);
                     }
+
+
+
                 } else {
-                    Vacancy vFind = vacanciesDb.stream()
-                            .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills())
-                                    && vDb.getTitle().equals(vacancyFromTo.getTitle())
-                                    && vDb.getEmployer().getName().equals(v_To.getEmployerName())
-                                    && vDb.getEmployer().getName().equals(e_Db.getName()))
-                            .findAny().orElse(null);
-                    if (vFind != null && unDouble.get()) {
-                        v_To.setId(vFind.getId());
-                        vacancyService.updateTo(v_To);
-                        unDouble.set(false);
+                    if(vacanciesDb.size() != 0){
+                        Vacancy vFind = vacanciesDb.stream()
+                                .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills())
+                                        && vDb.getTitle().equals(vacancyFromTo.getTitle())
+                                        && vDb.getEmployer().getName().equals(vTo.getEmployerName())
+                                        && vDb.getEmployer().getName().equals(e_Db.getName()))
+                                .findAny().orElse(null);
+                        if (vFind != null && vacancyNotSame(vTo, vFind) && unDouble.get()) {
+                            vTo.setId(vFind.getId());
+                            Vacancy vacancy_from = fromTo(vTo);
+                            vacancy_from.setEmployer(e_Db);
+                            vacanciesForUpdate.add(vacancy_from);
+                            unDouble.set(false);
+                        }
                     }
                 }
             }
-            employersForUpdate.addAll(tempEmployersForUpdate);
             employersForCreate.addAll(tempEmployersForCreate);
-            vacanciesForUpdate.addAll(tempVacanciesForUpdate);
             tosExistEmployers.addAll(tempTosExistEmployers);
         });
-        updateDb(employersForCreate, tosExistEmployers, employersForUpdate, vacanciesForUpdate, freshen);
+        updateDb(employersForCreate, tosExistEmployers, vacanciesForUpdate, freshen);
     }
 
     @Transactional
-    protected void updateDb(Set<Employer> employersForCreate, Set<VacancyTo> tosExistEmployers,
-                            Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
+    protected void updateDb(Set<Employer> employersForCreate,
+                            Set<VacancyTo> tosExistEmployers, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
         Freshen createdFreshen = freshenService.create(freshen);
-        List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
-
-
-        System.out.println("\n\n---------------------------------------------------------------------------");
-        System.out.println("tosExistEmployers("+tosExistEmployers.size()+"):");
-        tosExistEmployers.forEach(e -> System.out.println("employerName : " + e.getEmployerName()));
-        System.out.println("vacanciesForUpdate("+vacanciesForUpdate.size()+"):");
-        vacanciesForUpdate.forEach(v -> {
-            System.out.println("\n\nvacancyForUpdate {\nid : " + v.getId() + "\ntitle : " + v.getTitle() + "\nemployerName : " +
-                    v.getEmployer().getName() + "\nskills : " + v.getSkills() + "\n}\n");
-        });
-        System.out.println("---------------------------------------------------------------------------");
-
-
-        List<Vacancy> created = createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers), createdFreshen);
-        List<Vacancy> updated = createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate), createdFreshen);
-
-        System.out.println("============================================================================");
-        System.out.println("\n\ncreated("+created.size()+")");
-        System.out.println("\n\nupdated("+updated.size()+"):");
-        updated.forEach(v -> {
-            System.out.println("\nupdated {\nid : " + v.getId() + "\ntitle : " + v.getTitle() + "\nemployerName : " +
-                    v.getEmployer().getName() + "\nskills : " + v.getSkills() + "\n}\n");
-        });
-        System.out.println("============================================================================");
-
-
+        List<Employer> employersCreated = null;
+        if(!employersForCreate.isEmpty()){
+            employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
+        }
+        if(!tosExistEmployers.isEmpty()) {
+            List<Vacancy> created = createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers), createdFreshen);
+        }
+        if(!vacanciesForUpdate.isEmpty()) {
+            List<Vacancy> updated = updateVacancies(vacanciesForUpdate, createdFreshen);
+        }
         employerService.deleteEmptyEmployers();
+    }
+
+    @Transactional
+    public List<Vacancy> updateVacancies(Set<Vacancy> vacancies, Freshen freshen) {
+        log.info("updateVacancies {}", vacancies != null ? vacancies.size() : "there is vacancies = null");
+        List<Vacancy> updatedVacancies = new ArrayList<>();
+        vacancies.forEach(v -> updatedVacancies.add(vacancyService.update(v, freshen.getId())));
+        return updatedVacancies;
     }
 
     @Transactional
     public List<Vacancy> createVacancies(Map<Integer, List<Vacancy>> map, Freshen freshen) {
         log.info("createByMap {}", map != null ? map.size() : "there is map = null");
         List<Vacancy> newVacancies = new ArrayList<>();
-        map.forEach((employerId, vacancies) -> newVacancies
-                .addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
+        map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
         return newVacancies;
     }
 

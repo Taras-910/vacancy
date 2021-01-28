@@ -88,6 +88,7 @@ $(function () {
             },
             "pagingType": "full_numbers",
             "info": true,
+            "deferRender": true,
             "columns": [
                 {
                     "data": "id",

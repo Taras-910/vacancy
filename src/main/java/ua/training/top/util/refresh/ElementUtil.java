@@ -25,7 +25,7 @@ import static ua.training.top.util.refresh.date.ToCorrectDate.getCorrectDate;
 import static ua.training.top.util.refresh.salary.MinMax.salaryMax;
 import static ua.training.top.util.refresh.salary.MinMax.salaryMin;
 import static ua.training.top.util.refresh.salary.SalaryUtil.getCorrectSalary;
-import static ua.training.top.util.xss.xssUtil.xssClear;
+import static ua.training.top.util.xss.XssUtil.xssClear;
 
 public class ElementUtil {
     public static final Logger log = LoggerFactory.getLogger(ElementUtil.class);

@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 import static ua.training.top.util.refresh.ElementUtil.getVacanciesGrc;
 
 public class GrcStrategy implements Strategy {
@@ -40,7 +39,7 @@ public class GrcStrategy implements Strategy {
         log.info("getVacancies city={} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
         boolean other = doubleString.getWorkplace().contains("за_рубежем");
         List<VacancyTo> list = other ? getOther(doubleString) : getCity(doubleString);
-        reCall(list.size(), new GrcStrategy());
+//        reCall(list.size(), new GrcStrategy());
         return list ;
     }
 

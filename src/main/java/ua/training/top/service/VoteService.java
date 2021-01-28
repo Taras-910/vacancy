@@ -12,6 +12,7 @@ import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.DateTimeUtil.thisDay;
+import static ua.training.top.util.ValidationUtil.checkNotFoundData;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -62,7 +63,7 @@ public class VoteService {
 
     @Transactional
     public void deleteListByVacancyId(int vacancyId) {
-        checkNotFoundWithId(repository.deleteListByVacancyId(vacancyId), vacancyId);
+        checkNotFoundData(repository.deleteListByVacancyId(vacancyId), vacancyId);
     }
 
     @Transactional

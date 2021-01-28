@@ -39,7 +39,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         if(vacancy.isNew()){
             return vacancyRepository.save(vacancy);
         }
-        return vacancyRepository.get(vacancy.id(), employerId) != null ? vacancyRepository.save(vacancy) : null;
+        return Optional.of(vacancyRepository.save(vacancy)).orElse(null);
     }
 
     @Transactional
