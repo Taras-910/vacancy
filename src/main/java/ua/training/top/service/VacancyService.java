@@ -60,7 +60,7 @@ public class VacancyService {
     }
 
     public List<Vacancy> getByFilter(Freshen f) {
-        log.info("getByFilter freshen={}", f);
+        log.info("getByFilter language={} workplace={}", f.getLanguage(), f.getWorkplace());
         List<Vacancy> vacancies = getAll().stream()
                 .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
                 .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
@@ -74,7 +74,7 @@ public class VacancyService {
 
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
-        log.info("getTosByFilter freshen={}", freshen);
+        log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
         List<Vote> votes = voteService.getAllForAuth();
         return getTos(getByFilter(freshen), votes);
     }
@@ -111,7 +111,7 @@ public class VacancyService {
     @Transactional
     public Vacancy updateTo(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
-        Vacancy vacancyDb = get(vacancyTo.id());
+        Vacancy vacancyDb = vacancyRepository.get(vacancyTo.id());
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
         if(checkValidVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());

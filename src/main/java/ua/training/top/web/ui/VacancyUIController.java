@@ -58,7 +58,7 @@ public class VacancyUIController {
     @Transactional
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
-        log.info("getByFilter freshen={}", freshen);
+        log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
         return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 

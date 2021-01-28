@@ -39,7 +39,8 @@ public class VacancyUtil {
     }
 
     public static Vacancy getForUpdate(VacancyTo vTo, Vacancy v) {
-        return new Vacancy(v.getId(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
-                vTo.getReleaseDate() == null ? v.getReleaseDate() : vTo.getReleaseDate());
+        return new Vacancy(v != null ? v.getId() : vTo.getId(), v != null ? v.getTitle() : vTo.getTitle(),
+                vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), v != null ? v.getSkills() : vTo.getSkills(),
+                v != null ? v.getReleaseDate() : vTo.getReleaseDate() != null ? vTo.getReleaseDate() : LocalDate.now().minusDays(7));
     }
 }
