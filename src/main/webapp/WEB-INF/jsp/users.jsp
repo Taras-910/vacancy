@@ -31,7 +31,6 @@
         </table>
     </div>
 </div>
-
 <div class="modal fade" tabindex="-1" id="editRow">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,7 +74,6 @@
         </div>
     </div>
 </div>
-
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>

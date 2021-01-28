@@ -43,64 +43,60 @@ public class AggregatorController {
     public void refreshDB(Freshen freshen){
         log.info("refreshDB by doubleString {}", freshen);
 
-        // проверка на наличе обновления в этот день ?
-        if (checkTimingRefresh(freshen)) {
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
 
-            List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
-
-            List<Employer> employersDb = employerService.getAll();
-            List<Vacancy> vacanciesDb = vacancyService.getByFilter(freshen);
+        List<Employer> employersDb = employerService.getAll();
+        List<Vacancy> vacanciesDb = vacancyService.getByFilter(freshen);
 
 //        deleteOutdated(reasonDateToKeep);
-            Set<Employer> employersForCreate = new HashSet();
-            Set<Employer> employersForUpdate = new HashSet();
-            Set<Vacancy> vacanciesForUpdate = new HashSet<>();
-            Set<VacancyTo> tosExistEmployers = new HashSet();
+        Set<Employer> employersForCreate = new HashSet();
+        Set<Employer> employersForUpdate = new HashSet();
+        Set<Vacancy> vacanciesForUpdate = new HashSet<>();
+        Set<VacancyTo> tosExistEmployers = new HashSet();
 
-            vacancyTos.forEach(vacancyTo -> {
-                AtomicBoolean unDouble = new AtomicBoolean(true);
-                Vacancy vacancyFromTo = fromTo(vacancyTo);
-                List<Employer> tempEmployersForUpdate = null;
-                List<Employer> tempEmployersForCreate = null;
-                List<Vacancy> tempVacanciesForUpdate = null;
-                List<VacancyTo> tempTosExistEmployers = null;
+        vacancyTos.forEach(vacancyTo -> {
+            AtomicBoolean unDouble = new AtomicBoolean(true);
+            Vacancy vacancyFromTo = fromTo(vacancyTo);
+            List<Employer> tempEmployersForUpdate = null;
+            List<Employer> tempEmployersForCreate = null;
+            List<Vacancy> tempVacanciesForUpdate = null;
+            List<VacancyTo> tempTosExistEmployers = null;
 
-                for (Employer employer : employersDb) {
-                    tempEmployersForUpdate = new ArrayList<>();
-                    tempEmployersForCreate = new ArrayList<>();
-                    tempVacanciesForUpdate = new ArrayList<>();
-                    tempTosExistEmployers = new ArrayList<>();
-                    if (!vacanciesDb.contains(vacancyFromTo)) {
-                        if (vacancyTo.getEmployerName().equals(employer.getName())) {
-                            vacancyFromTo.setEmployer(employer);
-                            tempVacanciesForUpdate.add(vacancyFromTo);
-                            tempEmployersForUpdate.add(employer);
-                            unDouble.set(false);
-                        } else if (unDouble.get()) {
-                            tempEmployersForCreate.add(getEmployerFromTo(vacancyTo));
-                            tempTosExistEmployers.add(vacancyTo);
-                        }
-                    } else {
-                        Vacancy vFind = vacanciesDb.stream()
-                                .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills())
-                                        && vDb.getTitle().equals(vacancyFromTo.getTitle())
+            for (Employer employer : employersDb) {
+                tempEmployersForUpdate = new ArrayList<>();
+                tempEmployersForCreate = new ArrayList<>();
+                tempVacanciesForUpdate = new ArrayList<>();
+                tempTosExistEmployers = new ArrayList<>();
+                if (!vacanciesDb.contains(vacancyFromTo)) {
+                    if (vacancyTo.getEmployerName().equals(employer.getName())) {
+                        vacancyFromTo.setEmployer(employer);
+                        tempVacanciesForUpdate.add(vacancyFromTo);
+                        tempEmployersForUpdate.add(employer);
+                        unDouble.set(false);
+                    } else if (unDouble.get()) {
+                        tempEmployersForCreate.add(getEmployerFromTo(vacancyTo));
+                        tempTosExistEmployers.add(vacancyTo);
+                    }
+                } else {
+                    Vacancy vFind = vacanciesDb.stream()
+                            .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills())
+                                    && vDb.getTitle().equals(vacancyFromTo.getTitle())
 //                            && vDb.getEmployer().getName().equals(vacancyTo.getEmployerName())
-                                        && vDb.getEmployer().getName().equals(employer.getName()))
-                                .findAny().orElse(null);
-                        if (vFind != null && unDouble.get()) {
-                            vacancyTo.setId(vFind.getId());
-                            vacancyService.updateTo(vacancyTo);
-                            unDouble.set(false);
-                        }
+                                    && vDb.getEmployer().getName().equals(employer.getName()))
+                            .findAny().orElse(null);
+                    if (vFind != null && unDouble.get()) {
+                        vacancyTo.setId(vFind.getId());
+                        vacancyService.updateTo(vacancyTo);
+                        unDouble.set(false);
                     }
                 }
-                employersForUpdate.addAll(tempEmployersForUpdate);
-                employersForCreate.addAll(tempEmployersForCreate);
-                vacanciesForUpdate.addAll(tempVacanciesForUpdate);
-                tosExistEmployers.addAll(tempTosExistEmployers);
-            });
-            updateDb(employersForCreate, tosExistEmployers, employersForUpdate, vacanciesForUpdate, freshen);
-        }
+            }
+            employersForUpdate.addAll(tempEmployersForUpdate);
+            employersForCreate.addAll(tempEmployersForCreate);
+            vacanciesForUpdate.addAll(tempVacanciesForUpdate);
+            tosExistEmployers.addAll(tempTosExistEmployers);
+        });
+        updateDb(employersForCreate, tosExistEmployers, employersForUpdate, vacanciesForUpdate, freshen);
     }
 
     @Transactional
@@ -108,29 +104,9 @@ public class AggregatorController {
                             Set<Employer> employersForUpdate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
         Freshen createdFreshen = freshenService.create(freshen);
         List<Employer> employersCreated = employerService.createList(new ArrayList<>(employersForCreate));
-        System.out.println("---------------------------------------------------------------------------");
-        log.info("\n\ntosExistEmployers={}", tosExistEmployers.size());
-        log.info("\n\nvacanciesForUpdate={}", vacanciesForUpdate.size());
-        System.out.println("---------------------------------------------------------------------------");
-
         List<Vacancy> created = createVacancies(getMapVacanciesForCreate(employersCreated, tosExistEmployers), createdFreshen);
         List<Vacancy> updated = createVacancies(getMapVacanciesForUpdate(employersForUpdate, vacanciesForUpdate), createdFreshen);
-
-        System.out.println("============================================================================");
-        log.info("\n\ncreated={}", created.size());
-        log.info("\n\nupdated={}", updated.size());
-        System.out.println("============================================================================");
-
-
         employerService.deleteEmptyEmployers();
-    }
-
-    private boolean checkTimingRefresh(Freshen freshen) {
-//        List <Freshen> freshenDB = freshenService.getByDoubleString(freshen.getWorkplace(), freshen.getLanguage());
-//        return freshenDB == null || freshenDB.stream()
-//                .filter(f -> LocalDateTime.now().minusMinutes(reasonTimeBetweenRefresh).isAfter(f.getFreshenDateTime()))
-//                .count() > 1;
-        return true;
     }
 
     @Transactional

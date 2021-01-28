@@ -20,7 +20,6 @@ function updateRow(id) {
     $.ajaxSetup({cacheURL: false});
     form.find(":input").val("");
     $('#modalTitle').html('edit');
-    // $('.not_update_visible').animate({width: "toggle"});
     $.get(ctx.ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
@@ -42,11 +41,7 @@ function deleteRow(id) {
 }
 
 function updateTableByData(data) {
-    var datatable = ctx.datatableApi;
-    datatable.clear().draw();
-    datatable.rows.add(data).draw(); // Add new data
-//    datatable.columns.adjust().draw(); // Redraw the DataTable
-//     event.preventDefault();
+    ctx.datatableApi.clear().rows.add(data).draw();
 }
 
 function save() {

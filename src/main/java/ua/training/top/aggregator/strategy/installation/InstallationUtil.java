@@ -16,7 +16,7 @@ public class InstallationUtil {
     public static int limitCallPages = 10;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonDateToKeep = LocalDateTime.now().toLocalDate().minusDays(28);
-    public static Integer freshenPerHour = 60;
+    public static Integer freshenPerHour = 2;
 
     public static boolean testProvider = false;
 //    public static boolean testProvider = true;

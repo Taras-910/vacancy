@@ -65,10 +65,10 @@ public class VacancyService {
                 .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
                 .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
                 .collect(Collectors.toList());
-//        if(vacancies.isEmpty()) {
-//            return getEmpty();
+        if(vacancies.isEmpty()) {
+            log.error("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
 //            throw new NotFoundException("no suitable vacancies on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
-//        }
+        }
         return vacancies;
     }
 
@@ -112,7 +112,6 @@ public class VacancyService {
     public Vacancy updateTo(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = get(vacancyTo.id());
-//        checkUpdateVacancyTo(vacancyTo, vacancyDb);
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
         if(checkValidVote(vacancyTo, vacancyDb, newVacancy)){
             voteService.deleteListByVacancyId(vacancyTo.id());

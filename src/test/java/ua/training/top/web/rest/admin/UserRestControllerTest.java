@@ -142,12 +142,10 @@ class UserRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-
     @Test
     void getForbidden() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isForbidden());
     }
-
 }

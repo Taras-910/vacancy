@@ -46,10 +46,6 @@ public class VoteService {
         return repository.save(vote, authUserId());
     }
 
-    public List<Vote> createList(List<Vote> votes) {
-        return repository.saveList(votes);
-    }
-
     @Transactional
     public void update(int voteId, int vacancyId) {
         log.info("update vote {} for vacancyId {} of user {}", voteId, vacancyId, authUserId());
@@ -66,7 +62,7 @@ public class VoteService {
 
     @Transactional
     public void deleteListByVacancyId(int vacancyId) {
-        repository.deleteListByVacancyId(vacancyId);
+        checkNotFoundWithId(repository.deleteListByVacancyId(vacancyId), vacancyId);
     }
 
     @Transactional

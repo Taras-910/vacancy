@@ -10,12 +10,16 @@ import static ua.training.top.testData.VacancyTestData.VACANCY1_ID;
 public class VacancyToTestData {
     public static TestMatcher<VacancyTo> VACANCY_TO_MATCHER = TestMatcher.usingFieldsComparator(VacancyTo.class, "");
 
-    public static final VacancyTo vacancyTo1 = new VacancyTo(VACANCY1_ID, "Middle Game Developer", "Huuuge Games", "Киев", 100000, 200000, "https://grc.ua/vacancy/40006938?query=java",
+    public static final VacancyTo vacancyTo1 = new VacancyTo(VACANCY1_ID, "Middle Game Developer",
+            "Huuuge Games", "Киев", 100000, 200000,
+            "https://grc.ua/vacancy/40006938?query=java",
             "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
             LocalDate.of(2020, 10, 25), "https://grc.ua", "java", "киев", true);
 
     public static VacancyTo getNew() {
-        return new VacancyTo(null, "NewJavaMiddle", "NewMicrosoft", "Киев", 1, 1, "https://www.w3schools.com/jquery/jquery_filters.asp", "Java Core", LocalDate.now(), "https://www.w3schools.com/", "java", "киев", false);
+        return new VacancyTo(null, "NewJavaMiddle", "NewMicrosoft", "Киев", 1, 1,
+                "https://www.w3schools.com/jquery/jquery_filters.asp", "Java Core", LocalDate.now(),
+                "https://www.w3schools.com/", "java", "киев", false);
     }
 
     public static VacancyTo getUpdate() {

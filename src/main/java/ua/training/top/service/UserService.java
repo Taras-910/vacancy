@@ -72,7 +72,6 @@ public class UserService implements UserDetailsService {
         checkNotFoundWithId(prepareAndSave(user), user.id());
     }
 
-    //    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);

@@ -1,70 +1,4 @@
 var ctx, ajaxUrl = "profile/vacancies/";
-var freshenUrl = "profile/freshen";
-
-function refreshDB() {
-    $('#detailsRefreshForm').find(":input").val("");
-    $("#refreshRow").modal();
-}
-
-function sendRefresh() {
-    $.ajax({
-        type: "POST",
-        url: freshenUrl,
-        data: $("#detailsRefreshForm").serialize()
-    }).done(function () {
-        $("#refreshRow").modal("hide");
-        ctx.updateTable();
-        successNoty("Update has finished ");
-    });
-}
-
-/*function addVacancy() {
-    form.find(":input").val("");
-    $("#editRow").modal();
-}*/
-
-function updateRowVacancy(id) {
-    $.ajaxSetup({cacheURL: false});
-    $('#detailsUpdateForm').find(":input").val("");
-//    $('.not_update_visible').fadeOut();
-    $.get(ajaxUrl + id, function (data) {
-        $.each(data, function (key, value) {
-            $('#detailsUpdateForm').find("input[name='" + key + "']").val(value);
-        });
-        $('#updateRow').modal();
-    });
-}
-
-
-function updateVacancyTo() {
-    $.ajax({
-        type: "POST",
-        url: ajaxUrl,
-        data: $('#detailsUpdateForm').serialize()
-    }).done(function () {
-        $("#updateRow").modal("hide");
-        ctx.updateTable();
-        successNoty("Saved");
-    });
-}
-
-function deleteRowVacancy(id) {
-    $.ajaxSetup({cacheURL: false});
-    $('#detailsDeleteForm').find(":input[name='id']").val(id);
-    $('#deleteRow').modal();
-}
-
-function deleteVacancyTo() {
-    var id = document.getElementById("idDelete").value;
-    $.ajax({
-        url: ajaxUrl + id,
-        type: "DELETE",
-    }).done(function () {
-        $("#deleteRow").modal("hide");
-        ctx.updateTable();
-        successNoty("Deleted");
-    });
-}
 
 function vote(chkbox, id) {
     var toVote = chkbox.is(":checked");
@@ -100,6 +34,47 @@ function updateFilteredTable() {
 function clearFilter() {
     $("#filter")[0].reset();
     $.get(ajaxUrl, updateTableByData);
+}
+
+function updateRowVacancy(id) {
+    $.ajaxSetup({cacheURL: false});
+    $('#detailsUpdateForm').find(":input").val("");
+    $.get(ajaxUrl + id, function (data) {
+        $.each(data, function (key, value) {
+            $('#detailsUpdateForm').find("input[name='" + key + "']").val(value);
+        });
+        $('#updateRow').modal();
+    });
+}
+
+function updateVacancyTo() {
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl,
+        data: $('#detailsUpdateForm').serialize()
+    }).done(function () {
+        $("#updateRow").modal("hide");
+        ctx.updateTable();
+        successNoty("Saved");
+    });
+}
+
+function deleteRowVacancy(id) {
+    $.ajaxSetup({cacheURL: false});
+    $('#detailsDeleteForm').find(":input[name='id']").val(id);
+    $('#deleteRow').modal();
+}
+
+function deleteVacancyTo() {
+    var id = document.getElementById("idDelete").value;
+    $.ajax({
+        url: ajaxUrl + id,
+        type: "DELETE",
+    }).done(function () {
+        $("#deleteRow").modal("hide");
+        ctx.updateTable();
+        successNoty("Deleted");
+    });
 }
 
 // $(document).ready(function () {

@@ -47,30 +47,3 @@ public class ProfileUserRestController {
         service.update(user, authUserId());
     }
 }
-/*    @GetMapping
-    public User get(@AuthenticationPrincipal AuthorizedUser authUser) {
-        return super.get(authUser.getId());
-    }
-
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal AuthorizedUser authUser) {
-        super.delete(authUser.getId());
-    }
-
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> register(@Validated(View.Web.class) @RequestBody UserTo userTo) {
-        User created = super.create(userTo);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL).build().toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) throws BindException {
-        validateBeforeUpdate(userTo, authUser.getId());
-        super.update(userTo, authUser.getId());
-    }
-*/

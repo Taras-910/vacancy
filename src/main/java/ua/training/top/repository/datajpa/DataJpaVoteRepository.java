@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vote;
 import ua.training.top.repository.VoteRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,11 +30,6 @@ public class DataJpaVoteRepository implements VoteRepository {
         return vote.isNew() || get(vote.id(), vote.getUserId()) != null ? voteRepository.save(vote) : null;
     }
 
-    @Transactional
-    @Override
-    public List<Vote> saveList(List<Vote> votes) {
-        return voteRepository.saveAll(votes);
-    }
 
     @Transactional
     @Override
@@ -61,11 +55,6 @@ public class DataJpaVoteRepository implements VoteRepository {
     @Override
     public List<Vote> getAll() {
         return voteRepository.findAll();
-    }
-
-    @Override
-    public List<Vote> getAllByVacancyId(Integer vacancyId) {
-        return Optional.of(voteRepository.getAllByVacancyId(vacancyId)).orElse(new ArrayList<Vote>());
     }
 
     @Transactional

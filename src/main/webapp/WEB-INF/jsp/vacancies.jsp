@@ -8,7 +8,7 @@
 <body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.common.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancies.js" defer></script>
-<%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancyHelper.js" defer></script>--%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.freshen.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron pt-4">
     <div class="container-fluid row-cols-lg-10" >
@@ -287,7 +287,6 @@
                         <label for="languageTask"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
                         <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2">
                         <datalist id="language_name_2">
-                            <option value='all' selected>all</option>
                             <option value='Java'>Java</option>
                             <option value='Php'>Php</option>
                             <option value='Ruby'>Ruby</option>
@@ -303,7 +302,6 @@
                         <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
                         <datalist id="city_name_2">
-                            <option value='all' selected>all</option>
                             <option value='Киев'>Киев</option>
                             <option value='Днепр'>Днепр</option>
                             <option value='Львов'>Львов</option>

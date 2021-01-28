@@ -146,7 +146,8 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
         setTestAuthorizedUser(admin);
-        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuth()), newVacancyTo);
+        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuth()),
+                newVacancyTo);
     }
 
 

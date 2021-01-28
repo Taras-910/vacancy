@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,7 +29,6 @@ import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.user;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
 import static ua.training.top.util.VacancyUtil.fromTos;
-
 
 class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ProfileFreshenRestController.REST_URL + '/';
@@ -67,7 +66,6 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         List<Freshen> freshensDbBefore = freshenService.getAll();
         List<Employer> employersDbBefore = employerService.getAll();
         setTestProvider();
-
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(user))
@@ -86,15 +84,15 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         List<Vacancy> allVacancies = vacancyService.getAll();
         List<Vacancy> newVacancies = allVacancies.stream()
                 .filter(v -> !vacanciesDbBefore.contains(v)).collect(Collectors.toList());
-        assertTrue(vacanciesTest.stream()
-                .filter(v -> !newVacancies.contains(v)).collect(Collectors.toList()).size() == 0);
+        assertEquals(vacanciesTest.stream()
+                .filter(v -> !newVacancies.contains(v)).collect(Collectors.toList()).size(), 0);
 
         Set<Employer> employersTest = new HashSet<>(getEmployersFromTos(getTestList()));
         List<Employer> allEmployers = employerService.getAll();
         List<Employer> newEmployers = allEmployers.stream()
                 .filter(e -> !employersDbBefore.contains(e)).collect(Collectors.toList());
-        assertTrue(employersTest.stream()
-                .filter(v -> !newEmployers.contains(v)).collect(Collectors.toList()).size() == 0);
+        assertEquals(employersTest.stream()
+                .filter(v -> !newEmployers.contains(v)).collect(Collectors.toList()).size(), 0);
     }
 }
 
