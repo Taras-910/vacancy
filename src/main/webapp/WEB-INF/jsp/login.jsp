@@ -17,7 +17,7 @@
         </form>
     </div>
 </nav>
-<div class="container jumbotron py-0">
+<div class="container jumbotron py-0" style="width:1130px;border:1px solid #0397ba">
         <c:if test="${param.error}">
             <div class="error">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</div>
         </c:if>
@@ -38,24 +38,24 @@
                 </button>
             </p>
         </sec:authorize>
-        <div class="lead py-3">Стек технологий<br>
+        <div class="lead py-3">Стек технологий: 
             <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
             <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,
             <a href="http://spring.io/blog/2014/05/07/preview-spring-security-test-method-security">Spring Security Test</a>,
-            <a href="http://hibernate.org/orm/">Hibernate ORM</a>,
+            <a href="http://hibernate.org/orm/">Hibernate ORM</a>,<br>
             <a href="http://hibernate.org/validator/">Hibernate Validator</a>,
-            <a href="http://www.slf4j.org/">SLF4J</a>,<br>
+            <a href="http://www.slf4j.org/">SLF4J</a>,
             <a href="https://github.com/FasterXML/jackson">Json Jackson</a>,
             <a href="http://ru.wikipedia.org/wiki/JSP">JSP</a>,
             <a href="http://en.wikipedia.org/wiki/JavaServer_Pages_Standard_Tag_Library">JSTL</a>,
             <a href="http://tomcat.apache.org/">Apache Tomcat</a>,
             <a href="http://www.webjars.org/">WebJars</a>,
             <a href="http://datatables.net/">DataTables plugin</a>,
-            <a href="http://ehcache.org">EHCACHE</a>,
+            <a href="http://ehcache.org">EHCACHE</a>,<br>
             <a href="http://www.postgresql.org/">PostgreSQL</a>,
             <a href="http://junit.org/">JUnit</a>,
-            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,<br>
+            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,
             <a href="http://jquery.com/">jQuery</a>,
             <a href="http://ned.im/noty/">jQuery notification</a>,
             <a href="http://getbootstrap.com/">Bootstrap</a>.
@@ -67,10 +67,10 @@
     вакансии, обновлять базу данных, пользователи могут управлять своим профилем, отмечать выбранные вакансии через UI
     (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных из ресурсов. Можно фильтровать
     вакансий по языку программирования и локации, индивидуально отмечать вакансии - цвет строк
-    изменяется, запоминается в базе.<br/>Весь REST интерфейс покрывается JUnit тестами,
+    изменяется, запоминается в базе.<br/>Весь REST интерфейс покрывается JUnit тестами, для этого
     используется Spring MVC Test и Spring Security Test.<br/>
     База обновляется данными ресурсов:
-    <a href="https://djinni.co">Джин</a>,
+    <a href="https://djinni.co">Djinni</a>,
     <a href="http://grc.ua">HH</a>,
     <a href="https://career.habr.com">Habr</a>,
     <a href="https://jobs.dou.ua"> DOU</a>,
@@ -81,8 +81,9 @@
     <a href="https://ua.jooble.org">Jooble</a>,
     <a href="https://www.work.ua">Work</a>
 </div>
-<div class="jumbotron lead py-1">
-    <div class="container lead">Описание:<br>
+<div class="container jumbotron py-0" style="width:1130px;border:1px solid #0397ba">
+    <div class="col container lead">Описание:</div>
+    <div class="col">
         <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
     </div>
 </div>

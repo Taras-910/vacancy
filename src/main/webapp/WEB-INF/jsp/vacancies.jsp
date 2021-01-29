@@ -10,17 +10,17 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancies.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.freshen.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
-<div class="jumbotron pt-4">
-    <div class="container-fluid row-cols-lg-10" >
+<div class="jumbotron pt-md-4">
+    <div class="container-fluid row-cols-md-10">
         <p class="text-info"><h3 class="text-center">Вакансии</h3></p>
         <div class="card border-dark">
-            <div class="card-body pb-0">
-                <div class="container rounded-lg" style="width: 90%">
+            <div class="card-body pb-1" style="width:100%; background-color: #e5e7e7">
+                <div class="container rounded-lg" style="width:90%;">
                     <div class="row justify-content-md-between align-items-center">
-                        <form class="col-8 form-row needs-validation" id="filter">
-                            <div class="col-md-4 mb-3">
+                        <form class="col-10 form-row needs-validation" id="filter">
+                            <div class="col-md-4 mb-3 col-form-label">
                                 <label for="language"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
-                                <input class="form-control" type="text" name="language" id="language" list="language_name">
+                                <input class="form-control" type="text" name="language" id="language" list="language_name" style="width:98%;border:2px solid #0397ba">
                                 <datalist id="language_name">
                                     <option value='all' selected>all</option>
                                     <option value='Java'>Java</option>
@@ -34,9 +34,9 @@
                                     <option value='C++'>C++</option>
                                 </datalist>
                             </div>
-                            <div class="col-md-8 mb-3">
+                            <div class="col-md-8 mb-3 col-form-label">
                                 <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
-                                <input class="form-control" type="text" name="workplace" id="workplace" list="city_name">
+                                <input class="form-control" type="text" name="workplace" id="workplace" list="city_name" style="width:101%;border:2px solid #0397ba">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
                                     <option value='Киев'>Киев</option>
@@ -54,9 +54,10 @@
                                 Фильтровать
                             </button>
                         </div>
-                        <div class="col-md-2 ml-md-auto">
-                            <label><h7 class="invisible">Сброс<br></h7></label>
-                            <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
+                    </div>
+                    <div class="row-cols-sm-6 justify-content-md-between align-items-center">
+                        <div class="col-sm-12 form-row needs-validation">
+                            <button type="button" class="col-sm-10 mb-3 text-right btn-sm btn-outline-danger btn-lg btn-block" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
                                 Сбросить
                             </button>

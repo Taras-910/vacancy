@@ -24,9 +24,6 @@ public class Provider {
         List<VacancyTo> list = strategy.getVacancies(doubleString);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list.stream()
-                .filter(v -> v.getEmployerName().matches(".*[a-zA-Zа-яА-Я]+.*"))
-                .filter(v -> v.getTitle().matches(".*[a-zA-Zа-яА-Я]+.*"))
-                .filter(v -> v.getSkills().matches(".*[a-zA-Zа-яА-Я]+.*"))
                 .filter(v -> reasonDateToLoad.isBefore(v.getReleaseDate()))
                 .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguage()) || v.getSkills().toLowerCase().contains(doubleString.getLanguage())))
                 .distinct().collect(Collectors.toList());

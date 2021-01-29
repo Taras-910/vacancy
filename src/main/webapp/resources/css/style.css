@@ -81,3 +81,8 @@ tr[data-userEnabled="false"] {
     font-size: 24px;
     color: aliceblue;
 }
+
+.th{
+    border:1px;
+    solid: #0397ba;
+}

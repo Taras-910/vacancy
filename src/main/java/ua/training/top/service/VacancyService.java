@@ -97,6 +97,7 @@ public class VacancyService {
         if (vacancies != null) log.info("createAll {} vacancies for employerId={} with freshenId={}", vacancies.size(), employerId, freshenId);
         vacancies.forEach(ValidationUtil::checkNew);
         checkNotFoundId(employerId, freshenId);
+        vacancies.stream().distinct().collect(Collectors.toList());
         return checkNotFound(vacancyRepository.saveList(vacancies, employerId, freshenId), "employerId=" + employerId);
     }
 

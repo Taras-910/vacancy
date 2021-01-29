@@ -84,6 +84,17 @@ public class AggregatorController {
     }
 
     @Transactional
+    protected void updateDb(Set<Vacancy> vacanciesForCreate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
+        Freshen createdFreshen = freshenService.create(freshen);
+        if(!vacanciesForCreate.isEmpty()) {
+            createVacancies(getMapVacanciesForCreate(vacanciesForCreate), createdFreshen);
+        }
+        if(!vacanciesForUpdate.isEmpty()) {
+            updateVacancies(vacanciesForUpdate, createdFreshen);
+        }
+    }
+
+    @Transactional
     public void deleteVacanciesOutdated(LocalDate reasonDateToKeep) {
         log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
         List<Vacancy> listToDelete = vacancyService.getAll().stream()
@@ -92,6 +103,7 @@ public class AggregatorController {
         vacancyService.deleteList(listToDelete);
     }
 
+    @Transactional
     protected List<Employer> getSuitable(List<VacancyTo> vacancyTos) {
         List<Employer> employersAll = new ArrayList<>(employerService.getAll());
         List<Employer> employersForCreate = getEmployersForCreate(vacancyTos, employersAll);
@@ -115,17 +127,6 @@ public class AggregatorController {
         List<Vacancy> newVacancies = new ArrayList<>();
         map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
         return newVacancies;
-    }
-
-    @Transactional
-    protected void updateDb(Set<Vacancy> vacanciesForCreate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
-        Freshen createdFreshen = freshenService.create(freshen);
-        if(!vacanciesForCreate.isEmpty()) {
-            createVacancies(getMapVacanciesForCreate(vacanciesForCreate), createdFreshen);
-        }
-        if(!vacanciesForUpdate.isEmpty()) {
-            updateVacancies(vacanciesForUpdate, createdFreshen);
-        }
     }
 
     public static void main(String[] args) throws IOException {
