@@ -2,11 +2,18 @@ package ua.training.top.util;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
+import ua.training.top.SecurityUtil;
+import ua.training.top.model.Freshen;
+import ua.training.top.model.Role;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.freshenPerHour;
 
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
@@ -47,4 +54,25 @@ public class DateTimeUtil {
     public static @Nullable LocalDateTime parseLocalDateTime(@Nullable String str) {
         return StringUtils.isEmpty(str) ? null : LocalDateTime.parse(str);
     }
+
+    public static void checkLimitTime(Freshen freshen, List<Freshen> freshensToday) {
+        if(freshensToday != null || !SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
+            List<Freshen> freshensHour = freshensToday.stream()
+                    .filter(f -> f.equals(freshen))
+                    .filter(f -> f.getRecordedDate().isBefore(lastHour) && f.getRecordedDate().isAfter(nextHour))
+                    .sorted((f1, f2) -> f2.getRecordedDate().compareTo(f1.getRecordedDate()))
+                    .collect(Collectors.toList());
+            if (!freshensHour.isEmpty()){
+                Freshen lastFreshen = freshensHour.get(0);
+                if (freshensHour.size() >= freshenPerHour ||
+                        freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour))) {
+                    throw new IllegalStateException("По параметрам: {" + freshen.getLanguage()
+                            + ", " + freshen.getWorkplace() + "} база данных<br>обновлялась последний раз в " +
+                            toStringTime(lastFreshen.getRecordedDate()) + ",<br>повторите запрос после: " +
+                            toStringTime(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour).plusMinutes(1)));
+                }
+            }
+        }
+    }
+
 }

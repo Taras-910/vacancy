@@ -47,7 +47,7 @@ public static List<VacancyTo> getTestList(){
             100000, 150000, "https://grc.ua/vacancy/40006938?query=java",
             "Java. Понимание javaScript",
             LocalDate.now().minusDays(3), "https://grc.ua", null, null, false);
-    return List.of(vacancyTo1);
+    return List.of(vacancyTo1, vacancyTo2, vacancyTo3);
 }
 
 }

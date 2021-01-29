@@ -9,7 +9,6 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
-import ua.training.top.repository.EmployerRepository;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
@@ -28,13 +27,13 @@ import static ua.training.top.util.ValidationUtil.*;
 public class VacancyService {
     private static final Logger log = LoggerFactory.getLogger(VacancyService.class);
     private final VacancyRepository vacancyRepository;
-    private final EmployerRepository employerRepository;
+    private final EmployerService employerService;
     private final VoteService voteService;
     private final FreshenService freshenService;
 
-    public VacancyService(VacancyRepository repository, EmployerRepository employerRepository, VoteService voteService, FreshenService freshenService) {
+    public VacancyService(VacancyRepository repository, EmployerService employerRepository, VoteService voteService, FreshenService freshenService) {
         this.vacancyRepository = repository;
-        this.employerRepository = employerRepository;
+        this.employerService = employerRepository;
         this.voteService = voteService;
         this.freshenService = freshenService;
     }
@@ -88,7 +87,7 @@ public class VacancyService {
         }
         Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
         checkNullDataVacancyTo(vacancyTo);
-        Employer employer = employerRepository.getOrCreate(getEmployerFromTo(vacancyTo));
+        Employer employer = employerService.getOrCreate(getEmployerFromTo(vacancyTo));
         Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
         return checkNotFound(vacancyRepository.save(vacancy, employer.getId(), freshen.getId()), "employerId=" + employer.getId());
     }
@@ -106,7 +105,7 @@ public class VacancyService {
         log.info("update vacancyTo {}", vacancyTo);
         Vacancy vacancyDb = vacancyRepository.get(vacancyTo.id());
         Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
-        if(checkNotSimilarVacancy(vacancyDb, vacancyTo)){
+        if(isNotSimilar(vacancyDb, vacancyTo)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
         Vacancy v = vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId(), vacancyDb.getFreshen().getId());
@@ -122,10 +121,13 @@ public class VacancyService {
     public void delete(int id) {
         log.info("delete vacancy {}", id);
         checkNotFoundWithId(vacancyRepository.delete(id), id);
+        employerService.deleteEmptyEmployers();
+
     }
 
     public void deleteList(List<Vacancy> list) {
         log.info("deleteList {}", list);
         vacancyRepository.deleteList(list);
+        employerService.deleteEmptyEmployers();
     }
 }

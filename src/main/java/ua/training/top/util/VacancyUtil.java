@@ -2,32 +2,16 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class VacancyUtil {
     private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
-
-    public static Map<Integer, List<Vacancy>> getMapVacanciesForCreate(List<Employer> employersCreated, Set<VacancyTo> tosExistdEmployers) {
-        Map<Integer, List<Vacancy>> mapForCreate = new HashMap<>();
-        employersCreated.forEach(employer -> {
-            List<Vacancy> vacancies =  new ArrayList<>();
-            tosExistdEmployers.forEach(vacancyTo -> {
-                if(employer.getName().equals(vacancyTo.getEmployerName())){
-                    vacancies.add(fromTo(vacancyTo));
-                }
-            });
-            mapForCreate.put(employer.getId(), vacancies);
-        });
-        return mapForCreate;
-    }
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
         return vacancies.isEmpty() ? getEmpty() : vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
@@ -59,26 +43,38 @@ public class VacancyUtil {
                 v != null ? v.getReleaseDate() : vTo.getReleaseDate() != null ? vTo.getReleaseDate() : LocalDate.now().minusDays(7));
     }
 
-    public static boolean vacancyNotSame(VacancyTo vTo, Vacancy vFind) {
+    public static Map<Integer, List<Vacancy>> getMapVacanciesForCreate(Set<Vacancy> vacanciesForCreate) {
+        Map<Integer, List<Vacancy>> mapForCreate = new HashMap<>();
+        vacanciesForCreate.forEach(vacancy -> {
+            mapForCreate.merge(vacancy.getEmployer().getId(), List.of(vacancy), (oldValue, newValue) ->{
+                List<Vacancy>list = new ArrayList<>(oldValue);
+                list.addAll(newValue);
+                return list;
+            });
+        });
+        return mapForCreate;
+    }
+
+    public static boolean isNotSame(VacancyTo vTo, Vacancy vFind) {
         return !vFind.getTitle().equals(vTo.getTitle()) ||
                 vFind.getSalaryMax() != vTo.getSalaryMax() ||
                 vFind.getSalaryMin() != vTo.getSalaryMin() ||
                 !vFind.getSkills().equals(vTo.getSkills());
     }
 
-    public static boolean checkNotSimilarVacancy(Vacancy v, VacancyTo vTo) {
+    public static boolean isNotSimilar(Vacancy v, VacancyTo vTo) {
         return !v.getTitle().equals(vTo.getTitle()) ||
                 !v.getEmployer().getName().equals(vTo.getEmployerName()) ||
                 !v.getSkills().equals(vTo.getSkills());
     }
 
-    public static boolean testNotSimilar(List<Vacancy> vacanciesDb, VacancyTo vTo) {
-        AtomicBoolean test = new AtomicBoolean(false);
-        vacanciesDb.forEach(v -> {
-            if(checkNotSimilarVacancy(v, vTo)){
-                test.set(true);
+    public static boolean isNotContains(VacancyTo vTo, List<Vacancy> vacancies) {
+        boolean test = true;
+        for(Vacancy v : vacancies) {
+            if(!isNotSimilar(v, vTo)){
+                test = false;
             }
-        });
-        return test.get();
+        }
+        return test;
     }
 }
