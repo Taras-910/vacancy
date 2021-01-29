@@ -22,12 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.TestStrategy.getTestList;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.setReasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.setTestProvider;
 import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
+import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.UserTestData.user;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.VacancyUtil.fromTos;
 
 class ProfileFreshenRestControllerTest extends AbstractControllerTest {
@@ -66,15 +70,18 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         List<Freshen> freshensDbBefore = freshenService.getAll();
         List<Employer> employersDbBefore = employerService.getAll();
         setTestProvider();
+        setTestAuthorizedUser(admin);
+        setReasonPeriodToKeep();
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(user))
-                .content(JsonUtil.writeValue(freshen)))
+                .with(userHttpBasic(admin))
+                .content(JsonUtil.writeValue(asNewFreshen(freshen))))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         List<Freshen> allFreshens = freshenService.getAll();
-        Freshen newFreshen = allFreshens.stream()
-                .filter(f -> !freshensDbBefore.contains(f)).collect(Collectors.toList()).get(0);
+        /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
+        freshensDbBefore.forEach(i -> allFreshens.remove(i));
+        Freshen newFreshen = allFreshens.get(0);
         freshen.setRecordedDate(newFreshen.getRecordedDate());
         freshen.setUserId(newFreshen.getUserId());
         freshen.setId(newFreshen.getId());

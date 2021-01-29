@@ -56,7 +56,7 @@ public class DateTimeUtil {
     }
 
     public static void checkLimitTime(Freshen freshen, List<Freshen> freshensToday) {
-        if(freshensToday != null || !SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
+        if(!freshensToday.isEmpty() || !SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
             List<Freshen> freshensHour = freshensToday.stream()
                     .filter(f -> f.equals(freshen))
                     .filter(f -> f.getRecordedDate().isBefore(lastHour) && f.getRecordedDate().isAfter(nextHour))
@@ -66,13 +66,12 @@ public class DateTimeUtil {
                 Freshen lastFreshen = freshensHour.get(0);
                 if (freshensHour.size() >= freshenPerHour ||
                         freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour))) {
-                    throw new IllegalStateException("По параметрам: {" + freshen.getLanguage()
-                            + ", " + freshen.getWorkplace() + "} база данных<br>обновлялась последний раз в " +
+                    throw new IllegalStateException("{" + freshen.getLanguage() + ", " + freshen.getWorkplace() +
+                            "} - по этим параметрам<br>последнее обновление было в " +
                             toStringTime(lastFreshen.getRecordedDate()) + ",<br>повторите запрос после: " +
                             toStringTime(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour).plusMinutes(1)));
                 }
             }
         }
     }
-
 }

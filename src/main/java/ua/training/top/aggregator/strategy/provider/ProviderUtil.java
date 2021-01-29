@@ -15,15 +15,15 @@ public class ProviderUtil {
         else {
             return new AggregatorService(
                     new Provider(new DjinniStrategy()),
-                    new Provider(new GrcStrategy()),          // нет за_рубежем, меняет salary
-                    new Provider(new HabrStrategy()),         // проблемный
+                    new Provider(new GrcStrategy()),          /*нет за_рубежем, меняет salary*/
+                    new Provider(new HabrStrategy()),         /*проблемный*/
                     new Provider(new JobsStrategy()),
                     new Provider(new LinkedinStrategy()),
                     new Provider(new NofluffjobsStrategy()),
-                    new Provider(new RabotaStrategy()),      // всего 2 за_рубежем
-                    new Provider(new UAIndeedStrategy()),     // нет за_рубежем
-                    new Provider(new UAJoobleStrategy()),     // меняет теги
-                    new Provider(new WorkStrategy())          // нет за_рубежем
+                    new Provider(new RabotaStrategy()),       /*всего 2 за_рубежем*/
+                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем*/
+                    new Provider(new UAJoobleStrategy()),     /*меняет теги*/
+                    new Provider(new WorkStrategy())          /*нет за_рубежем*/
             );
         }
     }

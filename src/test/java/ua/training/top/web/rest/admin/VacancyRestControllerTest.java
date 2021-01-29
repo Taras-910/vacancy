@@ -103,14 +103,14 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         VacancyTo updated = new VacancyTo(VacancyTestData.getToUpdated());
         perform(MockMvcRequestBuilders
-                        .put(REST_URL + VACANCY1_ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonUtil.writeValue(updated))
+                .put(REST_URL + VACANCY1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         setTestAuthorizedUser(admin);
-        VACANCY_MATCHER.assertMatch(vacancyService.get(VACANCY1_ID), fromTo(updated));
+        VACANCY_MATCHER.assertMatch(fromTo(updated), vacancyService.get(VACANCY1_ID));
     }
 
     @Test
@@ -190,15 +190,14 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getByEmptyFilter() throws Exception {
+    void getByFilterInvalid() throws Exception {
         setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
                 .param("language", "")
                 .param("workplace", "")
                 .with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuth())));
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
