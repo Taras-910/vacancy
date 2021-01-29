@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.salary;
+package ua.training.top.util.parser.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

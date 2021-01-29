@@ -1,9 +1,9 @@
-package ua.training.top.util.refresh.salary;
+package ua.training.top.util.parser.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static ua.training.top.util.refresh.salary.RateUtil.plnToUsd;
+import static ua.training.top.util.parser.salary.RateUtil.plnToUsd;
 
 public class PlnUtil {
     public static final Logger log = LoggerFactory.getLogger(PlnUtil.class);

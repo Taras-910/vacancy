@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.refresh.DocumentUtil;
+import ua.training.top.util.parser.DocumentUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.util.refresh.ElementUtil.getVacanciesGrc;
+import static ua.training.top.util.parser.ElementUtil.getVacanciesGrc;
 
 public class GrcStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(GrcStrategy.class);

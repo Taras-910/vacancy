@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.datas;
+package ua.training.top.util.parser.datas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

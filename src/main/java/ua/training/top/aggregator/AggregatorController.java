@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.top.model.*;
+import ua.training.top.model.Employer;
+import ua.training.top.model.Freshen;
+import ua.training.top.model.Vacancy;
 import ua.training.top.service.EmployerService;
 import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
@@ -13,14 +15,10 @@ import ua.training.top.util.EmployerUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.EmployerUtil.getEmployersForCreate;
@@ -130,23 +128,33 @@ public class AggregatorController {
         }
     }
 
-
     public static void main(String[] args) throws IOException {
+/*
         User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
         setTestAuthorizedUser(admin);
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),
-                "java", "киев", authUserId()));
+                "java", "полтава", authUserId()));
 
-        /*java, php, ruby, python, javascript, kotlin*/
-        /*List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),
-        "java", "за_рубежем", authUserId()));*/
+        */
+/*java, php, ruby, python, javascript, kotlin*//*
+
+        */
+/*List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),
+        "java", "за_рубежем", authUserId()));*//*
+
 
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+*/
 
-
+//        String line = "...We are currently looking for a remote Lead Java Software Engineer with 5+ years of experience working with Java8+ to join our team. The customer is one of the world’s leading broadband, communication and converged video companies, with operations in six European...";
+//        System.out.println("____________________________________________________________________________________");
+//        System.out.println("\nline=" + line);
+//        System.out.println("getCorrectSalary=" + getCorrectSalary(line));
+//        System.out.println("salaryMax=" + salaryMin(getCorrectSalary(line)));
+//        System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line)));
 
     }
 }

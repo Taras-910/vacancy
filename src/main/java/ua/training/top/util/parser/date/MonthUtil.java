@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.date;
+package ua.training.top.util.parser.date;
 
 public class MonthUtil {
 

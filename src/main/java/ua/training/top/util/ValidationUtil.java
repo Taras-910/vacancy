@@ -128,7 +128,7 @@ public class ValidationUtil {
 
     public static List<Vacancy> checkNotFoundList(List<Vacancy> list, Freshen f) {
         if (list.isEmpty()) {
-            log.error("there are no suitable vacancies in the database on request: language="+ f.getLanguage() + " workplace="+ f.getWorkplace());
+            log.error("database has not suitable vacancies for query: {"+ f.getLanguage() + ", "+ f.getWorkplace() + "}");
             return new ArrayList<>();
         }
         return list;

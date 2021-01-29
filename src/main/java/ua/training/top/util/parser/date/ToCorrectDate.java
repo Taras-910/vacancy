@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.date;
+package ua.training.top.util.parser.date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

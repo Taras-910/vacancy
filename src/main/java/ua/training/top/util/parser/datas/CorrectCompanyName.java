@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.datas;
+package ua.training.top.util.parser.datas;
 
 public class CorrectCompanyName {
     public static String getCorrectCompanyName(String companyName){

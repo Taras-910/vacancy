@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.datas;
+package ua.training.top.util.parser.datas;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

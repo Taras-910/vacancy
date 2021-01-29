@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh;
+package ua.training.top.util.parser;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,14 +17,14 @@ import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validAddre
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validDate;
 import static ua.training.top.aggregator.strategy.UAIndeedStrategy.getCorrectUrl;
 import static ua.training.top.util.DateTimeUtil.parseLocalDate;
-import static ua.training.top.util.refresh.datas.CorrectAddress.getCorrectAddress;
-import static ua.training.top.util.refresh.datas.CorrectCompanyName.getCorrectCompanyName;
-import static ua.training.top.util.refresh.datas.CorrectTitle.getCorrectTitle;
-import static ua.training.top.util.refresh.date.DateUtil.supportDate;
-import static ua.training.top.util.refresh.date.ToCorrectDate.getCorrectDate;
-import static ua.training.top.util.refresh.salary.MinMax.salaryMax;
-import static ua.training.top.util.refresh.salary.MinMax.salaryMin;
-import static ua.training.top.util.refresh.salary.SalaryUtil.getCorrectSalary;
+import static ua.training.top.util.parser.datas.CorrectAddress.getCorrectAddress;
+import static ua.training.top.util.parser.datas.CorrectCompanyName.getCorrectCompanyName;
+import static ua.training.top.util.parser.datas.CorrectTitle.getCorrectTitle;
+import static ua.training.top.util.parser.date.DateUtil.supportDate;
+import static ua.training.top.util.parser.date.ToCorrectDate.getCorrectDate;
+import static ua.training.top.util.parser.salary.MinMax.salaryMax;
+import static ua.training.top.util.parser.salary.MinMax.salaryMin;
+import static ua.training.top.util.parser.salary.SalaryUtil.getCorrectSalary;
 import static ua.training.top.util.xss.XssUtil.xssClear;
 
 public class ElementUtil {
@@ -250,120 +250,7 @@ public class ElementUtil {
     }
 }
 
-
-
-
-//                String line = (element.getElementsByTag("h2").next().tagName("b").first().text().trim());
-//                System.out.println("____________________________________________________________________________________");
-//                System.out.println("element:\n" + element);
-//                System.out.println("\ndate=" + line);
-//                System.out.println("getCorrectSalary=" + getCorrectSalary(line.toString()));
-//                System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line.toString())));
-//                System.out.println("salaryMin=" + salaryMin(getCorrectSalary((line.toString()))));
-//
-//                System.out.println(".......................................................");
-//                System.out.println(element.getElementsByTag("a").first().attr("title").split("вакансия от")[1]);
-//                System.out.println(getDateHH(element.getElementsByTag("a").first().attr("title").split("вакансия от")[1]));
-//                System.out.println(".......................................................");
-
-
 /*
-
-                String line = element.getElementsByClass("_29fd5").text();
-                System.out.println("____________________________________________________________________________________");
-                System.out.println("element:\n" + element);
-                System.out.println("\nline=" + line);
-                System.out.println("getCorrectSalary=" + getCorrectSalary(line.toString()));
-                System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line.toString())));
-                System.out.println("salaryMin=" + salaryMin(getCorrectSalary((line.toString()))));
-
-
-
-
-                String line = element.getElementsByClass("_0b1c1").tagName("span").first().child(0).text();
-//                String line2 = element.getElementsByClass("_1e0a8").text();
-
-                System.out.println("____________________________________________________________________________________");
-                System.out.println("element:\n" + element);
-                System.out.println("\nline=" + line);
-                System.out.println("getCorrectSalary=" + getCorrectSalary(line.toString()));
-                System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line.toString())));
-                System.out.println("salaryMin=" + salaryMin(getCorrectSalary((line.toString()))));
-
-
-
-
-                String line = element.getElementsByClass("vacancy-card__salary").text().trim();
-
-                System.out.println("____________________________________________________________________________________");
-                System.out.println("element:\n" + element);
-                System.out.println("\nline=" + line);
-                System.out.println("getCorrectSalary=" + getCorrectSalary(line.toString()));
-                System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line.toString())));
-                System.out.println("salaryMin=" + salaryMin(getCorrectSalary((line.toString()))));
-
-
-
-*/
-/*
-//                String line = element.getElementsByTag("h2").next().tagName("b").first().text().trim();
-                String line = element.getElementsByTag("b").tagName("b").first().text().trim();
-
-                System.out.println("____________________________________________________________________________________");
-                System.out.println("element:\n" + element);
-                System.out.println("\nline=" + line);
-                System.out.println("getXssCleaned=" + getXssCleaned(line.toString()));
-                System.out.println("getCorrectSalary=" + getCorrectSalary(getXssCleaned(line.toString())));
-                System.out.println("salaryMax=" + salaryMax(getCorrectSalary(getXssCleaned(line.toString()))));
-                System.out.println("salaryMin=" + salaryMin(getCorrectSalary(getXssCleaned(line.toString()))));
-
-
-
-            String line = element.getElementsByTag("time").tagName("time").attr("datetime");
-
-            System.out.println("____________________________________________________________________________________");
-            System.out.println("element:\n" + element);
-            System.out.println("\nline=" + line);
-            System.out.println("getXssCleaned=" + getXssCleaned(line.toString()));
-//            System.out.println("getCorrectDate=" + getCorrectDate(getXssCleaned(line.toString())));
-            System.out.println("parse=" + parse(getXssCleaned(line.toString()), null));
-
-
-
-                    String line = element.getElementsByClass("_0b1c1").tagName("span").first().text();
-//                    String line = element.getElementsByClass("_0b1c1").tagName("span").first().child(0).text();
-//                String line2 = element.getElementsByClass("_1e0a8").text();
-
-                    System.out.println("____________________________________________________________________________________");
-                    System.out.println("element:\n" + element);
-                    System.out.println("\nline=" + line);
-                    System.out.println("getCorrectSalary=" + getCorrectSalary(line.toString()));
-                    System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line.toString())));
-                    System.out.println("salaryMin=" + salaryMin(getCorrectSalary((line.toString()))));
-
-
-
-                    String line = element.getElementsByClass("_8d375").last().text().trim();
-
-                    System.out.println("____________________________________________________________________________________");
-                    System.out.println("element:\n" + element);
-                    System.out.println("\nline=" + line);
-                    System.out.println("getXssCleaned=" + getXssCleaned(line.toString()));
-                    System.out.println("getCorrectDate=" + getCorrectDate(getXssCleaned(line.toString())));
-                    System.out.println("parse=" + parse(getCorrectDate(getXssCleaned(line.toString())), null));
-
-
-
-            String line = element.getElementsByTag("time").tagName("time").attr("datetime");
-
-            System.out.println("____________________________________________________________________________________");
-            System.out.println("element:\n" + element);
-            System.out.println("\nline=" + line);
-            System.out.println("getXssCleaned=" + getXssCleaned(line.toString()));
-            System.out.println("getCorrectDate=" + LocalDate.parse(getXssCleaned(line.toString())));
-
-
-
                     String line = element.getElementsByClass("_0b1c1").tagName("span").first().text();
 
                     System.out.println("____________________________________________________________________________________");
@@ -371,7 +258,4 @@ public class ElementUtil {
                     System.out.println("\nline=" + line);
                     System.out.println("getCorrectSalary=" + getCorrectSalary(line));
                     System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line)));
-
-
-
 */

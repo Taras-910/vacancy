@@ -1,13 +1,13 @@
-package ua.training.top.util.refresh.salary;
+package ua.training.top.util.parser.salary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static ua.training.top.util.refresh.salary.CheckUtil.validateAndFormat;
-import static ua.training.top.util.refresh.salary.EurUtil.getEur;
-import static ua.training.top.util.refresh.salary.HrnUtil.getHrn;
-import static ua.training.top.util.refresh.salary.PlnUtil.getPln;
-import static ua.training.top.util.refresh.salary.UsdUtil.getUsd;
+import static ua.training.top.util.parser.salary.CheckUtil.validateAndFormat;
+import static ua.training.top.util.parser.salary.EurUtil.getEur;
+import static ua.training.top.util.parser.salary.HrnUtil.getHrn;
+import static ua.training.top.util.parser.salary.PlnUtil.getPln;
+import static ua.training.top.util.parser.salary.UsdUtil.getUsd;
 
 public class SalaryUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
@@ -28,7 +28,7 @@ public class SalaryUtil {
                 return getHrn(temp);
             }
         } catch (NumberFormatException e) {
-            log.info("Exception for parse salary={}", salary);
+            log.info("Exception for parse salary={}", temp);
             return "1";
         }
         return temp;

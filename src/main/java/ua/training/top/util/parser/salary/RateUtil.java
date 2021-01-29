@@ -1,4 +1,4 @@
-package ua.training.top.util.refresh.salary;
+package ua.training.top.util.parser.salary;
 
 import static java.lang.String.valueOf;
 
