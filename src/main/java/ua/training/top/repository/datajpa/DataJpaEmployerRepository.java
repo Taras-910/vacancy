@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
+import ua.training.top.model.Vacancy;
 import ua.training.top.repository.EmployerRepository;
 
 import java.util.List;
@@ -33,11 +34,11 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     @Transactional
     @Override
     public Employer getOrCreate(Employer employer) {
-        Employer employerDb = null;
-        try {
-            employerDb = repository.getByNameAndAddress(employer.getName(), employer.getAddress());
-        } catch (Exception e) {}
-        return employerDb == null ? save(employer) : employerDb;
+        Employer doubleEmployer = getDoubleEmployer(employer, repository.getByName(employer.getName()));
+        if (doubleEmployer != null) {
+            repository.delete(doubleEmployer.getId());
+        }
+        return save(employer);
     }
 
     @Transactional
@@ -66,5 +67,22 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     @Override
     public void deleteAllEmpty(int size) {
         repository.deleteAllEmpty(0);
+    }
+
+    private Employer getDoubleEmployer(Employer employer, List<Employer> listByName) {
+        Employer doubleEmployer = null;
+        try {
+            for (Employer e : listByName) {
+                Vacancy vacancy = e.getVacancies().stream()
+                        .filter(v -> v.getTitle().equals(employer.getVacancies().get(0).getTitle())
+                                && v.getSkills().equals(employer.getVacancies().get(0).getSkills())).findFirst().orElse(null);
+                if(vacancy != null){
+                    doubleEmployer = vacancy.getEmployer();
+                    repository.delete(e.getId());
+                }
+            }
+        } catch (Exception e) {}
+        employer.setVacancies(null);
+        return doubleEmployer;
     }
 }

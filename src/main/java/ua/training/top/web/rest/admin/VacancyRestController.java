@@ -19,6 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 
 @RestController
 @RequestMapping(value = VacancyRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,7 +55,7 @@ public class VacancyRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vacancy> createVacancyAndEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
-        Vacancy created = vacancyService.createVacancyAndEmployer(vacancyTo);
+        Vacancy created = vacancyService.createListVacancyAndEmployer(List.of(vacancyTo), getFreshenFromTo(vacancyTo)).get(0);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();

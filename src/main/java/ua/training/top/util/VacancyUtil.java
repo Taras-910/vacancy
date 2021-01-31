@@ -1,17 +1,16 @@
 package ua.training.top.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
+import ua.training.top.to.VacancySubTo;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class VacancyUtil {
-    private static Logger log = LoggerFactory.getLogger(VacancyUtil.class);
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
         return vacancies.isEmpty() ? getEmpty() : vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
@@ -34,32 +33,16 @@ public class VacancyUtil {
     }
 
     public static Vacancy fromTo(VacancyTo vTo) {
-        return new Vacancy(vTo.getId() == null ? null : vTo.id(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(),
+        return new Vacancy(vTo.getId(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(),
                 vTo.getUrl(), vTo.getSkills(), vTo.getReleaseDate() != null? vTo.getReleaseDate() : LocalDate.now().minusDays(7));
     }
 
     public static Vacancy getForUpdate(VacancyTo vTo, Vacancy v) {
-        return new Vacancy(v == null ? null : v.getId(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
+        Vacancy vacancy = new Vacancy(v == null ? null : v.getId(), vTo.getTitle(), vTo.getSalaryMin(), vTo.getSalaryMax(), vTo.getUrl(), vTo.getSkills(),
                 v != null ? v.getReleaseDate() : vTo.getReleaseDate() != null ? vTo.getReleaseDate() : LocalDate.now().minusDays(7));
-    }
-
-    public static Map<Integer, List<Vacancy>> getMapVacanciesForCreate(Set<Vacancy> vacanciesForCreate) {
-        Map<Integer, List<Vacancy>> mapForCreate = new HashMap<>();
-        vacanciesForCreate.forEach(vacancy -> {
-            mapForCreate.merge(vacancy.getEmployer().getId(), List.of(vacancy), (oldValue, newValue) ->{
-                List<Vacancy>list = new ArrayList<>(oldValue);
-                list.addAll(newValue);
-                return list;
-            });
-        });
-        return mapForCreate;
-    }
-
-    public static boolean isNotSame(VacancyTo vTo, Vacancy vFind) {
-        return !vFind.getTitle().equals(vTo.getTitle()) ||
-                vFind.getSalaryMax() != vTo.getSalaryMax() ||
-                vFind.getSalaryMin() != vTo.getSalaryMin() ||
-                !vFind.getSkills().equals(vTo.getSkills());
+        vacancy.setEmployer(v.getEmployer());
+        vacancy.setFreshen(v.getFreshen());
+        return vacancy;
     }
 
     public static boolean isNotSimilar(Vacancy v, VacancyTo vTo) {
@@ -68,13 +51,20 @@ public class VacancyUtil {
                 !v.getSkills().equals(vTo.getSkills());
     }
 
-    public static boolean isNotContains(VacancyTo vTo, List<Vacancy> vacancies) {
-        boolean test = true;
-        for(Vacancy v : vacancies) {
-            if(!isNotSimilar(v, vTo)){
-                test = false;
-            }
-        }
-        return test;
+    public static Map<VacancyTo, Vacancy> getParallelMap(List<Vacancy> vacanciesDb, List<Vote> votes) {
+        return vacanciesDb.stream().collect(Collectors.toMap(v -> getTo(v, votes), v -> v));
+    }
+
+    public static Vacancy populateVacancy(VacancyTo vacancy, VacancyTo vacancyDbTos, Map<VacancyTo, Vacancy> parallelMap) {
+        Vacancy vacancyForUpdate = new Vacancy(fromTo(vacancy));
+        vacancyForUpdate.setId(vacancyDbTos.getId());
+        vacancyForUpdate.setEmployer(parallelMap.get(vacancyDbTos).getEmployer());
+        vacancyForUpdate.setFreshen(parallelMap.get(vacancyDbTos).getFreshen());
+        return vacancyForUpdate;
+    }
+
+    public static Map<VacancySubTo, VacancyTo> getMapVacancyTos(List<VacancyTo> vacancyTos) {
+        return vacancyTos.stream().collect(Collectors.toMap(v ->
+                new VacancySubTo(v.getId(),v.getTitle(), v.getEmployerName(), v.getSkills()), v -> v));
     }
 }

@@ -55,9 +55,9 @@
                             </button>
                         </div>
                     </div>
-                    <div class="row-cols-sm-6 justify-content-md-between align-items-center">
-                        <div class="col-sm-12 form-row needs-validation">
-                            <button type="button" class="col-sm-10 mb-3 text-right btn-sm btn-outline-danger btn-lg btn-block" onclick="clearFilter()">
+                    <div class="row-cols-sm-6">
+                        <div class="col-sm-12 form-row">
+                            <button type="button" class="col-sm-10 mb-3 btn-outline-danger btn-sm" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
                                 Сбросить
                             </button>
@@ -324,6 +324,7 @@
                     Отменить
                 </button>
                 <button type="button" class="btn btn-primary" onclick="sendRefresh()">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     <span class="fa fa-check"></span>
                     Обновить
                 </button>

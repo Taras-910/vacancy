@@ -126,18 +126,18 @@ public class ValidationUtil {
         }
     }
 
-    public static List<Vacancy> checkNotFoundList(List<Vacancy> list, Freshen f) {
+    public static <T> T checkDoubleData(T objectDb, T object) {
+        if (objectDb == null) {
+            log.error("On database already exist object " + object);
+        }
+        return object;
+    }
+
+    public static List<Vacancy> checkEmptyList(List<Vacancy> list, Freshen f) {
         if (list.isEmpty()) {
             log.error("database has not suitable vacancies for query: {"+ f.getLanguage() + ", "+ f.getWorkplace() + "}");
             return new ArrayList<>();
         }
         return list;
     }
-
-    public static void checkNotFoundId(Integer employerId, Integer freshenId) {
-        if (employerId == null || freshenId == null) {
-            throw new IllegalArgumentException("must not null employerId=" + employerId + " or freshenId=" + freshenId);
-        }
-    }
-
 }

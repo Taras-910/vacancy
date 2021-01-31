@@ -2,6 +2,7 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vote;
@@ -29,7 +30,6 @@ public class DataJpaVoteRepository implements VoteRepository {
         vote.setUserId(userRepository.getOne(userID).getId());
         return vote.isNew() || get(vote.id(), vote.getUserId()) != null ? voteRepository.save(vote) : null;
     }
-
 
     @Transactional
     @Override
@@ -60,6 +60,11 @@ public class DataJpaVoteRepository implements VoteRepository {
     @Transactional
     @Override
     public boolean deleteListByVacancyId(int vacancyId) {
-        return voteRepository.deleteListByVacancyId(vacancyId) != 0;
+        try {
+            return Optional.of(voteRepository.deleteListByVacancyId(vacancyId) != 0).orElse(false);
+        } catch (DataIntegrityViolationException e) {
+            return false;
+        }
+
     }
 }

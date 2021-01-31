@@ -18,8 +18,8 @@ import static ua.training.top.aggregator.strategy.installation.InstallationUtil.
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-    public static final String TIME_PATTERN = "HH:mm";
-    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
+    public static final String DAY_AND_TIME_PATTERN = " HH:mm'/'d MMM";
+    public static final DateTimeFormatter DAY_AND_TIME_FORMATTER = DateTimeFormatter.ofPattern(DAY_AND_TIME_PATTERN);
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final LocalDate DATE_TEST = LocalDate.of(2020, 7, 30);
     public static final LocalDateTime LOCAL_DATE_TIME_TEST = LocalDateTime.of(2020, 7, 30, 12, 0);
@@ -36,7 +36,7 @@ public class DateTimeUtil {
     }
 
     public static String toStringTime(LocalDateTime ldt) {
-        return ldt == null ? "" : ldt.format(TIME_FORMATTER);
+        return ldt == null ? "" : ldt.format(DAY_AND_TIME_FORMATTER);
     }
 
     public static String print(LocalDate ldt) {
@@ -56,7 +56,7 @@ public class DateTimeUtil {
     }
 
     public static void checkLimitTime(Freshen freshen, List<Freshen> freshensToday) {
-        if(!freshensToday.isEmpty() || !SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
+        if(!freshensToday.isEmpty() && !SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
             List<Freshen> freshensHour = freshensToday.stream()
                     .filter(f -> f.equals(freshen))
                     .filter(f -> f.getRecordedDate().isBefore(lastHour) && f.getRecordedDate().isAfter(nextHour))
@@ -67,7 +67,7 @@ public class DateTimeUtil {
                 if (freshensHour.size() >= freshenPerHour ||
                         freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour))) {
                     throw new IllegalStateException("{" + freshen.getLanguage() + ", " + freshen.getWorkplace() +
-                            "} - по этим параметрам<br>последнее обновление было в " +
+                            "} - по этим параметрам<br>последнее обновление было: " +
                             toStringTime(lastFreshen.getRecordedDate()) + ",<br>повторите запрос после: " +
                             toStringTime(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour).plusMinutes(1)));
                 }

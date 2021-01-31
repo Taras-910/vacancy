@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface VacancyRepository {
 
-    Vacancy save(Vacancy vacancy, int employerId, int freshenId);
+    Vacancy save(Vacancy vacancy);
 
-    List<Vacancy> saveList(List<Vacancy> vacancies, int employerId, int freshenId);
+    List<Vacancy>  saveAll(List<Vacancy> vacancies);
 
     Vacancy get(int id);
 
@@ -18,6 +18,6 @@ public interface VacancyRepository {
 
     void deleteList(List<Vacancy> listToDelete);
 
-    List<Vacancy> getByParams(String title, String skills, String employerName);
+    Vacancy getByParams(String title, String skills, int employerId);
 }
 

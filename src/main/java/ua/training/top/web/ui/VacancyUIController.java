@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 
 @ApiIgnore
 @RestController
@@ -49,7 +50,7 @@ public class VacancyUIController {
     public void createOrUpdate(@Valid VacancyTo vacancyTo) {
         log.info("createOrUpdate vacancyTo={}", vacancyTo);
         if (vacancyTo.isNew()) {
-            vacancyService.createVacancyAndEmployer(vacancyTo);
+            vacancyService.createListVacancyAndEmployer(List.of(vacancyTo), getFreshenFromTo(vacancyTo));
         } else {
             vacancyService.updateTo(vacancyTo);
         }

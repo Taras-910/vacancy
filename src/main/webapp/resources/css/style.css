@@ -86,3 +86,7 @@ tr[data-userEnabled="false"] {
     border:1px;
     solid: #0397ba;
 }
+
+.spinner-border{
+    visibility: hidden;
+}

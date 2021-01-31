@@ -2,18 +2,16 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
-import ua.training.top.util.ValidationUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +62,7 @@ public class VacancyService {
                 .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
                 .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
                 .collect(Collectors.toList());
-        return checkNotFoundList(vacancies, f);
+        return checkEmptyList(vacancies, f);
     }
 
     @Transactional
@@ -74,31 +72,30 @@ public class VacancyService {
         return getTos(getByFilter(freshen), votes);
     }
 
-    public List<Vacancy> getByParams(String title, String skills, String employerName) {
+    public Vacancy getByParams(String title, String skills, int employerId) {
         log.info("getByTitle title={}", title);
-        return vacancyRepository.getByParams(title, skills, employerName);
+        return vacancyRepository.getByParams(title, skills, employerId);
     }
 
     @Transactional
-    public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo) {
-        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
-        if(!getByParams(vacancyTo.getTitle(), vacancyTo.getSkills(), vacancyTo.getEmployerName()).isEmpty()){
-            throw new DataIntegrityViolationException("vacancy already exists in the database");
+    public List<Vacancy> createListVacancyAndEmployer(List<VacancyTo> vacancyTos, Freshen freshenDb) {
+        log.info("createListVacancyAndEmployer vacancyTos={}", vacancyTos);
+        List<Vacancy> listForCreate = new ArrayList<>();
+        for (VacancyTo vTo : vacancyTos) {
+            Vacancy vacancy = new Vacancy(fromTo(vTo));
+            checkNullDataVacancyTo(vTo);
+            vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vTo)));
+            Freshen freshen = freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vTo)) : freshenDb;
+            vacancy.setFreshen(freshen);
+            listForCreate.add(vacancy);
         }
-        Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
-        checkNullDataVacancyTo(vacancyTo);
-        Employer employer = employerService.getOrCreate(getEmployerFromTo(vacancyTo));
-        Freshen freshen = freshenService.create(getFreshenFromTo(vacancyTo));
-        return checkNotFound(vacancyRepository.save(vacancy, employer.getId(), freshen.getId()), "employerId=" + employer.getId());
+        return createUpdateList(listForCreate);
     }
 
     @Transactional
-    public List<Vacancy> createList(List<Vacancy> vacancies, Integer employerId, Integer freshenId) {
-        if (vacancies != null) log.info("createAll {} vacancies for employerId={} with freshenId={}", vacancies.size(), employerId, freshenId);
-        vacancies.forEach(ValidationUtil::checkNew);
-        checkNotFoundId(employerId, freshenId);
-        vacancies.stream().distinct().collect(Collectors.toList());
-        return checkNotFound(vacancyRepository.saveList(vacancies, employerId, freshenId), "employerId=" + employerId);
+    public List<Vacancy> createUpdateList(List<Vacancy> vacancies) {
+        log.info("update vacancies size={}", vacancies.size());
+        return checkNotFound(vacancyRepository.saveAll(vacancies), "list vacancies size=" + vacancies.size());
     }
 
     @Transactional
@@ -109,14 +106,19 @@ public class VacancyService {
         if(isNotSimilar(vacancyDb, vacancyTo)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
-        Vacancy v = vacancyRepository.save(newVacancy, vacancyDb.getEmployer().getId(), vacancyDb.getFreshen().getId());
-        return checkNotFoundWithId(v, vacancyTo.id());
+        return vacancyRepository.save(newVacancy);
     }
 
     @Transactional
-    public Vacancy update(Vacancy vacancy, Integer freshenId) {
-        if (vacancy != null) log.info("update vacancy {} with freshenId={}", vacancy, freshenId);
-        return checkNotFound(vacancyRepository.save(vacancy, vacancy.getEmployer().getId(), freshenId), "vacancyId=" + vacancy.getId());
+    public Vacancy update(Vacancy vacancy) {
+        if (vacancy != null) log.info("update vacancy {} with freshenId={}", vacancy, vacancy.getFreshen().getId());
+        Vacancy vacancyDb = null;
+        try {
+            vacancyDb = vacancyRepository.save(vacancy);
+        } catch (Exception e) {
+            log.info("");
+        }
+        return checkNotFound(vacancyDb, "vacancyId=" + vacancy.getId());
     }
 
     public void delete(int id) {

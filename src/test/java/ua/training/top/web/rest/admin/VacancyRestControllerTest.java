@@ -146,8 +146,8 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
         setTestAuthorizedUser(admin);
-        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy), voteService.getAllForAuth()),
-                newVacancyTo);
+        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy),
+                voteService.getAllForAuth()), newVacancyTo);
     }
 
 
@@ -168,7 +168,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     void createDuplicate() throws Exception {
         VacancyTo duplicate = new VacancyTo(vacancyTo1);
-        vacancyTo1.setId(null);
+        duplicate.setId(null);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(duplicate))

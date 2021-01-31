@@ -4,24 +4,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.top.model.Employer;
-import ua.training.top.model.Freshen;
-import ua.training.top.model.Vacancy;
+import ua.training.top.model.*;
 import ua.training.top.service.EmployerService;
 import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
+import ua.training.top.service.VoteService;
+import ua.training.top.to.VacancySubTo;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.EmployerUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
-import static ua.training.top.util.EmployerUtil.getEmployersForCreate;
 import static ua.training.top.util.VacancyUtil.*;
 
 @Controller
@@ -29,73 +32,57 @@ public class AggregatorController {
     private final static Logger log = LoggerFactory.getLogger(AggregatorController.class);
     private final VacancyService vacancyService;
     private final EmployerService employerService;
+    private final VoteService voteService;
     private final FreshenService freshenService;
 
-    public AggregatorController(VacancyService vacancyService,
-                                EmployerService employerService, FreshenService freshenService) {
+
+    public AggregatorController(VacancyService vacancyService, EmployerService employerService,
+                                VoteService voteService, FreshenService freshenService) {
         this.vacancyService = vacancyService;
         this.employerService = employerService;
+        this.voteService = voteService;
         this.freshenService = freshenService;
     }
 
-    public void refreshDB(Freshen freshen){
+    public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
-        List<Vacancy> vacanciesDb = vacancyService.getByFilter(freshen);
+
+        List<VacancyTo> vacancyToForCreate = new ArrayList<>(vacancyTos);
+        List<VacancyTo> vacancyToForUpdate = new ArrayList<>(vacancyTos);
+        List<Vacancy> vacanciesDb = vacancyService.getAll();
+        List<Vote> votes = voteService.getAll();
+        List<VacancyTo> vacancyTosDb = getTos(vacanciesDb, votes);
+        Map<VacancyTo, Vacancy> parallelMap = getParallelMap(vacanciesDb, votes);
+        Map<VacancySubTo, VacancyTo> mapAll = getMapVacancyTos(vacancyTosDb);
+
+        /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
+        vacancyTosDb.forEach(i -> vacancyToForCreate.remove(i));
+        vacancyToForCreate.forEach(i -> vacancyToForUpdate.remove(i));
+        List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
+        Map<VacancySubTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
+        List<Vacancy> resultForSave = new ArrayList<>();
+        for (VacancySubTo vst : mapForUpdate.keySet()) {
+            resultForSave.add(populateVacancy(mapForUpdate.get(vst), mapAll.get(vst), parallelMap));
+        }
+        refreshDb(vacancyToForCreate, resultForSave, freshen);
+    }
+
+    @Transactional
+    protected void refreshDb(List<VacancyTo> vacancyToForCreate, List<Vacancy> resultForSave, Freshen freshen) {
+        Freshen freshenDb = freshenService.create(freshen);
+        if (!vacancyToForCreate.isEmpty()) {
+            vacancyService.createListVacancyAndEmployer(vacancyToForCreate, freshenDb);
+        }
+        if (!resultForSave.isEmpty()) {
+            vacancyService.createUpdateList(resultForSave);
+        }
         deleteVacanciesOutdated(reasonPeriodToKeep);
         employerService.deleteEmptyEmployers();
-
-        List<Employer> employersSuitable = getSuitable(vacancyTos);
-        List<Vacancy> vacancyForCreate = new ArrayList<>();
-        Set<Vacancy> vacanciesForUpdate = new HashSet<>();
-        Set<Vacancy> vacanciesForCreate = new HashSet<>();
-
-        vacancyTos.forEach(vTo -> {
-            AtomicBoolean unDouble = new AtomicBoolean(true);
-            Vacancy vacancyFromTo = fromTo(vTo);
-            for (Employer e_Suitable : employersSuitable) {
-                if (isNotContains(vTo, vacanciesDb)) {
-                    if (vTo.getEmployerName().equals(e_Suitable.getName())) {
-                        vacancyFromTo.setEmployer(e_Suitable);
-                        vacancyForCreate.add(vacancyFromTo);
-                        unDouble.set(false);
-                    }
-                } else {
-                    if(vacanciesDb.size() != 0) {
-                        Vacancy vFind = vacanciesDb.stream()
-                                .filter(vDb -> vDb.getSkills().equals(vacancyFromTo.getSkills())
-                                        && vDb.getTitle().equals(vacancyFromTo.getTitle())
-                                        && vDb.getEmployer().getName().equals(vTo.getEmployerName())
-                                        && vDb.getEmployer().getName().equals(e_Suitable.getName()))
-                                .findAny().orElse(null);
-                        if (vFind != null && isNotSame(vTo, vFind) && unDouble.get()) {
-                            vTo.setId(vFind.getId());
-                            Vacancy vacancy_from = fromTo(vTo);
-                            vacancy_from.setEmployer(e_Suitable);
-                            vacanciesForUpdate.add(vacancy_from);
-                            unDouble.set(false);
-                        }
-                    }
-                }
-            }
-            vacanciesForCreate.addAll(vacancyForCreate);
-        });
-        updateDb(vacanciesForCreate, vacanciesForUpdate, freshen);
     }
 
     @Transactional
-    protected void updateDb(Set<Vacancy> vacanciesForCreate, Set<Vacancy> vacanciesForUpdate, Freshen freshen) {
-        Freshen createdFreshen = freshenService.create(freshen);
-        if(!vacanciesForCreate.isEmpty()) {
-            createVacancies(getMapVacanciesForCreate(vacanciesForCreate), createdFreshen);
-        }
-        if(!vacanciesForUpdate.isEmpty()) {
-            updateVacancies(vacanciesForUpdate, createdFreshen);
-        }
-    }
-
-    @Transactional
-    public void deleteVacanciesOutdated(LocalDate reasonDateToKeep) {
+    protected void deleteVacanciesOutdated(LocalDate reasonDateToKeep) {
         log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
         List<Vacancy> listToDelete = vacancyService.getAll().stream()
                 .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
@@ -103,59 +90,15 @@ public class AggregatorController {
         vacancyService.deleteList(listToDelete);
     }
 
-    @Transactional
-    protected List<Employer> getSuitable(List<VacancyTo> vacancyTos) {
-        List<Employer> employersAll = new ArrayList<>(employerService.getAll());
-        List<Employer> employersForCreate = getEmployersForCreate(vacancyTos, employersAll);
-        if(!employersForCreate.isEmpty()) {
-            employersAll.addAll(employerService.createList(employersForCreate));
-        }
-        return EmployerUtil.getEmployersSuitable(vacancyTos, employersAll);
-    }
-
-    @Transactional
-    public List<Vacancy> updateVacancies(Set<Vacancy> vacancies, Freshen freshen) {
-        log.info("updateVacancies {}", vacancies != null ? vacancies.size() : "there is set vacancies = null");
-        List<Vacancy> updatedVacancies = new ArrayList<>();
-        vacancies.forEach(v -> updatedVacancies.add(vacancyService.update(v, freshen.getId())));
-        return updatedVacancies;
-    }
-
-    @Transactional
-    public List<Vacancy> createVacancies(Map<Integer, List<Vacancy>> map, Freshen freshen) {
-        log.info("createByMap {}", map != null ? map.size() : "there is map = null");
-        List<Vacancy> newVacancies = new ArrayList<>();
-        map.forEach((employerId, vacancies) -> newVacancies.addAll(vacancyService.createList(vacancies, employerId, freshen.getId())));
-        return newVacancies;
-    }
-
     public static void main(String[] args) throws IOException {
-/*
         User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
         setTestAuthorizedUser(admin);
-
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),
-                "java", "полтава", authUserId()));
-
-        */
-/*java, php, ruby, python, javascript, kotlin*//*
-
-        */
-/*List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(),
-        "java", "за_рубежем", authUserId()));*//*
-
-
+        String language = "java";
+        String workplace = "киев";
+//        String workplace = "за_рубежем";
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(), language, workplace, authUserId()));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-*/
-
-//        String line = "...We are currently looking for a remote Lead Java Software Engineer with 5+ years of experience working with Java8+ to join our team. The customer is one of the world’s leading broadband, communication and converged video companies, with operations in six European...";
-//        System.out.println("____________________________________________________________________________________");
-//        System.out.println("\nline=" + line);
-//        System.out.println("getCorrectSalary=" + getCorrectSalary(line));
-//        System.out.println("salaryMax=" + salaryMin(getCorrectSalary(line)));
-//        System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line)));
-
     }
 }
