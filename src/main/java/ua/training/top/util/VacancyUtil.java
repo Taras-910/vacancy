@@ -20,7 +20,7 @@ public class VacancyUtil {
     }
 
     private static List<VacancyTo> getEmpty() {
-        return List.of(new VacancyTo(1000000, "not exists", "not exists", "not exists", 2, 2,"not exists",
+        return List.of(new VacancyTo(1000000, "", "not exists", "not exists", 2, 2,"not exists",
                 "there are no suitable vacancies in the database", LocalDate.now(), "not exists", "not exists", "not exists",false));
     }
 
