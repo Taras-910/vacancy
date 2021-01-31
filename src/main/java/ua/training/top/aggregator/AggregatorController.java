@@ -9,7 +9,6 @@ import ua.training.top.service.EmployerService;
 import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
-import ua.training.top.to.VacancySubTo;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
@@ -54,15 +53,15 @@ public class AggregatorController {
         List<Vote> votes = voteService.getAll();
         List<VacancyTo> vacancyTosDb = getTos(vacanciesDb, votes);
         Map<VacancyTo, Vacancy> parallelMap = getParallelMap(vacanciesDb, votes);
-        Map<VacancySubTo, VacancyTo> mapAll = getMapVacancyTos(vacancyTosDb);
+        Map<SubVacancyTo, VacancyTo> mapAll = getMapVacancyTos(vacancyTosDb);
 
         /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
         vacancyTosDb.forEach(i -> vacancyToForCreate.remove(i));
         vacancyToForCreate.forEach(i -> vacancyToForUpdate.remove(i));
         List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
-        Map<VacancySubTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
+        Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
         List<Vacancy> resultForSave = new ArrayList<>();
-        for (VacancySubTo vst : mapForUpdate.keySet()) {
+        for (SubVacancyTo vst : mapForUpdate.keySet()) {
             resultForSave.add(populateVacancy(mapForUpdate.get(vst), mapAll.get(vst), parallelMap));
         }
         refreshDb(vacancyToForCreate, resultForSave, freshen);

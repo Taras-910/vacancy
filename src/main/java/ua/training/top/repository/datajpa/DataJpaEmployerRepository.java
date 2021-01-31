@@ -8,6 +8,7 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.EmployerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +34,14 @@ public class DataJpaEmployerRepository implements EmployerRepository {
 
     @Transactional
     @Override
-    public Employer getOrCreate(Employer employer) {
-        Employer doubleEmployer = getDoubleEmployer(employer, repository.getByName(employer.getName()));
-        if (doubleEmployer != null) {
-            repository.delete(doubleEmployer.getId());
-        }
-        return save(employer);
+    public boolean delete(int id) {
+        return Optional.of(repository.delete(id)).orElse(0) != 0;
+    }
+
+    @Transactional
+    @Override
+    public void deleteAllEmpty(int size) {
+        repository.deleteAllEmpty(0);
     }
 
     @Transactional
@@ -59,30 +62,27 @@ public class DataJpaEmployerRepository implements EmployerRepository {
 
     @Transactional
     @Override
-    public boolean delete(int id) {
-        return Optional.of(repository.delete(id)).orElse(0) != 0;
-    }
-
-    @Transactional
-    @Override
-    public void deleteAllEmpty(int size) {
-        repository.deleteAllEmpty(0);
-    }
-
-    private Employer getDoubleEmployer(Employer employer, List<Employer> listByName) {
+    public Employer getOrCreate(Employer employer) {
+        List<Employer> listByName = null;
         Employer doubleEmployer = null;
         try {
-            for (Employer e : listByName) {
-                Vacancy vacancy = e.getVacancies().stream()
-                        .filter(v -> v.getTitle().equals(employer.getVacancies().get(0).getTitle())
-                                && v.getSkills().equals(employer.getVacancies().get(0).getSkills())).findFirst().orElse(null);
-                if(vacancy != null){
-                    doubleEmployer = vacancy.getEmployer();
-                    repository.delete(e.getId());
-                }
-            }
+            listByName = new ArrayList<>(repository.getByName(employer.getName()));
         } catch (Exception e) {}
+        if (listByName == null || listByName.isEmpty()) {
+            employer.setVacancies(null);
+            return save(employer);
+        }
+        for (Employer tempEmployer : listByName) {
+            Vacancy vacancy = tempEmployer.getVacancies().stream()
+                    .filter(v -> v.getTitle().equals(employer.getVacancies().get(0).getTitle())
+                            && v.getSkills().equals(employer.getVacancies().get(0).getSkills())).findFirst().orElse(null);
+            doubleEmployer = vacancy == null ? null : tempEmployer;
+        }
         employer.setVacancies(null);
-        return doubleEmployer;
+        if (doubleEmployer == null) {
+            return listByName.get(0);
+        }
+        repository.delete(doubleEmployer.getId());
+        return save(employer);
     }
 }

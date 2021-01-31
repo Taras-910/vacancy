@@ -2,13 +2,16 @@ package ua.training.top.util;
 
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
-import ua.training.top.to.VacancySubTo;
 import ua.training.top.to.VacancyTo;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static ua.training.top.util.xss.XssUtil.xssClear;
 
 public class VacancyUtil {
 
@@ -63,8 +66,39 @@ public class VacancyUtil {
         return vacancyForUpdate;
     }
 
-    public static Map<VacancySubTo, VacancyTo> getMapVacancyTos(List<VacancyTo> vacancyTos) {
+    public static Map<SubVacancyTo, VacancyTo> getMapVacancyTos(List<VacancyTo> vacancyTos) {
         return vacancyTos.stream().collect(Collectors.toMap(v ->
-                new VacancySubTo(v.getId(),v.getTitle(), v.getEmployerName(), v.getSkills()), v -> v));
+                new SubVacancyTo(v.getTitle(), v.getEmployerName(), v.getSkills()), v -> v));
+    }
+
+    public static class SubVacancyTo {
+
+        private String title;
+        private String employerName;
+        private String skills;
+
+        public SubVacancyTo(@NotNull String title, @NotNull String employerName, @NotNull String skills) {
+            this.title = xssClear(title);
+            this.employerName = xssClear(employerName);
+            this.skills = xssClear(skills);
+        }
+
+        public SubVacancyTo(VacancyTo v) {
+            this(v.getTitle(), v.getEmployerName(), v.getSkills());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SubVacancyTo vacancyTo = (SubVacancyTo) o;
+            return  Objects.equals(title, vacancyTo.title) &&
+                    Objects.equals(employerName, vacancyTo.employerName) &&
+                    Objects.equals(skills, vacancyTo.skills);
+        }
+        @Override
+        public int hashCode() {
+            return Objects.hash(title, employerName, skills);
+        }
     }
 }
