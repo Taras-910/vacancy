@@ -87,6 +87,13 @@ public class VacancyUtil {
             this(v.getTitle(), v.getEmployerName(), v.getSkills());
         }
 
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+        public String getEmployerName() { return employerName; }
+        public void setEmployerName(String employerName) { this.employerName = employerName; }
+        public String getSkills() { return skills; }
+        public void setSkills(String skills) { this.skills = skills; }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

@@ -67,16 +67,21 @@ public class DataJpaEmployerRepository implements EmployerRepository {
         Employer doubleEmployer = null;
         try {
             listByName = new ArrayList<>(repository.getByName(employer.getName()));
+            log.info("listByName {}", listByName);
         } catch (Exception e) {}
         if (listByName == null || listByName.isEmpty()) {
             employer.setVacancies(null);
             return save(employer);
         }
-        for (Employer tempEmployer : listByName) {
-            Vacancy vacancy = tempEmployer.getVacancies().stream()
-                    .filter(v -> v.getTitle().equals(employer.getVacancies().get(0).getTitle())
-                            && v.getSkills().equals(employer.getVacancies().get(0).getSkills())).findFirst().orElse(null);
-            doubleEmployer = vacancy == null ? null : tempEmployer;
+        try {
+            for (Employer tempEmployer : listByName) {
+                Vacancy vacancy = tempEmployer.getVacancies().stream()
+                        .filter(v -> v.getTitle().equals(employer.getVacancies().get(0).getTitle())
+                                && v.getSkills().equals(employer.getVacancies().get(0).getSkills())).findFirst().orElse(null);
+                doubleEmployer = vacancy == null ? null : tempEmployer;
+            }
+        } catch (Exception e) {
+            return listByName.get(0);
         }
         employer.setVacancies(null);
         if (doubleEmployer == null) {
