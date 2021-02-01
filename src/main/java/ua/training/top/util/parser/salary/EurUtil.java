@@ -14,11 +14,8 @@ public class EurUtil {
         if(temp.contains("—")){
             if(cleaned.length() < 4) return "1";
             return eurToUsd(cleaned.split("\\W")[0]).concat("—").concat(eurToUsd(cleaned.split("\\W")[1]));
-        } else
-        if(temp.contains("от")){
-            return eurToUsd(cleaned).concat("—").concat("1");
-        } else {
-            return "1".concat("—").concat(eurToUsd(cleaned));
+        } else{
+            return temp.contains("от") ? eurToUsd(cleaned).concat("—").concat("1") : "1".concat("—").concat(eurToUsd(cleaned));
         }
     }
 }

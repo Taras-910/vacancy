@@ -82,7 +82,7 @@
     <a href="https://www.work.ua">Work</a>
 </div>
 <div class="container jumbotron py-0">
-    <div class="col lead">Описание:</div>
+    <%--<div class="col lead">Описание:</div>--%>
     <div class="col">
         <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
     </div>

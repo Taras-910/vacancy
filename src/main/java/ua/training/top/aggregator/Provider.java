@@ -25,7 +25,8 @@ public class Provider {
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
         return list.stream()
                 .filter(v -> reasonDateToLoad.isBefore(v.getReleaseDate()))
-                .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguage()) || v.getSkills().toLowerCase().contains(doubleString.getLanguage())))
+                .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguage())
+                        || v.getSkills().toLowerCase().contains(doubleString.getLanguage())))
                 .distinct().collect(Collectors.toList());
     }
 }

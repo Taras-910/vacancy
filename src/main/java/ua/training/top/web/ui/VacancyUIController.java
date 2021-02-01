@@ -50,7 +50,7 @@ public class VacancyUIController {
     public void createOrUpdate(@Valid VacancyTo vacancyTo) {
         log.info("createOrUpdate vacancyTo={}", vacancyTo);
         if (vacancyTo.isNew()) {
-            vacancyService.createListVacancyAndEmployer(List.of(vacancyTo), getFreshenFromTo(vacancyTo));
+            vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));
         } else {
             vacancyService.updateTo(vacancyTo);
         }

@@ -90,8 +90,8 @@
                     <th class="col-auto">Вакансия</th>
                     <th class="col-auto">Компания</th>
                     <th class="col-auto">Город</th>
-                    <th class="col-auto">От $</th>
-                    <th class="col-auto">До $</th>
+                    <th class="col-auto">от $</th>
+                    <th class="col-auto">до $</th>
                     <th class="col" style="text-align: center;">Требования</th>
                     <th class="col-auto text-nowrap">Дата</th>
                     <th hidden>siteName</th>

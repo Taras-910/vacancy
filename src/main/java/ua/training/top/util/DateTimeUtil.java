@@ -18,11 +18,10 @@ import static ua.training.top.aggregator.strategy.installation.InstallationUtil.
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-    public static final String DAY_AND_TIME_PATTERN = " HH:mm'/'d MMM";
+    public static final String DAY_AND_TIME_PATTERN = "HH:mm dd.MMM";
     public static final DateTimeFormatter DAY_AND_TIME_FORMATTER = DateTimeFormatter.ofPattern(DAY_AND_TIME_PATTERN);
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final LocalDate DATE_TEST = LocalDate.of(2020, 7, 30);
-    public static final LocalDateTime LOCAL_DATE_TIME_TEST = LocalDateTime.of(2020, 7, 30, 12, 0);
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
     public static final  LocalDateTime tomorrow = LocalDate.now().plusDays(1).atStartOfDay();
     public static final LocalDateTime yesterday = LocalDate.now().minusDays(1).atStartOfDay();
@@ -66,9 +65,9 @@ public class DateTimeUtil {
                 Freshen lastFreshen = freshensHour.get(0);
                 if (freshensHour.size() >= freshenPerHour ||
                         freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour))) {
-                    throw new IllegalStateException("{" + freshen.getLanguage() + ", " + freshen.getWorkplace() +
-                            "} - по этим параметрам<br>последнее обновление было: " +
-                            toStringTime(lastFreshen.getRecordedDate()) + ",<br>повторите запрос после: " +
+                    throw new IllegalStateException("по параметрам {\'" + freshen.getLanguage() + "\', \'" +
+                            freshen.getWorkplace() + "\'} <br>последнее обновление:  " +
+                            toStringTime(lastFreshen.getRecordedDate()) + "<br>повторите запрос после:  " +
                             toStringTime(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour).plusMinutes(1)));
                 }
             }

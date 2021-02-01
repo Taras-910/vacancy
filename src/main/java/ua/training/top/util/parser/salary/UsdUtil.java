@@ -13,11 +13,8 @@ public class UsdUtil {
         if (!temp.contains("грн")){
             if(cleaned.contains("—")){
                 return cleaned.replace("—", "00—").concat("00");
-            } else
-            if(temp.contains("от")){
-                return cleaned.concat("00—").concat("1");
-            } else {
-                return  "1".concat("—").concat(cleaned).concat("00");
+            } else{
+                return temp.contains("от") ? cleaned.concat("00—").concat("1") :"1".concat("—").concat(cleaned).concat("00");
             }
         } else {
             if (temp.contains("—")) {

@@ -17,11 +17,7 @@ public class HrnUtil {
         }
         else {
             cleaned = hrnToUsd(cleaned);
-            if (temp.contains("от")){
-                return cleaned.concat("—").concat("1");
-            } else {
-                return "1".concat("—").concat(cleaned);
-            }
+            return temp.contains("от") ? cleaned.concat("—").concat("1") : "1".concat("—").concat(cleaned);
         }
     }
 }

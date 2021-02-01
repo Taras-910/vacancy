@@ -56,11 +56,11 @@ public class AggregatorService {
         for (SubVacancyTo vst : mapForUpdate.keySet()) {
             resultForSave.add(populateVacancy(mapForUpdate.get(vst), mapAll.get(vst), parallelMap));
         }
-        refreshDb(vacancyToForCreate, resultForSave, freshen);
+        refresh(vacancyToForCreate, resultForSave, freshen);
     }
 
     @Transactional
-    protected void refreshDb(List<VacancyTo> vacancyToForCreate, List<Vacancy> resultForSave, Freshen freshen) {
+    protected void refresh(List<VacancyTo> vacancyToForCreate, List<Vacancy> resultForSave, Freshen freshen) {
         Freshen freshenDb = freshenService.create(freshen);
         if (!vacancyToForCreate.isEmpty()) {
             vacancyService.createListVacancyAndEmployer(vacancyToForCreate, freshenDb);

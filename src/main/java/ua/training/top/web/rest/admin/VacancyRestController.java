@@ -55,7 +55,8 @@ public class VacancyRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vacancy> createVacancyAndEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
-        Vacancy created = vacancyService.createListVacancyAndEmployer(List.of(vacancyTo), getFreshenFromTo(vacancyTo)).get(0);
+        Vacancy created = vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));
+
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();

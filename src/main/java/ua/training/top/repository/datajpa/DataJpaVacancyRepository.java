@@ -2,7 +2,6 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
-    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "releaseDate","title");
+    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "releaseDate", "title");
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final CrudVacancyRepository vacancyRepository;
 
@@ -27,14 +26,10 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     @Transactional
     @Override
     public Vacancy save(Vacancy vacancy) {
-        if (!vacancy.isNew()) {
-            try {
-                Vacancy vacancyDouble = getByParams(vacancy.getTitle(), vacancy.getSkills(), vacancy.getEmployer().getId());
-                if (vacancyDouble != null) {
-                    vacancyRepository.delete(vacancyDouble.getId());
-                    log.error("same vacancy " + vacancyDouble + " already existed in the database but was replaced by " + vacancy);
-                }
-            } catch (Exception e) { }
+        Vacancy vacancyDouble = getByParams(vacancy.getTitle(), vacancy.getSkills(), vacancy.getEmployer().getId());
+        if (vacancyDouble != null && (vacancy.isNew() || vacancyDouble.getId() != vacancy.getId())) {
+            delete(vacancyDouble.getId());
+            log.error("same vacancy " + vacancyDouble + " already existed in the database but was replaced by " + vacancy);
         }
         return vacancyRepository.save(vacancy);
     }
@@ -44,8 +39,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     public List<Vacancy> saveAll(List<Vacancy> vacancies) {
         List<Vacancy> vacanciesDb = new ArrayList<>();
         try {
-            vacanciesDb = Optional.of(vacancyRepository.saveAll(vacancies)).orElse(null);
-        } catch (DataIntegrityViolationException e) {
+            vacanciesDb = vacancyRepository.saveAll(vacancies);
+        } catch (Exception e) {
             for(Vacancy v : vacancies) {
                 log.error("same vacancy " + v + " already existed, redirect on method save");
                 vacanciesDb.add(save(v));
@@ -68,8 +63,12 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     public Vacancy getByParams(String title, String skills, int employerId) {
-        return Optional.of(vacancyRepository.getByParams(title, skills, employerId)).orElse(null);
-     }
+        try {
+            return vacancyRepository.getByParams(title, skills, employerId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     @Override
     public Vacancy get(int id) {

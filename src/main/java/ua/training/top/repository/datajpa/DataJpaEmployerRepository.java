@@ -56,19 +56,13 @@ public class DataJpaEmployerRepository implements EmployerRepository {
 
     @Transactional
     @Override
-    public List<Employer> saveList(List<Employer> employers) {
-        return repository.saveAll(employers);
-    }
-
-    @Transactional
-    @Override
     public Employer getOrCreate(Employer employer) {
         List<Employer> listByName = null;
         Employer doubleEmployer = null;
         try {
             listByName = new ArrayList<>(repository.getByName(employer.getName()));
-            log.info("listByName {}", listByName);
         } catch (Exception e) {}
+
         if (listByName == null || listByName.isEmpty()) {
             employer.setVacancies(null);
             return save(employer);
@@ -78,16 +72,13 @@ public class DataJpaEmployerRepository implements EmployerRepository {
                 Vacancy vacancy = tempEmployer.getVacancies().stream()
                         .filter(v -> v.getTitle().equals(employer.getVacancies().get(0).getTitle())
                                 && v.getSkills().equals(employer.getVacancies().get(0).getSkills())).findFirst().orElse(null);
-                doubleEmployer = vacancy == null ? null : tempEmployer;
+                if (vacancy != null) {
+                    doubleEmployer = tempEmployer;
+                }
             }
         } catch (Exception e) {
             return listByName.get(0);
         }
-        employer.setVacancies(null);
-        if (doubleEmployer == null) {
-            return listByName.get(0);
-        }
-        repository.delete(doubleEmployer.getId());
-        return save(employer);
+        return doubleEmployer == null ? listByName.get(0) : doubleEmployer;
     }
 }

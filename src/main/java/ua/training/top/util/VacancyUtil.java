@@ -1,5 +1,6 @@
 package ua.training.top.util;
 
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
@@ -20,8 +21,8 @@ public class VacancyUtil {
     }
 
     private static List<VacancyTo> getEmpty() {
-        return List.of(new VacancyTo(1000000, "", "not exists", "not exists", 2, 2,"not exists",
-                "there are no suitable vacancies in the database", LocalDate.now(), "not exists", "not exists", "not exists",false));
+        return List.of(new VacancyTo(0, "", "", "", -1, -1,"",
+                "there are no suitable vacancies in the database", LocalDate.now(), "", "", "",false));
     }
 
     public static VacancyTo getTo(Vacancy v, List<Vote> votes) {
@@ -71,8 +72,15 @@ public class VacancyUtil {
                 new SubVacancyTo(v.getTitle(), v.getEmployerName(), v.getSkills()), v -> v));
     }
 
-    public static class SubVacancyTo {
 
+    public static VacancyTo getFull(VacancyTo vacancyTo, Freshen freshen) {
+        vacancyTo.setWorkplace(freshen.getWorkplace());
+        vacancyTo.setLanguage(freshen.getLanguage());
+        vacancyTo.setToVote(false);
+        return vacancyTo;
+    }
+
+    public static class SubVacancyTo {
         private String title;
         private String employerName;
         private String skills;

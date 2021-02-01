@@ -12,7 +12,8 @@ public class CheckUtil {
 
     public static boolean checkSalary(String salary) {
         return (salary.contains("грн") || salary.contains("$") || salary.contains("usd") || salary.contains("eur")
-                || salary.contains("€") || salary.contains("pln") || salary.contains("salary:")) && salary.matches(".*\\d.*");
+                || salary.contains("€") || salary.contains("pln")
+                || salary.contains("salary:")) && salary.matches(".*\\d.*");
     }
 
     public static String validateAndFormat(String salary) {
@@ -20,8 +21,9 @@ public class CheckUtil {
         if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary)) {
             return "1";
         }
-        salary = salary.replaceAll(" ", "").replaceAll(" ", "").replaceAll("&nbsp;", "")
-                .replaceAll("b2b", "").replaceAll("\\(uop\\)", "").replaceAll("[.]{2,}", "");
+        salary = salary.replaceAll(" ", "").replaceAll(" ", "")
+                .replaceAll("&nbsp;", "").replaceAll("b2b", "")
+                .replaceAll("\\(uop\\)", "").replaceAll("[.]{2,}", "");
         salary = salary.replaceAll("–", "—").replaceAll("-", "—");
         salary = salary.contains("salary:") ? "salary:".concat(salary.split("salary:")[1]) : salary;
         salary = salary.contains(",") ? salary.split(",")[0] : salary;
@@ -29,7 +31,9 @@ public class CheckUtil {
 
         if(salary.matches(".*?\\.\\d?\\dk.*?")){
             String temp1 = salary.replaceAll("[A-Za-jl-zа-я ·:\\/(),]","");
-            List<String> list = Arrays.stream(temp1.split("—")).filter(s -> s.matches("\\d+\\.\\dk.*")).collect(Collectors.toList());
+            List<String> list = Arrays.stream(temp1.split("—"))
+                    .filter(s -> s.matches("\\d+\\.\\dk.*"))
+                    .collect(Collectors.toList());
             for(String find : list) {
                 find = find.substring(0, find.indexOf("k"));
                 String newString = String.valueOf((int) (Float.parseFloat(find) * 1000));
@@ -40,7 +44,6 @@ public class CheckUtil {
     }
 
     public static String getCleaned(String salary) {
-        return salary.replaceAll("[^\\d+-]+—[^\\d+ ]+", "")
-                .replaceAll("[^—\\d]", "");
+        return salary.replaceAll("[^\\d+-]+—[^\\d+ ]+", "").replaceAll("[^—\\d]", "");
     }
 }

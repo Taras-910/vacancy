@@ -38,11 +38,6 @@ public class EmployerService {
         return employerDB;
     }
 
-    public List<Employer> createList(List<Employer> employers) {
-        employers.forEach(employer -> Assert.notNull(employer, "user must not be null"));
-        return repository.saveList(employers);
-    }
-
     public void update(Employer employer) {
         Assert.notNull(employer, "user must not be null");
         checkDataEmployer(employer);

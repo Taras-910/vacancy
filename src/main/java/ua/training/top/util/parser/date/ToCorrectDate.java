@@ -18,11 +18,13 @@ public class ToCorrectDate {
             if(myDate.length() > 1 && (myDate.contains("вчера") || myDate.contains("вчора"))){
                 return LocalDate.now().minusDays(1);
             }
-            if(myDate.contains("мин") || myDate.contains("хв") || myDate.contains("сьогодні") || myDate.contains("сегодня") || myDate.contains("только что")){
+            if(myDate.contains("мин") || myDate.contains("хв") || myDate.contains("сьогодні")
+                    || myDate.contains("сегодня") || myDate.contains("только что")){
                 return LocalDate.now();
             }
             if(myDate.contains("ч") || myDate.contains("час") || myDate.contains("год")){
-                return LocalDateTime.now().minusHours(Integer.parseInt(myDate.replaceAll("\\W+", "").trim())).toLocalDate();
+                return LocalDateTime.now()
+                        .minusHours(Integer.parseInt(myDate.replaceAll("\\W+", "").trim())).toLocalDate();
             }
             if(myDate.length() > 1 && (myDate.contains("місяц") || myDate.contains("месяц"))){
                 myDate = myDate.contains("більше") ? myDate.replace("більше", "").trim() : myDate;

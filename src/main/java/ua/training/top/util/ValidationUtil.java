@@ -13,10 +13,11 @@ import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.*;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -93,14 +94,6 @@ public class ValidationUtil {
         validator = factory.getValidator();
     }
 
-    public static <T> void validate(T bean) {
-        // https://alexkosarev.name/2018/07/30/bean-validation-api/
-        Set<ConstraintViolation<T>> violations = validator.validate(bean);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
-    }
-
     public static void checkDataEmployer(Employer e) {
         if (checkNullStrings(e.getName(), e.getAddress())) {
             getException(e);
@@ -124,13 +117,6 @@ public class ValidationUtil {
         if (!found) {
             log.error("Not found entity with " + id);
         }
-    }
-
-    public static <T> T checkDoubleData(T objectDb, T object) {
-        if (objectDb == null) {
-            log.error("On database already exist object " + object);
-        }
-        return object;
     }
 
     public static List<Vacancy> checkEmptyList(List<Vacancy> list, Freshen f) {

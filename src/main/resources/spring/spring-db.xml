@@ -51,8 +51,8 @@
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
 
-    <context:component-scan base-package="ua.training.**.repository.datajpa"/>
-    <jpa:repositories base-package="ua.training.**.repository.datajpa"/>
+    <context:component-scan base-package="ua.training.**.repository"/>
+    <jpa:repositories base-package="ua.training.**.repository"/>
 
     <beans profile="postgres">
         <!--
@@ -81,9 +81,8 @@
         <bean class="java.net.URI" id="dbUrl">
             <constructor-arg value="${DATABASE_URL}"/>
         </bean>
-        <bean id="dataSource"
-              class="org.apache.tomcat.jdbc.pool.DataSource"
-              p:url="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath() }"
+        <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+              p:url="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"
               p:username="#{ @dbUrl.getUserInfo().split(':')[0] }"
               p:password="#{ @dbUrl.getUserInfo().split(':')[1] }"
               p:driverClassName="org.postgresql.Driver"

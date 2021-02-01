@@ -15,8 +15,6 @@ public interface EmployerRepository {
     // null if not found, when updated
     Employer save(Employer employer);
 
-    List<Employer> saveList(List<Employer> employers);
-
     // false if not found
     boolean delete(int id);
 

@@ -78,24 +78,9 @@ public class VacancyService {
     }
 
     @Transactional
-    public List<Vacancy> createListVacancyAndEmployer(List<VacancyTo> vacancyTos, Freshen freshenDb) {
-        log.info("createListVacancyAndEmployer vacancyTos={}", vacancyTos);
-        List<Vacancy> listForCreate = new ArrayList<>();
-        for (VacancyTo vTo : vacancyTos) {
-            Vacancy vacancy = new Vacancy(fromTo(vTo));
-            checkNullDataVacancyTo(vTo);
-            vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vTo)));
-            Freshen freshen = freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vTo)) : freshenDb;
-            vacancy.setFreshen(freshen);
-            listForCreate.add(vacancy);
-        }
-        return createUpdateList(listForCreate);
-    }
-
-    @Transactional
-    public List<Vacancy> createUpdateList(List<Vacancy> vacancies) {
-        log.info("update vacancies size={}", vacancies.size());
-        return checkNotFound(vacancyRepository.saveAll(vacancies), "list vacancies size=" + vacancies.size());
+    public Vacancy update(Vacancy vacancy) {
+        if (vacancy != null) log.info("update vacancy {} with freshenId={}", vacancy, vacancy.getFreshen().getId());
+        return vacancyRepository.save(vacancy);
     }
 
     @Transactional
@@ -109,16 +94,33 @@ public class VacancyService {
         return vacancyRepository.save(newVacancy);
     }
 
+    public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo, Freshen freshenDb) {
+        log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+        Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
+        checkNullDataVacancyTo(vacancyTo);
+        vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vacancyTo)));
+        vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vacancyTo)) : freshenDb);
+        return vacancyRepository.save(vacancy);
+    }
+
     @Transactional
-    public Vacancy update(Vacancy vacancy) {
-        if (vacancy != null) log.info("update vacancy {} with freshenId={}", vacancy, vacancy.getFreshen().getId());
-        Vacancy vacancyDb = null;
-        try {
-            vacancyDb = vacancyRepository.save(vacancy);
-        } catch (Exception e) {
-            log.info("");
+    public List<Vacancy> createListVacancyAndEmployer(List<VacancyTo> vacancyTos, Freshen freshenDb) {
+        log.info("createListVacancyAndEmployer vacancyTos={}", vacancyTos);
+        List<Vacancy> listForCreate = new ArrayList<>();
+        for (VacancyTo vTo : vacancyTos) {
+            Vacancy vacancy = new Vacancy(fromTo(vTo));
+            checkNullDataVacancyTo(vTo);
+            vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vTo)));
+            vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vTo)) : freshenDb);
+            listForCreate.add(vacancy);
         }
-        return checkNotFound(vacancyDb, "vacancyId=" + vacancy.getId());
+        return createUpdateList(listForCreate);
+    }
+
+    @Transactional
+    public List<Vacancy> createUpdateList(List<Vacancy> vacancies) {
+        log.info("update vacancies size={}", vacancies.size());
+        return checkNotFound(vacancyRepository.saveAll(vacancies), "list vacancies size=" + vacancies.size());
     }
 
     public void delete(int id) {

@@ -49,5 +49,4 @@ public class AdminUIController {
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         service.enable(id, enabled);
     }
-
 }

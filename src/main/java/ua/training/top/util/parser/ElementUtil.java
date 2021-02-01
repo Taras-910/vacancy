@@ -30,14 +30,13 @@ import static ua.training.top.util.xss.XssUtil.xssClear;
 public class ElementUtil {
     public static final Logger log = LoggerFactory.getLogger(ElementUtil.class);
 
-    public static List<VacancyTo> getVacanciesDjinni(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesDjinni(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             VacancyTo v = new VacancyTo();
-//            String[] address = element.getElementsByClass("list-jobs__details__info").text().split("·")[0].trim().split(" ");
             v.setTitle(xssClear(element.getElementsByClass("list-jobs__title").text().trim()));
             v.setEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim()));
-            v.setAddress(doubleString.getWorkplace());
+            v.setAddress(freshen.getWorkplace());
             v.setSalaryMax(1);
             v.setSalaryMin(1);
             v.setUrl("https://djinni.co".concat(xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
@@ -71,7 +70,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesHabr(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesHabr(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             log.info("elements {}", elements.size());
@@ -92,7 +91,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesJobs(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesJobs(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             VacancyTo v = new VacancyTo();
@@ -110,7 +109,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesLinkedin(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesLinkedin(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             VacancyTo v = new VacancyTo();
@@ -149,12 +148,12 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesRabota(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesRabota(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             String title = element.getElementsByClass("card-title").text().trim();
             String skills = element.getElementsByClass("card-description").text().trim();
-            if ((title.toLowerCase().contains(doubleString.getLanguage()) || skills.toLowerCase().contains(doubleString.getLanguage()) && skills.length() > 2)) {
+            if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
                 VacancyTo v = new VacancyTo();
                 v.setTitle(getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim())));
                 v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("company-name").text().trim())));
@@ -172,13 +171,13 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesIndeed(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesIndeed(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             String title = xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim());
             String skills = xssClear(element.getElementsByClass("summary").text().trim());
-            if ((title.toLowerCase().contains(doubleString.getLanguage())
-                    || skills.toLowerCase().contains(doubleString.getLanguage())
+            if ((title.toLowerCase().contains(freshen.getLanguage())
+                    || skills.toLowerCase().contains(freshen.getLanguage())
                     && skills.length() > 2 && skills.length() < 1000)) {
                 VacancyTo v = new VacancyTo();
                 v.setTitle(title);
@@ -196,14 +195,13 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesJooble(Elements elements, Freshen doubleString) {
-//        elements.stream().peek(e -> log.info("\nelement={}\n", e)).collect(Collectors.toList());
+    public static List<VacancyTo> getVacanciesJooble(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
             try {
                 String title = xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim());
                 String skills = xssClear(element.getElementsByTag("b").tagName("span").nextAll().text());
-                if ((title.toLowerCase().contains(doubleString.getLanguage()) || skills.toLowerCase().contains(doubleString.getLanguage()) && skills.length() > 2)) {
+                if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(xssClear(title));
                     v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("_786d5").text().trim())));
@@ -223,13 +221,13 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesWork(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesWork(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
                 String title = xssClear(element.getElementsByTag("a").first().text());
                 String skills = xssClear(element.getElementsByClass("overflow").text().trim());
-                if ((title.toLowerCase().contains(doubleString.getLanguage()) || skills.toLowerCase().contains(doubleString.getLanguage())) && skills.length() > 2) {
+                if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage())) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(getCorrectTitle(title));
                     v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByTag("img").attr("alt"))));

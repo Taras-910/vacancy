@@ -22,16 +22,15 @@ public class PlnUtil {
                     return plnToUsd(cleaned.split("\\W")[0]).concat("—").concat(plnToUsd(cleaned.split("—")[1]));
                 }
                 if(salary.contains("day")) {
-                    return plnToUsd(getSpring(cleaned.split("\\W")[0], 22)).concat("—")
-                            .concat(plnToUsd(getSpring(cleaned.split("\\W")[1], 22)));
+                    return plnToUsd(getString(cleaned.split("\\W")[0], 22)).concat("—")
+                            .concat(plnToUsd(getString(cleaned.split("\\W")[1], 22)));
                 }
                 if(salary.contains("hour")) {
-                    return plnToUsd(getSpring(cleaned.split("\\W")[0], 8 * 22)).concat("—")
-                            .concat(plnToUsd(getSpring(cleaned.split("\\W")[1], 8 * 22)));
+                    return plnToUsd(getString(cleaned.split("\\W")[0], 8 * 22)).concat("—")
+                            .concat(plnToUsd(getString(cleaned.split("\\W")[1], 8 * 22)));
                 }
                 return plnToUsd(cleaned.split("\\W")[0]).concat("—").concat(plnToUsd(cleaned.split("—")[1]));
             } else{
-//String.valueOf((int)(Float.parseFloat(s) * factor))
                 if(salary.contains("year")){
                     return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) / 12))));
                 }
@@ -44,16 +43,15 @@ public class PlnUtil {
                 if(salary.contains("day")){
                     return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
                 }
-                return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
+                return "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
             }
-   //         salary = "1".concat("—").concat(plnToUsd(cleaned.concat("00")));
         } catch (NumberFormatException e) {
             log.info("there is exception on getCorrectSalary method during parse line:\n{}\n", salary);
         }
         return salary;
     }
 
-    private static String getSpring(String s, int factor) {
-        return String.valueOf((int)(Float.parseFloat(s) * factor));
+    private static String getString(String s, int days) {
+        return String.valueOf((int)(Float.parseFloat(s) * days));
     }
 }
