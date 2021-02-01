@@ -43,7 +43,6 @@
             </set>
         </property>
     </bean>
-
     <context:component-scan base-package="ua.training.**.web"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>

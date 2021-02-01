@@ -1,19 +1,19 @@
 package ua.training.top.aggregator.strategy.provider;
 
-import ua.training.top.aggregator.AggregatorService;
 import ua.training.top.aggregator.Provider;
+import ua.training.top.aggregator.ProviderService;
 import ua.training.top.aggregator.strategy.*;
 
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.testProvider;
 
 public class ProviderUtil {
-    public static AggregatorService getAllProviders(){
+    public static ProviderService getAllProviders(){
         if(testProvider) {
-            return new AggregatorService(
+            return new ProviderService(
                     new Provider(new TestStrategy()));
         }
         else {
-            return new AggregatorService(
+            return new ProviderService(
                     new Provider(new DjinniStrategy()),
                     new Provider(new GrcStrategy()),          /*нет за_рубежем, меняет salary*/
                     new Provider(new HabrStrategy()),         /*проблемный*/

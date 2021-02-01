@@ -1,14 +1,11 @@
-package ua.training.top.aggregator;
+package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.*;
-import ua.training.top.service.EmployerService;
-import ua.training.top.service.FreshenService;
-import ua.training.top.service.VacancyService;
-import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
@@ -26,22 +23,17 @@ import static ua.training.top.aggregator.strategy.installation.InstallationUtil.
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.*;
 
-@Controller
-public class AggregatorController {
-    private final static Logger log = LoggerFactory.getLogger(AggregatorController.class);
-    private final VacancyService vacancyService;
-    private final EmployerService employerService;
-    private final VoteService voteService;
-    private final FreshenService freshenService;
-
-
-    public AggregatorController(VacancyService vacancyService, EmployerService employerService,
-                                VoteService voteService, FreshenService freshenService) {
-        this.vacancyService = vacancyService;
-        this.employerService = employerService;
-        this.voteService = voteService;
-        this.freshenService = freshenService;
-    }
+@Service
+public class AggregatorService {
+    private final static Logger log = LoggerFactory.getLogger(AggregatorService.class);
+    @Autowired
+    private VacancyService vacancyService;
+    @Autowired
+    private EmployerService employerService;
+    @Autowired
+    private VoteService voteService;
+    @Autowired
+    private FreshenService freshenService;
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);

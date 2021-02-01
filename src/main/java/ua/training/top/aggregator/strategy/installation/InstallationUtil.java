@@ -8,7 +8,7 @@ import ua.training.top.aggregator.strategy.Strategy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static ua.training.top.aggregator.AggregatorService.allProviders;
+import static ua.training.top.aggregator.ProviderService.allProviders;
 
 public class InstallationUtil {
     private static Logger log = LoggerFactory.getLogger(InstallationUtil.class);

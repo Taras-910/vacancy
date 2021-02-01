@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ua.training.top.aggregator.AggregatorController;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
@@ -21,7 +20,7 @@ public class FreshenService {
     @Autowired
     private FreshenRepository repository;
     @Autowired
-    private AggregatorController aggregatorController;
+    private AggregatorService aggregatorService;
 
     public Freshen get(int id) {
         log.info("get by id {}", id);
@@ -60,6 +59,6 @@ public class FreshenService {
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
         checkLimitTime(freshen, getBetween(tomorrow, yesterday));
-        aggregatorController.refreshDB(freshen);
+        aggregatorService.refreshDB(freshen);
     }
 }

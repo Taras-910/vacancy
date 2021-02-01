@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AggregatorService {
-    private Logger log = LoggerFactory.getLogger(AggregatorService.class);
+public class ProviderService {
+    private Logger log = LoggerFactory.getLogger(ProviderService.class);
     private Provider[] providers;
     public static ArrayDeque<Provider> allProviders;
 
-    public AggregatorService(Provider... providers) throws IllegalArgumentException {
+    public ProviderService(Provider... providers) throws IllegalArgumentException {
         this.providers = providers;
     }
 
