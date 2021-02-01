@@ -15,23 +15,22 @@ public class InstallationUtil {
     private static int repeatToCall = 3;
     public static int limitCallPages = 10;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
-    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(45);
+    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(49);
     public static Integer freshenPerHour = 60;
 
-    public static boolean testProvider = false;
-//    public static boolean testProvider = true;
+//    public static boolean testProvider = false;
+    public static boolean testProvider = true;
 
     public static void setTestProvider() {
     InstallationUtil.testProvider = true;
 }
 
     public static void setTestFreshenPerHour() {
-        InstallationUtil.freshenPerHour = 3600;
+        InstallationUtil.freshenPerHour = 60;
     }
     public static void setReasonPeriodToKeep() {
-        InstallationUtil.reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(3600);
+        InstallationUtil.reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(1265);
     }
-
 
     public static void reCall(int listSize, Strategy strategy){
         if (listSize == 0 && repeatToCall > 0){

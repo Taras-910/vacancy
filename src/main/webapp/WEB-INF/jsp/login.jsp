@@ -17,7 +17,7 @@
         </form>
     </div>
 </nav>
-<div class="container jumbotron py-0" style="width:1130px;border:1px solid #0397ba">
+<div class="container jumbotron py-0">
         <c:if test="${param.error}">
             <div class="error">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</div>
         </c:if>
@@ -52,8 +52,8 @@
             <a href="http://tomcat.apache.org/">Apache Tomcat</a>,
             <a href="http://www.webjars.org/">WebJars</a>,
             <a href="http://datatables.net/">DataTables plugin</a>,
-            <a href="http://ehcache.org">EHCACHE</a>,<br>
-            <a href="http://www.postgresql.org/">PostgreSQL</a>,
+            <%--<a href="http://ehcache.org">EHCACHE</a>,--%>
+            <a href="http://www.postgresql.org/">PostgreSQL</a>,<br>
             <a href="http://junit.org/">JUnit</a>,
             <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,
             <a href="http://jquery.com/">jQuery</a>,
@@ -81,8 +81,8 @@
     <a href="https://ua.jooble.org">Jooble</a>,
     <a href="https://www.work.ua">Work</a>
 </div>
-<div class="container jumbotron py-0" style="width:1130px;border:1px solid #0397ba">
-    <div class="col container lead">Описание:</div>
+<div class="container jumbotron py-0">
+    <div class="col lead">Описание:</div>
     <div class="col">
         <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
     </div>

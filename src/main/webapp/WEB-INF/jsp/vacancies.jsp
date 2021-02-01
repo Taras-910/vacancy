@@ -54,7 +54,7 @@
                                 Фильтровать
                             </button>
                         </div>
-                        <div class="col-sm-2 ml-md-auto">
+                        <div class="col-md-2 ml-md-auto">
                             <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
                                 Сбросить
@@ -62,14 +62,6 @@
                         </div>
 
                     </div>
-                    <%--<div class="row-cols-sm-6">
-                        <div class="col-sm-12 form-row">
-                            <button type="button" class="col-sm-10 mb-3 btn-outline-danger btn-sm" onclick="clearFilter()">
-                                <span class="fa fa-remove"></span>
-                                Сбросить
-                            </button>
-                        </div>
-                    </div>--%>
                 </div>
             </div>
         </div>
