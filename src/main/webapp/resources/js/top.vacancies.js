@@ -118,7 +118,7 @@ $(function () {
                 {
                     "data": function (data, type, row) {
                         if(data.skills === "see the card on the link") {
-                            return '<a href="' + data.url + '">' + data.skills + '</a>'
+                            return 'see the card on the <a href="' + data.url + '">link</a>'
                         }
                         return data.skills;
                     }

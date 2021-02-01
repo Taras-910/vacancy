@@ -17,7 +17,7 @@
             <div class="card-body pb-1" style="width:100%; background-color: #e5e7e7">
                 <div class="container rounded-lg" style="width:90%;">
                     <div class="row justify-content-md-between align-items-center">
-                        <form class="col-10 form-row needs-validation" id="filter">
+                        <form class="col-8 form-row needs-validation" id="filter">
                             <div class="col-md-4 mb-3 col-form-label">
                                 <label for="language"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
                                 <input class="form-control" type="text" name="language" id="language" list="language_name" style="width:98%;border:2px solid #0397ba">
@@ -49,20 +49,27 @@
                             </div>
                         </form>
                         <div class="col-2">
-                            <button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
+                            <button class="btn-sm btn-outline-info btn-sm" onclick="updateFilteredTable()">
                                 <span class="fa fa-filter"></span>
                                 Фильтровать
                             </button>
                         </div>
+                        <div class="col-2 form-row">
+                            <button type="button" class="btn-outline-danger btn-sm" onclick="clearFilter()">
+                                <span class="fa fa-remove"></span>
+                                Сбросить
+                            </button>
+                        </div>
+
                     </div>
-                    <div class="row-cols-sm-6">
+                    <%--<div class="row-cols-sm-6">
                         <div class="col-sm-12 form-row">
                             <button type="button" class="col-sm-10 mb-3 btn-outline-danger btn-sm" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
                                 Сбросить
                             </button>
                         </div>
-                    </div>
+                    </div>--%>
                 </div>
             </div>
         </div>
