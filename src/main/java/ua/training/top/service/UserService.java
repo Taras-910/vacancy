@@ -2,8 +2,6 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,7 +35,6 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     public User create(@NotEmpty User user) {
         log.info("create {}", user);
         Assert.notNull(user, "user must not be null");
@@ -48,7 +45,6 @@ public class UserService implements UserDetailsService {
         return prepareAndSave(user);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
         checkNotFoundWithId(repository.delete(id), id);
@@ -65,13 +61,11 @@ public class UserService implements UserDetailsService {
         return checkNotFound(repository.getByEmail(email), "mail " + email);
     }
 
-    @Cacheable("users")
     public List<User> getAll() {
             log.info("getAll");
             return repository.getAll();
         }
 
-    @CacheEvict(value = "users", allEntries = true)
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
@@ -79,7 +73,6 @@ public class UserService implements UserDetailsService {
         checkNotFoundWithId(prepareAndSave(user), user.id());
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);

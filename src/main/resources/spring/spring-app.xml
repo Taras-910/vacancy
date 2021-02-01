@@ -6,7 +6,6 @@
     <context:component-scan base-package="ua.training.**.aggregator"/>
     <context:component-scan base-package="ua.training.**.service"/>
 
-    <import resource="spring-cache.xml"/>
     <import resource="spring-security.xml"/>
 
 

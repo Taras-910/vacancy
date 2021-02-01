@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
@@ -38,7 +37,6 @@ import static ua.training.top.testData.UserTestData.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
-import static ua.training.top.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
 import static ua.training.top.util.VacancyUtil.getTos;
@@ -162,19 +160,6 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    @Transactional(propagation = Propagation.NEVER)
-    void createDuplicate() throws Exception {
-        VacancyTo duplicate = new VacancyTo(vacancyTo1);
-        duplicate.setId(null);
-        perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(duplicate))
-                .with(userHttpBasic(admin)))
-                .andDo(print())
-                .andExpect(status().isConflict());
     }
 
     @Test

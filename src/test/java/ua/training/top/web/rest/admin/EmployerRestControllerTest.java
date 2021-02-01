@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
 import ua.training.top.service.EmployerService;
 import ua.training.top.util.exception.NotFoundException;
@@ -29,7 +30,11 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     private Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     private EmployerService service;
-
+/*    @GetMapping("/{id}")
+    public Employer get(@PathVariable int id) {
+        return service.get(id);
+    }
+*/
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + EMPLOYER1_ID)
@@ -65,6 +70,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
         EMPLOYER_MATCHER.assertMatch(service.get(created.getId()), newEmployer);
     }
 
+    @Transactional
     @Test
     void update() throws Exception {
         Employer updated = new Employer(employer1);

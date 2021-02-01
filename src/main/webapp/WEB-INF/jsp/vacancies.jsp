@@ -48,14 +48,14 @@
                                 </datalist>
                             </div>
                         </form>
-                        <div class="col-2">
-                            <button class="btn-sm btn-outline-info btn-sm" onclick="updateFilteredTable()">
+                        <div class="col-sm-2">
+                            <button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
                                 <span class="fa fa-filter"></span>
                                 Фильтровать
                             </button>
                         </div>
-                        <div class="col-2 form-row">
-                            <button type="button" class="btn-outline-danger btn-sm" onclick="clearFilter()">
+                        <div class="col-sm-2 ml-md-auto">
+                            <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
                                 Сбросить
                             </button>
