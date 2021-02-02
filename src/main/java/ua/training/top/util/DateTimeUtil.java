@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.freshenPerHour;
+import static ua.training.top.aggregator.strategy.installation.InstallationUtil.freshenPerHourForAdmin;
 
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
@@ -56,6 +57,9 @@ public class DateTimeUtil {
 
     public static void checkLimitTime(Freshen freshen, List<Freshen> freshensToday) {
         if(!freshensToday.isEmpty() && !SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
+            if(!SecurityUtil.get().getUser().getRoles().contains(Role.ADMIN)) {
+                freshenPerHour = freshenPerHourForAdmin;
+            }
             List<Freshen> freshensHour = freshensToday.stream()
                     .filter(f -> f.equals(freshen))
                     .filter(f -> f.getRecordedDate().isBefore(lastHour) && f.getRecordedDate().isAfter(nextHour))
