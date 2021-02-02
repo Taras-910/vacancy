@@ -9,20 +9,21 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class TestStrategy implements Strategy{
+public class TestStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(TestStrategy.class);
+
     @Override
     public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
         log.info("getVacancies language={} workplace={}", doubleString.getWorkplace(), doubleString.getLanguage());
         return getTestList();
     }
 
-    public static List<VacancyTo> getTestList(){
-        VacancyTo vacancyTo1 = new VacancyTo(null,"Junior java", "Games", "Poznan",300000, 450000, "https://grc.ua/vacancy/40006938?query=java",
+    public static List<VacancyTo> getTestList() {
+        VacancyTo vacancyTo1 = new VacancyTo(null, null, "Games", "Poznan", 300000, 450000, "https://grc.ua/vacancy/40006938?query=java",
                 "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
                 LocalDate.now().minusDays(5), "https://grc.ua", null, null, false);
 
-        VacancyTo vacancyTo2 = new VacancyTo(null,"Middle проверка vote Developer", "New Company Games", "киев",200000, 300000, "https проверка vote",
+        VacancyTo vacancyTo2 = new VacancyTo(null, "Middle проверка vote Developer", null, "киев", 200000, 300000, "https проверка vote",
                 "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting java…",
                 LocalDate.now().minusDays(7), "https://ukr.net/проверка/vote", null, null, false);
 
@@ -30,22 +31,6 @@ public class TestStrategy implements Strategy{
                 100000, 150000, "https://grc.ua/vacancy/40006938?query=java",
                 "Java. Понимание javaScript",
                 LocalDate.now().minusDays(3), "https://grc.ua", null, null, false);
-        return List.of(vacancyTo1, vacancyTo2, vacancyTo3);
+        return List.of(vacancyTo3);
     }
-
-/*    public static List<VacancyTo> getTestList(){
-        VacancyTo vacancyTo1 = new VacancyTo(null,"Junior java", "Poznan Company", "Poznan",300000, 450000, "https://abc.net/pasnan/1",
-                "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
-                LocalDate.now().minusDays(5), "https://abc.ua", null, null, false);
-
-        VacancyTo vacancyTo2 = new VacancyTo(null,"Middle проверка vote Developer", "Poznan Company", "Poznan",200000, 300000, "https://abc.net/pasnan/2",
-                "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting java…",
-                LocalDate.now().minusDays(7), "https://abc.ua", null, null, false);
-
-        VacancyTo vacancyTo3 = new VacancyTo(null, "Java-разработчик", "Poznan Company", "Poznan",
-                100000, 150000, "https://abc.net/pasnan/3",
-                "Java. Понимание javaScript",
-                LocalDate.now().minusDays(3), "https://abc.ua", null, null, false);
-        return List.of(vacancyTo1, vacancyTo2, vacancyTo3);
-    }*/
 }

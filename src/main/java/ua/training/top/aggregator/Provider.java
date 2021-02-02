@@ -8,9 +8,6 @@ import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonDateToLoad;
 
 public class Provider {
     private static final Logger log = LoggerFactory.getLogger(Provider.class);
@@ -20,13 +17,9 @@ public class Provider {
         this.strategy = strategy;
     }
 
-    public List<VacancyTo> getJavaVacancies(Freshen doubleString) throws IOException {
-        List<VacancyTo> list = strategy.getVacancies(doubleString);
+    public List<VacancyTo> getJavaVacancies(Freshen freshen) throws IOException {
+        List<VacancyTo> list = strategy.getVacancies(freshen);
         log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
-        return list.stream()
-                .filter(v -> reasonDateToLoad.isBefore(v.getReleaseDate()))
-                .filter(v -> (v.getTitle().toLowerCase().contains(doubleString.getLanguage())
-                        || v.getSkills().toLowerCase().contains(doubleString.getLanguage())))
-                .distinct().collect(Collectors.toList());
+        return list;
     }
 }

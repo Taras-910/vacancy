@@ -97,7 +97,6 @@ public class VacancyService {
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo, Freshen freshenDb) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
-        checkNullDataVacancyTo(vacancyTo);
         vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vacancyTo)));
         vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vacancyTo)) : freshenDb);
         return vacancyRepository.save(vacancy);
@@ -109,7 +108,6 @@ public class VacancyService {
         List<Vacancy> listForCreate = new ArrayList<>();
         for (VacancyTo vTo : vacancyTos) {
             Vacancy vacancy = new Vacancy(fromTo(vTo));
-            checkNullDataVacancyTo(vTo);
             vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vTo)));
             vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vTo)) : freshenDb);
             listForCreate.add(vacancy);

@@ -18,6 +18,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -100,17 +101,16 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkNullDataVacancyTo(VacancyTo v) {
-        if (checkNullStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl(), v.getLanguage())) {
-            getException(v);
-        }
+    public static boolean checkNullDataVacancyTo(VacancyTo v) {
+        return checkNullStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl());
     }
-     public static void getException(Object object) {
-         throw new IllegalArgumentException("must not null data of " + object.getClass().getSimpleName());
-     }
+
+    public static void getException(Object object) {
+        throw new IllegalArgumentException("must not null data of " + object.getClass().getSimpleName());
+    }
 
     public static boolean checkNullStrings(String... data){
-        return List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() != 0;
+        return Optional.ofNullable(List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() == 0).orElse(true);
     }
 
     public static void checkNotFoundData(boolean found, Object id) {

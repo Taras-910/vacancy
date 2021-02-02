@@ -39,24 +39,26 @@ public class AggregatorService {
         log.info("refreshDB by freshen {}", freshen);
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
 
-        List<VacancyTo> vacancyToForCreate = new ArrayList<>(vacancyTos);
-        List<VacancyTo> vacancyToForUpdate = new ArrayList<>(vacancyTos);
-        List<Vacancy> vacanciesDb = vacancyService.getAll();
-        List<Vote> votes = voteService.getAll();
-        List<VacancyTo> vacancyTosDb = getTos(vacanciesDb, votes);
-        Map<VacancyTo, Vacancy> parallelMap = getParallelMap(vacanciesDb, votes);
-        Map<SubVacancyTo, VacancyTo> mapAll = getMapVacancyTos(vacancyTosDb);
+        if (!vacancyTos.isEmpty()) {
+            List<VacancyTo> vacancyToForCreate = new ArrayList<>(vacancyTos);
+            List<VacancyTo> vacancyToForUpdate = new ArrayList<>(vacancyTos);
+            List<Vacancy> vacanciesDb = vacancyService.getAll();
+            List<Vote> votes = voteService.getAll();
+            List<VacancyTo> vacancyTosDb = getTos(vacanciesDb, votes);
+            Map<VacancyTo, Vacancy> parallelMap = getParallelMap(vacanciesDb, votes);
+            Map<SubVacancyTo, VacancyTo> mapAll = getMapVacancyTos(vacancyTosDb);
 
-        /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
-        vacancyTosDb.forEach(i -> vacancyToForCreate.remove(i));
-        vacancyToForCreate.forEach(i -> vacancyToForUpdate.remove(i));
-        List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
-        Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
-        List<Vacancy> resultForSave = new ArrayList<>();
-        for (SubVacancyTo vst : mapForUpdate.keySet()) {
-            resultForSave.add(populateVacancy(mapForUpdate.get(vst), mapAll.get(vst), parallelMap));
+            /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
+            vacancyTosDb.forEach(i -> vacancyToForCreate.remove(i));
+            vacancyToForCreate.forEach(i -> vacancyToForUpdate.remove(i));
+            List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
+            Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
+            List<Vacancy> resultForSave = new ArrayList<>();
+            for (SubVacancyTo vst : mapForUpdate.keySet()) {
+                resultForSave.add(populateVacancy(mapForUpdate.get(vst), mapAll.get(vst), parallelMap));
+            }
+            refresh(vacancyToForCreate, resultForSave, freshen);
         }
-        refresh(vacancyToForCreate, resultForSave, freshen);
     }
 
     @Transactional
