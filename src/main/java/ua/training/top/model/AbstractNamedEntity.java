@@ -5,6 +5,8 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import static ua.training.top.util.xss.XssUtil.xssClear;
+
 @MappedSuperclass
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
@@ -18,11 +20,11 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     protected AbstractNamedEntity(Integer id, String name) {
         super(id);
-        this.name = name;
+        this.name = xssClear(name);
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = xssClear(name);
     }
 
     public String getName() {

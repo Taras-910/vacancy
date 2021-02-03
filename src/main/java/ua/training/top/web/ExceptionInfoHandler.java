@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ua.training.top.util.ValidationUtil;
-import ua.training.top.util.exception.ErrorInfo;
-import ua.training.top.util.exception.ErrorType;
-import ua.training.top.util.exception.IllegalRequestDataException;
-import ua.training.top.util.exception.NotFoundException;
+import ua.training.top.util.exception.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -68,6 +65,12 @@ public class ExceptionInfoHandler {
             HttpMessageNotReadableException.class, IllegalArgumentException.class, IllegalStateException.class})
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
+    }
+
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
+    @ExceptionHandler(ApplicationException.class)
+    public ErrorInfo updateRestrictionError(HttpServletRequest req, ApplicationException appEx) {
+        return logAndGetErrorInfo(req, appEx, false, WRONG_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

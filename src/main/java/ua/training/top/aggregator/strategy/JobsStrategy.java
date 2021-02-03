@@ -21,24 +21,30 @@ import static ua.training.top.util.parser.ElementUtil.getVacanciesJobs;
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
     private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?category=%s&search=%s&%s";
-    //киев https://jobs.dou.ua/vacancies/?category=Java&search=Middle&city=Киев
+    private static final String URL_FORMAT_REMOTE = "https://jobs.dou.ua/vacancies/?category=%s&remote";
+    // киев        https://jobs.dou.ua/vacancies/?category=Java&search=Middle&city=Киев
     // за рубежем  https://jobs.dou.ua/vacancies/?category=Java&search=middle&relocation=
+    // удаленно   https://jobs.dou.ua/vacancies/?category=Java&remote
 
     protected Document getDocument(String city, String language, String position) {
+        if(city.equals("удаленно")){
+            return DocumentUtil.getDocument(format(URL_FORMAT_REMOTE, language));
+        }
         city = city.equals("за_рубежем") ? "relocation=" : "".concat("city=").concat(city);
         return DocumentUtil.getDocument(format(URL_FORMAT, language, position, city));
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
-        log.info("getVacancies city {} language {}", doubleString.getWorkplace(), doubleString.getLanguage());
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        log.info("getVacancies city {} language {}", freshen.getWorkplace(), freshen.getLanguage());
         Set<VacancyTo> set = new LinkedHashSet<>();
-        String[] positions = new String[]{"middle", "developer", "java"};
+        String[] positions = freshen.getWorkplace().equals("удаленно") ?
+                new String[]{"middle", "developer", "java"} : new String[]{""};
         for(String p : positions) {
-            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), p);
+            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), p);
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesJobs(elements, doubleString));
+            set.addAll(getVacanciesJobs(elements, freshen));
         }
         reCall(set.size(), new JobsStrategy());
         return new ArrayList<>(set);

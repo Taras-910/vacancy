@@ -16,7 +16,7 @@
         <intercept-url pattern="/rest/profile/register" access="isAnonymous()"/>
         <intercept-url pattern="/rest/profile/users/register" access="isAnonymous()"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
-        <csrf disabled="true"/>
+        <!--<csrf disabled="true"/>-->
     </http>
 
     <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"

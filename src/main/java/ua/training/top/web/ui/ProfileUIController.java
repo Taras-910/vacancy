@@ -63,7 +63,7 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             try {
                 service.create(user);
                 status.setComplete();
-                return "redirect:/login?message=You are registered. Please Sign in&username=" + user.getEmail();
+                return "redirect:/login?message=You are already registered. Please Sign in&username=" + user.getEmail();
             } catch (DataIntegrityViolationException e) {
                 result.rejectValue("email", null, "User with this meal already exist");
                 model.addAttribute("register", true);

@@ -35,7 +35,7 @@
                                 </datalist>
                             </div>
                             <div class="col-md-8 mb-3 col-form-label">
-                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
+                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Удаленная, За_рубежем...</em></h7></label>
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name" style="width:101%;border:2px solid #0397ba">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
@@ -45,6 +45,7 @@
                                     <option value='Харьков'>Харьков</option>
                                     <option value='За_рубежем'>За_рубежем</option>
                                     <option value='Санкт-Петербург'>Санкт-Петербург</option>
+                                    <option value='Удаленно'>Удаленно</option>
                                 </datalist>
                             </div>
                         </form>
@@ -69,15 +70,15 @@
             <div class="row card-footer justify-content-between" style="width: 103%">
                 <div class="col">
                 <sec:authorize access="hasRole('ADMIN')">
-                    <button class="col-md-2 btn btn-primary" onclick="add()">
+                    <button class="col-md-2 btn btn-primary mt-2" onclick="add()">
                         <span class="fa fa-plus text-left"></span>
                         Добавить
                     </button>
                 </sec:authorize>
                 </div>
-                <button class="offset-8 col-md-2 btn btn-outline-info bs-popover-right" onclick="refreshDB()">
+                <button class="offset-8 col-md-2 btn btn-outline-info bs-popover-right mt-2" onclick="refreshDB()">
                     <span class="fa fa-refresh text-left pull-right"></span>
-                    Обновить DB
+                    Обновить БД
                 </button>
             </div>
         </div>
@@ -90,8 +91,8 @@
                     <th class="col-auto">Вакансия</th>
                     <th class="col-auto">Компания</th>
                     <th class="col-auto">Город</th>
-                    <th class="col-auto">от $</th>
-                    <th class="col-auto">до $</th>
+                    <th class="col-auto"><h7>от $</h7></th>
+                    <th class="col-auto"><h7>до $</h7></th>
                     <th class="col" style="text-align: center;">Требования</th>
                     <th class="col-auto text-nowrap">Дата</th>
                     <th hidden>siteName</th>
@@ -299,7 +300,7 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, Днепр, За_рубежем...</em></h7></label>
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, Удаленная, За_рубежем...</em></h7></label>
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
                         <datalist id="city_name_2">
                             <option value='Киев'>Киев</option>
@@ -308,6 +309,7 @@
                             <option value='Харьков'>Харьков</option>
                             <option value='За_рубежем'>За_рубежем</option>
                             <option value='Санкт-Петербург'>Санкт-Петербург</option>
+                            <option value='Удаленно'>Удаленно</option>
                         </datalist>
                     </div>
                     <div class="form-group">
@@ -316,16 +318,18 @@
                     </div>
                 </form>
             </div>
+            <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
+                <h7><em>Database has started to update... please wait about a minute...</em></h7>
+            </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
                     Отменить
                 </button>
-                <button type="button" class="btn btn-primary" onclick="sendRefresh()">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span class="fa fa-check"></span>
-                    Обновить
+                <button type="button" class="btn btn-info" onclick="sendRefresh()">
+                    Обновить  
+                    <span class="spinner-border spinner-border-sm" id="spinner" style="visibility: hidden"></span>
                 </button>
             </div>
         </div>

@@ -12,7 +12,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>Vacancy</name>
-  <!--<url>http://topjava.herokuapp.com/</url>-->
+  <url>http://vacancy021.herokuapp.com/</url>
 
   <properties>
     <java.version>15</java.version>
@@ -45,6 +45,9 @@
     <jsoup.version>1.13.1</jsoup.version>
     <javax-el.version>3.0.1-b12</javax-el.version>
 
+    <!--Cache-->
+    <ehcache.version>3.9.0</ehcache.version>
+
     <!--webjars-->
     <webjars-bootstrap.version>4.5.3</webjars-bootstrap.version>
     <webjars-jquery.version>3.5.1</webjars-jquery.version>
@@ -52,7 +55,6 @@
     <webjars-noty.version>3.1.4</webjars-noty.version>
     <webjars-datatables.version>1.10.21</webjars-datatables.version>
   </properties>
-
 
   <build>
     <finalName>Vacancy</finalName>
@@ -212,6 +214,19 @@
       <artifactId>javax.el</artifactId>
       <version>${javax-el.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- Cache -->
+    <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <scope>runtime</scope>
+      <version>${ehcache.version}</version>
     </dependency>
 
     <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->

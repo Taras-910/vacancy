@@ -1,27 +1,28 @@
 package ua.training.top.service;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.top.model.*;
+import ua.training.top.model.Freshen;
+import ua.training.top.model.Vacancy;
+import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.*;
+import static ua.training.top.util.xss.XssUtil.xssClear;
 
 @Service
 public class AggregatorService {
@@ -84,6 +85,7 @@ public class AggregatorService {
     }
 
     public static void main(String[] args) throws IOException {
+/*
         User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
         setTestAuthorizedUser(admin);
         String language = "java";
@@ -93,5 +95,18 @@ public class AggregatorService {
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+*/
+        String text = "Admin<script>alert('XSS')</script>";
+        System.out.println(xssClear(text));
+        String safeText = Jsoup.clean(text, Whitelist.basic());
+        System.out.println(safeText);
+
+/*
+                String unsafe =
+                "<p><a href='http://example.com/' onclick='stealCookies()'>Link</a></p>";
+        String safe = Jsoup.clean(unsafe, Whitelist.basic());
+        // now: <p><a href="http://example.com/" rel="nofollow">Link</a></p>
+        System.out.println(safe);
+*/
     }
 }

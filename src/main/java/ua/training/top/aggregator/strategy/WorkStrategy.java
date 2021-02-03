@@ -19,6 +19,7 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesWork;
+import static ua.training.top.util.parser.datas.CorrectAddress.getTranslated;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
@@ -26,12 +27,7 @@ public class WorkStrategy implements Strategy {
     //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=123&page=1
 
     protected Document getDocument(String city, String language, String page) {
-        switch (city) {
-            case "за_рубежем": city = "other";
-                break;
-            case "киев": city = "kyiv";
-        }
-        return DocumentUtil.getDocument(format(URL_FORMAT, city, language, page));
+        return DocumentUtil.getDocument(format(URL_FORMAT, getTranslated(city), language, page));
     }
 
     @Override

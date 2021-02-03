@@ -18,28 +18,29 @@ import static java.lang.String.format;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesDjinni;
+import static ua.training.top.util.parser.datas.CorrectAddress.getTranslated;
 
 public class DjinniStrategy implements Strategy{
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
     private static final String URL_FORMAT = "https://djinni.co/jobs/keyword-%s/%s/?page=%s";
-    // https://djinni.co/jobs/keyword-java/kyiv/?page=1
+    private static final String URL_FORMAT_FOREIGN = "https://djinni.co/jobs/l-intl/%s/?page=%s";
+    //             https://djinni.co/jobs/keyword-java/kyiv/?page=1
+    // за_рубежем  https://djinni.co/jobs/l-intl/java/?page=1
 
     protected Document getDocument(String city, String language, String page) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, language, city, page));
+        return DocumentUtil.getDocument(city.equals("за_рубежем") ? format(URL_FORMAT_FOREIGN, language, page) :
+                format(URL_FORMAT, language, getTranslated(city), page));
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if(doubleString.getWorkplace().contains("за_рубежем")){
-            return new ArrayList<>();
-        }
         int page = 1;
         while (true) {
-            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), String.valueOf(page));
+            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("list-jobs__item");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesDjinni(elements, doubleString));
+            set.addAll(getVacanciesDjinni(elements, freshen));
             if(page < limitCallPages) page++;
             else break;
         }

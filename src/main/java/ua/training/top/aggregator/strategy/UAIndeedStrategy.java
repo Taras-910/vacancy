@@ -23,7 +23,7 @@ public class UAIndeedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAIndeedStrategy.class);
     private static final String URL_FORMAT = "https://ua.indeed.com/jobs?q=%s&l=%s&sort=date&fromage=7&start=%s";
     // за 7 дней https://ua.indeed.com/jobs?q=java&l=киев&sort=date&fromage=7&start=10
-
+    // удаленно -- // --
     protected Document getDocument(String city, String language, String page) {
         return DocumentUtil.getDocument(format(URL_FORMAT, language, city, page.equals("0") ? "" : page.concat("0")));
     }

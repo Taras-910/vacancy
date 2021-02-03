@@ -2,8 +2,12 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
+import ua.training.top.Profiles;
+import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 
@@ -29,12 +35,20 @@ public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
+    private boolean modificationRestriction;
+
+    @Autowired
+    @SuppressWarnings("deprecation")
+    public void setEnvironment(Environment environment) {
+        modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU);
+    }
+
     public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
 
-//    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = "users", allEntries = true)
     public User create(@NotEmpty User user) {
         log.info("create {}", user);
         Assert.notNull(user, "user must not be null");
@@ -45,7 +59,9 @@ public class UserService implements UserDetailsService {
         return prepareAndSave(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
+        checkModificationAllowed(id);
         log.info("delete {}", id);
         checkNotFoundWithId(repository.delete(id), id);
     }
@@ -61,22 +77,26 @@ public class UserService implements UserDetailsService {
         return checkNotFound(repository.getByEmail(email), "mail " + email);
     }
 
-//    @Cacheable("users")
+    @Cacheable("users")
     public List<User> getAll() {
             log.info("getAll");
             return repository.getAll();
         }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
+        checkModificationAllowed(id);
         assureIdConsistent(user, id);
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(prepareAndSave(user), user.id());
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void enable(int id, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
+        checkModificationAllowed(id);
         User user = get(id);
         user.setEnabled(enabled);
         repository.save(user);  // !! need only for JDBC implementation
@@ -94,4 +114,11 @@ public class UserService implements UserDetailsService {
     private User prepareAndSave(User user) {
         return repository.save(prepareToSave(user, passwordEncoder));
     }
+
+    protected void checkModificationAllowed(int id) {
+        if (modificationRestriction && id < AbstractBaseEntity.START_SEQ + 2) {
+            throw new ru.javawebinar.topjava.util.exception.UpdateRestrictionException();
+        }
+    }
 }
+

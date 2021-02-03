@@ -15,23 +15,24 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesGrc;
+import static ua.training.top.util.parser.datas.CorrectAddress.getCodeGrc;
 
 public class GrcStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(GrcStrategy.class);
-    private static final String URL_FORMAT = "https://grc.ua/search/vacancy?L_is_autosearch=false&area=%s&clusters=true&enable_snippets=true&order_by=publication_time&search_period=7&text=%s&page=%s";
+    private static final String URL_FORMAT =         "https://grc.ua/search/vacancy?L_is_autosearch=false&area=%s&clusters=true&enable_snippets=true&order_by=publication_time&search_period=7&text=%s&page=%s";
     // киев за 7 дней  https://grc.ua/search/vacancy?L_is_autosearch=false&area=115&clusters=true&enable_snippets=true&order_by=publication_time&search_period=7&text=java&page=1
-
-    private static final String URL_FORMAT_OTHER = "https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=%s&L_save_area=true&area=%s&from=cluster_area&showClusters=true";
+    private static final String URL_FORMAT_REMOTE = "https://grc.ua/search/vacancy?L_is_autosearch=false&clusters=true&enable_snippets=true&order_by=publication_time&schedule=remote&search_period=7&text=%s&page=%s";
+    // удаленно https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&order_by=publication_time&search_period=7&text=java&schedule=remote&from=cluster_schedule&showClusters=false
+    private static final String URL_FORMAT_FOREIGN = "https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=%s&L_save_area=true&area=%s&from=cluster_area&showClusters=true";
     //израиль        //https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=java&L_save_area=true&area=33&from=cluster_area&showClusters=true
     //сша            //https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=java&L_save_area=true&area=85&from=cluster_area&showClusters=true
     protected Document getDocument(String city, String language, String page) { //33 израиль 85 сша 27 германия 149 швеция 207 норвегия
-        boolean other = city.equals("33") || city.equals("85") || city.equals("27") || city.equals("149") || city.equals("207");
-        switch (city){
-            case "киев" : city = "115";
-                break;
-            case "санкт-петербург" : city = "2";
+        if(city.equals("удаленная")){
+            return DocumentUtil.getDocument(format(URL_FORMAT_FOREIGN, language, page.equals("0") ? "" : page));
         }
-        return DocumentUtil.getDocument(other ? format(URL_FORMAT_OTHER, language, city) : format(URL_FORMAT, city, language, page.equals("0") ? "" : page));
+        boolean other = city.equals("33") || city.equals("85") || city.equals("27") || city.equals("149") || city.equals("207");
+        return DocumentUtil.getDocument(other ? format(URL_FORMAT_FOREIGN, language, city) :
+                format(URL_FORMAT, getCodeGrc(city), language, page.equals("0") ? "" : page));
     }
 
     @Override

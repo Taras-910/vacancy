@@ -32,9 +32,6 @@ public class NofluffjobsStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if(!freshen.getWorkplace().contains("за_рубежем")){
-            return new ArrayList<>();
-        }
         int page = 1;
         while (true) {
             Document doc = getDocument(freshen.getLanguage(), String.valueOf(page));

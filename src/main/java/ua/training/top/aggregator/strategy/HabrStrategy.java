@@ -16,6 +16,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesHabr;
+import static ua.training.top.util.parser.datas.CorrectAddress.getCodeHabr;
 
 public class HabrStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(HabrStrategy.class);
@@ -23,10 +24,7 @@ public class HabrStrategy implements Strategy {
     // by date https://career.habr.com/vacancies?city_id=908&q=java&sort=date&type=all
 
     protected Document getDocument(String city, String language) {
-        String cityId = "908";
-        if(city.equals("киев")) cityId = "908"; // киев
-        if(city.equals("санкт-петербург")) cityId = "679";
-        return DocumentUtil.getDocument(format(URL_FORMAT, cityId, language));
+        return DocumentUtil.getDocument(format(URL_FORMAT, getCodeHabr(city), language));
     }
 
     @Override
