@@ -1,5 +1,5 @@
 var freshenUrl = "profile/freshen";
-let spinner1 = document.getElementById("spinner");
+let spinner1 = document.getElementById("spinner1");
 let spinner2 = document.getElementById("spinner2");
 
 function refreshDB() {
