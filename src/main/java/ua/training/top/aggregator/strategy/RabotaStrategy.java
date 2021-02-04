@@ -33,15 +33,18 @@ public class RabotaStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
-        log.info("city={} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        log.info("city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
+        if (freshen.getWorkplace().equals("удаленно")) {
+            return new ArrayList<>();
+        }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while(true) {
-            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), String.valueOf(page));
+            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesRabota(elements, doubleString));
+            set.addAll(getVacanciesRabota(elements, freshen));
             if(page < limitCallPages) page++;
             else break;
         }

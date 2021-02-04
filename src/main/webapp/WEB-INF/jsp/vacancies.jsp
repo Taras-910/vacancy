@@ -35,17 +35,16 @@
                                 </datalist>
                             </div>
                             <div class="col-md-8 mb-3 col-form-label">
-                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Удаленная, За_рубежем...</em></h7></label>
+                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, удаленно, за_рубежем...</em></h7></label>
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name" style="width:101%;border:2px solid #0397ba">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
                                     <option value='Киев'>Киев</option>
-                                    <option value='Днепр'>Днепр</option>
                                     <option value='Львов'>Львов</option>
                                     <option value='Харьков'>Харьков</option>
-                                    <option value='За_рубежем'>За_рубежем</option>
+                                    <option value='за_рубежем'>за_рубежем</option>
                                     <option value='Санкт-Петербург'>Санкт-Петербург</option>
-                                    <option value='Удаленно'>Удаленно</option>
+                                    <option value='удаленно'>удаленно</option>
                                 </datalist>
                             </div>
                         </form>
@@ -300,16 +299,15 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, Удаленная, За_рубежем...</em></h7></label>
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, удаленно, за_рубежем...</em></h7></label>
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
                         <datalist id="city_name_2">
                             <option value='Киев'>Киев</option>
-                            <option value='Днепр'>Днепр</option>
                             <option value='Львов'>Львов</option>
                             <option value='Харьков'>Харьков</option>
-                            <option value='За_рубежем'>За_рубежем</option>
+                            <option value='за_рубежем'>за_рубежем</option>
                             <option value='Санкт-Петербург'>Санкт-Петербург</option>
-                            <option value='Удаленно'>Удаленно</option>
+                            <option value='удаленно'>удаленно</option>
                         </datalist>
                     </div>
                     <div class="form-group">
@@ -319,7 +317,7 @@
                 </form>
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
-                <h7><em>Please wait about minute or two...</em></h7>
+                <h7><em>wait loading about minute or two... than press “Фильтровать”</em></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">

@@ -31,10 +31,10 @@
             <p>
                 <a class="btn btn-lg btn-info" href="profile/register">Регистрация &raquo;</a>
                 <button type="submit" class="btn btn-lg btn-outline-primary" onclick="login('user@yandex.ru', 'password')">
-                    login User
+                    Зайти как User
                 </button>
                 <button type="submit" class="btn btn-lg btn-outline-primary" onclick="login('admin@gmail.com', 'admin')">
-                    login Admin
+                    Зайти как Admin
                 </button>
             </p>
         </sec:authorize>
@@ -55,7 +55,7 @@
             <a href="http://ehcache.org">EHCACHE</a>,
             <a href="http://www.postgresql.org/">PostgreSQL</a>,
             <a href="http://junit.org/">JUnit</a>,
-            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,
+            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,<br>
             <a href="http://jquery.com/">jQuery</a>,
             <a href="http://ned.im/noty/">jQuery notification</a>,
             <a href="http://getbootstrap.com/">Bootstrap</a>.

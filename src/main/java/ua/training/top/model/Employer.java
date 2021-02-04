@@ -74,9 +74,7 @@ public class Employer extends AbstractBaseEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employer employer = (Employer) o;
-        return Objects.equals(name, employer.name) /*&&
-                Objects.equals(address, employer.address)&&
-                Objects.equals(siteName, employer.siteName)*/;
+        return Objects.equals(name, employer.name);
     }
 
     @Override
