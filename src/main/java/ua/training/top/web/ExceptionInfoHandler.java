@@ -42,7 +42,7 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler({DataIntegrityViolationException.class})
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         return logAndGetErrorInfo(req, e, true, DATA_ERROR);
     }
@@ -61,7 +61,7 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class,
+    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, MethodNotAllowedException.class,
             HttpMessageNotReadableException.class, IllegalArgumentException.class, IllegalStateException.class})
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);

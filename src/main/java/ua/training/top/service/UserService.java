@@ -17,13 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
 import ua.training.top.Profiles;
-import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
+import ua.training.top.util.exception.MethodNotAllowedException;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
 
@@ -40,7 +41,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     @SuppressWarnings("deprecation")
     public void setEnvironment(Environment environment) {
-        modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU);
+        modificationRestriction = environment.acceptsProfiles(Profiles.POSTGRES_DB);
     }
 
     public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
     }
 
     @CacheEvict(value = "users", allEntries = true)
-    public User create(@NotEmpty User user) {
+    public User create(@NotEmpty User user) throws MethodNotAllowedException{
         log.info("create {}", user);
         Assert.notNull(user, "user must not be null");
         checkNew(user);
@@ -84,7 +85,7 @@ public class UserService implements UserDetailsService {
         }
 
     @CacheEvict(value = "users", allEntries = true)
-    public void update(User user, int id) {
+    public void update(User user, int id) throws MethodNotAllowedException{
         log.info("update {} with id={}", user, id);
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
@@ -116,9 +117,10 @@ public class UserService implements UserDetailsService {
         return repository.save(prepareToSave(user, passwordEncoder, userDb));
     }
 
-    protected void checkModificationAllowed(int id) {
-        if (modificationRestriction && id < AbstractBaseEntity.START_SEQ + 2) {
-            throw new ru.javawebinar.topjava.util.exception.UpdateRestrictionException();
+    protected void checkModificationAllowed(int id) throws MethodNotAllowedException{
+        if (modificationRestriction && id < START_SEQ + 2) {
+            String user = id == START_SEQ ? "Admin" : "User";
+            throw new MethodNotAllowedException("Не разрешено изменять учетные данные объекта " + user);
         }
     }
 }
