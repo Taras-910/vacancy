@@ -5,6 +5,7 @@
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.password.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron pt-4">
     <div class="container">
@@ -16,6 +17,7 @@
                     <vacancy:inputField labelCode="Имя" name="name"/>
                     <vacancy:inputField labelCode="email" name="email"/>
                     <vacancy:inputField labelCode="Пароль" name="password" inputType="password"/>
+                    <%--<input labelCode="Пароль" name="password" inputType="password"/>--%>
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>

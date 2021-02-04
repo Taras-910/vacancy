@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
         if(repository.getByEmail(user.getEmail()) != null){
             throw new DataIntegrityViolationException("User with meal " + user.getEmail() + " already exist");
         }
-        return prepareAndSave(user);
+        return prepareAndSave(user, null);
     }
 
     @CacheEvict(value = "users", allEntries = true)
@@ -89,7 +89,8 @@ public class UserService implements UserDetailsService {
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
         Assert.notNull(user, "user must not be null");
-        checkNotFoundWithId(prepareAndSave(user), user.id());
+        User userDb = user.getId() == null ? null : repository.get(user.getId());
+        checkNotFoundWithId(prepareAndSave(user, userDb), user.id());
     }
 
     @CacheEvict(value = "users", allEntries = true)
@@ -111,8 +112,8 @@ public class UserService implements UserDetailsService {
         return new AuthorizedUser(user);
     }
 
-    private User prepareAndSave(User user) {
-        return repository.save(prepareToSave(user, passwordEncoder));
+    private User prepareAndSave(User user, User userDb) {
+        return repository.save(prepareToSave(user, passwordEncoder, userDb));
     }
 
     protected void checkModificationAllowed(int id) {

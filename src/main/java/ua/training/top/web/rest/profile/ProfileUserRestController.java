@@ -23,7 +23,8 @@ public class ProfileUserRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get() {
-        return service.get(authUserId());
+        User user = service.get(authUserId());
+        return user;
     }
 
     @DeleteMapping

@@ -27,6 +27,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     private String email;
 
 //    @JsonIgnore
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     @NotNull
     @Size(min = 5, max = 100)
