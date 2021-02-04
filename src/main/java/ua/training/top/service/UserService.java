@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     @SuppressWarnings("deprecation")
     public void setEnvironment(Environment environment) {
-        modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU, Profiles.POSTGRES_DB);
+        modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU);
     }
 
     public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {

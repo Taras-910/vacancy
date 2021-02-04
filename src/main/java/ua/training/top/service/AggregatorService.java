@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
+import ua.training.top.to.SubVacancyTo;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
