@@ -23,9 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
+import static ua.training.top.aggregator.installation.InstallationUtil.setReasonPeriodToKeep;
+import static ua.training.top.aggregator.installation.InstallationUtil.setTestProvider;
 import static ua.training.top.aggregator.strategy.TestStrategy.getTestList;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.setReasonPeriodToKeep;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.setTestProvider;
 import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.admin;

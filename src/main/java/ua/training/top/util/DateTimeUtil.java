@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.freshenPerHour;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.freshenPerHourForAdmin;
+import static ua.training.top.aggregator.installation.InstallationUtil.freshenPerHour;
+import static ua.training.top.aggregator.installation.InstallationUtil.freshenPerHourForAdmin;
 
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";

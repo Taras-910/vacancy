@@ -275,7 +275,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header box">
-                <h5 class="modal-title">Обновить DB по параметрам:</h5>
+                <h5 class="modal-title">Обновить БД по параметрам:</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -319,7 +319,7 @@
                 </form>
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
-                <h7><em>Database has started to update... please wait about a minute...</em></h7>
+                <h7><em>Please wait about minute or two...</em></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">
@@ -329,7 +329,7 @@
                 </button>
                 <button type="button" class="btn btn-info" onclick="sendRefresh()">
                     Обновить  
-                    <span class="spinner-border spinner-border-sm" id="spinner" style="visibility: hidden"></span>
+                    <span class="spinner-border spinner-border-sm" id="spinner1" style="visibility: hidden"></span>
                 </button>
             </div>
         </div>

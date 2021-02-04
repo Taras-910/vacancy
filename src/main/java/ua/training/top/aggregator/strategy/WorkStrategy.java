@@ -16,8 +16,8 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesWork;
 import static ua.training.top.util.parser.datas.CorrectAddress.getTranslated;
 

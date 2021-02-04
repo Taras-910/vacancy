@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonPeriodToKeep;
+import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.xss.XssUtil.xssClear;

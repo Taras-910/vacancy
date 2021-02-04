@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesHabr;
 import static ua.training.top.util.parser.datas.CorrectAddress.getCodeHabr;
 

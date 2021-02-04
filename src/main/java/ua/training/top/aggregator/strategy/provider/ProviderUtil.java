@@ -4,7 +4,7 @@ import ua.training.top.aggregator.Provider;
 import ua.training.top.aggregator.strategy.*;
 import ua.training.top.repository.AggregatorRepository;
 
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.testProvider;
+import static ua.training.top.aggregator.installation.InstallationUtil.testProvider;
 
 public class ProviderUtil {
     public static AggregatorRepository getAllProviders(){

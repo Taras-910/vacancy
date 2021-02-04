@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesGrc;
 import static ua.training.top.util.parser.datas.CorrectAddress.getCodeGrc;
 

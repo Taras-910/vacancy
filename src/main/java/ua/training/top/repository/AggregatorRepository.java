@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reasonDateToLoad;
+import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateToLoad;
 import static ua.training.top.util.VacancyUtil.getFull;
 
 @Repository

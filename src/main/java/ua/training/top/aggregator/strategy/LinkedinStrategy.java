@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesLinkedin;
 
 public class LinkedinStrategy implements Strategy {

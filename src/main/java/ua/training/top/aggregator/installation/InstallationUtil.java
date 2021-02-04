@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy.installation;
+package ua.training.top.aggregator.installation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

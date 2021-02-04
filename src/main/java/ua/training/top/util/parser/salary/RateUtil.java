@@ -1,7 +1,7 @@
 package ua.training.top.util.parser.salary;
 
 import static java.lang.String.valueOf;
-import static ua.training.top.aggregator.strategy.installation.InstallationUtil.*;
+import static ua.training.top.aggregator.installation.InstallationUtil.*;
 
 public class RateUtil {
 
