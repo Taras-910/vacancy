@@ -3,11 +3,9 @@ package ua.training.top.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import ua.training.top.model.Employer;
 import ua.training.top.testData.EmployerTestData;
 import ua.training.top.util.exception.NotFoundException;
-import ua.training.top.web.rest.admin.EmployerRestController;
 
 import java.util.List;
 
@@ -19,8 +17,6 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Autowired
     EmployerService service;
-    @Autowired
-    EmployerRestController controller;
 
     @Test
     public void getById() {
@@ -40,9 +36,9 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Test
     public void update() {
-        Employer updated = getUpdated();
+        Employer updated = new Employer(getUpdated());
         service.update(updated);
-        EMPLOYER_MATCHER.assertMatch(service.get(EMPLOYER1_ID), getUpdated());
+        EMPLOYER_MATCHER.assertMatch(service.get(EMPLOYER1_ID), updated);
     }
 
     @Test
@@ -62,7 +58,7 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Test
     public void createErrorDate() throws Exception {
-        assertThrows(DataIntegrityViolationException.class, () -> controller.create(new Employer(null, null, "newAddress", "https://grc.ua")));
+        assertThrows(NullPointerException.class, () -> service.create(new Employer(null, null, "newAddress", "https://grc.ua")));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package ua.training.top.web.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminUIController {
+    public static Logger log = LoggerFactory.getLogger(AdminUIController.class);
     @Autowired
     UserService service;
 
@@ -40,6 +43,7 @@ public class AdminUIController {
         if (user.isNew()) {
             service.create(user);
         } else {
+            log.info("createOrUpdate {}", user);
             service.update(user, user.id());
         }
     }

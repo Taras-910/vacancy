@@ -34,12 +34,12 @@ public class EmployerService {
 
     public Employer create(Employer employer) {
         Assert.notNull(employer, "employer must not be null");
-        Employer employerDB = repository.save(employer);
-        return employerDB;
+        checkDataEmployer(employer);
+        return repository.save(employer);
     }
 
     public void update(Employer employer) {
-        Assert.notNull(employer, "user must not be null");
+        Assert.notNull(employer, "employer must not be null");
         checkDataEmployer(employer);
         checkNotFoundWithId(repository.save(employer), employer.id());
     }

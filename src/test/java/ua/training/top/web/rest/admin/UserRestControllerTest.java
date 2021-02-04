@@ -84,7 +84,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        User newUser = getNew();
+        User newUser = new User(getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)

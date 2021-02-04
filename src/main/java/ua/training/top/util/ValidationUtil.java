@@ -96,21 +96,13 @@ public class ValidationUtil {
     }
 
     public static void checkDataEmployer(Employer e) {
-        if (checkNullStrings(e.getName(), e.getAddress())) {
+        if (!checkNullStrings(e.getName(), e.getAddress())) {
             getException(e);
         }
     }
 
-    public static boolean checkNullDataVacancyTo(VacancyTo v) {
-        return checkNullStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl());
-    }
-
-    public static void getException(Object object) {
+     public static void getException(Object object) {
         throw new IllegalArgumentException("must not null data of " + object.getClass().getSimpleName());
-    }
-
-    public static boolean checkNullStrings(String... data){
-        return Optional.ofNullable(List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() == 0).orElse(true);
     }
 
     public static void checkNotFoundData(boolean found, Object id) {
@@ -125,5 +117,20 @@ public class ValidationUtil {
             return new ArrayList<>();
         }
         return list;
+    }
+
+    public static void isNullPointerException(VacancyTo vacancyTo) {
+        if(!checkNullDataVacancyTo(vacancyTo)) {
+            throw new NullPointerException("data not be null" + vacancyTo);
+        }
+    }
+
+    public static boolean checkNullDataVacancyTo(VacancyTo v) {
+        return checkNullStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl());
+    }
+
+
+    public static boolean checkNullStrings(String... data){
+        return Optional.ofNullable(List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() == 0).orElse(true);
     }
 }

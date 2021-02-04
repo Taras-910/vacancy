@@ -96,6 +96,7 @@ public class VacancyService {
 
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo, Freshen freshenDb) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
+        isNullPointerException(vacancyTo);
         Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
         vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vacancyTo)));
         vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vacancyTo)) : freshenDb);
@@ -107,6 +108,7 @@ public class VacancyService {
         log.info("createListVacancyAndEmployer vacancyTos={}", vacancyTos);
         List<Vacancy> listForCreate = new ArrayList<>();
         for (VacancyTo vTo : vacancyTos) {
+            isNullPointerException(vTo);
             Vacancy vacancy = new Vacancy(fromTo(vTo));
             vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vTo)));
             vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vTo)) : freshenDb);

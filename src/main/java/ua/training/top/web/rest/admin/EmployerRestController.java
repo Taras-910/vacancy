@@ -39,7 +39,7 @@ public class EmployerRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Employer> create(@RequestBody @Valid Employer employer) {
         Employer created = service.create(employer);
-        ResponseEntity<Employer> entity = null;
+        ResponseEntity<Employer> entity;
         try {
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path(REST_URL + "/{id}")

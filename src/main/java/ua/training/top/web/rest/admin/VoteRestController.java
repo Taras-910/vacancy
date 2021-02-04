@@ -13,8 +13,6 @@ import ua.training.top.service.VoteService;
 import java.net.URI;
 import java.util.List;
 
-import static ua.training.top.SecurityUtil.authUserId;
-
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController {
@@ -28,7 +26,7 @@ public class VoteRestController {
 
     @GetMapping("/{id}")
     public Vote get(@PathVariable int id) {
-        log.info("get by id {} for user {}", id, authUserId());
+        log.info("get {}", id);
         return service.get(id);
     }
 

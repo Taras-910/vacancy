@@ -25,8 +25,9 @@ public class VoteService {
     }
 
     public Vote get(int id) {
-        log.info("get by id {} for user {}", id, authUserId());
-        Vote vote = repository.get(id, authUserId());
+        int userId = authUserId();
+        log.info("get by id {} for user {}", id, userId);
+        Vote vote = repository.get(id, userId);
         return checkNotFoundWithId(vote, id);
     }
 
