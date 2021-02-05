@@ -42,7 +42,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
             vacanciesDb = vacancyRepository.saveAll(vacancies);
         } catch (Exception e) {
             for(Vacancy v : vacancies) {
-                log.error("same vacancy " + v + " already existed, redirect on method save");
+                log.error("error " + v + " redirect on method save");
                 vacanciesDb.add(save(v));
             }
         }
@@ -77,7 +77,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     public List<Vacancy> getAll() {
-        return vacancyRepository.findAll(SORT_DATE_NAME);
+        return vacancyRepository.getAll();
     }
 }
 

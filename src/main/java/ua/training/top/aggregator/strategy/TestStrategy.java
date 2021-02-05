@@ -19,18 +19,18 @@ public class TestStrategy implements Strategy {
     }
 
     public static List<VacancyTo> getTestList() {
-        VacancyTo vacancyTo1 = new VacancyTo(null, null, "Games", "Poznan", 300000, 450000, "https://grc.ua/vacancy/40006938?query=java",
-                "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
-                LocalDate.now().minusDays(5), "https://grc.ua", null, null, false);
+        VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM", "Киев",
+                80000, 120000, "https://ibm.ua/vacancy/40006938?query=java", "Java Core",
+                LocalDate.now().minusDays(5), "https://ibm.ua", null, null, false);
 
-        VacancyTo vacancyTo2 = new VacancyTo(null, "Middle проверка vote Developer", null, "киев", 200000, 300000, "https проверка vote",
-                "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting java…",
-                LocalDate.now().minusDays(7), "https://ukr.net/проверка/vote", null, null, false);
+        VacancyTo vacancyTo2 = new VacancyTo(null, "Middle", "Expo", "Львов",
+                100000, 200000, "https://expo.net/vacancy?123", "SpringBoot, Javax",
+                LocalDate.now().minusDays(7), "https://expo.net", null, null, false);
 
-        VacancyTo vacancyTo3 = new VacancyTo(null, "Java-разработчик", "New Company", "Warshaw",
-                100000, 150000, "https://grc.ua/vacancy/40006938?query=java",
-                "Java. Понимание javaScript",
-                LocalDate.now().minusDays(3), "https://grc.ua", null, null, false);
-        return List.of(vacancyTo3);
+        VacancyTo vacancyTo3 = new VacancyTo(null, "Java-Developer", "Company", "Харьков",
+                120000, 150000, "https://nc.com/vacancy/123a", "Java, JavaScript",
+                LocalDate.now().minusDays(3), "https://nc.com", null, null, false);
+
+        return List.of(vacancyTo1, vacancyTo2, vacancyTo3);
     }
 }

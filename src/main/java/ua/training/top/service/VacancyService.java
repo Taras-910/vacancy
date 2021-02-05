@@ -11,7 +11,6 @@ import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,8 @@ import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.ValidationUtil.*;
+import static ua.training.top.util.ValidationUtil.checkNotFound;
+import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class VacancyService {
@@ -101,20 +101,6 @@ public class VacancyService {
         vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vacancyTo)));
         vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vacancyTo)) : freshenDb);
         return vacancyRepository.save(vacancy);
-    }
-
-    @Transactional
-    public List<Vacancy> createListVacancyAndEmployer(List<VacancyTo> vacancyTos, Freshen freshenDb) {
-        log.info("createListVacancyAndEmployer vacancyTos={}", vacancyTos);
-        List<Vacancy> listForCreate = new ArrayList<>();
-        for (VacancyTo vTo : vacancyTos) {
-            isNullPointerException(vTo);
-            Vacancy vacancy = new Vacancy(fromTo(vTo));
-            vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vTo)));
-            vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vTo)) : freshenDb);
-            listForCreate.add(vacancy);
-        }
-        return createUpdateList(listForCreate);
     }
 
     @Transactional

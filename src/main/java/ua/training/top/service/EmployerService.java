@@ -5,9 +5,10 @@ import org.springframework.util.Assert;
 import ua.training.top.model.Employer;
 import ua.training.top.repository.EmployerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static ua.training.top.util.ValidationUtil.checkDataEmployer;
+import static ua.training.top.util.EmployerUtil.checkDataEmployer;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -38,6 +39,10 @@ public class EmployerService {
         return repository.save(employer);
     }
 
+    public List<Employer> createList(ArrayList<Employer> employers) {
+        return repository.createList(employers);
+    }
+
     public void update(Employer employer) {
         Assert.notNull(employer, "employer must not be null");
         checkDataEmployer(employer);
@@ -51,5 +56,4 @@ public class EmployerService {
     public void deleteEmptyEmployers() {
         repository.deleteAllEmpty(0);
     }
-
 }

@@ -2,11 +2,13 @@ package ua.training.top.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.testData.FreshenTestData;
 import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
@@ -14,10 +16,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.EmployerTestData.EMPLOYER1_ID;
+import static ua.training.top.testData.EmployerTestData.EMPLOYER_MATCHER;
 import static ua.training.top.testData.UserTestData.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.*;
+import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.util.DateTimeUtil.DATE_TEST;
+import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
@@ -72,14 +77,15 @@ public class VacancyServiceTest extends AbstractServiceTest {
     public void createErrorData() throws Exception {
         setTestAuthorizedUser(admin);
         Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "Киев", null));
-        assertThrows(NullPointerException.class, () -> vacancyService.createListVacancyAndEmployer(List.of(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createListVacancyAndEmployer(List.of(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createListVacancyAndEmployer(List.of(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createListVacancyAndEmployer(List.of(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", null, DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false)), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net", null, DATE_TEST, "https://www.ukr.net/1/11","java", "киев", false), freshen));
     }
 
     @Test
     public void createListOfVacancies() throws Exception {
+        setTestAuthorizedUser(admin);
         List<Vacancy> actual = List.of(vacancy3, vacancy4);
         int freshenId = freshenService.create(FreshenTestData.getNew()).getId();
         List<Vacancy> created = vacancyService.createUpdateList(actual);
@@ -111,17 +117,16 @@ public class VacancyServiceTest extends AbstractServiceTest {
     public void createVacancyAndEmployer() throws Exception  {
         setTestAuthorizedUser(admin);
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
-        Vacancy createdVacancy = vacancyService.createListVacancyAndEmployer(List.of(newVacancyTo), getFreshenFromTo(newVacancyTo)).get(0);
-//        int newIdVacancy = createdVacancy.id();
-//        newVacancyTo.setId(newIdVacancy);
-//        VACANCY_MATCHER.assertMatch(createdVacancy, fromTo(newVacancyTo));
-//        Employer newEmployer = getEmployerFromTo(newVacancyTo);
-//        Employer createdEmployer = employerService.getOrCreate(getEmployerFromTo(newVacancyTo));
-//        int newIdEmployer = createdEmployer.id();
-//        newEmployer.setId(newIdEmployer);
-//        EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
-//        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy),
-//                voteService.getAllForAuth()), newVacancyTo);
+        Vacancy createdVacancy = vacancyService.createVacancyAndEmployer(newVacancyTo, getFreshenFromTo(newVacancyTo));
+        int newIdVacancy = createdVacancy.id();
+        newVacancyTo.setId(newIdVacancy);
+        VACANCY_MATCHER.assertMatch(createdVacancy, fromTo(newVacancyTo));
+        Employer newEmployer = getEmployerFromTo(newVacancyTo);
+        Employer createdEmployer = employerService.getOrCreate(getEmployerFromTo(newVacancyTo));
+        int newIdEmployer = createdEmployer.id();
+        newEmployer.setId(newIdEmployer);
+        EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
+        VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy),
+                voteService.getAllForAuth()), newVacancyTo);
     }
-
 }

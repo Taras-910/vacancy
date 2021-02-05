@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static ua.training.top.util.DateTimeUtil.*;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -36,7 +37,7 @@ public class FreshenService {
         log.info("create {}", freshen);
         Assert.notNull(freshen, "freshen must not be null");
         checkNew(freshen);
-        return repository.save(freshen);
+        return repository.save(asNewFreshen(freshen));
     }
 
     public void delete(int id) {
@@ -59,6 +60,6 @@ public class FreshenService {
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
         checkLimitTime(freshen, getBetween(tomorrow, yesterday));
-        aggregatorService.refreshDB(freshen);
+        aggregatorService.refreshDB(asNewFreshen(freshen));
     }
 }

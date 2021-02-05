@@ -2,12 +2,7 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 import ua.training.top.model.AbstractBaseEntity;
-import ua.training.top.model.Employer;
-import ua.training.top.model.Freshen;
-import ua.training.top.model.Vacancy;
-import ua.training.top.to.VacancyTo;
 import ua.training.top.util.exception.ErrorType;
 import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.NotFoundException;
@@ -16,9 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -93,44 +85,5 @@ public class ValidationUtil {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         //  From Javadoc: implementations of this interface must be thread-safe
         validator = factory.getValidator();
-    }
-
-    public static void checkDataEmployer(Employer e) {
-        if (!checkNullStrings(e.getName(), e.getAddress())) {
-            getException(e);
-        }
-    }
-
-     public static void getException(Object object) {
-        throw new IllegalArgumentException("must not null data of " + object.getClass().getSimpleName());
-    }
-
-    public static void checkNotFoundData(boolean found, Object id) {
-        if (!found) {
-            log.error("Not found entity with " + id);
-        }
-    }
-
-    public static List<Vacancy> checkEmptyList(List<Vacancy> list, Freshen f) {
-        if (list.isEmpty()) {
-            log.error("database has not suitable vacancies for query: {"+ f.getLanguage() + ", "+ f.getWorkplace() + "}");
-            return new ArrayList<>();
-        }
-        return list;
-    }
-
-    public static void isNullPointerException(VacancyTo vacancyTo) {
-        if(!checkNullDataVacancyTo(vacancyTo)) {
-            throw new NullPointerException("data not be null" + vacancyTo);
-        }
-    }
-
-    public static boolean checkNullDataVacancyTo(VacancyTo v) {
-        return checkNullStrings(v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl());
-    }
-
-
-    public static boolean checkNullStrings(String... data){
-        return Optional.ofNullable(List.of(data).stream().filter(text -> !StringUtils.hasText(text)).count() == 0).orElse(true);
     }
 }

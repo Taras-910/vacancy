@@ -77,7 +77,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2, vacancy1), voteService.getAllForAuth())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1, vacancy2), voteService.getAllForAuth())));
     }
 
     @Test

@@ -18,11 +18,11 @@ public class ToCorrectDate {
             if(myDate.length() > 1 && (myDate.contains("вчера") || myDate.contains("вчора"))){
                 return LocalDate.now().minusDays(1);
             }
-            if(myDate.contains("мин") || myDate.contains("хв") || myDate.contains("сьогодні")
+            if((myDate.contains("мин") || myDate.contains("хв")) && myDate.matches(".*\\d.*")|| myDate.contains("сьогодні")
                     || myDate.contains("сегодня") || myDate.contains("только что")){
                 return LocalDate.now();
             }
-            if(myDate.contains("ч") || myDate.contains("час") || myDate.contains("год")){
+            if(myDate.contains("ч") && myDate.matches(".*\\d.*") || myDate.contains("час") || myDate.contains("год")){
                 return LocalDateTime.now()
                         .minusHours(Integer.parseInt(myDate.replaceAll("\\W+", "").trim())).toLocalDate();
             }
@@ -30,8 +30,11 @@ public class ToCorrectDate {
                 myDate = myDate.contains("більше") ? myDate.replace("більше", "").trim() : myDate;
                 return LocalDate.now().minusMonths(Integer.parseInt(myDate.substring(0, 2).trim())).minusDays(1);
             }
-            if(myDate.length() > 1 && (myDate.contains("день") || myDate.contains("дн"))){
+            if(myDate.length() > 1 && (myDate.contains("день") || myDate.contains("дн") && myDate.matches(".*\\d.*"))){
                 return LocalDate.now().minusDays(Integer.parseInt(myDate.trim().substring(0, 2).trim()));
+            }
+            if(!myDate.matches(".*\\d.*")){
+                return LocalDate.now().minusDays(7);
             }
         } catch (NumberFormatException e) {
             log.info("Wrong data {} exception {}", myDate, e.getMessage());

@@ -23,8 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
-import static ua.training.top.aggregator.installation.InstallationUtil.setReasonPeriodToKeep;
 import static ua.training.top.aggregator.installation.InstallationUtil.setTestProvider;
+import static ua.training.top.aggregator.installation.InstallationUtil.setTestReasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.TestStrategy.getTestList;
 import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
@@ -71,7 +71,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         List<Employer> employersDbBefore = employerService.getAll();
         setTestProvider();
         setTestAuthorizedUser(admin);
-        setReasonPeriodToKeep();
+        setTestReasonPeriodToKeep();
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))

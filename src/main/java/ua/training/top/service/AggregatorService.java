@@ -1,29 +1,30 @@
 package ua.training.top.service;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.top.model.Freshen;
-import ua.training.top.model.Vacancy;
-import ua.training.top.model.Vote;
+import ua.training.top.model.*;
 import ua.training.top.to.SubVacancyTo;
 import ua.training.top.to.VacancyTo;
+import ua.training.top.util.AggregatorUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
-import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.xss.XssUtil.xssClear;
+import static ua.training.top.util.AggregatorUtil.*;
+import static ua.training.top.util.EmployerUtil.getEmployerMap;
+import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
+import static ua.training.top.util.VacancyUtil.getTos;
 
 @Service
 public class AggregatorService {
@@ -42,72 +43,73 @@ public class AggregatorService {
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
 
         if (!vacancyTos.isEmpty()) {
-            List<VacancyTo> vacancyToForCreate = new ArrayList<>(vacancyTos);
+            List<VacancyTo> vacancyTosForCreate = new ArrayList<>(vacancyTos);
             List<VacancyTo> vacancyToForUpdate = new ArrayList<>(vacancyTos);
             List<Vacancy> vacanciesDb = vacancyService.getAll();
             List<Vote> votes = voteService.getAll();
             List<VacancyTo> vacancyTosDb = getTos(vacanciesDb, votes);
             Map<VacancyTo, Vacancy> parallelMap = getParallelMap(vacanciesDb, votes);
-            Map<SubVacancyTo, VacancyTo> mapAll = getMapVacancyTos(vacancyTosDb);
+            Map<SubVacancyTo, VacancyTo> mapAllVacancyTos = getMapVacancyTos(vacancyTosDb);
+            Map<String, Employer> mapAllEmployers = getMapAllEmployers(vacancyTos);
 
             /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
-            vacancyTosDb.forEach(i -> vacancyToForCreate.remove(i));
-            vacancyToForCreate.forEach(i -> vacancyToForUpdate.remove(i));
+            vacancyTosDb.forEach(vacancyTosForCreate::remove);
+            vacancyTosForCreate.forEach(vacancyToForUpdate::remove);
             List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
             Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
-            List<Vacancy> resultForSave = new ArrayList<>();
-            for (SubVacancyTo vst : mapForUpdate.keySet()) {
-                resultForSave.add(populateVacancy(mapForUpdate.get(vst), mapAll.get(vst), parallelMap));
+            List<Vacancy> vacanciesForUpdate = new ArrayList<>();
+            for (SubVacancyTo subVacancyTo : mapForUpdate.keySet()) {
+                vacanciesForUpdate.add(AggregatorUtil.getForUpdate(mapForUpdate.get(subVacancyTo),
+                        mapAllVacancyTos.get(subVacancyTo), parallelMap));
             }
-            refresh(vacancyToForCreate, resultForSave, freshen);
+            refresh(vacancyTosForCreate, vacanciesForUpdate, freshen, mapAllEmployers, vacanciesDb);
         }
     }
 
     @Transactional
-    protected void refresh(List<VacancyTo> vacancyToForCreate, List<Vacancy> resultForSave, Freshen freshen) {
+    protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
+                           Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
         Freshen freshenDb = freshenService.create(freshen);
-        if (!vacancyToForCreate.isEmpty()) {
-            vacancyService.createListVacancyAndEmployer(vacancyToForCreate, freshenDb);
+        List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenDb);
+        Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
+        vacancies.addAll(vacanciesForCreate);
+        if (!vacancies.isEmpty()) {
+            vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
-        if (!resultForSave.isEmpty()) {
-            vacancyService.createUpdateList(resultForSave);
-        }
-        deleteVacanciesOutdated(reasonPeriodToKeep);
+        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         employerService.deleteEmptyEmployers();
     }
 
+    public Map<String, Employer> getMapAllEmployers(List<VacancyTo> vacancyTos){
+        Set<Employer> employersDb = new HashSet<>(employerService.getAll());
+        Set<Employer> employersForCreate = new HashSet<>(getEmployersFromTos(vacancyTos));
+        employersDb.forEach(employersForCreate::remove);
+        if (!employersForCreate.isEmpty()) {
+            Set<Employer> employersNew = new HashSet<>(employerService.createList(new ArrayList<>(employersForCreate)));
+            employersDb.addAll(employersNew);
+        }
+        return getEmployerMap(employersDb);
+    }
+
     @Transactional
-    protected void deleteVacanciesOutdated(LocalDate reasonDateToKeep) {
+    public void deleteVacanciesOutdated(List<Vacancy> vacanciesDb, LocalDate reasonDateToKeep) {
         log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
-        List<Vacancy> listToDelete = vacancyService.getAll().stream()
+        List<Vacancy> listToDelete = vacanciesDb.stream()
                 .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
                 .collect(Collectors.toList());
-        vacancyService.deleteList(listToDelete);
+        if (!listToDelete.isEmpty()) {
+            vacancyService.deleteList(listToDelete);
+        }
     }
 
     public static void main(String[] args) throws IOException {
-/*
         User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
         setTestAuthorizedUser(admin);
-        String language = "java";
         String workplace = "киев";
-//        String workplace = "за_рубежем";
+        String language = "java";
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(), language, workplace, authUserId()));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-*/
-        String text = "Admin<script>alert('XSS')</script>";
-        System.out.println(xssClear(text));
-        String safeText = Jsoup.clean(text, Whitelist.basic());
-        System.out.println(safeText);
-
-/*
-                String unsafe =
-                "<p><a href='http://example.com/' onclick='stealCookies()'>Link</a></p>";
-        String safe = Jsoup.clean(unsafe, Whitelist.basic());
-        // now: <p><a href="http://example.com/" rel="nofollow">Link</a></p>
-        System.out.println(safe);
-*/
     }
 }

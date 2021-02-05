@@ -53,7 +53,7 @@ public class VacancyTestData {
     private static List<Vacancy> getAllWithEmployers() {
         vacancy1.setEmployer(employer1);
         vacancy2.setEmployer(employer2);
-        return  Arrays.asList(vacancy2, vacancy1);
+        return  Arrays.asList(vacancy1, vacancy2);
     }
 
     public static List<Vacancy> getListVacancies() {

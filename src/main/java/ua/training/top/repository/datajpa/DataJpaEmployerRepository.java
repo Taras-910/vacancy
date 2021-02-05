@@ -40,8 +40,23 @@ public class DataJpaEmployerRepository implements EmployerRepository {
 
     @Transactional
     @Override
-    public void deleteAllEmpty(int size) {
-        repository.deleteAllEmpty(0);
+    public boolean deleteAllEmpty(int size) {
+        return repository.deleteAllEmpty(0) != 0;
+    }
+
+    @Transactional
+    @Override
+    public List<Employer> createList(ArrayList<Employer> employers) {
+        List<Employer> employersDb = new ArrayList<>();
+        try {
+            employersDb = repository.saveAll(employers);
+        } catch (Exception e) {
+            for(Employer employer : employers) {
+                log.error("error " + employer + " redirect on method save");
+                employersDb.add(save(employer));
+            }
+        }
+        return employersDb;
     }
 
     @Transactional

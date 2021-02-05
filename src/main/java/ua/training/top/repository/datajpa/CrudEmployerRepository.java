@@ -23,8 +23,8 @@ public interface CrudEmployerRepository extends JpaRepository<Employer, Integer>
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Employer e WHERE e.vacancies.size=:size")
-    void deleteAllEmpty(@Param("size") int size);
+    @Query("DELETE FROM Employer e WHERE size(e.vacancies)=:size")
+    int deleteAllEmpty(@Param("size") int size);
 
     @Query("SELECT e FROM Employer e WHERE e.name=:name")
     List<Employer> getByName(@Param("name")String name);

@@ -44,8 +44,8 @@ public class EmployerServiceTest extends AbstractServiceTest {
     @Test
     public void updateErrorData() throws Exception {
         assertThrows(IllegalArgumentException.class, () -> service.update(null));
-        assertThrows(NullPointerException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
-        assertThrows(NullPointerException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
+        assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress", "https://grc.ua")));
+        assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null, "https://grc.ua")));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class EmployerServiceTest extends AbstractServiceTest {
 
     @Test
     public void createErrorDate() throws Exception {
-        assertThrows(NullPointerException.class, () -> service.create(new Employer(null, null, "newAddress", "https://grc.ua")));
+        assertThrows(IllegalArgumentException.class, () -> service.create(new Employer(null, null, "newAddress", "https://grc.ua")));
     }
 
     @Test
