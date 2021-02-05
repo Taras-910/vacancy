@@ -28,16 +28,16 @@ public class HabrStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) {
+    public List<VacancyTo> getVacancies(Freshen freshen) {
         Set<VacancyTo> set = new LinkedHashSet<>();
         try {
-            if(doubleString.getWorkplace().contains("за_рубежем")){
+            if(freshen.getWorkplace().contains("за_рубежем")){
                 return new ArrayList<>();
             }
-            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage());
+            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage());
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
             if (elements != null) {
-                set.addAll(getVacanciesHabr(elements, doubleString));
+                set.addAll(getVacanciesHabr(elements));
             }
             reCall(set.size(), new HabrStrategy());
         } catch (Exception e) {

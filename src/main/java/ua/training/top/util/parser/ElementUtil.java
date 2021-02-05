@@ -19,6 +19,7 @@ import static ua.training.top.aggregator.strategy.UAIndeedStrategy.getCorrectUrl
 import static ua.training.top.util.DateTimeUtil.parseLocalDate;
 import static ua.training.top.util.parser.datas.CorrectAddress.getCorrectAddress;
 import static ua.training.top.util.parser.datas.CorrectCompanyName.getCorrectCompanyName;
+import static ua.training.top.util.parser.datas.CorrectSkills.getSkills;
 import static ua.training.top.util.parser.datas.CorrectTitle.getCorrectTitle;
 import static ua.training.top.util.parser.date.DateUtil.supportDate;
 import static ua.training.top.util.parser.date.ToCorrectDate.getCorrectDate;
@@ -40,7 +41,7 @@ public class ElementUtil {
             v.setSalaryMax(1);
             v.setSalaryMin(1);
             v.setUrl("https://djinni.co".concat(xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
-            v.setSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
+            v.setSkills(getSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim())));
             v.setReleaseDate(getCorrectDate(xssClear(element.getElementsByClass("inbox-date").text().trim())));
             v.setSiteName("https://djinni.co");
             list.add(v);
@@ -70,7 +71,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesHabr(Elements elements, Freshen freshen) {
+    public static List<VacancyTo> getVacanciesHabr(Elements elements) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             log.info("elements {}", elements.size());
@@ -109,7 +110,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesLinkedin(Elements elements, Freshen freshen) {
+    public static List<VacancyTo> getVacanciesLinkedin(Elements elements) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             VacancyTo v = new VacancyTo();

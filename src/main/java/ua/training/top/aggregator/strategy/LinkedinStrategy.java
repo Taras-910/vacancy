@@ -33,19 +33,19 @@ public class LinkedinStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
-        log.info("getVacancies city={} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
         String[] countries = new String[]{"Канада", "Польша", "германия", "Швеция", "Израиль", "Швеция", "Соединенные%2BШтаты%2BАмерики"};
-        String[] cityOrCountry = doubleString.getWorkplace().contains("за_рубежем") ? countries : new String[]{doubleString.getWorkplace()};
+        String[] cityOrCountry = freshen.getWorkplace().contains("за_рубежем") ? countries : new String[]{freshen.getWorkplace()};
         List<VacancyTo> result = new ArrayList<>();
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String c : cityOrCountry) {
             int page = 0;
             while(page < 5) {
-                Document doc = getDocument(c, doubleString.getLanguage(), String.valueOf(page));
+                Document doc = getDocument(c, freshen.getLanguage(), String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("result-card");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesLinkedin(elements, doubleString));
+                set.addAll(getVacanciesLinkedin(elements));
                 page = cityOrCountry.length == 1 ? page + 1 : page + 5;
             }
         }
