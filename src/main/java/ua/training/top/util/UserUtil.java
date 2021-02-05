@@ -17,13 +17,12 @@ public class UserUtil {
         if(passwordDb == null) {
             user.setPassword(passwordEncoder.encode(password));
         } else {
-            String cleared = passwordDb.replace("{noop}", "");
-            if(!cleared.equals(password)) {
-                // ToDo: send form confirm change password ('Are you sure?')
-                user.setPassword(passwordEncoder.encode(password));
+            if(passwordDb.equals(password)) {
+                user.setPassword(passwordDb);
             }
             else {
-                user.setPassword(passwordDb);
+                // ToDo: send confirm form to change password ('Are you sure?')
+                user.setPassword(passwordEncoder.encode(password));
             }
         }
         user.setEmail(user.getEmail().toLowerCase());

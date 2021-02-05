@@ -317,7 +317,9 @@
                 </form>
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
-                <h7><em>wait loading about minute or two... than press </em>“Фильтровать”</h7>
+                <%--<h7><em>wait loading about minute or two...</em></h7>--%>
+                <h7><em>идет загрузка... подождите минуту или две...<br>через две мин нажмите кнопку </em>
+                    <h7 class="text-danger">"  Сбросить"</h7></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">
