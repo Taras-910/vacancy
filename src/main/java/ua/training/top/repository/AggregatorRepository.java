@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import ua.training.top.aggregator.Provider;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.VacancyUtil;
+import ua.training.top.util.VacancyCheckUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,7 +38,7 @@ public class AggregatorRepository implements AggregatorInterface{
             }
         }
         List<VacancyTo> vacancyTos= set.stream()
-                .filter(VacancyUtil::checkNullDataVacancyTo)
+                .filter(VacancyCheckUtil::checkNullDataVacancyTo)
                 .filter(v -> reasonDateToLoad.isBefore(v.getReleaseDate()))
                 .filter(v -> (v.getTitle().toLowerCase().contains(freshen.getLanguage())
                         || v.getSkills().toLowerCase().contains(freshen.getLanguage())))

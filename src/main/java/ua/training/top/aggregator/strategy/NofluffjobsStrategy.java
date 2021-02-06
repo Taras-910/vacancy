@@ -37,7 +37,7 @@ public class NofluffjobsStrategy implements Strategy {
             Document doc = getDocument(freshen.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("posting-list-item");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getNofluffjobsVacancies(elements));
+            set.addAll(getNofluffjobsVacancies(elements, freshen));
             if(page < limitCallPages) page++;
             else break;
         }

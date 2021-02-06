@@ -37,7 +37,7 @@ public class HabrStrategy implements Strategy {
             Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage());
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
             if (elements != null) {
-                set.addAll(getVacanciesHabr(elements));
+                set.addAll(getVacanciesHabr(elements, freshen));
             }
             reCall(set.size(), new HabrStrategy());
         } catch (Exception e) {

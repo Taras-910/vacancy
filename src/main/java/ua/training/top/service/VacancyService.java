@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
+import static ua.training.top.util.VacancyCheckUtil.*;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.checkNotFound;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
@@ -58,13 +59,12 @@ public class VacancyService {
 
     public List<Vacancy> getByFilter(Freshen f) {
         log.info("getByFilter language={} workplace={}", f.getLanguage(), f.getWorkplace());
-        List<Vacancy> vacancies = getAll().stream()
-                .filter(v -> f.getWorkplace().equals("all") || v.getFreshen().getWorkplace().contains(f.getWorkplace()))
-                .filter(v -> f.getLanguage().equals("all") || v.getFreshen().getLanguage().contains(f.getLanguage()))
+        List<Vacancy> vacancies = getAll().stream().filter(vacancy -> filterWorkplace(f.getWorkplace(), vacancy))
+                .filter(vacancy -> filterLanguage(f.getLanguage(), vacancy))
+                .filter(vacancy -> filterJavaCase(f.getLanguage(), vacancy))
                 .collect(Collectors.toList());
         return checkEmptyList(vacancies, f);
     }
-
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());

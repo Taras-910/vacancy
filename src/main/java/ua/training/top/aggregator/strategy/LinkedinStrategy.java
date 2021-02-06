@@ -45,7 +45,7 @@ public class LinkedinStrategy implements Strategy {
                 Document doc = getDocument(c, freshen.getLanguage(), String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("result-card");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesLinkedin(elements));
+                set.addAll(getVacanciesLinkedin(elements, freshen));
                 page = cityOrCountry.length == 1 ? page + 1 : page + 5;
             }
         }

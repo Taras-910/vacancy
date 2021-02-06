@@ -34,28 +34,32 @@ public class ElementUtil {
     public static List<VacancyTo> getVacanciesDjinni(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
-            VacancyTo v = new VacancyTo();
-            v.setTitle(xssClear(element.getElementsByClass("list-jobs__title").text().trim()));
-            v.setEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim()));
-            v.setAddress(freshen.getWorkplace());
-            v.setSalaryMax(1);
-            v.setSalaryMin(1);
-            v.setUrl("https://djinni.co".concat(xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
-            v.setSkills(getSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim())));
-            v.setReleaseDate(getCorrectDate(xssClear(element.getElementsByClass("inbox-date").text().trim())));
-            v.setSiteName("https://djinni.co");
-            list.add(v);
+            String title = xssClear(element.getElementsByClass("list-jobs__title").text().trim());
+            String skills = getSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
+            if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
+                VacancyTo v = new VacancyTo();
+                v.setTitle(title);
+                v.setEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim()));
+                v.setAddress(freshen.getWorkplace());
+                v.setSalaryMax(1);
+                v.setSalaryMin(1);
+                v.setUrl("https://djinni.co".concat(xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
+                v.setSkills(skills);
+                v.setReleaseDate(getCorrectDate(xssClear(element.getElementsByClass("inbox-date").text().trim())));
+                v.setSiteName("https://djinni.co");
+                list.add(v);
+            }
         });
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesGrc(Elements elements, Freshen doubleString) {
+    public static List<VacancyTo> getVacanciesGrc(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         elements.forEach(element -> {
             VacancyTo v = new VacancyTo();
-            String title = element.getElementsByTag("a").first().text().trim().toLowerCase();
-            String skills = element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase();
-            if (title.contains(doubleString.getLanguage()) || skills.contains(doubleString.getLanguage())){
+            String title = xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase());
+            String skills = xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase());
+            if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
                 v.setTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
                 v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
                 v.setAddress(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim()));
@@ -71,19 +75,20 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesHabr(Elements elements) {
+    public static List<VacancyTo> getVacanciesHabr(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
-            log.info("elements {}", elements.size());
-            if (element != null) {
+            String title = xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim());
+            String skills = xssClear(element.getElementsByClass("vacancy-card__skills").text().trim());
+            if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
                 VacancyTo v = new VacancyTo();
-                v.setTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
+                v.setTitle(title);
                 v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
                 v.setAddress(xssClear(element.getElementsByClass("vacancy-card__meta").tagName("a").first().text()));
                 v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("basic-salary").text().trim()))));
                 v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("basic-salary").text().trim()))));
                 v.setUrl("https://career.habr.com".concat(xssClear(element.getElementsByClass("vacancy-card__icon-link").attr("href").trim())));
-                v.setSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
+                v.setSkills(skills);
                 v.setReleaseDate(LocalDate.parse(xssClear(element.getElementsByAttribute("datetime").attr("datetime").substring(0, 10)), null));
                 v.setSiteName("https://career.habr.com");
                 list.add(v);
@@ -95,46 +100,54 @@ public class ElementUtil {
     public static List<VacancyTo> getVacanciesJobs(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
-            VacancyTo v = new VacancyTo();
-            v.setTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
-            v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByTag("a").last().text().trim())));
-            v.setAddress(xssClear(element.getElementsByClass("cities").text().trim()));
-            v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
-            v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
-            v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href").trim()));
-            v.setSkills(xssClear(element.getElementsByClass("sh-info").text().trim()));
-            v.setReleaseDate(LocalDate.now().minusDays(1).minusDays((int) (5 + list.size() * 1.5) / 12));
-            v.setSiteName("https://jobs.dou.ua");
-            list.add(v);
+            String title = xssClear(element.getElementsByTag("a").first().text().trim());
+            String skills = xssClear(element.getElementsByClass("sh-info").text().trim());
+            if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
+                VacancyTo v = new VacancyTo();
+                v.setTitle(title);
+                v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByTag("a").last().text().trim())));
+                v.setAddress(xssClear(element.getElementsByClass("cities").text().trim()));
+                v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
+                v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
+                v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href").trim()));
+                v.setSkills(skills);
+                v.setReleaseDate(LocalDate.now().minusDays(1).minusDays((int) (5 + list.size() * 1.5) / 12));
+                v.setSiteName("https://jobs.dou.ua");
+                list.add(v);
+            }
         });
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesLinkedin(Elements elements) {
+    public static List<VacancyTo> getVacanciesLinkedin(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
-            VacancyTo v = new VacancyTo();
-            v.setTitle(xssClear(element.getElementsByClass("result-card__title job-result-card__title").text().trim()));
-            v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("result-card__subtitle-link job-result-card__subtitle-link").text().trim())));
-            v.setAddress(xssClear(element.getElementsByClass("job-result-card__location").text().trim()));
-            v.setSalaryMax(1);
-            v.setSalaryMin(1);
-            v.setUrl(xssClear(element.getElementsByClass("result-card__full-card-link").first().attr("href").split("&")[0].trim()));
-            v.setSkills("see the card on the link");
-            v.setReleaseDate(parseLocalDate(xssClear(element.getElementsByTag("time").tagName("time").attr("datetime"))));
-            v.setSiteName("https://www.linkedin.com");
-            list.add(v);
+            String title = xssClear(element.getElementsByClass("result-card__title job-result-card__title").text().trim());
+            if (title.toLowerCase().contains(freshen.getLanguage())) {
+                VacancyTo v = new VacancyTo();
+                v.setTitle(title);
+                v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("result-card__subtitle-link job-result-card__subtitle-link").text().trim())));
+                v.setAddress(xssClear(element.getElementsByClass("job-result-card__location").text().trim()));
+                v.setSalaryMax(1);
+                v.setSalaryMin(1);
+                v.setUrl(xssClear(element.getElementsByClass("result-card__full-card-link").first().attr("href").split("&")[0].trim()));
+                v.setSkills("see the card on the link");
+                v.setReleaseDate(parseLocalDate(xssClear(element.getElementsByTag("time").tagName("time").attr("datetime"))));
+                v.setSiteName("https://www.linkedin.com");
+                list.add(v);
+            }
         });
         return list;
     }
 
-    public static Collection<? extends VacancyTo> getNofluffjobsVacancies(Elements elements) {
+    public static Collection<? extends VacancyTo> getNofluffjobsVacancies(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         log.info("elements {}", elements.size());
         for (Element element : elements) {
-            if (element != null) {
+            String title = xssClear(element.getElementsByClass("posting-title__position").text().trim());
+            if (title.toLowerCase().contains(freshen.getLanguage())) {
                 VacancyTo v = new VacancyTo();
-                v.setTitle(xssClear(element.getElementsByClass("posting-title__position").text().trim()));
+                v.setTitle(title);
                 v.setEmployerName(xssClear(element.getElementsByClass("posting-title__company").text()).substring(2).trim());
                 v.setAddress(validAddress(xssClear(element.getElementsByTag("nfj-posting-item-city").text())));
                 v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("nfj-posting-item-tags").text().trim()))));
@@ -144,6 +157,7 @@ public class ElementUtil {
                 v.setReleaseDate(validDate(element.getElementsByClass("new-label").text()));
                 v.setSiteName("https://nofluffjobs.com/");
                 list.add(v);
+
             }
         }
         return list;
@@ -152,18 +166,18 @@ public class ElementUtil {
     public static List<VacancyTo> getVacanciesRabota(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
-            String title = element.getElementsByClass("card-title").text().trim();
-            String skills = element.getElementsByClass("card-description").text().trim();
+            String title = xssClear(element.getElementsByClass("card-title").text().trim());
+            String skills = xssClear(element.getElementsByClass("card-description").text().trim());
             if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
                 VacancyTo v = new VacancyTo();
-                v.setTitle(getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim())));
+                v.setTitle(title);
                 v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("company-name").text().trim())));
                 v.setAddress(xssClear(element.getElementsByClass("location").text().trim()));
                 v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
                 v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
                 v.setUrl("https://rabota.ua".concat("/company").concat(xssClear(element.getElementsByClass("card").attr("data-company-id").trim()))
                         .concat("/vacancy").concat(element.getElementsByClass("card").attr("data-vacancy-id").trim()));
-                v.setSkills(xssClear(skills));
+                v.setSkills(skills);
                 v.setReleaseDate(getCorrectDate(xssClear(element.getElementsByClass("publication-time").text().trim())));
                 v.setSiteName("https://rabota.ua");
                 list.add(v);
@@ -204,7 +218,7 @@ public class ElementUtil {
                 String skills = xssClear(element.getElementsByTag("b").tagName("span").nextAll().text());
                 if ((title.toLowerCase().contains(freshen.getLanguage()) || skills.toLowerCase().contains(freshen.getLanguage()) && skills.length() > 2)) {
                     VacancyTo v = new VacancyTo();
-                    v.setTitle(xssClear(title));
+                    v.setTitle(title);
                     v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("_786d5").text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("caption _8d375").first().text().trim()));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text()))));
