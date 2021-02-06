@@ -68,7 +68,11 @@ CREATE TABLE vote
     local_date     DATETIME     NOT NULL,
     vacancy_id     INTEGER      NOT NULL,
     user_id        INTEGER      NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE,
-    FOREIGN KEY (vacancy_id) REFERENCES VACANCY (id) ON DELETE CASCADE
+
+    CONSTRAINT votes_idx UNIQUE (vacancy_id, user_id),
+    FOREIGN KEY (vacancy_id) REFERENCES VACANCY (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX votes_idx ON VOTE (vacancy_id, user_id);
+
+
+
