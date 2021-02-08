@@ -68,11 +68,11 @@ public class DateTimeUtil {
             if (!freshensHour.isEmpty()){
                 Freshen lastFreshen = freshensHour.get(0);
                 if (freshensHour.size() >= freshenPerHour ||
-                        freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour))) {
+                        freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes((int)(60/freshenPerHour)))) {
                     throw new IllegalStateException("по параметрам {\'" + freshen.getLanguage() + "\', \'" +
                             freshen.getWorkplace() + "\'} <br>последнее обновление:  " +
                             toStringTime(lastFreshen.getRecordedDate()) + "<br>повторите запрос после:  " +
-                            toStringTime(lastFreshen.getRecordedDate().plusMinutes(60/freshenPerHour).plusMinutes(1)));
+                            toStringTime(lastFreshen.getRecordedDate().plusMinutes((int)(60/freshenPerHour)).plusMinutes(1)));
                 }
             }
         }

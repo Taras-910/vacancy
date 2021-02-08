@@ -32,19 +32,19 @@ CREATE TABLE user_roles
 CREATE TABLE employer
 (
     id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name        VARCHAR  NOT NULL,
-    address     VARCHAR  NOT NULL,
-    site_name   VARCHAR  NOT NULL,
+    name               VARCHAR  NOT NULL,
+    address            VARCHAR  NOT NULL,
+    site_name          VARCHAR  NOT NULL,
     CONSTRAINT employer_idx UNIQUE (name, address)
 );
 
 CREATE TABLE freshen
 (
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    recorded_date    TIMESTAMP NOT NULL,
-    language             TEXT   NOT NULL,
-    workplace            TEXT   NOT NULL,
-    user_id              INTEGER   NOT NULL,
+    recorded_date       TIMESTAMP  DEFAULT now() NOT NULL,
+    language            TEXT                     NOT NULL,
+    workplace           TEXT                     NOT NULL,
+    user_id             INTEGER,
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 

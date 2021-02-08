@@ -8,9 +8,6 @@ import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -76,14 +73,5 @@ public class ValidationUtil {
             log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
         }
         return rootCause;
-    }
-
-    private static final Validator validator;
-
-    static {
-        //  From Javadoc: implementations are thread-safe and instances are typically cached and reused.
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        //  From Javadoc: implementations of this interface must be thread-safe
-        validator = factory.getValidator();
     }
 }

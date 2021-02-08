@@ -23,13 +23,13 @@ import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class VacancyService {
     private static final Logger log = LoggerFactory.getLogger(VacancyService.class);
-    private final VacancyRepository vacancyRepository;
+    private final VacancyRepository repository;
     private final EmployerService employerService;
     private final VoteService voteService;
     private final FreshenService freshenService;
 
     public VacancyService(VacancyRepository repository, EmployerService employerRepository, VoteService voteService, FreshenService freshenService) {
-        this.vacancyRepository = repository;
+        this.repository = repository;
         this.employerService = employerRepository;
         this.voteService = voteService;
         this.freshenService = freshenService;
@@ -37,7 +37,7 @@ public class VacancyService {
 
     public Vacancy get(int id) {
         log.info("get vacancy for id {}", id);
-        return checkNotFoundWithId(vacancyRepository.get(id), id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
     public VacancyTo getTo(int id) {
@@ -47,7 +47,7 @@ public class VacancyService {
 
     public List<Vacancy> getAll() {
         log.info("getAll");
-        return vacancyRepository.getAll();
+        return repository.getAll();
     }
 
     public List<VacancyTo> getAllTos() {
@@ -58,24 +58,23 @@ public class VacancyService {
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
-        return getTos(getMatches(vacancyRepository.getByFilter(freshen.getLanguage(), freshen.getWorkplace()), freshen),
+        return getTos(getMatchesByFreshen(repository.getByFilter(freshen.getLanguage(), freshen.getWorkplace()), freshen),
                 voteService.getAllForAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {
         log.info("getByTitle title={}", title);
-        return vacancyRepository.getByParams(title, skills, employerId);
+        return repository.getByParams(title, skills, employerId);
     }
 
     @Transactional
     public Vacancy updateTo(VacancyTo vacancyTo) {
         log.info("update vacancyTo {}", vacancyTo);
-        Vacancy vacancyDb = vacancyRepository.get(vacancyTo.id());
-        Vacancy newVacancy = getForUpdate(vacancyTo, vacancyDb);
+        Vacancy vacancyDb = repository.get(vacancyTo.id());
         if(isNotSimilar(vacancyDb, vacancyTo)){
             voteService.deleteListByVacancyId(vacancyTo.id());
         }
-        return vacancyRepository.save(newVacancy);
+        return repository.save(getForUpdate(vacancyTo, vacancyDb));
     }
 
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo, Freshen freshenDb) {
@@ -84,25 +83,25 @@ public class VacancyService {
         Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
         vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vacancyTo)));
         vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vacancyTo)) : freshenDb);
-        return vacancyRepository.save(vacancy);
+        return repository.save(vacancy);
     }
 
     @Transactional
     public List<Vacancy> createUpdateList(List<Vacancy> vacancies) {
         log.info("update vacancies size={}", vacancies.size());
-        return checkNotFound(vacancyRepository.saveAll(vacancies), "list vacancies size=" + vacancies.size());
+        return checkNotFound(repository.saveAll(vacancies), "list vacancies size=" + vacancies.size());
     }
 
     public void delete(int id) {
         log.info("delete vacancy {}", id);
-        checkNotFoundWithId(vacancyRepository.delete(id), id);
+        checkNotFoundWithId(repository.delete(id), id);
         employerService.deleteEmptyEmployers();
 
     }
 
     public void deleteList(List<Vacancy> list) {
         log.info("deleteList {}", list);
-        vacancyRepository.deleteList(list);
+        repository.deleteList(list);
         employerService.deleteEmptyEmployers();
     }
 }

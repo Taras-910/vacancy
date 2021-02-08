@@ -32,7 +32,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @Column(name="workplace")
     private String workplace;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Integer userId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "freshen"/*, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}*/)

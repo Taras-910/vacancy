@@ -35,7 +35,7 @@ public class VacancyCheckUtil {
         return true;
     }
 
-    public static List<Vacancy> getMatches(List<Vacancy> vacancies, Freshen freshen){
+    public static List<Vacancy> getMatchesByFreshen(List<Vacancy> vacancies, Freshen freshen){
         return vacancies.stream()
                 .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
                 .collect(Collectors.toList());

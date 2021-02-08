@@ -166,7 +166,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     void getByFilter() throws Exception {
         setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-                .param("language", "php")
+                .param("language", "java")
                 .param("workplace", "киев")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())

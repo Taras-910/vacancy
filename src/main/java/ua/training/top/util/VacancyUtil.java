@@ -36,7 +36,7 @@ public class VacancyUtil {
 
     private static List<VacancyTo> getEmpty() {
         return List.of(new VacancyTo(0, "", "", "", -1, -1,"",
-                "в базе данных нет вакансий по этому запросу, обновите базу данных", LocalDate.now(), "", "",
+                "по этому запросу вакансий не найдено, обновите базу данных", LocalDate.now(), "", "",
                 "",false));
     }
 
