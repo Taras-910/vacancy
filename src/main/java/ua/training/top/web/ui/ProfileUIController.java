@@ -32,7 +32,8 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
     }
 
     @PostMapping
-    public String updateProfile(@Valid User user, BindingResult result, SessionStatus status) {
+    public String updateProfile(@Valid User user, BindingResult result, SessionStatus status, ModelMap model) {
+        log.info("updateProfile user {}", user);
         if (result.hasErrors()) {
             return "profile";
         }
@@ -60,6 +61,11 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             model.addAttribute("register", true);
             return "profile";
         } else {
+             if(!user.getEmail().matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")){
+                result.rejectValue("email", null, "please check email, there is wrong");
+                model.addAttribute("register", true);
+                return "profile";
+            }
             try {
                 service.create(user);
                 status.setComplete();

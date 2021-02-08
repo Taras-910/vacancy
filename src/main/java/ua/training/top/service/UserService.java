@@ -119,8 +119,8 @@ public class UserService implements UserDetailsService {
 
     protected void checkModificationAllowed(int id) throws MethodNotAllowedException{
         if (modificationRestriction && id < START_SEQ + 2) {
-            String user = id == START_SEQ ? "Admin" : "User";
-            throw new MethodNotAllowedException("Изменять учетные данные пользователя " + user + " запрещено!");
+            String person = id == START_SEQ ? "Admin" : "User";
+            throw new MethodNotAllowedException("Изменять учетные данные пользователя " + person + " запрещено!");
         }
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
-import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
@@ -28,8 +27,6 @@ public class VacancyRestController {
     public static final Logger log = LoggerFactory.getLogger(VacancyRestController.class);
     @Autowired
     private VacancyService vacancyService;
-    @Autowired
-    private VoteService voteService;
 
     @GetMapping("/{id}")
     public VacancyTo get(@PathVariable int id) {
@@ -67,11 +64,5 @@ public class VacancyRestController {
     public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
         log.info("getByFilter freshen={}", freshen);
         return vacancyService.getTosByFilter(asNewFreshen(freshen));
-    }
-
-    @PostMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void setVote(@PathVariable(name = "id") int vacancyId, @RequestParam boolean enabled) {
-        voteService.setVote(vacancyId, enabled);
     }
 }
