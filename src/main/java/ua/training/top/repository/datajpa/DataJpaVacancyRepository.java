@@ -71,6 +71,11 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
+    public List<Vacancy> getByFilter(String language, String workplace) {
+        return vacancyRepository.getByFilter(language.equals("all") ? "" : language, workplace.equals("all") ? "" : workplace);
+    }
+
+    @Override
     public Vacancy get(int id) {
         return vacancyRepository.findById(id).orElse(null);
     }

@@ -57,30 +57,19 @@ public class VacancyService {
         return VacancyUtil.getTos(getAll(), voteService.getAllForAuth());
     }
 
-    public List<Vacancy> getByFilter(Freshen f) {
-        log.info("getByFilter language={} workplace={}", f.getLanguage(), f.getWorkplace());
-        List<Vacancy> vacancies = getAll().stream().filter(vacancy -> filterWorkplace(f.getWorkplace(), vacancy))
-                .filter(vacancy -> filterLanguage(f.getLanguage(), vacancy))
-                .filter(vacancy -> filterJavaCase(f.getLanguage(), vacancy))
-                .collect(Collectors.toList());
-        return checkEmptyList(vacancies, f);
-    }
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
         List<Vote> votes = voteService.getAllForAuth();
-        return getTos(getByFilter(freshen), votes);
+        List<Vacancy> vacancies = vacancyRepository.getByFilter(freshen.getLanguage(), freshen.getWorkplace()).stream()
+                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
+                .collect(Collectors.toList());
+        return getSort(getTos(vacancies, votes), freshen);
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {
         log.info("getByTitle title={}", title);
         return vacancyRepository.getByParams(title, skills, employerId);
-    }
-
-    @Transactional
-    public Vacancy update(Vacancy vacancy) {
-        if (vacancy != null) log.info("update vacancy {} with freshenId={}", vacancy, vacancy.getFreshen().getId());
-        return vacancyRepository.save(vacancy);
     }
 
     @Transactional

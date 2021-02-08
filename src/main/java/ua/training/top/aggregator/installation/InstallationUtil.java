@@ -23,8 +23,8 @@ public class InstallationUtil {
     public static Integer freshenPerHour = 3;
     public static Integer freshenPerHourForAdmin = 30;
 
-    public static boolean testProvider = false;
-//    public static boolean testProvider = true;
+//    public static boolean testProvider = false;
+    public static boolean testProvider = true;
 
     public static void setTestProvider() {
     InstallationUtil.testProvider = true;

@@ -166,12 +166,12 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     void getByFilter() throws Exception {
         setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
-                .param("language", "java")
+                .param("language", "php")
                 .param("workplace", "киев")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1), voteService.getAllForAuth())));
+                .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy2), voteService.getAllForAuth())));
     }
 
     @Test
@@ -187,6 +187,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     void setVote() throws Exception {
+        setTestAuthorizedUser(admin);
         Vote vote = voteService.getAllForAuth().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
         assertTrue(vote == null);
         perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)

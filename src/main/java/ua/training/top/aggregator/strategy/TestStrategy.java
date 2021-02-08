@@ -20,7 +20,7 @@ public class TestStrategy implements Strategy {
 
     public static List<VacancyTo> getTestList() {
         VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM", "Киев",
-                80000, 120000, "https://ibm.ua/vacancy/40006938?query=java", "Java Core",
+                80000, 120000, "https://ibm.ua/vacancy/40006938?query=java", "JavaScript, Php",
                 LocalDate.now().minusDays(5), "https://ibm.ua", null, null, false);
 
         VacancyTo vacancyTo2 = new VacancyTo(null, "Middle", "Expo", "Львов",

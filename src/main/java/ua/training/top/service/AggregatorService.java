@@ -5,20 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.top.model.*;
+import ua.training.top.model.Employer;
+import ua.training.top.model.Freshen;
+import ua.training.top.model.Vacancy;
+import ua.training.top.model.Vote;
 import ua.training.top.to.SubVacancyTo;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.AggregatorUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.AggregatorUtil.*;
@@ -103,13 +102,29 @@ public class AggregatorService {
     }
 
     public static void main(String[] args) throws IOException {
-        User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
-        setTestAuthorizedUser(admin);
+//        User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
+//        setTestAuthorizedUser(admin);
         String workplace = "киев";
         String language = "java";
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(), language, workplace, authUserId()));
-        AtomicInteger i = new AtomicInteger(1);
-        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
-        log.info("\n\ncommon = {}", vacancyTos.size());
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(), language, workplace, authUserId()));
+//        AtomicInteger i = new AtomicInteger(1);
+//        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
+//        log.info("\n\ncommon = {}", vacancyTos.size());
+
+
+//        String title = "Middle/Java"; String skills = "Spring";
+        String title = "Javax-Developer"; String skills = "Php, JavaScript";
+//        String title = "Middle C++ Engineer IRC107203"; String skills = "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.";
+//        String title = "Junior"; String skills = "JavaScript, Php";
+//        String title = "Middle"; String skills = "SpringBoot, Javax";
+
+        System.out.println(filterLanguage(language, title, skills));
+
+    }
+    private static boolean filterLanguage(String language, String title, String skills) {
+        return language.equals("all")
+                || title.toLowerCase().matches(".*\\b"+language+"\\b.*")
+                || skills.toLowerCase().matches(".*\\b"+language+"\\b.*");
     }
 }
+//v.getSkills().toLowerCase().matches(".*\\W*"+f.getLanguage()+"\\W*.*")
