@@ -178,8 +178,8 @@ $(function () {
                     "desc"
                 ],
                 [
-                    5,
-                    "desc"
+                    2,
+                    "asc"
                 ]
             ],
             "createdRow": function (row, data, dataIndex) {

@@ -28,6 +28,6 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
 
     @Query("SELECT v FROM Vacancy v WHERE (LOWER(v.title) LIKE CONCAT('%',:language,'%') " +
             "OR LOWER(v.skills) LIKE CONCAT('%',:language,'%')) " +
-            "AND LOWER(v.employer.address) LIKE CONCAT('%',:workplace,'%') ORDER BY v.title DESC")
+            "AND LOWER(v.employer.address) LIKE CONCAT('%',:workplace,'%')")
     List<Vacancy> getByFilter(@Param("language")String language, @Param("workplace")String workplace);
 }

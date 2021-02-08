@@ -2,7 +2,6 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
@@ -48,13 +47,5 @@ public class VacancyUtil {
         vacancy.setEmployer(v.getEmployer());
         vacancy.setFreshen(v.getFreshen());
         return vacancy;
-    }
-
-    public static List<VacancyTo> getSort(List<VacancyTo> list, Freshen f) {
-        return list.stream()
-                .collect(Collectors.groupingBy( v -> v.getTitle().toLowerCase().contains(f.getLanguage()) ? 0 : 1))
-                .values().stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
     }
 }

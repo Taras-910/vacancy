@@ -6,13 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
-import ua.training.top.model.Vote;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
@@ -60,11 +58,8 @@ public class VacancyService {
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
-        List<Vote> votes = voteService.getAllForAuth();
-        List<Vacancy> vacancies = vacancyRepository.getByFilter(freshen.getLanguage(), freshen.getWorkplace()).stream()
-                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
-                .collect(Collectors.toList());
-        return getSort(getTos(vacancies, votes), freshen);
+        return getTos(getMatches(vacancyRepository.getByFilter(freshen.getLanguage(), freshen.getWorkplace()), freshen),
+                voteService.getAllForAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {

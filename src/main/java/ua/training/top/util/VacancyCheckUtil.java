@@ -6,6 +6,9 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class VacancyCheckUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyCheckUtil.class) ;
 
@@ -30,6 +33,12 @@ public class VacancyCheckUtil {
             }
         }
         return true;
+    }
+
+    public static List<Vacancy> getMatches(List<Vacancy> vacancies, Freshen freshen){
+        return vacancies.stream()
+                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
+                .collect(Collectors.toList());
     }
 
     public static boolean getMatchesFreshen(Freshen f, String title, String skills){
