@@ -27,6 +27,7 @@ $(function () {
             },
             "paging": false,
             "info": true,
+            "deferRender": true,
             "columns": [
                 {
                     "data": "name"

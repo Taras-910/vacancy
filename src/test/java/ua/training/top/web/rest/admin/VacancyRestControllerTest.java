@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
-import ua.training.top.model.Vote;
 import ua.training.top.service.EmployerService;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
@@ -25,7 +24,6 @@ import ua.training.top.web.json.JsonUtil;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -183,21 +181,6 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    void setVote() throws Exception {
-        setTestAuthorizedUser(admin);
-        Vote vote = voteService.getAllForAuth().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
-        assertTrue(vote == null);
-        perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)
-                .param("enabled", "true")
-                .with(userHttpBasic(admin))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        vote = voteService.getAllForAuth().stream().filter(v -> v.getVacancyId()== VACANCY2_ID).findFirst().orElse(null);
-        assertTrue(vote != null);
     }
 
     @Test
