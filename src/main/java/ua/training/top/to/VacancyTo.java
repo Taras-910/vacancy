@@ -205,8 +205,9 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     @Override
-    public int compareTo(VacancyTo v) {
-        return (v.getTitle().toLowerCase().matches(".*\\b"+v.getLanguage()+"\\b.*")
-                && v.getTitle().toLowerCase().contains("middle") ? 1 : -1);
+    public int compareTo(VacancyTo vTo) {
+        String language = vTo.getLanguage().equals("all") ? "java" : vTo.getLanguage();
+        return vTo.getTitle().toLowerCase().matches(".*\\b" + language + "\\b.*")
+                && vTo.getTitle().toLowerCase().contains("middle") ? 1 : -1;
     }
 }

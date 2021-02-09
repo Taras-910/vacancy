@@ -8,9 +8,9 @@ Design and implement:
 - UI API using additionally JSP, JSTL, DataTables plugin, jQuery, jQuery notification, Bootstrap, Ajax
 
 The task is:
-
-Build a vacancy search and choice system of 10 public resources:
-# Djinni, HH, Habr, DOU, LinkedIn, No Fluff Jobs, robota, Indeed, Jooble, Work.
+Build a vacancies search, choice and store in dataBase, which are collected from multiple public resources
+The most popular IT resources were selected:
+# Djinni, HH, Habr, DOU, LinkedIn, No Fluff Jobs, robota, Indeed, Jooble, Work
 
 2 types of users: admin and regular users
 Admin can input/delete/update/get a vacancies and users, reload DB by every reques (language, workplace) 1 time / 2 hours
@@ -19,11 +19,12 @@ Users can control own profile and vote vacancy which like him, reload DB by ever
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 =======================================================================
 - основные классы приложения: [Vacancy, Employer, User, Vote, Freshen]
-- все данные хранятся в базе данных [HSQLDB]
+- все данные хранятся в базе данных [PostgreSQL, Heroku PostgreSQL]
 - обслуживаются запросы авторизованных пользователей (profile)
 - анонимных пользователям (anonymous) предлагается пройти регистрацию и авторизацию
-- при загрузке из ресурсов и при запросах из DB список вакансий формируется в классе ТО [VacancyTo]
-- бизнес-логика в слое сервисов.
+- обновление данных из ресурсов, также ответы на запросы используют класс ТО [VacancyTo]
+- бизнес-логика находится в слое сервисов 
+- выборка данных из ресурсов и сортировка настроены на сегмент `middle`
 - репозиторий [Spring Data JPA]
 - транзакционность [Springframework]
 - пул коннектов [Tomcat]
@@ -37,7 +38,7 @@ Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 - тестирование сервисов [Junit4]
 - браузер [AJAX, DataTables, jQuery, jQuery notification plugin, Bootstrap]   
 - обработка ошибок [ExceptionInfoHandler, GlobalExceptionHandler]
-- deploy на Heroku `http://vacancy021.herokuapp.com/login`
+- приложение на Heroku `http://vacancy021.herokuapp.com/login`
 
 - `curl` - примеры команд тестирования для rest profile:
 
