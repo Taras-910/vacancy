@@ -1,4 +1,4 @@
-package ua.training.top.util.parser.datas;
+package ua.training.top.util.parser.data;
 
 public class CorrectAddress {
     public static String getCorrectAddress(String city){

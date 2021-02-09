@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.hasText;
-import static ua.training.top.util.parser.datas.CorrectSiteName.getSiteName;
+import static ua.training.top.util.parser.data.CorrectSiteName.getSiteName;
 
 public class EmployerUtil {
     public static List<Employer> getEmployersFromTos(List<VacancyTo> vTos) {

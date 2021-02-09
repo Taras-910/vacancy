@@ -18,7 +18,7 @@ import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesDjinni;
-import static ua.training.top.util.parser.datas.CorrectAddress.getTranslated;
+import static ua.training.top.util.parser.data.CorrectAddress.getTranslated;
 
 public class DjinniStrategy implements Strategy{
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);

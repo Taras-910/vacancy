@@ -19,7 +19,7 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesWork;
-import static ua.training.top.util.parser.datas.CorrectAddress.getTranslated;
+import static ua.training.top.util.parser.data.CorrectAddress.getTranslated;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);

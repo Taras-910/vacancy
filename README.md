@@ -8,12 +8,13 @@ Design and implement:
 - UI API using additionally JSP, JSTL, DataTables plugin, jQuery, jQuery notification, Bootstrap, Ajax
 
 The task is:
-Build a vacancies search, choice and store in dataBase, which are collected from multiple public resources
+Build a vacancies search, choice and store in dataBase, which are filling from public resources
 The most popular IT resources were selected:
 # Djinni, HH, Habr, DOU, LinkedIn, No Fluff Jobs, robota, Indeed, Jooble, Work
 
 2 types of users: admin and regular users
 Admin can input/delete/update/get a vacancies and users, reload DB by every reques (language, workplace) 1 time / 2 hours
+
 Users can control own profile and vote vacancy which like him, reload DB by every reques (language, workplace) 1 time / 4 hours
 
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
@@ -29,7 +30,8 @@ Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 - транзакционность [Springframework]
 - пул коннектов [Tomcat]
 - кеш [EhCache-based Cache], кешируются "список всех юзеров"
-- для Rest базовая авторизация [SpringSecurity], доступ к ресурсам по ролям:
+- для Rest базовая авторизация [SpringSecurity]
+- доступ к ресурсам по ролям:
   `/rest/admin/**'`  - 'ADMIN'
   `/rest/profile/**` - 'USER'
   `/anonymous/**`    - доступ для регистрации
@@ -38,7 +40,7 @@ Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 - тестирование сервисов [Junit4]
 - браузер [AJAX, DataTables, jQuery, jQuery notification plugin, Bootstrap]   
 - обработка ошибок [ExceptionInfoHandler, GlobalExceptionHandler]
-- приложение на Heroku `http://vacancy021.herokuapp.com/login`
+- приложение развернуто на Heroku `http://vacancy021.herokuapp.com`
 
 - `curl` - примеры команд тестирования для rest profile:
 

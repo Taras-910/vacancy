@@ -7,6 +7,7 @@ import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -42,10 +43,10 @@ public class DataJpaFreshenRepository implements FreshenRepository {
     }
 
     @Override
-    public List<Freshen> getBetween(LocalDateTime tomorrow, LocalDateTime yesterday) {
-        List<Freshen> freshens = null;
+    public List<Freshen> getBetween(LocalDateTime finish, LocalDateTime start) {
+        List<Freshen> freshens = new ArrayList<>();
         try {
-            freshens = crudRepository.getBetween(tomorrow, yesterday);
+            freshens.addAll(crudRepository.getBetween(finish, start));
         } catch (Exception e) {}
         return freshens;
     }

@@ -16,10 +16,10 @@ import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validAddre
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validDate;
 import static ua.training.top.aggregator.strategy.UAIndeedStrategy.getCorrectUrl;
 import static ua.training.top.util.VacancyCheckUtil.getMatchesFreshen;
-import static ua.training.top.util.parser.datas.CorrectAddress.getCorrectAddress;
-import static ua.training.top.util.parser.datas.CorrectCompanyName.getCorrectCompanyName;
-import static ua.training.top.util.parser.datas.CorrectSkills.getSkills;
-import static ua.training.top.util.parser.datas.CorrectTitle.getCorrectTitle;
+import static ua.training.top.util.parser.data.CorrectAddress.getCorrectAddress;
+import static ua.training.top.util.parser.data.CorrectEmployerName.getCorrectEmployerName;
+import static ua.training.top.util.parser.data.CorrectSkills.getCorrectSkills;
+import static ua.training.top.util.parser.data.CorrectTitle.getCorrectTitle;
 import static ua.training.top.util.parser.date.DateUtil.*;
 import static ua.training.top.util.parser.date.ToCorrectDate.getCorrectDate;
 import static ua.training.top.util.parser.salary.MinMax.salaryMax;
@@ -34,12 +34,12 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             try {
-                String title = xssClear(element.getElementsByClass("list-jobs__title").text().trim());
-                String skills = getSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
+                String title = getCorrectTitle(xssClear(element.getElementsByClass("list-jobs__title").text().trim()));
+                String skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim()));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
                     v.setAddress(freshen.getWorkplace());
                     v.setSalaryMax(1);
                     v.setSalaryMin(1);
@@ -61,11 +61,11 @@ public class ElementUtil {
         elements.forEach(element -> {
             try {
                 VacancyTo v = new VacancyTo();
-                String title = xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase());
-                String skills = xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase());
+                String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase()));
+                String skills = getCorrectSkills(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     v.setTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
                     v.setAddress(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim()));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-compensation").text().trim()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-compensation").text().trim()))));
@@ -87,12 +87,12 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
-                String title = xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
                 String skills = xssClear(element.getElementsByClass("vacancy-card__skills").text().trim());
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
                     v.setAddress(xssClear(element.getElementsByClass("vacancy-card__meta").tagName("a").first().text()));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("basic-salary").text().trim()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("basic-salary").text().trim()))));
@@ -113,12 +113,12 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             try {
-                String title = xssClear(element.getElementsByTag("a").first().text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
                 String skills = xssClear(element.getElementsByClass("sh-info").text().trim());
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByTag("a").last().text().trim())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("a").last().text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("cities").text().trim()));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
@@ -139,11 +139,11 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             try {
-                String title = xssClear(element.getElementsByClass("result-card__title job-result-card__title").text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByClass("result-card__title job-result-card__title").text().trim()));
                 if (title.toLowerCase().matches(".*\\b"+freshen.getLanguage()+"\\b.*")) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("result-card__subtitle-link job-result-card__subtitle-link").text().trim())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("result-card__subtitle-link job-result-card__subtitle-link").text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("job-result-card__location").text().trim()));
                     v.setSalaryMax(1);
                     v.setSalaryMin(1);
@@ -165,7 +165,7 @@ public class ElementUtil {
         log.info("elements {}", elements.size());
         for (Element element : elements) {
             try {
-                String title = xssClear(element.getElementsByClass("posting-title__position").text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByClass("posting-title__position").text().trim()));
                 if (title.toLowerCase().matches(".*\\b"+freshen.getLanguage()+"\\b.*")) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -190,12 +190,12 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
-                String title = xssClear(element.getElementsByClass("card-title").text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
                 String skills = xssClear(element.getElementsByClass("card-description").text().trim());
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("company-name").text().trim())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company-name").text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("location").text().trim()));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim()))));
@@ -217,12 +217,12 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
-                String title = xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim()));
                 String skills = xssClear(element.getElementsByClass("summary").text().trim());
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("company").text().trim())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company").text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("location accessible-contrast-color-location").text().trim()));
                     v.setSalaryMax(1);
                     v.setSalaryMin(1);
@@ -243,24 +243,13 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
             try {
-                String title = xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim());
+                String title = getCorrectTitle(xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim()));
                 String skills = xssClear(element.getElementsByTag("b").tagName("span").nextAll().text());
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("_786d5").text().trim())));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("caption _8d375").first().text().trim()));
-
-                    String line = element.getElementsByClass("_0b1c1").tagName("span").first().text();
-
-                    System.out.println("\n\n==================================================================================================" +
-                            "===================================================\n\n");
-                    System.out.println("element:\n" + element);
-                    System.out.println("\nline=" + line);
-                    System.out.println("getCorrectSalary=" + getCorrectSalary(xssClear(line)));
-                    System.out.println("salaryMax=" + salaryMax(getCorrectSalary(xssClear(line))));
-
-
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text()))));
                     v.setUrl("https://ua.jooble.org/desc/".concat(xssClear(element.getElementsByClass("_31572 _07ebc").attr("id"))));
@@ -280,12 +269,12 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
-                String title = xssClear(element.getElementsByTag("a").first().text());
+                String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text()));
                 String skills = xssClear(element.getElementsByClass("overflow").text().trim());
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(getCorrectTitle(title));
-                    v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByTag("img").attr("alt"))));
+                    v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("img").attr("alt"))));
                     v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text())));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("b").tagName("b").first().text().trim()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByTag("b").tagName("b").first().text().trim()))));

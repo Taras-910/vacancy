@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesGrc;
-import static ua.training.top.util.parser.datas.CorrectAddress.getCodeGrc;
+import static ua.training.top.util.parser.data.CorrectAddress.getCodeGrc;
 
 public class GrcStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(GrcStrategy.class);

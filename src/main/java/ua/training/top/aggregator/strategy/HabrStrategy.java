@@ -16,7 +16,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesHabr;
-import static ua.training.top.util.parser.datas.CorrectAddress.getCodeHabr;
+import static ua.training.top.util.parser.data.CorrectAddress.getCodeHabr;
 
 public class HabrStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(HabrStrategy.class);
