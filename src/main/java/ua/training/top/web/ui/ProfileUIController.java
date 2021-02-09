@@ -32,7 +32,7 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
     }
 
     @PostMapping
-    public String updateProfile(@Valid User user, BindingResult result, SessionStatus status, ModelMap model) {
+    public String updateProfile(@Valid User user, BindingResult result, SessionStatus status) {
         log.info("updateProfile user {}", user);
         if (result.hasErrors()) {
             return "profile";

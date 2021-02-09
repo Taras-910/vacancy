@@ -58,8 +58,7 @@ public class VacancyService {
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
-        return getTos(getMatchesByFreshen(repository.getByFilter(freshen.getLanguage(), freshen.getWorkplace()), freshen),
-                voteService.getAllForAuth());
+        return getTos(getMatchesByFreshen(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {

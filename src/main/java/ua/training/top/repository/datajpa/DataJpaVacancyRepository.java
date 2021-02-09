@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
@@ -71,7 +72,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
-    public List<Vacancy> getByFilter(String language, String workplace) {
+    public List<Vacancy> getByFilter(Freshen freshen) {
+        String language = freshen.getLanguage(), workplace = freshen.getWorkplace();
         return vacancyRepository.getByFilter(language.equals("all") ? "" : language, workplace.equals("all") ? "" : workplace);
     }
 

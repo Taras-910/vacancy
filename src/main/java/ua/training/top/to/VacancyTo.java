@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class VacancyTo extends BaseTo implements Serializable {
+public class VacancyTo extends BaseTo implements Serializable, Comparable<VacancyTo> {
 
     @NotNull
     @Size(min = 2, max = 250)
@@ -202,5 +202,11 @@ public class VacancyTo extends BaseTo implements Serializable {
                 ", \nworkplace=" + workplace +
                 ", \ntoVote=" + toVote +
                 '}';
+    }
+
+    @Override
+    public int compareTo(VacancyTo v) {
+        return (v.getTitle().toLowerCase().matches(".*\\b"+v.getLanguage()+"\\b.*")
+                && v.getTitle().toLowerCase().contains("middle") ? 1 : -1);
     }
 }

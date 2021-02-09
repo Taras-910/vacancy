@@ -13,10 +13,8 @@ Build a vacancy search and choice system of 10 public resources:
 # Djinni, HH, Habr, DOU, LinkedIn, No Fluff Jobs, robota, Indeed, Jooble, Work.
 
 2 types of users: admin and regular users
-Admin can input/delete/update/get a vacancies and users, and reload DB from resources
-Admin can reload DB 12 times per day
-Users can control own profile and vote on which vacancy to like him, reload DB from resources
-User can reload DB 3 times per day
+Admin can input/delete/update/get a vacancies and users, reload DB by every reques (language, workplace) 1 time / 2 hours
+Users can control own profile and vote vacancy which like him, reload DB by every reques (language, workplace) 1 time / 4 hours
 
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 =======================================================================
@@ -41,7 +39,7 @@ Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 - обработка ошибок [ExceptionInfoHandler, GlobalExceptionHandler]
 - deploy на Heroku `http://vacancy021.herokuapp.com/login`
 
-- `curl` - команды тестирования для rest profile:
+- `curl` - примеры команд тестирования для rest profile:
 
 #### rest profile vacancies getAll
 `curl --location --request GET 'http://localhost:8080/vacancy/rest/profile/vacancies' \

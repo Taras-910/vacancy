@@ -10,12 +10,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.List.of;
+
 public class VacancyUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
         return vacancies.isEmpty() ? getEmpty() :
-                vacancies.stream().map(vacancy -> getTo(vacancy, votes)).collect(Collectors.toList());
+                vacancies.stream()
+                        .map(vacancy -> getTo(vacancy, votes))
+                        .sorted(VacancyTo::compareTo)
+                        .collect(Collectors.toList());
     }
 
     public static VacancyTo getTo(Vacancy v, List<Vote> votes) {
@@ -35,7 +40,7 @@ public class VacancyUtil {
     }
 
     private static List<VacancyTo> getEmpty() {
-        return List.of(new VacancyTo(0, "", "", "", -1, -1,"",
+        return of(new VacancyTo(0, "", "", "", -1, -1,"",
                 "по этому запросу вакансий не найдено, обновите базу данных", LocalDate.now(), "", "",
                 "",false));
     }

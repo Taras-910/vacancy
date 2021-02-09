@@ -42,9 +42,8 @@ public class VacancyCheckUtil {
     }
 
     public static boolean getMatchesFreshen(Freshen f, String title, String skills){
-        String language = f.getLanguage();
-        return language.equals("all")
-                || title.toLowerCase().matches(".*\\b"+language+"\\b.*")
-                || skills.toLowerCase().matches(".*\\b"+language+"\\b.*");
+        return f.getLanguage().equals("all")
+                || title.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
+                || skills.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*");
     }
 }

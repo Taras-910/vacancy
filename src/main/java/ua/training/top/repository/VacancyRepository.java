@@ -1,5 +1,6 @@
 package ua.training.top.repository;
 
+import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 
 import java.util.List;
@@ -20,6 +21,6 @@ public interface VacancyRepository {
 
     Vacancy getByParams(String title, String skills, int employerId);
 
-    List<Vacancy> getByFilter(String language, String workplace);
+    List<Vacancy> getByFilter(Freshen freshen);
 }
 

@@ -32,6 +32,7 @@
                                     <option value='Python'>Python</option>
                                     <option value='C#'>C#</option>
                                     <option value='C++'>C++</option>
+                                    <option value='Scala'>Scala</option>
                                 </datalist>
                             </div>
                             <div class="col-md-8 mb-3 col-form-label">
@@ -296,6 +297,7 @@
                             <option value='Python'>Python</option>
                             <option value='C#'>C#</option>
                             <option value='C++'>C++</option>
+                            <option value='Scala'>Scala</option>
                         </datalist>
                     </div>
                     <div class="form-group">
