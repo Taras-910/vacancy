@@ -18,6 +18,8 @@ import ua.training.top.service.UserService;
 
 import javax.validation.Valid;
 
+import static ua.training.top.util.VacancyCheckUtil.*;
+
 @ApiIgnore
 @Controller
 @RequestMapping("/profile")
@@ -43,7 +45,7 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             status.setComplete();
             return "redirect:/vacancies";
         } catch (DataIntegrityViolationException ex) {
-            result.rejectValue("email", null,"User with this meal already exist");
+            result.rejectValue("email", null, USER_EXIST_MESSAGE);
             return "profile";
         }
     }
@@ -61,17 +63,17 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             model.addAttribute("register", true);
             return "profile";
         } else {
-             if(!user.getEmail().matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")){
-                result.rejectValue("email", null, "please check email, there is wrong");
+             if(!user.getEmail().matches(EMAIL_MATCHER)){
+                result.rejectValue("email", null, EMAIL_ERROR_MESSAGE);
                 model.addAttribute("register", true);
                 return "profile";
             }
             try {
                 service.create(user);
                 status.setComplete();
-                return "redirect:/login?message=You are already registered. Please Sign in&username=" + user.getEmail();
+                return "redirect:/login" + LOGIN_MESSAGE + user.getEmail();
             } catch (DataIntegrityViolationException e) {
-                result.rejectValue("email", null, "User with this meal already exist");
+                result.rejectValue("email", null, USER_EXIST_MESSAGE);
                 model.addAttribute("register", true);
                 return "profile";
             }

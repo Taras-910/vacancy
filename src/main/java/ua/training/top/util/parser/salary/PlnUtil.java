@@ -19,7 +19,8 @@ public class PlnUtil {
                             .concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned.split("—")[1]) / 12))));
                 }
                 if(salary.contains("month")) {
-                    return plnToUsd(cleaned.split("\\W")[0]).concat("—").concat(plnToUsd(cleaned.split("—")[1]));
+                    String result = plnToUsd(cleaned.split("\\W")[0]).concat("—").concat(plnToUsd(cleaned.split("—")[1]));
+                    return result;
                 }
                 if(salary.contains("day")) {
                     return plnToUsd(getString(cleaned.split("\\W")[0], 22)).concat("—")

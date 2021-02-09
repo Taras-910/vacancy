@@ -12,7 +12,7 @@ public class MinMax {
             return 1;
         }
         try {
-            result = salary.contains("—") ?  Integer.parseInt(salary.split("\\W")[0]) : Integer.parseInt(salary);
+            result = salary.matches("\\d+\\W\\d+") ?  Integer.parseInt(salary.split("\\W")[0]) : Integer.parseInt(salary);
         } catch (NumberFormatException e) {
             log.error("there is exception on getCorrectSalary method salaryMin data salary={}", salary);
             return 1;
@@ -26,7 +26,7 @@ public class MinMax {
             return 1;
         }
         try {
-            result = salary.contains("—") ?  Integer.parseInt(salary.split("\\W")[1]) : 1;
+            result = salary.matches("\\d+\\W\\d+") ?  Integer.parseInt(salary.split("\\W")[1]) : 1;
         } catch (NumberFormatException e) {
             log.error("there is exception={} on salaryMax={}", e.getLocalizedMessage(), salary);
             return 1;

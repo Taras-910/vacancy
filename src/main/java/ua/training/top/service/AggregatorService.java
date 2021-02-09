@@ -113,6 +113,3 @@ public class AggregatorService {
         log.info("\n\ncommon = {}", vacancyTos.size());
     }
 }
-//10:53:08.807 INFO  ua.training.top.util.parser.salary.MinMax.salaryMax:31 - there is exception=For input string: "" on salaryMax=salary: 8000k—15000k () pln / month. requirements: 2—3 lata doświadczenia w związku z programowaniem w java 7/8/11
-//10:53:08.807 INFO  ua.training.top.util.parser.salary.PlnUtil.getPln:49 - there is exception on getCorrectSalary method during parse line:
-//salary: 8000k—15000k () pln / month. requirements: 2—3 lata doświadczenia w związku z programowaniem w java 7/8/11

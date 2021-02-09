@@ -26,6 +26,7 @@ public class CheckUtil {
                 .replaceAll("\\(uop\\)", "").replaceAll("[.]{2,}", "");
         salary = salary.replaceAll("–", "—").replaceAll("-", "—");
         salary = salary.contains("salary:") ? "salary:".concat(salary.split("salary:")[1]) : salary;
+        salary = salary.contains("requirements:") ? salary.split("requirements:")[0] : salary;
         salary = salary.contains(",") ? salary.split(",")[0] : salary;
         salary = salary.contains("·") ? salary.split("·")[0] : salary;
 

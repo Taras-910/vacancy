@@ -50,7 +50,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesDjinni for parse element {}", element);
+                log.error("there is error getVacanciesDjinni for parse element \n{}", element);
             }
         });
         return list;
@@ -76,7 +76,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesGrc for parse element {}", element);
+                log.error("there is error getVacanciesGrc for parse element \n{}", element);
             }
 
         });
@@ -103,7 +103,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesHabr for parse element {}", element);
+                log.error("there is error getVacanciesHabr for parse element \n{}", element);
             }
         }
         return list;
@@ -129,7 +129,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesJobs for parse element {}", element);
+                log.error("there is error getVacanciesJobs for parse element \n{}", element);
             }
         });
         return list;
@@ -154,7 +154,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesLinkedin for parse element {}", element);
+                log.error("there is error getVacanciesLinkedin for parse element \n{}", element);
             }
         });
         return list;
@@ -180,7 +180,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getNofluffjobsVacancies for parse element {}", element);
+                log.error("there is error getNofluffjobsVacancies for parse element \n{}", element);
             }
         }
         return list;
@@ -207,7 +207,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesRabota for parse element {}", element);
+                log.error("there is error getVacanciesRabota for parse element \n{}", element);
             }
         }
         return list;
@@ -233,7 +233,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesIndeed for parse element {}", element);
+                log.error("there is error getVacanciesIndeed for parse element \n{}", element);
             }
         }
         return list;
@@ -250,6 +250,17 @@ public class ElementUtil {
                     v.setTitle(title);
                     v.setEmployerName(getCorrectCompanyName(xssClear(element.getElementsByClass("_786d5").text().trim())));
                     v.setAddress(xssClear(element.getElementsByClass("caption _8d375").first().text().trim()));
+
+                    String line = element.getElementsByClass("_0b1c1").tagName("span").first().text();
+
+                    System.out.println("\n\n==================================================================================================" +
+                            "===================================================\n\n");
+                    System.out.println("element:\n" + element);
+                    System.out.println("\nline=" + line);
+                    System.out.println("getCorrectSalary=" + getCorrectSalary(xssClear(line)));
+                    System.out.println("salaryMax=" + salaryMax(getCorrectSalary(xssClear(line))));
+
+
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text()))));
                     v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text()))));
                     v.setUrl("https://ua.jooble.org/desc/".concat(xssClear(element.getElementsByClass("_31572 _07ebc").attr("id"))));
@@ -259,7 +270,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.info("there is error UAJoobleStrategy for parse element {}", element);
+                log.error("there is error UAJoobleStrategy for parse element\n {}", element);
             }
         }
         return list;
@@ -285,7 +296,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.info("there is error getVacanciesWork for parse element {}", element);
+                log.error("there is error getVacanciesWork for parse element \n{}", element);
             }
         }
         return list;

@@ -52,11 +52,9 @@ public class ExceptionInfoHandler {
     public ErrorInfo bindValidationError(HttpServletRequest req, Exception e) {
         BindingResult result = e instanceof BindException ?
                 ((BindException) e).getBindingResult() : ((MethodArgumentNotValidException) e).getBindingResult();
-
         String[] details = result.getFieldErrors().stream()
                 .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
                 .toArray(String[]::new);
-
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, details);
     }
 

@@ -18,6 +18,8 @@ import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
+import static ua.training.top.util.VacancyCheckUtil.URL_ERROR_MESSAGE;
+import static ua.training.top.util.VacancyCheckUtil.URL_MATCHER;
 
 @ApiIgnore
 @RestController
@@ -49,6 +51,9 @@ public class VacancyUIController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@Valid VacancyTo vacancyTo) {
         log.info("createOrUpdate vacancyTo={}", vacancyTo);
+        if(!vacancyTo.getUrl().matches(URL_MATCHER)) {
+            throw new IllegalArgumentException(URL_ERROR_MESSAGE);
+        }
         if (vacancyTo.isNew()) {
             vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));
         } else {
