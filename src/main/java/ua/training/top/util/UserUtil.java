@@ -28,4 +28,8 @@ public class UserUtil {
         user.setEmail(user.getEmail().toLowerCase());
         return user;
     }
+
+    public static User asAdmin() {
+        return new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
+    }
 }

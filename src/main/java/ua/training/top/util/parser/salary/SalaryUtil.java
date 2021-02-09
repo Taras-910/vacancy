@@ -28,7 +28,7 @@ public class SalaryUtil {
                 return getHrn(temp);
             }
         } catch (NumberFormatException e) {
-            log.info("Exception for parse salary={}", temp);
+            log.error("Exception for parse salary={}", temp);
             return "1";
         }
         return temp;

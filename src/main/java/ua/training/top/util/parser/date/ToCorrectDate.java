@@ -37,7 +37,7 @@ public class ToCorrectDate {
                 return LocalDate.now().minusDays(7);
             }
         } catch (NumberFormatException e) {
-            log.info("Wrong data {} exception {}", myDate, e.getMessage());
+            log.error("Wrong data {} exception {}", myDate, e.getMessage());
             return LocalDate.now().minusDays(7);
         }
         return LocalDate.now().minusDays(7);

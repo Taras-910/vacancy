@@ -16,13 +16,17 @@ import ua.training.top.util.AggregatorUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.util.AggregatorUtil.*;
 import static ua.training.top.util.EmployerUtil.getEmployerMap;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.getTos;
 
 @Service
@@ -102,17 +106,13 @@ public class AggregatorService {
     }
 
     public static void main(String[] args) throws IOException {
-//        User admin = new User(100000, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
-//        setTestAuthorizedUser(admin);
-//        String workplace = "киев";
-//        String language = "java";
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(new Freshen(null, LocalDateTime.now(), language, workplace, authUserId()));
-//        AtomicInteger i = new AtomicInteger(1);
-//        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
-//        log.info("\n\ncommon = {}", vacancyTos.size());
-
-        String mail = "user@ukr.e";
-        System.out.println(mail.matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"));
-
+        setTestAuthorizedUser(asAdmin());
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем"));
+        AtomicInteger i = new AtomicInteger(1);
+        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
+        log.info("\n\ncommon = {}", vacancyTos.size());
     }
 }
+//10:53:08.807 INFO  ua.training.top.util.parser.salary.MinMax.salaryMax:31 - there is exception=For input string: "" on salaryMax=salary: 8000k—15000k () pln / month. requirements: 2—3 lata doświadczenia w związku z programowaniem w java 7/8/11
+//10:53:08.807 INFO  ua.training.top.util.parser.salary.PlnUtil.getPln:49 - there is exception on getCorrectSalary method during parse line:
+//salary: 8000k—15000k () pln / month. requirements: 2—3 lata doświadczenia w związku z programowaniem w java 7/8/11

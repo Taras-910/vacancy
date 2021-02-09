@@ -8,7 +8,7 @@ import static ua.training.top.util.parser.salary.RateUtil.plnToUsd;
 public class PlnUtil {
     public static final Logger log = LoggerFactory.getLogger(PlnUtil.class);
 
-    public static String getPln(String salary) throws NumberFormatException{
+    public static String getPln(String salary) {
         String temp = salary.replaceAll("–", "—");
         try {
             String cleaned = temp.replaceAll("[^—\\d]", "");
@@ -46,7 +46,7 @@ public class PlnUtil {
                 return "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
             }
         } catch (NumberFormatException e) {
-            log.info("there is exception on getCorrectSalary method during parse line:\n{}\n", salary);
+            log.error("there is exception on getCorrectSalary method during parse line:\n{}\n", salary);
         }
         return salary;
     }

@@ -18,4 +18,7 @@ public class FreshenUtil {
         return new Freshen(f.getId(), f.getRecordedDate() == null ? LocalDateTime.now() : f.getRecordedDate(),
                 f.getLanguage(), f.getWorkplace(), authUserId());
     }
+    public static Freshen asNewFreshen(String language, String workplace){
+        return new Freshen(null, LocalDateTime.now(), language, workplace, authUserId());
+    }
 }

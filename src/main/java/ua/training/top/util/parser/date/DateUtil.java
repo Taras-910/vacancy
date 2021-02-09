@@ -1,5 +1,6 @@
 package ua.training.top.util.parser.date;
 
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,17 @@ public class DateUtil {
         return new SimpleDateFormat(DATE_PATTERN).format(new Date()).substring(0,4);
     }
 
+    public static String prepare(String dateTime){
+        String[] parts = dateTime.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String p: parts){
+            if(!p.contains(".")){
+                sb.append(p).append(" ");
+            }
+        }
+        return sb.toString().trim();
+    }
+
     public static String supportDate(String dateTime){
         if (dateTime.split(" ").length < 2 || dateTime == null || dateTime.isEmpty()) {
             return LocalDate.now().minusWeeks(1).toString();
@@ -41,4 +53,15 @@ public class DateUtil {
             return dateTime.concat(" ").concat(getCurrentYear());
         }
     }
+
+    public static LocalDate parseCustom(String dateTime, Element element) {
+        LocalDate localDate = LocalDate.now().minusDays(7);
+        try {
+            localDate = LocalDate.parse(dateTime);
+        } catch (Exception e) {
+            log.error("there is error for parse {} element {}", dateTime, element);
+        }
+        return localDate;
+    }
+
 }
