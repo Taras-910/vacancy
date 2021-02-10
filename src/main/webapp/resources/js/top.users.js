@@ -25,6 +25,7 @@ $(function () {
                 "url": userAjaxUrl,
                 "dataSrc": ""
             },
+            "retrieve": true,
             "paging": false,
             "info": true,
             "columns": [
