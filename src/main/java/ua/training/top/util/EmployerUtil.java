@@ -13,6 +13,8 @@ import static org.springframework.util.StringUtils.hasText;
 import static ua.training.top.util.parser.data.CorrectSiteName.getSiteName;
 
 public class EmployerUtil {
+    public static final String EMPLOYER_NOT_BE_NULL = "freshen must not be null";
+
     public static List<Employer> getEmployersFromTos(List<VacancyTo> vTos) {
         return vTos.stream().map(EmployerUtil::getEmployerFromTo).collect(Collectors.toList());
     }

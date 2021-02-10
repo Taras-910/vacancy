@@ -7,6 +7,7 @@ import ua.training.top.model.User;
 import java.util.Collections;
 
 public class UserUtil {
+    public static final String USER_NOT_BE_NULL = "user must not be null";
 
     public static User prepareToSave(User user, PasswordEncoder passwordEncoder, User userDb) {
         if(user.getRoles() == null) {

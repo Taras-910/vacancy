@@ -11,6 +11,8 @@ import static org.springframework.util.StringUtils.hasText;
 import static ua.training.top.SecurityUtil.authUserId;
 
 public class FreshenUtil {
+    public static final String FRESHEN_NOT_BE_NULL = "freshen must not be null";
+
     public static Freshen getFreshenFromTo(VacancyTo vTo) {
         return new Freshen(null, LocalDateTime.now(), vTo.getLanguage(),
                 hasText(vTo.getWorkplace()) ? vTo.getWorkplace() :vTo.getAddress(), Collections.singleton(Goal.UPGRADE), authUserId());
