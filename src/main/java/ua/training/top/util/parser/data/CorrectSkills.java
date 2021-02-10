@@ -6,6 +6,6 @@ public class CorrectSkills {
 
     public static String getCorrectSkills(String skills) {
         skills = skills.contains("Java Script") ? skills.replaceAll("Java Script", "JavaScript") : skills;
-        return hasText(skills) ? skills : "see the card on the link";
+        return hasText(skills) ? skills.trim() : "see the card on the link";
     }
 }

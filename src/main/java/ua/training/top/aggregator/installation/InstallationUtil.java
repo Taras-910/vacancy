@@ -22,11 +22,11 @@ public class InstallationUtil {
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(49);
     public static double freshenPerHour = 0.25;
     public static double freshenPerHourForAdmin = 0.5;
-    public static double limitPerHourForAuth = 6;
-    public static double limitPerHourForAdmin = 9;
+    public static double limitPerHourForAuth = 5;
+    public static double limitPerHourForAdmin = 10;
 
-//    public static boolean testProvider = false;
-    public static boolean testProvider = true;
+    public static boolean testProvider = false;
+//    public static boolean testProvider = true;
 
     public static void setTestProvider() {
     InstallationUtil.testProvider = true;

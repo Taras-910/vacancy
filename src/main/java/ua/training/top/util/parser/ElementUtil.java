@@ -88,7 +88,7 @@ public class ElementUtil {
         for (Element element : elements) {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
-                String skills = xssClear(element.getElementsByClass("vacancy-card__skills").text().trim());
+                String skills = getCorrectSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -114,7 +114,7 @@ public class ElementUtil {
         elements.forEach(element -> {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
-                String skills = xssClear(element.getElementsByClass("sh-info").text().trim());
+                String skills = getCorrectSkills(xssClear(element.getElementsByClass("sh-info").text().trim()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -191,7 +191,7 @@ public class ElementUtil {
         for (Element element : elements) {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
-                String skills = xssClear(element.getElementsByClass("card-description").text().trim());
+                String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -218,7 +218,7 @@ public class ElementUtil {
         for (Element element : elements) {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim()));
-                String skills = xssClear(element.getElementsByClass("summary").text().trim());
+                String skills = getCorrectSkills(xssClear(element.getElementsByClass("summary").text().trim()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -244,7 +244,7 @@ public class ElementUtil {
         for (Element element : elements) {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim()));
-                String skills = xssClear(element.getElementsByTag("b").tagName("span").nextAll().text());
+                String skills = getCorrectSkills(xssClear(element.getElementsByTag("b").tagName("span").nextAll().text()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -270,7 +270,7 @@ public class ElementUtil {
         for (Element element : elements) {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text()));
-                String skills = xssClear(element.getElementsByClass("overflow").text().trim());
+                String skills = getCorrectSkills(xssClear(element.getElementsByClass("overflow").text().trim()));
                 if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(getCorrectTitle(title));
