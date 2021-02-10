@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Freshen;
+import ua.training.top.model.Goal;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
@@ -65,6 +67,7 @@ public class VacancyUIController {
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
+        freshen.setGoals(Collections.singleton(Goal.FILTER));
         return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 

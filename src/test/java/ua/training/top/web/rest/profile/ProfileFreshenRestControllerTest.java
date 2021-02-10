@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
+import ua.training.top.model.Goal;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.EmployerService;
 import ua.training.top.service.FreshenService;
@@ -13,6 +14,7 @@ import ua.training.top.service.VacancyService;
 import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +67,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
 
     @Test
     void refreshDB() throws Exception  {
-        Freshen freshen = new Freshen(null, null, "Java", "Киев", null );
+        Freshen freshen = new Freshen(null, null, "Java", "Киев", Collections.singleton(Goal.UPGRADE),null );
         List<Vacancy> vacanciesDbBefore = vacancyService.getAll();
         List<Freshen> freshensDbBefore = freshenService.getAll();
         List<Employer> employersDbBefore = employerService.getAll();

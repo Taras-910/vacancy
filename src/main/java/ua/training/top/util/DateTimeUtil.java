@@ -68,8 +68,8 @@ public class DateTimeUtil {
                 Freshen lastFreshen = freshensHour.get(0);
                 if (freshensHour.size() >= freshenPerHour ||
                         freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes((int)(60/freshenPerHour)))) {
-                    throw new IllegalStateException("по этим параметрам { \'" + freshen.getLanguage() + "\', \'" +
-                            freshen.getWorkplace() + " \'} <br>последнее обновление было в " +
+                    throw new IllegalStateException("по этому запросу:   \'" + freshen.getLanguage() + "\', \'" +
+                            freshen.getWorkplace() + " \' <br>последнее обновление было в " +
                             toStringTime(lastFreshen.getRecordedDate()) + "<br>повторите запрос после " +
                             toStringTime(lastFreshen.getRecordedDate().plusMinutes((int)(60/freshenPerHour)).plusMinutes(1)));
                 }
@@ -80,7 +80,7 @@ public class DateTimeUtil {
                             && f.getRecordedDate().getHour() >= lastHour.getHour())
                     .collect(Collectors.toList());
             if (freshensAuth.size() >= limitPerHourForAuth) {
-                throw new IllegalStateException("Ваш лимит обновлений исчерпан<br> повторите запрос после " + nextHour.getHour() + ".00");
+                throw new IllegalStateException("Ваш лимит обновлений (" + (int)limitPerHourForAuth + "/час) исчерпан<br> повторите запрос после " + nextHour.getHour() + ".00");
             }
         }
     }

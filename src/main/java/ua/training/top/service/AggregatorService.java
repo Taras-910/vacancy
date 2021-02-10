@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
+import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.*;
 import static ua.training.top.util.EmployerUtil.getEmployerMap;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
@@ -107,9 +108,11 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем"));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+
+
     }
 }

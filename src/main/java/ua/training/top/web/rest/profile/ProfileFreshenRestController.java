@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ua.training.top.model.Freshen;
+import ua.training.top.model.Goal;
 import ua.training.top.service.FreshenService;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +40,7 @@ public class ProfileFreshenRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid @RequestBody Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
+        freshen.setGoals(Collections.singleton(Goal.UPGRADE));
         service.refreshDB(freshen);
     }
 

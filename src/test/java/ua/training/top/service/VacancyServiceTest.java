@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
+import ua.training.top.model.Goal;
 import ua.training.top.model.Vacancy;
 import ua.training.top.testData.FreshenTestData;
 import ua.training.top.testData.VacancyToTestData;
@@ -11,6 +12,7 @@ import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -76,7 +78,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
     @Test
     public void createErrorData() throws Exception {
         setTestAuthorizedUser(admin);
-        Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "Киев", null));
+        Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "Киев", Collections.singleton(Goal.UPGRADE), null));
         assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net", "Java Core", testDate, "https://www.ukr.net/1/11","java", "киев", false), freshen));
         assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net", "Java Core", testDate, "https://www.ukr.net/1/11","java", "киев", false), freshen));
         assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net", "Java Core", testDate, "https://www.ukr.net/1/11","java", "киев", false), freshen));

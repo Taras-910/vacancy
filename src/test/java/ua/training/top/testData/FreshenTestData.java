@@ -2,6 +2,9 @@ package ua.training.top.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Freshen;
+import ua.training.top.model.Goal;
+
+import java.util.Collections;
 
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
@@ -14,11 +17,11 @@ public class FreshenTestData {
 
     public static final int FRESHEN1_ID = START_SEQ + 4;
     public static final int FRESHEN2_ID = FRESHEN1_ID + 1;
-    public static final Freshen freshen1 = new Freshen(FRESHEN1_ID, of(2020, 10, 25, 12,0), "java", "киев", ADMIN_ID);
-    public static final Freshen freshen2 = new Freshen(FRESHEN2_ID, of(2020, 10, 25, 13,0), "php", "киев", USER_ID);
+    public static final Freshen freshen1 = new Freshen(FRESHEN1_ID, of(2020, 10, 25, 12,0), "java", "киев", Collections.singleton(Goal.UPGRADE), ADMIN_ID);
+    public static final Freshen freshen2 = new Freshen(FRESHEN2_ID, of(2020, 10, 25, 13,0), "php", "киев", Collections.singleton(Goal.FILTER), USER_ID);
 
     public static Freshen getNew() {
-        return new Freshen(null, now(), "java", "newCity",ADMIN_ID);
+        return new Freshen(null, now(), "java", "newCity", Collections.singleton(Goal.UPGRADE), ADMIN_ID);
     }
 
     public static Freshen getUpdated() {

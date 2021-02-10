@@ -320,8 +320,8 @@
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
                 <%--<h7><em>wait loading about minute or two...</em></h7>--%>
-                <h7><em>идет загрузка... подождите минуту или две...<br>через три мин нажмите кнопку </em>
-                    <h7 class="text-danger">"  Сбросить"</h7></h7>
+                <h7><em>идет загрузка... подождите минуту или две...<br><h7 class="btn-outline-info">
+                    через две-три мин нажмите  </h7></em><strong class="text-danger">&times; Сбросить</strong></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">

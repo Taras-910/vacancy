@@ -24,6 +24,11 @@ INSERT INTO freshen (recorded_date, language, workplace, user_id)
 VALUES ('2020-10-25 12:00:00', 'java', 'киев', 100000),
        ('2020-10-25 13:00:00', 'php', 'киев', 100001);
 
+INSERT INTO freshen_goal (goal, freshen_id)
+VALUES ('UPGRADE', 100004),
+       ('FILTER', 100005);
+
+
 INSERT INTO vacancy (title, salary_min, salary_max, link, skills, release_date, employer_id, freshen_id)
 VALUES ('Middle Game Developer', 100000, 200000, 'https://grc.ua/vacancy/40006938?query=java', 'Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…', '2020-10-25',100002, 100004),
        ('Middle Java-разработчик', 150000, 300000, 'https://grc.ua/vacancy/40006938?query=java', '...на Java от 2-х лет. Понимание устройства и основных принципов работы платформы JVM. Умение отлаживать и профилировать java-приложения', '2020-10-25', 100003, 100005);

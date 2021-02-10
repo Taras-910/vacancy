@@ -48,6 +48,14 @@ CREATE TABLE freshen
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
+CREATE TABLE freshen_goal
+(
+    freshen_id               INTEGER NOT NULL,
+    goal                     VARCHAR,
+    FOREIGN KEY (freshen_id) REFERENCES freshen (id) ON DELETE CASCADE
+);
+
+
 CREATE TABLE vacancy
 (
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),

@@ -1,6 +1,7 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,8 +9,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
 import static ua.training.top.util.xss.XssUtil.xssClear;
@@ -32,6 +35,14 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @Column(name="workplace")
     private String workplace;
 
+    @Column(name="goal")
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "freshen_goal", joinColumns = @JoinColumn(name = "freshen_id"))
+//    @Fetch(FetchMode.SUBSELECT)
+    @BatchSize(size = 200)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Goal> goals;
+
     @Column(name = "user_id")
     private Integer userId;
 
@@ -39,19 +50,21 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @JsonManagedReference(value="freshen-movement") //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private List<Vacancy> vacancies;
 
-    public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Integer userId) {
+    public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Collection<Goal> goals, Integer userId) {
         super(id);
         this.recordedDate = recordedDate;
         this.language = hasText(language) ? xssClear(language).toLowerCase() : "all";
         this.workplace = hasText(workplace) ? xssClear(workplace).toLowerCase() : "all";
+        setGoals((Set<Goal>) goals);
         this.userId = userId;
     }
 
-    public Freshen() {
-    }
 
     public Freshen(Freshen f){
-        this(f.getId(), f.recordedDate, f.language, f.workplace, f.userId);
+        this(f.getId(), f.recordedDate, f.language, f.workplace, f.getGoals(), f.userId);
+    }
+
+    public Freshen() {
     }
 
     public LocalDateTime getRecordedDate() {
@@ -94,6 +107,14 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
         this.vacancies = vacancies;
     }
 
+    public Set<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(Set<Goal> goals) {
+        this.goals = goals;
+    }
+
     @Override
     public String toString() {
         return "Freshen{" +
@@ -101,6 +122,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
                 ", recordedDate=" + recordedDate +
                 ", language='" + language + '\'' +
                 ", workplace='" + workplace + '\'' +
+                ", goals=" + goals +
                 ", userId=" + userId +
                 '}';
     }
