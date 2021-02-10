@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Freshen;
-import ua.training.top.model.Goal;
 import ua.training.top.service.FreshenService;
 
 import javax.validation.Valid;
-import java.util.Collections;
+
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 
 @ApiIgnore
 @RestController
@@ -30,7 +30,6 @@ public class FreshenUIController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        freshen.setGoals(Collections.singleton(Goal.UPGRADE));
-        service.refreshDB(freshen);
+        service.refreshDB(asNewFreshen(freshen));
     }
 }

@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
+
 @RestController
 @RequestMapping(value = FreshenRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class FreshenRestController {
@@ -59,7 +61,7 @@ public class FreshenRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        service.refreshDB(freshen);
+        service.refreshDB(asNewFreshen(freshen));
     }
 
 }

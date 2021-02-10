@@ -61,6 +61,6 @@ public class FreshenService {
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
         checkLimitFreshenPerHour(freshen, getBetween(tomorrow, yesterday));
-        aggregatorService.refreshDB(asNewFreshen(freshen));
+        aggregatorService.refreshDB(freshen);
     }
 }

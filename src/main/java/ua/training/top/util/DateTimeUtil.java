@@ -62,13 +62,13 @@ public class DateTimeUtil {
             }
             List<Freshen> freshensHour = freshensToday.stream()
                     .filter(f -> f.getRecordedDate().isAfter(lastHour) && f.getRecordedDate().isBefore(nextHour) && f.equals(freshen))
-                    .sorted((f1, f2) -> f2.getRecordedDate().compareTo(f1.getRecordedDate()))
+                    .sorted((f1, f2) -> f1.getRecordedDate().compareTo(f2.getRecordedDate()))
                     .collect(Collectors.toList());
             if (!freshensHour.isEmpty()){
                 Freshen lastFreshen = freshensHour.get(0);
                 if (freshensHour.size() >= freshenPerHour ||
                         freshen.getRecordedDate().isBefore(lastFreshen.getRecordedDate().plusMinutes((int)(60/freshenPerHour)))) {
-                    throw new IllegalStateException("по этому запросу:   \'" + freshen.getLanguage() + "\', \'" +
+                    throw new IllegalStateException("по этому запросу:    \'" + freshen.getLanguage() + "\', \'" +
                             freshen.getWorkplace() + " \' <br>последнее обновление было в " +
                             toStringTime(lastFreshen.getRecordedDate()) + "<br>повторите запрос после " +
                             toStringTime(lastFreshen.getRecordedDate().plusMinutes((int)(60/freshenPerHour)).plusMinutes(1)));

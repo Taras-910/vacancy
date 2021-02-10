@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 
 @RestController
 @RequestMapping(value = ProfileFreshenRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,7 +42,7 @@ public class ProfileFreshenRestController {
     public void refreshDB(@Valid @RequestBody Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
         freshen.setGoals(Collections.singleton(Goal.UPGRADE));
-        service.refreshDB(freshen);
+        service.refreshDB(asNewFreshen(freshen));
     }
 
 }
