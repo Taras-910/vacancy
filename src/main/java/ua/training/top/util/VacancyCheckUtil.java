@@ -43,7 +43,9 @@ public class VacancyCheckUtil {
 
     public static List<Vacancy> getMatchesByFreshen(List<Vacancy> vacancies, Freshen freshen){
         return vacancies.stream()
-                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
+                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills())
+                        && (freshen.getWorkplace().equals("all") ||
+                                vacancy.getEmployer().getAddress().toLowerCase().contains(freshen.getWorkplace())))
                 .collect(Collectors.toList());
     }
 

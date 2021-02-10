@@ -1,8 +1,39 @@
 package ua.training.top.util.parser.data;
 
 public class CorrectAddress {
+
     public static String getCorrectAddress(String city){
-        return city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
+        city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
+
+        switch (city){
+            case "киев": city = "Киев";
+                break;
+            case "днепр": city = "Днепр";
+                break;
+            case "харьков": city = "Харьков";
+                break;
+            case "одесса": city = "Одесса";
+                break;
+            case "львов": city = "Львов";
+                break;
+            case "николаев": city = "Николаев";
+                break;
+            case "винница": city = "Винница";
+                break;
+            case "запорожье": city = "Запорожье";
+                break;
+            case "черновцы": city = "Черновцы";
+                break;
+            case "чернигов": city = "Чернигов";
+                break;
+            case "Ивано-франковск": city = "Ивано-франковск";
+                break;
+            case "Ужгород": city = "Ужгород";
+                break;
+            case "минск": city = "Минск";
+                break;
+        }
+        return city;
     }
 
     public static String getTranslated(String city){
