@@ -43,13 +43,19 @@ public class VacancyCheckUtil {
 
     public static List<Vacancy> getMatchesByFreshen(List<Vacancy> vacancies, Freshen freshen){
         return vacancies.stream()
-                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
+                .filter(vacancy -> getMatchesLanguage(freshen, vacancy.getTitle(), vacancy.getSkills())
+                        && getMatchesWorkplace(freshen, vacancy.getEmployer().getAddress()))
                 .collect(Collectors.toList());
     }
 
-    public static boolean getMatchesFreshen(Freshen f, String title, String skills){
+    public static boolean getMatchesLanguage(Freshen f, String title, String skills){
         return f.getLanguage().equals("all")
                 || title.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
                 || skills.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*");
+    }
+
+    public static boolean getMatchesWorkplace(Freshen f, String address){
+        return f.getWorkplace().equals("за_рубежем") || f.getWorkplace().equals("удаленно") || f.getWorkplace().equals("all")
+                || address.toLowerCase().matches(".*\\b"+f.getWorkplace()+"\\b.*");
     }
 }

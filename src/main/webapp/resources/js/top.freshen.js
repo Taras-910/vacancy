@@ -12,15 +12,15 @@ function refreshDB() {
 function sendRefresh() {
     spinner1.style.visibility = 'visible';
     spinner2.style.visibility = 'visible';
+    let languageFilter = document.getElementById('language');
+    let workplaceFilter = document.getElementById('workplace');
+    languageFilter.value = document.getElementById('languageTask').value;
+    workplaceFilter.value = document.getElementById('workplaceTask').value;
     $.ajax({
         type: "POST",
         url: freshenUrl,
         data: $("#detailsRefreshForm").serialize()
     }).done(function () {
-        let languageFilter = document.getElementById('language');
-        let workplaceFilter = document.getElementById('workplace');
-        languageFilter.value = document.getElementById('languageTask').value;
-        workplaceFilter.value = document.getElementById('workplaceTask').value;
         $("#refreshRow").modal("hide");
         ctx.updateTable();
         successNoty("Update has finished ");

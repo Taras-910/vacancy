@@ -41,7 +41,7 @@ public class VacancyUtil {
 
     private static List<VacancyTo> getEmpty() {
         return of(new VacancyTo(0, "", "", "", -1, -1,"",
-                "по этому запросу вакансий не найдено, обновите базу данных", LocalDate.now(), "", "",
+                "No filtering records found, refresh DB", LocalDate.now(), "", "",
                 "",false));
     }
 

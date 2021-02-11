@@ -15,7 +15,7 @@ import java.util.List;
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validAddress;
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validDate;
 import static ua.training.top.aggregator.strategy.UAIndeedStrategy.getCorrectUrl;
-import static ua.training.top.util.VacancyCheckUtil.getMatchesFreshen;
+import static ua.training.top.util.VacancyCheckUtil.getMatchesLanguage;
 import static ua.training.top.util.parser.data.CorrectAddress.getCorrectAddress;
 import static ua.training.top.util.parser.data.CorrectEmployerName.getCorrectEmployerName;
 import static ua.training.top.util.parser.data.CorrectSkills.getCorrectSkills;
@@ -36,7 +36,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("list-jobs__title").text().trim()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
@@ -63,7 +63,7 @@ public class ElementUtil {
                 VacancyTo v = new VacancyTo();
                 String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
                     v.setAddress(getCorrectAddress(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim())));
@@ -89,7 +89,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
@@ -115,7 +115,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByClass("sh-info").text().trim()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("a").last().text().trim())));
@@ -192,7 +192,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company-name").text().trim())));
@@ -219,7 +219,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByClass("summary").text().trim()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company").text().trim())));
@@ -245,7 +245,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByTag("b").tagName("span").nextAll().text()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
@@ -271,7 +271,7 @@ public class ElementUtil {
             try {
                 String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text()));
                 String skills = getCorrectSkills(xssClear(element.getElementsByClass("overflow").text().trim()));
-                if (getMatchesFreshen(freshen, title, skills) && skills.length() > 2) {
+                if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("img").attr("alt"))));

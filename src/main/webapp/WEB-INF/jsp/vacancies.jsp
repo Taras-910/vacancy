@@ -36,18 +36,17 @@
                                 </datalist>
                             </div>
                             <div class="col-md-8 mb-3 col-form-label">
-                                <label for="workplace"><h7 class="btn-outline-info"><em>удаленно, за_рубежем...</em></h7></label>
+                                <label for="workplace"><h7 class="btn-outline-info"><em>все города, удаленно, за_рубежем...</em></h7></label>
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name" style="width:101%;border:2px solid #0397ba">
                                 <datalist id="city_name">
-                                    <option value='all' selected>all</option>
-                                    <option value='удаленно'>удаленно</option>
-                                    <option value='за_рубежем'>за_рубежем</option>
                                     <option value='Киев'>Киев</option>
                                     <option value='Минск'>Минск</option>
+                                    <option value='Санкт-Петербург'>Санкт-Петербург</option>
                                     <option value='Львов'>Львов</option>
                                     <option value='Харьков'>Харьков</option>
-                                    <option value='Санкт-Петербург'>Санкт-Петербург</option>
-                                </datalist>
+                                    <option value='Харьков'>Днепр</option>
+                                    <option value='удаленно'>удаленно</option>
+                                    <option value='за_рубежем'>за_рубежем</option>                                </datalist>
                             </div>
                         </form>
                         <div class="col-sm-2">
@@ -77,7 +76,7 @@
                     </button>
                 </sec:authorize>
                 </div>
-                <button class="offset-8 col-md-2 btn btn-outline-info bs-popover-right mt-2" onclick="refreshDB()">
+                <button class="offset-8 col-md-2 btn btn-info bs-popover-right mt-2" onclick="refreshDB()">
                     <span class="fa fa-refresh text-left pull-right"></span>
                     Обновить БД
                 </button>
@@ -302,16 +301,17 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>удаленно, за_рубежем...</em></h7></label>
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>все города, удаленно, за_рубежем...</em></h7></label>
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
                         <datalist id="city_name_2">
-                            <option value='удаленно'>удаленно</option>
-                            <option value='за_рубежем'>за_рубежем</option>
                             <option value='Киев'>Киев</option>
                             <option value='Минск'>Минск</option>
+                            <option value='Санкт-Петербург'>Санкт-Петербург</option>
                             <option value='Львов'>Львов</option>
                             <option value='Харьков'>Харьков</option>
-                            <option value='Санкт-Петербург'>Санкт-Петербург</option>
+                            <option value='Харьков'>Днепр</option>
+                            <option value='удаленно'>удаленно</option>
+                            <option value='за_рубежем'>за_рубежем</option>
                         </datalist>
                     </div>
                     <div class="form-group">
