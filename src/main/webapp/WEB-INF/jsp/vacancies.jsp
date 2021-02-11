@@ -43,6 +43,7 @@
                                     <option value='удаленно'>удаленно</option>
                                     <option value='за_рубежем'>за_рубежем</option>
                                     <option value='Киев'>Киев</option>
+                                    <option value='Минск'>Минск</option>
                                     <option value='Львов'>Львов</option>
                                     <option value='Харьков'>Харьков</option>
                                     <option value='Санкт-Петербург'>Санкт-Петербург</option>
@@ -307,6 +308,7 @@
                             <option value='удаленно'>удаленно</option>
                             <option value='за_рубежем'>за_рубежем</option>
                             <option value='Киев'>Киев</option>
+                            <option value='Минск'>Минск</option>
                             <option value='Львов'>Львов</option>
                             <option value='Харьков'>Харьков</option>
                             <option value='Санкт-Петербург'>Санкт-Петербург</option>
@@ -320,8 +322,8 @@
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
                 <%--<h7><em>wait loading about minute or two...</em></h7>--%>
-                <h7><em>идет загрузка... подождите минуту или две...<br><h7 class="btn-outline-info">
-                    через две-три мин нажмите  </h7></em><strong class="text-danger">&times; Сбросить</strong></h7>
+                <h7><em>идет загрузка c 10 сайтов минуту или две...<br><h7 class="btn-outline-info">
+                    через две мин нажмите  </h7></em><strong class="text-danger">&times; Сбросить</strong></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">

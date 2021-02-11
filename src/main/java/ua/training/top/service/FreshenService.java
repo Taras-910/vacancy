@@ -11,7 +11,6 @@ import ua.training.top.repository.FreshenRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ua.training.top.util.DateTimeUtil.*;
 import static ua.training.top.util.FreshenUtil.FRESHEN_NOT_BE_NULL;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.ValidationUtil.*;
@@ -60,7 +59,7 @@ public class FreshenService {
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-        checkLimitFreshenPerHour(freshen, getBetween(tomorrow, yesterday));
+//        checkLimitFreshenPerHour(freshen, getBetween(tomorrow, yesterday));
         aggregatorService.refreshDB(freshen);
     }
 }
