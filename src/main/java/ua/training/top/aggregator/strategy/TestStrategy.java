@@ -19,7 +19,7 @@ public class TestStrategy implements Strategy {
     }
 
     public static List<VacancyTo> getTestList() {
-        VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM", null,
+        VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM", "Киев",
                 80000, 120000, "https://example1.ua/vacancy/40006938?query=java", "Java, JavaScript, Php",
                 LocalDate.now().minusDays(5), "https://example1.ua", null, null, false);
 
@@ -37,6 +37,6 @@ public class TestStrategy implements Strategy {
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
                 LocalDate.now().minusDays(3), "https://example4.com", null, null, false);
 
-        return List.of(vacancyTo1);
+        return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
     }
 }
