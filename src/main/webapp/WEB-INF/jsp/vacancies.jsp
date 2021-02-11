@@ -44,7 +44,7 @@
                                     <option value='Санкт-Петербург'>Санкт-Петербург</option>
                                     <option value='Львов'>Львов</option>
                                     <option value='Харьков'>Харьков</option>
-                                    <option value='Харьков'>Днепр</option>
+                                    <option value='Днепр'>Днепр</option>
                                     <option value='удаленно'>удаленно</option>
                                     <option value='за_рубежем'>за_рубежем</option>                                </datalist>
                             </div>
@@ -309,7 +309,7 @@
                             <option value='Санкт-Петербург'>Санкт-Петербург</option>
                             <option value='Львов'>Львов</option>
                             <option value='Харьков'>Харьков</option>
-                            <option value='Харьков'>Днепр</option>
+                            <option value='Днепр'>Днепр</option>
                             <option value='удаленно'>удаленно</option>
                             <option value='за_рубежем'>за_рубежем</option>
                         </datalist>
