@@ -63,7 +63,7 @@
 
                     </div>
                     <div class="row justify-content-md-center count1">
-                        <em class="btn-outline-info"><label class="count1" id="count1"> Сегодшних "еще горячих" вакансий :   </label></em>
+                        <em class="btn-outline-info"><label class="count1" id="count1"> Сегодня опубликовано новых вакансий :   </label></em>
                         <em><output class="count" id="count"><h7 class="btn-outline-info">  ${count}</h7></output></em>
                     </div>
 
