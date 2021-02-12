@@ -6,6 +6,10 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static java.time.LocalDate.parse;
+import static ua.training.top.util.parser.date.DateUtil.supportDate;
+import static ua.training.top.util.xss.XssUtil.xssClear;
+
 public class ToCorrectDate {
     private static final Logger log = LoggerFactory.getLogger(ToCorrectDate.class);
 
@@ -36,10 +40,10 @@ public class ToCorrectDate {
             if(!myDate.matches(".*\\d.*")){
                 return LocalDate.now().minusDays(7);
             }
+            return parse(supportDate(xssClear(myDate)));
         } catch (NumberFormatException e) {
             log.error("Wrong data {} exception {}", myDate, e.getMessage());
             return LocalDate.now().minusDays(7);
         }
-        return LocalDate.now().minusDays(7);
     }
 }

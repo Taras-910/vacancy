@@ -36,11 +36,11 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             try {
-                LocalDate localDate = getCorrectDate(xssClear(element.getElementsByClass("inbox-date").text().trim()));
+                LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByClass("inbox-date").text().trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("list-jobs__title").text().trim()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
-                    if (localDate.isBefore(reasonDateToLoad) && getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
@@ -69,7 +69,7 @@ public class ElementUtil {
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase()));
-                    if (localDate.isBefore(reasonDateToLoad) && getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
@@ -86,7 +86,6 @@ public class ElementUtil {
             } catch (Exception e) {
                 log.error("there is error getVacanciesGrc for parse element \n{}", element);
             }
-
         });
         return list;
     }
@@ -99,7 +98,7 @@ public class ElementUtil {
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
-                    if (localDate.isBefore(reasonDateToLoad) && getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
@@ -153,7 +152,7 @@ public class ElementUtil {
                 LocalDate localDate = parseCustom(xssClear(element.getElementsByTag("time").tagName("time").attr("datetime")), element);
                 if (localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("result-card__title job-result-card__title").text().trim()));
-                    if (localDate.isBefore(reasonDateToLoad) && title.toLowerCase().matches(".*\\b" + freshen.getLanguage() + "\\b.*")) {
+                    if (title.toLowerCase().matches(".*\\b" + freshen.getLanguage() + "\\b.*")) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("result-card__subtitle-link job-result-card__subtitle-link").text().trim())));
@@ -182,7 +181,7 @@ public class ElementUtil {
                 LocalDate localDate = validDate(element.getElementsByClass("new-label").text());
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("posting-title__position").text().trim()));
-                    if (localDate.isBefore(reasonDateToLoad) && title.toLowerCase().matches(".*\\b" + freshen.getLanguage() + "\\b.*")) {
+                    if (title.toLowerCase().matches(".*\\b" + freshen.getLanguage() + "\\b.*")) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(xssClear(element.getElementsByClass("posting-title__company").text()).substring(2).trim());
@@ -211,7 +210,7 @@ public class ElementUtil {
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
-                    if (localDate.isBefore(reasonDateToLoad) && getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company-name").text().trim())));
@@ -241,7 +240,7 @@ public class ElementUtil {
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("summary").text().trim()));
-                    if (localDate.isBefore(reasonDateToLoad) && getMatchesLanguage(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company").text().trim())));
@@ -270,7 +269,7 @@ public class ElementUtil {
                 lineDate = Optional.of(xssClear(element.getElementsByClass("_8d375").last().text().trim())).orElse("");
             } catch (Exception e) {
                 lineDate = Optional.of(xssClear(element.getElementsByClass("_77a3a d3fee _356ae _108aa ab7d6").text().trim())).orElse("");
-                log.error("error lineDate1 -> lineDate2={}", lineDate);
+                log.info("   >>>    lineDate1 -> lineDate2={}", lineDate);
             }
             String address = getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim()));
             LocalDate localDate = getCorrectDate(lineDate.equals(address) ? null: lineDate);
@@ -394,3 +393,9 @@ public class ElementUtil {
 
 
 
+/*                System.out.println("====================================================================================================");
+                System.out.println("elements:\n" + elements.size());
+                System.out.println("____________________________________________________________________________________");
+                System.out.println("element:\n" + element);
+                System.out.println("localDate=" + localDate);
+*/

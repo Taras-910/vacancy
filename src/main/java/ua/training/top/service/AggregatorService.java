@@ -108,10 +108,45 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+
+
+//        String line = "сьогодні";
+//        String line = "27 січня";
+//        System.out.println("____________________________________________________________________________________");
+//        System.out.println("\nline=" + line);
+//
+//        System.out.println("parse(supportDate=" + parse(supportDate(xssClear(line))));
+//        System.out.println("getCorrectDate=" + getCorrectDate(line));
+
+
+//parseCustom(supportDate(prepare(xssClear(
     }
 }
+//line=сьогодні
+//getCorrectSalary=2021-02-12
+//
+//line=вчора
+//getCorrectSalary=2021-02-11
+
+//line=10 лютого
+//getCorrectSalary=2021-02-05
+//
+//line=9 лютого
+//getCorrectSalary=2021-02-05
+//
+//line=8 лютого
+//getCorrectSalary=2021-02-05
+//
+//line=3 лютого
+//getCorrectSalary=2021-02-05
+//
+//line=31 січня
+//getCorrectSalary=2021-02-11
+//
+//line=27 січня
+//getCorrectSalary=2021-02-11

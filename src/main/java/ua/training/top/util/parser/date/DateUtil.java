@@ -9,7 +9,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import static ua.training.top.util.DateTimeUtil.print;
 import static ua.training.top.util.parser.date.MonthUtil.getMonth;
+import static ua.training.top.util.parser.date.ToCorrectDate.getCorrectDate;
 
 public class DateUtil {
     private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
@@ -36,10 +38,13 @@ public class DateUtil {
     }
 
     public static String supportDate(String dateTime){
-        if (dateTime.split(" ").length < 2 || dateTime == null || dateTime.isEmpty()) {
+        if (dateTime == null || dateTime.isEmpty()) {
             return LocalDate.now().minusWeeks(1).toString();
         }
-        dateTime = dateTime.split(" ").length < 3 ? toAddYear(dateTime) : dateTime;
+        if (dateTime.split(" ").length < 2) {
+            return print(getCorrectDate(dateTime));
+        }
+                dateTime = dateTime.split(" ").length < 3 ? toAddYear(dateTime) : dateTime;
         String[] dateParts = dateTime.split(" ");
         StringBuilder sb = new StringBuilder(dateParts[2]);
         sb.append("-").append(getMonth(dateParts[1])).append("-");
