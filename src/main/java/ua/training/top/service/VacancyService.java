@@ -103,4 +103,16 @@ public class VacancyService {
         repository.deleteList(list);
         employerService.deleteEmptyEmployers();
     }
+
+    public int getCountToday() {
+        log.info("getCountToday");
+        return repository.getCountToday();
+    }
+
+    public int getCountLast() {
+        log.info("getCountLast");
+        Freshen freshen = freshenService.getLast();
+        int last = repository.getByFreshenId(freshen.getId());
+        return last;
+    }
 }

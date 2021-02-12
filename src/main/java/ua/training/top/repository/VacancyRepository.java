@@ -22,5 +22,9 @@ public interface VacancyRepository {
     Vacancy getByParams(String title, String skills, int employerId);
 
     List<Vacancy> getByFilter(Freshen freshen);
+
+    int getCountToday();
+
+    int getByFreshenId(Integer id);
 }
 

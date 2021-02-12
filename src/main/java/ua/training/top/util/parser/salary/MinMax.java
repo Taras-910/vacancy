@@ -17,6 +17,10 @@ public class MinMax {
             log.error("there is exception on getCorrectSalary method salaryMin data salary={}", salary);
             return 1;
         }
+        if(result >= 10000000 || result < 1 ){
+            log.info("there is wrong data on salaryMin={}", result);
+            return 1;
+        }
         return result;
     }
 
@@ -29,6 +33,10 @@ public class MinMax {
             result = salary.matches("\\d+\\W\\d+") ?  Integer.parseInt(salary.split("\\W")[1]) : 1;
         } catch (NumberFormatException e) {
             log.error("there is exception={} on salaryMax={}", e.getLocalizedMessage(), salary);
+            return 1;
+        }
+        if(result >= 10000000 || result < 1 ){
+            log.info("there is wrong data on salaryMin={}", result);
             return 1;
         }
         return result;

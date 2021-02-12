@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesJooble;
+import static ua.training.top.util.parser.data.CorrectAddress.getCorrectWorkplaceJooble;
 
 public class UAJoobleStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAJoobleStrategy.class);
@@ -27,6 +28,7 @@ public class UAJoobleStrategy implements Strategy {
     // за кордоном за 7 дн https://ua.jooble.org/SearchResult?ukw=java&rgns=за+кордоном&date=3&p=1
     //                     https://ua.jooble.org/SearchResult?date=3&loc=2&rgns=%D0%B7%D0%B0%20%D0%BA%D0%BE%D1%80%D0%B4%D0%BE%D0%BD%D0%BE%D0%BC&ukw=java
     // удаленно            https://ua.jooble.org/SearchResult?loc=2&p=2&ukw=java
+    // Мінськ Білорусь     https://ua.jooble.org/SearchResult?rgns=%D0%9C%D1%96%D0%BD%D1%81%D1%8C%D0%BA%2C%20%D0%91%D1%96%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%8C&ukw=java
 
     protected Document getDocument(String city, String language, String page) {
         if(city.equals("удаленно")) {
@@ -38,10 +40,11 @@ public class UAJoobleStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
-        log.info("getVacancies city {} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
-        boolean other = doubleString.getWorkplace().contains("за_рубежем");
-        String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{doubleString.getWorkplace()};
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        String workplace = getCorrectWorkplaceJooble(freshen.getWorkplace());
+        log.info("getVacancies city {} language={}", freshen.getWorkplace(), freshen.getLanguage());
+        boolean other = workplace.equals("за_рубежем");
+        String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{workplace};
         List<VacancyTo> result = new ArrayList<>();
         for(String c : cityOrCountry) {
             Set<VacancyTo> set = new LinkedHashSet<>();
@@ -49,14 +52,14 @@ public class UAJoobleStrategy implements Strategy {
             int page = 1;
             int limitEmptyDoc = 1;
             while (true) {
-                Document doc = getDocument(c, doubleString.getLanguage(), String.valueOf(page));
+                Document doc = getDocument(c, freshen.getLanguage(), String.valueOf(page));
                 Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0 || tempDoc.equals(doc.text())) {
                     limitEmptyDoc --;
                 }
                 if (limitEmptyDoc == 0) break;
                 tempDoc = doc.text();
-                set.addAll(getVacanciesJooble(elements, doubleString));
+                set.addAll(getVacanciesJooble(elements, freshen));
                 if (page < limitCallPages) page++;
                 else break;
             }

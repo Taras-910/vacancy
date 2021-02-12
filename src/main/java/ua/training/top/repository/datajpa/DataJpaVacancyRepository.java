@@ -9,6 +9,7 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +76,16 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     public List<Vacancy> getByFilter(Freshen freshen) {
         String language = freshen.getLanguage(), workplace = freshen.getWorkplace();
         return vacancyRepository.getByFilter(language.equals("all") ? "" : language, workplace.equals("all") ? "" : workplace);
+    }
+
+    @Override
+    public int getCountToday() {
+        return vacancyRepository.getCountToday(LocalDate.now()).size();
+    }
+
+    @Override
+    public int getByFreshenId(Integer id) {
+        return vacancyRepository.getByFreshenId(id).size();
     }
 
     @Override

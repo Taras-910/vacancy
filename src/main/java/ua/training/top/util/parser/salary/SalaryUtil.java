@@ -28,7 +28,7 @@ public class SalaryUtil {
                 return getHrn(temp);
             }
         } catch (NumberFormatException e) {
-            log.error("Exception for parse salary={}", temp);
+            log.error("Error: salary not contains at least one [salary:,pln,$,usd,eur,€,грн]={}", temp);
             return "1";
         }
         return temp;

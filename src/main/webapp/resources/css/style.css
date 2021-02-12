@@ -95,3 +95,9 @@ tr[data-userEnabled="false"] {
 .spinner-border{
     visibility: hidden;
 }
+.count{
+    visibility: hidden;
+}
+.count1{
+    visibility: hidden;
+}

@@ -71,6 +71,22 @@ public class VacancyUIController {
         return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 
+    @GetMapping(value = "/count")
+    public int getCountToday() {
+        log.info("getCountToday");
+        int count = vacancyService.getCountToday();
+        log.info("count {}", count);
+        return count;
+    }
+
+    @GetMapping(value = "/last")
+    public int getCountLast() {
+        log.info("getCountLast");
+        int data =  vacancyService.getCountLast();
+        log.info("data {}", data);
+        return data;
+    }
+
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setVote(@PathVariable(name = "id") int vacancyId, @RequestParam boolean enabled) {

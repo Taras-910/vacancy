@@ -10,9 +10,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancies.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.freshen.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
-<div class="jumbotron pt-md-4">
+<div class="jumbotron pt-md-">
     <div class="container-fluid row-cols-md-10">
-        <p class="text-info"><h3 class="text-center">Вакансии</h3></p>
         <div class="card border-dark">
             <div class="card-body pb-1" style="width:100%; background-color: #e5e7e7">
                 <div class="container rounded-lg" style="width:90%;">
@@ -36,7 +35,7 @@
                                 </datalist>
                             </div>
                             <div class="col-md-8 mb-3 col-form-label">
-                                <label for="workplace"><h7 class="btn-outline-info"><em>все города, удаленно, за_рубежем...</em></h7></label>
+                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, Минск, удаленно, за_рубежем...</em></h7></label>
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name" style="width:101%;border:2px solid #0397ba">
                                 <datalist id="city_name">
                                     <option value='Киев'>Киев</option>
@@ -63,6 +62,11 @@
                         </div>
 
                     </div>
+                    <div class="row justify-content-md-center count1">
+                        <em class="btn-outline-info"><label class="count1" id="count1"> Сегодшних "еще горячих" вакансий :   </label></em>
+                        <em><output class="count" id="count"><h7 class="btn-outline-info">  ${count}</h7></output></em>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -76,7 +80,7 @@
                     </button>
                 </sec:authorize>
                 </div>
-                <button class="offset-8 col-md-2 btn btn-info bs-popover-right mt-2" onclick="refreshDB()">
+                <button class=" col-md-2 btn btn-info bs-popover-right mt-2" onclick="refreshDB()">
                     <span class="fa fa-refresh text-left pull-right"></span>
                     Обновить БД
                 </button>
@@ -301,7 +305,7 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>все города, удаленно, за_рубежем...</em></h7></label>
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, Минск, удаленно, за_рубежем...</em></h7></label>
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
                         <datalist id="city_name_2">
                             <option value='Киев'>Киев</option>
@@ -322,8 +326,8 @@
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
                 <%--<h7><em>wait loading about minute or two...</em></h7>--%>
-                <h7><em>идет загрузка c 10 сайтов минуту или две...<br><h7 class="btn-outline-info">
-                    через две мин нажмите  </h7></em><strong class="text-danger">&times; Сбросить</strong></h7>
+                <h7><em>идет загрузка... подождите минуту или две...<br><h7 class="btn-outline-info">
+                    через две мин жмите  </h7></em><strong class="text-danger">&times; Сбросить</strong></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">

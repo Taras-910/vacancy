@@ -152,4 +152,74 @@ public class CorrectAddress {
         return city;
     }
 
+    public static boolean isMatchesWorkplaceRabota(String city){
+        boolean matches = true;
+        switch (city){
+            case "санкт-петербург" :
+            case "москва":
+            case "новосибирск":
+            case "нижний новгород":
+            case "казань":
+            case "екатеринбург":
+            case "краснодар":
+            case "пермь":
+            case "минск":
+            case "ростов-на-дону":
+            case "томск":
+            case "самара":
+            case "ульяновск":
+            case "удаленно":
+            case "воронеж": matches = false;
+        }
+        return matches;
+    }
+
+    public static String getCorrectWorkplaceJooble(String city){
+        switch (city){
+            case "киев": city = "Київ";
+                break;
+            case "днепр": city = "Дніпро";
+                break;
+            case "харьков": city = "Харків";
+                break;
+            case "одесса": city = "Одеса";
+                break;
+            case "львов": city = "Львів";
+                break;
+            case "николаев": city = "Миколаїв";
+                break;
+            case "винница": city = "Вінниця";
+                break;
+            case "запорожье": city = "Запоріжжя";
+                break;
+            case "черновцы": city = "Чорновці";
+                break;
+            case "чернигов": city = "Чернігів";
+                break;
+            case "ивано-франковск": city = "Івано-Франківськ";
+                break;
+            case "ужгород": city = "Ужгород";
+                break;
+            case "санкт-петербург" :
+            case "москва":
+            case "новосибирск":
+            case "нижний новгород":
+            case "казань":
+            case "екатеринбург":
+            case "краснодар":
+            case "пермь":
+            case "ростов-на-дону":
+            case "томск":
+            case "самара":
+            case "ульяновск": city = "Росія";
+                break;
+            case "минск": city = "Мінськ%2C%20Білорусь";
+                break;
+            case "варшава" : city = "Варшава%2C%20Польща";
+                break;
+            case "краков" : city = "Краків%2C%20Польща";
+                break;
+        }
+        return city;
+    }
 }

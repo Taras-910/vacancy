@@ -7,7 +7,7 @@
 <body>
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
-        <div class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">  Вакансии</h3></div>
+        <div class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">  Свежие вакансии</h3></div>
         <form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
             <input class="form-control mr-1" type="text" placeholder="Email" name="username">
             <input class="form-control mr-1" type="password" placeholder="Password" name="password">
@@ -55,7 +55,7 @@
             <a href="http://ehcache.org">EHCACHE</a>,
             <a href="http://www.postgresql.org/">PostgreSQL</a>,
             <a href="http://junit.org/">JUnit</a>,
-            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>,<br>
+            <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>
             <a href="http://jquery.com/">jQuery</a>,
             <a href="http://ned.im/noty/">jQuery notification</a>,
             <a href="http://getbootstrap.com/">Bootstrap</a>.
@@ -76,7 +76,7 @@
     <a href="https://jobs.dou.ua"> DOU</a>,
     <a href="https://www.linkedin.com">LinkedIn</a>,
     <a href="https://nofluffjobs.com/">No Fluff Jobs</a>,
-    <a href="https://rabota.ua">robota</a>,
+    <a href="https://rabota.ua">Rabota</a>,
     <a href="https://ua.indeed.com">Indeed</a>,
     <a href="https://ua.jooble.org">Jooble</a>,
     <a href="https://www.work.ua">Work</a>

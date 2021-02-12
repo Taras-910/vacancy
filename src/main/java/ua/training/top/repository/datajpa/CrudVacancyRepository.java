@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vacancy;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -31,4 +32,10 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
             "AND (LOWER(v.employer.address) LIKE CONCAT('%',:workplace,'%') " +
             "OR v.freshen.workplace LIKE CONCAT('%',:workplace,'%'))")
     List<Vacancy> getByFilter(@Param("language")String language, @Param("workplace")String workplace);
+
+    @Query("SELECT v FROM Vacancy v WHERE v.releaseDate=:localDate")
+    List<Vacancy> getCountToday(@Param("localDate")LocalDate localDate);
+
+    @Query("SELECT v FROM Vacancy v WHERE v.freshen.id=:id")
+    List<Vacancy> getByFreshenId(@Param("id") Integer id);
 }

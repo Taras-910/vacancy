@@ -15,10 +15,11 @@ public class CheckUtil {
                 || salary.contains("€") || salary.contains("pln")
                 || salary.contains("salary:")) && salary.matches(".*\\d.*");
     }
-
+//    salary.matches(".*\\d.*")
+//salary.matches(".*\\D\\d\\D+")
     public static String validateAndFormat(String salary) {
         salary = salary.toLowerCase();
-        if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary)) {
+        if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary) || salary.contains("unpaid")) {
             return "1";
         }
         salary = salary.replaceAll(" ", "").replaceAll(" ", "")
