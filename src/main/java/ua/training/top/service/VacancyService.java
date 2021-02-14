@@ -10,9 +10,11 @@ import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyCheckUtil.*;
@@ -58,6 +60,8 @@ public class VacancyService {
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
+        freshen.setGoals(Collections.singleton(FILTER));
+        freshenService.create(freshen);
         return getTos(getMatchesByFreshen(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
     }
 

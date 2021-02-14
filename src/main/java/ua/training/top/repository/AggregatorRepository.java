@@ -17,9 +17,9 @@ import static ua.training.top.util.AggregatorUtil.getFilled;
 
 @Repository
 public class AggregatorRepository implements AggregatorInterface{
-    private Logger log = LoggerFactory.getLogger(AggregatorRepository.class);
+    private final Logger log = LoggerFactory.getLogger(AggregatorRepository.class);
 
-    private Provider[] providers;
+    private final Provider[] providers;
     public static ArrayDeque<Provider> allProviders;
 
     public AggregatorRepository(Provider... providers) throws IllegalArgumentException {

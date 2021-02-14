@@ -43,7 +43,7 @@ function updateCount() {
             document.getElementById('count').value = count;
 
             $.get("profile/vacancies/last", function (last) {
-                successNoty("Appear new " + last + " vacancy");
+                successNoty("Appear new " + last + " vacancies");
             });
         });
 }
