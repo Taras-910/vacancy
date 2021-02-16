@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaFreshenRepository implements FreshenRepository {
-    private static final Sort SORT_LANGUAGE = Sort.by(Sort.Direction.ASC, "language", "workplace");
+    private static final Sort RECORDED_DATE = Sort.by(Sort.Direction.ASC, "recordedDate");
     private final CrudFreshenRepository crudRepository;
 
     public DataJpaFreshenRepository(CrudFreshenRepository crudRepository) {
@@ -39,7 +39,7 @@ public class DataJpaFreshenRepository implements FreshenRepository {
 
     @Override
     public List<Freshen> getAll() {
-        return crudRepository.findAll(SORT_LANGUAGE);
+        return crudRepository.findAll(RECORDED_DATE);
     }
 
     @Override

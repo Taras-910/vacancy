@@ -106,7 +106,7 @@ $(function () {
                 {
                     "data": function (data, type, row) {
                         if(data.employerName === "see the card on the link") {
-                            return 'see on the <a href="' + data.url + '">link</a>'
+                            return 'see on <a href="' + data.url + '">link</a>'
                         }
                         return data.employerName;
                     }

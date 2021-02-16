@@ -16,10 +16,10 @@ public class InstallationUtil {
     public static final float PLN_TO_USD_RATE = 3.7f;
     public static final float EUR_TO_USD_RATE = 1.2f;
 
-    private static int repeatToCall = 3;
-//    private static int repeatToCall = 1;
-    public static int limitCallPages = 10;
-//    public static int limitCallPages = 3;
+//    private static int repeatToCall = 3;
+    private static int repeatToCall = 1;
+//    public static int limitCallPages = 10;
+    public static int limitCallPages = 5;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(49);
 

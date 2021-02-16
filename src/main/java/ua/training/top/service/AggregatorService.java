@@ -110,14 +110,17 @@ public class AggregatorService {
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
 
+/*
+        ExecutorService executor = Executors.newFixedThreadPool(1);
 
-        /*Runnable runnableTask = () -> {
+        Runnable runnableTask = () -> {
             try {
                 TimeUnit.HOURS.sleep(300);
             } catch (InterruptedException e) {
@@ -134,10 +137,12 @@ public class AggregatorService {
         callableTasks.add(callableTask);
         callableTasks.add(callableTask);
         callableTasks.add(callableTask);
+*/
+
     }
 
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-        return service.scheduleAtFixedRate(command, initialDelay, period, unit);*/
+        return service.scheduleAtFixedRate(command, initialDelay, period, unit);
     }
 
     private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
@@ -145,8 +150,9 @@ public class AggregatorService {
 //    service.scheduleWithFixedDelay(new Runnable() { ... }, 0, 1, TimeUnit.SECONDS);
 
     ExecutorService executorService =
-            new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,
+            new ThreadPoolExecutor(1, 1, 0L, TimeUnit.HOURS,
                     new LinkedBlockingQueue<Runnable>());
+
 }
 /*executorService.execute(runnableTask);
 submit() submits a Callable or a Runnable task to an ExecutorService and returns a result of type Future.
