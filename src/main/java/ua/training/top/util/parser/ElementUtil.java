@@ -293,7 +293,6 @@ public class ElementUtil {
                         title = getCorrectTitle(xssClear(element.getElementsByClass("_045f1").tagName("span").text().trim()));
                         salary = getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("b2a33").text()).orElse("1")));
                     }
-
                     skills = getCorrectSkills(xssClear(element.getElementsByTag("b").tagName("span").nextAll().text()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
