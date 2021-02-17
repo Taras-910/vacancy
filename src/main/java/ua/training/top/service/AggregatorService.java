@@ -16,7 +16,6 @@ import ua.training.top.util.AggregatorUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -115,54 +114,5 @@ public class AggregatorService {
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-
-
-/*
-        ExecutorService executor = Executors.newFixedThreadPool(1);
-
-        Runnable runnableTask = () -> {
-            try {
-                TimeUnit.HOURS.sleep(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        };
-
-        Callable<String> callableTask = () -> {
-            TimeUnit.HOURS.sleep(12);
-            return "Task's execution";
-        };
-
-        List<Callable<String>> callableTasks = new ArrayList<>();
-        callableTasks.add(callableTask);
-        callableTasks.add(callableTask);
-        callableTasks.add(callableTask);
-*/
-
     }
-
-    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-        return service.scheduleAtFixedRate(command, initialDelay, period, unit);
-    }
-
-    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-//    service.scheduleAtFixedRate(new Runnable() { ... }, 0, 1, TimeUnit.SECONDS);
-//    service.scheduleWithFixedDelay(new Runnable() { ... }, 0, 1, TimeUnit.SECONDS);
-
-    ExecutorService executorService =
-            new ThreadPoolExecutor(1, 1, 0L, TimeUnit.HOURS,
-                    new LinkedBlockingQueue<Runnable>());
-
 }
-/*executorService.execute(runnableTask);
-submit() submits a Callable or a Runnable task to an ExecutorService and returns a result of type Future.
-
-Future<String> future =
-  executorService.submit(callableTask);
-invokeAny() assigns a collection of tasks to an ExecutorService, causing each to be executed, and returns the result of a successful execution of one task (if there was a successful execution).
-
-String result = executorService.invokeAny(callableTasks);
-invokeAll() assigns a collection of tasks to an ExecutorService, causing each to be executed, and returns the result of all task executions in the form of a list of objects of type Future.
-
-List<Future<String>> futures = executorService.invokeAll(callableTasks);
-*/

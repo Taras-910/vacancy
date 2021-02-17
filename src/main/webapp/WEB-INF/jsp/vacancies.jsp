@@ -327,7 +327,7 @@
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
                 <%--<h7><em>wait loading about minute or two...</em></h7>--%>
                 <h7><em>идет загрузка... подождите минуту или две...<br><h7 class="btn-outline-info">
-                    через две мин жмите  </h7></em><strong class="text-info">&times; Фильтровать</strong></h7>
+                    через две мин жмите   </h7></em><h6 class="fa fa-filter text-info">Фильтровать</h6></h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">

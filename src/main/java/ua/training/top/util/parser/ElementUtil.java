@@ -350,65 +350,6 @@ public class ElementUtil {
     }
 }
 
-/*
-                    String line = element.getElementsByClass("_0b1c1").tagName("span").first().text();
-
-                    System.out.println("____________________________________________________________________________________");
-                    System.out.println("element:\n" + element);
-                    System.out.println("\nline=" + line);
-                    System.out.println("getCorrectSalary=" + getCorrectSalary(line));
-                    System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line)));
-
-
-
-                    String line = element.getElementsByClass("_0b1c1").tagName("span").first().text();
-
-                    System.out.println("____________________________________________________________________________________");
-                    System.out.println("element:\n" + element);
-                    System.out.println("\nline=" + line);
-                    System.out.println("getCorrectSalary=" + getCorrectSalary(line));
-                    System.out.println("salaryMax=" + salaryMax(getCorrectSalary(line)));
-*/
-
-/*                        System.out.println("____________________________________________________________________________________");
-                        System.out.println("element:\n" + element);
-                        System.out.println("\nline=" + address);
-                        System.out.println("getCorrectAddress=" + getCorrectAddress(xssClear(address)));
-
-*/
-
-//                System.out.println("element:\n" + element);
-
-//                String lineAddress = Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("");
-//                System.out.println("\nlineAddress=" + lineAddress);
-//                System.out.println("getCorrectAddress=" + getCorrectAddress(xssClear(lineAddress)));
-
-//                    System.out.println("\nlineSalaryOld = " + lineSalaryOld);
-//                    System.out.println("getCorrectSalaryOld = " + lineSalaryOld);
-//                    System.out.println("getSalaryMaxOld = " + salaryMax(getCorrectSalary(xssClear(Optional.of(lineSalaryOld).orElse("")))));
-//------------------------------------
-//                    String lineSalaryNew = element.getElementsByClass("_0010f").text();
-//                    System.out.println("\nlineSalaryNew = " + lineSalaryNew);
-//                    System.out.println("getCorrectSalaryNew = " + getCorrectSalary(xssClear(lineSalaryNew)));
-//                    System.out.println("getSalaryMaxNew = " + salaryMax(getCorrectSalary(xssClear(Optional.of(lineSalaryNew).orElse("")))));
-//------------------------------------
-//                    String lineSalaryNew2 = element.getElementsByClass("b2a33").text();
-//                    System.out.println("\nlineSalaryNew2 = " + lineSalaryNew2);
-//                    System.out.println("getCorrectSalaryNew2 = " + getCorrectSalary(xssClear(lineSalaryNew2)));
-//                    System.out.println("getSalaryMaxNew2 = " + salaryMax(getCorrectSalary(xssClear(Optional.of(lineSalaryNew2).orElse("")))));
-//
-//                System.out.println("\nlineDate=" + lineDate);
-//                    System.out.println("getCorrectDate=" + getCorrectDate(xssClear(lineDate)));
-
-
-
-/*                System.out.println("====================================================================================================");
-                System.out.println("elements:\n" + elements.size());
-                System.out.println("____________________________________________________________________________________");
-                System.out.println("element:\n" + element);
-                System.out.println("localDate=" + localDate);
-*/
-
 /*                            System.out.println("elements:" + elements.size());
                         System.out.println("element:\n" + element);
                         System.out.println("getCorrectEmployerName=" + getCorrectEmployerName(xssClear(line)));
