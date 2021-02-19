@@ -39,15 +39,11 @@ public class ScheduledUtil {
                     9, new Provider(new WorkStrategy()));
 
     public static final Map<Integer, String> mapWorkplace =
-            Map.of(0, "днепр",
-                    1, "харьков",
-                    2, "львов",
+            Map.of(
+                    0, "удаленно",
+                    1, "за_рубежем",
+                    2, "киев",
                     3, "санкт-петербург",
-                    4, "киев",
-                    5, "удаленно",
-                    6, "за_рубежем",
-                    7, "одесса",
-                    8, "варшава",
-                    9, "минск");
-
+                    4, "минск"
+            );
 }

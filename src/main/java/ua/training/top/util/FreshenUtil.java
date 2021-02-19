@@ -27,7 +27,7 @@ public class FreshenUtil {
         return new Freshen(null, now(), language, workplace, singleton(goal == null ? UPGRADE : goal), authUserId());
     }
 
-    public static  Freshen schedulingFreshen(String workplace) {
+    public static  Freshen scheduledFreshen(String workplace) {
         return new Freshen(null, now(), "java", workplace, singleton(UPGRADE), ADMIN_ID);
     }
 }

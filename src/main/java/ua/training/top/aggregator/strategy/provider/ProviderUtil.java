@@ -6,7 +6,8 @@ import ua.training.top.aggregator.Provider;
 import ua.training.top.aggregator.strategy.*;
 import ua.training.top.repository.AggregatorRepository;
 
-import static ua.training.top.aggregator.installation.InstallationUtil.*;
+import static ua.training.top.aggregator.installation.InstallationUtil.scheduledTwoProviders;
+import static ua.training.top.aggregator.installation.InstallationUtil.testProvider;
 import static ua.training.top.util.ScheduledUtil.getKey;
 import static ua.training.top.util.ScheduledUtil.mapStrategies;
 
@@ -18,28 +19,10 @@ public class ProviderUtil {
         if (testProvider) {
             return new AggregatorRepository(new Provider(new TestStrategy()));
         }
-        else if (scheduledOneProvider) {
-            return new AggregatorRepository(
-                    mapStrategies.get(getKey(10)));
-        }
         else if (scheduledTwoProviders) {
             return new AggregatorRepository(
                     mapStrategies.get(getKey(5)),
                     mapStrategies.get(getKey(5) + 5));
-        }
-        else if (scheduledFourProviders) {
-            int key1 = getKey(5), key2 = getKey(5), key3 = getKey(5) + 5, key4 = getKey(5) + 5;
-            while(key2 == key1) {
-                key2 = getKey(5);
-            }
-            while(key4 == key3) {
-                key4 = getKey(5) + 5;
-            }
-            return new AggregatorRepository(
-                    mapStrategies.get(key1),
-                    mapStrategies.get(key2),
-                    mapStrategies.get(key3),
-                    mapStrategies.get(key4));
         }
         else {
             return new AggregatorRepository(
