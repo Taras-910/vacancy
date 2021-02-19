@@ -23,14 +23,14 @@ public class AutoScheduledFreshen {
     @Autowired
     private FreshenService service;
 
-    @Scheduled(cron = "0 0,15,30,45 7-18 ? * *")
+    @Scheduled(cron = "0 0,15,30,45 6-18 ? * *")
     public void someTimesByHour() {
         int delayMAxMinutes = 14;
         log.info("someTimesByHour delayMAxMinutes={}", delayMAxMinutes);
         setRandomDelay(1000 * 60 * delayMAxMinutes);
         setTestAuthorizedUser(asAdmin());
         setTwoProviders();
-        service.refreshDB(new Freshen(scheduledFreshen(mapWorkplace.get(getKey(5)))));
+        service.refreshDB(new Freshen(scheduledFreshen(mapWorkplace.get(getKey(10)))));
         offTwoProviders();
     }
 }
