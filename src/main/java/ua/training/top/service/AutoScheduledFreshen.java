@@ -41,7 +41,7 @@ public class AutoScheduledFreshen {
     }
 
     private void upgrade(String workplace) {
-        int delayMinutes = 14;
+        int delayMinutes = 19;
         setRandomDelay(1000 * 60 * delayMinutes);
         setTestAuthorizedUser(asAdmin());
         setFourProviders();
@@ -50,10 +50,10 @@ public class AutoScheduledFreshen {
     }
 
 //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 7-23 ? * *")
-    @Scheduled(cron = "0 15,30,45 7-15 ? * *")
+    @Scheduled(cron = "0 20,40 7-15 ? * *")
     public void someTimesByHour() {
         log.info("someTimesByHour");
-        int delayMinutes = 14;
+        int delayMinutes = 19;
         setRandomDelay(1000 * 60 * delayMinutes);
         setTestAuthorizedUser(asAdmin());
         setOneProvider();

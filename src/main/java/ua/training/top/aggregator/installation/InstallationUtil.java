@@ -43,8 +43,8 @@ public class InstallationUtil {
     public static void offFourProviders() { InstallationUtil.scheduledFourProviders = false; }
     public static void setTwoProviders() { InstallationUtil.scheduledTwoProviders = true; }
     public static void offTwoProviders() { InstallationUtil.scheduledTwoProviders = false; }
-    public static void setOneProvider() { InstallationUtil.scheduledTwoProviders = true; }
-    public static void offOneProvider() { InstallationUtil.scheduledTwoProviders = false; }
+    public static void setOneProvider() { InstallationUtil.scheduledOneProvider = true; }
+    public static void offOneProvider() { InstallationUtil.scheduledOneProvider = false; }
 
     public static void setTestFreshenPerHour() {
         InstallationUtil.freshenPerHour = 60;
