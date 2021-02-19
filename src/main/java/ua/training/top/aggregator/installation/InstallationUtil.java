@@ -17,9 +17,7 @@ public class InstallationUtil {
     public static final float EUR_TO_USD_RATE = 1.2f;
 
     private static int repeatToCall = 3;
-//    private static int repeatToCall = 1;
     public static int limitCallPages = 10;
-//    public static int limitCallPages = 5;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(49);
 
@@ -32,8 +30,21 @@ public class InstallationUtil {
     public static boolean testProvider = false;
 
     public static void setTestProvider() {
-    InstallationUtil.testProvider = true;
-}
+        InstallationUtil.testProvider = true;
+    }
+    public static void offTestProvider() {
+        InstallationUtil.testProvider = false;
+    }
+
+    public static boolean scheduledFourProviders = false;
+    public static boolean scheduledTwoProviders = false;
+    public static boolean scheduledOneProvider = false;
+    public static void setFourProviders() { InstallationUtil.scheduledFourProviders = true; }
+    public static void offFourProviders() { InstallationUtil.scheduledFourProviders = false; }
+    public static void setTwoProviders() { InstallationUtil.scheduledTwoProviders = true; }
+    public static void offTwoProviders() { InstallationUtil.scheduledTwoProviders = false; }
+    public static void setOneProvider() { InstallationUtil.scheduledTwoProviders = true; }
+    public static void offOneProvider() { InstallationUtil.scheduledTwoProviders = false; }
 
     public static void setTestFreshenPerHour() {
         InstallationUtil.freshenPerHour = 60;

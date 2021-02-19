@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesIndeed;
+import static ua.training.top.util.parser.data.CorrectAddress.isMatchesWorkplaceRabotaIndeed;
 
 public class UAIndeedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAIndeedStrategy.class);
@@ -29,17 +30,17 @@ public class UAIndeedStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if(doubleString.getWorkplace().contains("за_рубежем")){
+        if (!isMatchesWorkplaceRabotaIndeed(freshen.getWorkplace())) {
             return new ArrayList<>();
         }
         int page = 0;
         while (true) {
-            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), String.valueOf(page));
+            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("jobsearch-SerpJobCard unifiedRow row result");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesIndeed(elements, doubleString));
+            set.addAll(getVacanciesIndeed(elements, freshen));
             if(page < limitCallPages) page++;
             else break;
         }

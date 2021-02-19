@@ -102,6 +102,7 @@ public class AggregatorService {
                 .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
                 .collect(Collectors.toList());
         if (!listToDelete.isEmpty()) {
+            log.info("deleteList {}", listToDelete.size());
             vacancyService.deleteList(listToDelete);
         }
     }

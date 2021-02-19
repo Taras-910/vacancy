@@ -72,6 +72,8 @@ public class CorrectAddress {
         switch (city){
             case "киев" : city = "115";
                 break;
+            case "днепр": city = "2126";
+                break;
             case "одесса": city = "2188";
                 break;
             case "львов": city = "2180";
@@ -152,9 +154,10 @@ public class CorrectAddress {
         return city;
     }
 
-    public static boolean isMatchesWorkplaceRabota(String city){
+    public static boolean isMatchesWorkplaceRabotaIndeed(String city){
         boolean matches = true;
         switch (city){
+            case "за_рубежем" :
             case "санкт-петербург" :
             case "москва":
             case "новосибирск":

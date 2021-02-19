@@ -1,5 +1,7 @@
 package ua.training.top.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.training.top.model.Employer;
@@ -15,6 +17,7 @@ import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class EmployerService {
+    public static final Logger log = LoggerFactory.getLogger(EmployerService.class);
 
     private final EmployerRepository repository;
 
@@ -56,6 +59,7 @@ public class EmployerService {
     }
 
     public void deleteEmptyEmployers() {
+        log.info("deleteEmptyEmployers");
         repository.deleteAllEmpty(0);
     }
 }
