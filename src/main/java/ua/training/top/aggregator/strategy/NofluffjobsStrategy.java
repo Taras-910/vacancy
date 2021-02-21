@@ -18,6 +18,7 @@ import java.util.Set;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getNofluffjobsVacancies;
+import static ua.training.top.util.parser.data.CorrectAddress.getCorrectNofluffjobs;
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
@@ -31,6 +32,9 @@ public class NofluffjobsStrategy implements Strategy {
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        if(getCorrectNofluffjobs(freshen.getWorkplace()).equals("-1")){
+            return new ArrayList<>();
+        }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while (true) {

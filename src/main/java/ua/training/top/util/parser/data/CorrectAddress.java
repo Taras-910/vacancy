@@ -116,11 +116,10 @@ public class CorrectAddress {
         switch (city){
             case "киев" : city = "908";
                 break;
-            case "одесса": city = "912";
-                break;
-            case "львов": city = "711";
-                break;
-            case "харьков": city = "742";
+            case "за_рубежем":
+            case "одесса":
+            case "львов":
+            case "харьков": city = "-1";
                 break;
             case "санкт-петербург" : city = "679";
                 break;
@@ -225,4 +224,36 @@ public class CorrectAddress {
         }
         return city;
     }
+
+    public static Object getCorrectNofluffjobs(String city) {
+        switch (city){
+            case "киев":
+            case "днепр":
+            case "харьков":
+            case "одесса":
+            case "львов":
+            case "николаев":
+            case "запорожье":
+            case "черновцы":
+            case "чернигов":
+            case "ивано-франковск":
+            case "ужгород":
+            case "санкт-петербург" :
+            case "москва":
+            case "новосибирск":
+            case "нижний новгород":
+            case "казань":
+            case "екатеринбург":
+            case "краснодар":
+            case "пермь":
+            case "ростов-на-дону":
+            case "томск":
+            case "самара":
+            case "минск":;
+            case "ульяновск": city = "-1";
+        }
+        return city;
+    }
+
+
 }

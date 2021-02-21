@@ -3,6 +3,8 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.training.top.model.Freshen;
@@ -18,6 +20,7 @@ import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
+@EnableScheduling
 public class FreshenService {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
@@ -59,6 +62,7 @@ public class FreshenService {
         return repository.getBetween(endDate, startDate);
     }
 
+    @Async
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
 //        checkLimitFreshenPerHour(freshen, getBetween(tomorrow, yesterday));

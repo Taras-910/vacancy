@@ -24,17 +24,18 @@ public class HabrStrategy implements Strategy {
     // by date https://career.habr.com/vacancies?city_id=908&q=java&sort=date&type=all
 
     protected Document getDocument(String city, String language) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, getCodeHabr(city), language));
+        return DocumentUtil.getDocument(format(URL_FORMAT, city, language));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) {
         Set<VacancyTo> set = new LinkedHashSet<>();
         try {
-            if(freshen.getWorkplace().contains("за_рубежем")){
+            String city = getCodeHabr(freshen.getWorkplace());
+            if(getCodeHabr(city).equals("-1")){
                 return new ArrayList<>();
             }
-            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage());
+            Document doc = getDocument(city, freshen.getLanguage());
             Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
             if (elements != null) {
                 set.addAll(getVacanciesHabr(elements, freshen));
