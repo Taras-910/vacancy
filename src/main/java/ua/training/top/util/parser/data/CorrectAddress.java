@@ -117,6 +117,7 @@ public class CorrectAddress {
             case "киев" : city = "908";
                 break;
             case "за_рубежем":
+            case "удаленно":
             case "одесса":
             case "львов":
             case "харьков": city = "-1";

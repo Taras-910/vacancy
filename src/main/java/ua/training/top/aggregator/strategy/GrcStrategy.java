@@ -26,7 +26,7 @@ public class GrcStrategy implements Strategy {
     private static final String URL_FORMAT_FOREIGN = "https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=%s&L_save_area=true&area=%s&from=cluster_area&showClusters=true";
     //израиль        //https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=java&L_save_area=true&area=33&from=cluster_area&showClusters=true
     //сша            //https://grc.ua/search/vacancy?clusters=true&enable_snippets=true&text=java&L_save_area=true&area=85&from=cluster_area&showClusters=true
-    protected Document getDocument(String city, String language, String page) { //33 израиль 85 сша 27 германия 149 швеция 207 норвегия
+    protected Document getDocument(String city, String language, String page) { //33 израиль 85 сша 27 германия 149 швеция 207 норвегия 74 польша
         if(city.equals("удаленная")){
             return DocumentUtil.getDocument(format(URL_FORMAT_FOREIGN, language, page.equals("0") ? "" : page));
         }

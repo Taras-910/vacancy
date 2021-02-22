@@ -27,16 +27,18 @@ public class ScheduledUtil {
     }
 
     public static final Map<Integer, Provider> mapStrategies =
-            Map.of(0, new Provider(new DjinniStrategy()),
-                    1, new Provider(new GrcStrategy()),
-                    2, new Provider(new HabrStrategy()),
-                    3, new Provider(new JobsStrategy()),
-                    4, new Provider(new LinkedinStrategy()),
-                    5, new Provider(new NofluffjobsStrategy()),
-                    6, new Provider(new RabotaStrategy()),
-                    7, new Provider(new UAIndeedStrategy()),
-                    8, new Provider(new UAJoobleStrategy()),
-                    9, new Provider(new WorkStrategy()));
+            Map.of(
+                    0, new Provider(new GrcStrategy()),
+                    1, new Provider(new HabrStrategy()),
+                    2, new Provider(new RabotaStrategy()),
+                    3, new Provider(new UAIndeedStrategy()),
+                    4, new Provider(new WorkStrategy()),
+                    5, new Provider(new JobsStrategy()),
+                    6, new Provider(new DjinniStrategy()),
+                    7, new Provider(new LinkedinStrategy()),
+                    8, new Provider(new NofluffjobsStrategy()),
+                    9, new Provider(new UAJoobleStrategy())
+            );
 
     public static final Map<Integer, String> mapWorkplace =
             Map.of(
@@ -46,9 +48,9 @@ public class ScheduledUtil {
                     3, "харьков",
                     4, "львов",
                     5, "днепр",
-                    6, "одесса",
-                    7, "винница",
-                    8, "запорожье",
+                    6, "москва",
+                    7, "санкт-петербург",
+                    8, "киев",
                     9, "минск"
             );
 }

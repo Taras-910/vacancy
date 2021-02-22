@@ -25,8 +25,8 @@ public class AutoScheduledFreshen {
     @Autowired
     private FreshenService service;
 
-    @Scheduled(cron = "0 0,15,30,45 6-19 * * *")
-    public void someTimesByHour() {
+    @Scheduled(cron = "0 0,15,30,45 6-19 * * MON-SAT")
+    public void weekDay() {
         int delayMinutesMax = 14;
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
@@ -34,5 +34,15 @@ public class AutoScheduledFreshen {
         setTwoProviders();
         service.refreshDB(new Freshen(scheduledFreshen(mapWorkplace.get(getKey(10)))));
         offTwoProviders();
+    }
+
+    @Scheduled(cron = "0 0 9,14 * * SUN")
+//    @Async
+    public void weekEnd() {
+        int delayMinutesMax = 120;
+        log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
+        setRandomDelay(1000 * 60 * delayMinutesMax);
+        setTestAuthorizedUser(asAdmin());
+        service.refreshDB(new Freshen(scheduledFreshen(mapWorkplace.get(getKey(3)))));
     }
 }
