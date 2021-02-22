@@ -3,7 +3,6 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -62,7 +61,6 @@ public class FreshenService {
         return repository.getBetween(endDate, startDate);
     }
 
-    @Async
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
 //        checkLimitFreshenPerHour(freshen, getBetween(tomorrow, yesterday));
@@ -72,5 +70,10 @@ public class FreshenService {
     public Freshen getLast() {
         log.info("getLast");
         return repository.getBetween(tomorrow, yesterday).stream().max((f1, f2) -> f1.getId().compareTo(f2.getId())).get();
+    }
+
+    public void deleteList(List<Freshen> listToDelete) {
+        log.info("deleteList");
+        repository.deleteList(listToDelete);
     }
 }

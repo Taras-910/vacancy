@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
+import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesToKeep;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.model.Goal.UPGRADE;
@@ -74,14 +75,30 @@ public class AggregatorService {
     protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
                            Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
         Freshen freshenDb = freshenService.create(freshen);
+
         List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenDb);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
         vacancies.addAll(vacanciesForCreate);
+        checkQuantityItemsOnTable(vacancies, vacanciesDb);
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
-        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         employerService.deleteEmptyEmployers();
+    }
+
+    public void checkQuantityItemsOnTable(Set<Vacancy> vacancies, List<Vacancy> vacanciesDb) {
+        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
+        int i = 0, j= 0;
+        List<Freshen> allFreshens = freshenService.getAll();
+        while (true) {
+            if(allFreshens.size() > limitVacanciesToKeep / 7) {
+                deleteFreshensOutdated(allFreshens, reasonPeriodToKeep.minusDays(i));
+            }
+            else break;
+        }
+        do {
+            deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep.minusDays(j));
+        } while (vacancyService.getAll().size() + vacancies.size() >= limitVacanciesToKeep);
     }
 
     public Map<String, Employer> getMapAllEmployers(List<VacancyTo> vacancyTos){
@@ -105,6 +122,19 @@ public class AggregatorService {
             log.info("deleteList {}", listToDelete.size());
             vacancyService.deleteList(listToDelete);
         }
+    }
+
+    @Transactional
+    public void deleteFreshensOutdated(List<Freshen> allFreshens, LocalDate reasonDateToKeep) {
+        log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
+        List<Freshen> listToDelete = allFreshens.stream()
+                .filter(freshen -> reasonDateToKeep.isAfter(freshen.getRecordedDate().toLocalDate()))
+                .collect(Collectors.toList());
+        if (!listToDelete.isEmpty()) {
+            log.info("deleteList {}", listToDelete.size());
+            freshenService.deleteList(listToDelete);
+        }
+
     }
 
     public static void main(String[] args) throws IOException {

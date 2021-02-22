@@ -113,10 +113,10 @@ public class VacancyService {
         return repository.getCountToday();
     }
 
+    @Transactional
     public int getCountLast() {
         log.info("getCountLast");
         Freshen freshen = freshenService.getLast();
-        int last = repository.getByFreshenId(freshen.getId());
-        return last;
+        return repository.getByFreshenId(freshen.getId());
     }
 }

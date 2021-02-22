@@ -50,5 +50,10 @@ public class DataJpaFreshenRepository implements FreshenRepository {
         } catch (Exception e) {}
         return freshens;
     }
+
+    @Override
+    public void deleteList(List<Freshen> listToDelete) {
+        crudRepository.deleteAll(listToDelete);
+    }
 }
 
