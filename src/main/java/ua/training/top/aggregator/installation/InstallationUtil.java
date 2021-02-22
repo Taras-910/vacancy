@@ -19,8 +19,8 @@ public class InstallationUtil {
     private static int repeatToCall = 3;
     public static int limitCallPages = 10;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
-    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(49);
-    public static int limitVacanciesToKeep = 5500;
+    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(42);
+    public static int limitVacanciesToKeep = 5000;
 
 
     public static double freshenPerHour = 6;

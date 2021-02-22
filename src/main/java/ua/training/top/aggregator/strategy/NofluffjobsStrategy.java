@@ -50,7 +50,7 @@ public class NofluffjobsStrategy implements Strategy {
     }
 
     public static String validAddress(String address) {
-        return address.equals("") ? "POL" : address;
+        return address.equals("") ? "Польша" : address;
     }
 
     public static LocalDate validDate(String text) {

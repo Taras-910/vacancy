@@ -17,6 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesJobs;
+import static ua.training.top.util.parser.data.CorrectAddress.isMatchesWorkplaceRabotaIndeedJobs;
 
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
@@ -34,6 +35,9 @@ public class JobsStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("getVacancies city {} language {}", freshen.getWorkplace(), freshen.getLanguage());
+        if (!isMatchesWorkplaceRabotaIndeedJobs(freshen.getWorkplace())) {
+            return new ArrayList<>();
+        }
         Set<VacancyTo> set = new LinkedHashSet<>();
         String[] positions = new String[]{"middle", "developer", "java"};
         for(String p : positions) {

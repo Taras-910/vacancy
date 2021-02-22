@@ -18,7 +18,7 @@ import java.util.Set;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesRabota;
-import static ua.training.top.util.parser.data.CorrectAddress.isMatchesWorkplaceRabotaIndeed;
+import static ua.training.top.util.parser.data.CorrectAddress.isMatchesWorkplaceRabotaIndeedJobs;
 import static ua.training.top.util.parser.date.DateUtil.printStrategyRabota;
 
 public class RabotaStrategy implements Strategy {
@@ -36,7 +36,7 @@ public class RabotaStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        if (!isMatchesWorkplaceRabotaIndeed(freshen.getWorkplace())) {
+        if (!isMatchesWorkplaceRabotaIndeedJobs(freshen.getWorkplace())) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();

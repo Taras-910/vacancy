@@ -75,30 +75,16 @@ public class AggregatorService {
     protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
                            Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
         Freshen freshenDb = freshenService.create(freshen);
-
         List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenDb);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
         vacancies.addAll(vacanciesForCreate);
-        checkQuantityItemsOnTable(vacancies, vacanciesDb);
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
-        employerService.deleteEmptyEmployers();
-    }
-
-    public void checkQuantityItemsOnTable(Set<Vacancy> vacancies, List<Vacancy> vacanciesDb) {
         deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
-        int i = 0, j= 0;
-        List<Freshen> allFreshens = freshenService.getAll();
-        while (true) {
-            if(allFreshens.size() > limitVacanciesToKeep / 7) {
-                deleteFreshensOutdated(allFreshens, reasonPeriodToKeep.minusDays(i));
-            }
-            else break;
-        }
-        do {
-            deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep.minusDays(j));
-        } while (vacancyService.getAll().size() + vacancies.size() >= limitVacanciesToKeep);
+        deleteVacanciesOutLimited(vacanciesDb, vacanciesForCreate, limitVacanciesToKeep);
+        deleteFreshensOutLimit(limitVacanciesToKeep / 7);
+        employerService.deleteEmptyEmployers();
     }
 
     public Map<String, Employer> getMapAllEmployers(List<VacancyTo> vacancyTos){
@@ -114,7 +100,7 @@ public class AggregatorService {
 
     @Transactional
     public void deleteVacanciesOutdated(List<Vacancy> vacanciesDb, LocalDate reasonDateToKeep) {
-        log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
+        log.info("deleteVacanciesBeforeDate reasonDateToKeep={}", reasonDateToKeep);
         List<Vacancy> listToDelete = vacanciesDb.stream()
                 .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
                 .collect(Collectors.toList());
@@ -125,16 +111,29 @@ public class AggregatorService {
     }
 
     @Transactional
-    public void deleteFreshensOutdated(List<Freshen> allFreshens, LocalDate reasonDateToKeep) {
-        log.info("deleteVacanciesBeforeDate reasonDateToKeep {}", reasonDateToKeep);
+    public void deleteFreshensOutLimit(int limitFreshenToKeep) {
+        log.info("deleteFreshensOutLimit limitFreshenToKeep={}", limitFreshenToKeep);
+        List<Freshen> allFreshens = freshenService.getAll();
+        if (allFreshens.size() >= limitFreshenToKeep) {
         List<Freshen> listToDelete = allFreshens.stream()
-                .filter(freshen -> reasonDateToKeep.isAfter(freshen.getRecordedDate().toLocalDate()))
+                .sorted((f1, f2) -> f1.getRecordedDate().isAfter(f2.getRecordedDate()) ? 1 : 0)
+                .skip(limitFreshenToKeep - 1)
                 .collect(Collectors.toList());
-        if (!listToDelete.isEmpty()) {
-            log.info("deleteList {}", listToDelete.size());
-            freshenService.deleteList(listToDelete);
+        freshenService.deleteList(listToDelete);
         }
+    }
 
+    public void deleteVacanciesOutLimited(List<Vacancy> vacanciesDb, List<Vacancy> vacanciesForCreate, int limitVacanciesToKeep) {
+        log.info("deleteVacanciesOutLimited limitVacanciesToKeep={} vacanciesDb+create={}", limitVacanciesToKeep,
+                vacanciesDb.size() + vacanciesForCreate.size());
+        List<Vacancy> listToDelete = Optional.of(vacanciesDb.stream()
+                .sorted((v1, v2) -> v1.getReleaseDate().isAfter(v2.getReleaseDate()) ? 1 : 0)
+                .skip(limitVacanciesToKeep - vacanciesForCreate.size())
+                .collect(Collectors.toList())).orElse(new ArrayList<>());
+        if (!listToDelete.isEmpty()) {
+            log.info("deleteList={}", listToDelete.size());
+            vacancyService.deleteList(listToDelete);
+        }
     }
 
     public static void main(String[] args) throws IOException {

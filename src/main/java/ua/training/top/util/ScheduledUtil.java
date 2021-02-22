@@ -15,7 +15,7 @@ public class ScheduledUtil {
     public static void setRandomDelay(int bound) {
         try {
             int delay = rand.nextInt(bound);
-            log.info("\n------- delay={} min {} sec -------", delay/(1000 * 60), delay%(1000 * 60) / 1000);
+            log.info("\n------------ delay={} min {} sec ------------", delay/(1000 * 60), delay%(1000 * 60) / 1000);
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

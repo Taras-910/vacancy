@@ -42,6 +42,9 @@ public class UAJoobleStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = getCorrectWorkplaceJooble(freshen.getWorkplace());
+        if (workplace.equals("-1")) {
+            return new ArrayList<>();
+        }
         log.info("getVacancies city {} language={}", freshen.getWorkplace(), freshen.getLanguage());
         boolean other = workplace.equals("за_рубежем");
         String[] cityOrCountry = other ? new String[]{"сша", "польща", "німеччина"} : new String[]{workplace};

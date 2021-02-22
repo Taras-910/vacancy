@@ -25,7 +25,7 @@ public class AutoScheduledFreshen {
     @Autowired
     private FreshenService service;
 
-    @Scheduled(cron = "0 0,15,30,45 6-19 * * MON-SAT")
+    @Scheduled(cron = "0 0,15,30,45 6-18 * * MON-SAT")
     public void weekDay() {
         int delayMinutesMax = 14;
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);

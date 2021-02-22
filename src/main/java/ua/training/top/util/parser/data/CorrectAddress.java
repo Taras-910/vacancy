@@ -3,8 +3,8 @@ package ua.training.top.util.parser.data;
 public class CorrectAddress {
 
     public static String getCorrectAddress(String city){
-        city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
-
+        city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city.toLowerCase();
+        city = city.contains("віддалено") ? city.replaceAll("віддалено", "удаленно") : city;
         switch (city){
             case "киев": city = "Киев";
                 break;
@@ -154,10 +154,9 @@ public class CorrectAddress {
         return city;
     }
 
-    public static boolean isMatchesWorkplaceRabotaIndeed(String city){
+    public static boolean isMatchesWorkplaceRabotaIndeedJobs(String city){
         boolean matches = true;
         switch (city){
-            case "за_рубежем" :
             case "санкт-петербург" :
             case "москва":
             case "новосибирск":
@@ -214,7 +213,7 @@ public class CorrectAddress {
             case "ростов-на-дону":
             case "томск":
             case "самара":
-            case "ульяновск": city = "Росія";
+            case "ульяновск": city = "-1";
                 break;
             case "минск": city = "Мінськ%2C%20Білорусь";
                 break;
