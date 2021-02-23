@@ -117,7 +117,7 @@ public class AggregatorService {
         if (allFreshens.size() >= limitFreshenToKeep) {
         List<Freshen> listToDelete = allFreshens.stream()
                 .sorted((f1, f2) -> f1.getRecordedDate().isAfter(f2.getRecordedDate()) ? 1 : 0)
-                .skip(limitFreshenToKeep - 1)
+                .skip(limitFreshenToKeep)
                 .collect(Collectors.toList());
         freshenService.deleteList(listToDelete);
         }
@@ -128,7 +128,7 @@ public class AggregatorService {
                 vacanciesDb.size() + vacanciesForCreate.size());
         List<Vacancy> listToDelete = Optional.of(vacanciesDb.stream()
                 .sorted((v1, v2) -> v1.getReleaseDate().isAfter(v2.getReleaseDate()) ? 1 : 0)
-                .skip(limitVacanciesToKeep - vacanciesForCreate.size())
+                .skip(limitVacanciesToKeep)
                 .collect(Collectors.toList())).orElse(new ArrayList<>());
         if (!listToDelete.isEmpty()) {
             log.info("deleteList={}", listToDelete.size());

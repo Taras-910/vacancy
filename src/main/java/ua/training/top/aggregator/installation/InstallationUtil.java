@@ -20,8 +20,7 @@ public class InstallationUtil {
     public static int limitCallPages = 10;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(42);
-    public static int limitVacanciesToKeep = 5000;
-
+    public static int limitVacanciesToKeep = 5100;
 
     public static double freshenPerHour = 6;
     public static double freshenPerHourForAdmin = 12;
@@ -38,15 +37,9 @@ public class InstallationUtil {
         InstallationUtil.testProvider = false;
     }
 
-    public static boolean scheduledFourProviders = false;
     public static boolean scheduledTwoProviders = false;
-    public static boolean scheduledOneProvider = false;
-    public static void setFourProviders() { InstallationUtil.scheduledFourProviders = true; }
-    public static void offFourProviders() { InstallationUtil.scheduledFourProviders = false; }
     public static void setTwoProviders() { InstallationUtil.scheduledTwoProviders = true; }
     public static void offTwoProviders() { InstallationUtil.scheduledTwoProviders = false; }
-    public static void setOneProvider() { InstallationUtil.scheduledOneProvider = true; }
-    public static void offOneProvider() { InstallationUtil.scheduledOneProvider = false; }
 
     public static void setTestFreshenPerHour() {
         InstallationUtil.freshenPerHour = 60;
