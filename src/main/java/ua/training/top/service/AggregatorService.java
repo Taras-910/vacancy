@@ -74,6 +74,7 @@ public class AggregatorService {
     @Transactional
     protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
                            Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
+        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         Freshen freshenDb = freshenService.create(freshen);
         List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenDb);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
@@ -81,7 +82,6 @@ public class AggregatorService {
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
-        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         deleteVacanciesOutLimited(vacanciesDb, vacanciesForCreate, limitVacanciesToKeep);
         deleteFreshensOutLimit(limitVacanciesToKeep / 7);
         employerService.deleteEmptyEmployers();
@@ -138,11 +138,14 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
+//        setTestProvider();
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+//        offTestProvider();
+
     }
 }

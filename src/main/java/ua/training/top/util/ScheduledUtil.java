@@ -27,17 +27,19 @@ public class ScheduledUtil {
     }
 
     public static final Map<Integer, Provider> mapStrategies =
-            Map.of(
-                    0, new Provider(new GrcStrategy()),
-                    1, new Provider(new HabrStrategy()),
-                    2, new Provider(new RabotaStrategy()),
-                    3, new Provider(new UAIndeedStrategy()),
-                    4, new Provider(new WorkStrategy()),
-                    5, new Provider(new JobsStrategy()),
-                    6, new Provider(new DjinniStrategy()),
-                    7, new Provider(new LinkedinStrategy()),
-                    8, new Provider(new NofluffjobsStrategy()),
-                    9, new Provider(new UAJoobleStrategy())
+            Map.ofEntries(
+                    Map.entry(0, new Provider(new GrcStrategy())),
+                    Map.entry(1, new Provider(new HabrStrategy())),
+                    Map.entry(2, new Provider(new RabotaStrategy())),
+                    Map.entry(3, new Provider(new UAIndeedStrategy())),
+                    Map.entry(4, new Provider(new WorkStrategy())),
+                    Map.entry(5, new Provider(new YandexStrategy())),
+                    Map.entry(6, new Provider(new JobsMarketStrategy())),
+                    Map.entry(7, new Provider(new JobsStrategy())),
+                    Map.entry(8, new Provider(new DjinniStrategy())),
+                    Map.entry(9, new Provider(new LinkedinStrategy())),
+                    Map.entry(10, new Provider(new NofluffjobsStrategy())),
+                    Map.entry(11, new Provider(new UAJoobleStrategy()))
             );
 
     public static final Map<Integer, String> mapWorkplace =

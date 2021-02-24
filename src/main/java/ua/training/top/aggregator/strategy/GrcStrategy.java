@@ -36,10 +36,10 @@ public class GrcStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
-        log.info("getVacancies city={} language={}", doubleString.getWorkplace(), doubleString.getLanguage());
-        boolean other = doubleString.getWorkplace().contains("за_рубежем");
-        List<VacancyTo> list = other ? getOther(doubleString) : getCity(doubleString);
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
+        boolean other = freshen.getWorkplace().contains("за_рубежем");
+        List<VacancyTo> list = other ? getOther(freshen) : getCity(freshen);
 //        reCall(list.size(), new GrcStrategy());
         return list ;
     }

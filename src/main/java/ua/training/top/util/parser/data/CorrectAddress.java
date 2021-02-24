@@ -255,5 +255,57 @@ public class CorrectAddress {
         return city;
     }
 
+    public static String getCorrectWorkplaceYandex(String city){
+        switch (city){
+            case "киев" : city = "kievskaya_oblast";
+                break;
+            case "днепр" : city = "dnepropetrovskaya_oblast";
+                break;
+            case "харьков" : city = "harkovskaya_oblast";
+                break;
+            case "одесса" : city = "odesskaya_oblast";
+                break;
+            case "львов" : city = "lvovskaya_oblast";
+                break;
+            case "винница" : city = "vinnitskaya_oblast";
+                break;
+            case "санкт-петербург" : city = "leningradskaya_oblast";
+                break;
+            case "москва" : city = "moskva";
+                break;
+            case "нижний новгород" : city = "nizhniy_novgorod";
+                break;
+            case "казань" : city = "kazan";
+                break;
+            case "екатеринбург" : city = "ekaterinburg";
+                break;
+            case "краснодар": city = "krasnodarskiy_kray";
+                break;
+            case "пермь" : city = "perm";
+                break;
+            case "ростов-на-дону" : city = "rostov-na-donu";
+                break;
+            case "томск" : city = "tomsk";
+                break;
+            case "самара" : city = "samara";
+                break;
+            case "ульяновск" :  city = "ulyanovskaya_oblast";
+                break;
+            case "минск": city = "minskaya_oblast";
+                break;
+            case "варшава" :
+            case "польша" :
+            case "николаев" :
+            case "запорожье" :
+            case "черновцы" :
+            case "чернигов" :
+            case "ивано-франковск" :
+            case "ужгород" :
+            case "за_рубежем": city = "-1";
+                break;
+        }
+        return city;
+    }
+
 
 }

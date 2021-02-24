@@ -44,11 +44,14 @@ public class DateUtil {
         if (dateTime.split(" ").length < 2) {
             return print(getCorrectDate(dateTime));
         }
-                dateTime = dateTime.split(" ").length < 3 ? toAddYear(dateTime) : dateTime;
+        dateTime = dateTime.split(" ").length < 3 ? toAddYear(dateTime) : dateTime;
         String[] dateParts = dateTime.split(" ");
+        String partDay = dateParts[1].matches("\\d+") ? dateParts[1] : dateParts[0];
+        String partMonth = dateParts[1].matches("\\d+") ? dateParts[0] : dateParts[1];
+
         StringBuilder sb = new StringBuilder(dateParts[2]);
-        sb.append("-").append(getMonth(dateParts[1])).append("-");
-        return sb.append(dateParts[0].length() == 2 ? dateParts[0] : "0".concat(dateParts[0])).toString();
+        sb.append("-").append(getMonth(partMonth)).append("-");
+        return sb.append(partDay.length() == 2 ? partDay : "0".concat(partDay)).toString();
     }
 
     private static String toAddYear(String dateTime) {

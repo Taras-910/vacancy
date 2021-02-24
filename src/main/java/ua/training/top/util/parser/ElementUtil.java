@@ -56,7 +56,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesDjinni for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesDjinni for parse element \n{}", e.getLocalizedMessage(), element);
             }
         });
         return list;
@@ -85,7 +85,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesGrc for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesGrc for parse element \n{}", e.getLocalizedMessage(), element);
             }
         });
         return list;
@@ -114,7 +114,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesHabr for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesHabr for parse element \n{}", e.getLocalizedMessage(), element);
             }
         }
         return list;
@@ -140,7 +140,7 @@ public class ElementUtil {
                     list.add(v);
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesJobs for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesJobs for parse element \n{}", e.getLocalizedMessage(), element);
             }
         });
         return list;
@@ -174,7 +174,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesLinkedin for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesLinkedin for parse element \n{}", e.getLocalizedMessage(), element);
             }
         });
         return list;
@@ -203,7 +203,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getNofluffjobsVacancies for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getNofluffjobsVacancies for parse element \n{}", e.getLocalizedMessage(), element);
             }
         }
         return list;
@@ -233,7 +233,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesRabota for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesRabota for parse element \n{}", e.getLocalizedMessage(), element);
             }
         }
         return list;
@@ -262,7 +262,7 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesIndeed for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesIndeed for parse element \n{}", e.getLocalizedMessage(), element);
             }
         }
         return list;
@@ -308,7 +308,7 @@ public class ElementUtil {
                         list.add(v);
                     }
                 } catch (Exception e) {
-                    log.error("there is error={}; UAJoobleStrategy element:\n\n {}", e.getMessage(), element);
+                    log.error("there is error \ne={}\n for UAJoobleStrategy for parse element \n{}", e.getLocalizedMessage(), element);
                 }
             }
         }
@@ -343,11 +343,77 @@ public class ElementUtil {
                     }
                 }
             } catch (Exception e) {
-                log.error("there is error getVacanciesWork for parse element \n{}", element);
+                log.error("there is error \ne={}\n for getVacanciesWork for parse element \n{}", e.getLocalizedMessage(), element);
             }
         }
         return list;
     }
+
+    public static Collection<? extends VacancyTo> getVacanciesYandex(Elements elements, Freshen freshen) {
+        List<VacancyTo> list = new ArrayList<>();
+        for (Element element : elements) {
+            try {
+                LocalDate localDate = getCorrectDate(xssClear(element.getElementsByClass("serp-vacancy__date").text().trim()));
+                if(localDate.isAfter(reasonDateToLoad)) {
+                    String title = getCorrectTitle(xssClear(element.getElementsByClass("heading heading_level_3").text().trim()));
+                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("serp-vacancy__requirements").text().trim()));
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                        VacancyTo v = new VacancyTo();
+                        v.setTitle(title);
+                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text())));
+                        v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("serp-vacancy__contacts").text().trim())));
+                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim()))));
+                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim()))));
+                        v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
+                        v.setSkills(skills);
+                        v.setReleaseDate(localDate);
+                        v.setSiteName("https://rabota.yandex.ru/");
+                        list.add(v);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("there is error \ne={}\n for getVacanciesYandex for parse element \n{}", e.getLocalizedMessage(), element);
+            }
+        }
+        return list;
+    }
+
+    public static Collection<? extends VacancyTo> getVacanciesJobsMarket(Elements elements, Freshen freshen) {
+        List<VacancyTo> list = new ArrayList<>();
+        for (Element element : elements) {
+            try {
+                LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByTag("time").text().replaceAll("Posted on: ", "").replaceAll(",", "").trim())), element);
+                if(localDate.isAfter(reasonDateToLoad)) {
+
+                    String line = element.getElementsByTag("i").tagName("span").text().trim();
+                    if (line.isEmpty()) {
+                        line = element.getElementsByClass("fas fa-code ml-lg-5").next().tagName("span").text().trim();
+                    }
+
+
+                    String title = getCorrectTitle(xssClear(line));
+                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                        VacancyTo v = new VacancyTo();
+                        v.setTitle(title);
+                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("cursor-pointer").text())));
+                        v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text().trim())));
+                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("text-muted clearfix d-block").text().trim()))));
+                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("text-muted clearfix d-block").text().trim()))));
+                        v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
+                        v.setSkills(skills);
+                        v.setReleaseDate(localDate);
+                        v.setSiteName("https://jobsmarket.io");
+                        list.add(v);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("there is error \ne={}\n for getVacanciesJobsMarket for parse element \n{}", e.getLocalizedMessage(), element);
+            }
+        }
+        return list;
+    }
+
 }
 
 /*                            System.out.println("elements:" + elements.size());

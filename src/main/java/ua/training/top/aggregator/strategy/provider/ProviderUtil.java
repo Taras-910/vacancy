@@ -24,8 +24,8 @@ public class ProviderUtil {
             log.info("scheduledTwoProviders");
 
             return new AggregatorRepository(
-                    mapStrategies.get(getKey(5)),
-                    mapStrategies.get(getKey(5) + 5));
+                    mapStrategies.get(getKey(6)),
+                    mapStrategies.get(getKey(6) + 6));
         }
         else {
             log.info("allProviders");
@@ -35,11 +35,13 @@ public class ProviderUtil {
                     new Provider(new RabotaStrategy()),       /*всего 2 за_рубежем*/
                     new Provider(new UAIndeedStrategy()),     /*нет за_рубежем*/
                     new Provider(new WorkStrategy()),          /*нет за_рубежем*/
+                    new Provider(new YandexStrategy()),        /*нет за_рубежем*/
+                    new Provider(new JobsMarketStrategy()),
                     new Provider(new JobsStrategy()),
                     new Provider(new DjinniStrategy()),
                     new Provider(new LinkedinStrategy()),
                     new Provider(new NofluffjobsStrategy()),
-                    new Provider(new UAJoobleStrategy())     /*меняет теги*/
+                    new Provider(new UAJoobleStrategy())        /*меняет теги*/
             );
         }
     }
@@ -47,3 +49,8 @@ public class ProviderUtil {
 
 //        https://app.headz.io/candidates/new
 //        https://distillery.com/careers/senior-backend-developer-java-tg/
+//https://edc.sale
+//https://www.olx.ua
+//https://www.ria.com
+//https://trud.ua
+//http://trudbox.com.ua/kiev/jobs-programmist

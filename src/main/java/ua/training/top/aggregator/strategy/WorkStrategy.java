@@ -31,14 +31,14 @@ public class WorkStrategy implements Strategy {
     }
 
     @Override
-    public List<VacancyTo> getVacancies(Freshen doubleString) throws IOException {
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 0;
         while (true) {
-            Document doc = getDocument(doubleString.getWorkplace(), doubleString.getLanguage(), valueOf(page));
+            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card card-hover card-visited wordwrap job-link");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesWork(elements, doubleString));
+            set.addAll(getVacanciesWork(elements, freshen));
             if (page < limitCallPages) page++;
             else break;
         }
