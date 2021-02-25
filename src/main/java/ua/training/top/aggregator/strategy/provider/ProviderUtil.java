@@ -54,3 +54,5 @@ public class ProviderUtil {
 //https://www.ria.com
 //https://trud.ua
 //http://trudbox.com.ua/kiev/jobs-programmist
+
+//https://kiev.jobcareer.ru/jobs/java/?feed=
