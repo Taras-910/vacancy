@@ -384,13 +384,10 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByTag("time").text().replaceAll("Posted on: ", "").replaceAll(",", "").trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-
                     String line = element.getElementsByTag("i").tagName("span").text().trim();
                     if (line.isEmpty()) {
                         line = element.getElementsByClass("fas fa-code ml-lg-5").next().tagName("span").text().trim();
                     }
-
-
                     String title = getCorrectTitle(xssClear(line));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {

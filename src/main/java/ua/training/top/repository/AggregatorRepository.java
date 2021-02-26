@@ -37,7 +37,7 @@ public class AggregatorRepository implements AggregatorInterface{
                 log.error("selectBy e {}", e.getMessage());
             }
         }
-        List<VacancyTo> vacancyTos= set.stream()
+        List<VacancyTo> vacancyTos= set.parallelStream()
                 .filter(VacancyCheckUtil::checkNullDataVacancyTo)
                 .filter(vTo -> reasonDateToLoad.isBefore(vTo.getReleaseDate()))
 //                .filter(vTo -> checkNullDataVacancyTo(vTo) && getMatchesLanguage(freshen, vTo.getTitle(), vTo.getSkills()))

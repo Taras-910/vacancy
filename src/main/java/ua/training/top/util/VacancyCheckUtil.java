@@ -42,7 +42,7 @@ public class VacancyCheckUtil {
     }
 
     public static List<Vacancy> getMatchesByFreshen(List<Vacancy> vacancies, Freshen freshen){
-        return vacancies.stream()
+        return vacancies.parallelStream()
                 .filter(vacancy -> getMatchesLanguage(freshen, vacancy.getTitle(), vacancy.getSkills())
                         && getMatchesWorkplace(freshen, vacancy.getEmployer().getAddress()))
                 .collect(Collectors.toList());
