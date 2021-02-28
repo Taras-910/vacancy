@@ -24,7 +24,7 @@ public class EmployerUtil {
     public static Map<String, Employer> getEmployerMap(Set<Employer> employers) {
         return employers.stream()
                 .filter(employer -> hasText(employer.getAddress()) && hasText(employer.getName()))
-                .collect(Collectors.toMap(Employer::getName, employer -> employer));
+                .collect(Collectors.toMap(employer -> employer.getName().concat(employer.getAddress()), employer -> employer));
     }
 
     public static void checkDataEmployer(Employer e){

@@ -27,12 +27,13 @@ public class AggregatorUtil {
         return vacancyTosForCreate.stream()
                 .map(vTo -> {
                     Vacancy vacancy = fromTo(vTo);
-                    vacancy.setEmployer(mapAllEmployers.get(vTo.getEmployerName()));
+                    vacancy.setEmployer(mapAllEmployers.get(vTo.getEmployerName().concat(vTo.getAddress())));
                     vacancy.setFreshen(freshenDb);
                     return vacancy;
                 })
                 .collect(Collectors.toList());
     }
+
     public static Vacancy getForUpdate(VacancyTo vacancy, VacancyTo vacancyDbTos, Map<VacancyTo, Vacancy> parallelMap) {
         Vacancy vacancyForUpdate = new Vacancy(fromTo(vacancy));
         vacancyForUpdate.setId(vacancyDbTos.getId());

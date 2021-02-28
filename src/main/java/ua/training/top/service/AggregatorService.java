@@ -60,12 +60,14 @@ public class AggregatorService {
             /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
             vacancyTosDb.forEach(vacancyTosForCreate::remove);
             vacancyTosForCreate.forEach(vacancyToForUpdate::remove);
-            List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
-            Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
             List<Vacancy> vacanciesForUpdate = new ArrayList<>();
-            for (SubVacancyTo subVacancyTo : mapForUpdate.keySet()) {
-                vacanciesForUpdate.add(AggregatorUtil.getForUpdate(mapForUpdate.get(subVacancyTo),
-                        mapAllVacancyTos.get(subVacancyTo), parallelMap));
+            if (!vacancyToForUpdate.isEmpty()) {
+                List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
+                Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
+                for (SubVacancyTo subVacancyTo : mapForUpdate.keySet()) {
+                    vacanciesForUpdate.add(AggregatorUtil.getForUpdate(mapForUpdate.get(subVacancyTo),
+                            mapAllVacancyTos.get(subVacancyTo), parallelMap));
+                }
             }
             refresh(vacancyTosForCreate, vacanciesForUpdate, freshen, mapAllEmployers, vacanciesDb);
         }

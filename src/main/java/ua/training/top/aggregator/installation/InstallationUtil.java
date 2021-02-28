@@ -29,8 +29,8 @@ public class InstallationUtil {
     public static double limitPerHourForAuth = 10;
     public static double limitPerHourForAdmin = 15;
 
-//    public static boolean testProvider = true;
-    public static boolean testProvider = false;
+    public static boolean testProvider = true;
+//    public static boolean testProvider = false;
 
     public static void setTestProvider() { InstallationUtil.testProvider = true; }
     public static void offTestProvider() {

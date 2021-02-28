@@ -35,8 +35,21 @@ public class TestStrategy implements Strategy {
                 "Киев", 1, 1,
                 "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
-                LocalDate.now().minusDays(3), null, null, false);
+                LocalDate.now().minusDays(3), "java", null, false);
 
-        return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
+        VacancyTo vacancyTo5 = new VacancyTo(null, "Middle/Senior", "GlobalLogic",
+                "Варшава", 1, 1,
+                "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
+                "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
+                LocalDate.now().minusDays(3), "java", null, false);
+
+        VacancyTo vacancyTo6 = new VacancyTo(null, "Senior/Engineer", "GlobalLogic",
+                "Минск", 1, 1,
+                "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
+                "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
+                LocalDate.now().minusDays(3), "java", null, false);
+
+//        return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
+        return List.of(vacancyTo4, vacancyTo5, vacancyTo6);
     }
 }
