@@ -12,6 +12,10 @@ public class UsdUtil {
         String cleaned = getCleaned(temp);
         if (!temp.contains("грн")){
             if(cleaned.contains("—")){
+                if (temp.contains("year")) {
+                    return String.valueOf(Integer.parseInt(cleaned.split("\\W")[0]) / 12).concat("00-")
+                            .concat(String.valueOf(Integer.parseInt(cleaned.split("\\W")[1]) / 12)).concat("00");
+                }
                 return cleaned.replace("—", "00—").concat("00");
             } else{
                 return temp.contains("от") ? cleaned.concat("00—").concat("1") :"1".concat("—").concat(cleaned).concat("00");

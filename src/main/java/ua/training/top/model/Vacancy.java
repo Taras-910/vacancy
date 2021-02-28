@@ -44,13 +44,13 @@ public class Vacancy extends AbstractBaseEntity {
     private LocalDate releaseDate;
 
     @ManyToOne(fetch = EAGER)
-    @BatchSize(size = 200)
+    @BatchSize(size = 800)
     @JoinColumn(name = "employer_id", nullable = false)
     @JsonBackReference(value="employer-movement")  //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Employer employer;
 
     @ManyToOne(fetch = EAGER)
-    @BatchSize(size = 200)
+    @BatchSize(size = 800)
     @JoinColumn(name = "freshen_id", nullable = false)
     @JsonBackReference(value="freshen-movement")    //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Freshen freshen;

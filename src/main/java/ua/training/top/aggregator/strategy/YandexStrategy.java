@@ -29,7 +29,7 @@ public class YandexStrategy implements Strategy{
 
     protected Document getDocument(String city, String language, String page) {
         page = page.equals("1") ? "" : "&page_num=".concat(page);
-        return DocumentUtil.getDocument(city.equals("удаленная") ? format(URL_FORMAT_REMOTE, language, page) :
+        return DocumentUtil.getDocument(city.equals("удаленно") ? format(URL_FORMAT_REMOTE, language, page) :
                 format(URL_FORMAT, city, language, page));
     }
 

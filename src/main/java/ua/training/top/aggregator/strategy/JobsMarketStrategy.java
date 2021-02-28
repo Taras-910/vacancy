@@ -45,14 +45,14 @@ public class JobsMarketStrategy implements Strategy {
         String[] positions = freshen.getLanguage().equals("java") ? new String[]{"Java%20Developer",
                 "Java%20Backend%20Engineer%20-", "Java%20API%20Developer", "Java%20Automation%20Engineer%2FSDET"} :
                 new String[]{"Kotlin%20Developer", "Kotlin%2FReact%20Fullstack%20Developer%20(m%2Fw%2Fd)"};
-        log.info("positions={}",positions.length);
+        log.info("language={} positions={}", freshen.getLanguage(), positions.length);
         for(String position : positions) {
             int page = 1;
             while (true) {
                 Document doc = getDocument(position, String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("card");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesJobsMarket(elements, freshen));
+                set.addAll(getVacanciesJobsMarket(elements, position));
                 if (page < limitCallPages) page++;
                 else break;
             }

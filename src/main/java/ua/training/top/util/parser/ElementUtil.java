@@ -23,6 +23,7 @@ import static ua.training.top.util.parser.data.CorrectAddress.getCorrectAddress;
 import static ua.training.top.util.parser.data.CorrectEmployerName.getCorrectEmployerName;
 import static ua.training.top.util.parser.data.CorrectSkills.getCorrectSkills;
 import static ua.training.top.util.parser.data.CorrectTitle.getCorrectTitle;
+import static ua.training.top.util.parser.data.CorrectTitle.getCorrectTitleJobsMarket;
 import static ua.training.top.util.parser.date.DateUtil.*;
 import static ua.training.top.util.parser.date.ToCorrectDate.getCorrectDate;
 import static ua.training.top.util.parser.salary.MinMax.salaryMax;
@@ -280,15 +281,15 @@ public class ElementUtil {
                 date = Optional.of(xssClear(element.getElementsByClass("_77a3a d3fee _356ae _108aa ab7d6").text().trim())).orElse("");
             }
             String address = getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim()));
-            LocalDate localDate = getCorrectDate(date.equals(address) ? null: date);
-            if (localDate.isAfter(reasonDateToLoad)) {
-                try {
-                    if(url != ""){
+            LocalDate localDate = null;
+            try {
+                localDate = getCorrectDate(date.equalsIgnoreCase(address) ? null : date);
+                if (localDate.isAfter(reasonDateToLoad)) {
+                    if (url != "") {
                         title = getCorrectTitle(xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim()));
                         salary = getCorrectSalary(Optional.of(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text())).orElse("1"));
                         salary = !salary.equals("1") && hasText(salary) ? salary : getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("_0010f").text()).orElse("1")));
-                    }
-                    else {
+                    } else {
                         url = element.getElementsByClass("_77074 _8b8c3").attr("id");
                         title = getCorrectTitle(xssClear(element.getElementsByClass("_045f1").tagName("span").text().trim()));
                         salary = getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("b2a33").text()).orElse("1")));
@@ -307,10 +308,11 @@ public class ElementUtil {
                         v.setSiteName("https://ua.jooble.org");
                         list.add(v);
                     }
-                } catch (Exception e) {
-                    log.error("there is error \ne={}\n for UAJoobleStrategy for parse element \n{}", e.getLocalizedMessage(), element);
                 }
+            } catch (Exception e) {
+                log.error("there is error \ne={}\n for UAJoobleStrategy for parse element \n{}", e.getLocalizedMessage(), element);
             }
+
         }
         return list;
     }
@@ -349,7 +351,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static Collection<? extends VacancyTo> getVacanciesYandex(Elements elements, Freshen freshen) {
+    public static List<VacancyTo> getVacanciesYandex(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
@@ -378,7 +380,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static Collection<? extends VacancyTo> getVacanciesJobsMarket(Elements elements, Freshen freshen) {
+    public static List<VacancyTo> getVacanciesJobsMarket(Elements elements, String position) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
@@ -388,15 +390,15 @@ public class ElementUtil {
                     if (line.isEmpty()) {
                         line = element.getElementsByClass("fas fa-code ml-lg-5").next().tagName("span").text().trim();
                     }
-                    String title = getCorrectTitle(xssClear(line));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
-                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
+                    if (skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(title);
+                        String salary = xssClear(element.getElementsByClass("text-muted clearfix d-block").tagName("strong").text().replaceAll(",","").trim());
+                        v.setTitle(getCorrectTitleJobsMarket(position));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("cursor-pointer").text())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text().trim())));
-                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("text-muted clearfix d-block").text().trim()))));
-                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("text-muted clearfix d-block").text().trim()))));
+                        v.setSalaryMax(salaryMax(getCorrectSalary(salary)));
+                        v.setSalaryMin(salaryMin(getCorrectSalary(salary)));
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);

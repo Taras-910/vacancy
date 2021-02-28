@@ -140,21 +140,16 @@ public class AggregatorService {
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
 //        setTestProvider();
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 //        offTestProvider();
-
     }
 }
-// language='java', workplace='удаленно'
-//07:24:14.488 INFO  u.t.top.aggregator.strategy.UAJoobleStrategy.getVacancies:48 - getVacancies city удаленно language=java
-//07:24:15.884 ERROR o.s.s.support.TaskUtils$LoggingErrorHandler.handleError:95 - Unexpected error occurred in scheduled task
-//java.time.format.DateTimeParseException: Text 'вулиця,-01-0харків,' could not be parsed at index 0
 
 //07:25:17.098 INFO  u.t.top.aggregator.strategy.UAJoobleStrategy.getVacancies:48 - getVacancies city киев language=java
 //07:25:29.593 ERROR ua.training.top.util.parser.ElementUtil.getVacanciesJooble:311 - there is error

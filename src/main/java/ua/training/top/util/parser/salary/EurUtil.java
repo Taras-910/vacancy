@@ -13,6 +13,10 @@ public class EurUtil {
         String cleaned = getCleaned(temp);
         if(temp.contains("—")){
             if(cleaned.length() < 4) return "1";
+            if (temp.contains("year")) {
+                cleaned = String.valueOf(Integer.parseInt(cleaned.split("\\W")[0]) / 12).concat("-")
+                        .concat(String.valueOf(Integer.parseInt(cleaned.split("\\W")[1]) / 12));
+            }
             return eurToUsd(cleaned.split("\\W")[0]).concat("—").concat(eurToUsd(cleaned.split("\\W")[1]));
         } else{
             return temp.contains("от") ? eurToUsd(cleaned).concat("—").concat("1") : "1".concat("—").concat(eurToUsd(cleaned));

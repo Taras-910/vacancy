@@ -45,7 +45,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique_idx")})
     @Column(name = "role")
 //    @Fetch(FetchMode.SUBSELECT)
-    @BatchSize(size = 300)
+    @BatchSize(size = 200)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
