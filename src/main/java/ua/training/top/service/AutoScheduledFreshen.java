@@ -25,11 +25,11 @@ public class AutoScheduledFreshen {
     @Autowired
     private FreshenService service;
 
-    @Scheduled(cron = "0 0,15,30,45 6-18 * * MON-SAT")
-//    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * MON-SAT")
+//    @Scheduled(cron = "0 0,15,30,45 6-18 * * MON-SAT")
+    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
     public void weekDay() {
-        int delayMinutesMax = 14;
-//        int delayMinutesMax = 4;
+//        int delayMinutesMax = 14;
+        int delayMinutesMax = 4;
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());

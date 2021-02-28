@@ -19,7 +19,7 @@ public class MinMax {
             return 1;
         }
         if(result >= 10000000 || result < 1 ){
-            log.info("there is wrong data on salaryMin={}", result);
+            log.info("there is wrong data on salaryMin={}\n element=\n{}\n", result, element);
             return 1;
         }
         return result;
@@ -37,7 +37,7 @@ public class MinMax {
             return 1;
         }
         if(result >= 10000000 || result < 1 ){
-            log.info("there is wrong data on salaryMin={}", result);
+            log.info("there is wrong data on salaryMax={}\n element=\n{}\n", result, element);
             return 1;
         }
         return result;
