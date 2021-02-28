@@ -17,4 +17,16 @@ public class CorrectEmployerName {
                 companyName.replace("Профиль компании", "").trim() : companyName.trim();
         return companyName.contains(",") ? companyName.split(",")[0].trim() : companyName;
     }
+
+ /*   public static String getCorrectEmployerNameYandex(String companyName){
+        if (!hasText(companyName)) {
+            log.error("there is companyName is null");
+            return "see the card on the link";
+        }
+        companyName = companyName.contains(" Профиль компании") ?
+                companyName.replace("Профиль компании", "").trim() : companyName.trim();
+        return companyName.contains(",") ? companyName.split(",")[0].trim() : companyName;
+    }
+*/
+
 }

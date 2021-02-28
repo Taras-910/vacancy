@@ -58,7 +58,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        Employer newEmployer = new Employer(null, "newEmployer", "newAddress", "https://habr.com");
+        Employer newEmployer = new Employer(null, "newEmployer", "newAddress");
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
@@ -75,7 +75,6 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         Employer updated = new Employer(employer1);
         updated.setName("newNameEmployer");
-        updated.setSiteName("https://www.newSiteName.com/");
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .with(userHttpBasic(admin))
                 .contentType(MediaType.APPLICATION_JSON)

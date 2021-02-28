@@ -56,6 +56,6 @@ public class VacancyCheckUtil {
 
     public static boolean getMatchesWorkplace(Freshen f, String address){
         return f.getWorkplace().equals("за_рубежем") || f.getWorkplace().toLowerCase().equals("удаленно") || f.getWorkplace().equals("all")
-                || address.toLowerCase().matches(".*\\b"+f.getWorkplace()+"\\b.*");
+                || address.toLowerCase().contains(f.getWorkplace());
     }
 }

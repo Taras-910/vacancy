@@ -24,22 +24,22 @@ public class Vacancy extends AbstractBaseEntity {
 
     @NotNull
     @Range(min = 1, max = 10000000)
-    @Column(name="salary_min")
+    @Column(name = "salary_min")
     private Integer salaryMin;
 
     @NotNull
     @Range(min = 1, max = 10000000)
-    @Column(name="salary_max")
+    @Column(name = "salary_max")
     private Integer salaryMax;
 
-    @Column(name="link")
+    @Column(name = "link")
     private String url;
 
     @NotNull
-    @Column(name="skills")
+    @Column(name = "skills")
     private String skills;
 
-    @Column(name="release_date")
+    @Column(name = "release_date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate releaseDate;
 
@@ -52,7 +52,7 @@ public class Vacancy extends AbstractBaseEntity {
     @ManyToOne(fetch = EAGER)
     @BatchSize(size = 800)
     @JoinColumn(name = "freshen_id", nullable = false)
-    @JsonBackReference(value="freshen-movement")    //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
+    @JsonBackReference(value = "freshen-movement")    //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Freshen freshen;
 
     public Vacancy() {
@@ -122,8 +122,8 @@ public class Vacancy extends AbstractBaseEntity {
         return url;
     }
 
-    public void setUrl(String link) {
-        this.url = link;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getSkills() {

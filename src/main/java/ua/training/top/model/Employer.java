@@ -17,28 +17,23 @@ public class Employer extends AbstractBaseEntity{
     private String name;
 
     @NotNull
-    @Column(name="address")
+    @Column(name = "address")
     private String address;
-
-    @NotNull
-    @Column(name="site_name")
-    private String siteName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
     @JsonManagedReference(value="employer-movement") // https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private List<Vacancy> vacancies;
 
-    public Employer(Integer id, String name, String address, String siteName) {
+    public Employer(Integer id, String name, String address) {
         super(id);
         this.name = name;
         this.address = address;
-        this.siteName = siteName;
     }
 
     public Employer(){}
 
     public Employer(Employer employer) {
-        this(employer.getId(), employer.getName(), employer.getAddress(), employer.getSiteName());
+        this(employer.getId(), employer.getName(), employer.getAddress());
     }
 
     public String getName() {
@@ -65,10 +60,6 @@ public class Employer extends AbstractBaseEntity{
         this.vacancies = vacancies;
     }
 
-    public String getSiteName() { return siteName; }
-
-    public void setSiteName(String siteName) { this.siteName = siteName; }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,7 +78,6 @@ public class Employer extends AbstractBaseEntity{
         return "Employer{" +
                 "\nname='" + name + '\'' +
                 ", \naddress='" + address + '\'' +
-                ", \nsiteName='" + siteName + '\'' +
                 ", \nid=" + id +
                 '}';
     }

@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS vote;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS vacancy;
+DROP TABLE IF EXISTS freshen_goal;
 DROP TABLE IF EXISTS freshen;
 DROP TABLE IF EXISTS employer;
 DROP TABLE IF EXISTS users CASCADE;
@@ -34,7 +35,6 @@ CREATE TABLE employer
     id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name               VARCHAR  NOT NULL,
     address            VARCHAR  NOT NULL,
-    site_name          VARCHAR  NOT NULL,
     CONSTRAINT employer_idx UNIQUE (name, address)
 );
 
@@ -54,7 +54,6 @@ CREATE TABLE freshen_goal
     goal                     VARCHAR,
     FOREIGN KEY (freshen_id) REFERENCES freshen (id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE vacancy
 (

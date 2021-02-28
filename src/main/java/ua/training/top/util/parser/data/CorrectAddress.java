@@ -257,17 +257,21 @@ public class CorrectAddress {
 
     public static String getCorrectWorkplaceYandex(String city){
         switch (city){
-            case "киев" : city = "kiev";
-                break;
-            case "днепр" : city = "dnepropetrovsk";
-                break;
-            case "харьков" : city = "harkov";
-                break;
-            case "одесса" : city = "odessa";
-                break;
-            case "львов" : city = "lvov";
-                break;
-            case "винница" : city = "vinnitsa";
+            case "киев" :
+            case "днепр" :
+            case "харьков" :
+            case "одесса" :
+            case "львов" :
+            case "винница" :
+            case "варшава" :
+            case "польша" :
+            case "николаев" :
+            case "запорожье" :
+            case "черновцы" :
+            case "чернигов" :
+            case "ивано-франковск" :
+            case "ужгород" :
+            case "за_рубежем": city = "-1";
                 break;
             case "санкт-петербург" : city = "sankt-peterburg";
                 break;
@@ -292,16 +296,6 @@ public class CorrectAddress {
             case "ульяновск" :  city = "ulyanovsk";
                 break;
             case "минск": city = "minsk";
-                break;
-            case "варшава" :
-            case "польша" :
-            case "николаев" :
-            case "запорожье" :
-            case "черновцы" :
-            case "чернигов" :
-            case "ивано-франковск" :
-            case "ужгород" :
-            case "за_рубежем": city = "-1";
                 break;
         }
         return city;

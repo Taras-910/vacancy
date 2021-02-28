@@ -41,8 +41,6 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
 
     private LocalDate releaseDate;
 
-    private String siteName;
-
     private String language;
 
     private String workplace;
@@ -51,7 +49,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
 
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin,
                      @NotNull Integer salaryMax, @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate,
-                     @Nullable String siteName, @Nullable String language, @Nullable String workplace, @Nullable boolean toVote) {
+                     @Nullable String language, @Nullable String workplace, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -61,7 +59,6 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
         this.url = url;
         this.skills = skills;
         this.releaseDate = releaseDate;
-        this.siteName = siteName;
         this.language = language;
         this.workplace = workplace;
         this.toVote = toVote;
@@ -71,7 +68,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
 
     public VacancyTo(VacancyTo v){
         this(v.getId(), v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(),
-                v.getSkills(), v.getReleaseDate(), v.getSiteName(), v.getLanguage(), v.getWorkplace(), v.isToVote());
+                v.getSkills(), v.getReleaseDate(), v.getLanguage(), v.getWorkplace(), v.isToVote());
     }
 
     public String getEmployerName() {
@@ -162,14 +159,6 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
         this.workplace = workplace;
     }
 
-    public String getSiteName() {
-        return siteName;
-    }
-
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -197,7 +186,6 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
                 ", \nurl='" + url + '\'' +
                 ", \nskills='" + skills + '\'' +
                 ", \nreleaseDate=" + releaseDate +
-                ", \nsiteName=" + siteName +
                 ", \nlanguage=" + language +
                 ", \nworkplace=" + workplace +
                 ", \ntoVote=" + toVote +

@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.training.top.model.Freshen;
-import ua.training.top.model.Goal;
 import ua.training.top.service.VacancyService;
 import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
@@ -45,7 +43,6 @@ public class ProfileVacancyRestController {
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
         log.info("getByFilter freshen={}", freshen);
-        freshen.setGoals(Collections.singleton(Goal.FILTER));
         return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 }

@@ -99,7 +99,6 @@
                     <th class="col-auto"><h7>до $</h7></th>
                     <th class="col" style="text-align: center;">Требования</th>
                     <th class="col-auto text-nowrap">Дата</th>
-                    <th hidden>siteName</th>
                     <th hidden>toVote</th>
                     <th hidden>work place</th>
                     <th hidden>language</th>
@@ -156,9 +155,6 @@
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="releaseDate" name="releaseDate">
-                        </div>
-                        <div class="form-group not_update_visible">
-                            <input type="hidden" class="form-control" id="siteName" name="siteName">
                         </div>
                         <div class="form-group">
                             <label for="languageCode" class="col-form-label">Язык программирования</label>
@@ -222,9 +218,6 @@
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="releaseDateUpdate" name="releaseDate">
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="siteNameUpdate" name="siteName">
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="languageCodeUpdate" name="language">

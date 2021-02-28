@@ -46,13 +46,15 @@ public class ProviderUtil {
         }
     }
 }
+//https://jobs.ua/vacancy/kiev/rabota-java-developer
+//https://kiev.careerist.ru/jobs-java-developer/
+//https://kiev.jobcareer.ru/jobs/java/?feed=
 
-//        https://app.headz.io/candidates/new
-//        https://distillery.com/careers/senior-backend-developer-java-tg/
+
+//https://app.headz.io/candidates/new
+//https://distillery.com/careers/senior-backend-developer-java-tg/
 //https://edc.sale
 //https://www.olx.ua
 //https://www.ria.com
 //https://trud.ua
 //http://trudbox.com.ua/kiev/jobs-programmist
-
-//https://kiev.jobcareer.ru/jobs/java/?feed=

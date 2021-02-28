@@ -35,15 +35,13 @@ function sendRefresh() {
 }
 
 function updateCount() {
-
         $.ajax({
             type: "GET",
             url: "profile/vacancies/count"
         }).done(function (count) {
             document.getElementById('count').value = count;
-
             $.get("profile/vacancies/last", function (last) {
-                successNoty("Appear new " + last + " vacancies");
+                successNoty("There are loaded " + last + " vacancies today");
             });
         });
 }

@@ -27,15 +27,15 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 100)
-    @Column(name="language")
+    @Column(name = "language")
     private String language;
 
     @NotNull
     @Size(min = 2, max = 100)
-    @Column(name="workplace")
+    @Column(name = "workplace")
     private String workplace;
 
-    @Column(name="goal")
+    @Column(name = "goal")
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "freshen_goal", joinColumns = @JoinColumn(name = "freshen_id"))
 //    @Fetch(FetchMode.SUBSELECT)

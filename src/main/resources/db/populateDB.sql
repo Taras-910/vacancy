@@ -16,9 +16,9 @@ INSERT INTO user_roles (role, user_id)
 VALUES ('ADMIN', 100000),
        ('USER', 100001);
 
-INSERT INTO employer (name, address, site_name)
-VALUES ('Huuuge Games', 'Киев', 'https://grc.ua'),
-       ('RedLab', 'Киев', 'https://grc.ua');
+INSERT INTO employer (name, address)
+VALUES ('Huuuge Games', 'Киев'),
+       ('RedLab', 'Киев');
 
 INSERT INTO freshen (recorded_date, language, workplace, user_id)
 VALUES ('2020-10-25 12:00:00', 'java', 'киев', 100000),

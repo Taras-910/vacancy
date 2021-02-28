@@ -138,10 +138,6 @@ $(function () {
                     }
                 },
                 {
-                    "data": "siteName",
-                    "visible": false
-                },
-                {
                     "data": "toVote",
                     "render": function (data, type, row) {
                         if (type === "display") {

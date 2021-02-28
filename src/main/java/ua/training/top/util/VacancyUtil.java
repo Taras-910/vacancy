@@ -27,11 +27,11 @@ public class VacancyUtil {
         boolean toVote = votes.stream().filter(vote -> v.getId().equals(vote.getVacancyId())).count() != 0;
         return new VacancyTo(v.getId(), v.getTitle(), v.getEmployer().getName(), v.getEmployer().getAddress(),
                 v.getSalaryMin(), v.getSalaryMax(), v.getUrl(), v.getSkills(), v.getReleaseDate(),
-                v.getEmployer().getSiteName(), v.getFreshen().getLanguage(), v.getFreshen().getWorkplace(), toVote);
+                v.getFreshen().getLanguage(), v.getFreshen().getWorkplace(), toVote);
     }
 
     public static List<Vacancy> fromTos (List<VacancyTo> vTos) {
-        return vTos.stream().map(vTo -> fromTo(vTo)).collect(Collectors.toList());
+        return vTos.stream().map(VacancyUtil::fromTo).collect(Collectors.toList());
     }
 
     public static Vacancy fromTo(VacancyTo vTo) {
@@ -41,7 +41,7 @@ public class VacancyUtil {
 
     private static List<VacancyTo> getEmpty() {
         return of(new VacancyTo(0, "", "", "", -1, -1,"",
-                "No filtering records found, refresh DB", LocalDate.now(), "", "",
+                "No filtering records found, refresh DB", LocalDate.now(), "",
                 "",false));
     }
 

@@ -25,7 +25,7 @@ public class YandexStrategy implements Strategy{
     private static final String URL_FORMAT_REMOTE = "https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=%s&rid=10001&page_num=%s";
 
 //             https://rabota.yandex.ru/kiev/vakansii/?text=java&page_num=2&top_days=7
-// удаленная   https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=java&rid=10001&page_num=2
+// удаленнo   https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=java&rid=10001&page_num=2
 
     protected Document getDocument(String city, String language, String page) {
         page = page.equals("1") ? "" : "&page_num=".concat(page);

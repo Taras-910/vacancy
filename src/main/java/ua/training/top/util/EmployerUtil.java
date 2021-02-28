@@ -1,6 +1,5 @@
 package ua.training.top.util;
 
-import org.springframework.util.StringUtils;
 import ua.training.top.model.Employer;
 import ua.training.top.to.VacancyTo;
 
@@ -10,7 +9,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.hasText;
-import static ua.training.top.util.parser.data.CorrectSiteName.getSiteName;
 
 public class EmployerUtil {
     public static final String EMPLOYER_NOT_BE_NULL = "freshen must not be null";
@@ -20,8 +18,7 @@ public class EmployerUtil {
     }
 
     public static Employer getEmployerFromTo(VacancyTo vTo) {
-        return new Employer(null, vTo.getEmployerName(), vTo.getAddress(),
-                StringUtils.hasText(vTo.getSiteName()) ? vTo.getSiteName() : getSiteName(vTo.getUrl()));
+        return new Employer(null, vTo.getEmployerName(), vTo.getAddress());
     }
 
     public static Map<String, Employer> getEmployerMap(Set<Employer> employers) {
