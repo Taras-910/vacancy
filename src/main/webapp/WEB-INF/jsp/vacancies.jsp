@@ -318,9 +318,13 @@
                 </form>
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
-                <%--<h7><em>wait loading about minute or two...</em></h7>--%>
                 <h7><em>идет загрузка... подождите минуту или две...<br>
-                    через две мин жмите     </em><h6 class="fa fa-filter text-info">  Фильтровать</h6></h7>
+                    через две мин жмите     </em><h6 class="fa fa-filter text-info">  Фильтровать</h6>
+                    <%--<button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
+                        <span class="fa fa-filter"></span>
+                        Фильтровать
+                    </button>--%>
+                </h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">

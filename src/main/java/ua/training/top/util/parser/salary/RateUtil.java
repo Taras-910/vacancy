@@ -21,6 +21,10 @@ public class RateUtil {
         return checkValue((int) ((Float.parseFloat(pln) * 100) / PLN_TO_USD_RATE));
     }
 
+    public static String rubToUsd(String rub) throws NumberFormatException{
+        return checkValue((int) ((Float.parseFloat(rub) / RUB_TO_USD_RATE) * 100));
+    }
+
     public static String checkValue(int value){
         return  value > 40000000 ? valueOf((int) (value / 100)) : valueOf(value);
     }

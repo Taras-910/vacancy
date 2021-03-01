@@ -49,7 +49,6 @@ public class TestStrategy implements Strategy {
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
                 LocalDate.now().minusDays(3), "java", null, false);
 
-//        return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
-        return List.of(vacancyTo4, vacancyTo5, vacancyTo6);
+        return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
     }
 }
