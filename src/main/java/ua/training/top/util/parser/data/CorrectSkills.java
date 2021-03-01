@@ -13,7 +13,6 @@ public class CorrectSkills {
             return "";
         }
         skills = skills.contains("Java Script") ? skills.replaceAll("Java Script", "JavaScript") : skills.trim();
-//        skills = skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
-        return skills;
+        return skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
     }
 }

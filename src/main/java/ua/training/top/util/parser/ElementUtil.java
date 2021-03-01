@@ -369,13 +369,22 @@ public class ElementUtil {
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
-//                        System.out.println("\n-----------------------------------------------------------------------------------");
-//                        String employerName0 = xssClear(element.getElementsByClass("address").text());
-//                        System.out.println("employerName0="+employerName0);
-//                        String employerName1 = xssClear(element.getElementsByClass("serp-vacancy__company").text());
-//                        System.out.println("employerName1="+employerName1);
-//                        String employerName2 = xssClear(element.getElementsByClass("serp-vacancy__contacts-wrapper").text());
-//                        System.out.println("employerName2="+employerName2);
+
+                        System.out.println("\n-----------------------------------------------------------------------------------");
+                        String employerName0 = xssClear(element.getElementsByClass("address").text());
+                        System.out.println("employerName0="+employerName0);
+                        String employerName1 = xssClear(element.getElementsByClass("serp-vacancy__company").text());
+                        System.out.println("employerName1="+employerName1);
+                        String employerName2 = xssClear(element.getElementsByClass("serp-vacancy__contacts-wrapper").text());
+                        System.out.println("employerName2="+employerName2);
+
+                        String salary = xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim());
+                        System.out.println("salary="+salary);
+                        System.out.println("getCorrectSalary="+getCorrectSalary(salary));
+                        System.out.println("salaryMax="+salaryMax(getCorrectSalary(salary),element));
+                        System.out.println("salaryMin="+salaryMin(getCorrectSalary(salary),element));
+
+
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("serp-vacancy__contacts").text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));

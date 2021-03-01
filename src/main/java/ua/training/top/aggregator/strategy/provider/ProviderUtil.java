@@ -15,14 +15,13 @@ public class ProviderUtil {
     public static final Logger log = LoggerFactory.getLogger(ProviderUtil.class);
 
     public static AggregatorRepository getAllProviders(){
-        log.info("scheduledTwoProviders={}", scheduledTwoProviders);
+        log.info("twoProviders={}", scheduledTwoProviders);
 
         if (testProvider) {
             return new AggregatorRepository(new Provider(new TestStrategy()));
         }
         else if (scheduledTwoProviders) {
-            log.info("scheduledTwoProviders");
-
+            log.info("twoProviders");
             return new AggregatorRepository(
                     mapStrategies.get(getKey(6)),
                     mapStrategies.get(getKey(6) + 6));
@@ -49,8 +48,6 @@ public class ProviderUtil {
 //https://jobs.ua/vacancy/kiev/rabota-java-developer
 //https://kiev.careerist.ru/jobs-java-developer/
 //https://kiev.jobcareer.ru/jobs/java/?feed=
-
-
 //https://app.headz.io/candidates/new
 //https://distillery.com/careers/senior-backend-developer-java-tg/
 //https://edc.sale
