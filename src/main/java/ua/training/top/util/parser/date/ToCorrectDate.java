@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static java.lang.Integer.parseInt;
 import static java.time.LocalDate.parse;
 import static ua.training.top.util.parser.date.DateUtil.supportDate;
 import static ua.training.top.util.xss.XssUtil.xssClear;
@@ -27,15 +28,17 @@ public class ToCorrectDate {
                 return LocalDate.now();
             }
             if(myDate.contains("ч") && myDate.matches(".*\\d.*") || myDate.contains("час") || myDate.contains("год")){
-                return LocalDateTime.now()
-                        .minusHours(Integer.parseInt(myDate.replaceAll("\\W+", "").trim())).toLocalDate();
+                return LocalDateTime.now().minusHours(getParseInt(myDate)).toLocalDate();
+            }
+            if((myDate.contains("недел") || myDate.contains("тиж")) && myDate.matches(".*\\d.*")){
+                return LocalDateTime.now().minusDays(getParseInt(myDate) * 7).toLocalDate();
             }
             if(myDate.length() > 1 && (myDate.contains("місяц") || myDate.contains("месяц"))){
                 myDate = myDate.contains("більше") ? myDate.replace("більше", "").trim() : myDate;
-                return LocalDate.now().minusMonths(Integer.parseInt(myDate.substring(0, 2).trim())).minusDays(1);
+                return LocalDate.now().minusMonths(parseInt(myDate.substring(0, 2).trim())).minusDays(1);
             }
             if(myDate.length() > 1 && (myDate.contains("день") || myDate.contains("дн") && myDate.matches(".*\\d.*"))){
-                return LocalDate.now().minusDays(Integer.parseInt(myDate.trim().substring(0, 2).trim()));
+                return LocalDate.now().minusDays(parseInt(myDate.trim().substring(0, 2).trim()));
             }
             if(!myDate.matches(".*\\d.*")){
                 return LocalDate.now().minusDays(7);
@@ -45,5 +48,11 @@ public class ToCorrectDate {
             log.error("Wrong data {} exception {}", myDate, e.getMessage());
             return LocalDate.now().minusDays(7);
         }
+
+
+    }
+
+    private static int getParseInt(String myDate) {
+        return parseInt(myDate.replaceAll("\\W+", "").trim());
     }
 }

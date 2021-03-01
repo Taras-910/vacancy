@@ -152,4 +152,11 @@ public class AggregatorService {
 //        offTestProvider();
     }
 }
-//50000 - 75000 GBP / year
+//10:36:52.563 INFO  ua.training.top.aggregator.strategy.RabotaStrategy.getVacancies:38 - city=за_рубежем language=java
+//10:36:53.258 ERROR ua.training.top.util.parser.ElementUtil.getVacanciesRabota:229 - there is error
+//e=Text 'назад-01-01' could not be parsed at index 0
+
+//10:37:17.114 INFO  u.t.top.aggregator.strategy.UAJoobleStrategy.getVacancies:48 - getVacancies city за_рубежем language=java
+//10:37:30.968 ERROR ua.training.top.util.parser.data.CorrectSkills.getCorrectSkills:12 - there is skills is null
+//10:37:31.622 INFO  ua.training.top.aggregator.Provider.getJavaVacancies:22 -
+//strategy ua.training.top.aggregator.strategy.UAJoobleStrategy list.size=91

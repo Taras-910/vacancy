@@ -12,7 +12,7 @@ public class CorrectSkills {
             log.error("there is skills is null");
             return "";
         }
-        skills = skills.contains("Java Script") ? skills.replaceAll("Java Script", "JavaScript") : skills;
-        return hasText(skills) ? skills.trim() : "see the card on the link";
+        skills = skills.contains("Java Script") ? skills.replaceAll("Java Script", "JavaScript") : skills.trim();
+        return skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
     }
 }

@@ -207,7 +207,14 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
-                LocalDate localDate = getCorrectDate(xssClear(element.getElementsByClass("publication-time").text().trim()));
+
+                System.out.println("------------------------------------------------------------------------------------------");
+                String date = xssClear(element.getElementsByClass("publication-time").text().trim());
+                System.out.println("element:\n" + element);
+                System.out.println("date:\n" + date);
+                System.out.println("getCorrectDate=" + getCorrectDate(date));
+
+                LocalDate localDate = getCorrectDate(date);
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
