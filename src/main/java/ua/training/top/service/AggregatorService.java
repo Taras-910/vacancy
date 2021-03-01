@@ -76,7 +76,6 @@ public class AggregatorService {
     @Transactional
     protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
                            Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
-        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         Freshen freshenDb = freshenService.create(freshen);
         List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenDb);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
@@ -84,6 +83,7 @@ public class AggregatorService {
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
+        deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         deleteVacanciesOutLimited(limitVacanciesToKeep);
         deleteFreshensOutLimit(limitVacanciesToKeep / 7);
         employerService.deleteEmptyEmployers();
@@ -143,8 +143,8 @@ public class AggregatorService {
         setTestAuthorizedUser(asAdmin());
 //        setTestProvider();
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
@@ -152,3 +152,4 @@ public class AggregatorService {
 //        offTestProvider();
     }
 }
+//50000 - 75000 GBP / year

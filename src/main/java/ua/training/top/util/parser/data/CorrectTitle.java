@@ -15,11 +15,4 @@ public class CorrectTitle {
         title = title.contains("(ID") ? title.substring(0, title.indexOf("(ID")).trim() : title;
         return title.contains("Java Script") ? title.replaceAll("Java Script", "JavaScript") : title;
     }
-
-    public static String getCorrectTitleJobsMarket(String title) {
-        title = title.replaceAll("[^\\w]", " ").replaceAll("[20]","")
-                .replaceAll("FSDET", "").replaceAll("m Fw Fd","")
-                .replaceAll("FReact", "React").trim();
-        return title;
-    }
 }

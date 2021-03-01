@@ -52,7 +52,7 @@ public class JobsMarketStrategy implements Strategy {
                 Document doc = getDocument(position, String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("card");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesJobsMarket(elements, position));
+                set.addAll(getVacanciesJobsMarket(elements));
                 if (page < limitCallPages) page++;
                 else break;
             }
@@ -61,7 +61,7 @@ public class JobsMarketStrategy implements Strategy {
         return new ArrayList<>(set);
     }
 
-    private boolean isMatchesJobsMarket(Freshen freshen) {
+    public static boolean isMatchesJobsMarket(Freshen freshen) {
         if (!freshen.getLanguage().equals("java") && !freshen.getLanguage().equals("kotlin")) {
             return true;
         }

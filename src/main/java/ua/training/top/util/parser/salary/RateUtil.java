@@ -5,6 +5,10 @@ import static ua.training.top.aggregator.installation.InstallationUtil.*;
 
 public class RateUtil {
 
+    public static String gbpToUsd(String gbp) throws NumberFormatException{
+        return checkValue((int) (Integer.parseInt(gbp) * GBP_TO_USD_RATE) * 100);
+    }
+
     public static String eurToUsd(String eur) throws NumberFormatException{
         return checkValue((int) (Integer.parseInt(eur) * EUR_TO_USD_RATE) * 100);
     }

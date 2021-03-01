@@ -15,6 +15,7 @@ public class InstallationUtil {
     public static final float HRN_TO_USD_RATE = 28.5f;
     public static final float PLN_TO_USD_RATE = 3.7f;
     public static final float EUR_TO_USD_RATE = 1.2f;
+    public static final float GBP_TO_USD_RATE = 1.4f;
 
     private static int repeatToCall = 3;
     public static int limitCallPages = 10;

@@ -19,7 +19,6 @@ import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyCheckUtil.*;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.ValidationUtil.checkNotFound;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -92,7 +91,7 @@ public class VacancyService {
     @Transactional
     public List<Vacancy> createUpdateList(List<Vacancy> vacancies) {
         log.info("update vacancies size={}", vacancies.size());
-        return checkNotFound(repository.saveAll(vacancies), "list vacancies size=" + vacancies.size());
+        return repository.saveAll(vacancies);
     }
 
     public void delete(int id) {

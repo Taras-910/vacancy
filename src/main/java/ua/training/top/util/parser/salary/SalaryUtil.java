@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import static ua.training.top.util.parser.salary.CheckUtil.validateAndFormat;
 import static ua.training.top.util.parser.salary.EurUtil.getEur;
+import static ua.training.top.util.parser.salary.GbpUtil.getGbp;
 import static ua.training.top.util.parser.salary.HrnUtil.getHrn;
 import static ua.training.top.util.parser.salary.PlnUtil.getPln;
 import static ua.training.top.util.parser.salary.UsdUtil.getUsd;
@@ -23,6 +24,9 @@ public class SalaryUtil {
             } else
             if (temp.contains("eur") || temp.contains("€")) {
                 return getEur(temp);
+            } else
+            if (temp.contains("gbp") || temp.contains("£") || temp.contains("₤")) {
+                return getGbp(temp);
             } else
             if (temp.contains("грн")) {
                 return getHrn(temp);
