@@ -27,6 +27,10 @@ public class YandexStrategy implements Strategy{
 //             https://rabota.yandex.ru/kiev/vakansii/?text=java&page_num=2&top_days=7
 // удаленнo   https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=java&rid=10001&page_num=2
 
+// удаленная Беларусь https://rabota.yandex.ru/belarus/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
+// удаленная Украина  https://rabota.yandex.ru/ukraina/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
+// удаленная Россия  https://rabota.yandex.ru/rossiya/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&page_num=2&top_days=7
+
     protected Document getDocument(String city, String language, String page) {
         page = page.equals("1") ? "" : "&page_num=".concat(page);
         return DocumentUtil.getDocument(city.equals("удаленно") ? format(URL_FORMAT_REMOTE, language, page) :
@@ -44,6 +48,7 @@ public class YandexStrategy implements Strategy{
         int page = 1;
         while (true) {
             Document doc = getDocument(workplace, freshen.getLanguage(), String.valueOf(page));
+//            log.info("document={}", doc);
             Elements elements = doc == null ? null : doc.getElementsByClass("serp-vacancy");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesYandex(elements, freshen));

@@ -265,14 +265,14 @@ public class ElementUtil {
         int i = 0;
         for (Element element : elements) {
 //            System.out.println("----------------------------------------------------------------------------------------");
-            String salary = "1", date, skills, title, url = xssClear(element.getElementsByClass("_31572 _07ebc").attr("id"));
+            String address, salary = "1", date, skills, title, url = xssClear(element.getElementsByClass("_31572 _07ebc").attr("id"));
             if(url != ""){
                 date = Optional.of(xssClear(element.getElementsByClass("_8d375").last().text().trim())).orElse("");
             }
             else {
                 date = Optional.of(xssClear(element.getElementsByClass("_77a3a d3fee _356ae _108aa ab7d6").text().trim())).orElse("");
             }
-            String address = getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim()));
+            address = getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim()));
             LocalDate localDate = null;
             try {
                 localDate = getCorrectDate(date.equalsIgnoreCase(address) ? null : date);
@@ -370,22 +370,22 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
 
-                        System.out.println("\n-----------------------------------------------------------------------------------");
-                        String employerName0 = xssClear(element.getElementsByClass("address").text());
-                        System.out.println("employerName0="+employerName0);
-                        String employerName1 = xssClear(element.getElementsByClass("serp-vacancy__company").text());
-                        System.out.println("employerName1="+employerName1);
-                        String employerName2 = xssClear(element.getElementsByClass("serp-vacancy__contacts-wrapper").text());
-                        System.out.println("employerName2="+employerName2);
+//                        System.out.println("\n-----------------------------------------------------------------------------------");
+//                        String employerName0 = xssClear(element.getElementsByClass("address").text());
+//                        System.out.println("employerName0="+employerName0);
+//                        String employerName1 = xssClear(element.getElementsByClass("serp-vacancy__company").text());
+//                        System.out.println("employerName1="+employerName1);
+//                        String employerName2 = xssClear(element.getElementsByClass("serp-vacancy__contacts-wrapper").text());
+//                        System.out.println("employerName2="+employerName2);
+//
+//                        String salary = xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim());
+//                        System.out.println("salary="+salary);
+//                        System.out.println("getCorrectSalary="+getCorrectSalary(salary));
+//                        System.out.println("salaryMax="+salaryMax(getCorrectSalary(salary),element));
+//                        System.out.println("salaryMin="+salaryMin(getCorrectSalary(salary),element));
 
-                        String salary = xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim());
-                        System.out.println("salary="+salary);
-                        System.out.println("getCorrectSalary="+getCorrectSalary(salary));
-                        System.out.println("salaryMax="+salaryMax(getCorrectSalary(salary),element));
-                        System.out.println("salaryMin="+salaryMin(getCorrectSalary(salary),element));
 
-
-                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text())));
+                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__contacts-wrapper").text())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("serp-vacancy__contacts").text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));

@@ -99,6 +99,15 @@ $(function () {
                     "visible": false
                 },
                 {
+                    "data": "toVote",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='vote($(this)," + row.id + ");'/>";
+                        }
+                        return data;
+                    }
+                },
+                {
                     "data": function (data, type, row) {
                         return '<a href="'+ data.url +'">' + data.title + '</a>'
                     }
@@ -138,15 +147,6 @@ $(function () {
                     }
                 },
                 {
-                    "data": "toVote",
-                    "render": function (data, type, row) {
-                        if (type === "display") {
-                            return "<input type='checkbox' " + (data ? "checked" : "") + " onclick='vote($(this)," + row.id + ");'/>";
-                        }
-                        return data;
-                    }
-                },
-                {
                     "data": "workplace",
                     "visible": false
                 },
@@ -175,7 +175,7 @@ $(function () {
             ],
             "order": [
                 [
-                    8,
+                    9,
                     "desc"
                 ]
             ],

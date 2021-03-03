@@ -141,14 +141,12 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-//        setTestProvider();
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-//        offTestProvider();
     }
 }
