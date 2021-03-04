@@ -19,6 +19,7 @@ import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validAddre
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validDate;
 import static ua.training.top.aggregator.strategy.UAIndeedStrategy.getCorrectUrl;
 import static ua.training.top.util.VacancyCheckUtil.getMatchesLanguage;
+import static ua.training.top.util.parser.data.CorrectAddress.getAddressDjinni;
 import static ua.training.top.util.parser.data.CorrectAddress.getCorrectAddress;
 import static ua.training.top.util.parser.data.CorrectEmployerName.getCorrectEmployerName;
 import static ua.training.top.util.parser.data.CorrectSkills.getCorrectSkills;
@@ -39,15 +40,17 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByClass("inbox-date").text().trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByClass("list-jobs__title").text().trim()));
+                    String title = getCorrectTitle(xssClear(element.getElementsByClass("profile").tagName("a").text().trim()));
                     String skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
-                        v.setAddress(freshen.getWorkplace());
-                        v.setSalaryMax(1);
-                        v.setSalaryMin(1);
+                        String address1 = xssClear(element.select(".list-jobs__details__info").first().text());
+                        String address2 = xssClear(element.getElementsByClass("list-jobs__details__info").select(".list-jobs__details__info>*").text());
+                        v.setAddress(getCorrectAddress(getAddressDjinni(address1, address2)));
+                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
+                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setUrl("https://djinni.co".concat(xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);

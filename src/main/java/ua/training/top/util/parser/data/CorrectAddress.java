@@ -64,6 +64,20 @@ public class CorrectAddress {
                 break;
             case "удаленно": city = "remote";
                 break;
+            case "санкт-петербург" :
+            case "москва":
+            case "новосибирск":
+            case "нижний новгород":
+            case "казань":
+            case "екатеринбург":
+            case "краснодар":
+            case "пермь":
+            case "минск":
+            case "ростов-на-дону":
+            case "томск":
+            case "самара":
+            case "ульяновск":
+            case "воронеж": city = "-1";
         }
             return city;
     }
@@ -301,5 +315,12 @@ public class CorrectAddress {
         return city;
     }
 
-
+    public static String getAddressDjinni(String address1, String address2) {
+        String [] adr2 = address2.split(" ");
+        for (String s: adr2) {
+            address1 = address1.replaceAll(s, "").trim();
+        }
+        address1 = address1.substring(address1.indexOf("в") + 1).replaceAll("·", "").trim();
+        return address1;
+    }
 }
