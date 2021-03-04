@@ -31,6 +31,7 @@ public class CheckUtil {
         salary = salary.contains("requirements:") ? salary.split("requirements:")[0] : salary;
         salary = salary.contains(",") ? salary.split(",")[0] : salary;
         salary = salary.contains("·") ? salary.split("·")[0] : salary;
+        salary = salary.contains("·") ? salary.split("!")[0] : salary;
 
         if(salary.matches(".*?\\.\\d?\\dk.*?")){
             String temp1 = salary.replaceAll("[A-Za-jl-zа-я ·:\\/(),]","");

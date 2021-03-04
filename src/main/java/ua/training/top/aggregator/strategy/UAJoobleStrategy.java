@@ -29,7 +29,9 @@ public class UAJoobleStrategy implements Strategy {
     //                     https://ua.jooble.org/SearchResult?date=3&loc=2&rgns=%D0%B7%D0%B0%20%D0%BA%D0%BE%D1%80%D0%B4%D0%BE%D0%BD%D0%BE%D0%BC&ukw=java
     // удаленно            https://ua.jooble.org/SearchResult?loc=2&p=2&ukw=java
     // Мінськ Білорусь     https://ua.jooble.org/SearchResult?rgns=%D0%9C%D1%96%D0%BD%D1%81%D1%8C%D0%BA%2C%20%D0%91%D1%96%D0%BB%D0%BE%D1%80%D1%83%D1%81%D1%8C&ukw=java
-
+//          String url7 = "https://ua.jooble.org/desc/jdp/-9161132033114422761/DevOps-Engineer-%D0%9A%D0%B8%D1%97%D0%B2?ckey=java&amp";
+//                         https://ua.jooble.org/SearchResult?date=3&p=1&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=java
+//                         https://ua.jooble.org/jdp/-7570587103435261
     protected Document getDocument(String city, String language, String page) {
         if(city.equals("удаленно")) {
             return DocumentUtil.getDocument(format(URL_FORMAT_REMOTE, page, language));

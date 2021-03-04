@@ -73,7 +73,7 @@ function successNoty(key) {
         text: "<span class='fa fa-lg fa-check'></span> &nbsp;" + key,
         type: 'success',
         layout: "bottomRight",
-        timeout: 5000
+        timeout: 2500
     }).show();
 }
 

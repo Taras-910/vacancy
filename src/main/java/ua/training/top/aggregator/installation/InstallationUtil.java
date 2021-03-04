@@ -21,7 +21,7 @@ public class InstallationUtil {
     private static int repeatToCall = 3;
     public static int limitCallPages = 10;
 //    private static int repeatToCall = 1;
-//    public static int limitCallPages = 1;
+//    public static int limitCallPages = 2;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(21);
     public static int limitVacanciesToKeep = 5100;

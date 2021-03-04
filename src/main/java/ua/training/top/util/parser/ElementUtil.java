@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.util.StringUtils.hasText;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateToLoad;
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validAddress;
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.validDate;
@@ -268,54 +267,25 @@ public class ElementUtil {
         int i = 0;
         for (Element element : elements) {
 //            System.out.println("----------------------------------------------------------------------------------------");
-            String address, salary = "1", date, skills, title, url = xssClear(element.getElementsByClass("_31572 _07ebc").attr("id"));
-            if(url != ""){
-                date = Optional.of(xssClear(element.getElementsByClass("_8d375").last().text().trim())).orElse("");
-            }
-            else {
-                date = Optional.of(xssClear(element.getElementsByClass("_77a3a d3fee _356ae _108aa ab7d6").text().trim())).orElse("");
-            }
-            address = getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim()));
-            LocalDate localDate = null;
             try {
-                localDate = getCorrectDate(date.equalsIgnoreCase(address) ? null : date);
+                LocalDate localDate = null;
+                try {
+                    localDate = getCorrectDate(xssClear(element.select("div.caption").last().text().trim()));
+                } catch (Exception e) {
+                    localDate = getCorrectDate(null);
+                }
                 if (localDate.isAfter(reasonDateToLoad)) {
-                    //check salary
-                    /*try {
-                        String salary1 = getCorrectSalary(Optional.of(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text())).orElse("1"));
-                        System.out.println("salary1:" + salary1);
-                    } catch (Exception e) {
-                        System.out.println("salary1: error");
-                    }
-                    String salary2 = !salary.equals("1") && hasText(salary) ? salary : getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("_0010f").text()).orElse("1")));
-                    System.out.println("salary2:" + salary2);
-                    try {
-                        String salary3 = getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("_44ec3").text()).orElse("1")));
-                        System.out.println("salary3:" + salary3);
-                    } catch (Exception e) {
-                        System.out.println("salary3:error");
-                    }
-                    String salary4 = getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("b2a33").text()).orElse("1")));
-                    System.out.println("salary4:" + salary4);*/
-                    if (url != "") {
-                        title = getCorrectTitle(xssClear(element.getElementsByClass("_84af9").tagName("span").text().trim()));
-                        salary = getCorrectSalary(Optional.of(xssClear(element.getElementsByClass("_0b1c1").tagName("span").first().text())).orElse("1"));
-                        salary = !salary.equals("1") && hasText(salary) ? salary : getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("_0010f").text()).orElse("1")));
-                    } else {
-                        url = element.getElementsByClass("_77074 _8b8c3").attr("id");
-                        title = getCorrectTitle(xssClear(element.getElementsByClass("_045f1").tagName("span").text().trim()));
-                        salary = getCorrectSalary(xssClear(Optional.of(element.getElementsByClass("_44ec3").text()).orElse("1")));
-                    }
-                    skills = getCorrectSkills(xssClear(element.getElementsByTag("b").tagName("span").nextAll().text()));
-                    skills = skills == null ? "see the card on the link" : skills;
+                    String skills, title = getCorrectTitle(xssClear(element.getElementsByTag("header").tagName("span").text().trim()));
+                    skills = xssClear(element.getElementsByTag("b").tagName("span").nextAll().text());
+                    skills = skills != null ? getCorrectSkills(skills) : getCorrectSkills(getCorrectSkills(xssClear(element.getElementsByTag("section").tagName("span").first().text())));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
-                        v.setAddress(address);
-                        v.setSalaryMax(salaryMax(salary, element));
-                        v.setSalaryMin(salaryMin(salary, element));
-                        v.setUrl("https://ua.jooble.org/desc/".concat(url));
+                        v.setAddress(getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim())));
+                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
+                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
+                        v.setUrl("https://ua.jooble.org/jdp/".concat(xssClear(element.getElementsByTag("article").attr("id").trim())));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);
                         list.add(v);
