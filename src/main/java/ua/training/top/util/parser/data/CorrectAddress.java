@@ -32,6 +32,8 @@ public class CorrectAddress {
                 break;
             case "минск": city = "Минск";
                 break;
+            default: city = city == null || city.equals("") || city.length() < 2 ? city : city.substring(0, 1).toUpperCase().concat(city.substring(1));
+                break;
         }
         return city;
     }
@@ -328,7 +330,7 @@ public class CorrectAddress {
         return address;
     }
 
-    public static String getUpperText(String text) {
-        return text == null || text.equals("") || text.length() < 2 ? text : text.substring(0, 1).toUpperCase().concat(text.substring(1));
-    }
+//    public static String getUpperText(String text) {
+//        return text == null || text.equals("") || text.length() < 2 ? text : text.substring(0, 1).toUpperCase().concat(text.substring(1));
+//    }
 }

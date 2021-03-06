@@ -45,7 +45,7 @@ public class ElementUtil {
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
                         String address1 = xssClear(element.select(".list-jobs__details__info").first().text());
                         String address2 = xssClear(element.getElementsByClass("list-jobs__details__info").select(".list-jobs__details__info>*").text());
-                        v.setAddress(getCorrectAddress(getUpperText(getAddressDjinni(address1, address2))));
+                        v.setAddress(getCorrectAddress(getAddressDjinni(address1, address2)));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setUrl(getCorrectUrl("djinni", xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
@@ -73,7 +73,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text().trim())));
-                        v.setAddress(getCorrectAddress(getUpperText(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim()))));
+                        v.setAddress(getCorrectAddress(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-compensation").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-compensation").text().trim())), element));
                         v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href").trim()));
@@ -281,7 +281,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
-                        v.setAddress(getCorrectAddress(getUpperText(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim()))));
+                        v.setAddress(getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
                         v.setUrl(getCorrectUrl("jooble", xssClear(element.getElementsByTag("article").attr("id").trim())));
@@ -314,7 +314,7 @@ public class ElementUtil {
                             log.info("other tag employerName={}", employerName);
                         }
                         v.setEmployerName(getCorrectEmployerName(employerName));
-                        v.setAddress(getCorrectAddress(getUpperText(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text()))));
+                        v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("b").tagName("b").first().text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByTag("b").tagName("b").first().text().trim())), element));
                         v.setUrl(getCorrectUrl("work", xssClear(element.getElementsByTag("a").attr("href"))));
@@ -343,7 +343,7 @@ public class ElementUtil {
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("a").attr("title").trim())));
                         String address = xssClear(element.select("div.address").text().trim());
-                        v.setAddress(getCorrectAddress(address.equalsIgnoreCase(freshen.getWorkplace()) ? address : getUpperText(freshen.getWorkplace()).concat(", ").concat(address).trim()));
+                        v.setAddress(getCorrectAddress(address.equalsIgnoreCase(freshen.getWorkplace()) ? address : freshen.getWorkplace()).concat(", ").concat(address).trim());
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
                         v.setUrl(getCorrectUrlYandex(xssClear(element.getElementsByTag("a").attr("href"))));
