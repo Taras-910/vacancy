@@ -47,9 +47,4 @@ public class UAIndeedStrategy implements Strategy {
         reCall(set.size(), new UAIndeedStrategy());
        return new ArrayList<VacancyTo>(set);
     }
-
-    public  static String getCorrectUrl(String url){
-        StringBuilder sb = new StringBuilder("https://ua.indeed.com/описание-вакансии?jk=");
-        return sb.append(url).toString();
-    }
 }

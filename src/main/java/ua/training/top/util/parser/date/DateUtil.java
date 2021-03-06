@@ -72,4 +72,7 @@ public class DateUtil {
         return localDate;
     }
 
+    public static LocalDate getDateNofluffjobs(String text) {
+        return text.contains("NEW") || text.contains("NOVĚ")? LocalDate.now() : LocalDate.now().minusDays(7);
+    }
 }

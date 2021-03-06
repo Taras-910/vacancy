@@ -9,7 +9,6 @@ import ua.training.top.to.VacancyTo;
 import ua.training.top.util.parser.DocumentUtil;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -22,11 +21,11 @@ import static ua.training.top.util.parser.data.CorrectAddress.getCorrectNofluffj
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
-    private static final String URL_PART1 = "https://nofluffjobs.com/jobs/remote/backend?criteria=category%3Dtesting%20seniority%3Dmid%20";
+    private static final String URL_FORMAT = "https://nofluffjobs.com/jobs/remote/backend?criteria=category%3Dtesting%20seniority%3Dmid%20";
                                   // pl  https://nofluffjobs.com/pl/jobs/remote/backend?lang=en&criteria=category%3Dtesting%20seniority%3Dmid%20java%20rest%20spring&page=1
 
     protected Document getDocument(String language, String page) {
-        String URL = URL_PART1.concat(language).concat("%20rest%20spring");
+        String URL = URL_FORMAT.concat(language).concat("%20rest%20spring");
         return DocumentUtil.getDocument(page.equals("1") ? URL : URL.concat("&page=").concat(page));
     }
 
@@ -47,13 +46,5 @@ public class NofluffjobsStrategy implements Strategy {
         }
         reCall(set.size(), new NofluffjobsStrategy());
         return new ArrayList<>(set);
-    }
-
-    public static String validAddress(String address) {
-        return address.equals("") ? "Польша" : address;
-    }
-
-    public static LocalDate validDate(String text) {
-        return text.contains("NEW") || text.contains("NOVĚ")? LocalDate.now() : LocalDate.now().minusDays(7);
     }
 }

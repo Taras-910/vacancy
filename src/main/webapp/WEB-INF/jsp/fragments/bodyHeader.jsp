@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
-        <a href="vacancies" class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">  Свежие IT вакансии</h3></a>
+        <a href="vacancies" class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">  Свежие IT вакансии 🔥</h3></a>
         <!-- <h7>свежих вакансий</h7> -->
         <sec:authorize access="isAuthenticated()">
             <form class="form-inline my-2" action="logout" method="post">

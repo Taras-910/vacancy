@@ -315,12 +315,20 @@ public class CorrectAddress {
         return city;
     }
 
-    public static String getAddressDjinni(String address1, String address2) {
-        String [] adr2 = address2.split(" ");
-        for (String s: adr2) {
-            address1 = address1.replaceAll(s, "").trim();
+    public static String getAddressNofluffjobs(String address) {
+        return address.equals("") ? "Польша" : address;
+    }
+
+    public static String getAddressDjinni(String address, String address2) {
+        for (String s: address2.split(" ")) {
+            address = address.replaceAll(s, "").trim();
         }
-        address1 = address1.substring(address1.indexOf("в") + 1).replaceAll("·", "").trim();
-        return address1;
+        address = address.substring(address.indexOf("в") + 1).replaceAll("·", "").trim();
+        address = address.replaceAll("remote", "удаленно");
+        return address;
+    }
+
+    public static String getUpperText(String text) {
+        return text == null || text.equals("") || text.length() < 2 ? text : text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 }

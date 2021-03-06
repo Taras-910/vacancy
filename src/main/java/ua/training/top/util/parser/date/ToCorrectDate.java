@@ -48,8 +48,6 @@ public class ToCorrectDate {
             log.error("Wrong data {} exception {}", myDate, e.getMessage());
             return LocalDate.now().minusDays(7);
         }
-
-
     }
 
     private static int getParseInt(String myDate) {
