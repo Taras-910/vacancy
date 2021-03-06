@@ -3,9 +3,13 @@ package ua.training.top.util.parser.data;
 public class CorrectAddress {
 
     public static String getCorrectAddress(String city){
-        city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city.toLowerCase();
+        if (city.contains("Агломерация")) {
+            city = city.substring(0, 1).toLowerCase().concat(city.substring(1));
+            return city;
+        }
+        city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
         city = city.contains("віддалено") ? city.replaceAll("віддалено", "удаленно") : city;
-        switch (city){
+        switch (city.toLowerCase()){
             case "киев": city = "Киев";
                 break;
             case "днепр": city = "Днепр";
@@ -32,7 +36,12 @@ public class CorrectAddress {
                 break;
             case "минск": city = "Минск";
                 break;
-            default: city = city == null || city.equals("") || city.length() < 2 ? city : city.substring(0, 1).toUpperCase().concat(city.substring(1));
+            case "удаленно":
+            case "віддалена робота":
+            case "no location": city = "удаленно";
+                break;
+            default: city = city == null || city.equals("") || city.length() < 2 ?
+                    city : city.substring(0, 1).toUpperCase().concat(city.substring(1));
                 break;
         }
         return city;
@@ -330,7 +339,9 @@ public class CorrectAddress {
         return address;
     }
 
-//    public static String getUpperText(String text) {
-//        return text == null || text.equals("") || text.length() < 2 ? text : text.substring(0, 1).toUpperCase().concat(text.substring(1));
-//    }
+    public static String getCorrectLinkedin(String address) {
+        String[] addressParts = address.split(",");
+        return addressParts.length > 1 && addressParts[0].trim().equalsIgnoreCase(addressParts[1].trim()) ?
+                address.substring(address.indexOf(",") + 1).trim() : address;
+    }
 }

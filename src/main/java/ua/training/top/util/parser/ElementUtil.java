@@ -9,7 +9,6 @@ import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -159,7 +158,7 @@ public class ElementUtil {
                         }
                         v.setEmployerName(getCorrectEmployerName(xssClear(employerName)));
 //                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("job-result-card__subtitle").text().trim())));
-                        v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("job-result-card__location").text().trim())));
+                        v.setAddress(getCorrectAddress(getCorrectLinkedin(xssClear(element.getElementsByClass("job-result-card__location").text().trim()))));
                         v.setSalaryMax(1);
                         v.setSalaryMin(1);
                         v.setUrl(xssClear(element.getElementsByClass("result-card__full-card-link").first().attr("href").split("&")[0].trim()));
@@ -175,7 +174,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static Collection<? extends VacancyTo> getNofluffjobsVacancies(Elements elements, Freshen freshen) {
+    public static List<VacancyTo> getNofluffjobsVacancies(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         log.info("elements {}", elements.size());
         for (Element element : elements) {
