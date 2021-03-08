@@ -142,9 +142,15 @@ public class CorrectAddress {
             case "киев" : city = "908";
                 break;
             case "за_рубежем":
-            case "удаленно":
+            case "днепр":
             case "одесса":
             case "львов":
+            case "николаев":
+            case "запорожье":
+            case "черновцы":
+            case "чернигов":
+            case "варшава":
+            case "польша":
             case "харьков": city = "-1";
                 break;
             case "санкт-петербург" : city = "679";
@@ -190,12 +196,11 @@ public class CorrectAddress {
             case "екатеринбург":
             case "краснодар":
             case "пермь":
-            case "минск":
             case "ростов-на-дону":
             case "томск":
             case "самара":
             case "ульяновск":
-            case "удаленно":
+            case "минск":
             case "воронеж": matches = false;
         }
         return matches;

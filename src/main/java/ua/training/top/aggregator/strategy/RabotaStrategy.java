@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesRabota;
@@ -23,30 +24,37 @@ import static ua.training.top.util.parser.date.DateUtil.printStrategyRabota;
 
 public class RabotaStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(RabotaStrategy.class);
-    private static final String URL_FORMAT = "https://rabota.ua/zapros/%s/%s/%s?profLevelIDs=3&agency=false";
-    // другие страны за 30 дней  https://rabota.ua/zapros/java/другие_страны?profLevelIDs=3&agency=false
-    // за 7 дней специалист           https://rabota.ua/zapros/java/киев/pg2?profLevelIDs=3&agency=false&period=3
-
+    private static final String URL_FORMAT = "https://rabota.ua/zapros/%s/%sprofLevelIDs=3&agency=false&period=3&lastdate=";
+    // другие страны   стр1      https://rabota.ua/zapros/java/другие_страны?profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
+    // удаленно        стр1      https://rabota.ua/zapros/java/украина?scheduleId=3&profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
+    // удаленно        стр2      https://rabota.ua/zapros/java/украина/pg2?scheduleId=3&profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
+    // киев            стр1      https://rabota.ua/zapros/java/киев?scheduleId=3&   profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
+    // киев            стр2      https://rabota.ua/zapros/java/киев/pg2?scheduleId=3&profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
     protected Document getDocument(String city, String language, String page) {
-        boolean other = city.equals("за_рубежем");
-        String url = String.format(URL_FORMAT, language, other ? "другие_страны" : city, page.equals("1") ? "" : "/pg".concat(page));
-        return DocumentUtil.getDocument(other ? url : url.concat("&period=3&lastdate=").concat(printStrategyRabota(LocalDate.now().minusDays(7))));
+        page = page.equals("1") ? "" : "/pg".concat(page);
+        if(city.equals("за_рубежем")) {
+            city = "другие_страны?";
+        } else {
+            city = city.equals("удаленно") ? "украина".concat(page).concat("?scheduleId=3&") : city.concat(page).concat("?scheduleId=3&");
+        }
+        return DocumentUtil.getDocument(format(URL_FORMAT, language, city).concat(printStrategyRabota(LocalDate.now().minusDays(7))));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        if (!isMatchesWorkplaceRabotaIndeedJobs(freshen.getWorkplace())) {
+        String city = freshen.getWorkplace();
+        if (!isMatchesWorkplaceRabotaIndeedJobs(city)) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while(true) {
-            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), String.valueOf(page));
+            Document doc = getDocument(city, freshen.getLanguage(), String.valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesRabota(elements, freshen));
-            if(page < limitCallPages) page++;
+            if(page < limitCallPages && !city.equals("за_рубежем")) page++;
             else break;
         }
         reCall(set.size(), new RabotaStrategy());

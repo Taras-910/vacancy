@@ -21,15 +21,14 @@ import static ua.training.top.util.parser.data.CorrectAddress.isMatchesWorkplace
 
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
-    private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?category=%s&search=%s&%s";
-    //    private static final String URL_FORMAT_REMOTE = "https://jobs.dou.ua/vacancies/?category=%s&remote";
-    // киев        https://jobs.dou.ua/vacancies/?category=Java&search=Middle&city=Киев
-    // за рубежем  https://jobs.dou.ua/vacancies/?category=Java&search=middle&relocation=
-    // удаленно   https://jobs.dou.ua/vacancies/?category=Java&remote&search=middle
+    private static final String URL_FORMAT = "https://jobs.dou.ua/vacancies/?category=%s&%s";
+    // Киев        https://jobs.dou.ua/vacancies/?category=Java&city=Киев
+    // за рубежем  https://jobs.dou.ua/vacancies/?category=Java&relocation=
+    // удаленно    https://jobs.dou.ua/vacancies/?category=Java&remote
 
-    protected Document getDocument(String city, String language, String position) {
-        city = city.equals("за_рубежем") ? "relocation=" : city.equals("удаленно") ? "remote" : "".concat("city=").concat(city);
-        return DocumentUtil.getDocument(format(URL_FORMAT, language, position, city));
+    protected Document getDocument(String city, String language) {
+        city = city.equals("за_рубежем") ? "relocation=" : city.equals("удаленно") ? "remote" : "city=".concat(city);
+        return DocumentUtil.getDocument(format(URL_FORMAT, language, city));
     }
 
     @Override
@@ -39,13 +38,9 @@ public class JobsStrategy implements Strategy {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
-        String[] positions = new String[]{"middle", "developer", "java"};
-        for(String p : positions) {
-            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), p);
-            Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
-            if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesJobs(elements, freshen));
-        }
+        Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage());
+        Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
+        set.addAll(getVacanciesJobs(elements, freshen));
         reCall(set.size(), new JobsStrategy());
         return new ArrayList<>(set);
     }

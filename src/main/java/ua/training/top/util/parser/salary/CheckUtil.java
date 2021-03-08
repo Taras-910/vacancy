@@ -23,6 +23,8 @@ public class CheckUtil {
         if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary) || salary.contains("unpaid")) {
             return "1";
         }
+        salary = salary.contains("от") && salary.contains("до") ?
+                salary.replaceAll("до", "—").replaceAll("от","") : salary;
         salary = salary.replaceAll(" ", "").replaceAll(" ", "")
                 .replaceAll("&nbsp;", "").replaceAll("b2b", "")
                 .replaceAll("\\(uop\\)", "").replaceAll("[.]{2,}", "");

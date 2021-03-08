@@ -16,7 +16,7 @@ public class CorrectUrl {
                 break;
             case "Indeed"     : prefix = "https://ua.indeed.com/описание-вакансии?jk=";
                 break;
-            case "rabota"     : prefix = "https://rabota.ua/company";
+            case "rabota"     : prefix = "https://rabota.ua";
                 break;
             case "nofluffjobs": prefix = "https://nofluffjobs.com";
                 break;

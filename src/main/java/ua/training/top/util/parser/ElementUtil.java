@@ -217,8 +217,7 @@ public class ElementUtil {
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("location").text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim())), element));
-                        v.setUrl(getCorrectUrl("rabota", xssClear(element.getElementsByClass("card").attr("data-company-id").trim()))
-                                .concat("/vacancy").concat(element.getElementsByClass("card").attr("data-vacancy-id").trim()));
+                        v.setUrl(getCorrectUrl("rabota", xssClear(element.getElementsByTag("a").attr("href").trim())));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);
                         list.add(v);
