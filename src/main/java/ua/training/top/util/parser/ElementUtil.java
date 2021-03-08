@@ -36,15 +36,15 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByClass("inbox-date").text().trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByClass("profile").tagName("a").text().trim()));
-                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
+                    String address, address2, skills, title = getCorrectTitle(xssClear(element.getElementsByClass("profile").tagName("a").text().trim()));
+                    skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
-                        String address1 = xssClear(element.select(".list-jobs__details__info").first().text());
-                        String address2 = xssClear(element.getElementsByClass("list-jobs__details__info").select(".list-jobs__details__info>*").text());
-                        v.setAddress(getCorrectAddress(getAddressDjinni(address1, address2)));
+                        address = xssClear(element.select(".list-jobs__details__info").first().text());
+                        address2 = xssClear(element.getElementsByClass("list-jobs__details__info").select(".list-jobs__details__info>*").text());
+                        v.setAddress(getCorrectAddress(getAddressDjinni(address, address2)));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setUrl(getCorrectUrl("djinni", xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
@@ -66,8 +66,8 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(supportDate(prepare(xssClear(element.getElementsByClass("vacancy-serp-item__publication-date").text().trim()))), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase()));
-                    String skills = getCorrectSkills(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase()));
+                    String skills, title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim().toLowerCase()));
+                    skills = getCorrectSkills(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy_snippet_requirement").text().trim().toLowerCase()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
@@ -94,8 +94,8 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(xssClear(element.getElementsByAttribute("datetime").attr("datetime").substring(0, 10)), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
-                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
+                    String skills, title = getCorrectTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text().trim()));
+                    skills = getCorrectSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
@@ -120,8 +120,8 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         elements.forEach(element -> {
             try {
-                String title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
-                String skills = getCorrectSkills(xssClear(element.getElementsByClass("sh-info").text().trim()));
+                String skills, title = getCorrectTitle(xssClear(element.getElementsByTag("a").first().text().trim()));
+                skills = getCorrectSkills(xssClear(element.getElementsByClass("sh-info").text().trim()));
                 if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(title);
@@ -202,15 +202,14 @@ public class ElementUtil {
         return list;
     }
 
-
     public static List<VacancyTo> getVacanciesRabota(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
                 LocalDate localDate = getCorrectDate(xssClear(element.getElementsByClass("publication-time").text().trim()));
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
-                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
+                    String skills, title = getCorrectTitle(xssClear(element.getElementsByClass("card-title").text().trim()));
+                    skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
@@ -238,8 +237,8 @@ public class ElementUtil {
             try {
                 LocalDate localDate = getCorrectDate(xssClear(element.getElementsByClass("date ").text().trim()));
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim()));
-                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("summary").text().trim()));
+                    String skills, title = getCorrectTitle(xssClear(element.getElementsByAttributeValue("data-tn-element", "jobTitle").text().trim()));
+                    skills = getCorrectSkills(xssClear(element.getElementsByClass("summary").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2 && skills.length() < 1000) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
@@ -335,13 +334,13 @@ public class ElementUtil {
             try {
                 LocalDate localDate = getCorrectDate(xssClear(element.getElementsByClass("serp-vacancy__date").text().trim()));
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String title = getCorrectTitle(xssClear(element.getElementsByClass("heading heading_level_3").text().trim()));
-                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("serp-vacancy__requirements").text().trim()));
+                    String address, skills, title = getCorrectTitle(xssClear(element.getElementsByClass("heading heading_level_3").text().trim()));
+                    skills = getCorrectSkills(xssClear(element.getElementsByClass("serp-vacancy__requirements").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
-                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("a").attr("title").trim())));
-                        String address = xssClear(element.select("div.address").text().trim());
+                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text().trim())));
+                        address = xssClear(element.select("div.address").text().trim());
                         v.setAddress(getCorrectAddress(address.equalsIgnoreCase(freshen.getWorkplace()) ? address : freshen.getWorkplace()).concat(", ").concat(address).trim());
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
@@ -364,10 +363,10 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByTag("time").text().replaceAll("Posted on: ", "").replaceAll(",", "").trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
+                    String salary, skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
                     if (skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
-                        String salary = xssClear(element.getElementsByClass("text-muted clearfix d-block").tagName("strong").text().replaceAll(",","").trim());
+                        salary = xssClear(element.getElementsByClass("text-muted clearfix d-block").tagName("strong").text().replaceAll(",","").trim());
                         v.setTitle(getCorrectTitle(xssClear(element.getElementsByClass("link").text().trim())));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("cursor-pointer").text())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text().trim())));

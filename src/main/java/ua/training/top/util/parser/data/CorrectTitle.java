@@ -13,6 +13,7 @@ public class CorrectTitle {
             return "see the card on the link";
         }
         title = title.contains("(ID") ? title.substring(0, title.indexOf("(ID")).trim() : title;
+        title = title.length() < 2 ? title : title.substring(0, 1).toUpperCase().concat(title.substring(1));
         return title.contains("Java Script") ? title.replaceAll("Java Script", "JavaScript") : title;
     }
 }

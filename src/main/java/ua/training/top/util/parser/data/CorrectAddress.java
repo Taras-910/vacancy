@@ -298,6 +298,8 @@ public class CorrectAddress {
             case "ужгород" :
             case "за_рубежем": city = "-1";
                 break;
+            case "удаленно": city = "ukraina";
+                break;
             case "санкт-петербург" : city = "sankt-peterburg";
                 break;
             case "москва" : city = "moskva";

@@ -22,14 +22,15 @@ import static ua.training.top.util.parser.data.CorrectAddress.getCorrectWorkplac
 public class YandexStrategy implements Strategy{
     private final static Logger log = LoggerFactory.getLogger(YandexStrategy.class);
     private static final String URL_FORMAT = "https://rabota.yandex.ru/%s/vakansii/?text=%s%s&top_days=7";
-    private static final String URL_FORMAT_REMOTE = "https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=%s&rid=10001&page_num=%s";
+    private static final String URL_FORMAT_REMOTE = "https://rabota.yandex.ru/ukraina/vakansii/rabota-udalennaya-i-na-domu/?text=%s%s";
 
 //             https://rabota.yandex.ru/kiev/vakansii/?text=java&page_num=2&top_days=7
 // удаленнo   https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=java&rid=10001&page_num=2
 
-// удаленная Беларусь https://rabota.yandex.ru/belarus/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
-// удаленная Украина  https://rabota.yandex.ru/ukraina/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
-// удаленная Россия  https://rabota.yandex.ru/rossiya/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&page_num=2&top_days=7
+// удаленно Беларусь https://rabota.yandex.ru/belarus/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
+// удаленно Украина  https://rabota.yandex.ru/ukraina/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
+//                   https://rabota.yandex.ru/ukraina/vakansii/rabota-udalennaya-i-na-domu?text=java&rid=10001&page_num=1
+// удаленно Россия   https://rabota.yandex.ru/rossiya/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&page_num=2&top_days=7
 
     protected Document getDocument(String city, String language, String page) {
         page = page.equals("1") ? "" : "&page_num=".concat(page);
