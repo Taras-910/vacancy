@@ -319,7 +319,7 @@
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
                 <h7><em>идет загрузка... подождите минуту или две...<br>
-                    через две мин жмите     </em><h6 class="fa fa-filter text-info">  Фильтровать</h6>
+                    через 2 мин жмите  </em><h6 class="fa fa-filter text-info">  Фильтровать</h6>
                     <%--<button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
                         <span class="fa fa-filter"></span>
                         Фильтровать
