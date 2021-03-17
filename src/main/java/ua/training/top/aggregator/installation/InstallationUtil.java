@@ -39,9 +39,9 @@ public class InstallationUtil {
         InstallationUtil.testProvider = false;
     }
 
-    public static boolean scheduledThreeProviders = false;
-    public static void setThreeProviders() { InstallationUtil.scheduledThreeProviders = true; }
-    public static void offThreeProviders() { InstallationUtil.scheduledThreeProviders = false; }
+    public static boolean scheduledTwoProviders = false;
+    public static void setTwoProviders() { InstallationUtil.scheduledTwoProviders = true; }
+    public static void offTwoProviders() { InstallationUtil.scheduledTwoProviders = false; }
 
     public static void setTestFreshenPerHour() {
         InstallationUtil.freshenPerHour = 60;

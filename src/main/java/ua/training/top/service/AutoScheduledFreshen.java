@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import ua.training.top.model.Freshen;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
-import static ua.training.top.aggregator.installation.InstallationUtil.offThreeProviders;
-import static ua.training.top.aggregator.installation.InstallationUtil.setThreeProviders;
+import static ua.training.top.aggregator.installation.InstallationUtil.offTwoProviders;
+import static ua.training.top.aggregator.installation.InstallationUtil.setTwoProviders;
 import static ua.training.top.util.FreshenUtil.scheduledFreshen;
 import static ua.training.top.util.ScheduledUtil.*;
 import static ua.training.top.util.UserUtil.asAdmin;
@@ -33,9 +33,9 @@ public class AutoScheduledFreshen {
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
-        setThreeProviders();
+        setTwoProviders();
         service.refreshDB(new Freshen(scheduledFreshen(mapWorkplace.get(getKey(10)))));
-        offThreeProviders();
+        offTwoProviders();
     }
 
     @Scheduled(cron = "0 0 9,14 * * SUN")

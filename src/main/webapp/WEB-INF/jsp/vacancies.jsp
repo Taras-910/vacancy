@@ -92,7 +92,6 @@
                 <tr>
                     <th hidden>id</th>
                     <th hidden>link</th>
-                    <th ></th>
                     <th class="col-auto">Вакансия</th>
                     <th class="col-auto">Компания</th>
                     <th class="col-auto">Город</th>
@@ -103,6 +102,7 @@
                     <th hidden>toVote</th>
                     <th hidden>work place</th>
                     <th hidden>language</th>
+                    <th ></th>
                     <th ></th>
                     <th ></th>
                 </tr>

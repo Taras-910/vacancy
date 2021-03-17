@@ -340,7 +340,7 @@ public class ElementUtil {
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text().trim())));
                         address = xssClear(element.select("div.address").text().trim());
-                        v.setAddress(getCorrectAddress(address.equalsIgnoreCase(freshen.getWorkplace()) ? address : freshen.getWorkplace()).concat(", ").concat(address).trim());
+                        v.setAddress(getCorrectAddress(getCorrectYandex(address, freshen)));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));
                         v.setUrl(getCorrectUrlYandex(xssClear(element.getElementsByTag("a").attr("href"))));
@@ -356,17 +356,18 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesJobsMarket(Elements elements) {
+    public static List<VacancyTo> getVacanciesJobsMarket(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
                 LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByTag("time").text().replaceAll("Posted on: ", "").replaceAll(",", "").trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String salary, skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
-                    if (skills.length() > 2) {
+                    String title, salary, skills = getCorrectSkills(xssClear(element.getElementsByClass("card-body").text().trim()));
+                    title = getCorrectTitle(xssClear(element.getElementsByClass("link").text().trim()));
+                    if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         salary = xssClear(element.getElementsByClass("text-muted clearfix d-block").tagName("strong").text().replaceAll(",","").trim());
-                        v.setTitle(getCorrectTitle(xssClear(element.getElementsByClass("link").text().trim())));
+                        v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("cursor-pointer").text())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(salary), element));

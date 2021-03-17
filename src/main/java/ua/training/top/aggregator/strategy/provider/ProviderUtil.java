@@ -6,7 +6,7 @@ import ua.training.top.aggregator.Provider;
 import ua.training.top.aggregator.strategy.*;
 import ua.training.top.repository.AggregatorRepository;
 
-import static ua.training.top.aggregator.installation.InstallationUtil.scheduledThreeProviders;
+import static ua.training.top.aggregator.installation.InstallationUtil.scheduledTwoProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.testProvider;
 import static ua.training.top.util.ScheduledUtil.getKey;
 import static ua.training.top.util.ScheduledUtil.mapStrategies;
@@ -15,17 +15,13 @@ public class ProviderUtil {
     public static final Logger log = LoggerFactory.getLogger(ProviderUtil.class);
 
     public static AggregatorRepository getAllProviders(){
-        log.info("threeProviders={}", scheduledThreeProviders);
-
         if (testProvider) {
             return new AggregatorRepository(new Provider(new TestStrategy()));
         }
-        else if (scheduledThreeProviders) {
-            log.info("twoProviders");
+        else if (scheduledTwoProviders) {
             return new AggregatorRepository(
-                    mapStrategies.get(getKey(4)),
-                    mapStrategies.get(getKey(4) + 4),
-                    mapStrategies.get(getKey(4) + 8));
+                    mapStrategies.get(getKey(6)),
+                    mapStrategies.get(getKey(6) + 6));
         }
         else {
             log.info("allProviders");

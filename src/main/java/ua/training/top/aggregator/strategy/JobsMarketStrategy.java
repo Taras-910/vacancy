@@ -52,7 +52,7 @@ public class JobsMarketStrategy implements Strategy {
                 Document doc = getDocument(position, String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("card");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesJobsMarket(elements));
+                set.addAll(getVacanciesJobsMarket(elements, freshen));
                 if (page < limitCallPages) page++;
                 else break;
             }

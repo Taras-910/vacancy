@@ -1,12 +1,11 @@
 package ua.training.top.util.parser.data;
 
+import ua.training.top.model.Freshen;
+
 public class CorrectAddress {
 
     public static String getCorrectAddress(String city){
-        if (city.contains("Агломерация")) {
-            city = city.substring(0, 1).toLowerCase().concat(city.substring(1));
-            return city;
-        }
+        city = city.contains("Агломерация") ? city.replace("Агломерация", "агломерация") : city;
         city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
         city = city.contains("віддалено") ? city.replaceAll("віддалено", "удаленно") : city;
         switch (city.toLowerCase()){
@@ -350,5 +349,14 @@ public class CorrectAddress {
         String[] addressParts = address.split(",");
         return addressParts.length > 1 && addressParts[0].trim().equalsIgnoreCase(addressParts[1].trim()) ?
                 address.substring(address.indexOf(",") + 1).trim() : address;
+    }
+
+    public static String getCorrectYandex(String address, Freshen freshen) {
+        address = address.equalsIgnoreCase(freshen.getWorkplace()) ? address : freshen.getWorkplace().concat(", ").concat(address).trim();
+        if (address.contains(",")) {
+            String[] addressParts = address.split(",");
+            address = addressParts[0].equalsIgnoreCase(addressParts[1]) ? address.substring(address.indexOf("," + 1)).trim() : address;
+        }
+        return address;
     }
 }
