@@ -85,7 +85,7 @@ public class AggregatorService {
         }
         deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
         deleteVacanciesOutLimited(limitVacanciesToKeep);
-        deleteFreshensOutLimit(limitVacanciesToKeep / 7);
+        deleteFreshensOutLimit(limitVacanciesToKeep / 10);
         employerService.deleteEmptyEmployers();
     }
 
