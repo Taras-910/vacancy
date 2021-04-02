@@ -18,7 +18,7 @@ import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesIndeed;
-import static ua.training.top.util.parser.data.CorrectAddress.isMatchesWorkplaceRabotaIndeedJobs;
+import static ua.training.top.util.parser.data.CorrectAddress.isMatchesRu;
 
 public class UAIndeedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAIndeedStrategy.class);
@@ -32,7 +32,7 @@ public class UAIndeedStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (!isMatchesWorkplaceRabotaIndeedJobs(freshen.getWorkplace()) || freshen.getWorkplace().equals("за_рубежем")) {
+        if (!isMatchesRu(freshen.getWorkplace()) || freshen.getWorkplace().equals("за_рубежем")) {
             return new ArrayList<>();
         }
         int page = 0;

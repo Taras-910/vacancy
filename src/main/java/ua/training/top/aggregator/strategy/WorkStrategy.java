@@ -27,15 +27,19 @@ public class WorkStrategy implements Strategy {
     //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=123&page=1
 
     protected Document getDocument(String city, String language, String page) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, getTranslated(city), language, page));
+        return DocumentUtil.getDocument(format(URL_FORMAT, city, language, page));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
+        String city = getTranslated(freshen.getWorkplace());
+        if (city.equals("-1")) {
+            return new ArrayList<>();
+        }
         int page = 0;
         while (true) {
-            Document doc = getDocument(freshen.getWorkplace(), freshen.getLanguage(), valueOf(page));
+            Document doc = getDocument(city, freshen.getLanguage(), valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card card-hover card-visited wordwrap job-link");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesWork(elements, freshen));

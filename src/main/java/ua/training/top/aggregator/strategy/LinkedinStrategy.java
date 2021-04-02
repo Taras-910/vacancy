@@ -26,7 +26,7 @@ public class LinkedinStrategy implements Strategy {
     //агломерация киева https://www.linkedin.com/jobs/search?keywords=Java&location=Агломерация%2BКиева&f_TP=1%2C2&redirect=false&position=1&pageNum=0
     // за последнюю неделю f_TP=1%2C2
     // за последние 24 часа f_TP=1
-
+//https://ru.linkedin.com/jobs/search?keywords=java&location=%D0%BC%D0%BE%D1%81%D0%BA%D0%B2%D0%B0&trk=public_jobs_jobs-search-bar_search-submit&redirect=false&position=1&pageNum=0&f_TP=1%2C2&f_E=4
     protected Document getDocument(String city, String language, String page) {
         return DocumentUtil.getDocument(format(URL_FORMAT, language, city, page, "1%2C2"));
     }
@@ -34,8 +34,7 @@ public class LinkedinStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        String[] countries = getLinkedin();
-        String[] cityOrCountry = freshen.getWorkplace().contains("за_рубежем") ? countries : new String[]{freshen.getWorkplace()};
+        String[] cityOrCountry = freshen.getWorkplace().contains("за_рубежем") ? getForeign() : new String[]{freshen.getWorkplace()};
         List<VacancyTo> result = new ArrayList<>();
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String c : cityOrCountry) {
@@ -53,7 +52,7 @@ public class LinkedinStrategy implements Strategy {
         return result;
     }
 
-    public static final  String[] getLinkedin() {
+    public static final  String[] getForeign() {
         return new String[]{"Канада&geoId=101174742", "Польша&geoId=105072130", "Германия&geoId=101282230",
                 "Швеция&geoId=105117694", "Израиль&geoId=101620260", "Швейцарская%20Конфедерация&geoId=106693272",
                 "Соединенные%2BШтаты%2BАмерики&geoId=103644278", "Франция&geoId=105015875", "Италия&geoId=103350119",

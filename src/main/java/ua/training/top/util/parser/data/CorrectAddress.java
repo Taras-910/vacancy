@@ -184,7 +184,7 @@ public class CorrectAddress {
         return city;
     }
 
-    public static boolean isMatchesWorkplaceRabotaIndeedJobs(String city){
+    public static boolean isMatchesRu(String city){
         boolean matches = true;
         switch (city){
             case "санкт-петербург" :
