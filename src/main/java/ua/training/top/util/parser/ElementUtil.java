@@ -161,7 +161,7 @@ public class ElementUtil {
                         v.setAddress(getCorrectAddress(getCorrectLinkedin(xssClear(element.getElementsByClass("job-result-card__location").text().trim()))));
                         v.setSalaryMax(1);
                         v.setSalaryMin(1);
-                        v.setUrl(xssClear(element.getElementsByClass("result-card__full-card-link").first().attr("href").split("&")[0].trim()));
+                        v.setUrl(xssClear(element.getElementsByClass("result-card__full-card-link").first().attr("href").split("&")[0].trim()).concat("&_l=ru_RU"));
                         v.setSkills("see the card on the link");
                         v.setReleaseDate(localDate);
                         list.add(v);
