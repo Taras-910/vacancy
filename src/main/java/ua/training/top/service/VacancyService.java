@@ -17,7 +17,8 @@ import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
-import static ua.training.top.util.VacancyCheckUtil.*;
+import static ua.training.top.util.VacancyCheckUtil.isNotSimilar;
+import static ua.training.top.util.VacancyCheckUtil.isNullPointerException;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
@@ -58,10 +59,11 @@ public class VacancyService {
 
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
-        log.info("getByFilter language={} workplace={}", freshen.getLanguage(), freshen.getWorkplace());
+        log.info("getTosByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
         freshen.setGoals(Collections.singleton(FILTER));
         freshenService.create(freshen);
-        return getTos(getMatchesByFreshen(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
+//        return getTos(getMatchesByFreshen(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
+        return getTos(repository.getByFilter(freshen), voteService.getAllForAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {

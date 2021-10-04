@@ -21,9 +21,9 @@ import static ua.training.top.util.parser.data.CorrectAddress.getCorrectNofluffj
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
-    private static final String URL_FORMAT = "https://nofluffjobs.com/jobs/remote/backend?criteria=category%3Dtesting%20seniority%3Dmid%20";
+    private static final String URL_FORMAT = "https://nofluffjobs.com/jobs/remote/backend?criteria=category%3Dtesting%20seniority%3Dtrainee,junior,mid,senior,expert%20";
                                   // pl  https://nofluffjobs.com/pl/jobs/remote/backend?lang=en&criteria=category%3Dtesting%20seniority%3Dmid%20java%20rest%20spring&page=1
-
+                                  // pl  https://nofluffjobs.com/pl/jobs/remote/backend?lang=en&criteria=category%3Dtesting%20seniority%3Dtrainee,junior,mid,senior,expert%20requirement%3Djava,rest,spring
     protected Document getDocument(String language, String page) {
         String URL = URL_FORMAT.concat(language).concat("%20rest%20spring");
         return DocumentUtil.getDocument(page.equals("1") ? URL : URL.concat("&page=").concat(page));

@@ -15,19 +15,20 @@ public class FreshenUtil {
     public static final String FRESHEN_NOT_BE_NULL = "freshen must not be null";
 
     public static Freshen getFreshenFromTo(VacancyTo vTo) {
-        return new Freshen(null, now(), vTo.getLanguage(),
+        return new Freshen(null, now(), vTo.getLanguage(), vTo.getLevel(),
                 hasText(vTo.getWorkplace()) ? vTo.getWorkplace() :vTo.getAddress(), singleton(UPGRADE), authUserId());
     }
 
     public static Freshen asNewFreshen(Freshen f){
-        return new Freshen(f.getId(), now(), f.getLanguage(), f.getWorkplace(),
+        return new Freshen(f.getId(), now(), f.getLanguage(), f.getLevel(), f.getWorkplace(),
                 f.getGoals() == null ? singleton(UPGRADE) : f.getGoals(), authUserId());
     }
-    public static Freshen asNewFreshen(String language, String workplace, Goal goal){
-        return new Freshen(null, now(), language, workplace, singleton(goal == null ? UPGRADE : goal), authUserId());
+
+    public static Freshen asNewFreshen(String language, String level, String workplace, Goal goal){
+        return new Freshen(null, now(), language, level, workplace, singleton(goal == null ? UPGRADE : goal), authUserId());
     }
 
     public static  Freshen scheduledFreshen(String workplace) {
-        return new Freshen(null, now(), "java", workplace, singleton(UPGRADE), ADMIN_ID);
+        return new Freshen(null, now(), "java", "middle", workplace, singleton(UPGRADE), ADMIN_ID);
     }
 }

@@ -10,7 +10,7 @@ public class EurUtil {
     public static final Logger log = LoggerFactory.getLogger(EurUtil.class);
 
     public static String getEur(String temp){
-        String cleaned = getCleaned(temp);
+        String cleaned = getCleaned(temp.substring(0, temp.contains("€") ? temp.indexOf("€") : temp.indexOf("eur")));
         if(temp.contains("—")){
             if(cleaned.length() < 4) return "1";
             if (temp.contains("year")) {

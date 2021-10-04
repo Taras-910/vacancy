@@ -6,9 +6,6 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class VacancyCheckUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyCheckUtil.class) ;
     public static final String URL_MATCHER = "^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$";
@@ -41,21 +38,10 @@ public class VacancyCheckUtil {
         return true;
     }
 
-    public static List<Vacancy> getMatchesByFreshen(List<Vacancy> vacancies, Freshen freshen){
-        return vacancies.parallelStream()
-                .filter(vacancy -> getMatchesLanguage(freshen, vacancy.getTitle(), vacancy.getSkills())
-                        && getMatchesWorkplace(freshen, vacancy.getEmployer().getAddress()))
-                .collect(Collectors.toList());
-    }
-
     public static boolean getMatchesLanguage(Freshen f, String title, String skills){
         return f.getLanguage().equals("all")
+                || title.toLowerCase().contains("рекрутер")|| title.toLowerCase().contains("recruiter")
                 || title.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
                 || skills.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*");
-    }
-
-    public static boolean getMatchesWorkplace(Freshen f, String address){
-        return f.getWorkplace().equals("за_рубежем") || f.getWorkplace().toLowerCase().equals("удаленно") || f.getWorkplace().equals("all")
-                || address.toLowerCase().contains(f.getWorkplace());
     }
 }

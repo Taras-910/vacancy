@@ -78,11 +78,11 @@ public class VacancyServiceTest extends AbstractServiceTest {
     @Test
     public void createErrorData() throws Exception {
         setTestAuthorizedUser(admin);
-        Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "Киев", Collections.singleton(Goal.UPGRADE), null));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "киев", false), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "киев", false), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net/1/11", "Java Core", testDate, "java", "киев", false), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11", null, testDate, "java", "киев", false), freshen));
+        Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "middle","Киев", Collections.singleton(Goal.UPGRADE), null));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net/1/11", "Java Core", testDate, "java", "middle","киев", false), freshen));
+        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11", null, testDate, "java", "middle","киев", false), freshen));
     }
 
     @Test

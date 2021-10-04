@@ -36,15 +36,13 @@ public class ElementUtil {
             try {
                 LocalDate localDate = parseCustom(supportDate(xssClear(element.getElementsByClass("inbox-date").text().trim())), element);
                 if(localDate.isAfter(reasonDateToLoad)) {
-                    String address, address2, skills, title = getCorrectTitle(xssClear(element.getElementsByClass("profile").tagName("a").text().trim()));
+                    String skills, title = getCorrectTitle(xssClear(element.getElementsByClass("profile").tagName("a").text().trim()));
                     skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
-                        address = xssClear(element.select(".list-jobs__details__info").first().text());
-                        address2 = xssClear(element.getElementsByClass("list-jobs__details__info").select(".list-jobs__details__info>*").text());
-                        v.setAddress(getCorrectAddress(getAddressDjinni(address, address2)));
+                        v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("location-text").text())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
                         v.setUrl(getCorrectUrl("djinni", xssClear(element.getElementsByClass("profile").first().attr("href").trim())));
@@ -272,13 +270,18 @@ public class ElementUtil {
                 }
                 if (localDate.isAfter(reasonDateToLoad)) {
                     String skills, title = getCorrectTitle(xssClear(element.getElementsByTag("header").tagName("span").text().trim()));
-                    skills = xssClear(element.getElementsByTag("b").tagName("span").nextAll().text());
-                    skills = skills != null ? getCorrectSkills(skills) : getCorrectSkills(getCorrectSkills(xssClear(element.getElementsByTag("section").tagName("span").first().text())));
+                    skills = getCorrectSkills(xssClear(element.getElementsByClass("JobCard_description__9jGwm").text()));
+                    if(title.toLowerCase().contains("водитель такси")) {
+                        continue;
+                    }
+                    title = title.toLowerCase().contains("рекрутер") ? title.concat(", junior") : title;
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
-                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
-                        v.setAddress(getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim())));
+//                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
+                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("GoodEmployerWidget_company__Ya0gV").text().trim())));
+//                        v.setAddress(getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("_36dc5 d6b7e _4f6da a4850 _2128e _8e9e1").next().first().text()).orElse("").trim())));
+                        v.setAddress(getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("caption JobCard_location_label__caption__l6HAP").text().trim()).orElse("").trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
                         v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
                         v.setUrl(getCorrectUrl("jooble", xssClear(element.getElementsByTag("article").attr("id").trim())));

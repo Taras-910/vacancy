@@ -64,7 +64,7 @@ public class VacancyTestData {
         return new VacancyTo(null, "Junior", "newEmployment", "киев, метро Вокзальная",
                 100, 500,
                 "https://www.baeldung.com/spring-type-conversions", "new knowledge",
-                LocalDate.of(2020, 10, 26), "java",
+                LocalDate.of(2020, 10, 26), "java", "junior",
                 "киев", false);
     }
 
@@ -72,6 +72,6 @@ public class VacancyTestData {
         return new VacancyTo(VACANCY1_ID, "Middle Game Developer", "Huuuge Games", "Киев",
                 22222,77777, "https://www.updated.com?language=spring",
                 "Still haven’t found your dream job? Huuuge Games is a gaming company on a mission to build the world’s largest real-time casual gaming platform connecting…",
-                LocalDate.of(2020, 10, 25), "java", "киев", false);
+                LocalDate.of(2020, 10, 25), "java", "middle", "киев", false);
     }
 }

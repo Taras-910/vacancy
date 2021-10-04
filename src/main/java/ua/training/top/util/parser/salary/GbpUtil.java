@@ -10,7 +10,8 @@ public class GbpUtil {
     public static final Logger log = LoggerFactory.getLogger(EurUtil.class);
 
     public static String getGbp(String temp){
-        String cleaned = getCleaned(temp);
+            String cleaned = getCleaned(temp.substring(0, temp.contains("£") ? temp.indexOf("£") :
+                    temp.contains("₤") ? temp.indexOf("₤") : temp.indexOf("gbp")));
         if(temp.contains("—")){
             if(cleaned.length() < 4) return "1";
             if (temp.contains("year")) {

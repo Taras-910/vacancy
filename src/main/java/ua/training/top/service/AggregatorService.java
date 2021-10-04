@@ -23,6 +23,7 @@ import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesToKeep;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
+import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.*;
 import static ua.training.top.util.EmployerUtil.getEmployerMap;
@@ -49,20 +50,22 @@ public class AggregatorService {
 
         if (!vacancyTos.isEmpty()) {
             List<VacancyTo> vacancyTosForCreate = new ArrayList<>(vacancyTos);
-            List<VacancyTo> vacancyToForUpdate = new ArrayList<>(vacancyTos);
+            List<VacancyTo> vacancyTosForUpdate = new ArrayList<>(vacancyTos);
+
             List<Vacancy> vacanciesDb = vacancyService.getAll();
             List<Vote> votes = voteService.getAll();
             List<VacancyTo> vacancyTosDb = getTos(vacanciesDb, votes);
+
             Map<VacancyTo, Vacancy> parallelMap = getParallelMap(vacanciesDb, votes);
             Map<SubVacancyTo, VacancyTo> mapAllVacancyTos = getMapVacancyTos(vacancyTosDb);
             Map<String, Employer> mapAllEmployers = getMapAllEmployers(vacancyTos);
 
             /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
             vacancyTosDb.forEach(vacancyTosForCreate::remove);
-            vacancyTosForCreate.forEach(vacancyToForUpdate::remove);
+            vacancyTosForCreate.forEach(vacancyTosForUpdate::remove);
             List<Vacancy> vacanciesForUpdate = new ArrayList<>();
-            if (!vacancyToForUpdate.isEmpty()) {
-                List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyToForUpdate);
+            if (!vacancyTosForUpdate.isEmpty()) {
+                List<VacancyTo> ListTosForUpdate = new ArrayList<>(vacancyTosForUpdate);
                 Map<SubVacancyTo, VacancyTo> mapForUpdate = getMapVacancyTos(ListTosForUpdate);
                 for (SubVacancyTo subVacancyTo : mapForUpdate.keySet()) {
                     vacanciesForUpdate.add(AggregatorUtil.getForUpdate(mapForUpdate.get(subVacancyTo),
@@ -76,16 +79,16 @@ public class AggregatorService {
     @Transactional
     protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
                            Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
-        Freshen freshenDb = freshenService.create(freshen);
-        List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenDb);
+        Freshen freshenCreated = freshenService.create(freshen);
+        List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenCreated);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
         vacancies.addAll(vacanciesForCreate);
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
         deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
-        deleteVacanciesOutLimited(limitVacanciesToKeep);
-        deleteFreshensOutLimit(limitVacanciesToKeep / 10);
+        deleteFreshensOutdated(freshenService.getAll(), reasonPeriodToKeep);
+        deleteVacanciesOutLimitedHeroku(limitVacanciesToKeep);
         employerService.deleteEmptyEmployers();
     }
 
@@ -107,35 +110,56 @@ public class AggregatorService {
                 .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
                 .collect(Collectors.toList());
         if (!listToDelete.isEmpty()) {
-            log.info("deleteList {}", listToDelete.size());
+            log.info("deleteVacanciesList {}", listToDelete.size());
             vacancyService.deleteList(listToDelete);
         }
     }
 
     @Transactional
-    public void deleteFreshensOutLimit(int limitFreshenToKeep) {
-        log.info("deleteFreshensOutLimit limitFreshenToKeep={}", limitFreshenToKeep);
-        List<Freshen> allFreshens = freshenService.getAll();
-        if (allFreshens.size() >= limitFreshenToKeep) {
-        List<Freshen> listToDelete = allFreshens.parallelStream()
-                .sorted((f1, f2) -> f1.getRecordedDate().isAfter(f2.getRecordedDate()) ? 1 : 0)
-                .skip(limitFreshenToKeep)
+    public void deleteFreshensOutdated(List<Freshen> freshensDb, LocalDate reasonDateToKeep) {
+        log.info("deleteFreshensBeforeDate reasonDateToKeep={}", reasonDateToKeep);
+        List<Freshen> listToDelete = freshensDb.stream()
+                .filter(freshen -> reasonDateToKeep.isAfter(freshen.getRecordedDate().toLocalDate()))
                 .collect(Collectors.toList());
-        freshenService.deleteList(listToDelete);
+        if (!listToDelete.isEmpty()) {
+            log.info("listToDelete {}", listToDelete.size());
+            freshenService.deleteList(listToDelete);
         }
     }
 
-    public void deleteVacanciesOutLimited(int limitVacanciesToKeep) {
-        List<Vacancy> vacancies = vacancyService.getAll();
-        log.info("deleteVacanciesOutLimited limitVacanciesToKeep={} vacancies={}", limitVacanciesToKeep, vacancies.size());
-        List<Vacancy> listToDelete = Optional.of(vacancies.parallelStream()
+    @Transactional
+    public void deleteVacanciesOutLimitedHeroku(int limitVacanciesToKeep) {
+        List<Vacancy> vacanciesDb = vacancyService.getAll();
+        log.info("deleteVacanciesOutLimited limitVacanciesToKeep={} vacancies={}", limitVacanciesToKeep, vacanciesDb.size());
+        List<Vacancy> listToDelete = Optional.of(vacanciesDb.parallelStream()
                 .sorted((v1, v2) -> v1.getReleaseDate().isAfter(v2.getReleaseDate()) ? 1 : 0)
                 .sequential()
                 .skip(limitVacanciesToKeep)
                 .collect(Collectors.toList())).orElse(new ArrayList<>());
         if (!listToDelete.isEmpty()) {
-            log.info("deleteList={}", listToDelete.size());
+            log.info("delete listToDelete={}", listToDelete.size());
             vacancyService.deleteList(listToDelete);
+        }
+        List<Freshen> freshensDb = freshenService.getAll();
+        int limitFreshensToKeep = limitVacanciesToKeep / 2 + 1;
+        if (freshensDb.size() > limitFreshensToKeep) {
+            deleteFreshensOutLimitedHeroku(freshensDb, limitFreshensToKeep);
+        }
+    }
+
+    @Transactional
+    public void deleteFreshensOutLimitedHeroku(List<Freshen> freshensDb, int limitFreshensToKeep) {
+            log.info("limitedHeroku freshensDb={} limitFreshensToKeep={}", freshensDb.size(), limitFreshensToKeep);
+            List<Freshen> freshensFilter = freshensDb.stream()
+                    .filter(f -> f.getGoals().contains(FILTER))
+                    .collect(Collectors.toList());
+            List<Freshen> freshensExceedLimit = freshensFilter.stream()
+                    .sorted((f1, f2) -> f1.getRecordedDate().isBefore(f2.getRecordedDate()) ? 1 : 0)
+                    .skip(Math.max(limitFreshensToKeep + freshensFilter.size() - freshensDb.size(), 0))
+                    .collect(Collectors.toList());
+        if (!freshensExceedLimit.isEmpty()) {
+            log.info("delete freshensExceedLimit Heroku {}", freshensExceedLimit.size());
+            freshenService.deleteList(freshensExceedLimit);
         }
     }
 
@@ -145,9 +169,10 @@ public class AggregatorService {
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "минск", UPGRADE));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "киев", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+
     }
 }

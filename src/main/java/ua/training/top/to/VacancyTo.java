@@ -43,13 +43,15 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
 
     private String language;
 
+    private String level;
+
     private String workplace;
 
     private boolean toVote = false;
 
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin,
                      @NotNull Integer salaryMax, @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate,
-                     @Nullable String language, @Nullable String workplace, @Nullable boolean toVote) {
+                     @Nullable String language, @Nullable String level, @Nullable String workplace, @Nullable boolean toVote) {
         super(id);
         this.title = title;
         this.employerName = employerName;
@@ -60,6 +62,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
         this.skills = skills;
         this.releaseDate = releaseDate;
         this.language = language;
+        this.level = level;
         this.workplace = workplace;
         this.toVote = toVote;
     }
@@ -68,7 +71,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
 
     public VacancyTo(VacancyTo v){
         this(v.getId(), v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSalaryMin(), v.getSalaryMax(), v.getUrl(),
-                v.getSkills(), v.getReleaseDate(), v.getLanguage(), v.getWorkplace(), v.isToVote());
+                v.getSkills(), v.getReleaseDate(), v.getLanguage(), v.getLevel(), v.getWorkplace(), v.isToVote());
     }
 
     public String getEmployerName() {
@@ -143,6 +146,10 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
         this.language = language;
     }
 
+    public String getLevel() { return level; }
+
+    public void setLevel(String level) { this.level = level; }
+
     public boolean isToVote() {
         return toVote;
     }
@@ -187,6 +194,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
                 ", \nskills='" + skills + '\'' +
                 ", \nreleaseDate=" + releaseDate +
                 ", \nlanguage=" + language +
+                ", \nlevel=" + level +
                 ", \nworkplace=" + workplace +
                 ", \ntoVote=" + toVote +
                 '}';

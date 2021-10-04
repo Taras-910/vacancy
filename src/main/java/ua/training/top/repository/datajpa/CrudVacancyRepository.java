@@ -27,11 +27,24 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
     @Query("SELECT v FROM Vacancy v WHERE v.title=:title AND v.skills=:skills AND v.employer.id=:employerId")
     Vacancy getByParams(@Param("title")String title, @Param("skills")String skills, @Param("employerId") int employerId);
 
+/*
     @Query("SELECT v FROM Vacancy v WHERE (LOWER(v.title) LIKE CONCAT('%',:language,'%') " +
             "OR LOWER(v.skills) LIKE CONCAT('%',:language,'%')) " +
+            "AND (LOWER(v.freshen.level) LIKE CONCAT('%',:level,'%') " +
+            "OR LOWER(v.skills) LIKE CONCAT('%',:level,'%')" +
+            "OR LOWER(v.title) LIKE CONCAT('%',:level,'%'))" +
             "AND (LOWER(v.employer.address) LIKE CONCAT('%',:workplace,'%') " +
             "OR v.freshen.workplace LIKE CONCAT('%',:workplace,'%'))")
-    List<Vacancy> getByFilter(@Param("language")String language, @Param("workplace")String workplace);
+    List<Vacancy> getByFilter(@Param("language")String language, @Param("level")String level, @Param("workplace")String workplace);
+*/
+
+    @Query("SELECT v FROM Vacancy v WHERE (LOWER(v.title) LIKE CONCAT('%',:language,'%') " +
+            "OR LOWER(v.skills) LIKE CONCAT('%',:language,'%')) " +
+            "AND (LOWER(v.title) LIKE CONCAT('%',:level,'%')" +
+            "OR LOWER(v.skills) LIKE CONCAT('%',:level,'%'))" +
+            "AND (LOWER(v.employer.address) LIKE CONCAT('%',:workplace,'%') " +
+            "OR v.freshen.workplace LIKE CONCAT('%',:workplace,'%'))")
+    List<Vacancy> getByFilter(@Param("language")String language, @Param("level")String level, @Param("workplace")String workplace);
 
     @Query("SELECT v FROM Vacancy v WHERE v.releaseDate=:localDate")
     List<Vacancy> getCountToday(@Param("localDate")LocalDate localDate);

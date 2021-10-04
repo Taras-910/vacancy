@@ -73,7 +73,7 @@ public class FreshenService {
     }
 
     public void deleteList(List<Freshen> listToDelete) {
-        log.info("deleteList");
+        log.info("\ndeleteList\n");
         repository.deleteList(listToDelete);
     }
 }

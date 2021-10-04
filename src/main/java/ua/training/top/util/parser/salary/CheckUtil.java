@@ -14,13 +14,12 @@ public class CheckUtil {
         return (salary.contains("грн") || salary.contains("$") || salary.contains("usd") || salary.contains("eur")
                 || salary.contains("€") || salary.contains("pln")
                 || salary.contains("gbp") || salary.contains("£") || salary.contains("₤")
-                || salary.contains("salary:")) && salary.matches(".*\\d.*");
+                || salary.contains("salary:")) && salary.matches(".*?\\d.*\\n?");
     }
-//    salary.matches(".*\\d.*")
-//salary.matches(".*\\D\\d\\D+")
+
     public static String validateAndFormat(String salary) {
         salary = salary.toLowerCase();
-        if (salary.isEmpty() || salary.matches(".*\\W\\d\\W+") || !checkSalary(salary) || salary.contains("unpaid")) {
+        if (salary.isEmpty() || salary.matches("\\D*\\d\\D+") || !checkSalary(salary) || salary.contains("unpaid")) {
             return "1";
         }
         salary = salary.contains("от") && salary.contains("до") ?

@@ -18,6 +18,7 @@ public class AggregatorUtil {
 
     public static VacancyTo getFilled(VacancyTo vacancyTo, Freshen freshen) {
         vacancyTo.setWorkplace(freshen.getWorkplace());
+        vacancyTo.setLevel(freshen.getLevel());
         vacancyTo.setLanguage(freshen.getLanguage());
         vacancyTo.setToVote(false);
         return vacancyTo;

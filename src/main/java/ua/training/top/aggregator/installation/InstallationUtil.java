@@ -12,19 +12,19 @@ import static ua.training.top.repository.AggregatorRepository.allProviders;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
-    public static final float HRN_TO_USD_RATE = 28.5f;
-    public static final float PLN_TO_USD_RATE = 3.7f;
-    public static final float EUR_TO_USD_RATE = 1.2f;
+    public static final float HRN_TO_USD_RATE = 26.5f;
+    public static final float PLN_TO_USD_RATE = 4.0f;
+    public static final float EUR_TO_USD_RATE = 1.15f;
     public static final float GBP_TO_USD_RATE = 1.4f;
-    public static final float RUB_TO_USD_RATE = 76.9f;
+    public static final float RUB_TO_USD_RATE = 72.5f;
 
-    private static int repeatToCall = 3;
-    public static int limitCallPages = 10;
-//    private static int repeatToCall = 1;
-//    public static int limitCallPages = 2;
+//    private static int repeatToCall = 3;
+//    public static int limitCallPages = 10;
+    private static int repeatToCall = 1;
+    public static int limitCallPages = 2;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(21);
-    public static int limitVacanciesToKeep = 4200;
+    public static int limitVacanciesToKeep = 3300;
 
     public static double freshenPerHour = 6;
     public static double freshenPerHourForAdmin = 12;
@@ -44,10 +44,10 @@ public class InstallationUtil {
     public static void offRandomProviders() { InstallationUtil.scheduledRandomProviders = false; }
 
     public static void setTestFreshenPerHour() {
-        InstallationUtil.freshenPerHour = 60;
+        InstallationUtil.freshenPerHour = 180;
     }
     public static void setTestReasonPeriodToKeep() {
-        InstallationUtil.reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(1265);
+        InstallationUtil.reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(3650);
     }
 
     public static void reCall(int listSize, Strategy strategy){

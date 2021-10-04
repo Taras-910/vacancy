@@ -24,12 +24,13 @@ import static ua.training.top.util.parser.date.DateUtil.printStrategyRabota;
 
 public class RabotaStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(RabotaStrategy.class);
-    private static final String URL_FORMAT = "https://rabota.ua/zapros/%s/%sprofLevelIDs=3&agency=false&period=3&lastdate=";
+    private static final String URL_FORMAT = "https://rabota.ua/zapros/%s/%sprofLevelIDs=4,3,2&agency=false&period=3&lastdate=";
     // другие страны   стр1      https://rabota.ua/zapros/java/другие_страны?profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
     // удаленно        стр1      https://rabota.ua/zapros/java/украина?scheduleId=3&profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
     // удаленно        стр2      https://rabota.ua/zapros/java/украина/pg2?scheduleId=3&profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
     // киев            стр1      https://rabota.ua/zapros/java/киев?scheduleId=3&   profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
     // киев            стр2      https://rabota.ua/zapros/java/киев/pg2?scheduleId=3&profLevelIDs=3&agency=false&period=3&lastdate=01.03.2021
+    //                           https://rabota.ua/zapros/java/%d0%ba%d0%b8%d0%b5%d0%b2/pg2?scheduleId=3&profLevelIDs=4%2c3%2c2&agency=false&period=3&lastdate=03.07.2021
     protected Document getDocument(String city, String language, String page) {
         page = page.equals("1") ? "" : "/pg".concat(page);
         if(city.equals("за_рубежем")) {

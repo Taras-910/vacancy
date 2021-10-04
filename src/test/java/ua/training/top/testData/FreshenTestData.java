@@ -17,11 +17,11 @@ public class FreshenTestData {
 
     public static final int FRESHEN1_ID = START_SEQ + 4;
     public static final int FRESHEN2_ID = FRESHEN1_ID + 1;
-    public static final Freshen freshen1 = new Freshen(FRESHEN1_ID, of(2020, 10, 25, 12,0), "java", "киев", Collections.singleton(Goal.UPGRADE), ADMIN_ID);
-    public static final Freshen freshen2 = new Freshen(FRESHEN2_ID, of(2020, 10, 25, 13,0), "php", "киев", Collections.singleton(Goal.FILTER), USER_ID);
+    public static final Freshen freshen1 = new Freshen(FRESHEN1_ID, of(2020, 10, 25, 12,0), "java", "middle", "киев", Collections.singleton(Goal.UPGRADE), ADMIN_ID);
+    public static final Freshen freshen2 = new Freshen(FRESHEN2_ID, of(2020, 10, 25, 13,0), "php", "middle", "киев", Collections.singleton(Goal.FILTER), USER_ID);
 
     public static Freshen getNew() {
-        return new Freshen(null, now(), "java", "newCity", Collections.singleton(Goal.UPGRADE), ADMIN_ID);
+        return new Freshen(null, now(), "java", "middle", "newCity", Collections.singleton(Goal.UPGRADE), ADMIN_ID);
     }
 
     public static Freshen getUpdated() {

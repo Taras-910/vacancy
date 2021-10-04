@@ -17,9 +17,13 @@ function vote(chkbox, id) {
 function updateFilteredTable() {
 //https://stackoverflow.com/questions/56977572/how-to-set-default-value-in-input-datalist-and-still-have-the-drop-down
     let inputLanguage = document.getElementById('language');
+    let inputLevel = document.getElementById('level');
     let inputWorkplace = document.getElementById('workplace');
     if (!inputLanguage.value) {
         inputLanguage.value = 'all';
+    }
+    if (!inputLevel.value) {
+        inputLevel.value = 'all';
     }
     if (!inputWorkplace.value) {
         inputWorkplace.value = 'all';

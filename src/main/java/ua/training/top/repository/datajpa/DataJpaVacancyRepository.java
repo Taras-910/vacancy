@@ -74,8 +74,10 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     public List<Vacancy> getByFilter(Freshen freshen) {
-        String language = freshen.getLanguage(), workplace = freshen.getWorkplace();
-        return vacancyRepository.getByFilter(language.equals("all") ? "" : language, workplace.equals("all") ? "" : workplace);
+        String language = freshen.getLanguage(), workplace = freshen.getWorkplace(), level = freshen.getLevel();
+        return vacancyRepository.getByFilter(language.equals("all") ? "" : language,
+                level.equals("all") ? "" : level,
+                workplace.equals("all") ? "" : workplace);
     }
 
     @Override

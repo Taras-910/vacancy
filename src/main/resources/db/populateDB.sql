@@ -20,9 +20,9 @@ INSERT INTO employer (name, address)
 VALUES ('Huuuge Games', 'Киев'),
        ('RedLab', 'Киев');
 
-INSERT INTO freshen (recorded_date, language, workplace, user_id)
-VALUES ('2020-10-25 12:00:00', 'java', 'киев', 100000),
-       ('2020-10-25 13:00:00', 'php', 'киев', 100001);
+INSERT INTO freshen (recorded_date, language, level, workplace, user_id)
+VALUES ('2020-10-25 12:00:00', 'java', 'middle', 'киев', 100000),
+       ('2020-10-25 13:00:00', 'php', 'middle', 'киев', 100001);
 
 INSERT INTO freshen_goal (goal, freshen_id)
 VALUES ('UPGRADE', 100004),

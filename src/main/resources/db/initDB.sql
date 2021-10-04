@@ -43,6 +43,7 @@ CREATE TABLE freshen
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     recorded_date       TIMESTAMP  DEFAULT now() NOT NULL,
     language            TEXT                     NOT NULL,
+    level               TEXT                     NOT NULL,
     workplace           TEXT                     NOT NULL,
     user_id             INTEGER,
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE

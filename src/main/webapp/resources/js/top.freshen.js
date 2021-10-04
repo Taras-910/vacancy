@@ -18,8 +18,10 @@ function sendRefresh() {
     spinner1.style.visibility = 'visible';
     spinner2.style.visibility = 'visible';
     let languageFilter = document.getElementById('language');
+    let levelFilter = document.getElementById('level');
     let workplaceFilter = document.getElementById('workplace');
     languageFilter.value = document.getElementById('languageTask').value;
+    levelFilter.value = document.getElementById('levelTask').value;
     workplaceFilter.value = document.getElementById('workplaceTask').value;
     $.ajax({
         type: "POST",

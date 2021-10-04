@@ -32,6 +32,11 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 100)
+    @Column(name = "level")
+    private String level;
+
+    @NotNull
+    @Size(min = 2, max = 100)
     @Column(name = "workplace")
     private String workplace;
 
@@ -50,10 +55,11 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @JsonManagedReference(value="freshen-movement") //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private List<Vacancy> vacancies;
 
-    public Freshen(Integer id, LocalDateTime recordedDate, String language, String workplace, Collection<Goal> goals, Integer userId) {
+    public Freshen(Integer id, LocalDateTime recordedDate, String language, String level, String workplace, Collection<Goal> goals, Integer userId) {
         super(id);
         this.recordedDate = recordedDate;
         this.language = hasText(language) ? xssClear(language).toLowerCase() : "all";
+        this.level = hasText(level) ? xssClear(level).toLowerCase() : "all";
         this.workplace = hasText(workplace) ? xssClear(workplace).toLowerCase() : "all";
         setGoals((Set<Goal>) goals);
         this.userId = userId;
@@ -61,7 +67,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
 
 
     public Freshen(Freshen f){
-        this(f.getId(), f.recordedDate, f.language, f.workplace, f.getGoals(), f.userId);
+        this(f.getId(), f.recordedDate, f.language, f.level, f.workplace, f.getGoals(), f.userId);
     }
 
     public Freshen() {
@@ -82,6 +88,10 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     public void setLanguage(String language) {
         this.language = xssClear(language).toLowerCase();
     }
+
+    public String getLevel() { return level; }
+
+    public void setLevel(String level) { this.level = level; }
 
     public String getWorkplace() {
         return workplace;
@@ -121,6 +131,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
                 "id=" + id +
                 ", recordedDate=" + recordedDate +
                 ", language='" + language + '\'' +
+                ", level='" + level + '\'' +
                 ", workplace='" + workplace + '\'' +
                 ", goals=" + goals +
                 ", userId=" + userId +
@@ -133,11 +144,13 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Freshen freshen = (Freshen) o;
 
-        return language.equals(freshen.language) && workplace.equals(freshen.workplace);
+        return language.equals(freshen.language) && level.equals(freshen.level )&& workplace.equals(freshen.workplace);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(language, workplace);
+        return Objects.hash(language, level, workplace);
     }
+
+
 }

@@ -67,7 +67,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
 
     @Test
     void refreshDB() throws Exception  {
-        Freshen freshen = new Freshen(null, null, "Java", "Киев", Collections.singleton(Goal.UPGRADE),null );
+        Freshen freshen = new Freshen(null, null, "Java", "middle", "Киев", Collections.singleton(Goal.UPGRADE),null );
         List<Vacancy> vacanciesDbBefore = vacancyService.getAll();
         List<Freshen> freshensDbBefore = freshenService.getAll();
         List<Employer> employersDbBefore = employerService.getAll();
