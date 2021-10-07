@@ -27,18 +27,18 @@ public class ProviderUtil {
         else {
             log.info("allProviders");
             return new AggregatorRepository(
+                    new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
                     new Provider(new GrcStrategy()),          /*нет за_рубежем, меняет salary*/
-                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем*/
+                    new Provider(new HabrStrategy()),         /*нет за_рубежем*/
+                    new Provider(new JobsMarketStrategy()),   /*ТОЛЬКО за_рубежем USA!!!*/
+                    new Provider(new JobsStrategy()),         /*полезные статьи*/
+                    new Provider(new LinkedinStrategy()),     /*нет удаленно*/
+                    new Provider(new NofluffjobsStrategy()),  /*за_рубежем Poland*/
+                    new Provider(new RabotaStrategy()),       /*Украина и мало за_рубежем*/
+                    new Provider(new UAIndeedStrategy()),     /*Украина ТОЛЬКО нет за_рубежем*/
+                    new Provider(new UAJoobleStrategy()),     /*меняет теги*/
                     new Provider(new WorkStrategy()),         /*нет за_рубежем*/
-                    new Provider(new YandexStrategy()),       /*нет за_рубежем*/
-                    new Provider(new HabrStrategy()),         /*проблемный*/
-                    new Provider(new RabotaStrategy()),       /*всего 2 за_рубежем*/
-                    new Provider(new JobsMarketStrategy()),
-                    new Provider(new JobsStrategy()),
-                    new Provider(new DjinniStrategy()),
-                    new Provider(new LinkedinStrategy()),
-                    new Provider(new NofluffjobsStrategy()),
-                    new Provider(new UAJoobleStrategy())        /*меняет теги*/
+                    new Provider(new YandexStrategy())        /*нет за_рубежем*/
             );
         }
     }

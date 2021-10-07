@@ -18,13 +18,13 @@ public class InstallationUtil {
     public static final float GBP_TO_USD_RATE = 1.4f;
     public static final float RUB_TO_USD_RATE = 72.5f;
 
-//    private static int repeatToCall = 3;
-//    public static int limitCallPages = 10;
-    private static int repeatToCall = 1;
-    public static int limitCallPages = 2;
+    private static int repeatToCall = 3;
+    public static int limitCallPages = 10;
+//    private static int repeatToCall = 1;
+//    public static int limitCallPages = 2;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
     public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(21);
-    public static int limitVacanciesToKeep = 3300;
+    public static int limitVacanciesToKeep = 3000;
 
     public static double freshenPerHour = 6;
     public static double freshenPerHourForAdmin = 12;

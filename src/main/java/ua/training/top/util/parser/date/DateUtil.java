@@ -22,6 +22,10 @@ public class DateUtil {
         return ldt == null ? "" : ldt.format(DateTimeFormatter.ofPattern(DATE_PATTERN_STRATEGY));
     }
 
+    public static String dateRabota() {
+        return printStrategyRabota(LocalDate.now().minusDays(7));
+    }
+
     public static String getCurrentYear() {
         return new SimpleDateFormat(DATE_PATTERN).format(new Date()).substring(0,4);
     }

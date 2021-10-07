@@ -9,7 +9,11 @@ public class UsdUtil {
     public static final Logger log = LoggerFactory.getLogger(UsdUtil.class);
 
     public static String getUsd(String temp){
+        temp = temp.replace("$", "").concat("$");
+        temp = temp.replace("usd", "").concat("$");
         String cleaned = getCleaned(temp.substring(0, temp.contains("$") ? temp.indexOf("$") : temp.indexOf("usd")));
+//        String cleaned = temp.indexOf("$") == 0 ? temp.substring(1)
+//                : getCleaned(temp.substring(0, temp.contains("$") ? temp.indexOf("$") : temp.indexOf("usd")));
         if (!temp.contains("грн")){
             if(cleaned.contains("—")){
 //                if (temp.contains("year")) {

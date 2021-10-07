@@ -17,37 +17,36 @@ import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesHabr;
-import static ua.training.top.util.parser.data.CorrectAddress.getCodeHabr;
+import static ua.training.top.util.parser.data.CorrectAddress.getCityHabr;
+import static ua.training.top.util.parser.data.CorrectLevel.getLevelHabr;
 
 public class HabrStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(HabrStrategy.class);
-    private static final String URL_FORMAT = "https://career.habr.com/vacancies?%sq=%s%s&sort=date&type=all";
-//    можно удаленно  https://career.habr.com/vacancies?page=2&q=java&remote=true&sort=date&type=all
-//    санкт-петербург https://career.habr.com/vacancies?city_id=679&page=2&q=java&sort=date&type=all
-//                    https://career.habr.com/vacancies?page=2&q=java&city_id=679&sort=date&type=all
+    public static final int maxPages = 3;
+    private static final String URL = "https://career.habr.com/vacancies?%s%sq=%s&qid=%s&%ssort=date&type=all";
+//    https://career.habr.com/vacancies?city_id=679&page=2&q=java&qid=4&remote=true&sort=date&type=all
 
-    protected Document getDocument(String city, String language, String page) {
-        page = page.equals("1") ? "" : "page=".concat(page).concat("&");
-        city = city.equals("удаленно") ? "&remote=true" : "&city_id=".concat(city);
-        return DocumentUtil.getDocument(format(URL_FORMAT, page, language, city));
+    protected Document getDocument(String workplace, String language, String level, String page) {
+        String city = workplace.equals("удаленно") ? "remote=true&" : "city_id=".concat(workplace).concat("&");
+        return DocumentUtil.getDocument(format(URL, city, page.equals("1") ? "" : "page=".concat(page).concat("&"),
+                language, getLevelHabr(level), workplace.equals("удаленно") ? "remote=true&" : ""));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) {
         Set<VacancyTo> set = new LinkedHashSet<>();
+        String workplace = getCityHabr(freshen.getWorkplace());
         try {
-            String city = freshen.getWorkplace();
-            city = city.equals("удаленно") ? city : getCodeHabr(city);
-            if(getCodeHabr(city).equals("-1")){
+            if((workplace).equals("-1")){
                 return new ArrayList<>();
             }
             int page = 1;
             while (true) {
-                Document doc = getDocument(city, freshen.getLanguage(), String.valueOf(page));
+                Document doc = getDocument(workplace, freshen.getLanguage(), freshen.getLevel(), String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesHabr(elements, freshen));
-                if(page < limitCallPages) page++;
+                if(page < Math.min(limitCallPages, maxPages)) page++;
                 else break;
             }
         } catch (Exception e) {

@@ -165,14 +165,39 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "за_рубежем", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "удаленно", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "минск", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
+
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "intern", "за_рубежем", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "junior", "за_рубежем", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "за_рубежем", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "senior", "за_рубежем", UPGRADE));
+
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "intern", "удаленно", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "junior", "удаленно", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "удаленно", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "senior", "удаленно", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "expert", "удаленно", UPGRADE));
+
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "intern", "киев", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "junior", "киев", UPGRADE));
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "киев", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "санкт-петербург", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "польша", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "senior", "киев", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "expert", "киев", UPGRADE));
+
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
+/*
+        String salary = "до $7000";
+        System.out.println("salary="+salary);
+        String correctSalary = getCorrectSalary(xssClear(salary));
+        System.out.println("correctSalary="+correctSalary);
+        int salaryMax = salaryMax(correctSalary, null);
+        System.out.println("salaryMax="+salaryMax);
+*/
     }
 }

@@ -44,7 +44,7 @@ public class PlnUtil {
                 if(salary.contains("day")){
                     return  "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
                 }
-                return "1".concat("—").concat(plnToUsd(String.valueOf((int)(Float.parseFloat(cleaned) * 22))));
+                return  "1".concat("—").concat(plnToUsd(cleaned));
             }
         } catch (NumberFormatException e) {
             log.error("there is exception on getCorrectSalary method during parse line:\n{}\n", salary);

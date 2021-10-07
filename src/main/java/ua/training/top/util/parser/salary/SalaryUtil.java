@@ -16,6 +16,7 @@ public class SalaryUtil {
 
     public static String getCorrectSalary(String salary){
         String temp = validateAndFormat(salary);
+//        System.out.println("temp="+temp);
         try {
             if ((temp.contains("salary:") || temp.contains("pln") || temp.contains("(uop)"))&& !(salary.contains("$") || salary.contains("usd"))) {
                 return getPln(temp);
@@ -32,7 +33,7 @@ public class SalaryUtil {
             if (temp.contains("руб")) {
                 return getRub(temp);
             } else
-            if (temp.contains("грн")) {
+            if (temp.contains("грн")  || temp.contains("uah")) {
                 return getHrn(temp);
             }
         } catch (NumberFormatException e) {

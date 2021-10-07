@@ -11,7 +11,8 @@ public class HrnUtil {
 
     public static String getHrn(String temp){
 
-        String cleaned = getCleaned(temp.substring(0, temp.indexOf("грн")));
+//        String cleaned = getCleaned(temp.substring(0, temp.indexOf("грн")));
+        String cleaned = getCleaned(temp.substring(0, temp.indexOf(temp.contains("uah") ? "k uah" : "грн"))) ;
         if(temp.contains("—")){
             if(cleaned.length() < 4) return "1";
             else return hrnToUsd(cleaned.split("\\W")[0]).concat("—").concat(hrnToUsd(cleaned.split("\\W")[1]));

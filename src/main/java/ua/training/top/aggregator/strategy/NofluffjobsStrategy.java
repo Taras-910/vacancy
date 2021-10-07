@@ -14,34 +14,41 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getNofluffjobsVacancies;
-import static ua.training.top.util.parser.data.CorrectAddress.getCorrectNofluffjobs;
+import static ua.training.top.util.parser.data.CorrectAddress.getCityNofluff;
+import static ua.training.top.util.parser.data.CorrectLevel.getLevelNofluff;
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
-    private static final String URL_FORMAT = "https://nofluffjobs.com/jobs/remote/backend?criteria=category%3Dtesting%20seniority%3Dtrainee,junior,mid,senior,expert%20";
-                                  // pl  https://nofluffjobs.com/pl/jobs/remote/backend?lang=en&criteria=category%3Dtesting%20seniority%3Dmid%20java%20rest%20spring&page=1
-                                  // pl  https://nofluffjobs.com/pl/jobs/remote/backend?lang=en&criteria=category%3Dtesting%20seniority%3Dtrainee,junior,mid,senior,expert%20requirement%3Djava,rest,spring
-    protected Document getDocument(String language, String page) {
-        String URL = URL_FORMAT.concat(language).concat("%20rest%20spring");
-        return DocumentUtil.getDocument(page.equals("1") ? URL : URL.concat("&page=").concat(page));
+    public static final int maxPages = 5;
+    private final static String part_1 = "%3Dtesting%20seniority%3D";
+    private final static String part_2 = "%20requirement%3D";
+    private final static String URL_FORMAT ="https://nofluffjobs.com/pl/praca-it/%sbackend?page=%s&criteria=category%s%s%s%s";
+    //удаленно
+//https://nofluffjobs.com/pl/praca-it/praca-zdalna/backend?page=1&criteria=category%3Dtesting%20seniority%3Dexpert%20requirement%3Djava
+
+    protected Document getDocument(String city, String page, String level, String language) {
+        city = level.equals("intern") ? "" : city;
+        return DocumentUtil.getDocument(format(URL_FORMAT, city, page, part_1, getLevelNofluff(level), part_2, language));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        if(getCorrectNofluffjobs(freshen.getWorkplace()).equals("-1")){
+        String workplace = getCityNofluff(freshen.getWorkplace());
+        if (workplace.equals("-1")) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while (true) {
-            Document doc = getDocument(freshen.getLanguage(), String.valueOf(page));
+            Document doc = getDocument(workplace, String.valueOf(page), freshen.getLevel(), freshen.getLanguage());
             Elements elements = doc == null ? null : doc.getElementsByClass("posting-list-item");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getNofluffjobsVacancies(elements, freshen));
-            if(page < limitCallPages) page++;
+            if (page < Math.min(limitCallPages, maxPages)) page++;
             else break;
         }
         reCall(set.size(), new NofluffjobsStrategy());

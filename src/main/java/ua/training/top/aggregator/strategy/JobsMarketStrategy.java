@@ -21,8 +21,9 @@ import static ua.training.top.util.parser.ElementUtil.getVacanciesJobsMarket;
 
 public class JobsMarketStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsMarketStrategy.class);
+    public static final int maxPages = 5;
     private static final String URL_FORMAT = "https://jobsmarket.io/search?position=%s&page=%s";
-      /*за_рубежем*/
+      /*за_рубежем USA*/
 //    https://jobsmarket.io/search?position=Java%20Developer&page=2
 //    https://jobsmarket.io/search?position=Java%20Backend%20Engineer%20-&page=2
 //    https://jobsmarket.io/search?position=Java%20API%20Developer&page=1
@@ -53,7 +54,7 @@ public class JobsMarketStrategy implements Strategy {
                 Elements elements = doc == null ? null : doc.getElementsByClass("card");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesJobsMarket(elements, freshen));
-                if (page < limitCallPages) page++;
+                if (page < Math.min(limitCallPages, maxPages)) page++;
                 else break;
             }
         }

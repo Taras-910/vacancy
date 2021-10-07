@@ -10,7 +10,7 @@ import java.io.IOException;
 public class DocumentUtil {
     private static Logger log = LoggerFactory.getLogger(DocumentUtil.class);
     public static Document getDocument(String url){
-//        log.info("getDocument url={}", url);
+        log.info("\n\ngetDocument url={}\n\n", url);
         Document document = null;
         try {
             document = Jsoup.connect(url)

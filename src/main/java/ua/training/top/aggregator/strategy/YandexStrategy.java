@@ -17,46 +17,42 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesYandex;
-import static ua.training.top.util.parser.data.CorrectAddress.getCorrectWorkplaceYandex;
+import static ua.training.top.util.parser.data.CorrectAddress.getCityYandex;
+import static ua.training.top.util.parser.data.CorrectLevel.getLevelYandex;
 
 public class YandexStrategy implements Strategy{
     private final static Logger log = LoggerFactory.getLogger(YandexStrategy.class);
-    private static final String URL_FORMAT = "https://rabota.yandex.ru/%s/vakansii/?text=%s%s&top_days=7";
-    private static final String URL_FORMAT_REMOTE = "https://rabota.yandex.ru/ukraina/vakansii/rabota-udalennaya-i-na-domu/?text=%s%s";
+    public static final int maxPages = 5;
+    private static final String URL = "https://rabota.yandex.ru/%s/vakansii%s/?text=%s%s%s&top_days=7%s";
+//    https://rabota.yandex.ru/sankt-peterburg/vakansii/rabota-udalennaya-i-na-domu/?text=java%20intern &page_num=2&top_days=7&experience=FROM_1_TO_2
+//    https://rabota.yandex.ru/%s/vakansii%s/?text=%s%s%s&top_days=7%s
 
-//             https://rabota.yandex.ru/kiev/vakansii/?text=java&page_num=2&top_days=7
-// удаленнo   https://rabota.yandex.ru/search/vakansii/rabota-udalennaya-i-na-domu/?text=java&rid=10001&page_num=2
-
-// удаленно Беларусь https://rabota.yandex.ru/belarus/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
-// удаленно Украина  https://rabota.yandex.ru/ukraina/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&top_days=7
-//                   https://rabota.yandex.ru/ukraina/vakansii/rabota-udalennaya-i-na-domu?text=java&rid=10001&page_num=1
-// удаленно Россия   https://rabota.yandex.ru/rossiya/vakansii/?job_industry=275&schedule=REMOTE_WORK&text=java&page_num=2&top_days=7
-
-    protected Document getDocument(String city, String language, String page) {
-        page = page.equals("1") ? "" : "&page_num=".concat(page);
-        return DocumentUtil.getDocument(city.equals("удаленно") ? format(URL_FORMAT_REMOTE, language, page) :
-                format(URL_FORMAT, city, language, page));
+    protected Document getDocument(String city, String language, String page, String level) {
+        return DocumentUtil.getDocument(format(URL, city.equals("remote") ? "ukraina" : city,
+                city.equals("remote") ? "/rabota-udalennaya-i-na-domu" : "", language,
+                level.equals("intern") ? "%20intern" : "",
+                page.equals("1") ? "" : "&page_num=".concat(page), getLevelYandex(level)));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        String workplace = getCorrectWorkplaceYandex(freshen.getWorkplace());
+        String workplace = getCityYandex(freshen.getWorkplace());
         log.info("workplace={}", workplace);
         if (workplace.equals("-1")) {
             return new ArrayList<>();
         }
         int page = 1;
         while (true) {
-            Document doc = getDocument(workplace, freshen.getLanguage(), String.valueOf(page));
-//            log.info("document={}", doc);
+            Document doc = getDocument(workplace, freshen.getLanguage(), String.valueOf(page), freshen.getLevel());
+//           log.info("document={}\n", doc);
             Elements elements = doc == null ? null : doc.getElementsByClass("serp-vacancy");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesYandex(elements, freshen));
-            if(page < limitCallPages) page++;
+            if(page < Math.min(limitCallPages, maxPages)) page++;
             else break;
         }
 //        reCall(set.size(), new YandexStrategy());
-        return new ArrayList<VacancyTo>(set);
+        return new ArrayList<>(set);
     }
 }

@@ -10,12 +10,16 @@ public class CorrectEmployerName {
 
     public static String getCorrectEmployerName(String companyName){
         if (!hasText(companyName)) {
-            log.error("there is companyName is null");
+            log.error("there is companyName is null: see the card on the link");
             return "see the card on the link";
         }
         companyName = companyName.contains(" Профиль компании") ?
                 companyName.replace("Профиль компании", "").trim() : companyName.trim();
-        return companyName.contains(",") ? companyName.split(",")[0].trim() : companyName;
+        if(companyName.contains(",")) {
+            String[] parts = companyName.split(",");
+            companyName = parts.length > 1 ? parts[0].trim() : companyName;
+        }
+        return companyName;
     }
 
  /*   public static String getCorrectEmployerNameYandex(String companyName){

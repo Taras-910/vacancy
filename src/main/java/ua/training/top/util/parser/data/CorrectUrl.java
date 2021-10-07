@@ -14,7 +14,7 @@ public class CorrectUrl {
                 break;
             case "jooble"     : prefix = "https://ua.jooble.org/jdp/";
                 break;
-            case "Indeed"     : prefix = "https://ua.indeed.com/описание-вакансии?jk=";
+            case "indeed"     : prefix = "https://ua.indeed.com/описание-вакансии?jk=";
                 break;
             case "rabota"     : prefix = "https://rabota.ua";
                 break;

@@ -12,7 +12,7 @@ public class CheckUtil {
 
     public static boolean checkSalary(String salary) {
         return (salary.contains("грн") || salary.contains("$") || salary.contains("usd") || salary.contains("eur")
-                || salary.contains("€") || salary.contains("pln")
+                || salary.contains("€") || salary.contains("pln")|| salary.contains("uah")
                 || salary.contains("gbp") || salary.contains("£") || salary.contains("₤")
                 || salary.contains("salary:")) && salary.matches(".*?\\d.*\\n?");
     }
