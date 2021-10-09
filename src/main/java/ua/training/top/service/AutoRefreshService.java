@@ -25,17 +25,18 @@ public class AutoRefreshService {
     private FreshenService service;
 
 //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
-    @Scheduled(cron = "0 0,10,20,30,40,50 6-20 * * MON-SAT")
-//    @Scheduled(cron = "0 0,15,30,45 6-20 * * MON-SAT")
+//    @Scheduled(cron = "0 0,10,20,30,40,50 6-20 * * MON-SAT")
+    @Scheduled(cron = "0 0,15,30,45 6-20 * * MON-SAT")
     public void weekDay() {
 //        int delayWithinMinutes = 4;
-        int delayWithinMinutes = 9;
-//        int delayWithinMinutes = 14;
+//        int delayWithinMinutes = 9;
+        int delayWithinMinutes = 14;
         log.info("someTimesByHour delayWithinMinutes={}", delayWithinMinutes);
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(10)), mapLevel.get(getKey(2)))));
+        String level = mapLevel.get(getKey(2));
+        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(level.equals("trainee") ? 4 : 10)), level)));
         offAutoRefreshProviders();
     }
 
