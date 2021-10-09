@@ -31,6 +31,7 @@ public class GrcStrategy implements Strategy {
 
     protected Document getDocument(String city, String language, String level, String page) {
         page = page.equals("0")? "" : "&page=".concat(page);
+        level = level.equals("trainee") ? "intern" : level;
         return DocumentUtil.getDocument(city.equals("schedule=remote") ?
                 format(URL_FORMAT, language, level, city, page) : format(URL_FORMAT, language, city, level, page));
     }

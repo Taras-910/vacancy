@@ -34,7 +34,7 @@ public class RabotaStrategy implements Strategy {
     }
 
     private Object getSheduled(String workplace, String level) {
-        return workplace.equals("удаленно") ? "3" : level.equals("intern") ? "4" : "1";
+        return workplace.equals("удаленно") ? "3" : level.equals("trainee") ? "4" : "1";
     }
 
     @Override

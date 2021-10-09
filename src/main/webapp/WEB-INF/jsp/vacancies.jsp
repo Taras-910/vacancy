@@ -39,11 +39,11 @@
                                 <input class="form-control" type="text" name="level" id="level" list="level_name" style="width:101%;border:2px solid #0397ba">
                                 <datalist id="level_name">
                                     <option value='all' selected>all</option>
-                                    <option value='Intern'>Intern (стажировка)</option>
+                                    <option value='Trainee'>Trainee</option>
                                     <option value='Junior'>Junior</option>
                                     <option value='Middle'>Middle</option>
                                     <option value='Senior'>Senior</option>
-                                    <option value='expert'>Expert</option>
+                                    <option value='Expert'>Expert</option>
                                 </datalist>
                             </div>
                             <div class="col-md-4 mb-3 col-form-label">
@@ -316,11 +316,11 @@
                         <label for="levelTask"><h7 class="btn-outline-info"><em>Junior, Middle, Senior...</em></h7></label>
                         <input class="form-control" type="text" name="level" id="levelTask" list="level_2">
                         <datalist id="level_2">
-                            <option value='Intern'>Intern (стажировка)</option>
+                            <option value='Trainee'>Trainee</option>
                             <option value='Junior'>Junior</option>
                             <option value='Middle'>Middle</option>
                             <option value='Senior'>Senior</option>
-                            <option value='expert'>Expert</option>
+                            <option value='Expert'>Expert</option>
                         </datalist>
                     </div>
                     <div class="form-group">

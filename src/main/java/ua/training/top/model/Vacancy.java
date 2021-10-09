@@ -155,13 +155,13 @@ public class Vacancy extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vacancy vacancy = (Vacancy) o;
-        return  Objects.equals(title, vacancy.title) &&
-                Objects.equals(skills, vacancy.skills);
+        return  Objects.equals(title.toLowerCase(), vacancy.title.toLowerCase()) &&
+                Objects.equals(skills.toLowerCase(), vacancy.skills.toLowerCase());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, skills);
+        return Objects.hash(title.toLowerCase(), skills.toLowerCase());
     }
 
     @Override

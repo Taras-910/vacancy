@@ -39,9 +39,9 @@ public class InstallationUtil {
         InstallationUtil.testProvider = false;
     }
 
-    public static boolean scheduledRandomProviders = false;
-    public static void setRandomProviders() { InstallationUtil.scheduledRandomProviders = true; }
-    public static void offRandomProviders() { InstallationUtil.scheduledRandomProviders = false; }
+    public static boolean autoRefreshProviders = false;
+    public static void setAutoRefreshProviders() { InstallationUtil.autoRefreshProviders = true; }
+    public static void offAutoRefreshProviders() { InstallationUtil.autoRefreshProviders = false; }
 
     public static void setTestFreshenPerHour() {
         InstallationUtil.freshenPerHour = 180;

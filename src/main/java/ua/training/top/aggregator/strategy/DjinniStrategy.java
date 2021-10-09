@@ -31,7 +31,7 @@ public class DjinniStrategy implements Strategy{
 
     protected Document getDocument(String city, String language, String page, String level) {
         page = page.equals("1") ? "" : "?page=".concat(page);
-        return DocumentUtil.getDocument(format(URL_FORMAT, language, city, level.equals("intern") ? "?exp_level=no_exp" : page));
+        return DocumentUtil.getDocument(format(URL_FORMAT, language, city, level.equals("trainee") ? "?exp_level=no_exp" : page));
     }
 
     @Override
@@ -53,6 +53,6 @@ public class DjinniStrategy implements Strategy{
             else break;
         }
         reCall(set.size(), new DjinniStrategy());
-        return new ArrayList<VacancyTo>(set);
+        return new ArrayList<>(set);
     }
 }

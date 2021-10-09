@@ -9,7 +9,6 @@ import static java.util.Collections.singleton;
 import static org.springframework.util.StringUtils.hasText;
 import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.model.Goal.UPGRADE;
-import static ua.training.top.util.UserUtil.ADMIN_ID;
 
 public class FreshenUtil {
     public static final String FRESHEN_NOT_BE_NULL = "freshen must not be null";
@@ -26,9 +25,5 @@ public class FreshenUtil {
 
     public static Freshen asNewFreshen(String language, String level, String workplace, Goal goal){
         return new Freshen(null, now(), language, level, workplace, singleton(goal == null ? UPGRADE : goal), authUserId());
-    }
-
-    public static  Freshen scheduledFreshen(String workplace) {
-        return new Freshen(null, now(), "java", "middle", workplace, singleton(UPGRADE), ADMIN_ID);
     }
 }

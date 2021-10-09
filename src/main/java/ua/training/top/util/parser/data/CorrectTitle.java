@@ -10,7 +10,7 @@ public class CorrectTitle {
     public static final Logger log = LoggerFactory.getLogger(CorrectTitle.class);
     public static String getCorrectTitle(String title) {
         if (!hasText(title)) {
-            log.error("there is title is null");
+            log.error("there is title is null: see the card on the link");
             return "see the card on the link";
         }
         title = title.contains("(ID") ? title.substring(0, title.indexOf("(ID")).trim() : title;
@@ -18,7 +18,8 @@ public class CorrectTitle {
         return title.contains("Java Script") ? title.replaceAll("Java Script", "JavaScript") : title;
     }
 
-    public static String getIntern(String title, Freshen freshen) {
-        return freshen.getLevel().equals("intern") ? title.concat(" (стажировка)") : title;
+    public static String addLabelToTitle(String title, Freshen freshen) {
+        return freshen.getLevel().equals("trainee") && !title.toLowerCase().contains("trainee") ?
+                title.concat(" (trainee)") : title;
     }
 }

@@ -27,7 +27,8 @@ public class UAIndeedStrategy implements Strategy {
     //    https://ua.indeed.com/jobs?q=%s%s&l=Украина&rbl=%s&jlid=e9ab1a23f8e591f1&limit=50&sort=date&fromage=7&%s
 
     protected Document getDocument(String city, String language, String level, int page) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, language, level, city, page == 0 ? "" : "start=".concat(String.valueOf(page*50))));
+        return DocumentUtil.getDocument(format(URL_FORMAT, language, level.equals("trainee") ? "intern" : level,
+                city, page == 0 ? "" : "start=".concat(String.valueOf(page*50))));
     }
 
     @Override

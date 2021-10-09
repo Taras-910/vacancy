@@ -16,7 +16,6 @@ import ua.training.top.util.AggregatorUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
@@ -24,11 +23,9 @@ import static ua.training.top.aggregator.installation.InstallationUtil.limitVaca
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.model.Goal.FILTER;
-import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.*;
 import static ua.training.top.util.EmployerUtil.getEmployerMap;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.getTos;
 
@@ -90,6 +87,7 @@ public class AggregatorService {
         deleteFreshensOutdated(freshenService.getAll(), reasonPeriodToKeep);
         deleteVacanciesOutLimitedHeroku(limitVacanciesToKeep);
         employerService.deleteEmptyEmployers();
+        log.info("upgrade DB finished successfully for Freshen: {}\n<:::::::::::::::::::::::::::::::::::>\n", freshenCreated);
     }
 
     public Map<String, Employer> getMapAllEmployers(List<VacancyTo> vacancyTos){
@@ -165,12 +163,17 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "минск", UPGRADE));
+
+
+        System.out.println("abcd".indexOf("c") );
+
+
+/*//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "минск", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "санкт-петербург", UPGRADE));
 
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "intern", "за_рубежем", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "junior", "за_рубежем", UPGRADE));
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "за_рубежем", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "за_рубежем", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "senior", "за_рубежем", UPGRADE));
 
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "intern", "удаленно", UPGRADE));
@@ -181,7 +184,7 @@ public class AggregatorService {
 
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "intern", "киев", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "junior", "киев", UPGRADE));
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "киев", UPGRADE));
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "киев", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "санкт-петербург", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "польша", UPGRADE));
 //        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "senior", "киев", UPGRADE));
@@ -189,7 +192,7 @@ public class AggregatorService {
 
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
-        log.info("\n\ncommon = {}", vacancyTos.size());
+        log.info("\n\ncommon = {}", vacancyTos.size());*/
 
 /*
         String salary = "до $7000";

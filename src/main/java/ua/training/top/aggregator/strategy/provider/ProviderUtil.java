@@ -6,10 +6,10 @@ import ua.training.top.aggregator.Provider;
 import ua.training.top.aggregator.strategy.*;
 import ua.training.top.repository.AggregatorRepository;
 
-import static ua.training.top.aggregator.installation.InstallationUtil.scheduledRandomProviders;
+import static ua.training.top.aggregator.installation.InstallationUtil.autoRefreshProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.testProvider;
-import static ua.training.top.util.ScheduledUtil.getKey;
-import static ua.training.top.util.ScheduledUtil.mapStrategies;
+import static ua.training.top.util.AutoRefreshUtil.getKey;
+import static ua.training.top.util.AutoRefreshUtil.mapStrategies;
 
 public class ProviderUtil {
     public static final Logger log = LoggerFactory.getLogger(ProviderUtil.class);
@@ -18,7 +18,8 @@ public class ProviderUtil {
         if (testProvider) {
             return new AggregatorRepository(new Provider(new TestStrategy()));
         }
-        else if (scheduledRandomProviders) {
+        else if (autoRefreshProviders) {
+            log.info("autoRefreshProviders");
             return new AggregatorRepository(
                     mapStrategies.get(getKey(4)),
                     mapStrategies.get(getKey(4) + 4),
@@ -31,11 +32,13 @@ public class ProviderUtil {
                     new Provider(new GrcStrategy()),          /*нет за_рубежем, меняет salary*/
                     new Provider(new HabrStrategy()),         /*нет за_рубежем*/
                     new Provider(new JobsMarketStrategy()),   /*ТОЛЬКО за_рубежем USA!!!*/
+
                     new Provider(new JobsStrategy()),         /*полезные статьи*/
                     new Provider(new LinkedinStrategy()),     /*нет удаленно*/
-                    new Provider(new NofluffjobsStrategy()),  /*за_рубежем Poland*/
-                    new Provider(new RabotaStrategy()),       /*Украина и мало за_рубежем*/
-                    new Provider(new UAIndeedStrategy()),     /*Украина ТОЛЬКО нет за_рубежем*/
+                    new Provider(new NofluffjobsStrategy()),  /*ТОЛЬКО за_рубежем Poland*/
+                    new Provider(new RabotaStrategy()),       /*мало за_рубежем Украина */
+
+                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
                     new Provider(new WorkStrategy()),         /*нет за_рубежем*/
                     new Provider(new YandexStrategy())        /*нет за_рубежем*/

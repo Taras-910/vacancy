@@ -31,7 +31,6 @@ public class JobsMarketStrategy implements Strategy {
 //    Kotlin%20Developer
 //    https://jobsmarket.io/search?position=Kotlin%2FReact%20Fullstack%20Developer%20(m%2Fw%2Fd)
 
-
     protected Document getDocument(String position, String page) {
         return DocumentUtil.getDocument(format(URL_FORMAT, position, page));
     }

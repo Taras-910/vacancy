@@ -19,8 +19,8 @@ import static ua.training.top.util.VacancyCheckUtil.getMatchesLanguage;
 import static ua.training.top.util.parser.data.CorrectAddress.*;
 import static ua.training.top.util.parser.data.CorrectEmployerName.getCorrectEmployerName;
 import static ua.training.top.util.parser.data.CorrectSkills.getCorrectSkills;
+import static ua.training.top.util.parser.data.CorrectTitle.addLabelToTitle;
 import static ua.training.top.util.parser.data.CorrectTitle.getCorrectTitle;
-import static ua.training.top.util.parser.data.CorrectTitle.getIntern;
 import static ua.training.top.util.parser.data.CorrectUrl.getCorrectUrl;
 import static ua.training.top.util.parser.data.CorrectUrl.getCorrectUrlYandex;
 import static ua.training.top.util.parser.date.DateUtil.*;
@@ -43,7 +43,7 @@ public class ElementUtil {
                     skills = getCorrectSkills(xssClear(element.getElementsByClass("list-jobs__description").text().trim()));
                     if (/*getMatchesLanguage(freshen, title, skills) && skills.length() > 2*/ true) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text().trim())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByAttributeValueStarting("class","location-text").text())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("public-salary-item").text().trim())), element));
@@ -71,7 +71,7 @@ public class ElementUtil {
                     skills = getCorrectSkills(xssClear(element.getElementsByClass("g-user-content").text().trim().toLowerCase()));
                     if (/*getMatchesLanguage(freshen, title, skills) &&*/ skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByAttributeValue("data-qa","vacancy-serp__vacancy-employer").text().trim())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("vacancy-serp-item__sidebar").text().trim())), element));
@@ -99,7 +99,7 @@ public class ElementUtil {
                     skills = getCorrectSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("vacancy-card__meta").tagName("a").first().text())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("basic-salary").text().trim())), element));
@@ -155,7 +155,7 @@ public class ElementUtil {
                 skills = getCorrectSkills(xssClear(element.getElementsByClass("sh-info").text().trim()));
                 if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                     VacancyTo v = new VacancyTo();
-                    v.setTitle(getIntern(title, freshen));
+                    v.setTitle(addLabelToTitle(title, freshen));
                     v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByTag("a").last().text().trim())));
                     v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("cities").text().trim())));
                     v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim())), element));
@@ -181,7 +181,7 @@ public class ElementUtil {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("base-search-card__title").text().trim()));
                     if (/*title.toLowerCase().matches(".*\\b" + freshen.getLanguage() + "\\b.*")*/ true) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("base-search-card__subtitle").tagName("a").text().trim())));
                         v.setAddress(getCorrectAddress(getToLinkedin(xssClear(element.getElementsByClass("job-search-card__location").text().trim()))));
                         v.setSalaryMax(1);
@@ -210,7 +210,7 @@ public class ElementUtil {
                     title = title.toLowerCase().contains("trainee") || title.toLowerCase().contains("intern") ? "(стажировка)".concat(title) : title;
                     if (/*getMatchesLanguage(freshen, title, "null")*/ true) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(xssClear(element.getElementsByClass("posting-title__company").text()).substring(2).trim());
                         v.setAddress(getToNofluffjobs(xssClear(element.getElementsByTag("nfj-posting-item-city").text())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByAttributeValueStarting("class", "text-truncate badgy salary").text().trim())), element));
@@ -239,7 +239,7 @@ public class ElementUtil {
                     skills = getCorrectSkills(xssClear(element.getElementsByClass("card-description").text().trim()));
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("company-name").text().trim())));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("location").text().trim())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("salary").text().trim())), element));
@@ -307,7 +307,7 @@ public class ElementUtil {
                     title = title.toLowerCase().contains("рекрутер") ? title.concat(", junior") : title;
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
 //                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("_786d5").text().trim())));
 //                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("GoodEmployerWidget_company__Ya0gV").text().trim())));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("efaa8").text().trim())));
@@ -346,7 +346,7 @@ public class ElementUtil {
                             employerName = xssClear(element.getElementsByClass("add-top-xs").tagName("span").tagName("b").eachText().get(0));
                             log.info("other tag employerName={}", employerName);
                         }
-                        v.setTitle(getIntern(title, freshen));
+                        v.setTitle(addLabelToTitle(title, freshen));
                         v.setEmployerName(getCorrectEmployerName(employerName));
                         v.setAddress(getCorrectAddress(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text())));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("b").tagName("b").first().text().trim())), element));
@@ -375,12 +375,7 @@ public class ElementUtil {
                     if (getMatchesLanguage(freshen, title, skills) && skills.length() > 2) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(title);
-
-
-//                        v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text().trim())));
                         v.setEmployerName(getCorrectEmployerName(xssClear(element.getElementsByClass("serp-vacancy__company").text().trim())));
-
-
                         address = xssClear(element.select("div.address").text().trim());
                         v.setAddress(getCorrectAddress(getToYandex(address, freshen)));
                         v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("serp-vacancy__salary").text().trim())), element));

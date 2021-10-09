@@ -30,7 +30,7 @@ public class YandexStrategy implements Strategy{
     protected Document getDocument(String city, String language, String page, String level) {
         return DocumentUtil.getDocument(format(URL, city.equals("remote") ? "ukraina" : city,
                 city.equals("remote") ? "/rabota-udalennaya-i-na-domu" : "", language,
-                level.equals("intern") ? "%20intern" : "",
+                level.equals("trainee") ? "%20intern" : "",
                 page.equals("1") ? "" : "&page_num=".concat(page), getLevelYandex(level)));
     }
 
