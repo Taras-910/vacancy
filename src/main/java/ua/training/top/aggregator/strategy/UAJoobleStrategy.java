@@ -43,7 +43,7 @@ public class UAJoobleStrategy implements Strategy {
         if (!isMatchesRu(freshen.getWorkplace())) {
             return new ArrayList<>();
         }
-        String[] workplaces = workplace.equals("за_рубежем") ? getForeignJooble() : new String[]{workplace};
+        String[] workplaces = workplace.equals("foreign") ? getForeignJooble() : new String[]{workplace};
         List<VacancyTo> result = new ArrayList<>();
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String location : workplaces) {
@@ -62,7 +62,7 @@ public class UAJoobleStrategy implements Strategy {
     }
 
     public static boolean getLimitJooble(Freshen freshen) {
-        return freshen.getWorkplace().equals("за_рубежем") || freshen.getLevel().equals("intern") || freshen.getLevel().equals("junior");
+        return freshen.getWorkplace().equals("foreign") || freshen.getLevel().equals("trainee") || freshen.getLevel().equals("junior");
     }
 
     public static String[] getForeignJooble() {

@@ -27,9 +27,9 @@ public class HabrStrategy implements Strategy {
 //    https://career.habr.com/vacancies?city_id=679&page=2&q=java&qid=4&remote=true&sort=date&type=all
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-        String city = workplace.equals("удаленно") ? "remote=true&" : "city_id=".concat(workplace).concat("&");
+        String city = workplace.equals("remote") ? "remote=true&" : "city_id=".concat(workplace).concat("&");
         return DocumentUtil.getDocument(format(URL, city, page.equals("1") ? "" : "page=".concat(page).concat("&"),
-                language, getLevelHabr(level), workplace.equals("удаленно") ? "remote=true&" : ""));
+                language, getLevelHabr(level), workplace.equals("remote") ? "remote=true&" : ""));
     }
 
     @Override

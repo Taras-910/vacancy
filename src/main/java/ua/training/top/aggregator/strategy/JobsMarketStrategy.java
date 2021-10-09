@@ -22,7 +22,7 @@ import static ua.training.top.util.parser.ElementUtil.getVacanciesJobsMarket;
 public class JobsMarketStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsMarketStrategy.class);
     public static final int maxPages = 5;
-    private static final String URL_FORMAT = "https://jobsmarket.io/search?position=%s&page=%s";
+    private static final String URL = "https://jobsmarket.io/search?position=%s&page=%s";
       /*за_рубежем USA*/
 //    https://jobsmarket.io/search?position=Java%20Developer&page=2
 //    https://jobsmarket.io/search?position=Java%20Backend%20Engineer%20-&page=2
@@ -32,7 +32,7 @@ public class JobsMarketStrategy implements Strategy {
 //    https://jobsmarket.io/search?position=Kotlin%2FReact%20Fullstack%20Developer%20(m%2Fw%2Fd)
 
     protected Document getDocument(String position, String page) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, position, page));
+        return DocumentUtil.getDocument(format(URL, position, page));
     }
 
     @Override

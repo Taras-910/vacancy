@@ -87,7 +87,7 @@ public class AggregatorService {
         deleteFreshensOutdated(freshenService.getAll(), reasonPeriodToKeep);
         deleteVacanciesOutLimitedHeroku(limitVacanciesToKeep);
         employerService.deleteEmptyEmployers();
-        log.info("upgrade DB finished successfully for Freshen: {}\n<:::::::::::::::::::::::::::::::::::>\n", freshenCreated);
+        log.info("upgrade finished successfully for Freshen: {}\n<================================>\n", freshenCreated);
     }
 
     public Map<String, Employer> getMapAllEmployers(List<VacancyTo> vacancyTos){

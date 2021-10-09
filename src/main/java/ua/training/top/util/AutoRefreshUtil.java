@@ -50,8 +50,8 @@ public class AutoRefreshUtil {
 
     public static final Map<Integer, String> mapWorkplace =
             Map.of(
-                    0, "удаленно",
-                    1, "за_рубежем",
+                    0, "remote",
+                    1, "foreign",
                     2, "киев",
                     3, "украина",
                     4, "харьков",

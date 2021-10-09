@@ -37,7 +37,7 @@ public class DjinniStrategy implements Strategy{
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        String city = freshen.getWorkplace().equals("за_рубежем") || freshen.getWorkplace().equals("удаленно") ?
+        String city = freshen.getWorkplace().equals("foreign") || freshen.getWorkplace().equals("remote") ?
                 "relocate" : getTranslated(freshen.getWorkplace());
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (city.equals("-1")) {

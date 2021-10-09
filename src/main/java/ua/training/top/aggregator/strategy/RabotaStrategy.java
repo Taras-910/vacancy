@@ -34,7 +34,7 @@ public class RabotaStrategy implements Strategy {
     }
 
     private Object getSheduled(String workplace, String level) {
-        return workplace.equals("удаленно") ? "3" : level.equals("trainee") ? "4" : "1";
+        return workplace.equals("remote") ? "3" : level.equals("trainee") ? "4" : "1";
     }
 
     @Override
@@ -51,7 +51,7 @@ public class RabotaStrategy implements Strategy {
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesRabota(elements, freshen));
-            if(page < Math.min(limitCallPages, maxPages) && !city.equals("за_рубежем")) page++;
+            if(page < Math.min(limitCallPages, maxPages) && !city.equals("foreign")) page++;
             else break;
         }
         reCall(set.size(), new RabotaStrategy());

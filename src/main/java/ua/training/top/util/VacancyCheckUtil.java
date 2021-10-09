@@ -13,8 +13,8 @@ public class VacancyCheckUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyCheckUtil.class) ;
     public static final String URL_MATCHER = "^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$";
     public static final String EMAIL_MATCHER ="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-    public static final String EMAIL_ERROR_MESSAGE = "[email] должен иметь формат адреса электронной почты";
-    public static final String URL_ERROR_MESSAGE = "[url] должен иметь формат URL или доменное имя";
+    public static final String EMAIL_ERROR_MESSAGE = "[email] must be in the format of an email address";
+    public static final String URL_ERROR_MESSAGE = "[url] must be in URL or domain name format";
     public static final String USER_EXIST_MESSAGE = "User with this meal already exist";
     public static final String LOGIN_MESSAGE = "?message=You are already registered. Please Sign in&username=";
 

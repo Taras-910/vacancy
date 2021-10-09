@@ -34,7 +34,7 @@ public class CorrectAddress {
             case "польща", "польша" -> city = "74";
             case "україна", "украина" -> city = "5";
         }
-        return city.equals("удаленно") ? "schedule=remote" : "area=".concat(city);
+        return city.equals("remote") ? "schedule=remote" : "area=".concat(city);
     }
 
     public static String getCityHabr(String city){
@@ -54,7 +54,7 @@ public class CorrectAddress {
             case "самара" -> city = "728";
             case "ульяновск" -> city = "739";
             case "воронеж" -> city = "692";
-            case "удаленно" -> city = "удаленно";
+            case "remote" -> city = "remote";
             default -> city = "-1";
         }
         return city;
@@ -76,7 +76,7 @@ public class CorrectAddress {
             case "івано-франківськ", "ивано-франковск" -> city = "Івано-Франківськ";
             case "ужгород" -> city = "Ужгород";
             case "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "екатеринбург", "краснодар",
-                    "пермь", "ростов-на-дону", "томск", "самара", "ульяновск" -> city = "за_рубежем";
+                    "пермь", "ростов-на-дону", "томск", "самара", "ульяновск" -> city = "foreign";
         }
         return city;
     }
@@ -165,7 +165,7 @@ public class CorrectAddress {
             case "харьків", "харьков" -> city = "харьков";
             case "ізраїль", "израиль", "швейцарія", "швейцария", "франція", "франция", "італія", "италия", "сінгапур",
                     "сингапур", "англія", "англия", "емірати", "эмираты", "канада", "польща", "польша", "німеччина",
-                    "германия", "чехія", "чехия", "швеція", "швеция", "фінляндія", "финляндия", "россия", "за_рубежем"
+                    "германия", "чехія", "чехия", "швеція", "швеция", "фінляндія", "финляндия", "россия", "foreign"
                     -> city = "другие_страны";
             default -> city = "украина";
         }
@@ -191,10 +191,9 @@ public class CorrectAddress {
             case "мінськ", "минск" -> city = "Мінськ%2C%20Білорусь";
             case "варшава" -> city = "Варшава%2C%20Польща";
             case "краків", "краков" -> city = "Краків%2C%20Польща";
-            case "удаленно" -> city = "&loc=2";
-            case "за_рубежем" -> city = "за%20кордоном";
+            case "foreign" -> city = "за%20кордоном";
         }
-        return city.equals("удаленно") ? city : "&rgns=".concat(city);
+        return city.equals("remote") ? "&loc=2" : "&rgns=".concat(city);
     }
 
     public static String getCityWork(String workspace) {
@@ -203,7 +202,7 @@ public class CorrectAddress {
 
     public static String getCityYandex(String city){
         switch (city) {
-            case "удаленно" -> city = "remote";
+            case "remote" -> city = "remote";
             case "киев","київ","kiev" -> city = "kiev";
             case "санкт-петербург" -> city = "sankt-peterburg";
             case "москва" -> city = "moskva";
@@ -234,7 +233,7 @@ public class CorrectAddress {
     public static String getCorrectAddress(String city){
         city = city.contains("Агломерация") ? city.replace("Агломерация", "агломерация") : city;
         city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
-        city = city.contains("віддалено") ? city.replaceAll("віддалено", "удаленно") : city;
+        city = city.contains("віддалено") ? city.replaceAll("віддалено", "remote") : city;
         switch (city.toLowerCase()) {
             case "київ", "киев" -> city = "Киев";
             case "дніпро", "днепр" -> city = "Днепр";
@@ -250,7 +249,7 @@ public class CorrectAddress {
             case "ужгород" -> city = "Ужгород";
             case "мінськ", "минск" -> city = "Минск";
             case "другие страны" -> city = "за_рубежем";
-            case "удаленно", "віддалена робота", "no location" -> city = "удаленно";
+            case "remote", "удаленно", "віддалена робота", "no location" -> city = "remote";
             default -> city = city == null || city.equals("") || city.length() < 2 ?
                     city : city.substring(0, 1).toUpperCase().concat(city.substring(1));
         }
@@ -272,7 +271,7 @@ public class CorrectAddress {
             case "чернігів", "чернигов" -> city = "chernigiv";
             case "івано-франківськ", "ивано-франковск" -> city = "ivano-frankivsk";
             case "ужгород" -> city = "uzhgorod";
-            case "удаленно" -> city = "remote";
+            case "remote" -> city = "remote";
             case "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "екатеринбург", "краснодар",
                     "пермь", "минск", "ростов-на-дону", "томск", "самара", "ульяновск", "воронеж" -> city = "-1";
             default -> city = "other";

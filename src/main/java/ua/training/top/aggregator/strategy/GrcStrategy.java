@@ -39,7 +39,7 @@ public class GrcStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        String[] workplaces = freshen.getWorkplace().equals("за_рубежем") ?
+        String[] workplaces = freshen.getWorkplace().equals("foreign") ?
                 new String[]{"израиль", "сша", "германия", "швеция", "норвегия", "польша"} : new String[]{freshen.getWorkplace()};
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String city : workplaces) {

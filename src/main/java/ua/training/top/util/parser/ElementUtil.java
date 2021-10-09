@@ -207,7 +207,6 @@ public class ElementUtil {
                 LocalDate localDate = getDateNofluffjobs(element.getElementsByClass("new-label").text());
                 if(localDate.isAfter(reasonDateToLoad)) {
                     String title = getCorrectTitle(xssClear(element.getElementsByClass("posting-title__position").text().trim()));
-                    title = title.toLowerCase().contains("trainee") || title.toLowerCase().contains("intern") ? "(стажировка)".concat(title) : title;
                     if (/*getMatchesLanguage(freshen, title, "null")*/ true) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(addLabelToTitle(title, freshen));

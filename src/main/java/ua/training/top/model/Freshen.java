@@ -144,13 +144,13 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Freshen freshen = (Freshen) o;
 
-        return language.equals(freshen.language) && level.equals(freshen.level )&& workplace.equals(freshen.workplace);
+        return language.toLowerCase().equalsIgnoreCase(freshen.language)
+                && level.equalsIgnoreCase(freshen.level )
+                && workplace.equalsIgnoreCase(freshen.workplace);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(language, level, workplace);
+        return Objects.hash(language.toLowerCase(), level.toLowerCase(), workplace.toLowerCase());
     }
-
-
 }

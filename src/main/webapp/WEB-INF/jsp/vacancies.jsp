@@ -15,11 +15,12 @@
         <div class="card border-dark">
             <div class="card-body pb-1" style="width:100%; background-color: #e5e7e7">
                 <div class="container rounded-lg" style="width:90%;">
-                    <div class="row justify-content-md-between align-items-center">
-                        <form class="col-8 form-row needs-validation" id="filter">
+                    <div class="row justify-content-md-between align-items-center align-items-baseline">
+                        <form class="col-sm-8 form-row needs-validation" id="filter">
                             <div class="col-md-4 mb-3 col-form-label">
-                                <label for="language"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
-                                <input class="form-control" type="text" name="language" id="language" list="language_name" style="width:98%;border:2px solid #0397ba">
+                                <input class="form-control" type="text" name="language" id="language"
+                                       list="language_name" style="width:98%;border:2px solid #0397ba"
+                                       placeholder="enter language">
                                 <datalist id="language_name">
                                     <option value='all' selected>all</option>
                                     <option value='Java'>Java</option>
@@ -35,8 +36,9 @@
                                 </datalist>
                             </div>
                             <div class="col-md-4 mb-3 col-form-label">
-                                <label for="level"><h7 class="btn-outline-info"><em>Junior, Middle, Senior...</em></h7></label>
-                                <input class="form-control" type="text" name="level" id="level" list="level_name" style="width:101%;border:2px solid #0397ba">
+                                <input class="form-control" type="text" name="level" id="level" list="level_name"
+                                       style="width:101%;border:2px solid #0397ba"
+                                       placeholder="enter level">
                                 <datalist id="level_name">
                                     <option value='all' selected>all</option>
                                     <option value='Trainee'>Trainee</option>
@@ -47,8 +49,9 @@
                                 </datalist>
                             </div>
                             <div class="col-md-4 mb-3 col-form-label">
-                                <label for="workplace"><h7 class="btn-outline-info"><em>Киев, удаленно, за_рубежем...</em></h7></label>
-                                <input class="form-control" type="text" name="workplace" id="workplace" list="city_name" style="width:101%;border:2px solid #0397ba">
+                                <input class="form-control" type="text" name="workplace" id="workplace" list="city_name"
+                                       style="width:101%;border:2px solid #0397ba"
+                                       placeholder="enter your own workplace">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
                                     <option value='Киев'>Киев</option>
@@ -58,8 +61,8 @@
                                     <option value='Харьков'>Харьков</option>
                                     <option value='Днепр'>Днепр</option>
                                     <option value='Украина'>Украина</option>
-                                    <option value='удаленно'>удаленно</option>
-                                    <option value='за_рубежем'>за_рубежем</option>
+                                    <option value='remote'>remote</option>
+                                    <option value='foreign'>foreign</option>
                                 </datalist>
                             </div>
                         </form>
@@ -75,7 +78,6 @@
                                 Сбросить
                             </button>
                         </div>
-
                     </div>
                     <div class="row justify-content-md-center count1">
                         <em class="btn-outline-info"><label class="count1" id="count1"> Сегодня опубликовано новых вакансий :   </label></em>
@@ -86,7 +88,7 @@
             </div>
         </div>
         <div class="card-body pb-0">
-            <div class="row card-footer justify-content-between" style="width: 103%">
+        <div class="row card-footer justify-content-between" style="width: 103%">
                 <div class="col">
                 <sec:authorize access="hasRole('ADMIN')">
                     <button class="col-md-2 btn btn-primary mt-2" onclick="add()">
@@ -297,8 +299,8 @@
                         <input type="hidden" class="form-control" id="recordedDate" name="recordedDate">
                     </div>
                     <div class="form-group">
-                        <label for="languageTask"><h7 class="btn-outline-info"><em>Java, Php, Ruby...</em></h7></label>
-                        <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2">
+                        <label for="languageTask"><h7 class="btn-outline-info"><em>please print language...</em></h7></label>
+                        <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2" placeholder="enter language">
                         <datalist id="language_name_2">
                             <option value='Java'>Java</option>
                             <option value='Php'>Php</option>
@@ -313,8 +315,8 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="levelTask"><h7 class="btn-outline-info"><em>Junior, Middle, Senior...</em></h7></label>
-                        <input class="form-control" type="text" name="level" id="levelTask" list="level_2">
+                        <label for="levelTask"><h7 class="btn-outline-info"><em>level...</em></h7></label>
+                        <input class="form-control" type="text" name="level" id="levelTask" list="level_2" placeholder="enter level">
                         <datalist id="level_2">
                             <option value='Trainee'>Trainee</option>
                             <option value='Junior'>Junior</option>
@@ -324,8 +326,8 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>Киев, удаленно, за_рубежем...</em></h7></label>
-                        <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>location...</em></h7></label>
+                        <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2" placeholder="enter your own workplace">
                         <datalist id="city_name_2">
                             <option value='Киев'>Киев</option>
                             <option value='Минск'>Минск</option>
@@ -334,8 +336,8 @@
                             <option value='Харьков'>Харьков</option>
                             <option value='Днепр'>Днепр</option>
                             <option value='Украина'>Украина</option>
-                            <option value='удаленно'>удаленно</option>
-                            <option value='за_рубежем'>за_рубежем</option>
+                            <option value='remote'>remote</option>
+                            <option value='foreign'>foreign</option>
                         </datalist>
                     </div>
                     <div class="form-group">

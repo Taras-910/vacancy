@@ -34,7 +34,7 @@ public class UAIndeedStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (!isMatchesRu(freshen.getWorkplace()) || freshen.getWorkplace().equals("за_рубежем")) {
+        if (!isMatchesRu(freshen.getWorkplace()) || freshen.getWorkplace().equals("foreign")) {
             return new ArrayList<>();
         }
         int page = 0;

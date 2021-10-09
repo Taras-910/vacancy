@@ -35,10 +35,10 @@ public class LinkedinStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        String[] cityOrCountry = freshen.getWorkplace().equals("за_рубежем") ? getForeign() : new String[]{freshen.getWorkplace()};
+        String[] cityOrCountry = freshen.getWorkplace().equals("foreign") ? getForeign() : new String[]{freshen.getWorkplace()};
         List<VacancyTo> result = new ArrayList<>();
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (freshen.getWorkplace().equals("удаленно")){
+        if (freshen.getWorkplace().equals("remote")){
             return new ArrayList<>();
         }
             for(String location : cityOrCountry) {
