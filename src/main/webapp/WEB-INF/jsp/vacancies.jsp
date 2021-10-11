@@ -20,7 +20,7 @@
                             <div class="col-md-4 mb-3 col-form-label">
                                 <input class="form-control" type="text" name="language" id="language"
                                        list="language_name" style="width:98%;border:2px solid #0397ba"
-                                       placeholder="enter language">
+                                       placeholder="please enter language...">
                                 <datalist id="language_name">
                                     <option value='all' selected>all</option>
                                     <option value='Java'>Java</option>
@@ -38,7 +38,7 @@
                             <div class="col-md-4 mb-3 col-form-label">
                                 <input class="form-control" type="text" name="level" id="level" list="level_name"
                                        style="width:101%;border:2px solid #0397ba"
-                                       placeholder="enter level">
+                                       placeholder="level...">
                                 <datalist id="level_name">
                                     <option value='all' selected>all</option>
                                     <option value='Trainee'>Trainee</option>
@@ -51,7 +51,7 @@
                             <div class="col-md-4 mb-3 col-form-label">
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name"
                                        style="width:101%;border:2px solid #0397ba"
-                                       placeholder="enter your own workplace">
+                                       placeholder="workplace...">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
                                     <option value='Киев'>Киев</option>
@@ -299,8 +299,8 @@
                         <input type="hidden" class="form-control" id="recordedDate" name="recordedDate">
                     </div>
                     <div class="form-group">
-                        <label for="languageTask"><h7 class="btn-outline-info"><em>please print language...</em></h7></label>
-                        <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2" placeholder="enter language">
+                        <label for="languageTask"><h7 class="btn-outline-info"><em>please enter language...</em></h7></label>
+                        <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2">
                         <datalist id="language_name_2">
                             <option value='Java'>Java</option>
                             <option value='Php'>Php</option>
@@ -316,7 +316,7 @@
                     </div>
                     <div class="form-group">
                         <label for="levelTask"><h7 class="btn-outline-info"><em>level...</em></h7></label>
-                        <input class="form-control" type="text" name="level" id="levelTask" list="level_2" placeholder="enter level">
+                        <input class="form-control" type="text" name="level" id="levelTask" list="level_2">
                         <datalist id="level_2">
                             <option value='Trainee'>Trainee</option>
                             <option value='Junior'>Junior</option>
@@ -327,7 +327,7 @@
                     </div>
                     <div class="form-group">
                         <label for="workplaceTask"><h7 class="btn-outline-info"><em>location...</em></h7></label>
-                        <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2" placeholder="enter your own workplace">
+                        <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2">
                         <datalist id="city_name_2">
                             <option value='Киев'>Киев</option>
                             <option value='Минск'>Минск</option>
