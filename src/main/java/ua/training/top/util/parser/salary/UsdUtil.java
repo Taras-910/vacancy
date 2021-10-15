@@ -16,16 +16,20 @@ public class UsdUtil {
 //                : getCleaned(temp.substring(0, temp.contains("$") ? temp.indexOf("$") : temp.indexOf("usd")));
         if (!temp.contains("грн")){
             if(cleaned.contains("—")){
-//                if (temp.contains("year")) {
-//                    return String.valueOf(Integer.parseInt(cleaned.split("\\W")[0]) / 12).concat("00-")
-//                            .concat(String.valueOf(Integer.parseInt(cleaned.split("\\W")[1]) / 12)).concat("00");
-//                }
+                if (temp.contains("рік") || temp.contains("год")/* || temp.contains("year")*/) {
+                    return String.valueOf(Integer.parseInt(cleaned.split("\\W")[0]) / 12).concat("00-")
+                            .concat(String.valueOf(Integer.parseInt(cleaned.split("\\W")[1]) / 12)).concat("00");
+                }
                 return cleaned.replace("—", "00—").concat("00");
             } else{
                 return temp.contains("от") ? cleaned.concat("00—").concat("1") :"1".concat("—").concat(cleaned).concat("00");
             }
         } else {
             if (temp.contains("—")) {
+                if (temp.contains("рік") || temp.contains("год")/* || temp.contains("year")*/) {
+                    return String.valueOf(Integer.parseInt(cleaned.split("\\W")[0]) / 12).concat("00-")
+                            .concat(String.valueOf(Integer.parseInt(cleaned.split("\\W")[1]) / 12)).concat("00");
+                }
                 return cleaned.substring(temp.indexOf("$") + 1).replace("—", "00—").concat("00");
             } else {
                 return temp.contains("·") ? "1".concat("—").concat(temp.substring(temp.indexOf("$") + 1)).concat("00") : cleaned;
