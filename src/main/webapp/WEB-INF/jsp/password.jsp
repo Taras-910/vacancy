@@ -11,8 +11,6 @@
     <div class="container">
         <div class="row">
             <div class="col-5 offset-3">
-
-
                 <form>
                     <label>Password: </label>
                     <input name="password" type="password" onChange="onChange()" /> <br />
@@ -20,8 +18,6 @@
                     <input name="confirm"  type="password" onChange="onChange()" />
                     <input type="submit" />
                 </form>
-
-
                 <div class="modal-body">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onChange="onChange()">
                         <span class="fa fa-close"></span>
@@ -52,9 +48,6 @@
                                     </div>
                                 </form:form>
                 --%>
-
-
-
             </div>
         </div>
     </div>

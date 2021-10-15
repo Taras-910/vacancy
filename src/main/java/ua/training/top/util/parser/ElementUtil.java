@@ -289,6 +289,7 @@ public class ElementUtil {
         int i = 0;
         for (Element element : elements) {
 //            System.out.println(i++ +"  ----------------------------------------------------------------------------------------");
+//            System.out.println("\nelement=\n"+ element + "\n..........................");
             try {
                 LocalDate localDate = null;
                 try {
@@ -315,8 +316,10 @@ public class ElementUtil {
                         v.setAddress(getCorrectAddress(xssClear(Optional.of(element.getElementsByClass("caption d7cb2").text().trim()).orElse("").trim())));
 //                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
 //                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByTag("section").tagName("p").text())), element));
-                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(element.getElementsByClass("a7943").text())), element));
-                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(element.getElementsByClass("a7943").text())), element));
+                        String salary = element.getElementsByClass("a7943").text().trim();
+                        salary = salary.isEmpty() ? element.getElementsByClass("_10840").text().trim() : salary;
+                        v.setSalaryMax(salaryMax(getCorrectSalary(xssClear(salary)), element));
+                        v.setSalaryMin(salaryMin(getCorrectSalary(xssClear(salary)), element));
                         v.setUrl(getCorrectUrl("jooble", xssClear(element.getElementsByTag("article").attr("id").trim())));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);

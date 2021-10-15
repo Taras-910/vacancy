@@ -16,7 +16,6 @@
                     <vacancy:inputField labelCode="Имя" name="name"/>
                     <vacancy:inputField labelCode="email" name="email"/>
                     <vacancy:inputField labelCode="Пароль" name="password" inputType="password"/>
-                    <%--<input labelCode="Пароль" name="password" inputType="password"/>--%>
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>

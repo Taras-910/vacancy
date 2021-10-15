@@ -18,22 +18,22 @@ public class SalaryUtil {
         String temp = validateAndFormat(salary);
 //        System.out.println("temp="+temp);
         try {
-            if ((temp.contains("salary:") || temp.contains("pln") || temp.contains("(uop)"))&& !(salary.contains("$") || salary.contains("usd"))) {
-                return getPln(temp);
-            }
             if (temp.contains("$") || temp.contains("usd")) {
                 return getUsd(temp);
-            } else
-            if (temp.contains("eur") || temp.contains("€")) {
+            }
+            else if ((temp.contains("salary:") || temp.contains("pln") || temp.contains("(uop)"))) {
+                return getPln(temp);
+            }
+            else if (temp.contains("eur") || temp.contains("€")) {
                 return getEur(temp);
-            } else
-            if (temp.contains("gbp") || temp.contains("£") || temp.contains("₤")) {
+            }
+            else if (temp.contains("gbp") || temp.contains("£") || temp.contains("₤")) {
                 return getGbp(temp);
-            } else
-            if (temp.contains("руб")) {
+            }
+            else if (temp.contains("руб")) {
                 return getRub(temp);
-            } else
-            if (temp.contains("грн")  || temp.contains("uah")) {
+            }
+            else if (temp.contains("грн")  || temp.contains("uah")) {
                 return getHrn(temp);
             }
         } catch (NumberFormatException e) {

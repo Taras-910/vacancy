@@ -35,8 +35,9 @@ public class AutoRefreshService {
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        String level = mapLevel.get(getKey(2));
-        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(level.equals("trainee") ? 4 : 10)), level)));
+        String level = mapLevel.get(getKey(3));
+        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(level.equals("trainee") ?
+                4 : level.equals("junior") ? 3 : 10)), level)));
         offAutoRefreshProviders();
     }
 

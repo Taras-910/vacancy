@@ -116,10 +116,9 @@
                     <th class="col-auto"><h7>до $</h7></th>
                     <th class="col" style="text-align: center;">Требования</th>
                     <th class="col-auto text-nowrap">Дата</th>
-                    <th hidden>toVote</th>
+                    <th class="toVote"></th>
                     <th hidden>work place</th>
                     <th hidden>language</th>
-                    <th ></th>
                     <th ></th>
                     <th ></th>
                 </tr>
