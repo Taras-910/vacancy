@@ -14,23 +14,20 @@ import ua.training.top.to.VacancyTo;
 import ua.training.top.util.AggregatorUtil;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesToKeep;
-import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodToKeep;
 import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
-import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.*;
 import static ua.training.top.util.EmployerUtil.getEmployerMap;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.FreshenUtil.*;
 import static ua.training.top.util.UserUtil.asAdmin;
-import static ua.training.top.util.VacancyUtil.getTos;
+import static ua.training.top.util.VacancyUtil.*;
+import static ua.training.top.util.VoteUtil.getVotesOutLimitHeroku;
 
 @Service
 public class AggregatorService {
@@ -72,13 +69,13 @@ public class AggregatorService {
                             mapAllVacancyTos.get(subVacancyTo), parallelMap));
                 }
             }
-            refresh(vacancyTosForCreate, vacanciesForUpdate, freshen, mapAllEmployers, vacanciesDb);
+            refresh(vacancyTosForCreate, vacanciesForUpdate, freshen, mapAllEmployers, votes);
         }
     }
 
     @Transactional
     protected void refresh(List<VacancyTo> vacancyTosForCreate, List<Vacancy> vacanciesForUpdate,
-                           Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vacancy> vacanciesDb) {
+                           Freshen freshen, Map<String, Employer> mapAllEmployers, List<Vote> votes) {
         Freshen freshenCreated = freshenService.create(freshen);
         List<Vacancy> vacanciesForCreate = getForCreate(vacancyTosForCreate, mapAllEmployers, freshenCreated);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesForUpdate);
@@ -86,16 +83,12 @@ public class AggregatorService {
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
-        int vacanciesOutdated = deleteVacanciesOutdated(vacanciesDb, reasonPeriodToKeep);
-        int freshensOutdated = deleteFreshensOutdated(freshenService.getAll(), reasonPeriodToKeep);
-        int[] vacanciesAndFreshenOutLimitedHeroku = deleteVacanciesOutLimitedHeroku(limitVacanciesToKeep);
+        List<Vacancy> vacanciesDb = vacancyService.getAll();
+        List<Freshen> freshensDb = freshenService.getAll();
+        deleteOutDate(vacanciesDb, freshensDb);
+        deleteLimitHeroku(vacanciesDb, freshensDb, votes);
         employerService.deleteEmptyEmployers();
-        log.info("upgrade finished successfully for Freshen: {}\nfreshensDb ={}, freshensOutdated ={}, " +
-                        "freshenOutLimitedHeroku ={}\nvacanciesDb={},vacanciesOutdated={},vacanciesOutLimitedHeroku={}" +
-                        "\nemployersDb={}\n<------------------------------------------------------->\n", freshenCreated,
-                freshenService.getAll().size() * 2, freshensOutdated * 2, vacanciesAndFreshenOutLimitedHeroku[1] * 2,
-                vacancyService.getAll().size(), vacanciesOutdated, vacanciesAndFreshenOutLimitedHeroku[1],
-                employerService.getAll().size());
+        log.info("upgrade ok for Freshen: {}\n ....................................................\n", freshenCreated);
     }
 
     public Map<String, Employer> getMapAllEmployers(List<VacancyTo> vacancyTos){
@@ -109,69 +102,19 @@ public class AggregatorService {
         return getEmployerMap(employersDb);
     }
 
-    @Transactional
-    public int deleteVacanciesOutdated(List<Vacancy> vacanciesDb, LocalDate reasonDateToKeep) {
-        log.info("deleteVacanciesBeforeDate reasonDateToKeep={}", reasonDateToKeep);
-        List<Vacancy> listToDelete = vacanciesDb.parallelStream()
-                .filter(vacancyTo -> reasonDateToKeep.isAfter(vacancyTo.getReleaseDate()))
-                .collect(Collectors.toList());
-        if (!listToDelete.isEmpty()) {
-            log.info("deleteVacanciesList {}", listToDelete.size());
-            vacancyService.deleteList(listToDelete);
-        }
-        return listToDelete.size();
+    public void deleteOutDate(List<Vacancy> vacanciesDb, List<Freshen> freshenDb) {
+        vacancyService.deleteList(getVacanciesOutPeriodToKeep(vacanciesDb));
+        freshenService.deleteList(getFreshensOutPeriodToKeep(freshenDb));
     }
 
-    @Transactional
-    public int deleteFreshensOutdated(List<Freshen> freshensDb, LocalDate reasonDateToKeep) {
-        log.info("deleteFreshensBeforeDate reasonDateToKeep={}", reasonDateToKeep);
-        List<Freshen> listToDelete = freshensDb.stream()
-                .filter(freshen -> reasonDateToKeep.isAfter(freshen.getRecordedDate().toLocalDate()))
-                .collect(Collectors.toList());
-        if (!listToDelete.isEmpty()) {
-            log.info("listToDelete {}", listToDelete.size());
-            freshenService.deleteList(listToDelete);
+    public void deleteLimitHeroku(List<Vacancy> vacanciesDb, List<Freshen> freshenDb, List<Vote> votesDb) {
+        vacancyService.deleteList(getVacanciesOutLimitHeroku(vacanciesDb));
+        if (freshenDb.size() > limitVacanciesToKeep / 2 + 1) {
+            freshenService.deleteList(getFreshensOutLimitHeroku(freshenDb));
         }
-        return listToDelete.size();
-    }
-
-    @Transactional
-    public int[] deleteVacanciesOutLimitedHeroku(int limitVacanciesToKeep) {
-        List<Vacancy> vacanciesDb = vacancyService.getAll();
-        log.info("deleteVacanciesOutLimited limitVacanciesToKeep={} vacancies={}", limitVacanciesToKeep, vacanciesDb.size());
-        List<Vacancy> listToDelete = Optional.of(vacanciesDb.parallelStream()
-                .sorted((v1, v2) -> v1.getReleaseDate().isAfter(v2.getReleaseDate()) ? 1 : 0)
-                .sequential()
-                .skip(limitVacanciesToKeep)
-                .collect(Collectors.toList())).orElse(new ArrayList<>());
-        if (!listToDelete.isEmpty()) {
-            log.info("delete listToDelete={}", listToDelete.size());
-            vacancyService.deleteList(listToDelete);
+        if (votesDb.size() > limitVacanciesToKeep / 5) {
+            voteService.deleteList(getVotesOutLimitHeroku(votesDb));
         }
-        List<Freshen> freshensDb = freshenService.getAll();
-        int limitFreshensToKeep = limitVacanciesToKeep / 2 + 1;
-        int freshensOutLimitedHeroku = 0;
-        if (freshensDb.size() > limitFreshensToKeep) {
-            freshensOutLimitedHeroku = deleteFreshensOutLimitedHeroku(freshensDb, limitFreshensToKeep);
-        }
-        return new int[]{listToDelete.size(), freshensOutLimitedHeroku};
-    }
-
-    @Transactional
-    public int deleteFreshensOutLimitedHeroku(List<Freshen> freshensDb, int limitFreshensToKeep) {
-            log.info("limitedHeroku freshensDb={} limitFreshensToKeep={}", freshensDb.size(), limitFreshensToKeep);
-            List<Freshen> freshensFilter = freshensDb.stream()
-                    .filter(f -> f.getGoals().contains(FILTER))
-                    .collect(Collectors.toList());
-            List<Freshen> freshensExceedLimit = freshensFilter.stream()
-                    .sorted((f1, f2) -> f1.getRecordedDate().isBefore(f2.getRecordedDate()) ? 1 : 0)
-                    .skip(Math.max(limitFreshensToKeep + freshensFilter.size() - freshensDb.size(), 0))
-                    .collect(Collectors.toList());
-        if (!freshensExceedLimit.isEmpty()) {
-            log.info("delete freshensExceedLimit Heroku {}", freshensExceedLimit.size());
-            freshenService.deleteList(freshensExceedLimit);
-        }
-        return freshensExceedLimit.size();
     }
 
     public static void main(String[] args) throws IOException {

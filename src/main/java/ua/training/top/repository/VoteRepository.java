@@ -20,4 +20,5 @@ public interface VoteRepository {
 
     boolean deleteListByVacancyId(int vacancyId);
 
+    void deleteList(List<Vote> listToDelete);
 }

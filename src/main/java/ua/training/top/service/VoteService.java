@@ -67,6 +67,14 @@ public class VoteService {
         checkNotFoundData(repository.deleteListByVacancyId(vacancyId), vacancyId);
     }
 
+        @Transactional
+    public void deleteList(List<Vote> listToDelete) {
+        log.info("deleteList");
+        if (!listToDelete.isEmpty()) {
+            repository.deleteList(listToDelete);
+        }
+    }
+
     @Transactional
     public void setVote(int vacancyId, boolean toVote) {
         log.info(toVote ? "enable {}" : "disable {}", vacancyId);

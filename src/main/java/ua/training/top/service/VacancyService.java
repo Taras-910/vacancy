@@ -103,10 +103,12 @@ public class VacancyService {
 
     }
 
-    public void deleteList(List<Vacancy> list) {
-        log.info("deleteList {}", list);
-        repository.deleteList(list);
-        employerService.deleteEmptyEmployers();
+    @Transactional
+    public void deleteList(List<Vacancy> listToDelete) {
+        log.info("deleteList");
+        if (!listToDelete.isEmpty()) {
+            repository.deleteList(listToDelete);
+        }
     }
 
     public int getCountToday() {

@@ -6,9 +6,6 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class VacancyCheckUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyCheckUtil.class) ;
     public static final String URL_MATCHER = "^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$";
@@ -50,12 +47,6 @@ public class VacancyCheckUtil {
                 || skills.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
 //                || skills.toLowerCase().matches(".*\\b"+f.getLevel()+"\\b.*")
                 ;
-    }
-
-    public static List<Vacancy> getMatchesByFreshen(List<Vacancy> vacancies, Freshen freshen){
-        return vacancies.stream()
-                .filter(vacancy -> getMatchesFreshen(freshen, vacancy.getTitle(), vacancy.getSkills()))
-                .collect(Collectors.toList());
     }
 
     public static boolean getMatchesFreshen(Freshen f, String title, String skills){

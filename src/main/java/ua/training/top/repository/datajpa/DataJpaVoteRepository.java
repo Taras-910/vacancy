@@ -67,4 +67,9 @@ public class DataJpaVoteRepository implements VoteRepository {
         }
 
     }
+
+    @Override
+    public void deleteList(List<Vote> listToDelete) {
+        voteRepository.deleteAll(listToDelete);
+    }
 }

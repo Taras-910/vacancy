@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
@@ -72,8 +73,11 @@ public class FreshenService {
         return repository.getBetween(tomorrow, yesterday).stream().max((f1, f2) -> f1.getId().compareTo(f2.getId())).get();
     }
 
+    @Transactional
     public void deleteList(List<Freshen> listToDelete) {
-        log.info("\ndeleteList\n");
-        repository.deleteList(listToDelete);
+        log.info("deleteList");
+        if (!listToDelete.isEmpty()) {
+            repository.deleteList(listToDelete);
+        }
     }
 }

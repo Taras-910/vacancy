@@ -66,24 +66,23 @@
 <div class="container lead py-3">
     <a href="https://github.com/JavaOPs/topjava">Java Enterprise проект</a> с регистрацией/авторизацией и правами
     доступа на основе ролей (USER, ADMIN).<br/>Администратор может создавать/редактировать/ удалять пользователей и
-    вакансии, обновлять базу данных, пользователи могут управлять своим профилем, отмечать выбранные вакансии через UI
-    (по AJAX) и по REST интерфейсу с базовой авторизацией, обновлять базу данных из ресурсов. Можно фильтровать
-    вакансии по языку программирования и локации, отмечать вакансии - цвет строк изменяется, индивидуально
-    запоминается в базе.<br/>Весь REST интерфейс покрывается JUnit тестами, для этого
-    используется Spring MVC Test и Spring Security Test.<br/>
-    База обновляется из ресурсов:
+    вакансии, обновлять БД,<br/>пользователи могут управлять своим профилем, обновлять БД, отмечать выбранную вакансии
+    (строка<br/>изменяет цвет,индивидуальный выбор сохраняется) через UI (по AJAX) и по REST интерфейсу с базовой<br/>
+    авторизацией. Данные можно фильтровать по языку программирования, уровню квалификации, локации.<br/>
+    Весь REST интерфейс покрывается JUnit тестами, с использованием Spring MVC Test и Spring Security Test.<br/>
+    БД хранит актуальные вакансии (не старше 2-х недельной давности), авто-обновляется по 12 ресурсам:<br/>
     <a href="https://djinni.co">Djinni</a>,
-    <a href="http://grc.ua">HH</a>,
+    <a href="http://grc.ua">HH(GrcUA)</a>,
     <a href="https://career.habr.com">Habr</a>,
+    <a href="https://jobsmarket.io">JobsMarket</a>,
     <a href="https://jobs.dou.ua">Jobs</a>,
     <a href="https://www.linkedin.com">LinkedIn</a>,
     <a href="https://nofluffjobs.com/">NoFluffJobs</a>,
     <a href="https://rabota.ua">Rabota</a>,
-    <a href="https://ua.indeed.com">Indeed</a>,
-    <a href="https://ua.jooble.org">Jooble</a>,
+    <a href="https://ua.indeed.com">UAIndeed</a>,
+    <a href="https://ua.jooble.org">UAJooble</a>,
     <a href="https://www.work.ua">Work</a>,
-    <a href="https://rabota.yandex.ru">Yandex</a>,
-    <a href="https://jobsmarket.io">JobsMarket</a>
+    <a href="https://rabota.yandex.ru">Yandex</a>
 </div>
 <%--<br>--%>
 <div class="container jumbotron py-0">

@@ -23,13 +23,8 @@ public class InstallationUtil {
 //    private static int repeatToCall = 1;
 //    public static int limitCallPages = 2;
     public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
-    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(21);
+    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(15);
     public static int limitVacanciesToKeep = 3000;
-
-    public static double freshenPerHour = 6;
-    public static double freshenPerHourForAdmin = 12;
-    public static double limitPerHourForAuth = 10;
-    public static double limitPerHourForAdmin = 15;
 
 //    public static boolean testProvider = true;
     public static boolean testProvider = false;
@@ -43,9 +38,6 @@ public class InstallationUtil {
     public static void setAutoRefreshProviders() { InstallationUtil.autoRefreshProviders = true; }
     public static void offAutoRefreshProviders() { InstallationUtil.autoRefreshProviders = false; }
 
-    public static void setTestFreshenPerHour() {
-        InstallationUtil.freshenPerHour = 180;
-    }
     public static void setTestReasonPeriodToKeep() {
         InstallationUtil.reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(3650);
     }
