@@ -27,8 +27,8 @@ class JsonUtilTest {
     void readWriteValues() throws Exception {
         String json = JsonUtil.writeValue(getListVacancies());
         System.out.println(json);
-        List<Vacancy> meals = JsonUtil.readValues(json, Vacancy.class);
-        VACANCY_MATCHER.assertMatch(meals, VacancyTestData.getListVacancies());
+        List<Vacancy> vacancies = JsonUtil.readValues(json, Vacancy.class);
+        VACANCY_MATCHER.assertMatch(vacancies, VacancyTestData.getListVacancies());
     }
 
     @Test

@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesDjinni;
 import static ua.training.top.util.parser.data.CorrectAddress.getTranslated;
+import static ua.training.top.util.parser.data.DataUtil.djinni;
+import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
 
 public class DjinniStrategy implements Strategy{
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
@@ -36,20 +37,20 @@ public class DjinniStrategy implements Strategy{
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        log.info("getVacancies city={} language={}", freshen.getWorkplace(), freshen.getLanguage());
-        String city = freshen.getWorkplace().equals("foreign") || freshen.getWorkplace().equals("remote") ?
+        log.info("getVacancies workplace={} language={}", freshen.getWorkplace(), freshen.getLanguage());
+        String workplace = freshen.getWorkplace().equals("foreign") || freshen.getWorkplace().equals("remote") ?
                 "relocate" : getTranslated(freshen.getWorkplace());
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (city.equals("-1")) {
+        if (workplace.equals("-1")) {
             return new ArrayList<>();
         }
         int page = 1;
         while (true) {
-            Document doc = getDocument(city, freshen.getLanguage(), String.valueOf(page), freshen.getLevel());
+            Document doc = getDocument(workplace, freshen.getLanguage(), String.valueOf(page), freshen.getLevel());
             Elements elements = doc == null ? null : doc.getElementsByClass("list-jobs__item");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesDjinni(elements, freshen));
-            if(page < Math.min(limitCallPages, maxPages)) page++;
+            if(page < getMaxPages(djinni, workplace)) page++;
             else break;
         }
         reCall(set.size(), new DjinniStrategy());

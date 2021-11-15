@@ -15,11 +15,12 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getNofluffjobsVacancies;
 import static ua.training.top.util.parser.data.CorrectAddress.getCityNofluff;
 import static ua.training.top.util.parser.data.CorrectLevel.getLevelNofluff;
+import static ua.training.top.util.parser.data.DataUtil.nofluff;
+import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
@@ -46,12 +47,14 @@ public class NofluffjobsStrategy implements Strategy {
         while (true) {
             Document doc = getDocument(workplace, String.valueOf(page), freshen.getLevel(), freshen.getLanguage());
             Elements elements = doc == null ? null : doc.getElementsByClass("posting-list-item");
+            System.out.println("elements="+elements.size());
             if (elements == null || elements.size() == 0) break;
             set.addAll(getNofluffjobsVacancies(elements, freshen));
-            if (page < Math.min(limitCallPages, maxPages)) page++;
+            if(page < getMaxPages(nofluff, workplace)) page++;
             else break;
         }
         reCall(set.size(), new NofluffjobsStrategy());
+        System.out.println("set from elements = "+set.size());
         return new ArrayList<>(set);
     }
 }

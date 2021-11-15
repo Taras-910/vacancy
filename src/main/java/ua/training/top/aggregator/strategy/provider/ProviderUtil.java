@@ -19,14 +19,12 @@ public class ProviderUtil {
             return new AggregatorRepository(new Provider(new TestStrategy()));
         }
         else if (autoRefreshProviders) {
-            log.info("autoRefreshProviders");
             return new AggregatorRepository(
                     mapStrategies.get(getKey(4)),
                     mapStrategies.get(getKey(4) + 4),
                     mapStrategies.get(getKey(4) + 8));
         }
         else {
-            log.info("allProviders");
             return new AggregatorRepository(
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
                     new Provider(new GrcStrategy()),          /*нет за_рубежем, меняет salary*/
@@ -34,11 +32,11 @@ public class ProviderUtil {
                     new Provider(new JobsMarketStrategy()),   /*ТОЛЬКО за_рубежем USA!!!*/
 
                     new Provider(new JobsStrategy()),         /*полезные статьи*/
-                    new Provider(new LinkedinStrategy()),     /*нет удаленно*/
+                    new Provider(new LinkedinStrategy()),     /*нет удаленно*/                  // нет salary
                     new Provider(new NofluffjobsStrategy()),  /*ТОЛЬКО за_рубежем Poland*/
                     new Provider(new RabotaStrategy()),       /*мало за_рубежем Украина */
 
-                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/
+                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/ // нет salary
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
                     new Provider(new WorkStrategy()),         /*нет за_рубежем*/
                     new Provider(new YandexStrategy())        /*нет за_рубежем*/

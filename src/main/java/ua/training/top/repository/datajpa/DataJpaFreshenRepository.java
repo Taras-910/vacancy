@@ -59,5 +59,20 @@ public class DataJpaFreshenRepository implements FreshenRepository {
     public void deleteList(List<Freshen> listToDelete) {
         crudRepository.deleteAll(listToDelete);
     }
+
+    @Transactional
+    @Override
+    public void deleteOutDated(LocalDateTime reasonLocalDateTime) {
+        deleteList(crudRepository.getOutDated(reasonLocalDateTime));
+    }
+
+    @Transactional
+    @Override
+    public void deleteExceedLimit(int limitFreshen) {
+        if (getAll().size() > limitFreshen) {
+            deleteList(crudRepository.findExceeded(limitFreshen));
+        }
+    }
+
 }
 

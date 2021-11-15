@@ -10,10 +10,14 @@ import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
+import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodKeeping;
 import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
@@ -121,5 +125,26 @@ public class VacancyService {
         log.info("getCountLast");
         Freshen freshen = freshenService.getLast();
         return repository.getByFreshenId(freshen.getId());
+    }
+
+    @Transactional
+    public List<Vacancy> deleteOutDatedAndGetAll() {
+        log.info("deleteOutDateAndGetAll reasonPeriodKeeping {}", reasonPeriodKeeping);
+        freshenService.deleteOutDated(LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
+        List<Vacancy> resumes = repository.deleteOutDated(reasonPeriodKeeping);
+        voteService.deleteOutDated(reasonPeriodKeeping);
+        return resumes;
+    }
+
+    @Transactional
+    public void deleteExceedLimit(int exceed) {
+        log.info("deleteExceedLimitHeroku exceed {}", exceed);
+        if (exceed > 0) {
+            log.info("start delete exceed {}", exceed);
+            repository.deleteExceedLimit(exceed);
+            employerService.deleteEmptyEmployers();
+            freshenService.deleteExceedLimit(limitVacanciesKeeping / 2);
+            voteService.deleteExceedLimit(limitVacanciesKeeping / 2);
+        }
     }
 }

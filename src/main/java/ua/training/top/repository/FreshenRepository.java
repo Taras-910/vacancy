@@ -20,4 +20,8 @@ public interface FreshenRepository {
     List<Freshen> getBetween(LocalDateTime tomorrow, LocalDateTime yesterday);
 
     void deleteList(List<Freshen> listToDelete);
+
+    void deleteExceedLimit(int limitFreshensToKeep);
+
+    void deleteOutDated(LocalDateTime outPeriodToKeep);
 }

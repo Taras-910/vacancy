@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesHabr;
 import static ua.training.top.util.parser.data.CorrectAddress.getCityHabr;
 import static ua.training.top.util.parser.data.CorrectLevel.getLevelHabr;
+import static ua.training.top.util.parser.data.DataUtil.habr;
+import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
 
 public class HabrStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(HabrStrategy.class);
@@ -46,7 +47,7 @@ public class HabrStrategy implements Strategy {
                 Elements elements = doc == null ? null : doc.getElementsByClass("vacancy-card__inner");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesHabr(elements, freshen));
-                if(page < Math.min(limitCallPages, maxPages)) page++;
+                if(page < getMaxPages(habr, workplace)) page++;
                 else break;
             }
         } catch (Exception e) {

@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vote;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -32,5 +33,12 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
 
     @Query("SELECT v FROM Vote v WHERE v.vacancyId=:vacancyId")
     List<Vote> getAllByVacancyId(@Param("vacancyId") int vacancyId);
+
+    @Query(value =
+            "SELECT * FROM vacancy.public.vote v ORDER BY v.local_date, v.id LIMIT :limit", nativeQuery = true)
+    List<Vote> findExceeded(@Param("limit") int limit);
+
+    @Query("SELECT v FROM Vote v WHERE v.localDate<:reasonPeriodToKeep")
+    List<Vote> getOutDated(@Param("reasonPeriodToKeep") LocalDate reasonPeriodToKeep);
 
 }

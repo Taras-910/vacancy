@@ -90,6 +90,10 @@ $(function () {
                 "url": ajaxUrl,
                 "dataSrc": ""
             },
+            columnDefs: [{
+                "defaultContent": "-",
+                "targets": "_all"
+            }],
             "pagingType": "full_numbers",
             "info": true,
             "deferRender": true,
@@ -119,10 +123,26 @@ $(function () {
                     "data": "address"
                 },
                 {
-                    "data": "salaryMin"
+                    "data": function (data, type, row) {
+                        if (data.salaryMin === 1 && type === "display") {
+                            return '<a href="' + data.url + '">card</a>'
+                        }
+                        if (data.salaryMin > 1 && type === "display") {
+                            return data.salaryMin / 100;
+                        }
+                        return data.salaryMin;
+                    }
                 },
                 {
-                    "data": "salaryMax"
+                    "data": function (data, type, row) {
+                        if (data.salaryMax === 1 && type === "display") {
+                            return '<a href="' + data.url + '">card</a>'
+                        }
+                        if (data.salaryMax > 1 && type === "display") {
+                            return data.salaryMax / 100;
+                        }
+                        return data.salaryMax;
+                    }
                 },
                 {
                     "data": function (data, type, row) {

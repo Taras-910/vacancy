@@ -16,12 +16,13 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesWork;
 import static ua.training.top.util.parser.data.CorrectAddress.getCityWork;
 import static ua.training.top.util.parser.data.CorrectAddress.getTranslated;
 import static ua.training.top.util.parser.data.CorrectLevel.getLevelWork;
+import static ua.training.top.util.parser.data.DataUtil.work;
+import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
@@ -41,17 +42,17 @@ public class WorkStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        String city = getTranslated(freshen.getWorkplace());
-        if (city.equals("-1")) {
+        String workplace = getTranslated(freshen.getWorkplace());
+        if (workplace.equals("-1")) {
             return new ArrayList<>();
         }
         int page = 1;
         while (true) {
-            Document doc = getDocument(city, freshen.getLanguage(), freshen.getLevel(), valueOf(page));
+            Document doc = getDocument(workplace, freshen.getLanguage(), freshen.getLevel(), valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card card-hover card-visited wordwrap job-link");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesWork(elements, freshen));
-            if (page < Math.min(limitCallPages, maxPages)) page++;
+            if(page < getMaxPages(work, workplace)) page++;
             else break;
         }
         reCall(set.size(), new WorkStrategy());

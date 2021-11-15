@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vote;
 import ua.training.top.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,4 +73,19 @@ public class DataJpaVoteRepository implements VoteRepository {
     public void deleteList(List<Vote> listToDelete) {
         voteRepository.deleteAll(listToDelete);
     }
+
+    @Transactional
+    @Override
+    public void deleteOutDated(LocalDate reasonLocalDateTime) {
+        deleteList(voteRepository.getOutDated(reasonLocalDateTime));
+    }
+
+    @Transactional
+    @Override
+    public void deleteExceedLimit(int limitVote) {
+        if (getAll().size() > limitVote) {
+            deleteList(voteRepository.findExceeded(limitVote));
+        }
+    }
+
 }

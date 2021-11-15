@@ -2,6 +2,8 @@ package ua.training.top.util.parser.data;
 
 import ua.training.top.model.Freshen;
 
+import static ua.training.top.util.parser.data.DataUtil.getUpperStart;
+
 public class CorrectAddress {
 
     public static String getCityGrc(String city){
@@ -231,9 +233,7 @@ public class CorrectAddress {
     }
 
     public static String getCorrectAddress(String city){
-        city = city.contains("Агломерация") ? city.replace("Агломерация", "агломерация") : city;
         city = city.contains("VIP") ? city.substring(city.indexOf("P") + 3).trim() : city;
-        city = city.contains("віддалено") ? city.replaceAll("віддалено", "remote") : city;
         switch (city.toLowerCase()) {
             case "київ", "киев" -> city = "Киев";
             case "дніпро", "днепр" -> city = "Днепр";
@@ -245,13 +245,12 @@ public class CorrectAddress {
             case "запоріжжя", "запорожье" -> city = "Запорожье";
             case "чорновці", "черновцы" -> city = "Черновцы";
             case "чернігів", "чернигов" -> city = "Чернигов";
-            case "івано-франківськ", "ивано-франковск" -> city = "Ивано-франковск";
+            case "івано-франківськ", "ивано-франковск" -> city = "Ивано-Франковск";
             case "ужгород" -> city = "Ужгород";
             case "мінськ", "минск" -> city = "Минск";
-            case "другие страны" -> city = "за_рубежем";
+            case "другие страны" -> city = "за рубежем";
             case "remote", "удаленно", "віддалена робота", "no location" -> city = "remote";
-            default -> city = city == null || city.equals("") || city.length() < 2 ?
-                    city : city.substring(0, 1).toUpperCase().concat(city.substring(1));
+            default -> getUpperStart(city);
         }
         return city;
     }

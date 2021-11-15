@@ -41,6 +41,7 @@ public class JobsStrategy implements Strategy {
         Set<VacancyTo> set = new LinkedHashSet<>();
         Document doc = getDocument(getCityJobs(freshen.getWorkplace()), freshen.getLanguage(), freshen.getLevel());
         Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
+        System.out.println("\n\nelements="+elements.size());
         if (doc == null || elements == null) return new ArrayList<>();
         set.addAll(getVacanciesJobs(elements, freshen));
         reCall(set.size(), new JobsStrategy());

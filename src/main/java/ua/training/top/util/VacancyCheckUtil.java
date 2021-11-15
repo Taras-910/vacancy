@@ -2,7 +2,6 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
@@ -36,22 +35,5 @@ public class VacancyCheckUtil {
             }
         }
         return true;
-    }
-
-    public static boolean getMatchesLanguage(Freshen f, String title, String skills){
-        return f.getLanguage().equals("all")
-                || title.toLowerCase().contains("рекрутер")|| title.toLowerCase().contains("recruiter")
-                || title.toLowerCase().contains("developer")|| title.toLowerCase().contains("engineer")
-                || title.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
-//                || title.toLowerCase().matches(".*\\b"+f.getLevel()+"\\b.*")
-                || skills.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
-//                || skills.toLowerCase().matches(".*\\b"+f.getLevel()+"\\b.*")
-                ;
-    }
-
-    public static boolean getMatchesFreshen(Freshen f, String title, String skills){
-        return f.getLanguage().equals("all")
-                || title.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*")
-                || skills.toLowerCase().matches(".*\\b"+f.getLanguage()+"\\b.*");
     }
 }

@@ -48,7 +48,8 @@ public class UAJoobleStrategy implements Strategy {
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String location : workplaces) {
             int page = 1;
-            while(getLimitJooble(freshen) ? page < 3 : page < 10) {
+//            while(getLimitJooble(freshen) ? page < 3 : page < 10) {
+            while(getLimitJooble(freshen) ? page < 3 : page < 4) {
                 Document doc = getDocument(getCityJooble(location), freshen.getLanguage(), freshen.getLevel(), String.valueOf(page));
                 Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0) break;

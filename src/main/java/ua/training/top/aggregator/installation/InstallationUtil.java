@@ -12,19 +12,26 @@ import static ua.training.top.repository.AggregatorRepository.allProviders;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
-    public static final float HRN_TO_USD_RATE = 26.5f;
-    public static final float PLN_TO_USD_RATE = 4.0f;
-    public static final float EUR_TO_USD_RATE = 1.15f;
-    public static final float GBP_TO_USD_RATE = 1.4f;
-    public static final float RUB_TO_USD_RATE = 72.5f;
+    public static final float
+            rate_pln_to_usd = 3.98f,
+            rate_eur_to_usd = 0.86f,
+            rate_gbp_to_usd = 0.73f,
+            rate_byn_to_usd = 2.43f,
+            rate_hrn_to_usd = 26.25f,
+            rate_rub_to_usd = 71.78f,
+            rate_kzt_to_usd = 426.74f,
+            usd_one_to_one = 1.0f;
 
-    public static int repeatToCall = 3;
-    public static int limitCallPages = 10;
-//    private static int repeatToCall = 1;
-//    public static int limitCallPages = 2;
-    public static LocalDate reasonDateToLoad = LocalDateTime.now().toLocalDate().minusDays(14);
-    public static LocalDate reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(15);
-    public static int limitVacanciesToKeep = 3000;
+    public static int
+            limitVacanciesKeeping = 3000,
+            maxAge = 22,
+            maxLengthText = 300,
+            repeatToCall = 2,
+            limitCallPages = 5;
+
+    public static LocalDate
+            reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(14),
+            reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(30);
 
 //    public static boolean testProvider = true;
     public static boolean testProvider = false;
@@ -39,7 +46,7 @@ public class InstallationUtil {
     public static void offAutoRefreshProviders() { InstallationUtil.autoRefreshProviders = false; }
 
     public static void setTestReasonPeriodToKeep() {
-        InstallationUtil.reasonPeriodToKeep = LocalDateTime.now().toLocalDate().minusDays(3650);
+        InstallationUtil.reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(3650);
     }
 
     public static void reCall(int listSize, Strategy strategy){

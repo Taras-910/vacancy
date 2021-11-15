@@ -15,15 +15,17 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
+import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesYandex;
 import static ua.training.top.util.parser.data.CorrectAddress.getCityYandex;
 import static ua.training.top.util.parser.data.CorrectLevel.getLevelYandex;
+import static ua.training.top.util.parser.data.DataUtil.yandex;
+import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
 
 public class YandexStrategy implements Strategy{
     private final static Logger log = LoggerFactory.getLogger(YandexStrategy.class);
     public static final int maxPages = 5;
-    private static final String URL = "https://rabota.yandex.ru/%s/vakansii%s/?text=%s%s%s&top_days=7%s";
+    private static final String URL = "https://o.yandex.ru/%s/vakansii%s/?text=%s%s%s&top_days=7%s";
 //    https://rabota.yandex.ru/sankt-peterburg/vakansii/rabota-udalennaya-i-na-domu/?text=java%20intern &page_num=2&top_days=7&experience=FROM_1_TO_2
 //    https://rabota.yandex.ru/%s/vakansii%s/?text=%s%s%s&top_days=7%s
 
@@ -45,14 +47,13 @@ public class YandexStrategy implements Strategy{
         int page = 1;
         while (true) {
             Document doc = getDocument(workplace, freshen.getLanguage(), String.valueOf(page), freshen.getLevel());
-//           log.info("document={}\n", doc);
-            Elements elements = doc == null ? null : doc.getElementsByClass("serp-vacancy");
+            Elements elements = doc == null ? null : doc.getElementsByClass("OfferListingContent__listing__13zme");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesYandex(elements, freshen));
-            if(page < Math.min(limitCallPages, maxPages)) page++;
+            if(page < getMaxPages(yandex, workplace)) page++;
             else break;
         }
-//        reCall(set.size(), new YandexStrategy());
+        reCall(set.size(), new YandexStrategy());
         return new ArrayList<>(set);
     }
 }

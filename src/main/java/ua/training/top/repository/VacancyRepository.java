@@ -3,6 +3,7 @@ package ua.training.top.repository;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VacancyRepository {
@@ -26,5 +27,9 @@ public interface VacancyRepository {
     int getCountToday();
 
     int getByFreshenId(Integer id);
+
+    void deleteExceedLimit(int exceed);
+
+    List<Vacancy> deleteOutDated(LocalDate reasonPeriodKeeping);
 }
 

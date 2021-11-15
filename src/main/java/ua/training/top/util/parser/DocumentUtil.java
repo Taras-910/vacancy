@@ -7,18 +7,20 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import static ua.training.top.util.parser.data.DataUtil.*;
+
 public class DocumentUtil {
     private static Logger log = LoggerFactory.getLogger(DocumentUtil.class);
     public static Document getDocument(String url){
-        log.info("\ngetDocument url={}\n", url);
+        log.info(document_url, url);
         Document document = null;
         try {
             document = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15")
+                    .userAgent(document_user_agent)
                     .referrer("")
                     .get();
         } catch (IOException e) {
-            log.error("There may be no internet connection or exception={} by url={} ", e.getMessage(), url);
+            log.error(internet_connection_error, e.getMessage(), url);
         }
         return document;
     }

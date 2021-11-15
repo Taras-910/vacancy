@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.parser.ElementUtil.getVacanciesIndeed;
 import static ua.training.top.util.parser.data.CorrectAddress.isMatchesRu;
+import static ua.training.top.util.parser.data.DataUtil.indeed;
+import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
 
 public class UAIndeedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAIndeedStrategy.class);
@@ -34,7 +35,8 @@ public class UAIndeedStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (!isMatchesRu(freshen.getWorkplace()) || freshen.getWorkplace().equals("foreign")) {
+        String workplace = freshen.getWorkplace();
+        if (!isMatchesRu(workplace) || workplace.equals("foreign")) {
             return new ArrayList<>();
         }
         int page = 0;
@@ -43,7 +45,7 @@ public class UAIndeedStrategy implements Strategy {
             Elements elements = doc == null ? null : doc.getElementsByAttributeValueStarting("id","job_");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesIndeed(elements, freshen));
-            if(page < Math.min(limitCallPages, maxPages)) page++;
+            if(page < getMaxPages(indeed, workplace)) page++;
             else break;
         }
         reCall(set.size(), new UAIndeedStrategy());

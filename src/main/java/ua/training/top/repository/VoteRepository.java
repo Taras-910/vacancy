@@ -2,6 +2,7 @@ package ua.training.top.repository;
 
 import ua.training.top.model.Vote;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VoteRepository {
@@ -21,4 +22,8 @@ public interface VoteRepository {
     boolean deleteListByVacancyId(int vacancyId);
 
     void deleteList(List<Vote> listToDelete);
+
+    void deleteOutDated(LocalDate reasonPeriodKeeping);
+
+    void deleteExceedLimit(int limitVotesToKeep);
 }

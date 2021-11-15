@@ -99,5 +99,17 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     public List<Vacancy> getAll() {
         return vacancyRepository.getAll();
     }
+
+    @Transactional
+    @Override
+    public List<Vacancy> deleteOutDated(LocalDate reasonPeriodToKeep) {
+        deleteList(vacancyRepository.getOutDated(reasonPeriodToKeep));
+        return getAll();
+    }
+
+    @Transactional
+    @Override
+    public void deleteExceedLimit(int exceedNumber) { deleteList(vacancyRepository.findExceeded(exceedNumber)); }
+
 }
 

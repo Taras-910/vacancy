@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateToLoad;
+import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateLoading;
 import static ua.training.top.util.AggregatorUtil.getFilled;
+import static ua.training.top.util.parser.data.DataUtil.common_number_vacancyTos;
+import static ua.training.top.util.parser.data.DataUtil.error_select;
 
 @Repository
 public class AggregatorRepository implements AggregatorInterface{
@@ -34,16 +36,15 @@ public class AggregatorRepository implements AggregatorInterface{
             try {
                 set.addAll(allProviders.pollFirst().getJavaVacancies(freshen));
             } catch (IOException e) {
-                log.error("selectBy e {}", e.getMessage());
+                log.error(error_select, e.getMessage());
             }
         }
-        List<VacancyTo> vacancyTos= set.parallelStream()
+        List<VacancyTo> vacancyTos = set.parallelStream()
                 .filter(VacancyCheckUtil::checkNullDataVacancyTo)
-                .filter(vTo -> reasonDateToLoad.isBefore(vTo.getReleaseDate()))
-//                .filter(vTo -> checkNullDataVacancyTo(vTo) && getMatchesLanguage(freshen, vTo.getTitle(), vTo.getSkills()))
+                .filter(vTo -> reasonDateLoading.isBefore(vTo.getReleaseDate()))
                 .map(vTo -> getFilled(vTo, freshen)).distinct()
                 .collect(Collectors.toList());
-        log.info("Common number vacancies = {}", vacancyTos.size());
+        log.info(common_number_vacancyTos, vacancyTos.size());
         return vacancyTos;
     }
 }

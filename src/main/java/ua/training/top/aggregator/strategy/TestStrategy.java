@@ -23,9 +23,15 @@ public class TestStrategy implements Strategy {
                 80000, 120000, "https://example1.ua/vacancy/40006938?query=java", "Java, JavaScript, Php",
                 LocalDate.now().minusDays(5), null, "middle", null, false);
 
+/*
         VacancyTo vacancyTo2 = new VacancyTo(null, "Middle", "Expo", "Львов",
                 100000, 200000, "https://example2.net/vacancy?123", "SpringBoot, Java",
                 LocalDate.now().minusDays(7), null, "middle", null, false);
+*/
+
+        VacancyTo vacancyTo2 = new VacancyTo(null, "BeckEnd", "Company", "Харьков",
+                120000, 150000, "https://example3.com/vacancy/123a", "Java, JavaScript",
+                LocalDate.now().minusDays(3), null, "senior", null, false);
 
         VacancyTo vacancyTo3 = new VacancyTo(null, "Java-Developer", "Company", "Харьков",
                 120000, 150000, "https://example3.com/vacancy/123a", "Java, JavaScript",

@@ -9,6 +9,8 @@ import ua.training.top.to.VacancyTo;
 import ua.training.top.util.parser.DocumentUtil;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,7 +23,6 @@ import static ua.training.top.util.parser.ElementUtil.getVacanciesRabota;
 import static ua.training.top.util.parser.data.CorrectAddress.getCityRabota;
 import static ua.training.top.util.parser.data.CorrectAddress.isMatchesRu;
 import static ua.training.top.util.parser.data.CorrectLevel.getLevelRabota;
-import static ua.training.top.util.parser.date.DateUtil.dateRabota;
 
 public class RabotaStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(RabotaStrategy.class);
@@ -57,4 +58,15 @@ public class RabotaStrategy implements Strategy {
         reCall(set.size(), new RabotaStrategy());
         return new ArrayList<>(set);
     }
+
+    public static final String DATE_PATTERN_STRATEGY = "dd.MM.yyyy";
+
+    public static String printStrategyRabota(LocalDate ldt) {
+        return ldt == null ? "" : ldt.format(DateTimeFormatter.ofPattern(DATE_PATTERN_STRATEGY));
+    }
+
+    public static String dateRabota() {
+        return printStrategyRabota(LocalDate.now().minusDays(7));
+    }
+
 }

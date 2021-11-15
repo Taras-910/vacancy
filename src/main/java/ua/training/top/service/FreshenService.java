@@ -80,4 +80,14 @@ public class FreshenService {
             repository.deleteList(listToDelete);
         }
     }
+
+    public void deleteExceedLimit(int limitFreshensToKeep) {
+        log.info("deleteExceedLimit limitFreshensToKeep={}", limitFreshensToKeep);
+        repository.deleteExceedLimit(limitFreshensToKeep);
+    }
+
+    public void deleteOutDated(LocalDateTime outPeriodToKeep) {
+        log.info("deleteOutDated outPeriodToKeep={}", outPeriodToKeep);
+        repository.deleteOutDated(outPeriodToKeep);
+    }
 }

@@ -37,8 +37,8 @@ public class JobsMarketStrategy implements Strategy {
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        log.info("getVacancies workplace {} language {}", freshen.getWorkplace(), freshen.getLanguage());
-        if (isMatchesJobsMarket(freshen)) {
+        log.info("getVacancies workplace={} language={}", freshen.getWorkplace(), freshen.getLanguage());
+        if (!isMatchesJobsMarket(freshen)) {
            return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
@@ -50,7 +50,7 @@ public class JobsMarketStrategy implements Strategy {
             int page = 1;
             while (true) {
                 Document doc = getDocument(position, String.valueOf(page));
-                Elements elements = doc == null ? null : doc.getElementsByClass("card");
+                Elements elements = doc == null ? null : doc.getElementsByAttributeValue("class", "card");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesJobsMarket(elements, freshen));
                 if (page < Math.min(limitCallPages, maxPages)) page++;
