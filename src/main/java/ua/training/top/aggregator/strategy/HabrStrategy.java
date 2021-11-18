@@ -26,8 +26,7 @@ import static ua.training.top.util.collect.data.WorkplaceUtil.getHabr;
 public class HabrStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(HabrStrategy.class);
     private static final String url = "https://career.habr.com/vacancies?%s%sq=%s%s%s%s&sort=date&type=all";
-//https://career.habr.com/vacancies?city_id=679&page=2&q=java&qid=4&remote=true&sort=date&type=all
-//https://career.habr.com/vacancies?%s%sq=%s%s%s%s&sort=date&type=all
+    //https://career.habr.com/vacancies?city_id=679&page=2&q=java&qid=4&remote=true&sort=date&type=all
 
     protected Document getDocument(String workplace, String language, String level, String page) {
         String city = workplace.equals("all") || workplace.equals("remote") ? "" : "city_ids[]=".concat(workplace).concat("&");

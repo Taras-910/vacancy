@@ -22,39 +22,27 @@ public class TestStrategy implements Strategy {
         VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM", "Киев",
                 80000, 120000, "https://example1.ua/vacancy/40006938?query=java", "Java, JavaScript, Php",
                 LocalDate.now().minusDays(5), null, "middle", null, false);
-
-/*
-        VacancyTo vacancyTo2 = new VacancyTo(null, "Middle", "Expo", "Львов",
-                100000, 200000, "https://example2.net/vacancy?123", "SpringBoot, Java",
-                LocalDate.now().minusDays(7), null, "middle", null, false);
-*/
-
         VacancyTo vacancyTo2 = new VacancyTo(null, "BeckEnd", "Company", "Харьков",
                 120000, 150000, "https://example3.com/vacancy/123a", "Java, JavaScript",
                 LocalDate.now().minusDays(3), null, "senior", null, false);
-
         VacancyTo vacancyTo3 = new VacancyTo(null, "Java-Developer", "Company", "Харьков",
                 120000, 150000, "https://example3.com/vacancy/123a", "Java, JavaScript",
                 LocalDate.now().minusDays(3), null, "middle", null, false);
-
         VacancyTo vacancyTo4 = new VacancyTo(null, "Middle C++ Engineer IRC107203", "GlobalLogic",
                 "Киев", 1, 1,
                 "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
                 LocalDate.now().minusDays(3), "java", "middle", null, false);
-
         VacancyTo vacancyTo5 = new VacancyTo(null, "Middle/Senior", "GlobalLogic",
                 "Варшава", 1, 1,
                 "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
                 LocalDate.now().minusDays(3), "java", "middle", null, false);
-
         VacancyTo vacancyTo6 = new VacancyTo(null, "Senior/Engineer", "GlobalLogic",
                 "Минск", 1, 1,
                 "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
                 LocalDate.now().minusDays(3), "java", "middle", null, false);
-
         return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ua.training.top.model.User;
 
 import static java.util.Objects.requireNonNull;
+import static ua.training.top.util.MessageUtil.no_authorized_user_found;
 
 public class SecurityUtil {
 
@@ -28,7 +29,7 @@ public class SecurityUtil {
     public static AuthorizedUser get() {
         AuthorizedUser authPrincipal = safeGet();
         AuthorizedUser authUser = authPrincipal == null ? authTest : authPrincipal;
-        return requireNonNull(authUser, "No authorized user found");
+        return requireNonNull(authUser, no_authorized_user_found);
     }
 
     public static int authUserId() {

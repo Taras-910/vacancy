@@ -38,15 +38,15 @@ public class AutoRefreshUtil {
                     Map.entry(0, new Provider(new DjinniStrategy())),
                     Map.entry(1, new Provider(new GrcStrategy())),
                     Map.entry(2, new Provider(new HabrStrategy())),
-                    Map.entry(3, new Provider(new JobsMarketStrategy())),
-                    Map.entry(4, new Provider(new JobsStrategy())),
-                    Map.entry(5, new Provider(new LinkedinStrategy())),
-                    Map.entry(6, new Provider(new NofluffjobsStrategy())),
-                    Map.entry(7, new Provider(new RabotaStrategy())),
-                    Map.entry(8, new Provider(new UAIndeedStrategy())),
-                    Map.entry(9, new Provider(new UAJoobleStrategy())),
-                    Map.entry(10, new Provider(new WorkStrategy())),
-                    Map.entry(11, new Provider(new JobCareerStrategy()))
+                    Map.entry(3, new Provider(new JobCareerStrategy())),
+                    Map.entry(4, new Provider(new JobsMarketStrategy())),
+                    Map.entry(5, new Provider(new JobsStrategy())),
+                    Map.entry(6, new Provider(new LinkedinStrategy())),
+                    Map.entry(7, new Provider(new NofluffjobsStrategy())),
+                    Map.entry(8, new Provider(new RabotaStrategy())),
+                    Map.entry(9, new Provider(new UAIndeedStrategy())),
+                    Map.entry(10, new Provider(new UAJoobleStrategy())),
+                    Map.entry(11, new Provider(new WorkStrategy()))
             );
 
     public static final Map<Integer, String> mapWorkplace =
@@ -55,21 +55,22 @@ public class AutoRefreshUtil {
                     1, "киев",
                     2, "украина",
                     3, "foreign",
-                    4, "харьков",
-                    5, "львов",
-                    6, "москва",
-                    7, "санкт-петербург",
-                    8, "киев",
+                    4, "all",
+                    5, "харьков",
+                    6, "львов",
+                    7, "москва",
+                    8, "санкт-петербург",
                     9, "минск"
             );
 
     public static final Map<Integer, String> mapLevel =
             Map.of(
-                    0, "trainee",
+                    0, "all",
                     1, "middle",
-                    2, "junior",
-                    3, "senior",
-                    4, "expert"
+                    2, "senior",
+                    3, "trainee",
+                    4, "expert",
+                    5, "junior"
                     );
 
     public static Freshen randomFreshen(String workplace, String level) {

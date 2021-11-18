@@ -62,7 +62,7 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     @Transactional
     @Override
     public Employer save(Employer employer) {
-        log.info("employer {}", employer);
+        log.info("save employer {}", employer);
         if(employer.isNew()){
             return repository.save(employer);
         }

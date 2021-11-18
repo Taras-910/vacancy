@@ -43,7 +43,6 @@ public class JobsStrategy implements Strategy {
         Document doc = level.equals("trainee") ? DocumentUtil.getDocument(url_trainee) :
                 getDocument(getJobs(location), language, level);
         Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
-        System.out.println("\n\nelements=" + elements.size());
         if (doc == null || elements == null) return new ArrayList<>();
         set.addAll(getVacanciesJobs(elements, freshen));
     }

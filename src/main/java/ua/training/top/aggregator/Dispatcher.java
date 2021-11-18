@@ -18,9 +18,9 @@ public class Dispatcher {
         }
         else if (autoRefreshProviders) {
             return new Starter(
-                    mapStrategies.get(getKey(4)),
-                    mapStrategies.get(getKey(4) + 4),
-                    mapStrategies.get(getKey(4) + 8));
+                    mapStrategies.get(getKey(5)),
+                    mapStrategies.get(getKey(2) + 5),
+                    mapStrategies.get(getKey(5) + 7));
         }
         else {
             return new Starter(
@@ -32,16 +32,34 @@ public class Dispatcher {
 
                     new Provider(new JobsStrategy()),         /*полезные статьи*/
                     new Provider(new LinkedinStrategy()),     /*нет удаленно*/                  // нет salary
+
                     new Provider(new NofluffjobsStrategy()),  /*ТОЛЬКО за_рубежем Poland*/
                     new Provider(new RabotaStrategy()),       /*мало за_рубежем Украина */
-
                     new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/ // нет salary
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
-                    new Provider(new WorkStrategy())         /*нет за_рубежем*/
+                    new Provider(new WorkStrategy())          /*нет за_рубежем*/
             );
         }
     }
 }
+//                                   *      *
+//  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
+//all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291
+//Украина   6    6      -     -     14   2х14    -     6    25    2*14*  27    2        128
+//foreign 120    1      1    10     14   2х14    4     1     -    1*14*   3    -
+//Киев    100    4     20     -      1      2    -    12    25    22     13    2
+//remote  100   33     13    10      1      3    4     9     7    13x20   9    -
+//Минск   100    6     20     -      1      2    -     1     -     2      3    2
+//Львов    40    -      -     -      1      2    -     3          20      3    1
+//Харьков  46    2      -     -      1      2    -     4          11      5    1
+//Одесса   30    -      -     -      1      2    -     2     2     6      3    1
+//Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4
+//Москва    -   40     20     -      1      3    -     -     -     -      -    3
+//                              trainee=164
+// djinni noff jobmar    indeed  work
+// grc    habr jobcareer rabota jooble
+
+
 //https://career.softserveinc.com/en-us/vacancies
 
 

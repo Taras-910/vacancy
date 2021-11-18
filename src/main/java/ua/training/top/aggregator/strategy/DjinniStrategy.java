@@ -26,8 +26,7 @@ import static ua.training.top.util.collect.data.UrlUtil.getPage;
 public class DjinniStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
     private static final String url = "https://djinni.co/jobs/keyword-%s/%s%s%s%s%s%s";
-//    https://djinni.co/jobs/keyword-java/?exp_level=1y&keywords=%28other%29&full_text=on&page=2
-//    https://djinni.co/jobs/keyword-%s/%s%s%s%s%s%s
+    //    https://djinni.co/jobs/keyword-java/?exp_level=1y&keywords=%28other%29&full_text=on&page=2
 
     protected Document getDocument(String workplace, String language, String level, String page) {
         return DocumentUtil.getDocument(format(url,

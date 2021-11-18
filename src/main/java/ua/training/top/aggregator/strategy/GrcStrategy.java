@@ -29,8 +29,7 @@ public class GrcStrategy implements Strategy {
     public static final String
             url_foreign = "https://grc.ua/search/vacancy?clusters=true&ored_clusters=true&enable_snippets=true&is_part_time_clusters_enabled=true&search_period=7&text=Java&from=suggest_post&area=74&area=1001&area=85&area=236&area=13&search_field=description&search_field=company_name&search_field=name",
             url = "https://grc.ua/search/vacancy?clusters=true%s&ored_clusters=true&enable_snippets=true&is_part_time_clusters_enabled=true&search_period=7&text=%s&from=suggest_post%s%s&search_field=description&search_field=company_name&search_field=name%s";
-// https://grc.ua/search/vacancy?clusters=true&area=2&ored_clusters=true&enable_snippets=true&is_part_time_clusters_enabled=true&search_period=7&text=java&from=suggest_post&experience=between1And3&search_field=description&search_field=company_name&search_field=name
-// https://grc.ua/search/vacancy?clusters=true%s&ored_clusters=true&enable_snippets=true&is_part_time_clusters_enabled=true&search_period=7&text=%s&from=suggest_post%s%s&search_field=description&search_field=company_name&search_field=name%s
+    // https://grc.ua/search/vacancy?clusters=true&area=2&ored_clusters=true&enable_snippets=true&is_part_time_clusters_enabled=true&search_period=7&text=java&from=suggest_post&experience=between1And3&search_field=description&search_field=company_name&search_field=name
 
     protected Document getDocument(String workplace, String language, String level, String page) {
         return DocumentUtil.getDocument(format(url, workplace.equals("&schedule=remote") || workplace.equals("all") ?

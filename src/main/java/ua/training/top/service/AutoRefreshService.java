@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.training.top.model.Freshen;
+import ua.training.top.util.MessageUtil;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.installation.InstallationUtil.offAutoRefreshProviders;
@@ -31,13 +32,11 @@ public class AutoRefreshService {
 //        int delayWithinMinutes = 4;
 //        int delayWithinMinutes = 9;
         int delayWithinMinutes = 14;
-        log.info("someTimesByHour delayWithinMinutes={}", delayWithinMinutes);
+        log.info(MessageUtil.delay, delayWithinMinutes);
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        String level = mapLevel.get(getKey(3));
-        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(level.equals("trainee") ?
-                4 : level.equals("junior") ? 3 : 10)), level)));
+        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(10)), mapLevel.get(getKey(4)))));
         offAutoRefreshProviders();
     }
 
@@ -47,6 +46,25 @@ public class AutoRefreshService {
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
-        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(4)), mapLevel.get(1))));
+        service.refreshDB(new Freshen(randomFreshen(mapWorkplace.get(getKey(5)), mapLevel.get(getKey(2)))));
     }
 }
+//                                   *      *
+//  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
+//all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291
+//Украина   6    6      -     -     14   2х14    -     6    25    2*14*  27    2        128
+//foreign 120    1      1    10     14   2х14    4     1     -    1*14*   3    -
+//Киев    100    4     20     -      1      2    -    12    25    22     13    2
+//remote  100   33     13    10      1      3    4     9     7    13x20   9    -
+//Минск   100    6     20     -      1      2    -     1     -     2      3    2
+//Львов    40    -      -     -      1      2    -     3          20      3    1
+//Харьков  46    2      -     -      1      2    -     4          11      5    1
+//Одесса   30    -      -     -      1      2    -     2     2     6      3    1
+//Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4
+//Москва    -   40     20     -      1      3    -     -     -     -      -    3
+//                              trainee=164
+// djinni address ???
+
+
+
+

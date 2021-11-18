@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static ua.training.top.util.MessageUtil.exist_end_replace;
+import static ua.training.top.util.MessageUtil.update_error_and_redirect;
+
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
@@ -31,7 +34,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         Vacancy vacancyDouble = getByParams(vacancy.getTitle(), vacancy.getSkills(), vacancy.getEmployer().getId());
         if (vacancyDouble != null && (vacancy.isNew() || vacancyDouble.getId() != vacancy.getId())) {
             delete(vacancyDouble.getId());
-            log.error("same vacancy " + vacancyDouble + " already existed in the database but was replaced by " + vacancy);
+            log.error(exist_end_replace, vacancyDouble, vacancy);
         }
         return vacancyRepository.save(vacancy);
     }
@@ -44,7 +47,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
             vacanciesDb = vacancyRepository.saveAll(vacancies);
         } catch (Exception e) {
             for(Vacancy v : vacancies) {
-                log.error("error " + v + " redirect on method save");
+                log.error(update_error_and_redirect, v);
                 vacanciesDb.add(save(v));
             }
         }

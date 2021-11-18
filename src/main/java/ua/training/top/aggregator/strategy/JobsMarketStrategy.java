@@ -24,8 +24,8 @@ import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 public class JobsMarketStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsMarketStrategy.class);
     private static final String url = "https://jobsmarket.io/search?position=%s&page=%s";
-      /*за_рубежем USA*/
-//    https://jobsmarket.io/search?position=Java%20Developer&page=2
+    //    https://jobsmarket.io/search?position=Java%20Developer&page=2
+
     protected Document getDocument(String position, String page) {
         return DocumentUtil.getDocument(format(url, position, page));
     }

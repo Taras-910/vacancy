@@ -101,8 +101,6 @@ public class AggregatorService {
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-
-
     }
 }
 //                                   *      *
@@ -119,7 +117,6 @@ public class AggregatorService {
 //Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4
 //Москва    -   40     20     -      1      3    -     -     -     -      -    3
 //                              trainee=164
-// djinni address ???
 
 
 

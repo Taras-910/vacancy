@@ -136,7 +136,6 @@ public class VacancyService {
 
     @Transactional
     public void deleteExceedLimit(int exceed) {
-        log.info("deleteExceedLimitHeroku exceed {}", exceed);
         if (exceed > 0) {
             log.info("start delete exceed {}", exceed);
             repository.deleteExceedLimit(exceed);

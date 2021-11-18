@@ -9,8 +9,7 @@ import ua.training.top.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static ua.training.top.util.MessageUtil.error_request;
-import static ua.training.top.util.MessageUtil.not_found;
+import static ua.training.top.util.MessageUtil.*;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -49,7 +48,7 @@ public class ValidationUtil {
         if (entity.isNew()) {
             entity.setId(id);
         } else if (entity.id() != id) {
-            throw new IllegalRequestDataException(entity + " must be with id=" + id);
+            throw new IllegalRequestDataException(entity + must_has_id + id);
         }
     }
 

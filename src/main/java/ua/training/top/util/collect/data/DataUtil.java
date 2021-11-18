@@ -22,7 +22,7 @@ public class DataUtil {
             monetary_amount_regex = "[-–—k(до -]",
             document_user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15",
             internet_connection_error = "There may be no internet connection or exception={} by url={} ",
-            finish = "\nfinish is ok,\ncreated: {}\nupdated: {}\nFreshen: {}\n" + ":".repeat(125),
+            finish = "\nfinish is ok,\ncreated: {}\nupdated: {}\nFreshen: {}\n" + ":".repeat(120),
             error = "There is error \ne={}\n for parse \n{}",
             common_number_vacancyTos = "Common number vacancyTos = {}",
             get_vacancy = "GetVacancies workplace={} language={}",
@@ -135,12 +135,12 @@ public class DataUtil {
         return getLinkIfEmpty(companyName.contains(",") ? companyName.split(",")[0].trim() : companyName);
     }
 
-    public static String getToAddress(String city){
-         return getLinkIfEmpty(city);
+    public static String getToAddress(String address){
+         return getLinkIfEmpty(address);
     }
 
     public static String getToSkills(String skills) {
         skills = skills.replaceAll("Java Script", "JavaScript");
-        return getLinkIfEmpty(getLimitation(skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills));
+        return getLimitation(skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills);
     }
 }

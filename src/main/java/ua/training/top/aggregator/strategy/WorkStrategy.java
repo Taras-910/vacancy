@@ -29,12 +29,7 @@ public class WorkStrategy implements Strategy {
     private static final String url = "https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=124%s";
     //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=124&page=1
 //https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=124%s
-//
-//workspace ( «-»city  all, remote, Украина: «»    за_рубежем: -other  ),
-//language,
-//level1 ( “”  trainee: +trainee  junior: +junior  middle: +middle  senior: +senior  expert: +expert)
-//part («»  удаленная: &employment=76),
-//page(«» «&page=»page )
+
     protected Document getDocument(String workspace, String language, String level, String page) {
         return DocumentUtil.getDocument(format(url, getWork(workspace), language, getLevel(work, level),
                 workspace.equals("remote") ? "&employment=76" : "", getPage(work, page)));
