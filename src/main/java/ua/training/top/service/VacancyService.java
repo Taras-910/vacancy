@@ -16,8 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
-import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodKeeping;
+import static ua.training.top.aggregator.installation.InstallationUtil.*;
 import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
@@ -66,7 +65,6 @@ public class VacancyService {
         log.info("getTosByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
         freshen.setGoals(Collections.singleton(FILTER));
         freshenService.create(freshen);
-//        return getTos(getMatchesByFreshen(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
         return getTos(repository.getByFilter(freshen), voteService.getAllForAuth());
     }
 
@@ -143,8 +141,8 @@ public class VacancyService {
             log.info("start delete exceed {}", exceed);
             repository.deleteExceedLimit(exceed);
             employerService.deleteEmptyEmployers();
-            freshenService.deleteExceedLimit(limitVacanciesKeeping / 2);
-            voteService.deleteExceedLimit(limitVacanciesKeeping / 2);
+            freshenService.deleteExceedLimit(limitFreshensKeeping);
+            voteService.deleteExceedLimit(limitVotesKeeping);
         }
     }
 }

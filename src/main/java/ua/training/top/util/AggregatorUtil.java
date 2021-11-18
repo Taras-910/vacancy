@@ -6,8 +6,8 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
 import static java.lang.String.join;
-import static ua.training.top.aggregator.installation.InstallationUtil.maxLengthText;
-import static ua.training.top.util.parser.data.DataUtil.*;
+import static ua.training.top.util.collect.data.DataUtil.isWorkerIT;
+import static ua.training.top.util.collect.data.DataUtil.wasteSkills;
 
 public class AggregatorUtil {
 
@@ -20,21 +20,19 @@ public class AggregatorUtil {
     }
 
     public static String getAnchorVacancy(Vacancy v) {
-        return getByLimit(join(v.getTitle().replaceAll(" ", ""), v.getEmployer().getName(),
-                v.getEmployer().getAddress(), v.getSkills()), maxLengthText / 2).toLowerCase();
+        return join(v.getTitle(), v.getEmployer().getName(), v.getEmployer().getAddress(), v.getSkills()).toLowerCase();
     }
 
     public static String getAnchorVacancy(VacancyTo vTo) {
-        return getByLimit(join(vTo.getTitle().replaceAll(" ", ""), vTo.getEmployerName(),
-                vTo.getAddress(), vTo.getSkills()), maxLengthText / 2).toLowerCase();
+        return join(vTo.getTitle(), vTo.getEmployerName(), vTo.getAddress(), vTo.getSkills()).toLowerCase();
     }
 
     public static String getAnchorEmployer(Employer e) {
-        return getByLimit(join(" ", e.getName(), e.getAddress()), maxLengthText / 2).toLowerCase();
+        return join(" ", e.getName(), e.getAddress()).toLowerCase();
     }
 
     public static String getAnchorEmployer(VacancyTo vTo) {
-        return getByLimit(join(" ", vTo.getEmployerName(), vTo.getAddress()), maxLengthText / 2).toLowerCase();
+        return join(" ", vTo.getEmployerName(), vTo.getAddress()).toLowerCase();
     }
 
     public static boolean isToValid(Freshen f, String text) {

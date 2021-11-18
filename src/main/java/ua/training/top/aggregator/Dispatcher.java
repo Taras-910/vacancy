@@ -1,34 +1,33 @@
-package ua.training.top.aggregator.strategy.provider;
+package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.Provider;
 import ua.training.top.aggregator.strategy.*;
-import ua.training.top.repository.AggregatorRepository;
 
 import static ua.training.top.aggregator.installation.InstallationUtil.autoRefreshProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.testProvider;
 import static ua.training.top.util.AutoRefreshUtil.getKey;
 import static ua.training.top.util.AutoRefreshUtil.mapStrategies;
 
-public class ProviderUtil {
-    public static final Logger log = LoggerFactory.getLogger(ProviderUtil.class);
+public class Dispatcher {
+    public static final Logger log = LoggerFactory.getLogger(Dispatcher.class);
 
-    public static AggregatorRepository getAllProviders(){
+    public static Starter getAllProviders(){
         if (testProvider) {
-            return new AggregatorRepository(new Provider(new TestStrategy()));
+            return new Starter(new Provider(new TestStrategy()));
         }
         else if (autoRefreshProviders) {
-            return new AggregatorRepository(
+            return new Starter(
                     mapStrategies.get(getKey(4)),
                     mapStrategies.get(getKey(4) + 4),
                     mapStrategies.get(getKey(4) + 8));
         }
         else {
-            return new AggregatorRepository(
+            return new Starter(
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
                     new Provider(new GrcStrategy()),          /*нет за_рубежем, меняет salary*/
                     new Provider(new HabrStrategy()),         /*нет за_рубежем*/
+                    new Provider(new JobCareerStrategy()),    /* мало UA RU BL*/
                     new Provider(new JobsMarketStrategy()),   /*ТОЛЬКО за_рубежем USA!!!*/
 
                     new Provider(new JobsStrategy()),         /*полезные статьи*/
@@ -38,8 +37,7 @@ public class ProviderUtil {
 
                     new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/ // нет salary
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
-                    new Provider(new WorkStrategy()),         /*нет за_рубежем*/
-                    new Provider(new YandexStrategy())        /*нет за_рубежем*/
+                    new Provider(new WorkStrategy())         /*нет за_рубежем*/
             );
         }
     }
@@ -51,7 +49,6 @@ public class ProviderUtil {
 //https://kiev.careerist.ru/jobs-java-developer/
 //https://kiev.jobcareer.ru/jobs/java/?feed=
 //https://app.headz.io/candidates/new
-//https://distillery.com/careers/senior-backend-developer-java-tg/
 //https://edc.sale
 //https://www.olx.ua
 //https://www.ria.com

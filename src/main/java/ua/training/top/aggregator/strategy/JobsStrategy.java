@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.parser.DocumentUtil;
+import ua.training.top.util.collect.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,35 +16,53 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.parser.ElementUtil.getVacanciesJobs;
-import static ua.training.top.util.parser.data.CorrectAddress.getCityJobs;
-import static ua.training.top.util.parser.data.CorrectLevel.getLevelJob;
+import static ua.training.top.util.collect.ElementUtil.getVacanciesJobs;
+import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
+import static ua.training.top.util.collect.data.DataUtil.jobs;
+import static ua.training.top.util.collect.data.UrlUtil.getLevel;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getJobs;
 
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
-    public static final int maxPages = 5;
-    private static final String URL = "https://jobs.dou.ua/vacancies/?category=%s&%s%s";
-    private static final String URL_TRAINEE = "https://jobs.dou.ua/first-job/?from=exp";
+    private static final String url = "https://jobs.dou.ua/vacancies/?%scategory=%s%s";
+    private static final String url_trainee = "https://jobs.dou.ua/first-job/?from=exp";
     // Київ        https://jobs.dou.ua/vacancies/?category=Java&city=Киев
-    // Київ junior https://jobs.dou.ua/vacancies/?city=Киев&category=Java&exp=0-1
-    // за рубежем  https://jobs.dou.ua/vacancies/?category=Java&relocation=
-    // удаленно    https://jobs.dou.ua/vacancies/?category=Java&remote
 
-    protected Document getDocument(String city, String language, String level) {
-        city = city.equals("за_рубежем") ? "foreign" : city.equals("remote") ? "remote" : "city=".concat(city);
-        return DocumentUtil.getDocument(level.equals("trainee") ? URL_TRAINEE : format(URL, language, city, getLevelJob(level)));
+    protected Document getDocument(String workplace, String language, String level) {
+        return DocumentUtil.getDocument(format(url, getWorkplace(workplace), language, getLevel(jobs, level)));
     }
- //   https://jobs.dou.ua/vacancies/?remote&category=Java&exp=1-3
+
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        log.info("getVacancies city {} language {}", freshen.getWorkplace(), freshen.getLanguage());
+        String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
+        log.info(get_vacancy, workplace, language);
+        String[] cities = workplace.equals("foreign") || workplace.equals("россия") ? getRU() :
+                workplace.equals("украина") || workplace.equals("all") ? getUA() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
-        Document doc = getDocument(getCityJobs(freshen.getWorkplace()), freshen.getLanguage(), freshen.getLevel());
+        for(String location : cities) {
+        Document doc = level.equals("trainee") ? DocumentUtil.getDocument(url_trainee) :
+                getDocument(getJobs(location), language, level);
         Elements elements = doc == null ? null : doc.getElementsByClass("vacancy");
-        System.out.println("\n\nelements="+elements.size());
+        System.out.println("\n\nelements=" + elements.size());
         if (doc == null || elements == null) return new ArrayList<>();
         set.addAll(getVacanciesJobs(elements, freshen));
+    }
         reCall(set.size(), new JobsStrategy());
         return new ArrayList<>(set);
+    }
+
+    private String getWorkplace(String workplace) {
+        return workplace.equals("all") ? "" : workplace.equals("remote") || workplace.equals("relocation") ?
+                workplace.concat("&") : "city=".concat(workplace).concat("&");
+    }
+
+    public static String[] getUA() {
+        return new String[]{"украина", "киев", "харьков", "львов", "одесса", "днепр", "винница", "ужгород",
+                "ивано-франковск", "полтава", "запорожье", "черкассы", "чернигов", "тернополь"};
+    }
+
+    public static String[] getRU() {
+        return new String[]{"россия", "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "пермь",
+                "екатеринбург", "краснодар", "ростов-на-дону", "томск", "самара", "ульяновск", "воронеж"};
     }
 }

@@ -13,8 +13,8 @@ import ua.training.top.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
-import static ua.training.top.util.VacancyCheckUtil.EMAIL_ERROR_MESSAGE;
-import static ua.training.top.util.VacancyCheckUtil.EMAIL_MATCHER;
+import static ua.training.top.util.MessageUtil.email_error;
+import static ua.training.top.util.MessageUtil.email_matcher;
 
 @ApiIgnore
 @RestController
@@ -43,8 +43,8 @@ public class AdminUIController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@Valid User user) {
-        if(!user.getEmail().matches(EMAIL_MATCHER)) {
-            throw new IllegalArgumentException(EMAIL_ERROR_MESSAGE);
+        if(!user.getEmail().matches(email_matcher)) {
+            throw new IllegalArgumentException(email_error);
         }
         if (user.isNew()) {
             service.create(user);
@@ -60,3 +60,4 @@ public class AdminUIController {
         service.enable(id, enabled);
     }
 }
+

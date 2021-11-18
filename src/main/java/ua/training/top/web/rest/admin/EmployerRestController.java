@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static ua.training.top.util.MessageUtil.error_data;
+
 @RestController
 @RequestMapping(value = EmployerRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmployerRestController {
@@ -46,7 +48,7 @@ public class EmployerRestController {
                     .buildAndExpand(created.getId()).toUri();
             entity = ResponseEntity.created(uriOfNewResource).body(created);
         } catch (Exception e) {
-            throw new DataIntegrityViolationException("ошибка данных");
+            throw new DataIntegrityViolationException(error_data);
         }
         return entity;
     }

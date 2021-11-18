@@ -9,6 +9,9 @@ import ua.training.top.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static ua.training.top.util.MessageUtil.error_request;
+import static ua.training.top.util.MessageUtil.not_found;
+
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
 
@@ -70,8 +73,14 @@ public class ValidationUtil {
         if (logException) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
         } else {
-            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+            log.warn(error_request, errorType, req.getRequestURL(), rootCause.toString());
         }
         return rootCause;
+    }
+
+    public static void checkNotFoundData(boolean found, Object id) {
+        if (!found) {
+            log.error(not_found, id);
+        }
     }
 }

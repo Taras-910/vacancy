@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static ua.training.top.util.xss.XssUtil.xssClear;
+import static ua.training.top.util.collect.xss.XssUtil.xssClear;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})

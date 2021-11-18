@@ -81,7 +81,7 @@
     <a href="https://ua.indeed.com">UAIndeed</a>,
     <a href="https://ua.jooble.org">UAJooble</a>,
     <a href="https://www.work.ua">Work</a>,
-    <a href="https://rabota.yandex.ru">Yandex</a>
+    <a href="https://www.jobcareer.ru/">JobCareer</a>
 </div>
 <br>
 <div class="container jumbotron py-0">

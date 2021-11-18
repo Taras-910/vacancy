@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.parser.DocumentUtil;
+import ua.training.top.util.collect.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,52 +17,47 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.parser.ElementUtil.getVacanciesWork;
-import static ua.training.top.util.parser.data.CorrectAddress.getCityWork;
-import static ua.training.top.util.parser.data.CorrectAddress.getTranslated;
-import static ua.training.top.util.parser.data.CorrectLevel.getLevelWork;
-import static ua.training.top.util.parser.data.DataUtil.work;
-import static ua.training.top.util.parser.data.PagesUtil.getMaxPages;
+import static ua.training.top.util.collect.ElementUtil.getVacanciesWork;
+import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
+import static ua.training.top.util.collect.data.UrlUtil.getLevel;
+import static ua.training.top.util.collect.data.UrlUtil.getPage;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getWork;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
-    public static final int maxPages = 6;
-    private static final String URL = "https://www.work.ua/ru/jobs%s-%s/?advs=1%s%s&days=123%s";
-    //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=123&page=1
-//    https://www.work.ua/ru/jobs%s-%s/?advs=1%s&employment=76&days=123%s
-
- //   workspace ( «-»city  удаленная(вся украина) || Украина: «»  удаленная: «» ), language,
-    //   level(«»  intern: «&student=1»  junior: «&experience=1»), part («»  удаленная: &employment=76), page(«» «page=»page )
-
+    private static final String url = "https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=124%s";
+    //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=124&page=1
+//https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=124%s
+//
+//workspace ( «-»city  all, remote, Украина: «»    за_рубежем: -other  ),
+//language,
+//level1 ( “”  trainee: +trainee  junior: +junior  middle: +middle  senior: +senior  expert: +expert)
+//part («»  удаленная: &employment=76),
+//page(«» «&page=»page )
     protected Document getDocument(String workspace, String language, String level, String page) {
-        return DocumentUtil.getDocument(format(URL, getCityWork(workspace), language, getLevelWork(level),
-                workspace.equals("remote") ? "&employment=76" : "", page.equals("1") ? "" : "&page=".concat(page)));
+        return DocumentUtil.getDocument(format(url, getWork(workspace), language, getLevel(work, level),
+                workspace.equals("remote") ? "&employment=76" : "", getPage(work, page)));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
+        log.info(get_vacancy, workplace, language);
         Set<VacancyTo> set = new LinkedHashSet<>();
-        String workplace = getTranslated(freshen.getWorkplace());
-        if (workplace.equals("-1")) {
+        if (isCityRu(workplace)) {
             return new ArrayList<>();
         }
         int page = 1;
         while (true) {
-            Document doc = getDocument(workplace, freshen.getLanguage(), freshen.getLevel(), valueOf(page));
+            Document doc = getDocument(workplace, language, level, valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card card-hover card-visited wordwrap job-link");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesWork(elements, freshen));
-            if(page < getMaxPages(work, workplace)) page++;
+            if (page < getMaxPages(work, freshen.getWorkplace())) page++;
             else break;
         }
         reCall(set.size(), new WorkStrategy());
         return new ArrayList<>(set);
     }
 }
-/*    private static final String URL_FORMAT = "https://www.work.ua/ru/jobs-%s-%s/?days=123&page=%s";
-    //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=123&page=1
-
-    protected Document getDocument(String city, String language, String page) {
-        return DocumentUtil.getDocument(format(URL_FORMAT, city, language, page));
-    }
-*/

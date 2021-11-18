@@ -14,7 +14,6 @@ import static ua.training.top.model.Goal.UPGRADE;
 
 public class FreshenUtil {
     public static Logger log = LoggerFactory.getLogger(FreshenUtil.class) ;
-    public static final String FRESHEN_NOT_BE_NULL = "freshen must not be null";
 
     public static Freshen getFreshenFromTo(VacancyTo vTo) {
         return new Freshen(null, now(), vTo.getLanguage(), vTo.getLevel(),

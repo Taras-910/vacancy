@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.List.of;
-import static ua.training.top.util.parser.data.DataUtil.link;
+import static ua.training.top.util.collect.data.DataUtil.link;
 
 public class VacancyUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;

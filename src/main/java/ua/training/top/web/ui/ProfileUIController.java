@@ -18,7 +18,7 @@ import ua.training.top.service.UserService;
 
 import javax.validation.Valid;
 
-import static ua.training.top.util.VacancyCheckUtil.*;
+import static ua.training.top.util.MessageUtil.*;
 
 @ApiIgnore
 @Controller
@@ -45,7 +45,7 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             status.setComplete();
             return "redirect:/vacancies";
         } catch (DataIntegrityViolationException ex) {
-            result.rejectValue("email", null, USER_EXIST_MESSAGE);
+            result.rejectValue("email", null, user_exist);
             return "profile";
         }
     }
@@ -63,17 +63,17 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             model.addAttribute("register", true);
             return "profile";
         } else {
-             if(!user.getEmail().matches(EMAIL_MATCHER)){
-                result.rejectValue("email", null, EMAIL_ERROR_MESSAGE);
+             if(!user.getEmail().matches(email_matcher)){
+                result.rejectValue("email", null, email_error);
                 model.addAttribute("register", true);
                 return "profile";
             }
             try {
                 service.create(user);
                 status.setComplete();
-                return "redirect:/login" + LOGIN_MESSAGE + user.getEmail();
+                return "redirect:/login" + invite_sign_in + user.getEmail();
             } catch (DataIntegrityViolationException e) {
-                result.rejectValue("email", null, USER_EXIST_MESSAGE);
+                result.rejectValue("email", null, user_exist);
                 model.addAttribute("register", true);
                 return "profile";
             }

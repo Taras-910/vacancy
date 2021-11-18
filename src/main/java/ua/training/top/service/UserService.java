@@ -25,7 +25,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
-import static ua.training.top.util.UserUtil.USER_NOT_BE_NULL;
+import static ua.training.top.util.MessageUtil.*;
 import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
 
@@ -53,10 +53,10 @@ public class UserService implements UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public User create(@NotEmpty User user) throws MethodNotAllowedException{
         log.info("create {}", user);
-        Assert.notNull(user, USER_NOT_BE_NULL);
+        Assert.notNull(user, user_not_be_null);
         checkNew(user);
         if(repository.getByEmail(user.getEmail()) != null){
-            throw new DataIntegrityViolationException("User with meal " + user.getEmail() + " already exist");
+            throw new DataIntegrityViolationException(user_exist + user.getEmail());
         }
         return prepareAndSave(user, null);
     }
@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
 
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
-        Assert.notNull(email, "email must not be null");
+        Assert.notNull(email, email_not_be_null);
         return checkNotFound(repository.getByEmail(email), "mail " + email);
     }
 
@@ -90,7 +90,7 @@ public class UserService implements UserDetailsService {
         log.info("update {} with id={}", user, id);
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
-        Assert.notNull(user, USER_NOT_BE_NULL);
+        Assert.notNull(user, user_not_be_null);
         User userDb = user.getId() == null ? null : repository.get(user.getId());
         checkNotFoundWithId(prepareAndSave(user, userDb), user.id());
     }
@@ -109,7 +109,7 @@ public class UserService implements UserDetailsService {
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.getByEmail(email.toLowerCase());
         if (user == null) {
-            throw new UsernameNotFoundException("User with email " + email + " is not found");
+            throw new UsernameNotFoundException(not_found + email);
         }
         return new AuthorizedUser(user);
     }
@@ -121,7 +121,7 @@ public class UserService implements UserDetailsService {
     protected void checkModificationAllowed(int id) throws MethodNotAllowedException{
         if (modificationRestriction && id < START_SEQ + 2) {
             String person = id == START_SEQ ? "Admin" : "User";
-            throw new MethodNotAllowedException("Изменять учетные данные пользователя " + person + " запрещено!");
+            throw new MethodNotAllowedException(not_change_data + person);
         }
     }
 }

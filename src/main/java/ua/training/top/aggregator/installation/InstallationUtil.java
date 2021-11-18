@@ -8,30 +8,21 @@ import ua.training.top.aggregator.strategy.Strategy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static ua.training.top.repository.AggregatorRepository.allProviders;
+import static ua.training.top.aggregator.Starter.allProviders;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
-    public static final float
-            rate_pln_to_usd = 3.98f,
-            rate_eur_to_usd = 0.86f,
-            rate_gbp_to_usd = 0.73f,
-            rate_byn_to_usd = 2.43f,
-            rate_hrn_to_usd = 26.25f,
-            rate_rub_to_usd = 71.78f,
-            rate_kzt_to_usd = 426.74f,
-            usd_one_to_one = 1.0f;
-
     public static int
-            limitVacanciesKeeping = 3000,
-            maxAge = 22,
-            maxLengthText = 300,
-            repeatToCall = 2,
-            limitCallPages = 5;
+            limitVacanciesKeeping = 4500,
+            limitFreshensKeeping = limitVacanciesKeeping / 20,
+            limitVotesKeeping = 100,
+            maxLengthText = 250,
+            repeatToCall = 3,
+            limitCallPages = 8;
 
     public static LocalDate
             reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(14),
-            reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(30);
+            reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(28);
 
 //    public static boolean testProvider = true;
     public static boolean testProvider = false;

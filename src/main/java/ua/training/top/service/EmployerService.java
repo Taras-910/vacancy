@@ -10,9 +10,9 @@ import ua.training.top.repository.EmployerRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ua.training.top.util.EmployerUtil.EMPLOYER_NOT_BE_NULL;
 import static ua.training.top.util.EmployerUtil.checkDataEmployer;
-import static ua.training.top.util.UserUtil.USER_NOT_BE_NULL;
+import static ua.training.top.util.MessageUtil.employer_not_be_null;
+import static ua.training.top.util.MessageUtil.user_not_be_null;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -34,12 +34,12 @@ public class EmployerService {
     }
 
     public Employer getOrCreate(Employer employer) {
-        Assert.notNull(employer, USER_NOT_BE_NULL);
+        Assert.notNull(employer, user_not_be_null);
         return repository.getOrCreate(employer);
     }
 
     public Employer create(Employer employer) {
-        Assert.notNull(employer, EMPLOYER_NOT_BE_NULL);
+        Assert.notNull(employer, employer_not_be_null);
         checkDataEmployer(employer);
         return repository.save(employer);
     }
@@ -49,7 +49,7 @@ public class EmployerService {
     }
 
     public void update(Employer employer) {
-        Assert.notNull(employer, EMPLOYER_NOT_BE_NULL);
+        Assert.notNull(employer, employer_not_be_null);
         checkDataEmployer(employer);
         checkNotFoundWithId(repository.save(employer), employer.id());
     }

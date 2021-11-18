@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
-import static ua.training.top.util.xss.XssUtil.xssClear;
+import static ua.training.top.util.collect.xss.XssUtil.xssClear;
 
 @Entity
 @Table(name = "freshen")

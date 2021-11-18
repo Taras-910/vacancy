@@ -12,6 +12,7 @@ import java.util.Random;
 import static java.time.LocalDateTime.now;
 import static java.util.Collections.singleton;
 import static ua.training.top.model.Goal.UPGRADE;
+import static ua.training.top.util.MessageUtil.setting_delay;
 import static ua.training.top.util.UserUtil.ADMIN_ID;
 
 public class AutoRefreshUtil {
@@ -21,7 +22,7 @@ public class AutoRefreshUtil {
     public static void setRandomDelay(int bound) {
         try {
             int delay = random.nextInt(bound);
-            log.info("\n------------ delay={} min {} sec ------------", delay/(1000 * 60), delay%(1000 * 60) / 1000);
+            log.info(setting_delay, delay/(1000 * 60), delay%(1000 * 60) / 1000);
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -45,7 +46,7 @@ public class AutoRefreshUtil {
                     Map.entry(8, new Provider(new UAIndeedStrategy())),
                     Map.entry(9, new Provider(new UAJoobleStrategy())),
                     Map.entry(10, new Provider(new WorkStrategy())),
-                    Map.entry(11, new Provider(new YandexStrategy()))
+                    Map.entry(11, new Provider(new JobCareerStrategy()))
             );
 
     public static final Map<Integer, String> mapWorkplace =

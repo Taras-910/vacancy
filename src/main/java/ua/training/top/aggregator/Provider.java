@@ -9,6 +9,8 @@ import ua.training.top.to.VacancyTo;
 import java.io.IOException;
 import java.util.List;
 
+import static ua.training.top.util.MessageUtil.number_inform;
+
 public class Provider {
     private static final Logger log = LoggerFactory.getLogger(Provider.class);
     private final Strategy strategy;
@@ -17,9 +19,14 @@ public class Provider {
         this.strategy = strategy;
     }
 
-    public List<VacancyTo> getJavaVacancies(Freshen freshen) throws IOException {
+    public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         List<VacancyTo> list = strategy.getVacancies(freshen);
-        log.info("\nstrategy {} list.size={}\n", this.strategy.getClass().getCanonicalName(), list.size());
+        log.info(number_inform, this.strategy.getClass().getCanonicalName(), list.size());
         return list;
     }
+
+
+
+
+
 }

@@ -9,7 +9,6 @@ import java.util.Collections;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 
 public class UserUtil {
-    public static final String USER_NOT_BE_NULL = "user must not be null";
     public static final int ADMIN_ID = START_SEQ;
 
     public static User prepareToSave(User user, PasswordEncoder passwordEncoder, User userDb) {

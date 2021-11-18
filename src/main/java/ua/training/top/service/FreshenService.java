@@ -7,16 +7,18 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import static ua.training.top.util.DateTimeUtil.tomorrow;
 import static ua.training.top.util.DateTimeUtil.yesterday;
-import static ua.training.top.util.FreshenUtil.FRESHEN_NOT_BE_NULL;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.MessageUtil.freshen_not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -40,7 +42,7 @@ public class FreshenService {
 
     public Freshen create(Freshen freshen) {
         log.info("create {}", freshen);
-        Assert.notNull(freshen, FRESHEN_NOT_BE_NULL);
+        Assert.notNull(freshen, freshen_not_be_null);
         checkNew(freshen);
         return repository.save(asNewFreshen(freshen));
     }
@@ -53,7 +55,7 @@ public class FreshenService {
     public void update(Freshen freshen, int id) {
         log.info("update {} with id={}", freshen, id);
         assureIdConsistent(freshen, id);
-        Assert.notNull(freshen, FRESHEN_NOT_BE_NULL);
+        Assert.notNull(freshen, freshen_not_be_null);
         checkNotFoundWithId(repository.save(freshen), freshen.id());
     }
 
@@ -70,7 +72,7 @@ public class FreshenService {
 
     public Freshen getLast() {
         log.info("getLast");
-        return repository.getBetween(tomorrow, yesterday).stream().max((f1, f2) -> f1.getId().compareTo(f2.getId())).get();
+        return repository.getBetween(tomorrow, yesterday).stream().max(Comparator.comparing(AbstractBaseEntity::getId)).get();
     }
 
     @Transactional

@@ -4,11 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.model.Vacancy;
-import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
-
-import java.util.List;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.UserTestData.USER_ID;
@@ -37,22 +33,14 @@ public class Main {
 //        VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
 //        ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
 //        VacancyRestController vacancyRestController = appCtx.getBean(VacancyRestController.class);
-        FreshenService freshenService = appCtx.getBean(FreshenService.class);
+//        FreshenService freshenService = appCtx.getBean(FreshenService.class);
 //        AggregatorService aggregatorService = appCtx.getBean(AggregatorService.class);
 //        EmployerService employerService = appCtx.getBean(EmployerService.class);
         VacancyService vacancyService = appCtx.getBean(VacancyService.class);
 //        VoteService voteService = appCtx.getBean(VoteService.class);
 
         System.out.println(".".repeat(120));
-        List<Vacancy> before = vacancyService.getAll();
-        int limit = 0;
-//        vacancyService.deleteExceedLimit(limit);
-        List<Vacancy> after = vacancyService.getAll();
 
-
-        System.out.println("vacancies before="+before.size());
-        System.out.println("delete limit="+limit);
-        System.out.println("vacancies after="+after.size());
 
 
         System.out.println(".".repeat(120));

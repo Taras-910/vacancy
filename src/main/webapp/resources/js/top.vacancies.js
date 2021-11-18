@@ -113,14 +113,19 @@ $(function () {
                 },
                 {
                     "data": function (data, type, row) {
-                        if(data.employerName === "see the card on the link") {
-                            return 'see on <a href="' + data.url + '">link</a>'
+                        if(data.employerName === "see the card") {
+                            return 'see the <a href="' + data.url + '">card</a>'
                         }
                         return data.employerName;
                     }
                 },
                 {
-                    "data": "address"
+                    "data": function (data, type, row) {
+                        if(data.address === "see the card") {
+                            return 'see the <a href="' + data.url + '">card</a>'
+                        }
+                        return data.address;
+                    }
                 },
                 {
                     "data": function (data, type, row) {
@@ -146,7 +151,7 @@ $(function () {
                 },
                 {
                     "data": function (data, type, row) {
-                        if(data.skills === "see the card on the link") {
+                        if(data.skills === "see the card") {
                             return 'see the card on the <a href="' + data.url + '">link</a>'
                         }
                         return data.skills;

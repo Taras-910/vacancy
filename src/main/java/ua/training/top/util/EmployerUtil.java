@@ -6,8 +6,9 @@ import ua.training.top.to.VacancyTo;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ua.training.top.util.MessageUtil.employer_not_be_null;
+
 public class EmployerUtil {
-    public static final String EMPLOYER_NOT_BE_NULL = "freshen must not be null";
 
     public static List<Employer> getEmployersFromTos(List<VacancyTo> vTos) {
         return vTos.stream().map(EmployerUtil::getEmployerFromTo).collect(Collectors.toList());
@@ -21,7 +22,7 @@ public class EmployerUtil {
         String[] data = {e.getName(), e.getAddress()};
         for(String text : data) {
             if (text == null || text.equals("")) {
-                throw new IllegalArgumentException("must not null data of " + e.getClass().getSimpleName());
+                throw new IllegalArgumentException(employer_not_be_null);
             }
         }
     }

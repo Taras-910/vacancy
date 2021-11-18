@@ -18,15 +18,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
+import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
-import static ua.training.top.aggregator.strategy.provider.ProviderUtil.getAllProviders;
 import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.getAnchorEmployer;
 import static ua.training.top.util.AggregatorUtil.getAnchorVacancy;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.parser.data.DataUtil.finish;
+import static ua.training.top.util.collect.data.DataUtil.finish;
 
 @Service
 public class AggregatorService {
@@ -35,8 +35,6 @@ public class AggregatorService {
     private VacancyService vacancyService;
     @Autowired
     private EmployerService employerService;
-    @Autowired
-    private VoteService voteService;
     @Autowired
     private FreshenService freshenService;
 
@@ -55,7 +53,7 @@ public class AggregatorService {
                     .collect(Collectors.toMap(AggregatorUtil::getAnchorVacancy, v -> v));
             Map<String, List<Employer>> mapEmployersDb = employersDb.stream()
                     .collect(Collectors.groupingBy(AggregatorUtil::getAnchorEmployer));
-            List<VacancyTo> vacancyTosByUniqueEmployers = new ArrayList<>();
+            List<VacancyTo> vacancyTosOfUniqueEmployers = new ArrayList<>();
             vacancyTos.forEach(vTo -> {
                 if (mapEmployersDb.containsKey(getAnchorEmployer(vTo))) {
                     if (mapVacanciesDb.containsKey(getAnchorVacancy(vTo))) {
@@ -67,10 +65,10 @@ public class AggregatorService {
                         vacanciesForCreate.add(v);
                     }
                 } else {
-                    vacancyTosByUniqueEmployers.add(vTo);
+                    vacancyTosOfUniqueEmployers.add(vTo);
                 }
             });
-            Map<Employer, List<VacancyTo>> mapUniqueTos = vacancyTosByUniqueEmployers.stream()
+            Map<Employer, List<VacancyTo>> mapUniqueTos = vacancyTosOfUniqueEmployers.stream()
                     .collect(Collectors.groupingBy(EmployerUtil::getEmployerFromTo));
             executeRefreshDb(mapUniqueTos, vacanciesDb, vacanciesForUpdate, vacanciesForCreate, newFreshen);
             log.info(finish, vacanciesForCreate.size(), vacanciesForUpdate.size(), freshen);
@@ -82,7 +80,7 @@ public class AggregatorService {
                                     List<Vacancy> vacanciesUpdate, List<Vacancy> vacanciesCreate, Freshen newFreshen) {
         List<Employer> newEmployers = employerService.createList(new ArrayList<>(mapUniqueTos.keySet()));
         newEmployers.forEach(e -> {
-            fromTos(mapUniqueTos.get(e)).forEach(v -> {
+            fromTos(mapUniqueTos.get(e)).stream().distinct().forEach(v -> {
                 v.setEmployer(e);
                 v.setFreshen(newFreshen);
                 vacanciesCreate.add(v);
@@ -99,36 +97,29 @@ public class AggregatorService {
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
 
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "middle", "Санкт-Петербург", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "all", "Харьков", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
-//        String text = "Posted on: Nov 13, 2021";
-//        System.out.println(getToLocalDate(text));
+
     }
 }
-
-//                remote                                  foreign                         санкт-петербург
-
-//djinni          до $3500                                  $2290-2300
-//grc             до 250 000 руб.   от 60 000 руб.  100 000 – 180 000 руб.
-//habr                                  от 150 000 ₽        от 150 000 до 200 000 ₽
-//jobsMarket      ---------------------------
-//jabs                                   від $1000           $2200–3000
-//linkedin        ---------------------------
-//nofluff                                                    13 000 - 26 000 PLN      // 1
-//rabota          40 000 грн                                 12 000 — 20 000 грн
-//indeed          ---------------------------
-//joble   string1                          6 000 €           1 000 - 2 000 $           // 1
-//joble   string2  //1//      Salary: 100-160 (B2B) PLN / hour. Requirements: Java, Springboot, MVC, REST APIs, microservices. Tools: Jira, GitHub, GIT, Agile, Scrum. Additionally: Sport subscription, Training budget, Private healthcare, Flat structure, Small teams, International projects, Free coffee...
-//                  //1//     Salary: PLN per month: 18.0k-27.1k (B2B), 15.3k-23.0k (UoP). Requirements: Java, Spring, English, Team player, Communication skills. Tools: Jira, Confluence, Wiki, Bitbucket, Sonar, GIT, Jenkins, Agile, Scrum, SAFe. Additionally: Sport subscription, Training budget, Private...
-//                       ...Senior Java Engineer Необхідні навички • 4+ years of commercial programming experience; • 4+ years of experience with Java; • Experience of developing modern REST services on Spring Boot; • Security topics hands-on with Spring Security (SAML, OAuth2); • Сommon...
-
-//work                                                   30 000 – 90 000 грн
-//yandex
-
-
+//                                   *      *
+//  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
+//all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291
+//Украина   6    6      -     -     14   2х14    -     6    25    2*14*  27    2        128
+//foreign 120    1      1    10     14   2х14    4     1     -    1*14*   3    -
+//Киев    100    4     20     -      1      2    -    12    25    22     13    2
+//remote  100   33     13    10      1      3    4     9     7    13x20   9    -
+//Минск   100    6     20     -      1      2    -     1     -     2      3    2
+//Львов    40    -      -     -      1      2    -     3          20      3    1
+//Харьков  46    2      -     -      1      2    -     4          11      5    1
+//Одесса   30    -      -     -      1      2    -     2     2     6      3    1
+//Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4
+//Москва    -   40     20     -      1      3    -     -     -     -      -    3
+//                              trainee=164
+// djinni address ???
 
 
 

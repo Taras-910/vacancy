@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.parser.DocumentUtil;
+import ua.training.top.util.collect.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,59 +15,57 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.parser.ElementUtil.getVacanciesJooble;
-import static ua.training.top.util.parser.data.CorrectAddress.getCityJooble;
-import static ua.training.top.util.parser.data.CorrectAddress.isMatchesRu;
-import static ua.training.top.util.parser.data.CorrectLevel.getLevelJooble;
+import static ua.training.top.util.collect.ElementUtil.getVacanciesJooble;
+import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
+import static ua.training.top.util.collect.data.UrlUtil.getLevel;
+import static ua.training.top.util.collect.data.UrlUtil.getPage;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getJooble;
 
 public class UAJoobleStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAJoobleStrategy.class);
-    /*за неделю*/
-//    private static final String URL = "https://ua.jooble.org/SearchResult?date=3&%s%s&ukw=%s%s";
-    /*за 24 часа*/
-//    private static final String URL = "https://ua.jooble.org/SearchResult?date=8&%s%s&ukw=%s%s";
-    /*за все время*/
-    private static final String URL = "https://ua.jooble.org/SearchResult?%s%s&ukw=%s%s";
-//    https://ua.jooble.org/SearchResult?date=3&rgns=Польща&ukw=java
-//    https://ua.jooble.org/SearchResult?date=8&loc=2&p=2&ukw=java
+    private static final String url = "https://ua.jooble.org/SearchResult?date=3%s%s%s&ukw=%s%s";
+    //    https://ua.jooble.org/SearchResult?date=3&rgns=Польща&ukw=java
 
-    protected Document getDocument(String city, String language, String level, String page) {
-        return DocumentUtil.getDocument(format(URL, city, page.equals("1") ? "" : "&p=".concat(page), language, getLevelJooble(level)));
+    protected Document getDocument(String workplace, String language, String level, String page) {
+        return DocumentUtil.getDocument(format(url, workplace.equals("remote") ? "&loc=2" : "",
+                getJooble(workplace), getPage(jooble, page), language, getLevel(jooble, level)));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        String workplace = freshen.getWorkplace();
-        log.info("getVacancies workplace={} language={}", workplace, freshen.getLanguage());
-        if (!isMatchesRu(freshen.getWorkplace())) {
+        String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
+        log.info(get_vacancy, workplace, language);
+        if (isCityRu(workplace)) {
             return new ArrayList<>();
         }
-        String[] workplaces = workplace.equals("foreign") ? getForeignJooble() : new String[]{workplace};
-        List<VacancyTo> result = new ArrayList<>();
+        String[] workplaces = workplace.equals("foreign") ?
+                getForeign() : workplace.equals("украина") ? getUA() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
-        for(String location : workplaces) {
+        for (String location : workplaces) {
             int page = 1;
-//            while(getLimitJooble(freshen) ? page < 3 : page < 10) {
-            while(getLimitJooble(freshen) ? page < 3 : page < 4) {
-                Document doc = getDocument(getCityJooble(location), freshen.getLanguage(), freshen.getLevel(), String.valueOf(page));
+            while (true) {
+                Document doc = getDocument(location, language, level, valueOf(page));
                 Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesJooble(elements, freshen));
-                page = workplaces.length == 1 ? page + 1 : page + 10;
+                if (page < getMaxPages(jooble, location)) page++;
+                else break;
             }
         }
-        result.addAll(set);
-        reCall(result.size(), new UAJoobleStrategy());
-        return result;
+        reCall(set.size(), new UAJoobleStrategy());
+        return new ArrayList<>(set);
     }
 
-    public static boolean getLimitJooble(Freshen freshen) {
-        return freshen.getWorkplace().equals("foreign") || freshen.getLevel().equals("trainee") || freshen.getLevel().equals("junior");
-    }
-
-    public static String[] getForeignJooble() {
+    public static String[] getForeign() {
         return new String[]{"Канада", "Польща", "Німеччина", "Швеція", "Ізраїль", "Швейцарія", "США", "Франція", "Італія",
-                "Фінляндія", "Велика Британія", "ОАЕ", "Чехія"};
+                "Фінляндія", "Велика Британія", "ОАЕ", "Чехія", "Словаччина"};
+    }
+
+    public static String[] getUA() {
+        return new String[]{"Київ", "Харків", "Львів", "Одеса", "Дніпро", "Вінниця", "Ужгород", "Івано-Франківськ",
+                "Полтава", "Запоріжжя", "Черкаси", "Чернігів", "Тернопіль"};
     }
 }
