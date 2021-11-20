@@ -100,8 +100,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Transactional
     @Override
-    public List<Vacancy> getLimit(int exceedNumber) {
-        return vacancyRepository.findExceeded(exceedNumber);
+    public List<Vacancy> getLimit(int limit) {
+        return vacancyRepository.getLimit(limit);
     }
 
 }

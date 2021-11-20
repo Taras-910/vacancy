@@ -41,8 +41,8 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
 
     //    https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation
     @Query(value =
-            "SELECT * FROM vacancy.public.vacancy v ORDER BY v.release_date, v.id LIMIT :exceedNumber", nativeQuery = true)
-    List<Vacancy> findExceeded(@Param("exceedNumber") int exceedNumber);
+            "SELECT * FROM Vacancy v ORDER BY v.release_date, v.id LIMIT :exceedNumber", nativeQuery = true)
+    List<Vacancy> getLimit(@Param("exceedNumber") int exceedNumber);
 }
 
 
