@@ -135,10 +135,6 @@ public class DataUtil {
         return getLinkIfEmpty(companyName.contains(",") ? companyName.split(",")[0].trim() : companyName);
     }
 
-    public static String getToAddress(String address){
-         return getLinkIfEmpty(address);
-    }
-
     public static String getToSkills(String skills) {
         skills = skills.replaceAll("Java Script", "JavaScript");
         return getLimitation(skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills);

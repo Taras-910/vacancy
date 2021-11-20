@@ -79,11 +79,6 @@
                             </button>
                         </div>
                     </div>
-                    <div class="row justify-content-md-center count1">
-                        <em class="btn-outline-info"><label class="count1" id="count1"> Сегодня опубликовано новых вакансий :   </label></em>
-                        <em><output class="count" id="count"><h7 class="btn-outline-info">  ${count}</h7></output></em>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -348,10 +343,6 @@
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
                 <h7><em>идет загрузка... подождите минуту или две...<br>
                     через 2 мин жмите  </em><h6 class="fa fa-filter text-info">  Фильтровать</h6>
-                    <%--<button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
-                        <span class="fa fa-filter"></span>
-                        Фильтровать
-                    </button>--%>
                 </h7>
             </span>
             <h7 class="modal-title"></h7>

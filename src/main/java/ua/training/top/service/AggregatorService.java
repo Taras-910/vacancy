@@ -14,19 +14,17 @@ import ua.training.top.util.EmployerUtil;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
-import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.getAnchorEmployer;
 import static ua.training.top.util.AggregatorUtil.getAnchorVacancy;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.collect.data.DataUtil.finish;
+import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
 
 @Service
 public class AggregatorService {
@@ -96,28 +94,37 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
+/*
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "all", "Харьков", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+*/
+
+        String text = "Talented Automation QA to join our experienced team! Welcome bonus $3000- for Middle Automation QA Welcome bonus $4000- for Senior Automation QA Requirements: 2+ years of software development and debugging experience in Java / or C++ / or other high-";
+        System.out.println("salaryMin="+ getToSalaries(text)[0]);
+        System.out.println("salaryMax="+ getToSalaries(text)[1]);
+
     }
 }
 //                                   *      *
 //  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
 //all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291
+//remote  100   33     13    10      1      3    4     9     7    13x20   9    -        202
+//Киев    100    4     20     -      1      2    -    12    25    22     13    2        201
+//foreign 120    1      1    10     14   2х14    4     1     -    1*14*   3    -        169
+//Минск   100    6     20     -      1      2    -     1     -     2      3    2        137
 //Украина   6    6      -     -     14   2х14    -     6    25    2*14*  27    2        128
-//foreign 120    1      1    10     14   2х14    4     1     -    1*14*   3    -
-//Киев    100    4     20     -      1      2    -    12    25    22     13    2
-//remote  100   33     13    10      1      3    4     9     7    13x20   9    -
-//Минск   100    6     20     -      1      2    -     1     -     2      3    2
-//Львов    40    -      -     -      1      2    -     3          20      3    1
-//Харьков  46    2      -     -      1      2    -     4          11      5    1
-//Одесса   30    -      -     -      1      2    -     2     2     6      3    1
-//Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4
-//Москва    -   40     20     -      1      3    -     -     -     -      -    3
+//Харьков  46    2      -     -      1      2    -     4          11      5    1         72
+//Львов    40    -      -     -      1      2    -     3          20      3    1         70
+//Москва    -   40     20     -      1      3    -     -     -     -      -    3         67
+//Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4         48
+//Одесса   30    -      -     -      1      2    -     2     2     6      3    1         47
 //                              trainee=164
 
-
+//$ jooble: title(bonus $4000) ||  skills ($4000)
+//$ joobs.dou: title(bonus $4000)
+//$ rabota: title( $4000) ||  skills ($4000)
 
 

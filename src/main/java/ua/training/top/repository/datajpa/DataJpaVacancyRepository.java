@@ -2,7 +2,6 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
@@ -20,7 +19,6 @@ import static ua.training.top.util.MessageUtil.update_error_and_redirect;
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaVacancyRepository implements VacancyRepository {
-    private static final Sort SORT_DATE_NAME = Sort.by(Sort.Direction.DESC, "releaseDate", "title");
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final CrudVacancyRepository vacancyRepository;
 
@@ -46,7 +44,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         try {
             vacanciesDb = vacancyRepository.saveAll(vacancies);
         } catch (Exception e) {
-            for(Vacancy v : vacancies) {
+            for (Vacancy v : vacancies) {
                 log.error(update_error_and_redirect, v);
                 vacanciesDb.add(save(v));
             }
@@ -84,23 +82,13 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
-    public int getCountToday() {
-        return vacancyRepository.getCountToday(LocalDate.now()).size();
-    }
-
-    @Override
-    public int getByFreshenId(Integer id) {
-        return vacancyRepository.getByFreshenId(id).size();
-    }
-
-    @Override
     public Vacancy get(int id) {
         return vacancyRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Vacancy> getAll() {
-        return vacancyRepository.getAll();
+        return vacancyRepository.findAll();
     }
 
     @Transactional
@@ -112,7 +100,9 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Transactional
     @Override
-    public void deleteExceedLimit(int exceedNumber) { deleteList(vacancyRepository.findExceeded(exceedNumber)); }
+    public void deleteExceedLimit(int exceedNumber) {
+        deleteList(vacancyRepository.findExceeded(exceedNumber));
+    }
 
 }
 

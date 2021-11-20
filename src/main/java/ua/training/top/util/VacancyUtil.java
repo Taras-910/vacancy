@@ -20,12 +20,12 @@ public class VacancyUtil {
         return vacancies.isEmpty() ? getEmpty() :
                 vacancies.stream()
                         .map(vacancy -> getTo(vacancy, votes))
-                        .sorted(VacancyTo::compareTo)
+//                        .sorted(VacancyTo::compareTo)
                         .collect(Collectors.toList());
     }
 
     public static VacancyTo getTo(Vacancy v, List<Vote> votes) {
-        boolean toVote = votes.stream().filter(vote -> v.getId().equals(vote.getVacancyId())).count() != 0;
+        boolean toVote = votes.stream().anyMatch(vote -> v.getId().equals(vote.getVacancyId()));
         return new VacancyTo(v.getId(), v.getTitle(), v.getEmployer().getName(), v.getEmployer().getAddress(),
                 v.getSalaryMin(), v.getSalaryMax(), v.getUrl(), v.getSkills(), v.getReleaseDate(),
                 v.getFreshen().getLanguage(), v.getFreshen().getLevel(), v.getFreshen().getWorkplace(), toVote);

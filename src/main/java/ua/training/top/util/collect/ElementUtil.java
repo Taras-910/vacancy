@@ -15,6 +15,7 @@ import java.util.Optional;
 import static java.lang.String.join;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateLoading;
 import static ua.training.top.aggregator.strategy.JobCareerStrategy.getCareerUrl;
+import static ua.training.top.aggregator.strategy.LinkedinStrategy.getSalaryLinkedin;
 import static ua.training.top.aggregator.strategy.LinkedinStrategy.getToLinkedin;
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.getToNofluffjobs;
 import static ua.training.top.util.AggregatorUtil.isToValid;
@@ -37,11 +38,12 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByClass("profile").tagName("a").text()));
                     skills = getToSkills(xssClear(element.getElementsByClass("list-jobs__description").text()));
                     salaries = xssClear(element.getElementsByClass("public-salary-item").text());
+                    salaries = isEmpty(salaries) ? skills : salaries;
                     if (isToValid(freshen, join(" ", title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text())));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByAttributeValueStarting("class", "location-text").text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByAttributeValueStarting("class", "location-text").text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(djinni, xssClear(element.getElementsByClass("profile").first().attr("href"))));
@@ -72,7 +74,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text())));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-address").text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(xssClear(element.getElementsByClass("bloko-link").attr("href")));
@@ -103,7 +105,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByClass("vacancy-card__meta").tagName("a").first().text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("vacancy-card__meta").tagName("a").first().text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(habr, xssClear(element.getElementsByClass("vacancy-card__icon-link").attr("href"))));
@@ -132,7 +134,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(xssClear(element.getElementsByAttributeValueEnding("class", "vacancy-company").text()));
-                        v.setAddress(xssClear(element.getElementsByClass("vacancy-location").text()));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("vacancy-location").text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getCareerUrl(xssClear(element.getElementsByTag("a").attr("href")), freshen));
@@ -161,7 +163,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("cursor-pointer").text())));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
@@ -188,7 +190,7 @@ public class ElementUtil {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(getLinkIfEmpty(title));
                     v.setEmployerName(getToName(xssClear(element.getElementsByTag("a").last().text())));
-                    v.setAddress(xssClear(element.getElementsByClass("cities").text()));
+                    v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("cities").text())));
                     v.setSalaryMin(getToSalaries(salaries)[0]);
                     v.setSalaryMax(getToSalaries(salaries)[1]);
                     v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href")));
@@ -214,9 +216,9 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("base-search-card__subtitle").tagName("a").text())));
-                        v.setAddress(getToAddress(getToLinkedin(xssClear(element.getElementsByClass("job-search-card__location").text()))));
-                        v.setSalaryMin(1);
-                        v.setSalaryMax(1);
+                        v.setAddress(getToLinkedin(xssClear(element.getElementsByClass("job-search-card__location").text())));
+                        v.setSalaryMin(getToSalaries(getSalaryLinkedin(title))[0]);
+                        v.setSalaryMax(getToSalaries(getSalaryLinkedin(title))[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href")));
                         v.setSkills(link);
                         v.setReleaseDate(localDate);
@@ -268,11 +270,12 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByClass("card-title").text()));
                     skills = getToSkills(xssClear(element.getElementsByClass("card-description").text()));
                     salaries = xssClear(element.getElementsByClass("salary").text());
+                    salaries = isEmpty(salaries) ? title : skills;
                     if (isToValid(freshen, join(" ", title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("company-name").text())));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByClass("location").text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("location").text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(rabota, xssClear(element.getElementsByTag("a").attr("href"))));
@@ -300,7 +303,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(xssClear(element.getElementsByClass("companyName").text()))));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByClass("companyLocation").text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("companyLocation").text())));
                         v.setSalaryMin(1);
                         v.setSalaryMax(1);
                         v.setUrl(getToUrl(indeed, xssClear(element.getElementsByTag("a").tagName("a").attr("data-jk"))));
@@ -330,11 +333,12 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByTag("header").tagName("span").text()));
                     skills = getToSkills(xssClear(element.getElementsByClass("_10840").text()));
                     salaries = xssClear(element.getElementsByClass("a7943").text());
+                    salaries = isEmpty(salaries) ? skills : salaries;
                     if (isToValid(freshen, join(" ", title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("efaa8").text())));
-                        v.setAddress(getToAddress(xssClear(Optional.of(element.getElementsByClass("caption d7cb2").text()).orElse(""))));
+                        v.setAddress(getLinkIfEmpty(xssClear(Optional.of(element.getElementsByClass("caption d7cb2").text()).orElse(""))));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(jooble, xssClear(element.getElementsByTag("article").attr("id"))));
@@ -365,7 +369,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(employerName));
-                        v.setAddress(getToAddress(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text())));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(work, xssClear(element.getElementsByTag("a").attr("href"))));

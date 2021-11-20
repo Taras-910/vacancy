@@ -76,4 +76,8 @@ public class LinkedinStrategy implements Strategy {
         return new String[]{"россия", "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "пермь",
                 "екатеринбург", "краснодар", "ростов-на-дону", "томск", "самара", "ульяновск", "воронеж"};
     }
+
+    public static String getSalaryLinkedin(String title) {
+        return String.join(title.replace(",", ""), " ", "year");
+    }
 }

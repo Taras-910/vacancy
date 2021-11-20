@@ -57,7 +57,7 @@ public class VacancyService {
 
     public List<VacancyTo> getAllTos() {
         log.info("getAllTos for user {}", authUserId());
-        return VacancyUtil.getTos(getAll(), voteService.getAllForAuth());
+        return getTos(getAll(), voteService.getAllForAuth());
     }
 
     @Transactional
@@ -111,18 +111,6 @@ public class VacancyService {
         if (!listToDelete.isEmpty()) {
             repository.deleteList(listToDelete);
         }
-    }
-
-    public int getCountToday() {
-        log.info("getCountToday");
-        return repository.getCountToday();
-    }
-
-    @Transactional
-    public int getCountLast() {
-        log.info("getCountLast");
-        Freshen freshen = freshenService.getLast();
-        return repository.getByFreshenId(freshen.getId());
     }
 
     @Transactional

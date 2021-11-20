@@ -86,15 +86,15 @@ $(function () {
     ctx = {
         ajaxUrl : ajaxUrl,
         datatableApi: $("#datatable").DataTable({
+            "pageLength": 10,
             "ajax": {
                 "url": ajaxUrl,
-                "dataSrc": ""
+                "dataSrc": "",
             },
-            columnDefs: [{
+            "columnDefs": [{
                 "defaultContent": "-",
                 "targets": "_all"
             }],
-            "pagingType": "full_numbers",
             "info": true,
             "deferRender": true,
             "columns": [
@@ -130,7 +130,7 @@ $(function () {
                 {
                     "data": function (data, type, row) {
                         if (data.salaryMin === 1 && type === "display") {
-                            return '<a href="' + data.url + '">card</a>'
+                            return '<a href="' + data.url + '">-</a>'
                         }
                         if (data.salaryMin > 1 && type === "display") {
                             return data.salaryMin / 100;
@@ -141,7 +141,7 @@ $(function () {
                 {
                     "data": function (data, type, row) {
                         if (data.salaryMax === 1 && type === "display") {
-                            return '<a href="' + data.url + '">card</a>'
+                            return '<a href="' + data.url + '">-</a>'
                         }
                         if (data.salaryMax > 1 && type === "display") {
                             return data.salaryMax / 100;

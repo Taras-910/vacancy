@@ -5,8 +5,6 @@ let count = document.getElementById("count");
 let count1 = document.getElementById("count1");
 
 function refreshDB() {
-    // count.style.visibility = 'hidden';
-    // count1.style.visibility = 'hidden';
     spinner1.style.visibility = 'hidden';
     spinner2.style.visibility = 'hidden';
     $('#detailsRefreshForm').find(":input").val("");
@@ -30,20 +28,7 @@ function sendRefresh() {
     }).done(function () {
         $("#refreshRow").modal("hide");
         count1.style.visibility = 'visible';
-        updateCount();
         ctx.updateTable();
         successNoty("Update has finished ");
     });
-}
-
-function updateCount() {
-        $.ajax({
-            type: "GET",
-            url: "profile/vacancies/count"
-        }).done(function (count) {
-            document.getElementById('count').value = count;
-            $.get("profile/vacancies/last", function (last) {
-                successNoty("There are loaded " + last + " vacancies today");
-            });
-        });
 }

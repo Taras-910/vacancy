@@ -24,10 +24,6 @@ public interface VacancyRepository {
 
     List<Vacancy> getByFilter(Freshen freshen);
 
-    int getCountToday();
-
-    int getByFreshenId(Integer id);
-
     void deleteExceedLimit(int exceed);
 
     List<Vacancy> deleteOutDated(LocalDate reasonPeriodKeeping);
