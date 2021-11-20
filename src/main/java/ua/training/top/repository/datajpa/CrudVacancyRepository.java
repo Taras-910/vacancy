@@ -1,8 +1,5 @@
 package ua.training.top.repository.datajpa;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -46,15 +43,6 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
     @Query(value =
             "SELECT * FROM vacancy.public.vacancy v ORDER BY v.release_date, v.id LIMIT :exceedNumber", nativeQuery = true)
     List<Vacancy> findExceeded(@Param("exceedNumber") int exceedNumber);
-
-
-
-
-    @Query("SELECT v FROM Vacancy v")
-    Slice<Vacancy> findAllSliced(Pageable pageable);
-
-    @Query(value="select v from Vacancy v", countQuery="select count(v) from Vacancy v", nativeQuery = true)
-    Page<Vacancy> findVacancies(Pageable pageable);
 }
 
 
