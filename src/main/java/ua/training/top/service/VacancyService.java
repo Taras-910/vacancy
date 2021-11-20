@@ -57,6 +57,10 @@ public class VacancyService {
 
     public List<VacancyTo> getAllTos() {
         log.info("getAllTos for user {}", authUserId());
+        if(firstDownload) {
+            offFirstDownload();
+            return getTos(getLimit(100), voteService.getAllForAuth());
+        }
         return getTos(getAll(), voteService.getAllForAuth());
     }
 
@@ -126,10 +130,16 @@ public class VacancyService {
     public void deleteExceedLimit(int exceed) {
         if (exceed > 0) {
             log.info("start delete exceed {}", exceed);
-            repository.deleteExceedLimit(exceed);
+            deleteList(getLimit(exceed));
             employerService.deleteEmptyEmployers();
             freshenService.deleteExceedLimit(limitFreshensKeeping);
             voteService.deleteExceedLimit(limitVotesKeeping);
         }
+    }
+
+    @Transactional
+    public List<Vacancy> getLimit(int limit) {
+        log.info("getLimit limit {}", limit);
+        return repository.getLimit(limit);
     }
 }

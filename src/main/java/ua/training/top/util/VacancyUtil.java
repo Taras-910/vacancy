@@ -16,6 +16,16 @@ import static ua.training.top.util.collect.data.DataUtil.link;
 public class VacancyUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;
 
+    public static boolean firstDownload = true;
+
+    public static void offFirstDownload() {
+        VacancyUtil.firstDownload = false;
+    }
+
+    public static void setFirstDownload() {
+        VacancyUtil.firstDownload = true;
+    }
+
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
         return vacancies.isEmpty() ? getEmpty() :
                 vacancies.stream()

@@ -1,8 +1,12 @@
 package ua.training.top.repository.datajpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Vacancy;
@@ -11,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
-public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
+public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, PagingAndSortingRepository<Vacancy, Integer> {
 
     @Transactional
     @Modifying
@@ -21,7 +25,7 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
     @Query("SELECT v FROM Vacancy v WHERE v.id=:id AND v.employer.id=:employerId")
     Vacancy get(@Param("id") int id, @Param("employerId") int employerId);
 
-    @Query("SELECT v FROM Vacancy v ORDER BY v.releaseDate DESC")
+    @Query("SELECT v FROM Vacancy v")
     List<Vacancy> getAll();
 
     @Query("SELECT v FROM Vacancy v WHERE v.title=:title AND v.skills=:skills AND v.employer.id=:employerId")
@@ -42,4 +46,15 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer> {
     @Query(value =
             "SELECT * FROM vacancy.public.vacancy v ORDER BY v.release_date, v.id LIMIT :exceedNumber", nativeQuery = true)
     List<Vacancy> findExceeded(@Param("exceedNumber") int exceedNumber);
+
+
+
+
+    @Query("SELECT v FROM Vacancy v")
+    Slice<Vacancy> findAllSliced(Pageable pageable);
+
+    @Query(value="select v from Vacancy v", countQuery="select count(v) from Vacancy v", nativeQuery = true)
+    Page<Vacancy> findVacancies(Pageable pageable);
 }
+
+
