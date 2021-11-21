@@ -26,6 +26,8 @@ public interface VacancyRepository {
 
     List<Vacancy> deleteOutDated(LocalDate reasonPeriodKeeping);
 
-    List<Vacancy> getLimit(int limit);
+    List<Vacancy> getList(int number);
+
+    List<Vacancy> getFirstPortion(int limit);
 }
 

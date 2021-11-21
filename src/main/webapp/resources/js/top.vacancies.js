@@ -86,17 +86,17 @@ $(function () {
     ctx = {
         ajaxUrl : ajaxUrl,
         datatableApi: $("#datatable").DataTable({
-            "pageLength": 10,
+            "iDisplayLength": 10,
+            "bPaginate": true,
             "ajax": {
                 "url": ajaxUrl,
-                "dataSrc": "",
+               "dataSrc": "",
             },
             "columnDefs": [{
                 "defaultContent": "-",
                 "targets": "_all"
             }],
             "info": true,
-            "deferRender": true,
             "columns": [
                 {
                     "data": "id",

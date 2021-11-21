@@ -40,9 +40,12 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
     List<Vacancy> getOutDated(@Param("reasonPeriodToKeep") LocalDate reasonPeriodToKeep);
 
     //    https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation
-    @Query(value =
-            "SELECT * FROM Vacancy v ORDER BY v.release_date, v.id LIMIT :exceedNumber", nativeQuery = true)
-    List<Vacancy> getLimit(@Param("exceedNumber") int exceedNumber);
+    @Query(value = "SELECT * FROM Vacancy v ORDER BY v.release_date ASC , v.id ASC LIMIT :number", nativeQuery = true)
+    List<Vacancy> getList(@Param("number") int number);
+
+    //    https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation
+    @Query(value = "SELECT * FROM Vacancy v ORDER BY v.release_date DESC, v.id DESC LIMIT :limit", nativeQuery = true)
+    List<Vacancy> getFirstPortion(@Param("limit") int limit);
 }
 
 

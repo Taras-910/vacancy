@@ -64,6 +64,13 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         vacancyRepository.deleteAll(listToDelete);
     }
 
+    @Transactional
+    @Override
+    public List<Vacancy> deleteOutDated(LocalDate reasonPeriodToKeep) {
+        deleteList(vacancyRepository.getOutDated(reasonPeriodToKeep));
+        return getAll();
+    }
+
     @Override
     public Vacancy getByParams(String title, String skills, int employerId) {
         try {
@@ -91,18 +98,14 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         return vacancyRepository.findAll();
     }
 
-    @Transactional
     @Override
-    public List<Vacancy> deleteOutDated(LocalDate reasonPeriodToKeep) {
-        deleteList(vacancyRepository.getOutDated(reasonPeriodToKeep));
-        return getAll();
+    public List<Vacancy> getList(int number) {
+        return vacancyRepository.getList(number);
     }
 
-    @Transactional
     @Override
-    public List<Vacancy> getLimit(int limit) {
-        return vacancyRepository.getLimit(limit);
+    public List<Vacancy> getFirstPortion(int limit) {
+        return vacancyRepository.getFirstPortion(limit);
     }
-
 }
 
