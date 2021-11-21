@@ -2,6 +2,7 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
@@ -104,8 +105,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
     }
 
     @Override
-    public List<Vacancy> getFirstPortion(int limit) {
-        return vacancyRepository.getFirstPortion(limit);
+    public List<Vacancy> getFirstPage(PageRequest pageable) {
+        return vacancyRepository.getFirstPage(pageable).getContent();
     }
 }
 

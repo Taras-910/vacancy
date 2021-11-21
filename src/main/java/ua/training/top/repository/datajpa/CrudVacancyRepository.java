@@ -1,5 +1,7 @@
 package ua.training.top.repository.datajpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -43,9 +45,8 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
     @Query(value = "SELECT * FROM Vacancy v ORDER BY v.release_date ASC , v.id ASC LIMIT :number", nativeQuery = true)
     List<Vacancy> getList(@Param("number") int number);
 
-    //    https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation
-    @Query(value = "SELECT * FROM Vacancy v ORDER BY v.release_date DESC, v.id DESC LIMIT :limit", nativeQuery = true)
-    List<Vacancy> getFirstPortion(@Param("limit") int limit);
+    @Query(value = "SELECT v FROM Vacancy v ORDER BY v.releaseDate DESC, v.id DESC")
+    Page<Vacancy> getFirstPage(PageRequest pageable);
 }
 
 

@@ -1,8 +1,6 @@
 var freshenUrl = "profile/freshen";
 let spinner1 = document.getElementById("spinner1");
 let spinner2 = document.getElementById("spinner2");
-let count = document.getElementById("count");
-let count1 = document.getElementById("count1");
 
 function refreshDB() {
     spinner1.style.visibility = 'hidden';
@@ -12,7 +10,6 @@ function refreshDB() {
 }
 
 function sendRefresh() {
-    count.style.visibility = 'visible';
     spinner1.style.visibility = 'visible';
     spinner2.style.visibility = 'visible';
     let languageFilter = document.getElementById('language');
@@ -20,14 +17,19 @@ function sendRefresh() {
     let workplaceFilter = document.getElementById('workplace');
     languageFilter.value = document.getElementById('languageTask').value;
     levelFilter.value = document.getElementById('levelTask').value;
-    workplaceFilter.value = document.getElementById('workplaceTask').value;
+    let workplace = document.getElementById('workplaceTask').value;
+    if(workplace==="foreign") {
+        workplaceFilter.value = "all";
+    } else {
+        workplaceFilter.value = workplace;
+    }
+
     $.ajax({
         type: "POST",
         url: freshenUrl,
         data: $("#detailsRefreshForm").serialize()
     }).done(function () {
         $("#refreshRow").modal("hide");
-        count1.style.visibility = 'visible';
         ctx.updateTable();
         successNoty("Update has finished ");
     });

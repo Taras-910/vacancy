@@ -90,6 +90,7 @@ public class AggregatorService {
         if (!vacancies.isEmpty()) {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
         }
+        employerService.deleteEmptyEmployers();
     }
 
     public static void main(String[] args) throws IOException {

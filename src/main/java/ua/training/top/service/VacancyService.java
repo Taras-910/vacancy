@@ -2,6 +2,7 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
@@ -59,7 +60,7 @@ public class VacancyService {
         log.info("getAllTos for user {}", authUserId());
         if(firstDownload) {
             offFirstDownload();
-            return getTos(getFirstPortion(100), voteService.getAllForAuth());
+            return getTos(getFirstPage(0,450), voteService.getAllForAuth());
         }
         return getTos(getAll(), voteService.getAllForAuth());
     }
@@ -131,15 +132,14 @@ public class VacancyService {
         if (exceed > 0) {
             log.info("start delete exceed {}", exceed);
             deleteList(repository.getList(exceed));
-            employerService.deleteEmptyEmployers();
             freshenService.deleteExceedLimit(limitFreshensKeeping);
             voteService.deleteExceedLimit(limitVotesKeeping);
         }
     }
 
     @Transactional
-    public List<Vacancy> getFirstPortion(int limit) {
+    public List<Vacancy> getFirstPage(int offset, int limit) {
         log.info("getLimit limit {}", limit);
-        return repository.getFirstPortion(limit);
+        return repository.getFirstPage(PageRequest.of(offset, limit));
     }
 }

@@ -1,5 +1,6 @@
 package ua.training.top.repository;
 
+import org.springframework.data.domain.PageRequest;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 
@@ -28,6 +29,6 @@ public interface VacancyRepository {
 
     List<Vacancy> getList(int number);
 
-    List<Vacancy> getFirstPortion(int limit);
+    List<Vacancy> getFirstPage(PageRequest pageable);
 }
 
