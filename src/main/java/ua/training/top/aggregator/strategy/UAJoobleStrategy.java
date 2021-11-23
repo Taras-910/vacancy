@@ -38,7 +38,7 @@ public class UAJoobleStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        if (isCityRu(workplace)) {
+        if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
         String[] workplaces = workplace.equals("foreign") ?

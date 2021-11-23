@@ -40,7 +40,7 @@ public class WorkStrategy implements Strategy {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (isCityRu(workplace)) {
+        if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
         int page = 1;

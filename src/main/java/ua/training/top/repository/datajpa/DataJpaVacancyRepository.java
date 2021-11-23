@@ -27,6 +27,44 @@ public class DataJpaVacancyRepository implements VacancyRepository {
         this.vacancyRepository = vacancyRepository;
     }
 
+    @Override
+    public Vacancy get(int id) {
+        return vacancyRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Vacancy> getAll() {
+        return vacancyRepository.findAll();
+    }
+
+    @Override
+    public List<Vacancy> getList(int number) {
+        return vacancyRepository.getList(number);
+    }
+
+    @Override
+    public Vacancy getByParams(String title, String skills, int employerId) {
+        try {
+            return vacancyRepository.getByParams(title, skills, employerId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Vacancy> getByFilter(Freshen freshen) {
+        String language = freshen.getLanguage(), workplace = freshen.getWorkplace(), level = freshen.getLevel();
+        return vacancyRepository.getByFilter(language.equals("all") ? "" : language,
+                level.equals("all") ? "" : level,
+                workplace.equals("all") ? "" : workplace);
+    }
+
+
+    @Override
+    public List<Vacancy> getFirstPage(PageRequest pageable) {
+        return vacancyRepository.getFirstPage(pageable).getContent();
+    }
+
     @Transactional
     @Override
     public Vacancy save(Vacancy vacancy) {
@@ -67,46 +105,8 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Transactional
     @Override
-    public List<Vacancy> deleteOutDated(LocalDate reasonPeriodToKeep) {
+    public void deleteOutDated(LocalDate reasonPeriodToKeep) {
         deleteList(vacancyRepository.getOutDated(reasonPeriodToKeep));
-        return getAll();
-    }
-
-    @Override
-    public Vacancy getByParams(String title, String skills, int employerId) {
-        try {
-            return vacancyRepository.getByParams(title, skills, employerId);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
-    public List<Vacancy> getByFilter(Freshen freshen) {
-        String language = freshen.getLanguage(), workplace = freshen.getWorkplace(), level = freshen.getLevel();
-        return vacancyRepository.getByFilter(language.equals("all") ? "" : language,
-                level.equals("all") ? "" : level,
-                workplace.equals("all") ? "" : workplace);
-    }
-
-    @Override
-    public Vacancy get(int id) {
-        return vacancyRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Vacancy> getAll() {
-        return vacancyRepository.findAll();
-    }
-
-    @Override
-    public List<Vacancy> getList(int number) {
-        return vacancyRepository.getList(number);
-    }
-
-    @Override
-    public List<Vacancy> getFirstPage(PageRequest pageable) {
-        return vacancyRepository.getFirstPage(pageable).getContent();
     }
 }
 

@@ -19,12 +19,12 @@ public class DateToUtil {
 
     public static LocalDate getToLocalDate(String originText) {
         String preText = formatToNumAndWord(originText.toLowerCase());
-        String text = getMatch(local_date, preText);
-        if (isEmpty(preText) || !text.contains(" ") && !isNumberFormat(preText)) {
+        String text = getExtract(local_date, preText);
+        if (isEmpty(preText) || !text.contains(" ") && !preText.matches(is_date_numbers)) {
             return defaultDate;
         }
         try {
-            if (!isNumberFormat(preText)) {
+            if (!preText.matches(is_date_numbers)) {
                 String[] parts = text.split(" ");
                 int number = Integer.parseInt(parts[parts[0].matches(is_date_number) ? 0 : 1]);
                 String name = parts[parts[1].matches(is_date_number) ? 0 : 1];
@@ -39,8 +39,29 @@ public class DateToUtil {
         }
     }
 
+    public static String getExtract(String fieldName, String text) {
+        getLinkIfEmpty(text);
+        //https://stackoverflow.com/questions/63964529/a-regex-to-get-any-price-string
+        Matcher m = Pattern.compile(getMatcherByField(fieldName), Pattern.CASE_INSENSITIVE).matcher(text);
+        List<String> list = new ArrayList<>();
+        while (m.find()) {
+            list.add(m.group());
+        }
+        return list.size() > 0 ? list.get(0) : !fieldName.contains("field") ? text : link;
+    }
+
+    public static String getMatcherByField(String fieldName) {
+        return switch (fieldName) {
+            case month -> extract_month;
+            case local_date -> extract_date;
+            case address_field -> extract_address;
+            case age_field -> extract_age;
+            default -> "";
+        };
+    }
+
     static LocalDate getLocalDate(int number, String name) {
-        return isMonth(name) ? LocalDate.of(now().getYear(), getMonth(name), number) :
+        return isMatch(monthsOfYearAria, name) ? LocalDate.of(now().getYear(), getMonth(name), number) :
                 switch (name) {
                     case "nowa", "сейчас", "минуту", "минуты", "минут" -> LocalDateTime.now().minusMinutes(number).toLocalDate();
                     case "годину", "години", "годин", "час", "часа", "часов" -> LocalDateTime.now().minusHours(number).toLocalDate();
@@ -72,27 +93,6 @@ public class DateToUtil {
             case "nov", "листопада", "ноября" -> 11;
             case "dec", "грудня", "декабря" -> 12;
             default -> 1;
-        };
-    }
-
-    public static String getMatch(String fieldName, String text) {
-        getLinkIfEmpty(text);
-        //https://stackoverflow.com/questions/63964529/a-regex-to-get-any-price-string
-        Matcher m = Pattern.compile(getMatcherByField(fieldName), Pattern.CASE_INSENSITIVE).matcher(text);
-        List<String> list = new ArrayList<>();
-        while (m.find()) {
-            list.add(m.group());
-        }
-        return list.size() > 0 ? list.get(0) : !fieldName.contains("field") ? text : link;
-    }
-
-    public static String getMatcherByField(String fieldName) {
-        return switch (fieldName) {
-            case month -> extract_month;
-            case local_date -> extract_date;
-            case address_field -> extract_address;
-            case age_field -> extract_age;
-            default -> "";
         };
     }
 }

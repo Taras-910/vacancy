@@ -7,16 +7,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 
-import static ua.training.top.util.DateTimeUtil.tomorrow;
-import static ua.training.top.util.DateTimeUtil.yesterday;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.MessageUtil.freshen_not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
@@ -40,6 +36,7 @@ public class FreshenService {
         return repository.getAll();
     }
 
+    @Transactional
     public Freshen create(Freshen freshen) {
         log.info("create {}", freshen);
         Assert.notNull(freshen, freshen_not_be_null);
@@ -59,28 +56,9 @@ public class FreshenService {
         checkNotFoundWithId(repository.save(freshen), freshen.id());
     }
 
-    public List <Freshen> getBetween(LocalDateTime endDate, LocalDateTime startDate) {
-        log.info("getToday endDate {} startDate {}", endDate, startDate);
-        return repository.getBetween(endDate, startDate);
-    }
-
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB freshen {}", freshen);
-//        checkLimitFreshenPerHour(freshen, getBetween(tomorrow, yesterday));
         aggregatorService.refreshDB(freshen);
-    }
-
-    public Freshen getLast() {
-        log.info("getLast");
-        return repository.getBetween(tomorrow, yesterday).stream().max(Comparator.comparing(AbstractBaseEntity::getId)).get();
-    }
-
-    @Transactional
-    public void deleteList(List<Freshen> listToDelete) {
-        log.info("deleteList");
-        if (!listToDelete.isEmpty()) {
-            repository.deleteList(listToDelete);
-        }
     }
 
     public void deleteExceedLimit(int limitFreshensToKeep) {

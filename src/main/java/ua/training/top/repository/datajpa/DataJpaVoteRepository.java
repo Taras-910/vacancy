@@ -66,7 +66,6 @@ public class DataJpaVoteRepository implements VoteRepository {
         } catch (DataIntegrityViolationException e) {
             return false;
         }
-
     }
 
     @Override
@@ -87,5 +86,4 @@ public class DataJpaVoteRepository implements VoteRepository {
             deleteList(voteRepository.findExceeded(limitVote));
         }
     }
-
 }

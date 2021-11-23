@@ -41,8 +41,6 @@ public class Main {
 
         System.out.println(".".repeat(120));
 
-
-
         System.out.println(".".repeat(120));
         appCtx.close();
     }

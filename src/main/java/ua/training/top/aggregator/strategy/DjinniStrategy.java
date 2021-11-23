@@ -43,7 +43,7 @@ public class DjinniStrategy implements Strategy {
         log.info(get_vacancy, workplace, language);
         workplace = freshen.getWorkplace().equals("foreign") ? "other" : workplace;
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (isCityRu(workplace)) {
+        if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
         int page = 1;

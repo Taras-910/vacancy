@@ -17,9 +17,6 @@ public interface CrudFreshenRepository extends JpaRepository<Freshen, Integer> {
     @Query("DELETE FROM Freshen f WHERE f.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT f FROM Freshen f WHERE f.recordedDate<=:finish AND f.recordedDate>=:start")
-    List<Freshen> getBetween(@Param("finish") LocalDateTime finish, @Param("start")LocalDateTime start);
-
     @Query("SELECT f FROM Freshen f WHERE f.recordedDate<:reasonLocalDateTime")
     List<Freshen> getOutDated(@Param("reasonLocalDateTime") LocalDateTime reasonLocalDateTime);
 

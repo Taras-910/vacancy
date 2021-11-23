@@ -14,17 +14,19 @@ import ua.training.top.util.EmployerUtil;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
+import static ua.training.top.model.Goal.UPGRADE;
 import static ua.training.top.util.AggregatorUtil.getAnchorEmployer;
 import static ua.training.top.util.AggregatorUtil.getAnchorVacancy;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.collect.data.DataUtil.finish;
-import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
 
 @Service
 public class AggregatorService {
@@ -95,17 +97,11 @@ public class AggregatorService {
 
     public static void main(String[] args) throws IOException {
         setTestAuthorizedUser(asAdmin());
-/*
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "all", "Харьков", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-*/
-
-        String text = "Talented Automation QA to join our experienced team! Welcome bonus $3000- for Middle Automation QA Welcome bonus $4000- for Senior Automation QA Requirements: 2+ years of software development and debugging experience in Java / or C++ / or other high-";
-        System.out.println("salaryMin="+ getToSalaries(text)[0]);
-        System.out.println("salaryMax="+ getToSalaries(text)[1]);
 
     }
 }
@@ -123,9 +119,5 @@ public class AggregatorService {
 //Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4         48
 //Одесса   30    -      -     -      1      2    -     2     2     6      3    1         47
 //                              trainee=164
-
-//$ jooble: title(bonus $4000) ||  skills ($4000)
-//$ joobs.dou: title(bonus $4000)
-//$ rabota: title( $4000) ||  skills ($4000)
 
 

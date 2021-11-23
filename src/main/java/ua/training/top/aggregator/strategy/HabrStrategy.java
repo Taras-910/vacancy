@@ -73,10 +73,4 @@ public class HabrStrategy implements Strategy {
         };
         return "&skills[]=".concat(skills);
     }
-
-    public static String getToSkillsHabr(String skills) {
-        skills = skills.contains(" ") ? skills.substring(skills.indexOf(" ")) : skills;
-        return getLimitation(skills);
-    }
-
 }

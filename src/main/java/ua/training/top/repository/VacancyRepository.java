@@ -25,7 +25,7 @@ public interface VacancyRepository {
 
     List<Vacancy> getByFilter(Freshen freshen);
 
-    List<Vacancy> deleteOutDated(LocalDate reasonPeriodKeeping);
+    void deleteOutDated(LocalDate reasonPeriodKeeping);
 
     List<Vacancy> getList(int number);
 

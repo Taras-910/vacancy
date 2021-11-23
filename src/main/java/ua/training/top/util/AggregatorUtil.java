@@ -6,8 +6,7 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
 import static java.lang.String.join;
-import static ua.training.top.util.collect.data.DataUtil.isWorkerIT;
-import static ua.training.top.util.collect.data.DataUtil.wasteSkills;
+import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class AggregatorUtil {
 
@@ -37,6 +36,6 @@ public class AggregatorUtil {
 
     public static boolean isToValid(Freshen f, String text) {
         String temp = text.toLowerCase();
-        return (temp.contains(f.getLanguage()) || isWorkerIT(temp)) && wasteSkills.stream().noneMatch(temp::contains);
+        return (temp.contains(f.getLanguage()) || isMatch(workersIT, temp)) && wasteSkills.stream().noneMatch(temp::contains);
     }
 }

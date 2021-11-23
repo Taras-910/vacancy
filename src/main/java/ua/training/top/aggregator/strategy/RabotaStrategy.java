@@ -40,7 +40,7 @@ public class RabotaStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        if (isCityRu(workplace)) {
+        if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();

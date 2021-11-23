@@ -30,7 +30,6 @@ public class ElementUtil {
 
     public static List<VacancyTo> getVacanciesDjinni(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
-        int i = 1;
         for (Element element : elements) {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByAttributeValueStarting("class", "text-date").text()));
@@ -62,7 +61,6 @@ public class ElementUtil {
 
     public static List<VacancyTo> getVacanciesGrc(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
-        int i = 1;
         for (Element element : elements) {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByAttributeValueStarting("class", "vacancy-serp-item__publication-date").text()));
@@ -93,7 +91,6 @@ public class ElementUtil {
 
     public static List<VacancyTo> getVacanciesHabr(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
-        int i = 1;
         for (Element element : elements) {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByAttribute("datetime").attr("datetime")));
@@ -327,6 +324,7 @@ public class ElementUtil {
                 try {
                     localDate = getToLocalDate(xssClear(element.getElementsByClass("caption _04443").text()));
                 } catch (Exception e) {
+                    log.error(error, "LocalDate", e.getMessage());
                     localDate = defaultDate;
                 }
                 if (localDate.isAfter(reasonDateLoading)) {

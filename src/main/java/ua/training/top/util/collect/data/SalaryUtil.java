@@ -14,8 +14,7 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class SalaryUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
-    public static final Pattern patternMoneyAmount =
-            Pattern.compile("((?:[\\d,\\.[–до\\-k-]\\s  &nbsp]+\\b)(\\s*)?(\\p{Sc}|ƒ))|((?:\\p{Sc}|ƒ)(\\s*)?[\\d,\\.[–до\\-k-]\\s  &nbsp]+\\b)");
+    public static final Pattern patternMonetaryAmount = Pattern.compile(extract_salary);
     public static final float
             rate_pln_to_usd = 3.98f,
             rate_eur_to_usd = 0.86f,
@@ -26,53 +25,47 @@ public class SalaryUtil {
             rate_kzt_to_usd = 426.74f,
             usd_one_to_one = 1.0f;
 
-    public static Integer[] getToSalaries(String text) {
-        if (isEmpty(text) || !isSalary(text)) {
+    public static Integer[] getToSalaries(String originText) {
+        if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
             return new Integer[]{1, 1};
         }
-        text = text.replaceAll(",", ".").toLowerCase();
-        String currencyCode = getCurrencyCode(text);
-        List<String> values = getMonetaryAmount(text, currencyCode);
+        String text = originText.replaceAll(",", ".").toLowerCase();
+        String code = getCurrencyCode(text);
+        List<String> values = getMonetaryAmount(text, code);
         if (!values.isEmpty()) {
             Integer[] salaries = new Integer[2];
-            int amountMin = getAmount(values.get(0), currencyCode, text);
+            int amountMin = getAmount(values.get(0), code, text);
             salaries[0] = values.size() < 2 ? (isFrom(text) ? amountMin : 1) : amountMin;
-            salaries[1] = values.size() < 2 ? (isFrom(text) ? 1 : amountMin) :
-                    getAmount(values.get(1), currencyCode, text);
+            salaries[1] = values.size() < 2 ? (isFrom(text) ? 1 : amountMin) : getAmount(values.get(1), code, text);
             return salaries;
         }
         return new Integer[]{1, 1};
     }
 
-    public static int getAmount(String amountString, String currencyCode, String originText) {
+    public static int getAmount(String valuesPart, String code, String text) {
+        String value = valuesPart.replaceAll("\\.", "");
         int amount = 1;
         try {
-            amount = (int) ((parseFloat(amountString) * getPeriod(originText) / getRate(currencyCode) * 100));
-            amount = Math.min(amount, 10000000);
+            amount = (int) ((parseFloat(value) * getPeriod(text) / getRate(code) * getPoint(valuesPart)))
+                    * (text.matches(is_kilo) ? 1000 : 1);
         } catch (NumberFormatException e) {
-            log.error(error, e, amountString);
+            log.error(error, e, value);
         }
-        return amount * (originText.matches(is_kilo) ? 1000 : 1);
+        return amount <= 10000000 ? amount : Math.min(amount / 12, 10000000);
     }
 
-    public static String getCurrencyCode(String originText) {
-        return isUsd(originText) ? usd : isHrn(originText) ? hrn : isEur(originText) ? eur : isRub(originText) ? rub :
-                isPln(originText) ? pln : isGbr(originText) ? gbp : isKzt(originText) ? kzt : isSByn(originText) ? byn : "";
-    }
-
-    public static List<String> getMonetaryAmount(String originText, String currencyCode) {
+    public static List<String> getMonetaryAmount(String text, String code) {
         List<String> parts = new ArrayList<>();
-        originText = originText.replaceAll(monetary_amount_regex, currencyCode);
-        Matcher matcher = patternMoneyAmount.matcher(getReplacementText(originText, currencyCode));
+        Matcher matcher = patternMonetaryAmount.matcher(getReplacementText(text, code));
         while (matcher.find()) {
             parts.add(matcher.group());
         }
         List<String>
-                amounts = parts.stream().filter(p -> p.contains(getBadge(currencyCode))).collect(Collectors.toList()),
+                amounts = parts.stream().filter(p -> p.contains(code)).collect(Collectors.toList()),
                 monetaryAmounts = new ArrayList<>();
         amounts.forEach(s -> {
             s = getReplace(s, wasteSalary, "");
-            if (s.matches(is_salary_number)) {
+            if (s.matches(is_number_format)) {
                 monetaryAmounts.add(s);
             }
         });
@@ -80,92 +73,49 @@ public class SalaryUtil {
     }
 
     public static float getPeriod(String text) {
-        return isYear(text) ? 1.0f / 12.0f : isDay(text) ? 22.0f : isHour(text) ? 22.0f * 8.0f : 1.0f;
+        return isMatch(yearAria, text) ? 1.0f / 12.0f : isMatch(dayAria, text) ? 22.0f : isMatch(hourAria, text) ? 22.0f * 8.0f : 1.0f;
     }
 
-    public static boolean isYear(String text) { return yearAria.stream().anyMatch(text.toLowerCase()::contains); }
-
-    public static boolean isDay(String text) {
-        return dayAria.stream().anyMatch(text.toLowerCase()::contains);
+    private static int getPoint(String str) {
+        int decimalPoint = str.length() - str.lastIndexOf(".");
+        return decimalPoint == 3 ? 1 : decimalPoint == 2 ? 10 : 100;
     }
 
-    public static boolean isHour(String text) {
-        return hourAria.stream().anyMatch(text.toLowerCase()::contains);
+    public static String getCurrencyCode(String text) {
+        return isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ? "₴" : isMatch(eurAria, text) ?
+                "€" : isMatch(bynAria, text) ? "฿" : isMatch(rubAria, text) ? "₽" : isMatch(plnAria, text) ?
+                "₧" : isMatch(gbrAria, text) ? "£" : isMatch(kztAria, text) ? "₸" : "";
     }
 
-    public static boolean isHrn(String text) {
-        return salaryHrn.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isGbr(String text) {
-        return salaryGbr.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isPln(String text) {
-        return salaryPln.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isUsd(String text) {
-        return salaryUsd.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isEur(String text) {
-        return salaryEur.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isRub(String text) {
-        return salaryRub.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isKzt(String text) {
-        return salaryKzt.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isSByn(String text) {
-        return salaryByn.stream().anyMatch(text.toLowerCase()::contains);
-    }
-
-    public static boolean isSalary(String salary) {
-        return (allSalaries.stream().anyMatch(salary.toLowerCase()::contains));
-    }
-
-    public static String getReplacementText(String text, String moneyName) {
-        return switch (moneyName) {
-            case usd -> getReplace(text, salaryUsd, "\\$");
-            case hrn -> getReplace(text, salaryHrn, "₴");
-            case eur -> getReplace(text, salaryEur, "€");
-            case rub -> getReplace(text, salaryRub, "₽");
-            case gbp -> getReplace(text, salaryGbr, "£");
-            case pln -> getReplace(text, salaryPln, "₧");
-            case kzt -> getReplace(text, salaryKzt, "₸");
-            case byn -> getReplace(text, salaryByn, "฿");
+    public static String getReplacementText(String text, String currencyCode) {
+        text = text.replaceAll(monetary_amount_regex, currencyCode.equals("$") ? "\\$" : currencyCode);
+        return switch (currencyCode) {
+            case "$" -> getReplace(text, usdAria, "\\$");
+            case "₴" -> getReplace(text, hrnAria, "₴");
+            case "€" -> getReplace(text, eurAria, "€");
+            case "₽" -> getReplace(text, rubAria, "₽");
+            case "£" -> getReplace(text, gbrAria, "£");
+            case "₧" -> getReplace(text, plnAria, "₧");
+            case "₸" -> getReplace(text, kztAria, "₸");
+            case "฿" -> getReplace(text, bynAria, "฿");
             default -> text;
         };
     }
 
-    public static Float getRate(String moneyName) {
-        return switch (moneyName) {
-            case hrn -> rate_hrn_to_usd;
-            case pln -> rate_pln_to_usd;
-            case eur -> rate_eur_to_usd;
-            case gbp -> rate_gbp_to_usd;
-            case rub -> rate_rub_to_usd;
-            case kzt -> rate_kzt_to_usd;
-            case byn -> rate_byn_to_usd;
+    public static Float getRate(String currencyCode) {
+        return switch (currencyCode) {
+            case "₴" -> rate_hrn_to_usd;
+            case "₧" -> rate_pln_to_usd;
+            case "€" -> rate_eur_to_usd;
+            case "£" -> rate_gbp_to_usd;
+            case "₽" -> rate_rub_to_usd;
+            case "₸" -> rate_kzt_to_usd;
+            case "฿" -> rate_byn_to_usd;
             default -> usd_one_to_one;
         };
     }
 
-    public static String getBadge(String moneyName) {
-        return switch (moneyName) {
-            case usd -> "$";
-            case hrn -> "₴";
-            case eur -> "€";
-            case rub -> "₽";
-            case gbp -> "£";
-            case kzt -> "₸";
-            case pln -> "₧";
-            default -> "฿";
-        };
+    public static boolean isFrom(String originText) {
+        return originText.contains("от") || originText.contains("від");
     }
 }

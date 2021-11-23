@@ -60,7 +60,7 @@ public class VacancyService {
         log.info("getAllTos for user {}", authUserId());
         if(firstDownload) {
             offFirstDownload();
-            return getTos(getFirstPage(0,450), voteService.getAllForAuth());
+            return getTos(repository.getFirstPage(PageRequest.of(0,450)), voteService.getAllForAuth());
         }
         return getTos(getAll(), voteService.getAllForAuth());
     }
@@ -88,6 +88,7 @@ public class VacancyService {
         return repository.save(getForUpdate(vacancyTo, vacancyDb));
     }
 
+    @Transactional
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo, Freshen freshenDb) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         isNullPointerException(vacancyTo);
@@ -122,7 +123,8 @@ public class VacancyService {
     public List<Vacancy> deleteOutDatedAndGetAll() {
         log.info("deleteOutDateAndGetAll reasonPeriodKeeping {}", reasonPeriodKeeping);
         freshenService.deleteOutDated(LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
-        List<Vacancy> resumes = repository.deleteOutDated(reasonPeriodKeeping);
+        repository.deleteOutDated(reasonPeriodKeeping);
+        List<Vacancy> resumes = repository.getAll();
         voteService.deleteOutDated(reasonPeriodKeeping);
         return resumes;
     }
@@ -135,11 +137,5 @@ public class VacancyService {
             freshenService.deleteExceedLimit(limitFreshensKeeping);
             voteService.deleteExceedLimit(limitVotesKeeping);
         }
-    }
-
-    @Transactional
-    public List<Vacancy> getFirstPage(int offset, int limit) {
-        log.info("getLimit limit {}", limit);
-        return repository.getFirstPage(PageRequest.of(offset, limit));
     }
 }

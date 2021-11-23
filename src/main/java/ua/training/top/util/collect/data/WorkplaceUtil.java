@@ -1,7 +1,6 @@
 package ua.training.top.util.collect.data;
 
-import static ua.training.top.util.collect.data.DataUtil.isCityPl;
-import static ua.training.top.util.collect.data.DataUtil.isCityUA;
+import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class WorkplaceUtil {
 
@@ -179,7 +178,7 @@ public class WorkplaceUtil {
             case "katowice", "катовіце", "катовице" -> "katowice/";
             case "lodz", "лодзь" -> "lodz/";
             case "remote" -> "praca-zdalna/";
-            default -> !isCityPl(city) ? "-1" : "";
+            default -> !isMatch(citiesPL, city) ? "-1" : "";
         };
     }
 
@@ -196,7 +195,7 @@ public class WorkplaceUtil {
             case "чорновці", "черновцы" -> "черновцы";
             case "чернігів", "чернигов" -> "чернигов";
             case "вінниця", "винница" -> "винница";
-            default -> !isCityUA(workplace) || workplace.equals("foreign") ? "другие_страны" : "украина";
+            default -> !isMatch(citiesUA, workplace) || workplace.equals("foreign") ? "другие_страны" : "украина";
         };
     }
 

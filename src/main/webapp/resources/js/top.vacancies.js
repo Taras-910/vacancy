@@ -204,8 +204,11 @@ $(function () {
             ],
             "order": [
                 [
-                    8,
-                    "desc"
+                    8, "desc"
+
+                ],
+                [
+                    0, "desc"
                 ]
             ],
             "createdRow": function (row, data, dataIndex) {

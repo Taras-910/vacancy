@@ -24,9 +24,6 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
     @Query("SELECT v FROM Vacancy v WHERE v.id=:id AND v.employer.id=:employerId")
     Vacancy get(@Param("id") int id, @Param("employerId") int employerId);
 
-    @Query("SELECT v FROM Vacancy v")
-    List<Vacancy> getAll();
-
     @Query("SELECT v FROM Vacancy v WHERE v.title=:title AND v.skills=:skills AND v.employer.id=:employerId")
     Vacancy getByParams(@Param("title")String title, @Param("skills")String skills, @Param("employerId") int employerId);
 
@@ -41,7 +38,7 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
     @Query("SELECT v FROM Vacancy v WHERE v.releaseDate<:reasonPeriodToKeep")
     List<Vacancy> getOutDated(@Param("reasonPeriodToKeep") LocalDate reasonPeriodToKeep);
 
-    //    https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation
+    /*https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation*/
     @Query(value = "SELECT * FROM Vacancy v ORDER BY v.release_date ASC , v.id ASC LIMIT :number", nativeQuery = true)
     List<Vacancy> getList(@Param("number") int number);
 
