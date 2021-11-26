@@ -6,7 +6,7 @@ import ua.training.top.to.VacancyTo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.training.top.util.MessageUtil.employer_not_be_null;
+import static ua.training.top.util.MessageUtil.not_be_null;
 
 public class EmployerUtil {
 
@@ -22,7 +22,7 @@ public class EmployerUtil {
         String[] data = {e.getName(), e.getAddress()};
         for(String text : data) {
             if (text == null || text.equals("")) {
-                throw new IllegalArgumentException(employer_not_be_null);
+                throw new IllegalArgumentException("employer" + not_be_null);
             }
         }
     }

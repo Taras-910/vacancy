@@ -1,7 +1,8 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -43,16 +44,16 @@ public class Vacancy extends AbstractBaseEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate releaseDate;
 
+    @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = EAGER)
-    @BatchSize(size = 800)
     @JoinColumn(name = "employer_id", nullable = false)
     @JsonBackReference(value="employer-movement")  //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Employer employer;
 
+    @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = EAGER)
-    @BatchSize(size = 800)
     @JoinColumn(name = "freshen_id", nullable = false)
-    @JsonBackReference(value = "freshen-movement")    //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
+    @JsonBackReference(value = "freshen-movement") //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Freshen freshen;
 
     public Vacancy() {

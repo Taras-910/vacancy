@@ -2,6 +2,8 @@ package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -44,14 +46,17 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "freshen_goal", joinColumns = @JoinColumn(name = "freshen_id"))
 //    @Fetch(FetchMode.SUBSELECT)
-    @BatchSize(size = 200)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 100)
+    @Fetch(FetchMode.JOIN) //https://stackoverflow.com/questions/13671178/org-hibernate-lazyinitializationexception-could-not-initialize-proxy-no-sessi/27286187#27286187
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<Goal> goals;
 
     @Column(name = "user_id")
     private Integer userId;
 
+    @Fetch(FetchMode.JOIN) //https://stackoverflow.com/questions/13671178/org-hibernate-lazyinitializationexception-could-not-initialize-proxy-no-sessi/27286187#27286187
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "freshen"/*, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}*/)
+    @BatchSize(size = 300)
     @JsonManagedReference(value="freshen-movement") //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private List<Vacancy> vacancies;
 

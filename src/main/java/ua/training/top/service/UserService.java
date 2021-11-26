@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public User create(@NotEmpty User user) throws MethodNotAllowedException{
         log.info("create {}", user);
-        Assert.notNull(user, user_not_be_null);
+        Assert.notNull(user, not_be_null);
         checkNew(user);
         if(repository.getByEmail(user.getEmail()) != null){
             throw new DataIntegrityViolationException(user_exist + user.getEmail());
@@ -90,7 +90,7 @@ public class UserService implements UserDetailsService {
         log.info("update {} with id={}", user, id);
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
-        Assert.notNull(user, user_not_be_null);
+        Assert.notNull(user, not_be_null);
         User userDb = user.getId() == null ? null : repository.get(user.getId());
         checkNotFoundWithId(prepareAndSave(user, userDb), user.id());
     }

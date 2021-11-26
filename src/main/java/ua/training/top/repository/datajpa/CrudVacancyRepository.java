@@ -40,10 +40,10 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
 
     /*https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation*/
     @Query(value = "SELECT * FROM Vacancy v ORDER BY v.release_date ASC , v.id ASC LIMIT :number", nativeQuery = true)
-    List<Vacancy> getList(@Param("number") int number);
+    List<Vacancy> getOutNumber(@Param("number") int number);
 
     @Query(value = "SELECT v FROM Vacancy v ORDER BY v.releaseDate DESC, v.id DESC")
-    Page<Vacancy> getFirstPage(PageRequest pageable);
+    Page<Vacancy> getPage(PageRequest pageable);
 }
 
 

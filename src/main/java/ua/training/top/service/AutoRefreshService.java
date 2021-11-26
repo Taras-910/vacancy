@@ -26,11 +26,9 @@ public class AutoRefreshService {
     private FreshenService service;
 
 //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
-//    @Scheduled(cron = "0 0,10,20,30,40,50 6-20 * * MON-SAT")
-    @Scheduled(cron = "0 0,15,30,45 6-20 * * MON-SAT")
+    @Scheduled(cron = "0 0,15,30,45 10-18 * * MON-FRI")
     public void weekDay() {
 //        int delayWithinMinutes = 4;
-//        int delayWithinMinutes = 9;
         int delayWithinMinutes = 14;
         log.info(MessageUtil.delay, delayWithinMinutes);
         setRandomDelay(1000 * 60 * delayWithinMinutes);
@@ -40,9 +38,9 @@ public class AutoRefreshService {
         offAutoRefreshProviders();
     }
 
-    @Scheduled(cron = "0 0 9,11,13,15,17 * * SUN")
+    @Scheduled(cron = "0 0,20,40 11-17 * * SAT")
     public void weekEnd() {
-        int delayMinutesMax = 120;
+        int delayMinutesMax = 19;
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());

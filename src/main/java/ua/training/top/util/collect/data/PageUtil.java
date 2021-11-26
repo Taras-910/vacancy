@@ -43,10 +43,9 @@ public class PageUtil {
             case "украина" -> switch (site) {
                 case djinni, grc -> 6;
                 case jobcareer -> 5;
-                case linkedin -> 2; //100-52 10-18 3-18
+                case linkedin, jooble -> 2; //100-52 10-18 3-18
                 case rabota -> 6;
                 case indeed -> 25;
-                case jooble -> 2;
                 case work -> 27;
                 default -> 1;
             };
@@ -70,8 +69,7 @@ public class PageUtil {
             case "одесса" -> switch (site) {
                 case djinni -> 30;
                 case habr -> 10;
-                case linkedin, rabota -> 2;
-                case indeed -> 2;
+                case linkedin, rabota, indeed -> 2;
                 case jooble -> 6;
                 case work -> 3;
                 default -> 1;
@@ -110,9 +108,8 @@ public class PageUtil {
             };
             default -> switch (site) {
                 case djinni -> 5;
-                case jobcareer, linkedin, rabota -> 2;
+                case jobcareer, linkedin, rabota, jobsmarket -> 2;
                 case nofluff -> 7;
-                case jobsmarket -> 2;
                 case jooble -> 3;
                 case indeed -> 100;
                 case work -> 15;

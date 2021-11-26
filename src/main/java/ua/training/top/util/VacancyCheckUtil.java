@@ -6,7 +6,7 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
 import static ua.training.top.util.MessageUtil.check_error_data;
-import static ua.training.top.util.MessageUtil.vacancy_not_be_null;
+import static ua.training.top.util.MessageUtil.not_be_null;
 
 public class VacancyCheckUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyCheckUtil.class) ;
@@ -19,7 +19,7 @@ public class VacancyCheckUtil {
 
     public static void isNullPointerException(VacancyTo vacancyTo) {
         if(!checkNullDataVacancyTo(vacancyTo)) {
-            throw new NullPointerException(vacancy_not_be_null + vacancyTo);
+            throw new NullPointerException(not_be_null + vacancyTo);
         }
     }
 

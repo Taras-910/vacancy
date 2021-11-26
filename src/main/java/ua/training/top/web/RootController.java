@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import springfox.documentation.annotations.ApiIgnore;
 
-import static ua.training.top.util.VacancyUtil.setFirstDownload;
-
 @ApiIgnore
 @Controller
 public class RootController {
@@ -32,7 +30,6 @@ public class RootController {
 
     @GetMapping("/vacancies")
     public String getVacancies() {
-        setFirstDownload();
         return "vacancies";
     }
 }

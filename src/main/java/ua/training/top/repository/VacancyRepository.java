@@ -1,6 +1,5 @@
 package ua.training.top.repository;
 
-import org.springframework.data.domain.PageRequest;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 
@@ -27,8 +26,6 @@ public interface VacancyRepository {
 
     void deleteOutDated(LocalDate reasonPeriodKeeping);
 
-    List<Vacancy> getList(int number);
-
-    List<Vacancy> getFirstPage(PageRequest pageable);
+    List<Vacancy> getOutNumber(int number);
 }
 

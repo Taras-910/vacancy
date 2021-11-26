@@ -15,7 +15,7 @@ public class InstallationUtil {
     public static int
             limitVacanciesKeeping = 4500,
             limitFreshensKeeping = limitVacanciesKeeping / 20,
-            limitVotesKeeping = 100,
+            limitVotesKeeping = limitVacanciesKeeping / 50,
             maxLengthText = 250,
             repeatToCall = 3,
             limitCallPages = 8;

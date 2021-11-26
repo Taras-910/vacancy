@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
-import static ua.training.top.util.MessageUtil.freshen_not_be_null;
+import static ua.training.top.util.MessageUtil.not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
@@ -39,7 +39,7 @@ public class FreshenService {
     @Transactional
     public Freshen create(Freshen freshen) {
         log.info("create {}", freshen);
-        Assert.notNull(freshen, freshen_not_be_null);
+        Assert.notNull(freshen, not_be_null);
         checkNew(freshen);
         return repository.save(asNewFreshen(freshen));
     }
@@ -52,7 +52,7 @@ public class FreshenService {
     public void update(Freshen freshen, int id) {
         log.info("update {} with id={}", freshen, id);
         assureIdConsistent(freshen, id);
-        Assert.notNull(freshen, freshen_not_be_null);
+        Assert.notNull(freshen, not_be_null);
         checkNotFoundWithId(repository.save(freshen), freshen.id());
     }
 

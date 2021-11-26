@@ -56,13 +56,12 @@ public class Dispatcher {
 //Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4
 //Москва    -   40     20     -      1      3    -     -     -     -      -    3
 //                              trainee=164
-// djinni noff jobmar    indeed  work
-// grc    habr jobcareer rabota jooble
 
+
+//https://tproger.ru/jobs/?anytime=true
+//https://geekjob.ru/vacancies
 
 //https://career.softserveinc.com/en-us/vacancies
-
-
 //https://jobs.ua/vacancy/kiev/rabota-java-developer
 //https://kiev.careerist.ru/jobs-java-developer/
 //https://kiev.jobcareer.ru/jobs/java/?feed=
