@@ -102,3 +102,7 @@ input.form-control::placeholder {
     color: #0397ba;
     opacity: .3;
 }
+
+.uniqueClassName {
+    text-align: center;
+}

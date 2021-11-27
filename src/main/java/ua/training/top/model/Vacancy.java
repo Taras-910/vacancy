@@ -74,13 +74,7 @@ public class Vacancy extends AbstractBaseEntity {
     }
 
     public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, Employer employer) {
-        super(id);
-        this.title = title;
-        this.salaryMin = salaryMin;
-        this.salaryMax = salaryMax;
-        this.url = url;
-        this.skills = skills;
-        this.releaseDate = releaseDate;
+        this(id, title, salaryMin, salaryMax, url, skills, releaseDate);
     }
 
     public Vacancy(Vacancy v) {

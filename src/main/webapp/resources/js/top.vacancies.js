@@ -117,7 +117,8 @@ $(function () {
                             return 'see the <a href="' + data.url + '">card</a>'
                         }
                         return data.employerName;
-                    }
+                    },
+                    className: "uniqueClassName"
                 },
                 {
                     "data": function (data, type, row) {
@@ -125,7 +126,8 @@ $(function () {
                             return 'see the <a href="' + data.url + '">card</a>'
                         }
                         return data.address;
-                    }
+                    },
+                    className: "uniqueClassName"
                 },
                 {
                     "data": function (data, type, row) {
@@ -136,7 +138,8 @@ $(function () {
                             return data.salaryMin / 100;
                         }
                         return data.salaryMin;
-                    }
+                    },
+                    className: "uniqueClassName"
                 },
                 {
                     "data": function (data, type, row) {
@@ -147,7 +150,8 @@ $(function () {
                             return data.salaryMax / 100;
                         }
                         return data.salaryMax;
-                    }
+                    },
+                    className: "uniqueClassName"
                 },
                 {
                     "data": function (data, type, row) {

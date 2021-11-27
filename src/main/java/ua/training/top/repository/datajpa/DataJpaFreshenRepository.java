@@ -2,7 +2,6 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
@@ -10,12 +9,13 @@ import ua.training.top.repository.FreshenRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaFreshenRepository implements FreshenRepository {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private static final Sort RECORDED_DATE = Sort.by(Sort.Direction.ASC, "recordedDate");
+//    private static final Sort RECORDED_DATE = Sort.by(Sort.Direction.ASC, "recordedDate");
     private final CrudFreshenRepository crudRepository;
 
     public DataJpaFreshenRepository(CrudFreshenRepository crudRepository) {
@@ -34,14 +34,20 @@ public class DataJpaFreshenRepository implements FreshenRepository {
         return crudRepository.delete(id) != 0;
     }
 
-    @Override
+        @Override
     public Freshen get(int id) {
-        return crudRepository.findById(id).orElse(null);
+        Freshen freshen = crudRepository.findById(id).orElse(null);
+            assert freshen != null;
+            freshen.setVacancies(null);
+            return freshen;
     }
 
     @Override
     public List<Freshen> getAll() {
-        return crudRepository.findAll(RECORDED_DATE);
+        return crudRepository.findAll().stream().map(f -> {
+            f.setVacancies(null);
+            return f;
+        }).collect(Collectors.toList());
     }
 
     @Transactional

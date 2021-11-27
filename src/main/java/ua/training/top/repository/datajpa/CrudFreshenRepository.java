@@ -23,5 +23,4 @@ public interface CrudFreshenRepository extends JpaRepository<Freshen, Integer> {
     @Query(value =
             "SELECT * FROM vacancy.public.freshen f ORDER BY f.recorded_date, f.id LIMIT :limit", nativeQuery = true)
     List<Freshen> findExceeded(@Param("limit") int limit);
-
 }
