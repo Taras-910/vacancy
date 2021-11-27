@@ -7,14 +7,13 @@ public class UrlUtil {
     public static String getToUrl(String text, String url){
         String prefix = switch (text) {
             case djinni -> "https://djinni.co";
-            case grc, jobsmarket, linkedin, jobs -> "";
             case habr -> "https://career.habr.com";
             case nofluff -> "https://nofluffjobs.com";
             case indeed -> "https://ua.indeed.com/viewjob?jk=";
             case jooble -> "https://ua.jooble.org/desc/";
             case rabota -> "https://rabota.ua";
             case work -> "https://www.work.ua";
-            default -> link;
+            default -> "";
         };
         return prefix + url;
     }

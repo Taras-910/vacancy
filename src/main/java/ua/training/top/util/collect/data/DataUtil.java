@@ -72,7 +72,7 @@ public class DataUtil {
                     "rest", "mvc", "jpa", "pattern");
 
     public static boolean isMatch(List<String> area, String text) {
-        return area.stream().anyMatch(text.toLowerCase()::contains);
+        return area.stream().anyMatch(a -> text.toLowerCase().indexOf(a) > -1);
     }
 
     public static boolean isEmpty(String text) {
