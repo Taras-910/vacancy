@@ -11,9 +11,12 @@ import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodKeeping;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
+import static ua.training.top.util.FreshenUtil.getExceedLimit;
 import static ua.training.top.util.MessageUtil.not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
 
@@ -44,6 +47,7 @@ public class FreshenService {
         return repository.save(asNewFreshen(freshen));
     }
 
+    @Transactional
     public void delete(int id) {
         log.info("delete {}", id);
         checkNotFoundWithId(repository.delete(id), id);
@@ -61,13 +65,18 @@ public class FreshenService {
         aggregatorService.refreshDB(freshen);
     }
 
-    public void deleteExceedLimit(int limitFreshensToKeep) {
-        log.info("deleteExceedLimit limitFreshensToKeep={}", limitFreshensToKeep);
-        repository.deleteExceedLimit(limitFreshensToKeep);
+    @Transactional
+    public void deleteOutDated() {
+        log.info("deleteOutDated outPeriodToKeep={}", LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
+        repository.deleteOutDated(LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
     }
 
-    public void deleteOutDated(LocalDateTime outPeriodToKeep) {
-        log.info("deleteOutDated outPeriodToKeep={}", outPeriodToKeep);
-        repository.deleteOutDated(outPeriodToKeep);
+    @Transactional
+    public void deleteExceed() {
+        log.info("delete exceed and empty");
+        List<Freshen> exceedList = getExceedLimit(getAll());
+        if (!exceedList.isEmpty()) {
+            repository.deleteList(exceedList);
+        }
     }
 }

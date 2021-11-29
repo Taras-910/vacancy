@@ -11,6 +11,7 @@ import ua.training.top.repository.EmployerRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Repository
@@ -40,8 +41,11 @@ public class DataJpaEmployerRepository implements EmployerRepository {
 
     @Transactional
     @Override
-    public boolean deleteAllEmpty(int size) {
-        return repository.deleteAllEmpty(0) != 0;
+    public void deleteEmpty() {
+        List<Employer> empty = repository.findAll().stream()
+                .filter(e -> e.getVacancies().isEmpty())
+                .collect(Collectors.toList());
+        repository.deleteAll(empty);
     }
 
     @Transactional

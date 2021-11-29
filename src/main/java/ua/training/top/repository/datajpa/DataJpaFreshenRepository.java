@@ -34,6 +34,18 @@ public class DataJpaFreshenRepository implements FreshenRepository {
         return crudRepository.delete(id) != 0;
     }
 
+    @Transactional
+    @Override
+    public void deleteList(List<Freshen> listToDelete) {
+        crudRepository.deleteAll(listToDelete);
+    }
+
+    @Transactional
+    @Override
+    public void deleteOutDated(LocalDateTime reasonLocalDateTime) {
+        deleteList(crudRepository.getOutDated(reasonLocalDateTime));
+    }
+
         @Override
     public Freshen get(int id) {
         Freshen freshen = crudRepository.findById(id).orElse(null);
@@ -49,26 +61,5 @@ public class DataJpaFreshenRepository implements FreshenRepository {
             return f;
         }).collect(Collectors.toList());
     }
-
-    @Transactional
-    @Override
-    public void deleteList(List<Freshen> listToDelete) {
-        crudRepository.deleteAll(listToDelete);
-    }
-
-    @Transactional
-    @Override
-    public void deleteOutDated(LocalDateTime reasonLocalDateTime) {
-        deleteList(crudRepository.getOutDated(reasonLocalDateTime));
-    }
-
-    @Transactional
-    @Override
-    public void deleteExceedLimit(int limitFreshen) {
-        if (getAll().size() > limitFreshen) {
-            deleteList(crudRepository.findExceeded(limitFreshen));
-        }
-    }
-
 }
 

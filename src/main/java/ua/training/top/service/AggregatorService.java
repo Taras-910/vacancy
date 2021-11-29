@@ -9,8 +9,8 @@ import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.AggregatorUtil;
 import ua.training.top.util.EmployerUtil;
+import ua.training.top.util.collect.data.ToUtil;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -22,16 +22,18 @@ import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
 import static ua.training.top.model.Goal.UPGRADE;
-import static ua.training.top.util.AggregatorUtil.getAnchorEmployer;
-import static ua.training.top.util.AggregatorUtil.getAnchorVacancy;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.collect.data.DataUtil.finish_message;
+import static ua.training.top.util.collect.data.ToUtil.getAnchorEmployer;
+import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
 
 @Service
 public class AggregatorService {
     private final static Logger log = LoggerFactory.getLogger(AggregatorService.class);
+    public static final Instant start = Instant.now();
+
     @Autowired
     private VacancyService vacancyService;
     @Autowired
@@ -41,30 +43,29 @@ public class AggregatorService {
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);
-        Instant start = Instant.now();
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
 
         if (!vacancyTos.isEmpty()) {
             Freshen newFreshen = freshenService.create(freshen);
             List<Vacancy>
-                    vacanciesDb = vacancyService.deleteOutDatedAndGetAll(),
-                    vacanciesForCreate = new ArrayList<>(),
-                    vacanciesForUpdate = new ArrayList<>();
+                    vacanciesDb = vacancyService.getAll(),
+                    vacanciesCreate = new ArrayList<>(),
+                    vacanciesUpdate = new ArrayList<>();
             List<Employer> employersDb = employerService.getAll();
             Map<String, Vacancy> mapVacanciesDb = vacanciesDb.stream()
-                    .collect(Collectors.toMap(AggregatorUtil::getAnchorVacancy, v -> v));
+                    .collect(Collectors.toMap(ToUtil::getAnchorVacancy, v -> v));
             Map<String, List<Employer>> mapEmployersDb = employersDb.stream()
-                    .collect(Collectors.groupingBy(AggregatorUtil::getAnchorEmployer));
+                    .collect(Collectors.groupingBy(ToUtil::getAnchorEmployer));
             List<VacancyTo> vacancyTosOfUniqueEmployers = new ArrayList<>();
             vacancyTos.forEach(vTo -> {
                 if (mapEmployersDb.containsKey(getAnchorEmployer(vTo))) {
                     if (mapVacanciesDb.containsKey(getAnchorVacancy(vTo))) {
-                        vacanciesForUpdate.add(getForUpdate(vTo, mapVacanciesDb.get(getAnchorVacancy(vTo))));
+                        vacanciesUpdate.add(getForUpdate(vTo, mapVacanciesDb.get(getAnchorVacancy(vTo))));
                     } else {
                         Vacancy v = fromTo(vTo);
                         v.setFreshen(newFreshen);
                         v.setEmployer(mapEmployersDb.get(getAnchorEmployer(vTo)).get(0));
-                        vacanciesForCreate.add(v);
+                        vacanciesCreate.add(v);
                     }
                 } else {
                     vacancyTosOfUniqueEmployers.add(vTo);
@@ -72,10 +73,7 @@ public class AggregatorService {
             });
             Map<Employer, List<VacancyTo>> mapUniqueTos = vacancyTosOfUniqueEmployers.stream()
                     .collect(Collectors.groupingBy(EmployerUtil::getEmployerFromTo));
-            executeRefreshDb(mapUniqueTos, vacanciesDb, vacanciesForUpdate, vacanciesForCreate, newFreshen);
-            Instant finish = Instant.now();
-            long timeElapsed = Duration.between(start, finish).toMillis();
-            log.info(finish_message, timeElapsed, vacanciesForCreate.size(), vacanciesForUpdate.size(), freshen);
+            executeRefreshDb(mapUniqueTos, vacanciesDb, vacanciesUpdate, vacanciesCreate, newFreshen);
         }
     }
 
@@ -88,19 +86,22 @@ public class AggregatorService {
             v.setFreshen(newFreshen);
             vacanciesCreate.add(v);
         }));
-        vacancyService.deleteExceedLimit(vacanciesDb.size() + vacanciesCreate.size() - limitVacanciesKeeping);
         Set<Vacancy> vacancies = new HashSet<>(vacanciesUpdate);
         vacancies.addAll(vacanciesCreate);
         if (!vacancies.isEmpty()) {
+            vacancyService.deleteExceed(vacanciesDb.size() + vacanciesCreate.size() - limitVacanciesKeeping);
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
+            employerService.deleteEmpty();
         }
-        employerService.deleteEmptyEmployers();
+        long timeElapsed = Duration.between(start, Instant.now()).toMillis();
+        log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(), newFreshen);
     }
 
     public static void main(String[] args) {
         setTestAuthorizedUser(asAdmin());
 
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(asNewFreshen("java", "all", "Харьков", UPGRADE));
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(
+                asNewFreshen("java", "all", "Харьков", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());

@@ -46,8 +46,8 @@ public class SalaryUtil {
         String value = valuesPart.replaceAll("\\.", "");
         int amount = 1;
         try {
-            amount = (int) ((parseFloat(value) * getPeriod(text) / getRate(code) * getPoint(valuesPart)))
-                    * (text.matches(is_kilo) ? 1000 : 1);
+            amount = (int) ((parseFloat(value) * getPeriod(text) / getRate(code) * getPoint(valuesPart))
+                    * (text.matches(is_kilo) ? 1000 : 1));
         } catch (NumberFormatException e) {
             log.error(error, e, value);
         }

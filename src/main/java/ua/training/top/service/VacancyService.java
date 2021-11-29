@@ -2,6 +2,7 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
@@ -10,22 +11,19 @@ import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.aggregator.installation.InstallationUtil.*;
+import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodKeeping;
 import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
-import static ua.training.top.util.VacancyCheckUtil.isNotSimilar;
-import static ua.training.top.util.VacancyCheckUtil.isNullPointerException;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
+@EnableScheduling
 public class VacancyService {
     private static final Logger log = LoggerFactory.getLogger(VacancyService.class);
     private final VacancyRepository repository;
@@ -64,8 +62,7 @@ public class VacancyService {
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getTosByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
         freshen.setGoals(Collections.singleton(FILTER));
-        freshenService.create(freshen);
-        return getTos(repository.getByFilter(freshen), voteService.getAllForAuth());
+        return getTos(getFilterByAddress(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {
@@ -103,35 +100,21 @@ public class VacancyService {
     public void delete(int id) {
         log.info("delete vacancy {}", id);
         checkNotFoundWithId(repository.delete(id), id);
-        employerService.deleteEmptyEmployers();
-
     }
 
     @Transactional
-    public void deleteList(List<Vacancy> listToDelete) {
-        log.info("deleteList");
-        if (!listToDelete.isEmpty()) {
-            repository.deleteList(listToDelete);
-        }
-    }
-
-    @Transactional
-    public List<Vacancy> deleteOutDatedAndGetAll() {
-        log.info("deleteOutDateAndGetAll reasonPeriodKeeping {}", reasonPeriodKeeping);
-        freshenService.deleteOutDated(LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
+    public void deleteOutDated() {
+        log.info("deleteOutDated reasonPeriodKeeping {}", reasonPeriodKeeping);
         repository.deleteOutDated(reasonPeriodKeeping);
-        List<Vacancy> resumes = repository.getAll();
-        voteService.deleteOutDated(reasonPeriodKeeping);
-        return resumes;
     }
 
     @Transactional
-    public void deleteExceedLimit(int exceed) {
+    public void deleteExceed(int exceed) {
         if (exceed > 0) {
             log.info("start delete exceed {}", exceed);
-            deleteList(repository.getOutNumber(exceed));
-            freshenService.deleteExceedLimit(limitFreshensKeeping);
-            voteService.deleteExceedLimit(limitVotesKeeping);
+            repository.deleteList(repository.getOutNumber(exceed));
+            freshenService.deleteExceed();
+            voteService.deleteExceed();
         }
     }
 }

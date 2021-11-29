@@ -19,7 +19,5 @@ public interface FreshenRepository {
 
     void deleteList(List<Freshen> listToDelete);
 
-    void deleteExceedLimit(int limitFreshensToKeep);
-
     void deleteOutDated(LocalDateTime outPeriodToKeep);
 }

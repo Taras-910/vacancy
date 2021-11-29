@@ -55,4 +55,8 @@ public class WorkStrategy implements Strategy {
         reCall(set.size(), new WorkStrategy());
         return new ArrayList<>(set);
     }
+
+    public static String getAddrWork(String address) {
+        return address.indexOf("VIP · ") > -1 ? address.substring(address.indexOf("VIP · ")) : address;
+    }
 }

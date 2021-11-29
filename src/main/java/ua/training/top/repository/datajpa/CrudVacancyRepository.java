@@ -31,9 +31,8 @@ public interface CrudVacancyRepository extends JpaRepository<Vacancy, Integer>, 
             "(LOWER(v.title) LIKE CONCAT('%',:language,'%') " +
             "OR LOWER(v.skills) LIKE CONCAT('%',:language,'%')) " +
             "AND (LOWER(v.title) LIKE CONCAT('%',:level,'%')" +
-            "OR LOWER(v.skills) LIKE CONCAT('%',:level,'%'))" +
-            "AND LOWER(v.employer.address) LIKE CONCAT('%',:workplace,'%')")
-    List<Vacancy> getByFilter(@Param("language")String language, @Param("level")String level, @Param("workplace")String workplace);
+            "OR LOWER(v.skills) LIKE CONCAT('%',:level,'%'))")
+    List<Vacancy> getByFilter(@Param("language")String language, @Param("level")String level);
 
     @Query("SELECT v FROM Vacancy v WHERE v.releaseDate<:reasonPeriodToKeep")
     List<Vacancy> getOutDated(@Param("reasonPeriodToKeep") LocalDate reasonPeriodToKeep);

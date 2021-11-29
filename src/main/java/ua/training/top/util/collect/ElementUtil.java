@@ -18,10 +18,11 @@ import static ua.training.top.aggregator.strategy.JobCareerStrategy.getCareerUrl
 import static ua.training.top.aggregator.strategy.LinkedinStrategy.getSalaryLinkedin;
 import static ua.training.top.aggregator.strategy.LinkedinStrategy.getToLinkedin;
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.getToNofluffjobs;
-import static ua.training.top.util.AggregatorUtil.isToValid;
+import static ua.training.top.aggregator.strategy.WorkStrategy.getAddrWork;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
+import static ua.training.top.util.collect.data.ToUtil.isToValid;
 import static ua.training.top.util.collect.data.UrlUtil.getToUrl;
 import static ua.training.top.util.collect.xss.XssUtil.xssClear;
 
@@ -209,6 +210,7 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").tagName("time").attr("datetime")));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String title = getToTitle(xssClear(element.getElementsByClass("base-search-card__title").text()));
+
                     if (isToValid(freshen, title)) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
@@ -367,7 +369,7 @@ public class ElementUtil {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(employerName));
-                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text())));
+                        v.setAddress(getLinkIfEmpty(getAddrWork(xssClear(element.getElementsByClass("add-top-xs").first().children().next().next().text()))));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(work, xssClear(element.getElementsByTag("a").attr("href"))));

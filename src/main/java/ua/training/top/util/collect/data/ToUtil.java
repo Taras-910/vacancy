@@ -1,4 +1,4 @@
-package ua.training.top.util;
+package ua.training.top.util.collect.data;
 
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
@@ -8,7 +8,7 @@ import ua.training.top.to.VacancyTo;
 import static java.lang.String.join;
 import static ua.training.top.util.collect.data.DataUtil.*;
 
-public class AggregatorUtil {
+public class ToUtil {
 
     public static VacancyTo getFilled(VacancyTo vacancyTo, Freshen freshen) {
         vacancyTo.setWorkplace(freshen.getWorkplace());

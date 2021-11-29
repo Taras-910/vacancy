@@ -19,7 +19,7 @@ public interface EmployerRepository {
     // false if not found
     boolean delete(int id);
 
-    boolean deleteAllEmpty(int sizeVacanciesList);
+    void deleteEmpty();
 
     List<Employer> createList(ArrayList<Employer> employers);
 }

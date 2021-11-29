@@ -5,16 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.VacancyCheckUtil;
+import ua.training.top.util.VacancyUtil;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateLoading;
-import static ua.training.top.util.AggregatorUtil.getFilled;
 import static ua.training.top.util.collect.data.DataUtil.common_number_vacancyTos;
 import static ua.training.top.util.collect.data.DataUtil.error_select;
+import static ua.training.top.util.collect.data.ToUtil.getFilled;
 
 @Repository
 public class Starter implements StarterInterface {
@@ -39,7 +39,7 @@ public class Starter implements StarterInterface {
             }
         }
         List<VacancyTo> vacancyTos = set.parallelStream()
-                .filter(VacancyCheckUtil::checkNullDataVacancyTo)
+                .filter(VacancyUtil::checkNullDataVacancyTo)
                 .filter(vTo -> reasonDateLoading.isBefore(vTo.getReleaseDate()))
                 .map(vTo -> getFilled(vTo, freshen)).distinct()
                 .collect(Collectors.toList());

@@ -212,7 +212,7 @@ $(function () {
 
                 ],
                 [
-                    0, "desc"
+                    3, "asc"
                 ]
             ],
             "createdRow": function (row, data, dataIndex) {

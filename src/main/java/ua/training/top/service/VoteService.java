@@ -8,10 +8,10 @@ import org.springframework.util.Assert;
 import ua.training.top.model.Vote;
 import ua.training.top.repository.VoteRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
+import static ua.training.top.aggregator.installation.InstallationUtil.limitVotesKeeping;
 import static ua.training.top.util.DateTimeUtil.thisDay;
 import static ua.training.top.util.ValidationUtil.checkNotFoundData;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
@@ -80,14 +80,8 @@ public class VoteService {
         }
     }
 
-    public void deleteExceedLimit(int limitVotesToKeep) {
-        log.info("deleteExceedLimit limitVotesToKeep={}", limitVotesToKeep);
-        repository.deleteExceedLimit(limitVotesToKeep);
-    }
-
-    public void deleteOutDated(LocalDate reasonPeriodKeeping) {
-        log.info("deleteOutDated reasonPeriodKeeping={}", reasonPeriodKeeping);
-        repository.deleteOutDated(reasonPeriodKeeping);
-
+    public void deleteExceed() {
+        log.info("deleteExceedLimit limitVotesKeeping={}", limitVotesKeeping);
+        repository.deleteExceed(limitVotesKeeping);
     }
 }

@@ -13,16 +13,17 @@ import static ua.training.top.aggregator.Starter.allProviders;
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
     public static int
-            limitVacanciesKeeping = 4500,
-            limitFreshensKeeping = limitVacanciesKeeping / 20,
-            limitVotesKeeping = limitVacanciesKeeping / 50,
+            periodKeeping = 28,
+            limitVacanciesKeeping = 4250,
+            limitFreshensFilterKeeping = 200,
+            limitVotesKeeping = limitVacanciesKeeping / 10,
             maxLengthText = 250,
             repeatToCall = 3,
             limitCallPages = 8;
 
     public static LocalDate
-            reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(14),
-            reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(28);
+            reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),
+            reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(periodKeeping);
 
 //    public static boolean testProvider = true;
     public static boolean testProvider = false;

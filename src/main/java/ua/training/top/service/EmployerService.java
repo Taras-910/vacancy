@@ -57,8 +57,8 @@ public class EmployerService {
         checkNotFoundWithId(repository.delete(id), id);
     }
 
-    public void deleteEmptyEmployers() {
+    public void deleteEmpty() {
         log.info("deleteEmptyEmployers");
-        repository.deleteAllEmpty(0);
+        repository.deleteEmpty();
     }
 }
