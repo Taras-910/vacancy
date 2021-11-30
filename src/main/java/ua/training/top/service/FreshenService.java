@@ -69,6 +69,7 @@ public class FreshenService {
     public void deleteOutDated() {
         log.info("deleteOutDated outPeriodToKeep={}", LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
         repository.deleteOutDated(LocalDateTime.of(reasonPeriodKeeping, LocalTime.MIN));
+        aggregatorService.deleteOutDated();
     }
 
     @Transactional

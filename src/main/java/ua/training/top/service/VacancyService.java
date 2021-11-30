@@ -2,7 +2,6 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Freshen;
@@ -23,7 +22,6 @@ import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-@EnableScheduling
 public class VacancyService {
     private static final Logger log = LoggerFactory.getLogger(VacancyService.class);
     private final VacancyRepository repository;

@@ -47,15 +47,16 @@ public class AutoRefreshService {
         log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
+        setAutoRefreshProviders();
         freshenService.refreshDB(
                 new Freshen(randomFreshen(mapWorkplace.get(getKey(5)), mapLevel.get(getKey(2)))));
+        offAutoRefreshProviders();
     }
 
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "0 50 8,9 * * *")
     public void everyDay() {
         log.info("Scheduled everyDay");
         setTestAuthorizedUser(asAdmin());
-        vacancyService.deleteOutDated();
         freshenService.deleteOutDated();
     }
 }

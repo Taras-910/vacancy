@@ -80,6 +80,7 @@ public class AggregatorService {
     @Transactional
     protected void executeRefreshDb(Map<Employer, List<VacancyTo>> mapUniqueTos, List<Vacancy> vacanciesDb,
                                     List<Vacancy> vacanciesUpdate, List<Vacancy> vacanciesCreate, Freshen newFreshen) {
+        log.info("executeRefreshDb");
         List<Employer> newEmployers = employerService.createList(new ArrayList<>(mapUniqueTos.keySet()));
         newEmployers.forEach(e -> fromTos(mapUniqueTos.get(e)).stream().distinct().forEach(v -> {
             v.setEmployer(e);
@@ -97,11 +98,16 @@ public class AggregatorService {
         log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(), newFreshen);
     }
 
+    public void deleteOutDated() {
+        log.info("deleteOutDated");
+        vacancyService.deleteOutDated();
+    }
+
     public static void main(String[] args) {
         setTestAuthorizedUser(asAdmin());
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                asNewFreshen("java", "all", "Харьков", UPGRADE));
+                asNewFreshen("java", "all", "all", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
