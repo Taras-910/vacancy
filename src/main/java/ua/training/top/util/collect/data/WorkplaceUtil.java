@@ -34,7 +34,7 @@ public class WorkplaceUtil {
             case "польща", "польша" -> "74";
             case "сша" -> "85";
             case "all" -> "all";
-            default -> workplace.equals("remote") ? "&schedule=remote" : "&area=".concat(workplace);
+            default -> workplace.equals("remote") ? "&schedule=remote" : getBuild("&area=").append(workplace).toString();
         };
     }
 
@@ -234,7 +234,7 @@ public class WorkplaceUtil {
             case "foreign" -> city = "за%20кордоном";
             default -> city = workplace;
         }
-        return workplace.equals("remote") || workplace.equals("all") ? "" : "&rgns=".concat(city);
+        return workplace.equals("remote") || workplace.equals("all") ? "" : getBuild("&rgns=").append(city).toString();
     }
 
     public static String getWork(String workplace) {

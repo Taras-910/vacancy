@@ -18,8 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.DataUtil.linkedin;
+import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getLinkedin;
@@ -45,7 +44,8 @@ public class LinkedinStrategy implements Strategy {
             int page = 0;
             while(true) {
                 Document doc = getDocument(location, language, level, valueOf(page));
-                Elements elements = doc == null ? null : doc.getElementsByAttributeValueStarting("class","base-card base-card--link base-search-card base-search-card--link");
+                Elements elements = doc == null ? null :
+                        doc.getElementsByAttributeValueStarting("class","base-card base-card--link base-search-card base-search-card--link");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesLinkedin(elements, freshen));
                 if (page < getMaxPages(linkedin, freshen.getWorkplace())) page++;
@@ -78,6 +78,6 @@ public class LinkedinStrategy implements Strategy {
     }
 
     public static String getSalaryLinkedin(String title) {
-        return String.join(title.replace(",", ""), " ", "year");
+        return getBuild(title.replace(",", "")).append(" year").toString();
     }
 }

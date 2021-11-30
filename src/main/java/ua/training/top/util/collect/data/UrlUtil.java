@@ -15,7 +15,7 @@ public class UrlUtil {
             case work -> "https://www.work.ua";
             default -> "";
         };
-        return prefix + url;
+        return getBuild(prefix).append(url).toString();
     }
 
     public static String getPage(String siteName, String page) {

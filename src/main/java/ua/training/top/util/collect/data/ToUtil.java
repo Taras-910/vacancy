@@ -5,7 +5,6 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
-import static java.lang.String.join;
 import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class ToUtil {
@@ -19,23 +18,25 @@ public class ToUtil {
     }
 
     public static String getAnchorVacancy(Vacancy v) {
-        return join(v.getTitle(), v.getEmployer().getName(), v.getEmployer().getAddress(), v.getSkills()).toLowerCase();
+        return getBuild(v.getTitle()).append(v.getEmployer().getName()).append(v.getEmployer().getAddress())
+                .append(v.getSkills()).toString().toLowerCase();
     }
 
     public static String getAnchorVacancy(VacancyTo vTo) {
-        return join(vTo.getTitle(), vTo.getEmployerName(), vTo.getAddress(), vTo.getSkills()).toLowerCase();
+        return getBuild(vTo.getTitle()).append(vTo.getEmployerName()).append(vTo.getAddress())
+                .append(vTo.getSkills()).toString().toLowerCase();
     }
 
     public static String getAnchorEmployer(Employer e) {
-        return join(" ", e.getName(), e.getAddress()).toLowerCase();
+        return getBuild(e.getName()).append(e.getAddress()).toString().toLowerCase();
     }
 
     public static String getAnchorEmployer(VacancyTo vTo) {
-        return join(" ", vTo.getEmployerName(), vTo.getAddress()).toLowerCase();
+        return getBuild(vTo.getEmployerName()).append(vTo.getAddress()).toString().toLowerCase();
     }
 
-    public static boolean isToValid(Freshen f, String text) {
-        String temp = text.toLowerCase();
+    public static boolean isToValid(Freshen f, StringBuilder text) {
+        String temp = text.toString().toLowerCase();
         return (temp.contains(f.getLanguage()) || isMatch(workersIT, temp)) && wasteSkills.stream().noneMatch(temp::contains);
     }
 }

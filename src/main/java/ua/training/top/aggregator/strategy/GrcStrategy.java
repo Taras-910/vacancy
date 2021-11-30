@@ -17,8 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesGrc;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.DataUtil.grc;
+import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.UrlUtil.getPage;
@@ -33,8 +32,8 @@ public class GrcStrategy implements Strategy {
 
     protected Document getDocument(String workplace, String language, String level, String page) {
         return DocumentUtil.getDocument(format(url, workplace.equals("&schedule=remote") || workplace.equals("all") ?
-                        "" : "&area=".concat(workplace), language, level.isEmpty() ? "" : level,
-                workplace.equals("&schedule=remote") ? workplace : "", getPage(grc, page)));
+                        "" : getBuild("&area=").append(workplace).toString(), language, level.isEmpty() ?
+                        "" : level, workplace.equals("&schedule=remote") ? workplace : "", getPage(grc, page)));
     }
 
     @Override

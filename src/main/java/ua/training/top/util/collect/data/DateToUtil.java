@@ -30,7 +30,6 @@ public class DateToUtil {
                 String name = parts[parts[1].matches(is_date_number) ? 0 : 1];
                 LocalDate localDate = getLocalDate(number, name);
                 return localDate.isBefore(now()) || localDate.isEqual(now()) ? localDate : localDate.minusYears(1);
-
             }
             return parse(text.contains("t") ? text.substring(0, text.indexOf("t")) : text);
         } catch (Exception e) {

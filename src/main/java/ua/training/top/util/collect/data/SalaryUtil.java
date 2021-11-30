@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.lang.Float.parseFloat;
+import static java.util.List.of;
 import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class SalaryUtil {
@@ -73,12 +74,13 @@ public class SalaryUtil {
     }
 
     public static float getPeriod(String text) {
-        return isMatch(yearAria, text) ? 1.0f / 12.0f : isMatch(dayAria, text) ? 22.0f : isMatch(hourAria, text) ? 22.0f * 8.0f : 1.0f;
+        return isMatch(yearAria, text) ? 1.0f / 12.0f : isMatch(dayAria, text) ? 22.0f :
+                isMatch(hourAria, text) ? 22.0f * 8.0f : 1.0f;
     }
 
     private static int getPoint(String str) {
         int decimalPoint = str.length() - str.lastIndexOf(".");
-        return decimalPoint == 3 ? 1 : decimalPoint == 2 ? 10 : 100;
+        return str.indexOf(".") == -1 ? 100 : decimalPoint == 3 ? 1 : decimalPoint == 2 ? 10 : 100;
     }
 
     public static String getCurrencyCode(String text) {
@@ -115,7 +117,5 @@ public class SalaryUtil {
         };
     }
 
-    public static boolean isFrom(String originText) {
-        return originText.contains("от") || originText.contains("від");
-    }
+    public static boolean isFrom(String originText) { return isMatch(of("от", "від"), originText); }
 }

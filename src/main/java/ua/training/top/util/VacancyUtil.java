@@ -62,7 +62,6 @@ public class VacancyUtil {
         return vacancy;
     }
 
-
     public static boolean isNotSimilar(Vacancy v, VacancyTo vTo) {
         return !v.getTitle().equals(vTo.getTitle()) ||
                 !v.getEmployer().getName().equals(vTo.getEmployerName()) ||

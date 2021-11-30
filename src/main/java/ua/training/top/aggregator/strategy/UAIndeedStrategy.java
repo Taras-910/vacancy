@@ -18,8 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesIndeed;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.DataUtil.indeed;
+import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getIndeed;
@@ -30,8 +29,8 @@ public class UAIndeedStrategy implements Strategy {
     //https://ua.indeed.com/jobs?q=java+middle&rbl=Киев&jlid=e9ab1a23f8e591f1&start=10
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-        return DocumentUtil.getDocument(format(url, language, level.equals("all") ? "" : "+".concat(level), workplace,
-                getPage(indeed, page)));
+        return DocumentUtil.getDocument(format(url, language, level.equals("all") ? "" :
+                getBuild("+").append(level).toString(), workplace, getPage(indeed, page)));
     }
 
     @Override

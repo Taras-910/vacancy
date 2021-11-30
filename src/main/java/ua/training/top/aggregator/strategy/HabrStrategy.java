@@ -29,7 +29,8 @@ public class HabrStrategy implements Strategy {
     //https://career.habr.com/vacancies?city_id=679&page=2&q=java&qid=4&remote=true&sort=date&type=all
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-        String city = workplace.equals("all") || workplace.equals("remote") ? "" : "city_ids[]=".concat(workplace).concat("&");
+        String city = workplace.equals("all") || workplace.equals("remote") ?
+                "" : getBuild("city_ids[]=").append(workplace).append("&").toString();
         return DocumentUtil.getDocument(format(url, city, getPage(habr, page), language, getLevel(habr ,level),
                 workplace.equals("remote") ? "&remote=true" : "", getPartUrlsHabr(language)));
     }
@@ -71,6 +72,6 @@ public class HabrStrategy implements Strategy {
             case "c++" -> "172";
             default -> "1012";
         };
-        return "&skills[]=".concat(skills);
+        return getBuild("&skills[]=").append(skills).toString();
     }
 }

@@ -17,8 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesJobs;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.DataUtil.jobs;
+import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getJobs;
 
@@ -52,7 +51,7 @@ public class JobsStrategy implements Strategy {
 
     private String getWorkplace(String workplace) {
         return workplace.equals("all") ? "" : workplace.equals("remote") || workplace.equals("relocation") ?
-                workplace.concat("&") : "city=".concat(workplace).concat("&");
+                getBuild(workplace).append("&").toString() : getBuild("city=").append(workplace).append("&").toString();
     }
 
     public static String[] getUA() {

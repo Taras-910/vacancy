@@ -8,6 +8,16 @@ import static ua.training.top.aggregator.installation.InstallationUtil.maxLength
 
 public class DataUtil {
     public static final LocalDate defaultDate = LocalDate.now().minusDays(7);
+    private static StringBuilder builder;
+
+    public static StringBuilder getBuild(String text) {
+        if (builder == null) {
+            builder = new StringBuilder(1024);
+        }
+        builder.setLength(0); //https://stackoverflow.com/questions/5192512/how-can-i-clear-or-empty-a-stringbuilder
+        return builder.append(text);
+    }
+
     public static final String
             link = "see the card",
             is_date_number = "\\d{1,2}",

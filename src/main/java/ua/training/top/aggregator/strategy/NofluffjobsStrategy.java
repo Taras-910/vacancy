@@ -18,8 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getNofluffjobsVacancies;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.DataUtil.nofluff;
+import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getNofluff;
@@ -32,7 +31,7 @@ public class NofluffjobsStrategy implements Strategy {
 
     protected Document getDocument(String workplace, String page, String level, String language) {
         return DocumentUtil.getDocument(format(url, workplace, page, part, getLevel(nofluff, level),
-                part_language.concat(language)));
+                getBuild(part_language).append(language).toString()));
     }
 
     @Override

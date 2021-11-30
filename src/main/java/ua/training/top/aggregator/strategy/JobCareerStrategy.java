@@ -17,8 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesJobCareer;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.DataUtil.jobcareer;
+import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.UrlUtil.getPage;
@@ -55,7 +54,7 @@ public class JobCareerStrategy implements Strategy {
         return new ArrayList<>(set);
     }
 
-    public static String getCareerUrl(String urlString, Freshen freshen) {
-        return "https://".concat(getCareer(freshen.getWorkplace())).concat(".jobcareer.ru").concat(urlString);
+    public static String getCareerUrl(String url, Freshen freshen) {
+        return getBuild("https://").append(getCareer(freshen.getWorkplace())).append(".jobcareer.ru").append(url).toString();
     }
 }
