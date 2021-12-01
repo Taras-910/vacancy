@@ -38,7 +38,7 @@ public class ElementUtil {
                     skills = getToSkills(xssClear(element.getElementsByClass("list-jobs__description").text()));
                     salaries = xssClear(element.getElementsByClass("public-salary-item").text());
                     salaries = isEmpty(salaries) ? skills : salaries;
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text())));
@@ -68,7 +68,7 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByClass("resume-search-item__name").text().toLowerCase()));
                     skills = getToSkills(xssClear(element.getElementsByClass("g-user-content").text().toLowerCase()));
                     salaries = xssClear(element.getElementsByClass("vacancy-serp-item__sidebar").text());
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text())));
@@ -98,7 +98,7 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByClass("vacancy-card__title").tagName("a").text()));
                     skills = getToSkills(xssClear(element.getElementsByClass("vacancy-card__skills").text()));
                     salaries = xssClear(element.getElementsByClass("basic-salary").text());
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("vacancy-card__company").first().child(0).text())));
@@ -127,7 +127,7 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByTag("a").text()));
                     skills = getToSkills(xssClear(element.getElementsByTag("p").text()));
                     salaries = xssClear(element.getElementsByClass("vacancy-salary").text());
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(xssClear(element.getElementsByAttributeValueEnding("class", "vacancy-company").text()));
@@ -156,7 +156,7 @@ public class ElementUtil {
                     String title, salaries, skills = getToSkills(xssClear(element.getElementsByClass("card-body").text()));
                     title = getToTitle(xssClear(element.getElementsByClass("link").text()));
                     salaries = xssClear(element.getElementsByClass("text-muted clearfix d-block").tagName("strong").text().replaceAll(",", ""));
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("cursor-pointer").text())));
@@ -183,7 +183,7 @@ public class ElementUtil {
                 String skills, salaries, title = getToTitle(xssClear(element.getElementsByTag("a").first().text()));
                 skills = getLinkIfEmpty(xssClear(element.getElementsByClass("sh-info").text()));
                 salaries = xssClear(element.getElementsByClass("salary").text());
-                if (isToValid(freshen, getBuild(title).append(skills))) {
+                if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                     VacancyTo v = new VacancyTo();
                     v.setTitle(getLinkIfEmpty(title));
                     v.setEmployerName(getToName(xssClear(element.getElementsByTag("a").last().text())));
@@ -210,7 +210,7 @@ public class ElementUtil {
                 if (localDate.isAfter(reasonDateLoading)) {
                     String title = getToTitle(xssClear(element.getElementsByClass("base-search-card__title").text()));
 
-                    if (isToValid(freshen, getBuild(title))) {
+                    if (isToValid(freshen, getBuild(title).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("base-search-card__subtitle").tagName("a").text())));
@@ -239,7 +239,7 @@ public class ElementUtil {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByClass("posting-title__position").text()));
                     salaries = xssClear(element.getElementsByAttributeValueContaining("class", "salary").text());
                     skills = getToSkills(xssClear(element.getElementsByTag("common-posting-item-tag").text()));
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(xssClear(element.getElementsByClass("posting-title__company").text()).substring(2).trim());
@@ -269,7 +269,7 @@ public class ElementUtil {
                     skills = getToSkills(xssClear(element.getElementsByClass("card-description").text()));
                     salaries = xssClear(element.getElementsByClass("salary").text());
                     salaries = isEmpty(salaries) ? title : skills;
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("company-name").text())));
@@ -297,7 +297,7 @@ public class ElementUtil {
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, title = getToTitle(xssClear(element.getElementsByAttribute("title").first().text()));
                     skills = getToSkills(xssClear(element.getElementsByClass("job-snippet").text()));
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(xssClear(element.getElementsByClass("companyName").text()))));
@@ -333,7 +333,7 @@ public class ElementUtil {
                     skills = getToSkills(xssClear(element.getElementsByClass("_10840").text()));
                     salaries = xssClear(element.getElementsByClass("a7943").text());
                     salaries = isEmpty(salaries) ? skills : salaries;
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("efaa8").text())));
@@ -364,7 +364,7 @@ public class ElementUtil {
                     salaries = xssClear(element.getElementsByTag("b").tagName("b").first().text());
                     employerName = xssClear(element.getElementsByTag("img").attr("alt"));
                     employerName = !isEmpty(employerName) ? employerName : xssClear(element.getElementsByClass("add-top-xs").tagName("span").tagName("b").eachText().get(0));
-                    if (isToValid(freshen, getBuild(title).append(skills))) {
+                    if (isToValid(freshen, getBuild(title).append(skills).toString())) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(employerName));

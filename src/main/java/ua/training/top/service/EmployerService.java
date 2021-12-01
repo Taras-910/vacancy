@@ -4,11 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Employer;
+import ua.training.top.model.Vacancy;
 import ua.training.top.repository.EmployerRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static ua.training.top.util.EmployerUtil.checkDataEmployer;
 import static ua.training.top.util.MessageUtil.not_be_null;
@@ -57,8 +61,23 @@ public class EmployerService {
         checkNotFoundWithId(repository.delete(id), id);
     }
 
-    public void deleteEmpty() {
+    public void deleteEmpty(List<Vacancy> list) {
         log.info("deleteEmptyEmployers");
-        repository.deleteEmpty();
+        List<Employer> listEmptyEmployers = new ArrayList<>();
+        Map<Integer, List<Vacancy>> vacanciesEmployersId = list.stream()
+                .collect(Collectors.groupingBy(v -> v.getEmployer().getId()));
+        Map<Integer, Employer> employersEmployersId = repository.getAll().stream()
+                .collect(Collectors.toMap(AbstractBaseEntity::getId, e -> e));
+
+        employersEmployersId.keySet().forEach( e -> {
+            if (!vacanciesEmployersId.containsKey(e)) {
+                listEmptyEmployers.add(employersEmployersId.get(e));
+            }
+        });
+        repository.deleteList(listEmptyEmployers);
+    }
+
+    public void deleteList(List<Employer> list) {
+        repository.deleteList(list);
     }
 }

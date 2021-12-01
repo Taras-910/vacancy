@@ -97,7 +97,7 @@ public class AggregatorService {
         if (!vacancies.isEmpty()) {
             vacancyService.deleteExceed(vacanciesDb.size() + vacanciesCreate.size() - limitVacanciesKeeping);
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
-            employerService.deleteEmpty();
+            employerService.deleteEmpty(vacancyService.getAll());
         }
     }
 

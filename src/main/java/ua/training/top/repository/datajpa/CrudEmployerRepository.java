@@ -21,11 +21,6 @@ public interface CrudEmployerRepository extends JpaRepository<Employer, Integer>
     @Query("SELECT e FROM Employer e ORDER BY e.name ASC")
     List<Employer> getAll();
 
-    @Transactional
-    @Query("DELETE FROM Employer e WHERE size(e.vacancies)=:size")
-    void deleteAllEmpty(@Param("size") int size);
-
     @Query("SELECT e FROM Employer e WHERE e.name=:name")
     List<Employer> getByName(@Param("name")String name);
-
 }

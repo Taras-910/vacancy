@@ -98,7 +98,7 @@ public class DataUtil {
                     "финляндия", "finland", "азербайджан", "norway", "poland", "singapore", "czechia", "france",
                     "киргизстан", "iran", "israel", "німеччина", "германия", "australia", "philippines", "uk", "estonia",
                     "netherlands", "узбекістан", "узбекистан", "білорусь", "беларусь", "казахстан", "foreign",
-                    "podgorica", "dubai", "pol", "england", "united kingdom"),
+                    "podgorica", "emirates", "pol", "england", "united kingdom"),
             monthsOfYearAria = of("січня", "января", "лютого", "февраля", "березня", "марта", "квітня", "апреля",
                     "травня", "мая", "червня", "июня", "липня", "июля", "серпня", "августа", "вересня", "сентября",
                     "жовтня", "октября", "листопада", "ноября", "грудня", "декабря", "jan", "feb", "mar", "apr", "may",

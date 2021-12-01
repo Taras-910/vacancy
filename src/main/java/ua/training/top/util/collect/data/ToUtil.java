@@ -35,8 +35,8 @@ public class ToUtil {
         return getBuild(vTo.getEmployerName()).append(vTo.getAddress()).toString().toLowerCase();
     }
 
-    public static boolean isToValid(Freshen f, StringBuilder text) {
-        String temp = text.toString().toLowerCase();
+    public static boolean isToValid(Freshen f, String text) {
+        String temp = text.toLowerCase();
         return (temp.contains(f.getLanguage()) || isMatch(workersIT, temp)) && wasteSkills.stream().noneMatch(temp::contains);
     }
 }

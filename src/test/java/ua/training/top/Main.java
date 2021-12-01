@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.AggregatorService;
+import ua.training.top.service.EmployerService;
 import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
 
@@ -38,7 +39,7 @@ public class Main {
 //        UserService userService = appCtx.getBean(UserService.class);
         FreshenService freshenService = appCtx.getBean(FreshenService.class);
         AggregatorService aggregatorService = appCtx.getBean(AggregatorService.class);
-//        EmployerService employerService = appCtx.getBean(EmployerService.class);
+        EmployerService employerService = appCtx.getBean(EmployerService.class);
         VacancyService vacancyService = appCtx.getBean(VacancyService.class);
 //        VoteService voteService = appCtx.getBean(VoteService.class);
 

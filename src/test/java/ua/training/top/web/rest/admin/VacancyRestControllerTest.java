@@ -165,6 +165,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
                 .param("language", "java")
+                .param("level", "middle")
                 .param("workplace", "киев")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())

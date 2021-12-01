@@ -11,7 +11,6 @@ import ua.training.top.repository.EmployerRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Repository
@@ -41,26 +40,23 @@ public class DataJpaEmployerRepository implements EmployerRepository {
 
     @Transactional
     @Override
-    public void deleteEmpty() {
-        List<Employer> empty = repository.findAll().stream()
-                .filter(e -> e.getVacancies().isEmpty())
-                .collect(Collectors.toList());
-        repository.deleteAll(empty);
-    }
-
-    @Transactional
-    @Override
     public List<Employer> createList(ArrayList<Employer> employers) {
         List<Employer> employersDb = new ArrayList<>();
         try {
             employersDb = repository.saveAll(employers);
         } catch (Exception e) {
             for(Employer employer : employers) {
-                log.error("error " + employer + " redirect on method save");
+                log.error("error {} redirect on method save", employer);
                 employersDb.add(save(employer));
             }
         }
         return employersDb;
+    }
+
+    @Transactional
+    @Override
+    public void deleteList(List<Employer> list) {
+        repository.deleteAll(list);
     }
 
     @Transactional

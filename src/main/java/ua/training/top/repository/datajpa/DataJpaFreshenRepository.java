@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Repository
 public class DataJpaFreshenRepository implements FreshenRepository {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-//    private static final Sort RECORDED_DATE = Sort.by(Sort.Direction.ASC, "recordedDate");
     private final CrudFreshenRepository crudRepository;
 
     public DataJpaFreshenRepository(CrudFreshenRepository crudRepository) {
@@ -46,12 +45,9 @@ public class DataJpaFreshenRepository implements FreshenRepository {
         deleteList(crudRepository.getOutDated(reasonLocalDateTime));
     }
 
-        @Override
+    @Override
     public Freshen get(int id) {
-        Freshen freshen = crudRepository.findById(id).orElse(null);
-            assert freshen != null;
-            freshen.setVacancies(null);
-            return freshen;
+        return crudRepository.findById(id).orElse(null);
     }
 
     @Override
