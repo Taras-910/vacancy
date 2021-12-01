@@ -129,7 +129,7 @@ public class VacancyUtil {
     public static List<String> getForeign() {
         List<String> foreign = new ArrayList<>(citiesWorld);
         foreign.addAll(citiesPL);
-        foreign.addAll(of("другие страны", "foreign", "за_рубежем"));
+        foreign.addAll(of("другие страны", "foreign", "за_рубежем", "за рубежом"));
         return foreign;
     }
 }
