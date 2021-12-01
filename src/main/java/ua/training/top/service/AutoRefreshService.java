@@ -23,9 +23,7 @@ public class AutoRefreshService {
     public static final Logger log = LoggerFactory.getLogger(AutoRefreshService.class);
 
     @Autowired
-    private FreshenService freshenService;
-    @Autowired
-    private VacancyService vacancyService;
+    private AggregatorService aggregatorService;
 
 //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
     @Scheduled(cron = "0 0,15,30,45 10-18 * * MON-FRI")
@@ -36,7 +34,7 @@ public class AutoRefreshService {
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        freshenService.refreshDB(
+        aggregatorService.refreshDB(
                 new Freshen(randomFreshen(mapWorkplace.get(getKey(10)), mapLevel.get(getKey(4)))));
         offAutoRefreshProviders();
     }
@@ -48,16 +46,16 @@ public class AutoRefreshService {
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        freshenService.refreshDB(
+        aggregatorService.refreshDB(
                 new Freshen(randomFreshen(mapWorkplace.get(getKey(5)), mapLevel.get(getKey(2)))));
         offAutoRefreshProviders();
     }
 
-    @Scheduled(cron = "0 50 8,9 * * *")
+    @Scheduled(cron = "0 55 9 * * *")
     public void everyDay() {
         log.info("Scheduled everyDay");
         setTestAuthorizedUser(asAdmin());
-        freshenService.deleteOutDated();
+        aggregatorService.deleteOutDated();
     }
 }
 //                                   *      *

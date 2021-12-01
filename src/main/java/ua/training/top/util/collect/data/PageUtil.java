@@ -7,8 +7,7 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 public class PageUtil {
 
     public static int getMaxPages(String site, String city) {
-        int pages;
-        pages = switch (city) {
+        int pages = switch (city) {
             case "all" -> switch (site) {
                 case djinni -> 120;
                 case grc -> 40;

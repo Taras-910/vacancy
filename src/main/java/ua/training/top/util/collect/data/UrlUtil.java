@@ -20,12 +20,12 @@ public class UrlUtil {
 
     public static String getPage(String siteName, String page) {
         return switch (siteName) {
-            case djinni, jobcareer -> page.equals("1") ? "" : "page=".concat(page);
-            case grc -> page.equals("0") ? "" : "&page=".concat(page);
-            case habr, work -> page.equals("1") ? "" : "&page=".concat(page);
-            case rabota -> page.equals("1") ? "" : "/pg".concat(page);
-            case indeed -> page.equals("0") ? "" : "&start=".concat(String.valueOf(Integer.parseInt(page)*10));
-            case jooble -> page.equals("1") ? "" : "&p=".concat(page);
+            case djinni, jobcareer -> page.equals("1") ? "" : getBuild("page=").append(page).toString();
+            case grc -> page.equals("0") ? "" : getBuild("&page=").append(page).toString();
+            case habr, work -> page.equals("1") ? "" : getBuild("&page=").append(page).toString();
+            case rabota -> page.equals("1") ? "" : getBuild("/pg").append(page).toString();
+            case indeed -> page.equals("0") ? "" : getBuild("&start=").append(page).append("0").toString();
+            case jooble -> page.equals("1") ? "" : getBuild("&p=").append(page).toString();
             default -> page;
         };
     }

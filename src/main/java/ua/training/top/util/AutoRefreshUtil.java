@@ -22,7 +22,7 @@ public class AutoRefreshUtil {
     public static void setRandomDelay(int bound) {
         try {
             int delay = random.nextInt(bound);
-            log.info(setting_delay, delay/(1000 * 60), delay%(1000 * 60) / 1000);
+            log.info(setting_delay, delay / (1000 * 60), delay % (1000 * 60) / 1000);
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -49,8 +49,8 @@ public class AutoRefreshUtil {
                     Map.entry(11, new Provider(new WorkStrategy()))
             );
 
-    public static final Map<Integer, String> mapWorkplace =
-            Map.of(
+    public static final Map<Integer, String>
+            mapWorkplace = Map.of(
                     0, "remote",
                     1, "киев",
                     2, "украина",
@@ -61,17 +61,15 @@ public class AutoRefreshUtil {
                     7, "москва",
                     8, "санкт-петербург",
                     9, "минск"
-            );
-
-    public static final Map<Integer, String> mapLevel =
-            Map.of(
+            ),
+            mapLevel = Map.of(
                     0, "all",
                     1, "middle",
                     2, "senior",
                     3, "trainee",
                     4, "expert",
                     5, "junior"
-                    );
+            );
 
     public static Freshen randomFreshen(String workplace, String level) {
         return new Freshen(null, now(), "java", level, workplace, singleton(UPGRADE), ADMIN_ID);

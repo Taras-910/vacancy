@@ -11,8 +11,9 @@ import java.time.format.DateTimeFormatter;
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-    public static final LocalDate testDate = LocalDate.of(2020, 7, 30);
-    public static final LocalDate thisDay = LocalDate.now();
+    public static final LocalDate
+            testDate = LocalDate.of(2020, 7, 30),
+            thisDay = LocalDate.now();
 
     public static String toString(LocalDateTime ldt) {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);

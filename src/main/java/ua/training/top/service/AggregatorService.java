@@ -3,6 +3,7 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Employer;
@@ -30,6 +31,7 @@ import static ua.training.top.util.collect.data.ToUtil.getAnchorEmployer;
 import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
 
 @Service
+@EnableScheduling
 public class AggregatorService {
     private final static Logger log = LoggerFactory.getLogger(AggregatorService.class);
     public static final Instant start = Instant.now();
@@ -101,6 +103,7 @@ public class AggregatorService {
     public void deleteOutDated() {
         log.info("deleteOutDated");
         vacancyService.deleteOutDated();
+        freshenService.deleteOutDated();
     }
 
     public static void main(String[] args) {
