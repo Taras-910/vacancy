@@ -4,13 +4,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.model.Vacancy;
 import ua.training.top.service.AggregatorService;
 import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.UserTestData.USER_ID;
@@ -47,17 +43,6 @@ public class Main {
 //        VoteService voteService = appCtx.getBean(VoteService.class);
 
         System.out.println(".".repeat(120));
-
-        List<Vacancy> listBefore = vacancyService.getAll();
-        List<Vacancy> listDelete = listBefore.stream()
-                .filter(v -> v.getEmployer().getAddress().contains("VIP · "))
-                .collect(Collectors.toList());
-        vacancyService.deleteList(listDelete);
-        List<Vacancy> listAfter = vacancyService.getAll();
-
-        System.out.println("before="+ listBefore.size());
-        System.out.println("delete="+ listDelete.size());
-        System.out.println("after="+ listAfter.size());
 
 
         System.out.println(".".repeat(120));
