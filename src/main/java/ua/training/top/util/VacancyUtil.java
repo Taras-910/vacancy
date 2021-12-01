@@ -8,6 +8,7 @@ import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,20 +87,24 @@ public class VacancyUtil {
     }
 
     public static List<Vacancy> getFilterByAddress(List<Vacancy> vacancies, Freshen f) {
-        return f.getWorkplace().equals("all") ? vacancies : vacancies.stream()
-                .filter(v -> isContains(getWorkplaceList(f.getWorkplace()), v.getEmployer().getAddress()))
+        return f.getWorkplace().equals("all") ? vacancies :
+                vacancies.stream()
+                .filter(v -> isContains(f.getWorkplace(), v))
                 .collect(Collectors.toList());
     }
 
-    public static boolean isContains(List<String> area, String workplace) {
-        return area.stream().anyMatch(a -> workplace.toLowerCase().indexOf(a) > -1);
+    public static boolean isContains(String workplace, Vacancy v) {
+        return getWorkplaceList(workplace).stream().anyMatch(a -> isMatch(getForeign(), workplace) ?
+                v.getEmployer().getAddress().toLowerCase().indexOf(a) > -1 :
+                v.getEmployer().getAddress().toLowerCase().indexOf(a) > -1 || v.getFreshen().getWorkplace().indexOf(a) > -1);
     }
 
     private static List<String> getWorkplaceList(String workplace) {
         return switch (workplace) {
             case "ukraine", "україна", "украина" -> ukraineAria;
             case "київ", "киев", "kiev" -> kievAria;
-            case "foreign", "за_рубежем" -> citiesWorld;
+            case "foreign", "за_рубежем", "другие страны" -> getForeign();
+            case "remote", "relocate", "удаленно", "віддалено" -> remoteAria;
             case "харків", "харьков", "kharkiv" -> kharkivAria;
             case "дніпро", "днепр", "dnipro" -> dniproAria;
             case "одеса", "одесса", "odesa" -> odesaAria;
@@ -119,5 +124,12 @@ public class VacancyUtil {
             case "poznan", "познань" -> poznanAria;
             default -> of(workplace);
         };
+    }
+
+    public static List<String> getForeign() {
+        List<String> foreign = new ArrayList<>(citiesWorld);
+        foreign.addAll(citiesPL);
+        foreign.addAll(of("другие страны", "foreign", "за_рубежем"));
+        return foreign;
     }
 }

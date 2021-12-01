@@ -62,6 +62,7 @@ public class DataUtil {
             wasteSalary = of(" ", " ", "&nbsp;", "[.]{2,}", "(\\p{Sc}|ƒ)", "\\s+"),
             kievAria = of("kyiv", "kiev", "київ", "киев"),
             ukraineAria = of("ukraine", "украина", "україна"),
+            remoteAria = of("remote", "relocate", "удаленно", "віддалено"),
             dniproAria = of("дніпро", "днепр", "dnipro"),
             kharkivAria = of("харків", "харьков", "kharkiv"),
             lvivAria = of("львів", "львов", "lviv"),

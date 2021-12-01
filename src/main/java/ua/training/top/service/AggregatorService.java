@@ -34,7 +34,6 @@ import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
 @EnableScheduling
 public class AggregatorService {
     private final static Logger log = LoggerFactory.getLogger(AggregatorService.class);
-    public static final Instant start = Instant.now();
 
     @Autowired
     private VacancyService vacancyService;
@@ -45,6 +44,8 @@ public class AggregatorService {
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);
+        Instant start = Instant.now();
+
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
 
         if (!vacancyTos.isEmpty()) {
@@ -76,6 +77,8 @@ public class AggregatorService {
             Map<Employer, List<VacancyTo>> mapUniqueTos = vacancyTosOfUniqueEmployers.stream()
                     .collect(Collectors.groupingBy(EmployerUtil::getEmployerFromTo));
             executeRefreshDb(mapUniqueTos, vacanciesDb, vacanciesUpdate, vacanciesCreate, newFreshen);
+            long timeElapsed = Duration.between(start, Instant.now()).toMillis();
+            log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(), newFreshen);
         }
     }
 
@@ -96,8 +99,6 @@ public class AggregatorService {
             vacancyService.createUpdateList(new ArrayList<>(vacancies));
             employerService.deleteEmpty();
         }
-        long timeElapsed = Duration.between(start, Instant.now()).toMillis();
-        log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(), newFreshen);
     }
 
     public void deleteOutDated() {

@@ -117,8 +117,7 @@ $(function () {
                             return 'see the <a href="' + data.url + '">card</a>'
                         }
                         return data.employerName;
-                    },
-                    className: "uniqueClassName"
+                    }
                 },
                 {
                     "data": function (data, type, row) {
@@ -126,8 +125,7 @@ $(function () {
                             return 'see the <a href="' + data.url + '">card</a>'
                         }
                         return data.address;
-                    },
-                    className: "uniqueClassName"
+                    }
                 },
                 {
                     "data": function (data, type, row) {
