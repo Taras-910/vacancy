@@ -31,6 +31,6 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     List<Vote> getAllForAuth(@Param("userId") int userId);
 
     @Query(value =
-            "SELECT * FROM vacancy.public.vote v ORDER BY v.local_date, v.id LIMIT :limit", nativeQuery = true)
+            "SELECT v FROM Vote v ORDER BY v.local_date, v.id LIMIT :limit", nativeQuery = true)
     List<Vote> findExceeded(@Param("limit") int limit);
 }
