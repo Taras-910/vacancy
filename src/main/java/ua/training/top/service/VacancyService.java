@@ -17,6 +17,7 @@ import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodKeeping;
 import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
+import static ua.training.top.util.FilterUtil.getFilter;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
@@ -60,7 +61,7 @@ public class VacancyService {
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getTosByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
         freshen.setGoals(Collections.singleton(FILTER));
-        return getTos(getFilterByAddress(repository.getByFilter(freshen), freshen), voteService.getAllForAuth());
+        return getTos(getFilter(repository.getAll(), freshen), voteService.getAllForAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {

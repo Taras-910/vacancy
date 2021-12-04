@@ -2,20 +2,18 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.model.Vote;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.List.of;
 import static ua.training.top.util.MessageUtil.check_error_data;
 import static ua.training.top.util.MessageUtil.not_be_null;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.DataUtil.link;
 
 public class VacancyUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;
@@ -84,52 +82,5 @@ public class VacancyUtil {
             }
         }
         return true;
-    }
-
-    public static List<Vacancy> getFilterByAddress(List<Vacancy> vacancies, Freshen f) {
-        return f.getWorkplace().equals("all") ? vacancies :
-                vacancies.stream()
-                .filter(v -> isContains(f.getWorkplace(), v))
-                .collect(Collectors.toList());
-    }
-
-    public static boolean isContains(String workplace, Vacancy v) {
-        return getWorkplaceList(workplace).stream().anyMatch(a -> isMatch(getForeign(), workplace) ?
-                v.getEmployer().getAddress().toLowerCase().indexOf(a) > -1 :
-                v.getEmployer().getAddress().toLowerCase().indexOf(a) > -1 || v.getFreshen().getWorkplace().indexOf(a) > -1);
-    }
-
-    private static List<String> getWorkplaceList(String workplace) {
-        return switch (workplace) {
-            case "ukraine", "україна", "украина" -> ukraineAria;
-            case "київ", "киев", "kiev" -> kievAria;
-            case "foreign", "за_рубежем", "другие страны" -> getForeign();
-            case "remote", "relocate", "удаленно", "віддалено" -> remoteAria;
-            case "харків", "харьков", "kharkiv" -> kharkivAria;
-            case "дніпро", "днепр", "dnipro" -> dniproAria;
-            case "одеса", "одесса", "odesa" -> odesaAria;
-            case "львів", "львов", "lviv" -> lvivAria;
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> zaporizhzhyaAria;
-            case "миколаїв", "николаев", "mykolaiv" -> mykolaivAria;
-            case "чорновці", "черновцы", "chernivtsi" -> chernivtsiAria;
-            case "чернігів", "чернигов", "chernigiv" -> chernigivAria;
-            case "вінниця", "винница", "vinnitsia" -> vinnitsiaAria;
-            case "ужгород", "uzhgorod" -> uzhgorodAria;
-            case "івано-франківськ", "ивано-франковск", "ivano-frankivsk" -> ivano_frankivskAria;
-            case "польша", "poland", "polski" -> polandAria;
-            case "варшава", "warszawa" -> warszawaAria;
-            case "krakow", "краков" -> krakowAria;
-            case "wroclaw", "вроцлав" -> wroclawAria;
-            case "gdansk", "гданськ", "гданск" -> gdanskAria;
-            case "poznan", "познань" -> poznanAria;
-            default -> of(workplace);
-        };
-    }
-
-    public static List<String> getForeign() {
-        List<String> foreign = new ArrayList<>(citiesWorld);
-        foreign.addAll(citiesPL);
-        foreign.addAll(of("другие страны", "foreign", "за_рубежем", "за рубежом"));
-        return foreign;
     }
 }
