@@ -25,17 +25,17 @@ public class FilterUtil {
         return switch (field.toLowerCase()) {
             case "all" -> true;
             case "java", "react", "ruby" -> text.matches(".*\\b" + field + "\\b.*");
-            case "trainee", "стажировка", "стажер", "internship",
-                    "интерн", "intern" -> getAria(field).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
+            case "trainee", "стажировка", "стажер", "internship", "интерн",
+                    "intern" -> getAria(field).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
             default -> getAria(field).size() == 1 ? text.indexOf(field) > -1 : getAria(field).stream()
-                    .anyMatch(a -> !isMatch(getForeign(), field) ? text.indexOf(a) > -1 :
-                    text.indexOf(a) > -1 && ukraineAria.stream().noneMatch(cityUA -> text.toLowerCase().indexOf(cityUA) > -1));
+                    .anyMatch(a -> !isMatch(getForeign(), field) ? text.indexOf(a) > -1 : text.indexOf(a) > -1
+                            && ukraineAria.stream().noneMatch(cityUA -> text.toLowerCase().indexOf(cityUA) > -1));
         };
     }
 
     private static List<String> getAria(String text) {
         return switch (text) {
-            case "intern", "trainee", "интерн", "стажировка", "стажер" -> traineeAria;
+            case "intern", "trainee", "интерн", "стажировка", "internship", "стажер" -> traineeAria;
             case "junior" -> juniorAria;
             case "middle" -> middleAria;
             case "senior" -> seniorAria;
@@ -56,9 +56,9 @@ public class FilterUtil {
             case "вінниця", "винница", "vinnitsia" -> vinnitsiaAria;
             case "ужгород", "uzhgorod" -> uzhgorodAria;
             case "івано-франківськ", "ивано-франковск", "ivano-frankivsk" -> ivano_frankivskAria;
-            case "польша", "poland", "polski" -> polandAria;
+            case "польша", "польща", "poland", "polski" -> polandAria;
             case "варшава", "warszawa" -> warszawaAria;
-            case "krakow", "краков" -> krakowAria;
+            case "krakow", "краков", "краків" -> krakowAria;
             case "wroclaw", "вроцлав" -> wroclawAria;
             case "gdansk", "гданськ", "гданск" -> gdanskAria;
             case "poznan", "познань" -> poznanAria;
