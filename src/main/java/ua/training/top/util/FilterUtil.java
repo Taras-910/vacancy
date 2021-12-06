@@ -40,8 +40,8 @@ public class FilterUtil {
             case "middle" -> middleAria;
             case "senior" -> seniorAria;
             case "expert", "lead", "тимлид", "team lead" -> expertAria;
-            case "ukraine", "україна", "украина", "ua" -> ukraineAria;
-            case "russia", "россия", "росія", "ru" -> russiaAria;
+            case "ukraine", "україна", "украина", "ua" -> citiesUA;
+            case "russia", "россия", "росія", "ru" -> citiesRU;
             case "київ", "киев", "kiev", "kyiv" -> kievAria;
             case "foreign", "за_рубежем", "за рубежем", "за кордоном", "другие страны" -> getForeign();
             case "remote", "relocate", "релокейт", "удаленно", "віддалено" -> remoteAria;

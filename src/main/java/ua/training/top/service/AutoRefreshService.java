@@ -51,7 +51,7 @@ public class AutoRefreshService {
         offAutoRefreshProviders();
     }
 
-    @Scheduled(cron = "0 55 9 * * *")
+    @Scheduled(cron = "0 55 9 * * MON-SAT")
     public void everyDay() {
         log.info("Scheduled everyDay");
         setTestAuthorizedUser(asAdmin());

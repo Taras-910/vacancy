@@ -73,6 +73,7 @@
     <a href="https://djinni.co">Djinni</a>,
     <a href="http://grc.ua">HH(GrcUA)</a>,
     <a href="https://career.habr.com">Habr</a>,
+    <a href="https://www.jobcareer.ru/">JobCareer</a>
     <a href="https://jobsmarket.io">JobsMarket</a>,
     <a href="https://jobs.dou.ua">Jobs</a>,
     <a href="https://www.linkedin.com">LinkedIn</a>,
@@ -81,7 +82,6 @@
     <a href="https://ua.indeed.com">UAIndeed</a>,
     <a href="https://ua.jooble.org">UAJooble</a>,
     <a href="https://www.work.ua">Work</a>,
-    <a href="https://www.jobcareer.ru/">JobCareer</a>
 </div>
 <br>
 <div class="container jumbotron py-0">
