@@ -62,6 +62,13 @@ public class FilterUtil {
             case "wroclaw", "вроцлав" -> wroclawAria;
             case "gdansk", "гданськ", "гданск" -> gdanskAria;
             case "poznan", "познань" -> poznanAria;
+            case "st petersburg", "санкт петербург", "санкт-петербург", "spb" -> ptbAria;
+            case "moskov", "москва", "msk" -> mskAria;
+            case "minsk", "минск", "мінськ" -> minskAria;
+            case "berlin", "берлин", "берлін" -> berlinAria;
+            case "germany", "германия", "німеччина" -> germanyAria;
+            case "france", "франция", "франція" -> franceAria;
+            case "israel", "израиль", "ізраїль" -> israelAria;
             default -> of(text);
         };
     }

@@ -26,10 +26,10 @@ public class AutoRefreshService {
     private AggregatorService aggregatorService;
 
 //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
-    @Scheduled(cron = "0 0,12,24,36,48 10-18 * * MON-FRI")
+    @Scheduled(cron = "0 0,10,20,30,40,50 10-18 * * MON-FRI")
     public void weekDay() {
 //        int delayWithinMinutes = 4;
-        int delayWithinMinutes = 11;
+        int delayWithinMinutes = 9;
         log.info(MessageUtil.delay, delayWithinMinutes);
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
