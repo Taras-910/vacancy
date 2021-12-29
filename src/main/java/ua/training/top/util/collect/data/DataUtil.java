@@ -1,13 +1,11 @@
 package ua.training.top.util.collect.data;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.maxLengthText;
 
 public class DataUtil {
-    public static final LocalDate defaultDate = LocalDate.now().minusDays(7);
     private static StringBuilder builder;
 
     public static StringBuilder getBuild(String text) {
@@ -72,19 +70,19 @@ public class DataUtil {
             dniproAria = of("дніпро", "днепр", "dnipro"),
             kharkivAria = of("харків", "харьков", "kharkiv"),
             lvivAria = of("львів", "львов", "lviv"),
+            uzhgorodAria = of("ужгород", "uzhgorod"),
             odesaAria = of("одесса", "odesa", "одеса"),
             mykolaivAria = of("mykolaiv", "миколаїв", "николаев"),
             vinnitsiaAria = of("винница", "vinnitsia", "вінниця"),
-            zaporizhzhyaAria = of("запоріжжя", "запорожье", "zaporizhzhya"),
-            chernivtsiAria = of("chernivtsi", "чернівці", "черновцы"),
             chernigivAria = of("чернігів", "чернигов", "chernigiv"),
+            chernivtsiAria = of("chernivtsi", "чернівці", "черновцы"),
+            zaporizhzhyaAria = of("запоріжжя", "запорожье", "zaporizhzhya"),
             ivano_frankivskAria = of("івано-франківськ", "ивано-франковск", "ivano-frankivsk"),
-            uzhgorodAria = of("ужгород", "uzhgorod"),
             polandAria = of("польша", "польща", "poland", "polski"),
+            gdanskAria = of("gdansk", "гданськ", "гданск"),
             krakowAria = of("krakow", "краков", "краків"),
             warszawaAria = of("варшава", "warszawa"),
             wroclawAria = of("wroclaw", "вроцлав"),
-            gdanskAria = of("gdansk", "гданськ", "гданск"),
             poznanAria = of("poznan", "познань"),
             mskAria = of("москва", "moskow", "msk"),
             minskAria = of("минск", "minsk", "мінськ"),
@@ -159,7 +157,6 @@ public class DataUtil {
         }
         skills = skills.replaceAll("Java Script", "JavaScript");
         skills = skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
-        int limit = maxLengthText;
-        return skills.length() > limit ? skills.substring(0, limit) : skills;
+        return skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills;
     }
 }

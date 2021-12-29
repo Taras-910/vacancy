@@ -112,7 +112,7 @@ public class VacancyService {
         if (exceed > 0) {
             log.info("start delete exceed {}", exceed);
             repository.deleteList(repository.getOutNumber(exceed));
-            freshenService.deleteExceed();
+//            freshenService.deleteExceed();   // limit DB
             voteService.deleteExceed();
         }
     }

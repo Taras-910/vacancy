@@ -16,6 +16,7 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class DateToUtil {
     private final static Logger log = LoggerFactory.getLogger(DateToUtil.class);
+    public static final LocalDate defaultDate = LocalDate.now().minusDays(7);
 
     public static LocalDate getToLocalDate(String originText) {
         String preText = formatToNumAndWord(originText.toLowerCase());

@@ -19,6 +19,7 @@ import static ua.training.top.aggregator.strategy.LinkedinStrategy.getToLinkedin
 import static ua.training.top.aggregator.strategy.NofluffjobsStrategy.getToNofluffjobs;
 import static ua.training.top.aggregator.strategy.WorkStrategy.getAddrWork;
 import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
 import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
 import static ua.training.top.util.collect.data.ToUtil.isToValid;
