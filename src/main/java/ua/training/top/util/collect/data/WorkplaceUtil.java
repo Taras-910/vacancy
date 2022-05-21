@@ -4,96 +4,6 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class WorkplaceUtil {
 
-    public static String getGrc(String workplace) {
-        return switch (workplace) {
-            case "київ", "киев" -> "115";
-            case "дніпро", "днепр" -> "2126";
-            case "одеса", "одесса" -> "2188";
-            case "львів", "львов" -> "2180";
-            case "россия" -> "113";
-            case "москва" -> "1";
-            case "казань" -> "1624";
-            case "пермь" -> "1317";
-            case "томск" -> "1255";
-            case "самара" -> "1586";
-            case "воронеж" -> "1844";
-            case "краснодар" -> "1438";
-            case "ульяновск" -> "1614";
-            case "харьків", "харьков" -> "2206";
-            case "санкт-петербург" -> "2";
-            case "нижний новгород" -> "1679";
-            case "мінськ", "минск" -> "1002";
-            case "ростов-на-дону" -> "1530";
-            case "новосибирск" -> "1202";
-            case "екатеринбург" -> "1261";
-            case "германія", "германия" -> "27";
-            case "норвегия", "норвегія" -> "207";
-            case "україна", "украина" -> "5";
-            case "ізраїль", "израиль" -> "33";
-            case "швеція", "швеция" -> "149";
-            case "польща", "польша" -> "74";
-            case "сша" -> "85";
-            case "all" -> "all";
-            default -> workplace.equals("remote") ? "&schedule=remote" : getBuild("&area=").append(workplace).toString();
-        };
-    }
-
-    public static String getHabr(String workplace) {
-        return switch (workplace) {
-            case "київ", "киев" -> "908";
-            case "новосибирск" -> "717";
-            case "санкт-петербург" -> "679";
-            case "нижний новгород" -> "715";
-            case "минск", "мінськ" -> "713";
-            case "ростов-на-дону" -> "726";
-            case "екатеринбург" -> "693";
-            case "краснодар" -> "707";
-            case "ульяновск" -> "739";
-            case "воронеж" -> "692";
-            case "москва" -> "678";
-            case "казань" -> "698";
-            case "самара" -> "728";
-            case "пермь" -> "722";
-            case "томск" -> "736";
-            case "all" -> "all";
-            case "remote" -> "remote";
-            default -> "-1";
-        };
-    }
-
-    public static String getCareer(String city){
-        return switch (city) {
-            case "україна", "украина", "all", "remote" -> "ukraine";
-            case "київ", "киев", "kiev", "kyiv" -> "kiev";
-            case "запоріжжя", "запорожье" -> "zaporozhe";
-            case "миколаїв", "николаев" -> "nikolaev";
-            case "чорновці", "черновцы" -> "chernovcy";
-            case "чернігів", "чернигов" -> "chernigov";
-            case "вінниця", "винница" -> "vinnica";
-            case "харків", "харьков" -> "harkov";
-            case "дніпро", "днепр" -> "dnepr";
-            case "одеса", "одесса" -> "odessa";
-            case "львів", "львов" -> "lvov";
-            case "ужгород" -> "uzhgorod";
-            case "івано-франківськ", "ивано-франковск" -> "ivano-frankovsk";
-            case "санкт-петербург" -> "spb";
-            case "москва" -> "msk";
-            case "новосибирск" -> "novosibirsk";
-            case "нижний новгород" -> "nizhniy_novgorod";
-            case "казань" -> "kazan";
-            case "екатеринбург" -> "ekaterinburg";
-            case "краснодар" -> "krasnodar";
-            case "пермь" -> "perm";
-            case "ростов-на-дону" -> "rostov";
-            case "томск" -> "tomsk";
-            case "омск" -> "omsk";
-            case "самара" -> "samara";
-            case "россия" -> "";
-            case "минск" -> "minsk";
-            default -> "-1";
-        };
-    }
-
     public static String getJobs(String city){
         return  switch (city) {
             case "remote" -> "remote";
@@ -148,21 +58,7 @@ public class WorkplaceUtil {
             case "швеція", "швеция" -> "&location=Швеция&geoId=105117694";
             case "фінляндія", "финляндия" -> "&location=Финляндия&geoId=100456013";
             case "черногория" -> "&location=Черногория&geoId=100733275";
-            case "россия" -> "&location=Россия&geoId=101728296";
-            case "санкт-петербург" -> "&location=Санкт-Петербург%2C%20Санкт-Петербург%2C%20Россия&geoId=105830331&";
-            case "москва" -> "&location=Москва%2C%20Москва%2C%20Россия&geoId=111154941";
-            case "новосибирск" -> "&location=Новосибирск%2C%20Новосибирская%20область%2C%20Россия&geoId=108315007";
-            case "нижний новгород" -> "&location=Нижний%20Новгород%2C%20Нижегородская%20область%2C%20Россия&geoId=104043205";
-            case "казань" -> "&location=Казань%2C%20Республика%20Татарстан%2C%20Россия&geoId=101631519";
-            case "екатеринбург" -> "&location=Екатеринбург%2C%20Свердловская%20область%2C%20Россия&geoId=100367933";
-            case "краснодар" -> "&location=Краснодар%2C%20Краснодарский%20край%2C%20Россия&geoId=106273043";
-            case "пермь" -> "&location=Пермь%2C%20Пермский%20край%2C%20Россия&geoId=103472036";
             case "мінськ", "минск" -> "&location=Минск%2C%20Минск%2C%20Республика%20Беларусь&geoId=105415465";
-            case "ростов-на-дону" -> "&location=Ростов-на-Дону%2C%20Ростовская%20область%2C%20Россия&geoId=102450862";
-            case "томск" -> "&location=Томск%2C%20Томская%20область%2C%20Россия&geoId=102719050";
-            case "самара" -> "&location=Самара%2C%20Самарская%20область%2C%20Россия&geoId=106843614";
-            case "ульяновск" -> "&location=Ульяновск%2C%20Ульяновская%20область%2C%20Россия&geoId=107078222";
-            case "воронеж" -> "&location=Воронеж%2C%20Воронежская%20область%2C%20Россия&geoId=102084685";
             default -> "&location=Украина&geoId=102264497"; //Украина
         };
     }

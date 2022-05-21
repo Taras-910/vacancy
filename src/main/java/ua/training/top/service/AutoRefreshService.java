@@ -25,7 +25,7 @@ public class AutoRefreshService {
     @Autowired
     private AggregatorService aggregatorService;
 
-//    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
+    //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
     @Scheduled(cron = "0 0,10,20,30,40,50 10-18 * * MON-FRI")
     public void weekDay() {
 //        int delayWithinMinutes = 4;
@@ -35,7 +35,7 @@ public class AutoRefreshService {
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
         aggregatorService.refreshDB(
-                new Freshen(randomFreshen(mapWorkplace.get(getKey(10)), mapLevel.get(getKey(4)))));
+                new Freshen(randomFreshen(mapWorkplace.get(getKey(8)), mapLevel.get(getKey(4)))));
         offAutoRefreshProviders();
     }
 
@@ -47,7 +47,7 @@ public class AutoRefreshService {
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
         aggregatorService.refreshDB(
-                new Freshen(randomFreshen(mapWorkplace.get(getKey(5)), mapLevel.get(getKey(2)))));
+                new Freshen(randomFreshen(mapWorkplace.get(getKey(8)), mapLevel.get(getKey(2)))));
         offAutoRefreshProviders();
     }
 

@@ -64,6 +64,10 @@ public class FilterUtil {
             case "poznan", "познань" -> poznanAria;
             case "st petersburg", "санкт петербург", "санкт-петербург", "spb" -> ptbAria;
             case "moskov", "москва", "msk" -> mskAria;
+
+
+//                        citiesRU = of("санкт-петербург", "москва", "новосибирск", "екатеринбург", "томск", "краснодар",
+//                    "пермь", "russia", "ростов-на-дону", "нижний новгород", "казань", "самара", "ульяновск", "воронеж"),
             case "minsk", "минск", "мінськ" -> minskAria;
             case "berlin", "берлин", "берлін" -> berlinAria;
             case "germany", "германия", "німеччина" -> germanyAria;
