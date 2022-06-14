@@ -59,7 +59,7 @@ public class FilterUtil {
             case "вінниця", "винница", "vinnitsia" -> vinnitsiaAria;
             case "ужгород", "uzhgorod" -> uzhgorodAria;
             case "івано-франківськ", "ивано-франковск", "ivano-frankivsk" -> ivano_frankivskAria;
-            case "польша", "польща", "poland", "polski" -> polandAria;
+            case "польша", "польща", "poland", "polski" -> citiesPL;
             case "варшава", "warszawa" -> warszawaAria;
             case "krakow", "краков", "краків" -> krakowAria;
             case "wroclaw", "вроцлав" -> wroclawAria;

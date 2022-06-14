@@ -66,6 +66,7 @@
                                     <option value='Middle'>Middle</option>
                                     <option value='Senior'>Senior</option>
                                     <option value='Expert'>Expert</option>
+                                    <option value='all'>all</option>
                                 </datalist>
                             </div>
                             <div class="col-md-4 mb-3 col-form-label">
@@ -76,11 +77,12 @@
                                     <option value='all' selected>all</option>
                                     <option value='Киев'>Киев</option>
                                     <option value='Минск'>Минск</option>
-                                    <option value='Санкт-Петербург'>Санкт-Петербург</option>
                                     <option value='Львов'>Львов</option>
                                     <option value='Харьков'>Харьков</option>
                                     <option value='Днепр'>Днепр</option>
                                     <option value='Украина'>Украина</option>
+                                    <option value='Канада'>Канада</option>
+                                    <option value='Польша'>Польша</option>
                                     <option value='remote'>remote</option>
                                     <option value='foreign'>foreign</option>
                                 </datalist>
@@ -360,6 +362,7 @@
                             <option value='Middle'>Middle</option>
                             <option value='Senior'>Senior</option>
                             <option value='Expert'>Expert</option>
+                            <option value='all'>all</option>
                         </datalist>
                     </div>
                     <div class="form-group">
@@ -367,13 +370,15 @@
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2"
                         placeholder="please enter the place of work you need">
                         <datalist id="city_name_2">
+                            <option value='all' selected>all</option>
                             <option value='Киев'>Киев</option>
                             <option value='Минск'>Минск</option>
-                            <option value='Санкт-Петербург'>Санкт-Петербург</option>
                             <option value='Львов'>Львов</option>
                             <option value='Харьков'>Харьков</option>
                             <option value='Днепр'>Днепр</option>
                             <option value='Украина'>Украина</option>
+                            <option value='Канада'>Канада</option>
+                            <option value='Польша'>Польша</option>
                             <option value='remote'>remote</option>
                             <option value='foreign'>foreign</option>
                         </datalist>

@@ -99,11 +99,7 @@ public class DataUtil {
             ottawaAria = of("ottawa", "оттава"),
             hamiltonAria = of("hamilton", "гамильтон"),
             winnipegAria = of("winnipeg", "виннипег"),
-
-
-
-    foreignAria = of("другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном"),
-
+            foreignAria = of("другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном"),
             citiesUA = of("ukraine", "ua", "украина", "україна", "kyiv", "kiev", "київ", "киев", "дніпро", "днепр",
                     "dnipro", "харків", "харьков", "kharkiv", "львів", "львов", "lviv", "mykolaiv", "одесса", "odesa",
                     "одеса", "винница", "vinnitsia", "вінниця", "запоріжжя", "запорожье", "zaporizhzhya", "chernivtsi",
