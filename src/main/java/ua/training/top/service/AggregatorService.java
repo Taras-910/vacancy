@@ -115,7 +115,6 @@ public class AggregatorService {
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
-
     }
 }
 //100 000,00 CAD - 130 000,00 CAD

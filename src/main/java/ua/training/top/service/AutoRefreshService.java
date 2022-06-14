@@ -34,8 +34,10 @@ public class AutoRefreshService {
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        aggregatorService.refreshDB(
-                new Freshen(randomFreshen(mapWorkplace.get(getKey(8)), mapLevel.get(getKey(4)))));
+        aggregatorService.refreshDB(new Freshen(randomFreshen(
+                mapLanguage.get(getKey(2)),
+                mapWorkplace.get(getKey(8)),
+                mapLevel.get(getKey(4)))));
         offAutoRefreshProviders();
     }
 
@@ -46,8 +48,10 @@ public class AutoRefreshService {
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
-        aggregatorService.refreshDB(
-                new Freshen(randomFreshen(mapWorkplace.get(getKey(8)), mapLevel.get(getKey(2)))));
+        aggregatorService.refreshDB(new Freshen(randomFreshen(
+                mapLanguage.get(getKey(2)),
+                mapWorkplace.get(getKey(8)),
+                mapLevel.get(getKey(4)))));
         offAutoRefreshProviders();
     }
 

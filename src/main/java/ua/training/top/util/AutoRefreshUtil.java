@@ -48,14 +48,14 @@ public class AutoRefreshUtil {
 
     public static final Map<Integer, String>
             mapWorkplace = Map.of(
-            0, "remote",
+            0, "canada",
             1, "киев",
             2, "украина",
             3, "foreign",
-            4, "all",
+            4, "remote",
             5, "харьков",
             6, "львов",
-            7, "минск"
+            7, "польша"
     ),
             mapLevel = Map.of(
                     0, "all",
@@ -64,9 +64,17 @@ public class AutoRefreshUtil {
                     3, "trainee",
                     4, "expert",
                     5, "junior"
-            );
+            ),
+            mapLanguage = Map.of(
+                    0, "java",
+                    1, "ruby"
+    );
 
     public static Freshen randomFreshen(String workplace, String level) {
         return new Freshen(null, now(), "java", level, workplace, singleton(UPGRADE), ADMIN_ID);
+    }
+
+    public static Freshen randomFreshen(String language, String level, String workplace) {
+        return new Freshen(null, now(), language, level, workplace, singleton(UPGRADE), ADMIN_ID);
     }
 }
