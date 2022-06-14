@@ -22,7 +22,7 @@ public class InstallationUtil {
             limitCallPages = 8;
 
     public static LocalDate
-            reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),
+            reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 4 * 3),
             reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(periodKeeping);
 
 //    public static boolean testProvider = true;
