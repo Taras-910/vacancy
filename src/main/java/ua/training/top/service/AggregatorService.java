@@ -117,7 +117,7 @@ public class AggregatorService {
         log.info("\n\ncommon = {}", vacancyTos.size());
     }
 }
-//100 000,00 CAD - 130 000,00 CAD
+//100 000,00 USD - 130 000,00 CAD
 
 //                                   *      *
 //  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total

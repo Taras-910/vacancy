@@ -54,7 +54,7 @@ public class DataUtil {
             rubAria = of("rub", "rur", "руб.", "руб", "₽"),
             bynAria = of("бел. руб.", "бел. руб", "бел руб.", "бел руб", "br", "byn", "byr"),
             allSalaries = of("грн", "uah", "hrn", "₴", "$", "usd", "eur", "€", "pln", "zł", "gbp", "£", "₤", "бел. руб",
-                    "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn"),
+                    "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$", "c$", "¢"),
             yearAria = of("год", "рік", "year"),
             dayAria = of("день", "day"),
             hourAria = of("час", "годину", "hour"),

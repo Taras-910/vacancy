@@ -17,18 +17,18 @@ public class SalaryUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
     public static final Pattern patternMonetaryAmount = Pattern.compile(extract_salary);
     public static final float
-            rate_pln_to_usd = 3.98f,
-            rate_eur_to_usd = 0.86f,
-            rate_gbp_to_usd = 0.73f,
+            rate_pln_to_usd = 4.45f,
+            rate_eur_to_usd = 0.96f,
+            rate_gbp_to_usd = 0.83f,
             rate_byn_to_usd = 2.43f,
-            rate_hrn_to_usd = 26.25f,
+            rate_hrn_to_usd = 29.54f,
             rate_rub_to_usd = 71.78f,
-            rate_kzt_to_usd = 426.74f,
-            rate_cad_to_usd = 0.79f,
+            rate_kzt_to_usd = 437.37f,
+            rate_cad_to_usd = 1.27f,
             usd_one_to_one = 1.0f;
 
      public static Integer[] getToSalaries(String originText) {
-        if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
+        if (isEmpty(originText) || !isMatch(allSalaries, originText.toLowerCase())) {
             return new Integer[]{1, 1};
         }
         String text = originText.replaceAll(",", ".").toLowerCase();
@@ -53,7 +53,7 @@ public class SalaryUtil {
         } catch (NumberFormatException e) {
             log.error(error, e, value);
         }
-        return amount <= 10000000 ? amount : Math.min(amount / 12, 10000000);
+        return amount <= 12000000 ? amount : Math.min(amount / 12, 12000000);
     }
 
     public static List<String> getMonetaryAmount(String text, String code) {
