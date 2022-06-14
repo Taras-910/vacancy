@@ -43,6 +43,21 @@ public class TestStrategy implements Strategy {
                 "https://example4.com/%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BA%D0%B0%D0%BD%D1%81%D0%B8%D0%B8?jk=b25fbd86b8fb297e",
                 "Experience with java app server, e.g. Weblogic, Tomcat. Skills: Apache HTTP Server, bash scripting, Docker, Kubernetes, Oracle-DBA, Perl, Tomcat, WebLogic.",
                 LocalDate.now().minusDays(3), "java", "middle", null, false);
+        VacancyTo vacancyTo7 = new VacancyTo(null, "Canada Amazon — Java/Rust developer", "Amazon",
+                "за кордоном",
+                1, 1, "https://jobs.dou.ua/companies/amazon/vacancies/206565/?from=list_hot",
+                "Interested in living and working in Toronto or Vancouver, Canada ? Are you a talented Software " +
+                        "Development Engineer that is excited by the idea of exploring a career with Amazon AWS? " +
+                        "Amazon is hosting a virtual hiring event for Ukrainians!",
+                LocalDate.of(2022, 04, 22), "java", "middle",
+                "за кордоном", true);
+        VacancyTo vacancyTo8 = new VacancyTo(null, "IBM iSeries machines (RPG language) Engineer",
+                "Intellias", "see the card",
+                1, 1, "https://example1.ua/vacancy/40006938?query=java",
+                "The client is a leading multi-brand technology solutions provider to business, government, " +
+                        "education and healthcare customers in the United States, the United Kingdom and Canada",
+                LocalDate.of(2022, 04, 21), "java", "middle",
+                "see the card", true);
         return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
     }
 }

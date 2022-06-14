@@ -69,11 +69,8 @@
     вакансии, пользователи могут управлять своим профилем через UI (по AJAX) и по REST интерфейсу с базовой авторизацией.
     Вакансии можно фильтровать / обновлять / отмечать (меняется цвет строки, индивидуальный выбор сохраняется в базе
     данных).<br/>Весь REST интерфейс покрывается JUnit тестами, при этом используется Spring MVC Test и Spring Security
-    Test.<br/>БД хранит актуальные вакансии, не старше 2-х недельной давности и авто-обновляется из 12-ти ресурсов:<br/>
+    Test.<br/>БД хранит актуальные вакансии, не старше 2-х недельной давности и авто-обновляется из 9-ти ресурсов:<br/>
     <a href="https://djinni.co">Djinni</a>,
-    <a href="http://grc.ua">HH(GrcUA)</a>,
-    <a href="https://career.habr.com">Habr</a>,
-    <a href="https://www.jobcareer.ru/">JobCareer</a>
     <a href="https://jobsmarket.io">JobsMarket</a>,
     <a href="https://jobs.dou.ua">Jobs</a>,
     <a href="https://www.linkedin.com">LinkedIn</a>,
@@ -81,7 +78,7 @@
     <a href="https://rabota.ua">Rabota</a>,
     <a href="https://ua.indeed.com">UAIndeed</a>,
     <a href="https://ua.jooble.org">UAJooble</a>,
-    <a href="https://www.work.ua">Work</a>,
+    <a href="https://www.work.ua">Work</a>
 </div>
 <br>
 <div class="container jumbotron py-0">

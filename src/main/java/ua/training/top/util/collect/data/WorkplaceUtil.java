@@ -26,7 +26,7 @@ public class WorkplaceUtil {
         };
     }
 
-    public static String getLinkedin(String city){
+    /*public static String getLinkedin(String city){
         return switch (city) {
             case "київ", "киев" -> "&location=Киев%2C%20Киев%2C%20Украина&geoId=104035893";
             case "дніпро", "днепр" -> "&location=Днепропетровск%2C%20Днепропетровская%20область%2C%20Украина&geoId=103663309";
@@ -51,6 +51,7 @@ public class WorkplaceUtil {
             case "англія", "англия" -> "&location=Агломерация%20Лондона%2C%20Великобритания&geoId=90009496";
             case "оаэ", "оае" -> "&location=Объединенные%20Арабские%20Эмираты&geoId=104305776";
             case "канада" -> "&location=Канада&geoId=101174742";
+
             case "польща", "польша" -> "&location=Польша&geoId=105072130";
             case "варшава" -> "&location=Варшава%2C%20Мазовецкое%20воеводство%2C%20Польша&geoId=105076658";
             case "німеччина", "германия" -> "&location=Германия&geoId=101282230";
@@ -60,6 +61,49 @@ public class WorkplaceUtil {
             case "черногория" -> "&location=Черногория&geoId=100733275";
             case "мінськ", "минск" -> "&location=Минск%2C%20Минск%2C%20Республика%20Беларусь&geoId=105415465";
             default -> "&location=Украина&geoId=102264497"; //Украина
+        };
+    }*/
+    public static String getLinkedin(String city){
+        return switch (city) {
+            case "київ", "киев" -> "&geoId=104035893";
+            case "дніпро", "днепр" -> "&geoId=103663309";
+            case "одеса", "одесса" -> "&geoId=100182723";
+            case "львів", "львов" -> "&geoId=104983263";
+            case "харьків", "харьков" -> "&geoId=103352426";
+            case "вінниця", "винница" -> "&geoId=106030501";
+            case "ужгород" -> "&location=&geoId=106974374";
+            case "івано-франківск", "ивано-франковск" -> "&geoId=";
+            case "полтава" -> "&geoId=102507522";
+            case "запоріжжя", "запорожье" -> "geoId=104184784";
+            case "черкаси", "черкассы" -> "&geoId=104320082";
+            case "тернопіль", "тернополь" -> "&geoId=101854836";
+            case "чернігів", "ченигов" -> "&geoId=100735342";
+            case "сша" -> "&geoId=103644278";
+            case "ізраїль", "израиль" -> "&geoId=101620260";
+            case "швейцарія", "швейцария" -> "&geoId=100017800";
+            case "франція", "франция" -> "&geoId=105015875";
+            case "італія", "италия" -> "&geoId=103350119";
+            case "сінгапур", "сингапур" -> "&geoId=102454443";
+            case "англія", "англия" -> "&geoId=90009496";
+            case "оаэ", "оае" -> "&geoId=104305776";
+            case "канада", "canada" -> "&geoId=101174742";
+            case "торонто" -> "&geoId=90009551";
+            case "брамптон" -> "&geoId=104669182";
+            case "ванкувер" -> "&geoId=90009553";
+            case "монреаль" -> "&geoId=90009540";
+            case "виктория" -> "&geoId=100346955";
+            case "оттава" -> "&geoId=100346955";
+            case "гамильтон" -> "&geoId=104444106";
+            case "виннипег" -> "&geoId=101213860";
+            case "польща", "польша" -> "&geoId=105072130";
+            case "варшава" -> "&geoId=105076658";
+            case "німеччина", "германия" -> "&geoId=101282230";
+            case "чехія", "чехия" -> "&geoId=104508036";
+            case "швеція", "швеция" -> "&geoId=105117694";
+            case "фінляндія", "финляндия" -> "&geoId=100456013";
+            case "черногория" -> "&geoId=100733275";
+            case "мінськ", "минск" -> "&geoId=105415465";
+            default -> "&geoId=102264497"; //Украина
         };
     }
 
@@ -94,7 +138,6 @@ public class WorkplaceUtil {
             default -> !isMatch(citiesUA, workplace) || workplace.equals("foreign") ? "другие_страны" : "украина";
         };
     }
-
 
     public static String getIndeed(String workplace) {
         return switch (workplace) {

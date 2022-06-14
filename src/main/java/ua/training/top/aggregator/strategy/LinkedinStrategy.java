@@ -37,15 +37,18 @@ public class LinkedinStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        String[] cityOrCountry = workplace.equals("foreign") ? getForeign() : workplace.equals("украина") ||
-                workplace.equals("all") ? getUA() : workplace.equals("россия") ? getRU() : new String[]{workplace};
+        if (workplace.equals("россия")) {
+            return new ArrayList<>();
+        }
+        String[] cityOrCountry = workplace.equals("foreign") ? getForeign() :
+                workplace.equals("canada") || workplace.equals("канада") ? getCanada() :
+                workplace.equals("украина") || workplace.equals("all") ? getUA() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
             for(String location : cityOrCountry) {
             int page = 0;
             while(true) {
                 Document doc = getDocument(location, language, level, valueOf(page));
-                Elements elements = doc == null ? null :
-                        doc.getElementsByAttributeValueStarting("class","base-card base-card--link base-search-card base-search-card--link");
+                Elements elements = doc == null ? null : doc.getElementsByTag("li");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesLinkedin(elements, freshen));
                 if (page < getMaxPages(linkedin, freshen.getWorkplace())) page++;
@@ -67,14 +70,15 @@ public class LinkedinStrategy implements Strategy {
         return new String[]{"канада", "польша", "германия", "швеция", "израиль", "швейцария", "сша", "франция", "италия",
                 "финляндия", "сингапур", "англия", "оаэ", "чехия", "черногория"};
     }
+
     public static String[] getUA() {
         return new String[]{"украина", "киев", "харьков", "львов", "одесса", "днепр", "винница", "ужгород",
                 "ивано-франковск", "полтава", "запорожье", "черкассы", "чернигов", "тернополь"};
     }
 
-    public static String[] getRU() {
-        return new String[]{"россия", "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "пермь",
-                "екатеринбург", "краснодар", "ростов-на-дону", "томск", "самара", "ульяновск", "воронеж"};
+    public static String[] getCanada() {
+        return new String[]{"канада", "торонто", "ванкувер", "монреаль", "квебек", "онтарио", "брамптон", "виктория",
+                "оттава", "гамильтон", "виннипег"};
     }
 
     public static String getSalaryLinkedin(String title) {

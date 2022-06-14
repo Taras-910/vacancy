@@ -14,22 +14,25 @@ public class FilterUtil {
 
     public static List<Vacancy> getFilter(List<Vacancy> vacancies, Freshen f) {
         return vacancies.stream()
-                .filter(v -> isSuit(v, f.getLanguage(), "language") && isSuit(v, f.getLevel(), "level")
+                .filter(v -> isSuit(v, f.getLanguage(), "language")
+                        && isSuit(v, f.getLevel(), "level")
                         && isSuit(v, f.getWorkplace(), "workplace"))
                 .collect(Collectors.toList());
     }
 
     public static boolean isSuit(Vacancy v, String field, String fieldKind) {
-        String text = fieldKind.equals("workplace") ? v.getEmployer().getAddress().toLowerCase() :
-                getBuild(v.getSkills()).append(v.getTitle()).toString().toLowerCase();
+        String text = (fieldKind.equals("workplace") ?
+                getBuild(v.getSkills()).append(v.getTitle()).append(v.getEmployer().getAddress()) :
+                getBuild(v.getSkills()).append(v.getTitle())).toString().toLowerCase();
         return switch (field.toLowerCase()) {
             case "all" -> true;
             case "java", "react", "ruby" -> text.matches(".*\\b" + field + "\\b.*");
-            case "trainee", "стажировка", "стажер", "internship", "интерн",
-                    "intern" -> getAria(field).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
+            case "trainee", "стажировка", "стажер", "internship", "интерн", "intern"
+                    -> getAria(field).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
+            case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном", "за_кордоном" ->
+                    citiesUA.stream().noneMatch(cityUA -> text.indexOf(cityUA) > -1);
             default -> getAria(field).size() == 1 ? text.indexOf(field) > -1 : getAria(field).stream()
-                    .anyMatch(a -> !isMatch(getForeign(), field) ? text.indexOf(a) > -1 : text.indexOf(a) > -1
-                            && ukraineAria.stream().noneMatch(cityUA -> text.toLowerCase().indexOf(cityUA) > -1));
+                    .anyMatch(a -> text.indexOf(a) > -1);
         };
     }
 
@@ -62,12 +65,17 @@ public class FilterUtil {
             case "wroclaw", "вроцлав" -> wroclawAria;
             case "gdansk", "гданськ", "гданск" -> gdanskAria;
             case "poznan", "познань" -> poznanAria;
-            case "st petersburg", "санкт петербург", "санкт-петербург", "spb" -> ptbAria;
-            case "moskov", "москва", "msk" -> mskAria;
-
-
-//                        citiesRU = of("санкт-петербург", "москва", "новосибирск", "екатеринбург", "томск", "краснодар",
-//                    "пермь", "russia", "ростов-на-дону", "нижний новгород", "казань", "самара", "ульяновск", "воронеж"),
+            case "canada", "канада", "canad", "канад" -> citiesCanada;
+            case "vancouver", "ванкувер" -> vancouverAria;
+            case "montréal", "монреаль" -> montrealAria;
+            case "торонто", "toronto" -> torontoAria;
+            case "ontario", "онтарио" -> ontarioAria;
+            case "quebec", "квебек" -> quebecAria;
+            case "brampton", "брамптон" -> bramptonAria;
+            case "victoria", "виктория" -> victoriaAria;
+            case "ottawa", "оттава" -> ottawaAria;
+            case "hamilton", "гамильтон" -> hamiltonAria;
+            case "winnipeg", "виннипег" -> winnipegAria;
             case "minsk", "минск", "мінськ" -> minskAria;
             case "berlin", "берлин", "берлін" -> berlinAria;
             case "germany", "германия", "німеччина" -> germanyAria;
@@ -79,7 +87,6 @@ public class FilterUtil {
 
     public static List<String> getForeign() {
         List<String> foreign = new ArrayList<>(citiesWorld);
-        foreign.addAll(citiesPL);
         foreign.addAll(foreignAria);
         return foreign;
     }

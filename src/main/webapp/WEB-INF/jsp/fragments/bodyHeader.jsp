@@ -5,7 +5,7 @@
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
         <a href="vacancies" class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">   4000+ NEW programmer vacancies 🔥</h3></a>
-        <!-- <h7>свежих вакансий</h7> -->
+
         <sec:authorize access="isAuthenticated()">
             <form class="form-inline my-2" action="logout" method="post">
                 <sec:authorize access="hasRole('ADMIN')">
@@ -17,6 +17,7 @@
                 </button>
             </form>
         </sec:authorize>
+
         <sec:authorize access="isAnonymous()">
             <form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
                 <sec:authorize access="isAuthenticated()">

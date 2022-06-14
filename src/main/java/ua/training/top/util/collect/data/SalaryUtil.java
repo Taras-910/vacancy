@@ -24,9 +24,10 @@ public class SalaryUtil {
             rate_hrn_to_usd = 26.25f,
             rate_rub_to_usd = 71.78f,
             rate_kzt_to_usd = 426.74f,
+            rate_cad_to_usd = 0.79f,
             usd_one_to_one = 1.0f;
 
-    public static Integer[] getToSalaries(String originText) {
+     public static Integer[] getToSalaries(String originText) {
         if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
             return new Integer[]{1, 1};
         }
@@ -86,7 +87,7 @@ public class SalaryUtil {
     public static String getCurrencyCode(String text) {
         return isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ? "₴" : isMatch(eurAria, text) ?
                 "€" : isMatch(bynAria, text) ? "฿" : isMatch(rubAria, text) ? "₽" : isMatch(plnAria, text) ?
-                "₧" : isMatch(gbrAria, text) ? "£" : isMatch(kztAria, text) ? "₸" : "";
+                "₧" : isMatch(gbrAria, text) ? "£" : isMatch(kztAria, text) ? "₸" : isMatch(cadAria, text) ? "¢" :"";
     }
 
     public static String getReplacementText(String text, String currencyCode) {
@@ -99,6 +100,7 @@ public class SalaryUtil {
             case "£" -> getReplace(text, gbrAria, "£");
             case "₧" -> getReplace(text, plnAria, "₧");
             case "₸" -> getReplace(text, kztAria, "₸");
+            case "¢" -> getReplace(text, cadAria, "¢");
             case "฿" -> getReplace(text, bynAria, "฿");
             default -> text;
         };
@@ -112,6 +114,7 @@ public class SalaryUtil {
             case "£" -> rate_gbp_to_usd;
             case "₽" -> rate_rub_to_usd;
             case "₸" -> rate_kzt_to_usd;
+            case "¢" -> rate_cad_to_usd;
             case "฿" -> rate_byn_to_usd;
             default -> usd_one_to_one;
         };

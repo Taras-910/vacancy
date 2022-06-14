@@ -111,13 +111,15 @@ public class AggregatorService {
         setTestAuthorizedUser(asAdmin());
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                asNewFreshen("java", "all", "all", UPGRADE));
+                asNewFreshen("ruby", "all", "canada", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
     }
 }
+//100 000,00 CAD - 130 000,00 CAD
+
 //                                   *      *
 //  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
 //all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291
