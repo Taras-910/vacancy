@@ -30,7 +30,7 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Query("SELECT v FROM Vote v WHERE v.userId=:userId")
     List<Vote> getAllForAuth(@Param("userId") int userId);
 
-    @Query(value =
-            "SELECT v FROM Vote v ORDER BY v.local_date, v.id LIMIT :limit", nativeQuery = true)
-    List<Vote> findExceeded(@Param("limit") int limit);
+    /*https://stackoverflow.com/questions/9314078/setmaxresults-for-spring-data-jpa-annotation*/
+    @Query(value = "SELECT * FROM Vote v ORDER BY v.local_date ASC , v.id ASC LIMIT :number", nativeQuery = true)
+    List<Vote> findExceeded(@Param("number") int number);
 }
