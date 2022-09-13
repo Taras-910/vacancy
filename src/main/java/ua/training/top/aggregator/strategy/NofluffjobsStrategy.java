@@ -31,7 +31,7 @@ public class NofluffjobsStrategy implements Strategy {
 
     protected Document getDocument(String workplace, String page, String level, String language) {
         return DocumentUtil.getDocument(format(url, workplace, page, part, getLevel(nofluff, level),
-                getBuild(part_language).append(language).toString()));
+                getJoin(part_language, language)));
     }
 
     @Override

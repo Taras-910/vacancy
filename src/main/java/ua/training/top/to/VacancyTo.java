@@ -1,6 +1,5 @@
 package ua.training.top.to;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
@@ -24,11 +23,9 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     private String address;
 
     @NotNull
-    @Range(min = 1, max = 10000000)
     private Integer salaryMin;
 
     @NotNull
-    @Range(min = 1, max = 10000000)
     private Integer salaryMax;
 
     @NotNull

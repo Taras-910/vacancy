@@ -3,7 +3,6 @@ package ua.training.top.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -24,12 +23,12 @@ public class Vacancy extends AbstractBaseEntity {
     private String title;
 
     @NotNull
-    @Range(min = 1, max = 10000000)
+//    @Range(min = 1, max = 10000000)
     @Column(name = "salary_min")
     private Integer salaryMin;
 
     @NotNull
-    @Range(min = 1, max = 10000000)
+//    @Range(min = 1, max = 10000000)
     @Column(name = "salary_max")
     private Integer salaryMax;
 

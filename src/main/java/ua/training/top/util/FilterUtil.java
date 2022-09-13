@@ -22,8 +22,8 @@ public class FilterUtil {
 
     public static boolean isSuit(Vacancy v, String field, String fieldKind) {
         String text = (fieldKind.equals("workplace") ?
-                getBuild(v.getSkills()).append(v.getTitle()).append(v.getEmployer().getAddress()) :
-                getBuild(v.getSkills()).append(v.getTitle())).toString().toLowerCase();
+                getJoin(v.getSkills(),v.getTitle(),v.getEmployer().getAddress()).toLowerCase() : //? toLowerCase()
+                getJoin(v.getSkills(),v.getTitle())).toLowerCase();
         return switch (field.toLowerCase()) {
             case "all" -> true;
             case "java", "react", "ruby" -> text.matches(".*\\b" + field + "\\b.*");

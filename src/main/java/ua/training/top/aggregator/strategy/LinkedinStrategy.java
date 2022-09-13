@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
@@ -20,6 +21,9 @@ import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
+import static ua.training.top.util.collect.data.PatternUtil.pattern_salaries_linkedin;
+import static ua.training.top.util.collect.data.SalaryUtil.getCurrencyCode;
+import static ua.training.top.util.collect.data.SalaryUtil.getRemovedZeroPart;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getLinkedin;
 
@@ -82,6 +86,14 @@ public class LinkedinStrategy implements Strategy {
     }
 
     public static String getSalaryLinkedin(String title) {
-        return getBuild(title.replace(",", "")).append(" year").toString();
+        String text = getRemovedZeroPart(title).toLowerCase();
+        String code = getCurrencyCode(text);
+        Matcher m = pattern_salaries_linkedin.matcher(text);
+        String result = code;
+        while(m.find()){
+            result = getJoin(result, m.group().replaceAll("[^\\d-k\\s]", "").replaceAll("k","000"));
+        }
+        result = result.indexOf("-") != -1 ? result.replace("-", getJoin(code.equals("₭")?"000000 -":" -", code)) : getJoin(code,result);
+        return getJoin(result, title.indexOf("month") == -1 ? " year" : " month");
     }
 }

@@ -19,13 +19,16 @@ public class TestStrategy implements Strategy {
     }
 
     public static List<VacancyTo> getTestList() {
-        VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM", "Киев",
+        VacancyTo vacancyTo1 = new VacancyTo(null, "Junior", "IBM",
+                "Киев",
                 80000, 120000, "https://example1.ua/vacancy/40006938?query=java", "Java, JavaScript, Php",
                 LocalDate.now().minusDays(5), null, "middle", null, false);
-        VacancyTo vacancyTo2 = new VacancyTo(null, "BeckEnd", "Company", "Харьков",
+        VacancyTo vacancyTo2 = new VacancyTo(null, "BeckEnd", "Company",
+                "Харьков",
                 120000, 150000, "https://example3.com/vacancy/123a", "Java, JavaScript",
                 LocalDate.now().minusDays(3), null, "senior", null, false);
-        VacancyTo vacancyTo3 = new VacancyTo(null, "Java-Developer", "Company", "Харьков",
+        VacancyTo vacancyTo3 = new VacancyTo(null, "Java-Developer", "Company",
+                "Харьков",
                 120000, 150000, "https://example3.com/vacancy/123a", "Java, JavaScript",
                 LocalDate.now().minusDays(3), null, "middle", null, false);
         VacancyTo vacancyTo4 = new VacancyTo(null, "Middle C++ Engineer IRC107203", "GlobalLogic",
@@ -52,12 +55,13 @@ public class TestStrategy implements Strategy {
                 LocalDate.of(2022, 04, 22), "java", "middle",
                 "за кордоном", true);
         VacancyTo vacancyTo8 = new VacancyTo(null, "IBM iSeries machines (RPG language) Engineer",
-                "Intellias", "see the card",
+                "Intellias",
+                "торонто",
                 1, 1, "https://example1.ua/vacancy/40006938?query=java",
                 "The client is a leading multi-brand technology solutions provider to business, government, " +
                         "education and healthcare customers in the United States, the United Kingdom and Canada",
                 LocalDate.of(2022, 04, 21), "java", "middle",
-                "see the card", true);
+                "канада", true);
         return List.of(vacancyTo1, vacancyTo2, vacancyTo3, vacancyTo4);
     }
 }

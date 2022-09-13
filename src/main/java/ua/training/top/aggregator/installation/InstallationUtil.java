@@ -19,7 +19,9 @@ public class InstallationUtil {
             limitVotesKeeping = limitVacanciesKeeping / 10,
             maxLengthText = 250,
             repeatToCall = 3,
-            limitCallPages = 8;
+            limitCallPages = 2;
+//    repeatToCall = 1,
+//    limitCallPages = 1;
 
     public static LocalDate
             reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),

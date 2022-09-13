@@ -1,5 +1,6 @@
 package ua.training.top.util.collect.data;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.List.of;
@@ -8,12 +9,14 @@ import static ua.training.top.aggregator.installation.InstallationUtil.maxLength
 public class DataUtil {
     private static StringBuilder builder;
 
-    public static StringBuilder getBuild(String text) {
+    public static String getJoin(String ...text) {
         if (builder == null) {
             builder = new StringBuilder(1024);
         }
-        builder.setLength(0); //https://stackoverflow.com/questions/5192512/how-can-i-clear-or-empty-a-stringbuilder
-        return builder.append(text);
+        //https://stackoverflow.com/questions/5192512/how-can-i-clear-or-empty-a-stringbuilder
+        builder.setLength(0);
+        Arrays.stream(text).forEach(s -> builder.append(s));
+        return builder.toString();
     }
 
     public static final String
@@ -38,7 +41,7 @@ public class DataUtil {
             get_vacancy = "GetVacancies workplace={} language={}",
             error_select = "Select error e {}",
             jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy", djinni = "DjinniStrategy",
-            habr = "HabrStrategy", grc = "GrcStrategy", nofluff = "NofluffjobsStrategy", indeed = "UAIndeedStrategy",
+            habr = "HabrStrategy", grc = "GrcStrategy", nofluff = "NofluffjobsStrategy", indeed = "UAIndeedStrategy",indeed_ca = "CaIndeedStrategy",
             jooble = "jooble", jobsmarket = "jobsmarket", jobs = "jobs", linkedin = "linkedin",
             local_date = "releaseDate", age_field = "age", address_field = "address", month = "month", middle = "middle",
             trainee = "trainee", junior = "junior", senior = "senior", expert = "expert";
@@ -47,18 +50,19 @@ public class DataUtil {
             usdAria = of("usd", "$"),
             eurAria = of("eur", "€"),
             plnAria = of("pln", "zł"),
+            czeAria = of("₭", "kč"),
             gbrAria = of("gbp", "£", "₤"),
             kztAria = of("kzt", "тг", "₸"),
-            cadAria = of("cad", "ca$",	"c$", "¢"),
-            hrnAria = of("hrn", "uah", "грн.", "грн", "₴"),
-            rubAria = of("rub", "rur", "руб.", "руб", "₽"),
-            bynAria = of("бел. руб.", "бел. руб", "бел руб.", "бел руб", "br", "byn", "byr"),
+            cadAria = of("cad", "ca$", "c$", "¢"),
+            hrnAria = of("hrn", "uah", "грн", "₴"),
+            rubAria = of("rub", "rur", "руб", "₽"),
+            bynAria = of("бел. руб", "бел руб", "br", "byn", "byr", "฿"),
             allSalaries = of("грн", "uah", "hrn", "₴", "$", "usd", "eur", "€", "pln", "zł", "gbp", "£", "₤", "бел. руб",
-                    "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$", "c$", "¢"),
+                    "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$", "c$", "¢","₭","kč"),
             yearAria = of("год", "рік", "year"),
             dayAria = of("день", "day"),
             hourAria = of("час", "годину", "hour"),
-            wasteSalary = of(" ", " ", "&nbsp;", "[.]{2,}", "(\\p{Sc}|ƒ)", "\\s+"),
+            wasteSalary = of(" ", " ", "&nbsp;", "[.]{2,}", "(\\p{Sc}|ƒ)", "\\s+", "[^\\d*]"),
             traineeAria = of("intern", "trainee", "интерн", "internship", "стажировка", "стажер"),
             juniorAria = of("junior", "младший", "без опыта", "обучение"),
             middleAria = of("middle", "средний"),
@@ -134,7 +138,7 @@ public class DataUtil {
                     "rest", "mvc", "jpa", "pattern");
 
     public static boolean isMatch(List<String> area, String text) {
-        return area.stream().anyMatch(a -> text.toLowerCase().indexOf(a) > -1);
+        return area.stream().anyMatch(a -> text.toLowerCase().indexOf(a) != -1);
     }
 
     public static boolean isEmpty(String text) {
@@ -146,7 +150,7 @@ public class DataUtil {
     }
 
     public static String getUpperStart(String text) {
-        return !isEmpty(text) && text.length() > 1 ? text.substring(0, 1).toUpperCase().concat(text.substring(1)) : link;
+        return !isEmpty(text) && text.length() > 1 ? getJoin(text.substring(0, 1).toUpperCase(),text.substring(1)) : link;
     }
 
     public static String getReplace(String text, List<String> wasteWords, String replacement) {
@@ -157,19 +161,22 @@ public class DataUtil {
     }
 
     public static String getToTitle(String title) {
-        return isEmpty(title) ? link : getUpperStart(title.replaceAll("Java Script", "JavaScript"));
+        return isEmpty(title) ? link : getUpperStart(correctJavaScript(title));
     }
 
     public static String getToName(String companyName) {
-        return isEmpty(companyName) ? link : companyName.contains(",") ? companyName.split(",")[0].trim() : companyName;
+        return isEmpty(companyName) ? link : companyName.indexOf(",") != -1 ? companyName.split(",")[0].trim() : companyName;
     }
 
     public static String getToSkills(String skills) {
         if (isEmpty(skills)) {
             return link;
         }
-        skills = skills.replaceAll("Java Script", "JavaScript");
-        skills = skills.contains("Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
-        return skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills;
+        skills = skills.indexOf("Experience level:") != -1 ? skills.substring(skills.indexOf("Experience level:")) : skills;
+        return correctJavaScript(skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills);
+    }
+
+    public static String correctJavaScript(String text) {
+        return text.indexOf("Java Script") != -1 ? text.replaceAll("Java Script", "JavaScript") : text;
     }
 }

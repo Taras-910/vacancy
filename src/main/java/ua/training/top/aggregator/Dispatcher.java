@@ -24,15 +24,16 @@ public class Dispatcher {
         }
         else {
             return new Starter(
+//                    new Provider(new CaIndeedStrategy()),     /*только канада*/
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
-                    new Provider(new JobsMarketStrategy()),   /*ТОЛЬКО за_рубежем USA!!!*/
+                    new Provider(new JobsMarketStrategy()),   /*только за_рубежем USA!!!*/
                     new Provider(new JobsStrategy()),         /*полезные статьи*/
 
                     new Provider(new LinkedinStrategy()),     /*нет удаленно*/                  // нет salary
-                    new Provider(new NofluffjobsStrategy()),  /*ТОЛЬКО за_рубежем Poland*/
+                    new Provider(new NofluffjobsStrategy()),  /*только за_рубежем Poland*/
                     new Provider(new RabotaStrategy()),       /*мало за_рубежем Украина */
 
-                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/ // нет salary
+//                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/ // нет salary
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
                     new Provider(new WorkStrategy())          /*нет за_рубежем*/
             );

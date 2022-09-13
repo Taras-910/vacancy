@@ -87,14 +87,14 @@ public class WorkplaceUtil {
             case "англія", "англия" -> "&geoId=90009496";
             case "оаэ", "оае" -> "&geoId=104305776";
             case "канада", "canada" -> "&geoId=101174742";
-            case "торонто" -> "&geoId=90009551";
+            case "торонто","toronto" -> "&geoId=90009551";
             case "брамптон" -> "&geoId=104669182";
-            case "ванкувер" -> "&geoId=90009553";
-            case "монреаль" -> "&geoId=90009540";
+            case "ванкувер","vancouver" -> "&geoId=90009553";
+            case "монреаль", "montreal" -> "&geoId=90009540";
             case "виктория" -> "&geoId=100346955";
-            case "оттава" -> "&geoId=100346955";
+            case "оттава", "ottawa" -> "&geoId=100346955";
             case "гамильтон" -> "&geoId=104444106";
-            case "виннипег" -> "&geoId=101213860";
+            case "виннипег", "winnipeg" -> "&geoId=101213860";
             case "польща", "польша" -> "&geoId=105072130";
             case "варшава" -> "&geoId=105076658";
             case "німеччина", "германия" -> "&geoId=101282230";
@@ -151,6 +151,21 @@ public class WorkplaceUtil {
             default -> "-1";
         };
     }
+    public static String getCaIndeed(String workplace) {
+        return switch (workplace) {
+            case "canada", "all", "канада" -> "Canada";
+            case "remote" -> "Remote";
+            case "toronto", "торонто" -> "Toronto%2C+ON";
+            case "calgary", "калгарі", "калгари" -> "Calgary%2C+AB";
+            case "ontario", "онтарио", "онтаріо" -> "Ontario";
+            case "edmonton", "едмонтон", "эдмонтон" -> "Edmonton%2C+AB";
+            case "vancouver", "ванкувер" -> "Vancouver%2C+BC";
+            case "brampton", "брэмптон", "бремптон" -> "Brampton%2C+ON";
+            case "ottawa", "оттава" -> "Ottawa%2C+ON";
+            case "mississauga", "миссиссога", "міссісога" -> "Mississauga%2C+ON";
+            default -> "-1";
+        };
+    }
 
     public static String getJooble(String workplace){
         String city = workplace;
@@ -173,7 +188,7 @@ public class WorkplaceUtil {
             case "foreign" -> city = "за%20кордоном";
             default -> city = workplace;
         }
-        return workplace.equals("remote") || workplace.equals("all") ? "" : getBuild("&rgns=").append(city).toString();
+        return workplace.equals("remote") || workplace.equals("all") ? "" : getJoin("&rgns=",city);
     }
 
     public static String getWork(String workplace) {

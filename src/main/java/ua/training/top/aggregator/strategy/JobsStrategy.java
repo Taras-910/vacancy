@@ -51,7 +51,7 @@ public class JobsStrategy implements Strategy {
 
     private String getWorkplace(String workplace) {
         return workplace.equals("all") ? "" : workplace.equals("remote") || workplace.equals("relocation") ?
-                getBuild(workplace).append("&").toString() : getBuild("city=").append(workplace).append("&").toString();
+                getJoin(workplace,"&") : getJoin("city=",workplace,"&");
     }
 
     public static String[] getUA() {

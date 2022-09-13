@@ -6,32 +6,33 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.lang.Float.parseFloat;
 import static java.util.List.of;
 import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.PatternUtil.*;
 
 public class SalaryUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
-    public static final Pattern patternMonetaryAmount = Pattern.compile(extract_salary);
     public static final float
-            rate_pln_to_usd = 4.45f,
-            rate_eur_to_usd = 0.96f,
-            rate_gbp_to_usd = 0.83f,
-            rate_byn_to_usd = 2.43f,
-            rate_hrn_to_usd = 29.54f,
-            rate_rub_to_usd = 71.78f,
-            rate_kzt_to_usd = 437.37f,
-            rate_cad_to_usd = 1.27f,
+            rate_pln_to_usd = 4.75f,
+            rate_eur_to_usd = 1.01f,
+            rate_gbp_to_usd = 0.86f,
+            rate_byn_to_usd = 2.52f,
+            rate_hrn_to_usd = 36.91f,
+            rate_rub_to_usd = 60.83f,
+            rate_kzt_to_usd = 472.31f,
+            rate_cad_to_usd = 1.31f,
+            rate_cze_to_usd = 24.1f,
             usd_one_to_one = 1.0f;
 
      public static Integer[] getToSalaries(String originText) {
-        if (isEmpty(originText) || !isMatch(allSalaries, originText.toLowerCase())) {
+         originText = getRemovedZeroPart(originText).toLowerCase();
+         if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
             return new Integer[]{1, 1};
         }
-        String text = originText.replaceAll(",", ".").toLowerCase();
+        String text = originText.replaceAll(",", ".");
         String code = getCurrencyCode(text);
         List<String> values = getMonetaryAmount(text, code);
         if (!values.isEmpty()) {
@@ -49,25 +50,27 @@ public class SalaryUtil {
         int amount = 1;
         try {
             amount = (int) ((parseFloat(value) * getPeriod(text) / getRate(code) * getPoint(valuesPart))
-                    * (text.matches(is_kilo) ? 1000 : 1));
+                    * (pattern_is_kilo.matcher(text).find() ? 1000 : 1));
         } catch (NumberFormatException e) {
             log.error(error, e, value);
         }
-        return amount <= 12000000 ? amount : Math.min(amount / 12, 12000000);
+        return amount <= 12000000 ? amount :  amount / 12 <= 12000000 ? amount / 12 : Math.min(amount / 100, 12000000);
     }
 
     public static List<String> getMonetaryAmount(String text, String code) {
         List<String> parts = new ArrayList<>();
-        Matcher matcher = patternMonetaryAmount.matcher(getReplacementText(text, code));
-        while (matcher.find()) {
-            parts.add(matcher.group());
+        Matcher mt = pattern_monetary_amount.matcher(getReplacementText(text, code));
+        while (mt.find()) {
+            parts.add(mt.group());
         }
         List<String>
-                amounts = parts.stream().filter(p -> p.contains(code)).collect(Collectors.toList()),
+                amounts = parts.stream()
+                .filter(p -> p.contains(code))
+                .map(m -> getReplace(m, wasteSalary, ""))
+                .collect(Collectors.toList()),
                 monetaryAmounts = new ArrayList<>();
         amounts.forEach(s -> {
-            s = getReplace(s, wasteSalary, "");
-            if (s.matches(is_number_format)) {
+            if (pattern_is_contain_number.matcher(s).find()) {
                 monetaryAmounts.add(s);
             }
         });
@@ -87,7 +90,8 @@ public class SalaryUtil {
     public static String getCurrencyCode(String text) {
         return isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ? "₴" : isMatch(eurAria, text) ?
                 "€" : isMatch(bynAria, text) ? "฿" : isMatch(rubAria, text) ? "₽" : isMatch(plnAria, text) ?
-                "₧" : isMatch(gbrAria, text) ? "£" : isMatch(kztAria, text) ? "₸" : isMatch(cadAria, text) ? "¢" :"";
+                "₧" : isMatch(gbrAria, text) ? "£" : isMatch(kztAria, text) ? "₸" : isMatch(cadAria, text) ?
+                "¢" : isMatch(czeAria, text) ? "₭" : "";
     }
 
     public static String getReplacementText(String text, String currencyCode) {
@@ -102,6 +106,7 @@ public class SalaryUtil {
             case "₸" -> getReplace(text, kztAria, "₸");
             case "¢" -> getReplace(text, cadAria, "¢");
             case "฿" -> getReplace(text, bynAria, "฿");
+            case "₭" -> getReplace(text, czeAria, "₭");
             default -> text;
         };
     }
@@ -116,9 +121,20 @@ public class SalaryUtil {
             case "₸" -> rate_kzt_to_usd;
             case "¢" -> rate_cad_to_usd;
             case "฿" -> rate_byn_to_usd;
+            case "₭" -> rate_cze_to_usd;
             default -> usd_one_to_one;
         };
     }
 
     public static boolean isFrom(String originText) { return isMatch(of("от", "від"), originText); }
+
+    public static String getRemovedZeroPart(String text){
+        Matcher m = pattern_remove_zero_part.matcher(text.toLowerCase());
+        int i = 0;
+        while(m.find()){
+            text = getJoin(text.substring(0, m.start() - i), text.substring(m.end() - 1 - i));
+            i += 3;
+        }
+        return text;
+     }
 }

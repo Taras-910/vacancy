@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import static java.time.LocalDate.now;
 import static java.time.LocalDate.parse;
 import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.PatternUtil.*;
 
 public class DateToUtil {
     private final static Logger log = LoggerFactory.getLogger(DateToUtil.class);
@@ -21,14 +22,15 @@ public class DateToUtil {
     public static LocalDate getToLocalDate(String originText) {
         String preText = formatToNumAndWord(originText.toLowerCase());
         String text = getExtract(local_date, preText);
-        if (isEmpty(preText) || !text.contains(" ") && !preText.matches(is_date_numbers)) {
+        boolean isDateNumber = pattern_is_date_numbers.matcher(preText).find();
+        if (isEmpty(preText) || !text.contains(" ") && !isDateNumber) {
             return defaultDate;
         }
         try {
-            if (!preText.matches(is_date_numbers)) {
+            if (!isDateNumber) {
                 String[] parts = text.split(" ");
-                int number = Integer.parseInt(parts[parts[0].matches(is_date_number) ? 0 : 1]);
-                String name = parts[parts[1].matches(is_date_number) ? 0 : 1];
+                int number = Integer.parseInt(parts[pattern_date_is_numb.matcher(parts[0]).find() ? 0 : 1]);
+                String name = parts[pattern_date_is_numb.matcher(parts[1]).find() ? 0 : 1];
                 LocalDate localDate = getLocalDate(number, name);
                 return localDate.isBefore(now()) || localDate.isEqual(now()) ? localDate : localDate.minusYears(1);
             }
@@ -42,7 +44,7 @@ public class DateToUtil {
     public static String getExtract(String fieldName, String text) {
         getLinkIfEmpty(text);
         //https://stackoverflow.com/questions/63964529/a-regex-to-get-any-price-string
-        Matcher m = Pattern.compile(getMatcherByField(fieldName), Pattern.CASE_INSENSITIVE).matcher(text);
+        Matcher m = getPatternByField(fieldName).matcher(text);
         List<String> list = new ArrayList<>();
         while (m.find()) {
             list.add(m.group());
@@ -50,13 +52,13 @@ public class DateToUtil {
         return list.size() > 0 ? list.get(0) : !fieldName.contains("field") ? text : link;
     }
 
-    public static String getMatcherByField(String fieldName) {
+    public static Pattern getPatternByField(String fieldName) {
         return switch (fieldName) {
-            case month -> extract_month;
-            case local_date -> extract_date;
-            case address_field -> extract_address;
-            case age_field -> extract_age;
-            default -> "";
+            case month -> pattern_extract_month;
+            case local_date -> pattern_extract_date;
+            case address_field -> pattern_extract_address;
+            case age_field -> pattern_extract_age;
+            default -> pattern_default;
         };
     }
 

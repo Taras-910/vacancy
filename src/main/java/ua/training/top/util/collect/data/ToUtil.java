@@ -18,21 +18,19 @@ public class ToUtil {
     }
 
     public static String getAnchorVacancy(Vacancy v) {
-        return getBuild(v.getTitle()).append(v.getEmployer().getName()).append(v.getEmployer().getAddress())
-                .append(v.getSkills()).toString().toLowerCase();
+        return getJoin(v.getTitle(),v.getEmployer().getName(),v.getEmployer().getAddress(),v.getSkills()).toLowerCase();
     }
 
     public static String getAnchorVacancy(VacancyTo vTo) {
-        return getBuild(vTo.getTitle()).append(vTo.getEmployerName()).append(vTo.getAddress())
-                .append(vTo.getSkills()).toString().toLowerCase();
+        return getJoin(vTo.getTitle(),vTo.getEmployerName(),vTo.getAddress(),vTo.getSkills()).toLowerCase();
     }
 
     public static String getAnchorEmployer(Employer e) {
-        return getBuild(e.getName()).append(e.getAddress()).toString().toLowerCase();
+        return getJoin(e.getName(),e.getAddress()).toLowerCase();
     }
 
     public static String getAnchorEmployer(VacancyTo vTo) {
-        return getBuild(vTo.getEmployerName()).append(vTo.getAddress()).toString().toLowerCase();
+        return getJoin(vTo.getEmployerName(),vTo.getAddress()).toLowerCase();
     }
 
     public static boolean isToValid(Freshen f, String text) {

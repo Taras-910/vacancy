@@ -10,22 +10,23 @@ public class UrlUtil {
             case habr -> "https://career.habr.com";
             case nofluff -> "https://nofluffjobs.com";
             case indeed -> "https://ua.indeed.com/viewjob?jk=";
+            case indeed_ca -> "https://ca.indeed.com/viewjob?jk=";
             case jooble -> "https://ua.jooble.org/desc/";
             case rabota -> "https://rabota.ua";
             case work -> "https://www.work.ua";
             default -> "";
         };
-        return getBuild(prefix).append(url).toString();
+        return getJoin(prefix,url);
     }
 
     public static String getPage(String siteName, String page) {
         return switch (siteName) {
-            case djinni, jobcareer -> page.equals("1") ? "" : getBuild("page=").append(page).toString();
-            case grc -> page.equals("0") ? "" : getBuild("&page=").append(page).toString();
-            case habr, work -> page.equals("1") ? "" : getBuild("&page=").append(page).toString();
-            case rabota -> page.equals("1") ? "" : getBuild("/pg").append(page).toString();
-            case indeed -> page.equals("0") ? "" : getBuild("&start=").append(page).append("0").toString();
-            case jooble -> page.equals("1") ? "" : getBuild("&p=").append(page).toString();
+            case djinni, jobcareer -> page.equals("1") ? "" : getJoin("page=",page);
+            case grc -> page.equals("0") ? "" : getJoin("&page=",page);
+            case habr, work -> page.equals("1") ? "" : getJoin("&page=",page);
+            case rabota -> page.equals("1") ? "" : getJoin("/pg",page);
+            case indeed, indeed_ca -> page.equals("0") ? "" : getJoin("&start=",page,"0");
+            case jooble -> page.equals("1") ? "" : getJoin("&p=",page);
             default -> page;
         };
     }

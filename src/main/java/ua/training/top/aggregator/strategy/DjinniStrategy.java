@@ -60,7 +60,6 @@ public class DjinniStrategy implements Strategy {
     }
 
     public static String getWrokplaceDjinni(String workplace) {
-        return workplace.equals("all") ? "" :
-                getBuild("keywords=%28").append(workplace).append("%29&full_text=on").toString();
+        return workplace.equals("all") ? "" : getJoin("keywords=%28",workplace,"%29&full_text=on");
     }
 }
