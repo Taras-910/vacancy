@@ -3,9 +3,11 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.top.Profiles;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
@@ -34,6 +36,7 @@ import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
 @EnableScheduling
 public class AggregatorService {
     private final static Logger log = LoggerFactory.getLogger(AggregatorService.class);
+    public static boolean herokuRestriction;
 
     @Autowired
     private VacancyService vacancyService;
@@ -41,6 +44,17 @@ public class AggregatorService {
     private EmployerService employerService;
     @Autowired
     private FreshenService freshenService;
+
+    @Autowired
+    @SuppressWarnings("deprecation")
+    public void setEnvironment(Environment environment) {
+        System.out.println("=".repeat(100));
+        System.out.println(Arrays.toString(environment.getDefaultProfiles()));
+        System.out.println(Arrays.toString(environment.getActiveProfiles()));
+        System.out.println("+".repeat(100));
+
+        herokuRestriction = environment.acceptsProfiles(Profiles.HEROKU);
+    }
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);
@@ -111,14 +125,16 @@ public class AggregatorService {
         setTestAuthorizedUser(asAdmin());
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                asNewFreshen("ruby", "all", "canada", UPGRADE));
+                asNewFreshen("java", "all", "киев", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
+
+
     }
 }
-//100 000,00 USD - 130 000,00 CAD
-
+//dateString     =yesterday
+//date           =2022-09-08
 //                                   *      *
 //  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
 //all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291

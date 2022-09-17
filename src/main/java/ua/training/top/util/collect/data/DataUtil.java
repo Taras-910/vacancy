@@ -40,9 +40,9 @@ public class DataUtil {
             common_number_vacancyTos = "Common number vacancyTos = {}",
             get_vacancy = "GetVacancies workplace={} language={}",
             error_select = "Select error e {}",
-            jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy", djinni = "DjinniStrategy",
-            habr = "HabrStrategy", grc = "GrcStrategy", nofluff = "NofluffjobsStrategy", indeed = "UAIndeedStrategy",indeed_ca = "CaIndeedStrategy",
-            jooble = "jooble", jobsmarket = "jobsmarket", jobs = "jobs", linkedin = "linkedin",
+            jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy", jobs = "jobs",
+            djinni = "DjinniStrategy", nofluff = "NofluffjobsStrategy", indeed = "UAIndeedStrategy", jooble = "jooble",
+            linkedin = "linkedin", indeed_ca = "CaIndeedStrategy", jobsmarket = "jobsmarket",
             local_date = "releaseDate", age_field = "age", address_field = "address", month = "month", middle = "middle",
             trainee = "trainee", junior = "junior", senior = "senior", expert = "expert";
 
@@ -63,14 +63,13 @@ public class DataUtil {
             dayAria = of("день", "day"),
             hourAria = of("час", "годину", "hour"),
             wasteSalary = of(" ", " ", "&nbsp;", "[.]{2,}", "(\\p{Sc}|ƒ)", "\\s+", "[^\\d*]"),
-            traineeAria = of("intern", "trainee", "интерн", "internship", "стажировка", "стажер"),
+            traineeAria = of("intern", "trainee", "интерн", "internship", "стажировка", "стажер", "стажист"),
             juniorAria = of("junior", "младший", "без опыта", "обучение"),
-            middleAria = of("middle", "средний"),
+            middleAria = of("middle", "средний", "мідл"),
             seniorAria = of("senior", "старший"),
             expertAria = of("expert", "lead", "team lead", "ведущий", "тимлид"),
             kievAria = of("kyiv", "kiev", "київ", "киев"),
             ukraineAria = of("ukraine", "украина", "україна", "ua"),
-            remoteAria = of("remote", "relocate", "релокейт", "удаленно", "віддалено"),
             dniproAria = of("дніпро", "днепр", "dnipro"),
             kharkivAria = of("харків", "харьков", "kharkiv"),
             lvivAria = of("львів", "львов", "lviv"),
@@ -104,6 +103,7 @@ public class DataUtil {
             hamiltonAria = of("hamilton", "гамильтон"),
             winnipegAria = of("winnipeg", "виннипег"),
             foreignAria = of("другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном"),
+            remoteAria = of("remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота"),
             citiesUA = of("ukraine", "ua", "украина", "україна", "kyiv", "kiev", "київ", "киев", "дніпро", "днепр",
                     "dnipro", "харків", "харьков", "kharkiv", "львів", "львов", "lviv", "mykolaiv", "одесса", "odesa",
                     "одеса", "винница", "vinnitsia", "вінниця", "запоріжжя", "запорожье", "zaporizhzhya", "chernivtsi",
@@ -117,17 +117,20 @@ public class DataUtil {
             citiesPL = of("poland", "польща", "польша", "polski", "pol", "варшава", "warszawa", "krakow", "краков",
                     "kraków", "wroclaw", "вроцлав", "gdansk", "гданськ", "гданск", "poznan", "познань", "poznań",
                     "katowice", "катовіце", "катовице", "lodz", "лодзь", "gdynia"),
+            citiesDe = of("берлін", "берлин", "berlin", "мангейм", "mannheim", "гамбург", "hamburg", "ганновер", "hanover",
+                    "дюссельдорф", "dusseldorf", "мюнхен", "munich", "франкфурт", "frankfurt"),
             citiesCanada = of("canadа", "канада", "canad", "канад", "торонто", "toronto", "vancouver", "ванкувер",
                     "montréal", "монреаль", "quebec", "квебек", "mississauga", "ontario", "онтарио", "british columbia",
                     "alberta", "брамптон", "brampton", "оттава", "оттава", "victoria", "виктория", "hamilton",
                     "гамильтон", "winnipeg", "виннипег"),
-            citiesWorld = of("ізраїль", "израиль", "армения", "швейцарія", "оаэ", "швейцария", "франція", "франция",
-                    "italy", "італія", "италия", "сінгапур", "turkey", "сингапур", "англія", "англия", "канада",
-                    "canada", "польща", "польша", "молдова", "germany", "германия", "чехія", "чехия", "швеція", "швеция",
-                    "фінляндія", "финляндия", "finland", "азербайджан", "norway", "poland", "singapore", "czechia",
-                    "france", "киргизстан", "iran", "israel", "німеччина", "германия", "australia", "philippines", "uk",
-                    "estonia", "netherlands", "узбекістан", "узбекистан", "білорусь", "беларусь", "казахстан", "foreign",
-                    "emirates", "pol", "england", "united kingdom"),
+            citiesWorld = of("foreign", "ізраїль", "израиль", "israel", "швейцарія", "швейцария", "switzerland", "france",
+                    "франція", "франция", "italy", "італія", "италия", "турція", "турция", "turkey", "англія", "англия",
+                    "england", "uk", "united kingdom", "канада","canada", "польща", "польша", "poland", "pol", "czechia",
+                    "чехія", "чехия", "швеція", "швеция", "sweden", "фінляндія", "финляндия", "finland", "норвегія",
+                    "норвегия", "norway", "сінгапур", "singapore", "німеччина", "germany", "германия", "эмираты", "оаэ",
+                    "emirates", "австралія", "австралия", "australia", "філіпіни", "филипины", "philippines", "естонія",
+                    "эстония", "estonia", "netherlands", "голландия", "нідерланди", "білорусь", "беларусь", "киргизстан",
+                    "казахстан", "узбекистан", "молдова", "іран", "иран", "iran", "азербайджан", "армения"),
             monthsOfYearAria = of("січня", "января", "лютого", "февраля", "березня", "марта", "квітня", "апреля",
                     "травня", "мая", "червня", "июня", "липня", "июля", "серпня", "августа", "вересня", "сентября",
                     "жовтня", "октября", "листопада", "ноября", "грудня", "декабря", "jan", "feb", "mar", "apr", "may",
@@ -164,8 +167,8 @@ public class DataUtil {
         return isEmpty(title) ? link : getUpperStart(correctJavaScript(title));
     }
 
-    public static String getToName(String companyName) {
-        return isEmpty(companyName) ? link : companyName.indexOf(",") != -1 ? companyName.split(",")[0].trim() : companyName;
+    public static String getToName(String compName) {
+        return isEmpty(compName) ? link : compName.indexOf(",") != -1 ? compName.split(",")[0].trim() : compName;
     }
 
     public static String getToSkills(String skills) {

@@ -7,7 +7,6 @@ public class UrlUtil {
     public static String getToUrl(String text, String url){
         String prefix = switch (text) {
             case djinni -> "https://djinni.co";
-            case habr -> "https://career.habr.com";
             case nofluff -> "https://nofluffjobs.com";
             case indeed -> "https://ua.indeed.com/viewjob?jk=";
             case indeed_ca -> "https://ca.indeed.com/viewjob?jk=";
@@ -21,10 +20,8 @@ public class UrlUtil {
 
     public static String getPage(String siteName, String page) {
         return switch (siteName) {
-            case djinni, jobcareer -> page.equals("1") ? "" : getJoin("page=",page);
-            case grc -> page.equals("0") ? "" : getJoin("&page=",page);
-            case habr, work -> page.equals("1") ? "" : getJoin("&page=",page);
-            case rabota -> page.equals("1") ? "" : getJoin("/pg",page);
+            case jobcareer, rabota -> page.equals("1") ? "" : getJoin("page=",page);
+            case djinni, work -> page.equals("1") ? "" : getJoin("&page=",page);
             case indeed, indeed_ca -> page.equals("0") ? "" : getJoin("&start=",page,"0");
             case jooble -> page.equals("1") ? "" : getJoin("&p=",page);
             default -> page;
@@ -35,8 +32,6 @@ public class UrlUtil {
         return switch (level) {
             case trainee -> switch (site) {
                 case djinni -> "exp_level=no_exp";
-                case grc -> "&employment=probation";
-                case habr -> "&qid=1";
                 case jobcareer -> "-trainee";
                 case linkedin -> "f_E=1&";
                 case nofluff -> "%20seniority%3Dtrainee";
@@ -47,10 +42,8 @@ public class UrlUtil {
             };
             case junior -> switch (site) {
                 case djinni -> "exp_level=1y";
-                case grc -> "&experience=noExperience";
-                case habr -> "&qid=3";
                 case jobcareer -> "-junior";
-                case jobs -> "&exp=0-1";
+                case jobs -> "exp=0-1";
                 case linkedin -> "f_E=2&";
                 case nofluff -> "%20seniority%3Djunior";
                 case rabota -> "&profLevelIDs=3";
@@ -60,10 +53,8 @@ public class UrlUtil {
             };
             case middle -> switch (site) {
                 case djinni -> "exp_level=2y";
-                case grc -> "&experience=between1And3";
-                case habr -> "&qid=4";
                 case jobcareer -> "-middle";
-                case jobs -> "&exp=1-3";
+                case jobs -> "exp=1-3";
                 case linkedin -> "f_E=3&";
                 case nofluff -> "%20seniority%3Dmid";
                 case rabota -> "&profLevelIDs=4";
@@ -73,10 +64,8 @@ public class UrlUtil {
             };
             case senior -> switch (site) {
                 case djinni -> "exp_level=3y";
-                case grc -> "&experience=between3And6";
-                case habr -> "&qid=5";
                 case jobcareer -> "-senior";
-                case jobs -> "&exp=3-5";
+                case jobs -> "exp=3-5";
                 case linkedin -> "f_E=4&";
                 case nofluff -> "%20seniority%3Dsenior";
                 case rabota -> "&profLevelIDs=5";
@@ -86,10 +75,8 @@ public class UrlUtil {
             };
             case expert -> switch (site) {
                 case djinni -> "exp_level=5y";
-                case grc -> "&experience=experience=moreThan6";
-                case habr -> "&qid=6";
                 case jobcareer -> "-expert";
-                case jobs -> "&exp=5plus";
+                case jobs -> "exp=5plus";
                 case linkedin -> "f_E=5&";
                 case nofluff -> "%20seniority%3Dexpert";
                 case rabota -> "&profLevelIDs=6";

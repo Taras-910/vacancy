@@ -19,21 +19,21 @@ public class Dispatcher {
         else if (autoRefreshProviders) {
             return new Starter(
                     mapStrategies.get(getKey(3)),
-                    mapStrategies.get(getKey(3) + 3),
-                    mapStrategies.get(getKey(3) + 6));
+                    mapStrategies.get(getKey(2) + 3),
+                    mapStrategies.get(getKey(2) + 5));
         }
         else {
             return new Starter(
-//                    new Provider(new CaIndeedStrategy()),     /*только канада*/
+                    /*new Provider(new CaIndeedStrategy()),*/ /*только канада*/
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
                     new Provider(new JobsMarketStrategy()),   /*только за_рубежем USA!!!*/
-                    new Provider(new JobsStrategy()),         /*полезные статьи*/
+                    new Provider(new JobsStrategy()),         /*полезные статьи  */
 
-                    new Provider(new LinkedinStrategy()),     /*нет удаленно*/                  // нет salary
+                    new Provider(new LinkedinStrategy()),     /*нет удаленно*/                     // нет salary
                     new Provider(new NofluffjobsStrategy()),  /*только за_рубежем Poland*/
-                    new Provider(new RabotaStrategy()),       /*мало за_рубежем Украина */
+                    /*new Provider(new RabotaStrategy()),*/   /*мало за_рубежем Украина ??? страница: js-функция */
 
-//                    new Provider(new UAIndeedStrategy()),     /*нет за_рубежем Украина ТОЛЬКО*/ // нет salary
+                    /*new Provider(new UAIndeedStrategy()),*/ /*только Украина // нет salary*/
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
                     new Provider(new WorkStrategy())          /*нет за_рубежем*/
             );
@@ -69,3 +69,5 @@ public class Dispatcher {
 //https://www.ria.com
 //https://trud.ua
 //http://trudbox.com.ua/kiev/jobs-programmist
+
+//https://www.monster.ca/ how to parse this kind?

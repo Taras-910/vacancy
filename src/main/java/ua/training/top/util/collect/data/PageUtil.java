@@ -73,7 +73,7 @@ public class PageUtil {
                 default -> 1;
             };
             case "минск" -> switch (site) {
-                case jooble, linkedin -> 2;
+                case linkedin, jooble -> 2;
                 case work -> 3;
                 default -> 1;
             };

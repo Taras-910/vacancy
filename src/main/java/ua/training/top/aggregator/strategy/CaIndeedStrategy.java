@@ -21,7 +21,7 @@ import static ua.training.top.util.collect.ElementUtil.getVacanciesCaIndeed;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCaIndeed;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getCad;
 
 public class CaIndeedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(CaIndeedStrategy.class);
@@ -35,7 +35,7 @@ public class CaIndeedStrategy implements Strategy {
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        String workplace = getCaIndeed(freshen.getWorkplace()), level = freshen.getLevel(), language = freshen.getLanguage();
+        String workplace = getCad(freshen.getWorkplace()), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, freshen.getWorkplace(), language);
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (workplace.equals("-1")) {
@@ -44,7 +44,6 @@ public class CaIndeedStrategy implements Strategy {
         int page = 0;
         while (true) {
             Document doc = getDocument(workplace, language, level, valueOf(page));
-            System.out.println("doc=\\n"+ doc);
             Elements elements = doc == null ? null : doc.getElementsByTag("li");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesCaIndeed(elements, freshen));

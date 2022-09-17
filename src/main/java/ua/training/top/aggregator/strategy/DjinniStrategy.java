@@ -22,18 +22,21 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.UrlUtil.getPage;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getDjinni;
 
 public class DjinniStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
-    private static final String url = "https://djinni.co/jobs/keyword-%s/%s%s%s%s%s%s";
-    //    https://djinni.co/jobs/keyword-java/?exp_level=1y&keywords=%28other%29&full_text=on&page=2
+    private static final String url = "https://djinni.co/jobs/keyword-%s/%s%s%s";
+    //    https://djinni.co/jobs/keyword-java/?region=other&exp_level=1y&page=2
+    //https://djinni.co/jobs/keyword-%s/%s%s%s
+
 
     protected Document getDocument(String workplace, String language, String level, String page) {
+
         return DocumentUtil.getDocument(format(url,
-                language, workplace.equals("all") && level.equals("all") && page.equals("1") ? "" : "?",
-                getLevel(djinni, level), level.equals("all") || workplace.equals("all") && page.equals("1") ? "" : "&",
-                getWrokplaceDjinni(workplace),
-                level.equals("all") && workplace.equals("all") || page.equals("1") ? "" : "&",
+                language,
+                getDjinni(workplace),
+                level.equals("all") ? "" : getJoin("&", getLevel(djinni, level)),
                 getPage(djinni, page)));
     }
 
@@ -41,7 +44,6 @@ public class DjinniStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = freshen.getWorkplace().equals("foreign") ? "other" : workplace;
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
@@ -59,7 +61,7 @@ public class DjinniStrategy implements Strategy {
         return new ArrayList<>(set);
     }
 
-    public static String getWrokplaceDjinni(String workplace) {
-        return workplace.equals("all") ? "" : getJoin("keywords=%28",workplace,"%29&full_text=on");
-    }
+//    public static String getWrokplaceDjinni(String workplace) {
+//        return workplace.equals("all") ? "" : getJoin("keywords=%28",workplace,"%29&full_text=on");
+//    }
 }

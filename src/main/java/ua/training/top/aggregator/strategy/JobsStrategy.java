@@ -23,20 +23,33 @@ import static ua.training.top.util.collect.data.WorkplaceUtil.getJobs;
 
 public class JobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsStrategy.class);
-    private static final String url = "https://jobs.dou.ua/vacancies/?%scategory=%s%s";
     private static final String url_trainee = "https://jobs.dou.ua/first-job/?from=exp";
-    // Київ        https://jobs.dou.ua/vacancies/?category=Java&city=Киев
+    private static final String url_in = "https://jobs.dou.ua/vacancies/%s%s%s%s%s%s";
+    private static final String url_out = "https://relocate.dou.ua/jobs/%s%s%s%s";
+    // https://relocate.dou.ua/jobs/?search=canada&descr=1&category=Java&exp=1-3
 
     protected Document getDocument(String workplace, String language, String level) {
-        return DocumentUtil.getDocument(format(url, getWorkplace(workplace), language, getLevel(jobs, level)));
+        boolean domestic = isMatch(citiesUA, workplace) || isMatch(remoteAria, workplace) ||
+                isMatch(foreignAria, workplace) || workplace.equals("all");
+        return domestic ? DocumentUtil.getDocument(format(url_in,
+                !workplace.equals("all") || !language.equals("all") || !level.equals("all") ? "?" : "",
+                getWorkplace(workplace),
+                !workplace.equals("all") && !language.equals("all") || !workplace.equals("all") && !level.equals("all") ? "&" : "",
+                language.equals("all") ? "" : getJoin("category=", getUpperStart(language)),
+                !language.equals("all") && !level.equals("all") ? "&" : "",
+                getLevel(jobs, level)))
+                : DocumentUtil.getDocument(format(url_out,
+                !language.equals("all") || !level.equals("all") ? "?" : "",
+                language.equals("all") ? "" : getJoin("category=",language),
+                language.equals("all") || level.equals("all") ? "" : "&",
+                level.equals("all") ? "" : getLevel(jobs, level)));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        String[] cities = workplace.equals("foreign") || workplace.equals("россия") ? getRU() :
-                workplace.equals("украина") || workplace.equals("all") ? getUA() : new String[]{workplace};
+        String[] cities = workplace.equals("украина") ? getUA() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String location : cities) {
         Document doc = level.equals("trainee") ? DocumentUtil.getDocument(url_trainee) :
@@ -50,17 +63,12 @@ public class JobsStrategy implements Strategy {
     }
 
     private String getWorkplace(String workplace) {
-        return workplace.equals("all") ? "" : workplace.equals("remote") || workplace.equals("relocation") ?
-                getJoin(workplace,"&") : getJoin("city=",workplace,"&");
+        return workplace.equals("all") ? "" : isMatch(remoteAria, workplace) ? "remote" :
+                isMatch(foreignAria, workplace) ? "relocation" : getJoin("city=", workplace);
     }
 
     public static String[] getUA() {
         return new String[]{"украина", "киев", "харьков", "львов", "одесса", "днепр", "винница", "ужгород",
                 "ивано-франковск", "полтава", "запорожье", "черкассы", "чернигов", "тернополь"};
-    }
-
-    public static String[] getRU() {
-        return new String[]{"россия", "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "пермь",
-                "екатеринбург", "краснодар", "ростов-на-дону", "томск", "самара", "ульяновск", "воронеж"};
     }
 }

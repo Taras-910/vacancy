@@ -2,12 +2,10 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
-import ua.training.top.Profiles;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 import ua.training.top.util.exception.MethodNotAllowedException;
@@ -25,6 +22,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
+import static ua.training.top.service.AggregatorService.herokuRestriction;
 import static ua.training.top.util.MessageUtil.*;
 import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
@@ -36,14 +34,6 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-
-    private boolean modificationRestriction;
-
-    @Autowired
-    @SuppressWarnings("deprecation")
-    public void setEnvironment(Environment environment) {
-        modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU);
-    }
 
     public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
@@ -119,7 +109,7 @@ public class UserService implements UserDetailsService {
     }
 
     protected void checkModificationAllowed(int id) throws MethodNotAllowedException{
-        if (modificationRestriction && id < START_SEQ + 2) {
+        if (herokuRestriction && id < START_SEQ + 2) {
             String person = id == START_SEQ ? "Admin" : "User";
             throw new MethodNotAllowedException(not_change_data + person);
         }

@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.service.AggregatorService.herokuRestriction;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
@@ -44,9 +45,14 @@ public class LinkedinStrategy implements Strategy {
         if (workplace.equals("россия")) {
             return new ArrayList<>();
         }
-        String[] cityOrCountry = workplace.equals("foreign") ? getForeign() :
+        String[] cityOrCountry = workplace.equals("all") ? new String[]{"украина"} : new String[]{workplace};
+
+        if(herokuRestriction) {
+        cityOrCountry = workplace.equals("foreign") ? getForeign() :
                 workplace.equals("canada") || workplace.equals("канада") ? getCanada() :
-                workplace.equals("украина") || workplace.equals("all") ? getUA() : new String[]{workplace};
+                        workplace.equals("украина") || workplace.equals("all") ? getUA() : new String[]{workplace};
+        }
+
         Set<VacancyTo> set = new LinkedHashSet<>();
             for(String location : cityOrCountry) {
             int page = 0;

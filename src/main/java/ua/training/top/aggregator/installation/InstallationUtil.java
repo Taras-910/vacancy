@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static ua.training.top.aggregator.Starter.allProviders;
+import static ua.training.top.service.AggregatorService.herokuRestriction;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
@@ -19,9 +20,7 @@ public class InstallationUtil {
             limitVotesKeeping = limitVacanciesKeeping / 10,
             maxLengthText = 250,
             repeatToCall = 3,
-            limitCallPages = 2;
-//    repeatToCall = 1,
-//    limitCallPages = 1;
+            limitCallPages = herokuRestriction ? 1 : 2;
 
     public static LocalDate
             reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),

@@ -4,10 +4,16 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class WorkplaceUtil {
 
+    public static String getDjinni(String city) {
+        String workplace =  isMatch(citiesUA, city) ? "UKR" : isMatch(citiesPL, city) ? "POL" :
+                isMatch(citiesDe, city) ? "DEU" : city.equals("all") ? "eu" : city.equals("remote") ? "remote" :  "other";
+        return getJoin("?",city.equals("remote") ? "employment=" : "region=",workplace);
+    }
+
     public static String getJobs(String city){
         return  switch (city) {
             case "remote" -> "remote";
-            case "київ", "киев" -> "Київ";
+            case "київ", "киев", "kyiv", "kiev" -> "Київ";
             case "дніпро", "днепр" -> "Дніпро";
             case "харків", "харьков" -> "Харків";
             case "одеса", "одесса" -> "Одеса";
@@ -65,7 +71,7 @@ public class WorkplaceUtil {
     }*/
     public static String getLinkedin(String city){
         return switch (city) {
-            case "київ", "киев" -> "&geoId=104035893";
+            case "київ", "киев", "kyiv", "kiev" -> "&geoId=104035893";
             case "дніпро", "днепр" -> "&geoId=103663309";
             case "одеса", "одесса" -> "&geoId=100182723";
             case "львів", "львов" -> "&geoId=104983263";
@@ -109,9 +115,9 @@ public class WorkplaceUtil {
 
     public static String getNofluff(String city) {
         return switch (city) {
-            case "польша", "poland", "polski", "all", "foreign" -> "";
+            case "польша", "польща", "poland", "polski", "all", "foreign" -> "";
             case "варшава", "warszawa" -> "warszawa/";
-            case "krakow", "краков" -> "krakow/";
+            case "krakow", "краков", "краків" -> "krakow/";
             case "wroclaw", "вроцлав" -> "wroclaw/";
             case "gdansk", "гданськ", "гданск" -> "gdansk/";
             case "poznan", "познань" -> "poznan/";
@@ -124,8 +130,8 @@ public class WorkplaceUtil {
 
     public static String getRabota(String workplace) {
         return switch (workplace) {
-            case "remote", "all", "украина", "україна" -> "украина";
-            case "київ", "киев" -> "киев";
+            case "remote", "all", "украина", "україна", "ukraine" -> "украина";
+            case "київ", "киев", "kyiv", "kiev" -> "киев";
             case "дніпро", "днепр" -> "днепр";
             case "одеса", "одесса" -> "одесса";
             case "львів", "львов" -> "львов";
@@ -141,9 +147,9 @@ public class WorkplaceUtil {
 
     public static String getIndeed(String workplace) {
         return switch (workplace) {
-            case "украина", "all" -> "&l=Украина";
+            case "украина", "україна", "ukraine", "all" -> "&l=Украина";
             case "remote" -> "&rbl=Удаленно&jlid=f00b7fa4b055cc00";
-            case "київ", "киев" -> "&rbl=Киев&jlid=e9ab1a23f8e591f1";
+            case "київ", "киев", "kyiv", "kiev" -> "&rbl=Киев&jlid=e9ab1a23f8e591f1";
             case "дніпро", "днепр" -> "&rbl=Днепр,+Днепропетровская+область&jlid=030c410a355d8014";
             case "одеса", "одесса" -> "&rbl=Одесса&jlid=240fe96bd3c6e402";
             case "львів", "львов" -> "&rbl=Львов&jlid=6ea57808cf02b292";
@@ -151,7 +157,7 @@ public class WorkplaceUtil {
             default -> "-1";
         };
     }
-    public static String getCaIndeed(String workplace) {
+    public static String getCad(String workplace) {
         return switch (workplace) {
             case "canada", "all", "канада" -> "Canada";
             case "remote" -> "Remote";
@@ -170,7 +176,7 @@ public class WorkplaceUtil {
     public static String getJooble(String workplace){
         String city = workplace;
         switch (city) {
-            case "київ", "киев" -> city = "Київ";
+            case "київ", "киев", "kyiv", "kiev" -> city = "Київ";
             case "дніпро", "днепр" -> city = "Дніпро";
             case "харків", "харьков" -> city = "Харків";
             case "одеса", "одесса" -> city = "Одеса";
@@ -185,6 +191,9 @@ public class WorkplaceUtil {
             case "мінськ", "минск" -> city = "Мінськ%2C%20Білорусь";
             case "варшава" -> city = "Варшава%2C%20Польща";
             case "краків", "краков" -> city = "Краків%2C%20Польща";
+            case "германия", "німеччина", "germany" -> city = "Німеччина";
+            case "польша", "польща", "poland" -> city = "Польща";
+            case "канада", "canada" -> city = "Канада";
             case "foreign" -> city = "за%20кордоном";
             default -> city = workplace;
         }

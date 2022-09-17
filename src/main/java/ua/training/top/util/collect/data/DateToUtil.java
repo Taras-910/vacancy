@@ -77,8 +77,10 @@ public class DateToUtil {
     static String formatToNumAndWord(String originText) {
         return originText.replaceAll("nowa", "0 минут").replaceAll("сейчас", "0 минут")
                 .replaceAll("только что", "0 минут")
-                .replaceAll("сьогодні", "0 сьогодні").replaceAll("сегодня", "0 сегодня")
-                .replaceAll("вчора", "1 сьогодні").replaceAll("вчера", "1 день");
+                .replaceAll("сьогодні", "0 сьогодні").replaceAll("сьогодні", "0 сьогодні")
+                .replaceAll("today", "0 сегодня").replaceAll("yesterday", "1 сьогодні")
+                .replaceAll("вчора", "1 сьогодні")
+                .replaceAll("вчера", "1 день");
     }
 
     public static int getMonth(String month) {
