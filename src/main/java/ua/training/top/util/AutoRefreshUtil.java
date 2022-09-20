@@ -47,7 +47,8 @@ public class AutoRefreshUtil {
 //                    Map.entry(5, new Provider(new RabotaStrategy())),
 //                    Map.entry(6, new Provider(new UAIndeedStrategy())),
                     Map.entry(8, new Provider(new UAJoobleStrategy())),
-                    Map.entry(9, new Provider(new WorkStrategy()))
+                    Map.entry(9, new Provider(new WorkStrategy())),
+                    Map.entry(10, new Provider(new ZaplataStrategy()))
             );
 
     public static final Map<Integer, String>

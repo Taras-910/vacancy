@@ -85,18 +85,18 @@ public class DateToUtil {
 
     public static int getMonth(String month) {
         return switch (month) {
-            case "january", "jan", "січня", "января" -> 1;
-            case "february", "feb", "лютого", "февраля" -> 2;
-            case "march", "mar", "березня", "марта" -> 3;
-            case "april", "apr", "квітня", "апреля" -> 4;
-            case "may", "травня", "мая" -> 5;
-            case "june", "jun", "червня", "июня" -> 6;
-            case "july", "jul", "липня", "июля" -> 7;
-            case "august", "aug", "серпня", "августа" -> 8;
-            case "september", "sep", "вересня", "сентября" -> 9;
-            case "october", "oct", "жовтня", "октября" -> 10;
-            case "november", "nov", "листопада", "ноября" -> 11;
-            case "december", "dec", "грудня", "декабря" -> 12;
+            case "january", "jan", "січня", "января", "январь" -> 1;
+            case "february", "feb", "лютого", "февраля", "февраль" -> 2;
+            case "march", "mar", "березня", "марта", "март" -> 3;
+            case "april", "apr", "квітня", "апреля", "апрель" -> 4;
+            case "may", "травня", "мая", "май" -> 5;
+            case "june", "jun", "червня", "июня", "июнь" -> 6;
+            case "july", "jul", "липня", "июля", "июль" -> 7;
+            case "august", "aug", "серпня", "августа", "август" -> 8;
+            case "september", "sep", "вересня", "сентября", "сентябрь" -> 9;
+            case "october", "oct", "жовтня", "октября", "октябрь" -> 10;
+            case "november", "nov", "листопада", "ноября", "ноябрь" -> 11;
+            case "december", "dec", "грудня", "декабря", "декабрь" -> 12;
             default -> LocalDate.now().getMonth().getValue();
         };
     }

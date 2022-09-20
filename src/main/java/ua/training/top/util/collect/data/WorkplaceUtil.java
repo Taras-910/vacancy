@@ -265,4 +265,25 @@ public class WorkplaceUtil {
             default -> "-other"; //foreign
         };
     }
+
+    public static String getZaplata(String workplace) {
+        return  switch (workplace) {
+            case "софия", "софія", "sofia" -> "sofia/";
+            case "пловдив", "пловдів", "plovdiv" -> "plovdiv/";
+            case "бургас", "burgas" -> "burgas/";
+            case "варна", "varna" -> "varna/";
+            case "русе", "rousse" -> "rousse/";
+            case "плевен", "pleven" -> "gr-pleven/";
+            case "шумен", "shumen" -> "shumen/";
+            case "ямполь", "yampol" -> "yampol/";
+            case "добрич", "dobrich" -> "dobrich/";
+            case "банско", "bansko" -> "bansko/";
+            case "силистра", "сілістра", "silistra" -> "silistra/";
+            case "ловеч", "lovech" -> "lovech/";
+            case "смолян", "smolyan" -> "smolyan/";
+            case "благоевград", "blagoevgrad" -> "blagoevgrad/";
+            default -> ""; // Болгарія, foreign, remote, all
+        };
+    }
+
 }

@@ -39,6 +39,7 @@ public class UrlUtil {
                 case rabota -> "&profLevelIDs=2";
                 case jooble -> "&workExp=2";
                 case work -> "+trainee";
+                case zaplata -> "stazhanti-studenti/";
                 default -> "";
             };
             case junior -> switch (site) {
@@ -50,6 +51,7 @@ public class UrlUtil {
                 case rabota -> "&profLevelIDs=3";
                 case jooble -> "&workExp=1";
                 case work -> "+junior";
+                case zaplata -> "stazhanti-studenti/";
                 default -> "";
             };
             case middle -> switch (site) {
@@ -61,6 +63,7 @@ public class UrlUtil {
                 case rabota -> "&profLevelIDs=4";
                 case jooble -> "%20middle";
                 case work -> "+middle";
+                case zaplata -> "sluzhiteli-rabotnitsi/";
                 default -> "";
             };
             case senior -> switch (site) {
@@ -72,6 +75,7 @@ public class UrlUtil {
                 case rabota -> "&profLevelIDs=5";
                 case jooble -> "%20senior";
                 case work -> "+senior";
+                case zaplata -> "eksperti-spetsialisti/";
                 default -> "";
             };
             case expert -> switch (site) {
@@ -83,6 +87,7 @@ public class UrlUtil {
                 case rabota -> "&profLevelIDs=6";
                 case jooble -> "%20expert";
                 case work -> "+expert";
+                case zaplata -> "menidzhmant/";
                 default -> "";
             };
             default -> "";

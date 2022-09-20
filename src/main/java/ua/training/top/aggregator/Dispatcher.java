@@ -20,7 +20,7 @@ public class Dispatcher {
             return new Starter(
                     mapStrategies.get(getKey(4)),
                     mapStrategies.get(getKey(4) + 4),
-                    mapStrategies.get(getKey(2) + 8));
+                    mapStrategies.get(getKey(3) + 8));
         }
         else {
             return new Starter(
@@ -37,7 +37,8 @@ public class Dispatcher {
                     /*new Provider(new RabotaStrategy()),*/   /*мало за_рубежем Украина ??? страница: js-функция */
                     /*new Provider(new UAIndeedStrategy()),*/ /*только Украина // нет salary*/
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
-                    new Provider(new WorkStrategy())          /*нет за_рубежем*/
+                    new Provider(new WorkStrategy()),         /*нет за_рубежем*/
+                    new Provider(new ZaplataStrategy())       /*только болгария*/
             );
         }
     }

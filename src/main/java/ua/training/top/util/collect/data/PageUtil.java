@@ -11,7 +11,7 @@ public class PageUtil {
             case "all" -> switch (site) {
                 case djinni -> 120;
                 case itJob, jabsBG -> 8;
-                case linkedin -> 2;
+                case linkedin, zaplata -> 2;
                 case jobsmarket, jooble -> 10;
                 case indeed_ca -> 3;
                 case nofluff -> 4;
@@ -24,7 +24,7 @@ public class PageUtil {
                 case djinni -> 120;
                 case itJob, jabsBG -> 8;
                 case jobsmarket -> 10;
-                case linkedin -> 2;
+                case linkedin, zaplata -> 2;
                 case indeed_ca -> 1/*3*/;
                 case nofluff -> 4;
                 case work -> 3;
@@ -35,7 +35,7 @@ public class PageUtil {
                 case itJob, jabsBG -> 8;
                 case jooble -> 13;
                 case jobsmarket -> 10;
-                case linkedin -> 3;
+                case linkedin, zaplata -> 3;
                 case indeed, indeed_ca -> 1/*7*/;
                 case nofluff -> 4;
                 case rabota, work -> 9;
@@ -91,7 +91,7 @@ public class PageUtil {
             };
             default -> switch (site) {
                 case djinni -> 5;
-                case linkedin, rabota, jobsmarket -> 2;
+                case linkedin, rabota, jobsmarket, zaplata -> 2;
                 case nofluff -> 7;
                 case jooble -> 3;
                 case indeed, indeed_ca -> 1/*100*/;
