@@ -65,6 +65,10 @@ public class FilterUtil {
             case "wroclaw", "вроцлав" -> wroclawAria;
             case "gdansk", "гданськ", "гданск" -> gdanskAria;
             case "poznan", "познань" -> poznanAria;
+            case "bulgaria", "болгария", "болгарія" -> citiesBg;
+            case "sofia", "софия", "софія" -> sofiaAria;
+            case "varna", "варна" -> varnaAria;
+            case "burgas", "бургас" -> burgasAria;
             case "canada", "канада", "canad", "канад" -> citiesCanada;
             case "vancouver", "ванкувер" -> vancouverAria;
             case "montréal", "монреаль" -> montrealAria;
@@ -86,7 +90,7 @@ public class FilterUtil {
     }
 
     public static List<String> getForeign() {
-        List<String> foreign = new ArrayList<>(citiesWorld);
+        List<String> foreign = new ArrayList<>(countriesOfWorld);
         foreign.addAll(foreignAria);
         return foreign;
     }

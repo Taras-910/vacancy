@@ -10,6 +10,7 @@ public class PageUtil {
         int pages = switch (city) {
             case "all" -> switch (site) {
                 case djinni -> 120;
+                case itJob, jabsBG -> 8;
                 case linkedin -> 2;
                 case jobsmarket, jooble -> 10;
                 case indeed_ca -> 3;
@@ -21,6 +22,7 @@ public class PageUtil {
             };
             case "foreign" -> switch (site) {
                 case djinni -> 120;
+                case itJob, jabsBG -> 8;
                 case jobsmarket -> 10;
                 case linkedin -> 2;
                 case indeed_ca -> 1/*3*/;
@@ -30,6 +32,7 @@ public class PageUtil {
             };
             case "remote" -> switch (site) {
                 case djinni -> 100;
+                case itJob, jabsBG -> 8;
                 case jooble -> 13;
                 case jobsmarket -> 10;
                 case linkedin -> 3;

@@ -56,7 +56,8 @@ public class NofluffjobsStrategy implements Strategy {
     }
 
     public static String getToNofluffjobs(String address) {
-        return address.equals("") ? "Польша" : address;
+        return address.equals("") ? "Польша" :
+                address.indexOf("Zdalna") != -1 ? address.replaceAll("Zdalna", "remote") : address;
     }
 
 }

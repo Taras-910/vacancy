@@ -35,15 +35,19 @@ public class AutoRefreshUtil {
 
     public static final Map<Integer, Provider> mapStrategies =
             Map.ofEntries(
+//                    Map.entry(0, new Provider(new CaIndeedStrategy())),
                     Map.entry(0, new Provider(new DjinniStrategy())),
-                    Map.entry(1, new Provider(new JobsMarketStrategy())),
-                    Map.entry(2, new Provider(new JobsStrategy())),
-                    Map.entry(3, new Provider(new LinkedinStrategy())),
-                    Map.entry(4, new Provider(new NofluffjobsStrategy())),
+                    Map.entry(1, new Provider(new ITJobsStrategy())),
+                    Map.entry(2, new Provider(new JobBankStrategy())),
+                    Map.entry(3, new Provider(new JobsBGStrategy())),
+                    Map.entry(4, new Provider(new JobsMarketStrategy())),
+                    Map.entry(5, new Provider(new JobsStrategy())),
+                    Map.entry(6, new Provider(new LinkedinStrategy())),
+                    Map.entry(7, new Provider(new NofluffjobsStrategy())),
 //                    Map.entry(5, new Provider(new RabotaStrategy())),
 //                    Map.entry(6, new Provider(new UAIndeedStrategy())),
-                    Map.entry(5, new Provider(new UAJoobleStrategy())),
-                    Map.entry(6, new Provider(new WorkStrategy()))
+                    Map.entry(8, new Provider(new UAJoobleStrategy())),
+                    Map.entry(9, new Provider(new WorkStrategy()))
             );
 
     public static final Map<Integer, String>

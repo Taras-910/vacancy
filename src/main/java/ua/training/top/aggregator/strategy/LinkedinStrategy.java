@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
@@ -22,9 +21,6 @@ import static ua.training.top.service.AggregatorService.herokuRestriction;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.PatternUtil.pattern_salaries_linkedin;
-import static ua.training.top.util.collect.data.SalaryUtil.getCurrencyCode;
-import static ua.training.top.util.collect.data.SalaryUtil.getRemovedZeroPart;
 import static ua.training.top.util.collect.data.UrlUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getLinkedin;
 
@@ -42,15 +38,15 @@ public class LinkedinStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        if (workplace.equals("россия")) {
+        if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
-        String[] cityOrCountry = workplace.equals("all") ? new String[]{"украина"} : new String[]{workplace};
-
-        if(herokuRestriction) {
-        cityOrCountry = workplace.equals("foreign") ? getForeign() :
-                workplace.equals("canada") || workplace.equals("канада") ? getCanada() :
-                        workplace.equals("украина") || workplace.equals("all") ? getUA() : new String[]{workplace};
+        String[] cityOrCountry;
+        if(!herokuRestriction) {
+        cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(citiesCanada, workplace) ? getCanada() :
+                        isMatch(ukraineAria, workplace) ? getUA() : new String[]{workplace};
+        } else {
+            cityOrCountry = workplace.equals("all") ? new String[]{"украина"} : new String[]{workplace};
         }
 
         Set<VacancyTo> set = new LinkedHashSet<>();
@@ -89,17 +85,5 @@ public class LinkedinStrategy implements Strategy {
     public static String[] getCanada() {
         return new String[]{"канада", "торонто", "ванкувер", "монреаль", "квебек", "онтарио", "брамптон", "виктория",
                 "оттава", "гамильтон", "виннипег"};
-    }
-
-    public static String getSalaryLinkedin(String title) {
-        String text = getRemovedZeroPart(title).toLowerCase();
-        String code = getCurrencyCode(text);
-        Matcher m = pattern_salaries_linkedin.matcher(text);
-        String result = code;
-        while(m.find()){
-            result = getJoin(result, m.group().replaceAll("[^\\d-k\\s]", "").replaceAll("k","000"));
-        }
-        result = result.indexOf("-") != -1 ? result.replace("-", getJoin(code.equals("₭")?"000000 -":" -", code)) : getJoin(code,result);
-        return getJoin(result, title.indexOf("month") == -1 ? " year" : " month");
     }
 }

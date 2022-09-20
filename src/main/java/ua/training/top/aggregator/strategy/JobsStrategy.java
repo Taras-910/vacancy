@@ -49,7 +49,8 @@ public class JobsStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        String[] cities = workplace.equals("украина") ? getUA() : new String[]{workplace};
+
+        String[] cities = isMatch(citiesUA, workplace) ? getUA() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
         for(String location : cities) {
         Document doc = level.equals("trainee") ? DocumentUtil.getDocument(url_trainee) :

@@ -85,18 +85,19 @@ public class DateToUtil {
 
     public static int getMonth(String month) {
         return switch (month) {
-            case "feb", "лютого", "февраля" -> 2;
-            case "mar", "березня", "марта" -> 3;
-            case "apr", "квітня", "апреля" -> 4;
+            case "january", "jan", "січня", "января" -> 1;
+            case "february", "feb", "лютого", "февраля" -> 2;
+            case "march", "mar", "березня", "марта" -> 3;
+            case "april", "apr", "квітня", "апреля" -> 4;
             case "may", "травня", "мая" -> 5;
-            case "jun", "червня", "июня" -> 6;
-            case "jul", "липня", "июля" -> 7;
-            case "aug", "серпня", "августа" -> 8;
-            case "sep", "вересня", "сентября" -> 9;
-            case "oct", "жовтня", "октября" -> 10;
-            case "nov", "листопада", "ноября" -> 11;
-            case "dec", "грудня", "декабря" -> 12;
-            default -> 1;
+            case "june", "jun", "червня", "июня" -> 6;
+            case "july", "jul", "липня", "июля" -> 7;
+            case "august", "aug", "серпня", "августа" -> 8;
+            case "september", "sep", "вересня", "сентября" -> 9;
+            case "october", "oct", "жовтня", "октября" -> 10;
+            case "november", "nov", "листопада", "ноября" -> 11;
+            case "december", "dec", "грудня", "декабря" -> 12;
+            default -> LocalDate.now().getMonth().getValue();
         };
     }
 }

@@ -18,21 +18,23 @@ public class Dispatcher {
         }
         else if (autoRefreshProviders) {
             return new Starter(
-                    mapStrategies.get(getKey(3)),
-                    mapStrategies.get(getKey(2) + 3),
-                    mapStrategies.get(getKey(2) + 5));
+                    mapStrategies.get(getKey(4)),
+                    mapStrategies.get(getKey(4) + 4),
+                    mapStrategies.get(getKey(2) + 8));
         }
         else {
             return new Starter(
                     /*new Provider(new CaIndeedStrategy()),*/ /*только канада*/
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
+                    new Provider(new ITJobsStrategy()),       /*только канада*/
+                    new Provider(new JobBankStrategy()),      /*только канада - от правительства канады*/
+                    new Provider(new JobsBGStrategy()),       /*только Болгария*/
+
                     new Provider(new JobsMarketStrategy()),   /*только за_рубежем USA!!!*/
                     new Provider(new JobsStrategy()),         /*полезные статьи  */
-
                     new Provider(new LinkedinStrategy()),     /*нет удаленно*/                     // нет salary
                     new Provider(new NofluffjobsStrategy()),  /*только за_рубежем Poland*/
                     /*new Provider(new RabotaStrategy()),*/   /*мало за_рубежем Украина ??? страница: js-функция */
-
                     /*new Provider(new UAIndeedStrategy()),*/ /*только Украина // нет salary*/
                     new Provider(new UAJoobleStrategy()),     /*меняет теги*/
                     new Provider(new WorkStrategy())          /*нет за_рубежем*/

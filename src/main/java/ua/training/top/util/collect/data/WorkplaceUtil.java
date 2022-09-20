@@ -10,24 +10,67 @@ public class WorkplaceUtil {
         return getJoin("?",city.equals("remote") ? "employment=" : "region=",workplace);
     }
 
+    public static String getITJobs(String workplace) {
+        return switch (workplace) {
+            case "all", "canada", "канада", "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном" -> "all";
+            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "remote";
+            case "манитоба", "манітоба", "manitoba" -> "&location=Manitoba&location-id=MB&location-type=2";
+            case "ontario", "онтарио", "онтаріо" -> "&location=Ontario&location-id=ON&location-type=2";
+            case "ottawa", "оттава" -> "&location=Ottawa%2C+ON&location-id=315580&location-type=1";
+            case "альберта", "alberta" -> "&location=Alberta&location-id=AB&location-type=2";
+            case "quebec", "квебек" -> "&location=Quebec%2C+QC&location-id=117253&location-type=1";
+            case "toronto", "торонто" -> "&location=Toronto%2C+ON&location-id=481104&location-type=1";
+            case "montréal", "монреаль" -> "&location=Montreal%2C+QC&location-id=182156&location-type=1";
+            case "vancouver", "ванкувер" -> "&location=Vancouver%2C+BC&location-id=775867&location-type=1";
+            case "calgary", "калгарі", "калгари" -> "&location=Calgary%2C+AB&location-id=647636&location-type=1";
+            case "brampton", "брэмптон", "бремптон" -> "&location=Brampton%2C+ON&location-id=420051&location-type=1";
+            case "edmonton", "едмонтон", "эдмонтон" -> "&location=Edmonton%2C+AB&location-id=673364&location-type=1";
+            case "victoria", "виктория", "вікторія" -> "&location=Victoria%2C+BC&location-id=806417&location-type=1";
+            case "winnipeg", "виннипег", "вінніпег" -> "&location=Winnipeg%2C+MB&location-id=592959&location-type=1";
+            case "hamilton", "гамильтон", "гамільтон" -> "&location=Hamilton%2C+ON&location-id=440913&location-type=1";
+            case "mississauga", "миссиссога", "міссісога" -> "&location=Mississauga%2C+ON&location-id=398125&location-type=1";
+            case "британська колумбія", "британская колумбия", "british columbia" -> "&location=British+Columbia&location-id=BC&location-type=2";
+            default -> "";
+        };
+    }
+
+    public static String getJobsBG(String city){
+        return  switch (city) {
+            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "&is_distance_job=1";
+            case "софия", "софія", "sofia" -> "&location_sid=1";
+            case "пловдив", "пловдів", "plovdiv" -> "&location_sid=2";
+            case "бургас", "burgas" -> "&location_sid=4";
+            case "варна", "varna" -> "&location_sid=3";
+            case "русе", "ruse" -> "&location_sid=19";
+            case "плевен", "pleven" -> "&location_sid=18";
+            case "шумен", "shumen" -> "&location_sid=23";
+            case "ямполь", "yampol" -> "&location_sid=24";
+            case "добрич", "dobrich" -> "&location_sid=11";
+            case "банско", "bansko" -> "&location_sid=47";
+            case "силистра", "сілістра", "silistra" -> "&location_sid=39";
+            case "ловеч", "lovech" -> "&location_sid=14";
+            case "смолян", "smolyan" -> "&location_sid=46";
+            case "благоевград", "blagoevgrad" -> "&location_sid=6";
+            default -> ""; // Болгарія, foreign, all
+        };
+    }
+
     public static String getJobs(String city){
         return  switch (city) {
-            case "remote" -> "remote";
+            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "remote";
             case "київ", "киев", "kyiv", "kiev" -> "Київ";
-            case "дніпро", "днепр" -> "Дніпро";
-            case "харків", "харьков" -> "Харків";
-            case "одеса", "одесса" -> "Одеса";
-            case "львів", "львов" -> "Львів";
-            case "миколаїв", "николаев" -> "Миколаїв";
-            case "вінниця", "винница" -> "Вінниця";
-            case "запоріжжя", "запорожье" -> "Запоріжжя";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
+            case "харків", "харьков", "kharkiv" -> "Харків";
+            case "одеса", "одесса", "odessa" -> "Одеса";
+            case "львів", "львов", "lviv" -> "Львів";
+            case "миколаїв", "николаев", "mykolaiv" -> "Миколаїв";
+            case "вінниця", "винница", "vinnitsia" -> "Вінниця";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Запоріжжя";
             case "черкаси", "черкассы" -> "Черкаси";
-            case "суми", "сумы" -> "Суми";
-            case "чернігів", "чернигов" -> "Чернігів";
+            case "суми", "сумы", "sumi" -> "Суми";
+            case "чернігів", "чернигов", "chernigiv" -> "Чернігів";
             case "івано-франківськ", "ивано-франковск" -> "Івано-Франківськ";
-            case "ужгород" -> "Ужгород";
-            case "санкт-петербург", "москва", "новосибирск", "нижний новгород", "казань", "екатеринбург", "краснодар",
-                    "пермь", "ростов-на-дону", "томск", "самара", "ульяновск", "foreign" -> "relocation";
+            case "ужгород", "uzhgorod" -> "Ужгород";
             default -> "all"; // Украина, all
         };
     }
@@ -72,41 +115,41 @@ public class WorkplaceUtil {
     public static String getLinkedin(String city){
         return switch (city) {
             case "київ", "киев", "kyiv", "kiev" -> "&geoId=104035893";
-            case "дніпро", "днепр" -> "&geoId=103663309";
-            case "одеса", "одесса" -> "&geoId=100182723";
-            case "львів", "львов" -> "&geoId=104983263";
-            case "харьків", "харьков" -> "&geoId=103352426";
-            case "вінниця", "винница" -> "&geoId=106030501";
-            case "ужгород" -> "&location=&geoId=106974374";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "&geoId=103663309";
+            case "одеса", "одесса", "odessa" -> "&geoId=100182723";
+            case "львів", "львов", "lviv" -> "&geoId=104983263";
+            case "харьків", "харьков", "kharkiv" -> "&geoId=103352426";
+            case "вінниця", "винница", "vinnitsia" -> "&geoId=106030501";
+            case "ужгород", "uzhgorod" -> "&location=&geoId=106974374";
             case "івано-франківск", "ивано-франковск" -> "&geoId=";
-            case "полтава" -> "&geoId=102507522";
-            case "запоріжжя", "запорожье" -> "geoId=104184784";
+            case "полтава", "poltava" -> "&geoId=102507522";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "geoId=104184784";
             case "черкаси", "черкассы" -> "&geoId=104320082";
             case "тернопіль", "тернополь" -> "&geoId=101854836";
-            case "чернігів", "ченигов" -> "&geoId=100735342";
-            case "сша" -> "&geoId=103644278";
-            case "ізраїль", "израиль" -> "&geoId=101620260";
-            case "швейцарія", "швейцария" -> "&geoId=100017800";
-            case "франція", "франция" -> "&geoId=105015875";
-            case "італія", "италия" -> "&geoId=103350119";
-            case "сінгапур", "сингапур" -> "&geoId=102454443";
-            case "англія", "англия" -> "&geoId=90009496";
-            case "оаэ", "оае" -> "&geoId=104305776";
+            case "чернігів", "ченигов", "chernigiv" -> "&geoId=100735342";
+            case "сша", "usa", "united states" -> "&geoId=103644278";
+            case "ізраїль", "израиль", "israel" -> "&geoId=101620260";
+            case "швейцарія", "швейцария", "switzerland" -> "&geoId=100017800";
+            case "франція", "франция", "france" -> "&geoId=105015875";
+            case "італія", "италия", "italy" -> "&geoId=103350119";
+            case "сінгапур", "сингапур", "singapore" -> "&geoId=102454443";
+            case "англія", "англия", "england", "uk", "united kingdom" -> "&geoId=90009496";
+            case "оаэ", "оае", "эмираты", "emirates"  -> "&geoId=104305776";
             case "канада", "canada" -> "&geoId=101174742";
             case "торонто","toronto" -> "&geoId=90009551";
-            case "брамптон" -> "&geoId=104669182";
+            case "брамптон", "brampton" -> "&geoId=104669182";
             case "ванкувер","vancouver" -> "&geoId=90009553";
-            case "монреаль", "montreal" -> "&geoId=90009540";
-            case "виктория" -> "&geoId=100346955";
+            case "монреаль", "montreal", "montréal" -> "&geoId=90009540";
+            case "виктория", "вікторія", "victoria" -> "&geoId=100346955";
             case "оттава", "ottawa" -> "&geoId=100346955";
-            case "гамильтон" -> "&geoId=104444106";
+            case "гамильтон", "hamilton" -> "&geoId=104444106";
             case "виннипег", "winnipeg" -> "&geoId=101213860";
-            case "польща", "польша" -> "&geoId=105072130";
-            case "варшава" -> "&geoId=105076658";
-            case "німеччина", "германия" -> "&geoId=101282230";
-            case "чехія", "чехия" -> "&geoId=104508036";
-            case "швеція", "швеция" -> "&geoId=105117694";
-            case "фінляндія", "финляндия" -> "&geoId=100456013";
+            case "польща", "польша", "poland", "pol" -> "&geoId=105072130";
+            case "варшава", "warszawa" -> "&geoId=105076658";
+            case "німеччина", "germany", "германия" -> "&geoId=101282230";
+            case "czechia","чехія", "чехия" -> "&geoId=104508036";
+            case "швеція", "швеция", "sweden" -> "&geoId=105117694";
+            case "фінляндія", "финляндия", "finland" -> "&geoId=100456013";
             case "черногория" -> "&geoId=100733275";
             case "мінськ", "минск" -> "&geoId=105415465";
             default -> "&geoId=102264497"; //Украина
@@ -123,44 +166,45 @@ public class WorkplaceUtil {
             case "poznan", "познань" -> "poznan/";
             case "katowice", "катовіце", "катовице" -> "katowice/";
             case "lodz", "лодзь" -> "lodz/";
-            case "remote" -> "praca-zdalna/";
+            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "praca-zdalna/";
             default -> !isMatch(citiesPL, city) ? "-1" : "";
         };
     }
 
     public static String getRabota(String workplace) {
         return switch (workplace) {
-            case "remote", "all", "украина", "україна", "ukraine" -> "украина";
+            case "remote", "relocate", "удаленно", "віддалено", "all", "украина", "україна", "ukraine" -> "украина";
             case "київ", "киев", "kyiv", "kiev" -> "киев";
-            case "дніпро", "днепр" -> "днепр";
-            case "одеса", "одесса" -> "одесса";
-            case "львів", "львов" -> "львов";
-            case "харьків", "харьков" -> "харьков";
-            case "запоріжжя", "запорожье" -> "запорожье";
-            case "миколаїв", "николаев" -> "николаев";
-            case "чорновці", "черновцы" -> "черновцы";
-            case "чернігів", "чернигов" -> "чернигов";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "днепр";
+            case "одеса", "одесса", "odessa" -> "одесса";
+            case "львів", "львов", "lviv" -> "львов";
+            case "харьків", "харьков", "kharkiv" -> "харьков";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "запорожье";
+            case "миколаїв", "николаев", "mykolaiv" -> "николаев";
+            case "чорновці", "черновцы", "chernivtsi" -> "черновцы";
+            case "чернігів", "чернигов", "chernigiv" -> "чернигов";
             case "вінниця", "винница" -> "винница";
-            default -> !isMatch(citiesUA, workplace) || workplace.equals("foreign") ? "другие_страны" : "украина";
+            default -> !isMatch(citiesUA, workplace) || isMatch(foreignAria, workplace) ? "другие_страны" : "украина";
         };
     }
 
     public static String getIndeed(String workplace) {
         return switch (workplace) {
             case "украина", "україна", "ukraine", "all" -> "&l=Украина";
-            case "remote" -> "&rbl=Удаленно&jlid=f00b7fa4b055cc00";
+            case "remote", "relocate", "удаленно", "віддалено", "віддалена робота" -> "&rbl=Удаленно&jlid=f00b7fa4b055cc00";
             case "київ", "киев", "kyiv", "kiev" -> "&rbl=Киев&jlid=e9ab1a23f8e591f1";
-            case "дніпро", "днепр" -> "&rbl=Днепр,+Днепропетровская+область&jlid=030c410a355d8014";
-            case "одеса", "одесса" -> "&rbl=Одесса&jlid=240fe96bd3c6e402";
-            case "львів", "львов" -> "&rbl=Львов&jlid=6ea57808cf02b292";
-            case "харьків", "харьков" -> "&rbl=Харьков&jlid=6fb70c8a2ab37b1f";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "&rbl=Днепр,+Днепропетровская+область&jlid=030c410a355d8014";
+            case "одеса", "одесса", "odessa" -> "&rbl=Одесса&jlid=240fe96bd3c6e402";
+            case "львів", "львов", "lviv" -> "&rbl=Львов&jlid=6ea57808cf02b292";
+            case "харьків", "харьков", "kharkiv" -> "&rbl=Харьков&jlid=6fb70c8a2ab37b1f";
             default -> "-1";
         };
     }
+
     public static String getCad(String workplace) {
         return switch (workplace) {
             case "canada", "all", "канада" -> "Canada";
-            case "remote" -> "Remote";
+            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "Remote";
             case "toronto", "торонто" -> "Toronto%2C+ON";
             case "calgary", "калгарі", "калгари" -> "Calgary%2C+AB";
             case "ontario", "онтарио", "онтаріо" -> "Ontario";
@@ -169,6 +213,9 @@ public class WorkplaceUtil {
             case "brampton", "брэмптон", "бремптон" -> "Brampton%2C+ON";
             case "ottawa", "оттава" -> "Ottawa%2C+ON";
             case "mississauga", "миссиссога", "міссісога" -> "Mississauga%2C+ON";
+            case "британська колумбія", "британская колумбия", "british columbia" -> "British+Columbia";
+            case "альберта", "alberta" -> "Alberta";
+            case "манитоба", "манітоба", "manitoba" -> "Manitoba";
             default -> "-1";
         };
     }
@@ -177,43 +224,43 @@ public class WorkplaceUtil {
         String city = workplace;
         switch (city) {
             case "київ", "киев", "kyiv", "kiev" -> city = "Київ";
-            case "дніпро", "днепр" -> city = "Дніпро";
-            case "харків", "харьков" -> city = "Харків";
-            case "одеса", "одесса" -> city = "Одеса";
-            case "львів", "львов" -> city = "Львів";
-            case "миколаїв", "николаев" -> city = "Миколаїв";
-            case "вінниця", "винница" -> city = "Вінниця";
-            case "запоріжжя", "запорожье" -> city = "Запоріжжя";
-            case "чорновці", "черновцы" -> city = "Чорновці";
-            case "чернігів", "чернигов" -> city = "Чернігів";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> city = "Дніпро";
+            case "харків", "харьков", "kharkiv" -> city = "Харків";
+            case "одеса", "одесса", "odessa" -> city = "Одеса";
+            case "львів", "львов", "lviv" -> city = "Львів";
+            case "миколаїв", "николаев", "mykolaiv" -> city = "Миколаїв";
+            case "вінниця", "винница", "vinnitsia" -> city = "Вінниця";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> city = "Запоріжжя";
+            case "чорновці", "черновцы", "chernivtsi" -> city = "Чорновці";
+            case "чернігів", "чернигов", "chernigiv" -> city = "Чернігів";
             case "івано-франківськ", "ивано-франковск" -> city = "Івано-Франківськ";
-            case "ужгород" -> city = "Ужгород";
+            case "ужгород", "uzhgorod" -> city = "Ужгород";
             case "мінськ", "минск" -> city = "Мінськ%2C%20Білорусь";
             case "варшава" -> city = "Варшава%2C%20Польща";
             case "краків", "краков" -> city = "Краків%2C%20Польща";
             case "германия", "німеччина", "germany" -> city = "Німеччина";
             case "польша", "польща", "poland" -> city = "Польща";
             case "канада", "canada" -> city = "Канада";
-            case "foreign" -> city = "за%20кордоном";
+            case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном" -> city = "за%20кордоном";
             default -> city = workplace;
         }
-        return workplace.equals("remote") || workplace.equals("all") ? "" : getJoin("&rgns=",city);
+        return isMatch(remoteAria, workplace) || workplace.equals("all") ? "" : getJoin("&rgns=",city);
     }
 
     public static String getWork(String workplace) {
         return switch (workplace) {
-            case "україна", "украина", "all", "remote" -> "";
+            case "україна", "украина", "all", "remote", "relocate", "релокейт", "удаленно", "віддалено" -> "";
             case "київ", "киев", "kiev" -> "-kyiv";
-            case "запоріжжя", "запорожье" -> "-zaporizhzhya";
-            case "миколаїв", "николаев" -> "-mykolaiv";
-            case "чорновці", "черновцы" -> "-chernivtsi";
-            case "чернігів", "чернигов" -> "-chernigiv";
-            case "вінниця", "винница" -> "-vinnitsia";
-            case "харків", "харьков" -> "-kharkiv";
-            case "дніпро", "днепр" -> "-dnipro";
-            case "одеса", "одесса" -> "-odesa";
-            case "львів", "львов" -> "-lviv";
-            case "ужгород" -> "-uzhgorod";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "-zaporizhzhya";
+            case "миколаїв", "николаев", "mykolaiv" -> "-mykolaiv";
+            case "чорновці", "черновцы", "chernivtsi" -> "-chernivtsi";
+            case "чернігів", "чернигов", "chernigiv" -> "-chernigiv";
+            case "вінниця", "винница", "vinnitsia" -> "-vinnitsia";
+            case "харків", "харьков", "kharkiv" -> "-kharkiv";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "-dnipro";
+            case "одеса", "одесса", "odessa" -> "-odesa";
+            case "львів", "львов", "lviv" -> "-lviv";
+            case "ужгород", "uzhgorod" -> "-uzhgorod";
             case "івано-франківськ", "ивано-франковск" -> "-ivano-frankivsk";
             default -> "-other"; //foreign
         };

@@ -1,5 +1,6 @@
 package ua.training.top.util.collect.data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,28 +41,31 @@ public class DataUtil {
             common_number_vacancyTos = "Common number vacancyTos = {}",
             get_vacancy = "GetVacancies workplace={} language={}",
             error_select = "Select error e {}",
-            jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy", jobs = "jobs",
-            djinni = "DjinniStrategy", nofluff = "NofluffjobsStrategy", indeed = "UAIndeedStrategy", jooble = "jooble",
-            linkedin = "linkedin", indeed_ca = "CaIndeedStrategy", jobsmarket = "jobsmarket",
+            jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy",
+            jobs = "jobsStrategy", djinni = "DjinniStrategy", nofluff = "NofluffjobsStrategy", jobBank = "jobBankStrategy",
+            jooble = "joobleStrategy", linkedin = "linkedinStrategy", indeed_ca = "CaIndeedStrategy",
+            jobsmarket = "jobsmarketStrategy", indeed = "UAIndeedStrategy", itJob = "itJobStrategy", jabsBG = "JobsBGStrategy",
             local_date = "releaseDate", age_field = "age", address_field = "address", month = "month", middle = "middle",
             trainee = "trainee", junior = "junior", senior = "senior", expert = "expert";
 
     public static final List<String>
-            usdAria = of("usd", "$"),
+            usdAria = of("usd", "$", "us$"),
             eurAria = of("eur", "€"),
-            plnAria = of("pln", "zł"),
-            czeAria = of("₭", "kč"),
+            plnAria = of("pln", "zł", "₲"),
+            czeAria = of("₭", "kč", "₭č"),
             gbrAria = of("gbp", "£", "₤"),
             kztAria = of("kzt", "тг", "₸"),
-            cadAria = of("cad", "ca$", "c$", "¢"),
+            cadAria = of("cad", "ca$", "c$", "₡"),
             hrnAria = of("hrn", "uah", "грн", "₴"),
             rubAria = of("rub", "rur", "руб", "₽"),
-            bynAria = of("бел. руб", "бел руб", "br", "byn", "byr", "฿"),
-            allSalaries = of("грн", "uah", "hrn", "₴", "$", "usd", "eur", "€", "pln", "zł", "gbp", "£", "₤", "бел. руб",
-                    "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$", "c$", "¢","₭","kč"),
-            yearAria = of("год", "рік", "year"),
+            bynAria = of("бел. руб", "бел руб", "br", "byn", "byr", "₱"),
+            bgnAria = of("bgn", "bg", "lev", "лев", "₾"),
+            allSalaries = of("грн", "uah", "hrn", "₴", "$", "usd", "eur", "€", "pln", "zł", "₲", "gbp", "£", "₤", "₱",
+                    "бел. руб", "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$", "c$", "₡","₭","kč",
+                    "bgn", "bg", "lev", "лев", "₾"),
+            yearAria = of("год", "рік", "year", "annually"),
             dayAria = of("день", "day"),
-            hourAria = of("час", "годину", "hour"),
+            hourAria = of("час", "годину", "hour", "hourly", "/h"),
             wasteSalary = of(" ", " ", "&nbsp;", "[.]{2,}", "(\\p{Sc}|ƒ)", "\\s+", "[^\\d*]"),
             traineeAria = of("intern", "trainee", "интерн", "internship", "стажировка", "стажер", "стажист"),
             juniorAria = of("junior", "младший", "без опыта", "обучение"),
@@ -87,6 +91,9 @@ public class DataUtil {
             warszawaAria = of("варшава", "warszawa"),
             wroclawAria = of("wroclaw", "вроцлав"),
             poznanAria = of("poznan", "познань"),
+            sofiaAria = of("sofia", "софия", "софія"),
+            varnaAria = of("varna", "варна"),
+            burgasAria = of("burgas", "бургас"),
             minskAria = of("минск", "minsk", "мінськ"),
             berlinAria = of("берлин", "berlin", "берлін"),
             germanyAria = of("germany", "германия", "німеччина"),
@@ -103,7 +110,8 @@ public class DataUtil {
             hamiltonAria = of("hamilton", "гамильтон"),
             winnipegAria = of("winnipeg", "виннипег"),
             foreignAria = of("другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном"),
-            remoteAria = of("remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота"),
+            remoteAria = of("remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота",
+                    "дистанционна работа"),
             citiesUA = of("ukraine", "ua", "украина", "україна", "kyiv", "kiev", "київ", "киев", "дніпро", "днепр",
                     "dnipro", "харків", "харьков", "kharkiv", "львів", "львов", "lviv", "mykolaiv", "одесса", "odesa",
                     "одеса", "винница", "vinnitsia", "вінниця", "запоріжжя", "запорожье", "zaporizhzhya", "chernivtsi",
@@ -119,18 +127,25 @@ public class DataUtil {
                     "katowice", "катовіце", "катовице", "lodz", "лодзь", "gdynia"),
             citiesDe = of("берлін", "берлин", "berlin", "мангейм", "mannheim", "гамбург", "hamburg", "ганновер", "hanover",
                     "дюссельдорф", "dusseldorf", "мюнхен", "munich", "франкфурт", "frankfurt"),
-            citiesCanada = of("canadа", "канада", "canad", "канад", "торонто", "toronto", "vancouver", "ванкувер",
-                    "montréal", "монреаль", "quebec", "квебек", "mississauga", "ontario", "онтарио", "british columbia",
-                    "alberta", "брамптон", "brampton", "оттава", "оттава", "victoria", "виктория", "hamilton",
-                    "гамильтон", "winnipeg", "виннипег"),
-            citiesWorld = of("foreign", "ізраїль", "израиль", "israel", "швейцарія", "швейцария", "switzerland", "france",
-                    "франція", "франция", "italy", "італія", "италия", "турція", "турция", "turkey", "англія", "англия",
-                    "england", "uk", "united kingdom", "канада","canada", "польща", "польша", "poland", "pol", "czechia",
-                    "чехія", "чехия", "швеція", "швеция", "sweden", "фінляндія", "финляндия", "finland", "норвегія",
-                    "норвегия", "norway", "сінгапур", "singapore", "німеччина", "germany", "германия", "эмираты", "оаэ",
-                    "emirates", "австралія", "австралия", "australia", "філіпіни", "филипины", "philippines", "естонія",
-                    "эстония", "estonia", "netherlands", "голландия", "нідерланди", "білорусь", "беларусь", "киргизстан",
-                    "казахстан", "узбекистан", "молдова", "іран", "иран", "iran", "азербайджан", "армения"),
+            citiesBg = of("софия", "софія", "sofia",  "варна", "varna", "пловдив", "пловдів", "plovdiv", "бургас",
+                    "burgas", "русе", "ruse", "плевен", "pleven", "шумен", "shumen", "ямполь", "yampol", "добрич",
+                    "dobrich", "банско", "bansko", "силистра", "сілістра", "silistra", "ловеч", "lovech", "смолян",
+                    "smolyan", "благоевград", "bulgaria", "болгария", "blagoevgrad"),
+            citiesCanada = of("canadа", "канада", "canad", "канад", "toronto", "торонто", "calgary", "калгарі", "калгари",
+                    "ontario", "онтарио", "онтаріо", "edmonton", "едмонтон", "эдмонтон", "vancouver", "ванкувер",
+                    "brampton", "брэмптон", "бремптон", "ottawa", "оттава", "mississauga", "миссиссога", "міссісога",
+                    "британська колумбія", "британская колумбия", "british columbia", "альберта", "alberta", "манитоба",
+                    "манітоба", "manitoba", "montréal", "montreal", "монреаль", "quebec", "квебек", "hamilton",
+                    "гамильтон", "гамільтон","victoria", "виктория", "вікторія", "winnipeg", "виннипег", "вінніпег"),
+            countriesOfWorld = of("foreign", "ізраїль", "израиль", "israel", "швейцарія", "швейцария", "switzerland",
+                    "france", "франція", "франция", "italy", "італія", "италия", "турція", "турция", "turkey", "англія",
+                    "англия", "england", "uk", "united kingdom", "канада","canada", "польща", "польша", "poland", "pol",
+                    "czechia", "чехія", "чехия", "швеція", "швеция", "sweden", "фінляндія", "финляндия", "finland",
+                    "норвегія", "норвегия", "norway", "сінгапур", "singapore", "німеччина", "germany", "германия", "оаэ",
+                    "эмираты", "emirates", "австралія", "австралия", "australia", "філіпіни", "филипины", "philippines",
+                    "естонія", "эстония", "estonia", "netherlands", "голландия", "нідерланди", "білорусь", "беларусь",
+                    "киргизстан", "казахстан", "узбекистан", "молдова", "іран", "иран", "iran", "азербайджан", "армения",
+                    "болгария", "bulgaria"),
             monthsOfYearAria = of("січня", "января", "лютого", "февраля", "березня", "марта", "квітня", "апреля",
                     "травня", "мая", "червня", "июня", "липня", "июля", "серпня", "августа", "вересня", "сентября",
                     "жовтня", "октября", "листопада", "ноября", "грудня", "декабря", "jan", "feb", "mar", "apr", "may",
@@ -142,6 +157,13 @@ public class DataUtil {
 
     public static boolean isMatch(List<String> area, String text) {
         return area.stream().anyMatch(a -> text.toLowerCase().indexOf(a) != -1);
+    }
+
+    public static boolean isMatch(List<String> list1, List<String> list2, List<String> list3, String text) {
+        List<String> list = new ArrayList(list1);
+        list.addAll(list2);
+        list.addAll(list3);
+        return isMatch(list, text);
     }
 
     public static boolean isEmpty(String text) {
@@ -156,9 +178,9 @@ public class DataUtil {
         return !isEmpty(text) && text.length() > 1 ? getJoin(text.substring(0, 1).toUpperCase(),text.substring(1)) : link;
     }
 
-    public static String getReplace(String text, List<String> wasteWords, String replacement) {
-        for (String s : wasteWords) {
-            text = text.replaceAll(s, replacement).trim();
+    public static String getReplace(String text, List<String> words, String replacement) {
+        for (String w : words) {
+            text = text.replaceAll(w, replacement).trim();
         }
         return text;
     }

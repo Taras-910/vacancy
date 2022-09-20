@@ -25,9 +25,10 @@ public class SalaryUtil {
             rate_kzt_to_usd = 472.31f,
             rate_cad_to_usd = 1.31f,
             rate_cze_to_usd = 24.1f,
+            rate_bgn_to_usd = 1.96f,
             usd_one_to_one = 1.0f;
 
-     public static Integer[] getToSalaries(String originText) {
+     public static Integer[] getToSalaries(String originText) {            //₵ ₮
          originText = getRemovedZeroPart(originText).toLowerCase();
          if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
             return new Integer[]{1, 1};
@@ -63,14 +64,13 @@ public class SalaryUtil {
         while (mt.find()) {
             parts.add(mt.group());
         }
-        List<String>
-                amounts = parts.stream()
+        List<String> amounts = parts.stream()
                 .filter(p -> p.contains(code))
                 .map(m -> getReplace(m, wasteSalary, ""))
                 .collect(Collectors.toList()),
                 monetaryAmounts = new ArrayList<>();
         amounts.forEach(s -> {
-            if (pattern_is_contain_number.matcher(s).find()) {
+            if (pattern_is_number_greater_300.matcher(s).find()) {
                 monetaryAmounts.add(s);
             }
         });
@@ -89,24 +89,25 @@ public class SalaryUtil {
 
     public static String getCurrencyCode(String text) {
         return isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ? "₴" : isMatch(eurAria, text) ?
-                "€" : isMatch(bynAria, text) ? "฿" : isMatch(rubAria, text) ? "₽" : isMatch(plnAria, text) ?
-                "₧" : isMatch(gbrAria, text) ? "£" : isMatch(kztAria, text) ? "₸" : isMatch(cadAria, text) ?
-                "¢" : isMatch(czeAria, text) ? "₭" : "";
+                "€" : isMatch(bynAria, text) ? "₱" : isMatch(rubAria, text) ? "₽" : isMatch(plnAria, text) ?
+                "₲" : isMatch(gbrAria, text) ? "₤" : isMatch(kztAria, text) ? "₸" : isMatch(cadAria, text) ?
+                "₡" : isMatch(czeAria, text) ? "₭" : isMatch(bgnAria, text) ? "₾" : "";
     }
 
-    public static String getReplacementText(String text, String currencyCode) {
-        text = text.replaceAll(monetary_amount_regex, currencyCode.equals("$") ? "\\$" : currencyCode);
-        return switch (currencyCode) {
+    public static String getReplacementText(String text, String code) {
+        text = text.replaceAll(monetary_amount_regex, code.equals("$") ? "\\$" : code.equals("kč") ? "₭" : code);
+        return switch (code) {
             case "$" -> getReplace(text, usdAria, "\\$");
             case "₴" -> getReplace(text, hrnAria, "₴");
             case "€" -> getReplace(text, eurAria, "€");
             case "₽" -> getReplace(text, rubAria, "₽");
-            case "£" -> getReplace(text, gbrAria, "£");
-            case "₧" -> getReplace(text, plnAria, "₧");
+            case "₤" -> getReplace(text, gbrAria, "₤");
+            case "₲" -> getReplace(text, plnAria, "₲");
             case "₸" -> getReplace(text, kztAria, "₸");
-            case "¢" -> getReplace(text, cadAria, "¢");
-            case "฿" -> getReplace(text, bynAria, "฿");
+            case "₡" -> getReplace(text, cadAria, "₡");
+            case "₱" -> getReplace(text, bynAria, "₱");
             case "₭" -> getReplace(text, czeAria, "₭");
+            case "₾" -> getReplace(text, bgnAria, "₾");
             default -> text;
         };
     }
@@ -114,13 +115,14 @@ public class SalaryUtil {
     public static Float getRate(String currencyCode) {
         return switch (currencyCode) {
             case "₴" -> rate_hrn_to_usd;
-            case "₧" -> rate_pln_to_usd;
+            case "₲" -> rate_pln_to_usd;
             case "€" -> rate_eur_to_usd;
-            case "£" -> rate_gbp_to_usd;
+            case "₤" -> rate_gbp_to_usd;
             case "₽" -> rate_rub_to_usd;
             case "₸" -> rate_kzt_to_usd;
-            case "¢" -> rate_cad_to_usd;
-            case "฿" -> rate_byn_to_usd;
+            case "₡" -> rate_cad_to_usd;
+            case "₱" -> rate_byn_to_usd;
+            case "₾" -> rate_bgn_to_usd;
             case "₭" -> rate_cze_to_usd;
             default -> usd_one_to_one;
         };
@@ -137,4 +139,20 @@ public class SalaryUtil {
         }
         return text;
      }
+
+    public static String getSalaryFromTitle(String title) {
+        String text = getRemovedZeroPart(title).toLowerCase();
+        String code = getCurrencyCode(text);
+        String result = code;
+        text = getReplacementText(text, code);
+        Matcher m = pattern_salaries_from_title.matcher(text);
+        while(m.find()){
+            result = getJoin(result, m.group().replaceAll("[^\\d-k\\s]", "")
+                    .replaceAll("k","000"));
+        }
+        result = result.indexOf("-") != -1 ?
+                result.replace("-", getJoin(code.equals("₭")?"000000 -":" -", code)) : getJoin(code,result);
+        return getJoin(result, title.indexOf("month") == -1 ? " year" : " month");
+    }
+
 }

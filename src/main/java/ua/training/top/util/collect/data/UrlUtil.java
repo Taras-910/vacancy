@@ -13,6 +13,7 @@ public class UrlUtil {
             case jooble -> "https://ua.jooble.org/desc/";
             case rabota -> "https://rabota.ua";
             case work -> "https://www.work.ua";
+            case jobBank -> "https://www.jobbank.gc.ca";
             default -> "";
         };
         return getJoin(prefix,url);
@@ -21,7 +22,7 @@ public class UrlUtil {
     public static String getPage(String siteName, String page) {
         return switch (siteName) {
             case jobcareer, rabota -> page.equals("1") ? "" : getJoin("page=",page);
-            case djinni, work -> page.equals("1") ? "" : getJoin("&page=",page);
+            case djinni, work, itJob -> page.equals("1") ? "" : getJoin("&page=",page);
             case indeed, indeed_ca -> page.equals("0") ? "" : getJoin("&start=",page,"0");
             case jooble -> page.equals("1") ? "" : getJoin("&p=",page);
             default -> page;
