@@ -140,7 +140,7 @@ public class SalaryUtil {
         return text;
      }
 
-    public static String getSalaryFromTitle(String title) {
+    public static String getSalaryFromText(String title) {
         String text = getRemovedZeroPart(title).toLowerCase();
         String code = getCurrencyCode(text);
         String result = code;

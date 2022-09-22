@@ -4,8 +4,8 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class UrlUtil {
 
-    public static String getToUrl(String text, String url){
-        String prefix = switch (text) {
+    public static String getToUrl(String site, String url){
+        String prefix = switch (site) {
             case djinni -> "https://djinni.co";
             case nofluff -> "https://nofluffjobs.com";
             case indeed -> "https://ua.indeed.com/viewjob?jk=";
@@ -14,6 +14,7 @@ public class UrlUtil {
             case rabota -> "https://rabota.ua";
             case work -> "https://www.work.ua";
             case jobBank -> "https://www.jobbank.gc.ca";
+            case itJobsWatch -> "https://www.itjobswatch.co.uk/";
             default -> "";
         };
         return getJoin(prefix,url);
@@ -25,6 +26,7 @@ public class UrlUtil {
             case djinni, work, itJob -> page.equals("1") ? "" : getJoin("&page=",page);
             case indeed, indeed_ca -> page.equals("0") ? "" : getJoin("&start=",page,"0");
             case jooble -> page.equals("1") ? "" : getJoin("&p=",page);
+            case itJobsWatch -> page.equals("0") ? "" : page;
             default -> page;
         };
     }

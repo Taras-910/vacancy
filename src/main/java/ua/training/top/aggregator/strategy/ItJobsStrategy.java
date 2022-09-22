@@ -23,8 +23,8 @@ import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.UrlUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getITJobs;
 
-public class ITJobsStrategy implements Strategy {
-    private final static Logger log = LoggerFactory.getLogger(ITJobsStrategy.class);
+public class ItJobsStrategy implements Strategy {
+    private final static Logger log = LoggerFactory.getLogger(ItJobsStrategy.class);
     private final static String url = "https://www.itjobs.ca/en/search-jobs/?search=1%s%s%s%s%s";
 //https://www.itjobs.ca/en/search-jobs/?search=1&categories=155%2C168&keywords=java+middle&location=Toronto%2C+ON&location-id=481104&location-type=1&page=2
 
@@ -54,7 +54,7 @@ public class ITJobsStrategy implements Strategy {
             if (page < getMaxPages(itJob, freshen.getWorkplace())) page++;
             else break;
         }
-        reCall(set.size(), new ITJobsStrategy());
+        reCall(set.size(), new ItJobsStrategy());
         return new ArrayList<>(set);
     }
 }

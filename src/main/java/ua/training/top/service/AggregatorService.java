@@ -124,14 +124,21 @@ public class AggregatorService {
     public static void main(String[] args) {
         setTestAuthorizedUser(asAdmin());
 
-
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                asNewFreshen("java", "all", "varna", UPGRADE));
+                asNewFreshen("all", "all", "london", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
+/*
+        String salaryString = "London - Lynx Recruitment Ltd Salary: GBP 45,000 - 55,000 Annual Posted: 2 hours ago";
+//        String titleString = "1st Executive Limited Salary: $60,000 Posted: 1 hour ago";
+        System.out.println(Arrays.toString(getToSalaries(salaryString)));
+        System.out.println(Arrays.toString(getToSalaries(getSalaryFromText(salaryString))));
+*/
     }
+
+
 }
 //dateString     =yesterday
 //date           =2022-09-08

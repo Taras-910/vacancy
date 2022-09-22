@@ -18,15 +18,16 @@ public class Dispatcher {
         }
         else if (autoRefreshProviders) {
             return new Starter(
-                    mapStrategies.get(getKey(4)),
-                    mapStrategies.get(getKey(4) + 4),
-                    mapStrategies.get(getKey(3) + 8));
+                    mapStrategies.get(getKey(4)),     //0...3
+                    mapStrategies.get(getKey(4) + 4), //4...7
+                    mapStrategies.get(getKey(4) + 8));//8...11
         }
         else {
             return new Starter(
                     /*new Provider(new CaIndeedStrategy()),*/ /*только канада*/
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
-                    new Provider(new ITJobsStrategy()),       /*только канада*/
+                    new Provider(new ItJobsStrategy()),       /*только канада*/
+                    new Provider(new ItJobsWatchStrategy()),  /*только uk*/
                     new Provider(new JobBankStrategy()),      /*только канада - от правительства канады*/
                     new Provider(new JobsBGStrategy()),       /*только Болгария*/
 

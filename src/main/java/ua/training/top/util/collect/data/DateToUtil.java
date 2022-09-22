@@ -66,8 +66,8 @@ public class DateToUtil {
         return isMatch(monthsOfYearAria, name) ? LocalDate.of(now().getYear(), getMonth(name), number) :
                 switch (name) {
                     case "nowa", "сейчас", "минуту", "минуты", "минут" -> LocalDateTime.now().minusMinutes(number).toLocalDate();
-                    case "годину", "години", "годин", "час", "часа", "часов" -> LocalDateTime.now().minusHours(number).toLocalDate();
-                    case "день", "дня", "дней", "днів", "дні", "сьогодні", "сегодня" -> now().minusDays(number);
+                    case "годину", "години", "годин", "час", "часа", "часов", "hours", "hour" -> LocalDateTime.now().minusHours(number).toLocalDate();
+                    case "день", "дня", "дней", "day", "days", "today", "днів", "дні", "сьогодні", "сегодня" -> now().minusDays(number);
                     case "неделя", "недели", "неделю" -> now().minusWeeks(number);
                     case "месяц", "месяца" -> now().minusMonths(number);
                     default -> defaultDate;
@@ -77,7 +77,7 @@ public class DateToUtil {
     static String formatToNumAndWord(String originText) {
         return originText.replaceAll("nowa", "0 минут").replaceAll("сейчас", "0 минут")
                 .replaceAll("только что", "0 минут")
-                .replaceAll("сьогодні", "0 сьогодні").replaceAll("сьогодні", "0 сьогодні")
+                .replaceAll("сьогодні", "0 сьогодні").replaceAll("сегодня", "0 сьогодні")
                 .replaceAll("today", "0 сегодня").replaceAll("yesterday", "1 сьогодні")
                 .replaceAll("вчора", "1 сьогодні")
                 .replaceAll("вчера", "1 день");

@@ -37,7 +37,7 @@ public class AutoRefreshService {
         aggregatorService.refreshDB(new Freshen(randomFreshen(
                 mapLanguage.get(getKey(2)),
                 mapWorkplace.get(getKey(8)),
-                mapLevel.get(getKey(4)))));
+                mapLevel.get(getKey(3)))));
         offAutoRefreshProviders();
     }
 
@@ -51,7 +51,7 @@ public class AutoRefreshService {
         aggregatorService.refreshDB(new Freshen(randomFreshen(
                 mapLanguage.get(getKey(2)),
                 mapWorkplace.get(getKey(8)),
-                mapLevel.get(getKey(4)))));
+                mapLevel.get(getKey(6)))));
         offAutoRefreshProviders();
     }
 

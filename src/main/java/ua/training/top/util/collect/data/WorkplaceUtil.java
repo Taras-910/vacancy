@@ -34,24 +34,53 @@ public class WorkplaceUtil {
         };
     }
 
-    public static String getJobsBG(String city){
+    public static String getJobsBG(String workplace) {
+        return  switch (workplace) {
+            case "софия", "софія", "sofia" -> "sofia/";
+            case "пловдив", "пловдів", "plovdiv" -> "plovdiv/";
+            case "бургас", "burgas" -> "burgas/";
+            case "варна", "varna" -> "varna/";
+            case "русе", "rousse" -> "rousse/";
+            case "плевен", "pleven" -> "gr-pleven/";
+            case "шумен", "shumen" -> "shumen/";
+            case "ямполь", "yampol" -> "yampol/";
+            case "добрич", "dobrich" -> "dobrich/";
+            case "банско", "bansko" -> "bansko/";
+            case "силистра", "сілістра", "silistra" -> "silistra/";
+            case "ловеч", "lovech" -> "lovech/";
+            case "смолян", "smolyan" -> "smolyan/";
+            case "благоевград", "blagoevgrad" -> "blagoevgrad/";
+            default -> ""; // Болгарія, foreign, remote, all
+        };
+    }
+
+    public static String getItJobsWatch(String city){
         return  switch (city) {
-            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "&is_distance_job=1";
-            case "софия", "софія", "sofia" -> "&location_sid=1";
-            case "пловдив", "пловдів", "plovdiv" -> "&location_sid=2";
-            case "бургас", "burgas" -> "&location_sid=4";
-            case "варна", "varna" -> "&location_sid=3";
-            case "русе", "ruse" -> "&location_sid=19";
-            case "плевен", "pleven" -> "&location_sid=18";
-            case "шумен", "shumen" -> "&location_sid=23";
-            case "ямполь", "yampol" -> "&location_sid=24";
-            case "добрич", "dobrich" -> "&location_sid=11";
-            case "банско", "bansko" -> "&location_sid=47";
-            case "силистра", "сілістра", "silistra" -> "&location_sid=39";
-            case "ловеч", "lovech" -> "&location_sid=14";
-            case "смолян", "smolyan" -> "&location_sid=46";
-            case "благоевград", "blagoevgrad" -> "&location_sid=6";
-            default -> ""; // Болгарія, foreign, all
+            case "london", "лондон" -> "London";
+            case "st james", "cент джеймс" -> "St James";
+            case "moorgate", "мургейт" -> "Moorgate";
+            case "shoreditch", "шордітч", "шордитч" -> "Shoreditch";
+            case "soho", "сохо" -> "Soho";
+            case "southwark", "саутворк" -> "Southwark";
+            case "aldersgate", "олдерсгейт" -> "Aldersgate";
+            case "lee bank","лі бенк", "ли бенк" -> "Lee Bank";
+            case "westminster", "вестмінстер", "вестминстер" -> "Westminster";
+            case "milton", "мілтон", "милтон" -> "Milton";
+            case "clerkenwell", "клеркенвелл" -> "Clerkenwell";
+            case "bristol", "брістоль", "бристоль" -> "Bristol";
+            case "leeds", "лідс","лидс" -> "Leeds";
+            case "birmingham","бірмінгем", "бирмингем" -> "Birmingham";
+            case "glasgow","глазго" -> "Glasgow";
+            case "manchester", "манчестер" -> "Manchester";
+            case "avon", "ейвон" -> "Avon";
+            case "yorkshire", "йоркшир" -> "Yorkshire";
+            case "cambridgeshire", "кембріджшир", "кембриджшир" -> "Cambridgeshire";
+            case "lanarkshire", "ланаркшир" -> "Lanarkshire";
+            case "hampshire", "гемпшир" -> "Hampshire";
+            case "berkshire", "беркшир" -> "Berkshire";
+            case "nottinghamshire", "ноттінгемшир", "ноттингемшир" -> "Nottinghamshire";
+            case "scotland", "шотландія", "шотландия" -> "Scotland";
+            default -> "all"; // Англия, foreign, all
         };
     }
 
@@ -286,4 +315,43 @@ public class WorkplaceUtil {
         };
     }
 
+
+
+//"Moorgate",
+//"Shoreditch",
+//"Soho",
+//"Southwark",
+//"Aldersgate",
+//"Lee Bank",
+//"Westminster",
+//"Milton",
+//"Clerkenwell",
+//"City of London",
+//"Central London",
+//"West End",
+//"Bristol",
+//"South West London"
+//"Leeds"
+//"Manchester"
+//"Birmingham"
+//"East London"
+//"Glasgow"
+//"London"
+//"Greater Manchester"
+//"Avon"
+//"West Midlands"
+//"West Yorkshire"
+//"Cambridgeshire"
+//"Lanarkshire"
+//"Hampshire"
+//"Berkshire"
+//"Nottinghamshire"
+//"South East"
+//"South West"
+//"Midlands"
+//"North West"
+//"Yorkshire"
+//"Scotland"
+//"East Anglia"
+//"East Midlands"
 }

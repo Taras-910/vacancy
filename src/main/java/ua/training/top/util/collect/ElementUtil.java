@@ -21,7 +21,7 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
 import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_is_money_value;
-import static ua.training.top.util.collect.data.SalaryUtil.getSalaryFromTitle;
+import static ua.training.top.util.collect.data.SalaryUtil.getSalaryFromText;
 import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
 import static ua.training.top.util.collect.data.ToUtil.isToValid;
 import static ua.training.top.util.collect.data.UrlUtil.getToUrl;
@@ -98,7 +98,7 @@ public class ElementUtil {
                     String skills, title = getToTitle(xssClear(element.getElementsByClass("offer-name").first().text()));
                     skills = xssClear(element.getElementsByClass("offer-description").text());
                     title = skills.indexOf(" ") != -1 ? title.substring(0, title.indexOf(skills.split(" ")[0])) : title;
-                    Integer[] salaries = pattern_is_money_value.matcher(title).find() ? getToSalaries(getSalaryFromTitle(title)) : new Integer[]{1,1};
+                    Integer[] salaries = pattern_is_money_value.matcher(title).find() ? getToSalaries(getSalaryFromText(title)) : new Integer[]{1,1};
                     if (true) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
@@ -107,6 +107,38 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
+                        v.setSkills(getToSkills(skills));
+                        v.setReleaseDate(localDate);
+                        list.add(v);
+                    }
+                } catch (Exception e) {
+                    log.error(error, e.getLocalizedMessage(), element);
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<VacancyTo> getVacanciesITJobsWatch(Elements elements, Freshen freshen) {
+        List<VacancyTo> list = new ArrayList();
+        int i = 1;
+        for (Element element : elements) {
+            LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").text()));
+            if (localDate.isAfter(reasonDateLoading)) {
+                try {
+                    String address, salary, skills, title = getToTitle(xssClear(element.getElementsByClass("jobTitle").first().text()));
+                    skills = xssClear(element.getElementsByClass("jobDescription").text());
+                    salary = xssClear(element.getElementsByClass("jobDetails").tagName("span").text());
+                    Integer[] salaries = getToSalaries(salary);
+                    address = salary.indexOf("-") != -1 ? salary.split("-")[0] : salary;
+                    if (true) {
+                        VacancyTo v = new VacancyTo();
+                        v.setTitle(getLinkIfEmpty(title));
+                        v.setEmployerName(getToName(xssClear(element.getElementsByClass("company").text())));
+                        v.setAddress(address);
+                        v.setSalaryMin(salaries[0]);
+                        v.setSalaryMax(salaries[1]);
+                        v.setUrl(getToUrl(itJobsWatch, xssClear(element.getElementsByTag("a").attr("href"))));
                         v.setSkills(getToSkills(skills));
                         v.setReleaseDate(localDate);
                         list.add(v);
@@ -249,8 +281,8 @@ public class ElementUtil {
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("base-search-card__subtitle").tagName("a").text())));
                         v.setAddress(getToLinkedin(xssClear(element.getElementsByClass("job-search-card__location").text())));
-                        v.setSalaryMin(pattern_is_money_value.matcher(title).find() ? getToSalaries(getSalaryFromTitle(title))[0] : 1);
-                        v.setSalaryMax(pattern_is_money_value.matcher(title).find() ? getToSalaries(getSalaryFromTitle(title))[1] : 1);
+                        v.setSalaryMin(pattern_is_money_value.matcher(title).find() ? getToSalaries(getSalaryFromText(title))[0] : 1);
+                        v.setSalaryMax(pattern_is_money_value.matcher(title).find() ? getToSalaries(getSalaryFromText(title))[1] : 1);
                         v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href")));
                         v.setSkills(link);
                         v.setReleaseDate(localDate);
@@ -691,6 +723,31 @@ public class ElementUtil {
                         System.out.println("url            =" + v.getUrl());
 
                         System.out.println("skillsString  =" + xssClear(element.getElementsByAttribute("alt").eachAttr("alt").toString()));
+                        System.out.println("skills         =" + v.getSkills());
+
+*/
+/*    itJobsWatch
+                        System.out.println(i++ + "-".repeat(150));
+
+                        System.out.println("dateString    =" + xssClear(element.getElementsByTag("time").text()));
+                        System.out.println("date           =" + v.getReleaseDate());
+                        System.out.println("titleString    =" + xssClear(element.getElementsByClass("jobTitle").first().text()));
+                        System.out.println("title          =" + v.getTitle());
+
+                        System.out.println("emploNameString=" + xssClear(element.getElementsByClass("company").text()));
+                        System.out.println("employerName   =" + v.getEmployerName());
+
+                        System.out.println("addressString  =" + xssClear(element.getElementsByClass("jobDetails").tagName("span").text().split("-")[0]));
+                        System.out.println("address        =" + v.getAddress());
+
+                        System.out.println("salaryString   =" + xssClear(element.getElementsByClass("jobDetails").tagName("span").text()));
+                        System.out.println("salaryMin      =" + v.getSalaryMin());
+                        System.out.println("salaryMan      =" + v.getSalaryMax());
+
+                        System.out.println("urlString      =" + xssClear(element.getElementsByTag("a").attr("href")));
+                        System.out.println("url            =" + v.getUrl());
+
+                        System.out.println("skillsString  =" + xssClear(element.getElementsByClass("jobDescription").toString()));
                         System.out.println("skills         =" + v.getSkills());
 
 */
