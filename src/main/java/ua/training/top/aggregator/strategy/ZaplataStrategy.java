@@ -19,10 +19,10 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesZaplata;
 import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.UrlUtil.getLevel;
-import static ua.training.top.util.collect.data.UrlUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getZaplata;
+import static ua.training.top.util.collect.data.PageUtil.getPage;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getBG_en;
 
 public class ZaplataStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(ZaplataStrategy.class);
@@ -30,16 +30,10 @@ public class ZaplataStrategy implements Strategy {
             part_url = "200%3B10000",
             url = "https://www.zaplata.bg/ru/software/%s%sfirma-organizacia/?q=%s&price=%s%s";
 //https://www.zaplata.bg/ru/software/sofia/stazhanti-studenti/firma-organizacia/?q=java&price=200%3B10000&page=2
-//https://www.zaplata.bg/ru/software/%s%sfirma-organizacia/?q=%s&price=%s%s
-//
-//workplace (  удаленно foreign all ? “”  :   workplace/)
-//level (all ? “” :  trainee || junior ? stazhanti-studenti/ : middle ?  sluzhiteli-rabotnitsi/ : senior ? eksperti-spetsialisti/  expert ?  menidzhmant/ )
-//language (all ? java :  language)
-//part(    200%3B10000   )
-// page (1: “”  2:  &page= + page)
 
     protected Document getDocument(String workplace, String level, String language, String page) {
-        return DocumentUtil.getDocument(format(url, getZaplata(workplace), getLevel(zaplata, level),
+        String city = isMatch(citiesBg, workplace) ? getBG_en(workplace) : "";
+        return DocumentUtil.getDocument(format(url, workplace.equals("all") ? "" : city, getLevel(zaplata, level),
                 language.equals("all") ? "java" : language, part_url, getPage(zaplata, page)));
     }
 
@@ -47,8 +41,9 @@ public class ZaplataStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = isMatch(citiesBg, remoteAria, foreignAria, workplace) || workplace.equals("all") ? workplace : "-1";
-        if (workplace.equals("-1")) {
+        workplace = isMatch(bgAria, remoteAria, foreignAria, workplace) ? "all" : workplace;
+        boolean bg = isMatch(citiesBg, workplace) || workplace.equals("all");
+        if (!bg) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
@@ -64,23 +59,4 @@ public class ZaplataStrategy implements Strategy {
         reCall(set.size(), new ZaplataStrategy());
         return new ArrayList<>(set);
     }
-
-//    public static String getSkills(String employerName, String skills) {
-//        skills = skills.indexOf("[") != -1 || skills.indexOf("]") != -1 ? skills.replaceAll("[\\[\\]]", "") : skills;
-//        return employerName.indexOf(" ") != -1 ? skills.substring(0, skills.indexOf(employerName.split(" ")[0]) - 2) : skills;
-//    }
-//
-//    public static String getAddress(String address) {
-//        address = address.replaceAll("Месторабота: wifi ", "");
-//        return address.indexOf(";") != -1 ? address.substring(0, address.indexOf(";")) : address;
-//    }
-//
-//    public static LocalDate getDateJobsBG(String date) {
-//        Matcher m = pattern_date_jobs_bg.matcher(date);
-//        if(m.find()) {
-//            String[] parts = m.group().split("\\.");
-//            return LocalDate.of(parseInt(getJoin("20",parts[2])), parseInt(parts[1]), parseInt(parts[0]));
-//        }
-//        return defaultDate;
-//    }
 }

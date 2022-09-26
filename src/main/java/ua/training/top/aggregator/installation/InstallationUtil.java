@@ -19,8 +19,8 @@ public class InstallationUtil {
             limitFreshensFilterKeeping = 200,
             limitVotesKeeping = limitVacanciesKeeping / 10,
             maxLengthText = 250,
-            repeatToCall = 1,
-            limitCallPages = herokuRestriction ? 1 : 1;
+            repeatToCall = 3,
+            limitCallPages = herokuRestriction ? 1 : 2;
 
     public static LocalDate
             reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),

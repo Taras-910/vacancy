@@ -17,45 +17,44 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesITJob;
+import static ua.training.top.util.collect.ElementUtil.getVacanciesCwJobs;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getITJobs;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getUK;
 
-public class ItJobsStrategy implements Strategy {
-    private final static Logger log = LoggerFactory.getLogger(ItJobsStrategy.class);
-    private final static String url = "https://www.itjobs.ca/en/search-jobs/?search=1%s%s%s%s%s";
-//https://www.itjobs.ca/en/search-jobs/?search=1&categories=155%2C168&keywords=java+middle&location=Toronto%2C+ON&location-id=481104&location-type=1&page=2
+public class CwJobsStrategy implements Strategy {
+    private final static Logger log = LoggerFactory.getLogger(CwJobsStrategy.class);
+    private final static String url_part = "facet_selected%3bcompanyTypes%3b2",
+            url = "https://www.cwjobs.co.uk/jobs%s%s%s?%saction=%s&companytypes=2&postedWithin=14";
+//https://www.cwjobs.co.uk/jobs/middle-java/in-london?page=2&action=facet_selected%3bcompanyTypes%3b2&companytypes=2&postedWithin=14
 
     protected Document getDocument(String workplace, String page, String level, String language) {
-        return DocumentUtil.getDocument(format(url, !language.equals("all") || !level.equals("all") ? "&keywords=" :  "",
-                language.equals("all") ? "" : language,
-                level.equals("all") ? "" : language.equals("all") ? level : getJoin("+", level),
-                workplace.equals("all") ? "" : workplace.equals("remote") ? "&teleworking=true" : workplace,
-                getPage(itJob, page)));
+        return DocumentUtil.getDocument(format(url, language.equals("all") ?  "" : getJoin("/", language),
+                level.equals("all") ? "" : getJoin("/", level),
+                workplace.equals("all") ? "" : getJoin("/in-", workplace), getPage(cwjobs, page), url_part));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = isMatch(caAria, workplace) ? "all" :
-                isMatch(citiesCa, remoteAria, foreignAria, workplace) || workplace.equals("all") ? workplace : "-1";
+        workplace = isMatch(remoteAria, foreignAria, workplace) || workplace.equals("all") ? "all" :
+                isMatch(citiesUK, workplace)? getUK(workplace).toLowerCase() : "-1";
         if (workplace.equals("-1")) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while (true) {
-            Document doc = getDocument(getITJobs(workplace), valueOf(page), level, language);
-            Elements elements = doc == null ? null : doc.getElementsByClass("details-wrapper");
+            Document doc = getDocument(workplace, valueOf(page), level, language);
+            Elements elements = doc == null ? null : doc.getElementsByAttributeValue("data-at","job-item");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesITJob(elements, freshen));
+            set.addAll(getVacanciesCwJobs(elements, freshen));
             if (page < getMaxPages(itJob, freshen.getWorkplace())) page++;
             else break;
         }
-        reCall(set.size(), new ItJobsStrategy());
+        reCall(set.size(), new CwJobsStrategy());
         return new ArrayList<>(set);
     }
 }

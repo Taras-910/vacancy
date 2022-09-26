@@ -20,7 +20,7 @@ import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesIndeed;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.UrlUtil.getPage;
+import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getIndeed;
 
 public class UAIndeedStrategy implements Strategy {

@@ -17,8 +17,8 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesJobBank;
-import static ua.training.top.util.collect.data.DataUtil.get_vacancy;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCad;
+import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getCa;
 
 public class JobBankStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobBankStrategy.class);
@@ -26,6 +26,7 @@ public class JobBankStrategy implements Strategy {
 //    https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=java&locationstring=Toronto%2C+ON
 
     protected Document getDocument(String workplace, String language, String level) {
+        workplace = isMatch(citiesCa, remoteAria, workplace) ? getCa(workplace) : "Canada";
         return DocumentUtil.getDocument(format(url, language.equals("all") ? "java" : language, workplace));
     }
 
@@ -33,8 +34,8 @@ public class JobBankStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = getCad(workplace);
-        if (workplace.equals("-1") || workplace.equals("Remote")) {
+        boolean ca = isMatch(caAria, citiesCa, workplace) ||isMatch(foreignAria, remoteAria, workplace) || workplace.equals("all");
+        if (!ca) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();

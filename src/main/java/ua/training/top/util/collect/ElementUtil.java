@@ -59,6 +59,35 @@ public class ElementUtil {
         return list;
     }
 
+    public static List<VacancyTo> getVacanciesCwJobs(Elements elements, Freshen freshen) {
+        List<VacancyTo> list = new ArrayList<>();
+        for (Element element : elements) {
+            try {
+                LocalDate localDate = getToLocalDate(xssClear(element.getElementsByAttributeValue("data-at", "job-item-timeago").text()));
+                if (/*localDate.isAfter(reasonDateLoading)*/true) {
+                    String salaries, skills, title = getToTitle(xssClear(element.getElementsByAttributeValue("data-at", "job-item-title").text()));
+                    salaries = xssClear(element.getElementsByAttributeValue("data-at", "job-item-salary-info").text());
+                    skills = xssClear(element.getElementsByAttribute("data-offer-meta-text-snippet").text());
+                    if (true) {
+                        VacancyTo v = new VacancyTo();
+                        v.setTitle(getLinkIfEmpty(title));
+                        v.setEmployerName(getToName(xssClear(element.getElementsByAttributeValue("data-at", "job-item-company-name").text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByAttributeValue("jdata-at", "job-item-location").text())));
+                        v.setSalaryMin(getToSalaries(salaries)[0]);
+                        v.setSalaryMax(getToSalaries(salaries)[1]);
+                        v.setUrl(getToUrl(cwjobs, xssClear(element.getElementsByTag("a").attr("href"))));
+                        v.setSkills(skills);
+                        v.setReleaseDate(localDate);
+                        list.add(v);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(error, e.getLocalizedMessage(), element);
+            }
+        }
+        return list;
+    }
+
     public static List<VacancyTo> getVacanciesDjinni(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
@@ -355,6 +384,34 @@ public class ElementUtil {
         return list;
     }
 
+    public static List<VacancyTo> getVacanciesReed(Elements elements, Freshen freshen) {
+        List<VacancyTo> list = new ArrayList<>();
+        for (Element element : elements) {
+            try {
+                LocalDate localDate = getToLocalDate(xssClear(element.getElementsByClass("job-result-heading__posted-by").text()));
+                if (/*localDate.isAfter(reasonDateLoading)*/true) {
+                    String salaries, title = getToTitle(xssClear(element.getElementsByTag("a").attr("title")));
+                    salaries = xssClear(element.getElementsByClass("job-metadata__item--salary").text());
+                    if (true) {
+                        VacancyTo v = new VacancyTo();
+                        v.setTitle(getLinkIfEmpty(title));
+                        v.setEmployerName(getToName(xssClear(element.getElementsByClass("company-name").text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("job-metadata__item--location").text())));
+                        v.setSalaryMin(getToSalaries(salaries)[0]);
+                        v.setSalaryMax(getToSalaries(salaries)[1]);
+                        v.setUrl(getToUrl(reed, xssClear(element.getElementsByTag("a").attr("href"))));
+                        v.setSkills(link);
+                        v.setReleaseDate(localDate);
+                        list.add(v);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(error, e.getLocalizedMessage(), element);
+            }
+        }
+        return list;
+    }
+
     public static List<VacancyTo> getVacanciesIndeed(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
@@ -383,7 +440,7 @@ public class ElementUtil {
         return list;
     }
 
-    public static List<VacancyTo> getVacanciesJooble(Elements elements, Freshen freshen) {
+    public static List<VacancyTo> getVacanciesJooble(Elements elements, Freshen freshen, String country) {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
             try {
@@ -406,7 +463,7 @@ public class ElementUtil {
                         v.setAddress(getLinkIfEmpty(xssClear(Optional.of(element.getElementsByClass("caption _2_Ab4T"/*"caption d7cb2"*/).text()).orElse(""))));
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
-                        v.setUrl(getToUrl(jooble, xssClear(element.getElementsByTag("article").attr("id"))));
+                        v.setUrl(getJoin("https://", country, getToUrl(jooble, xssClear(element.getElementsByTag("article").attr("id")))));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);
                         list.add(v);
@@ -482,6 +539,29 @@ public class ElementUtil {
     }
 }
 
+/* cwJobs
+*                         System.out.println(i++ + "-".repeat(150));
+                        System.out.println("dateString     =" + xssClear(element.getElementsByAttributeValue("data-at", "job-item-timeago").text()));
+                        System.out.println("date           =" + v.getReleaseDate());
+                        System.out.println("titleString    =" + xssClear(element.getElementsByAttributeValue("data-at", "job-item-title").text()));
+                        System.out.println("title          =" + v.getTitle());
+
+                        System.out.println("emploNameString=" + xssClear(element.getElementsByAttributeValue("data-at", "job-item-company-name").text()));
+                        System.out.println("employerName   =" + v.getEmployerName());
+
+                        System.out.println("addressString  =" + xssClear(element.getElementsByAttributeValue("jdata-at", "job-item-location").text()));
+                        System.out.println("address        =" + v.getAddress());
+
+                        System.out.println("salaryString   =" + xssClear(element.getElementsByAttributeValue("data-at", "job-item-salary-info").text()));
+                        System.out.println("salaryMin      =" + v.getSalaryMin());
+                        System.out.println("salaryMan      =" + v.getSalaryMax());
+
+                        System.out.println("urlString      =" + xssClear(element.getElementsByTag("a").attr("href")));
+                        System.out.println("url            =" + v.getUrl());
+                        System.out.println("skillsString   =" + xssClear(element.getElementsByAttribute("data-offer-meta-text-snippet").text()));
+                        System.out.println("skills         =" + v.getSkills());
+
+*/
 /*   jobs
                         System.out.println(i++ + "-".repeat(150));
                         System.out.println("element=\n" + element);
@@ -533,7 +613,8 @@ public class ElementUtil {
 
 */
 /* linkedin
-                        System.out.println("element=\n"+element);
+
+                        System.out.println(i++ + "-".repeat(150));
                         System.out.println("dateString     =" + xssClear(element.getElementsByTag("time").tagName("time").attr("datetime")));
                         System.out.println("date           ="+ v.getReleaseDate());
                         System.out.println("titleString    ="+ xssClear(element.getElementsByClass("base-search-card__title").text()));
@@ -545,17 +626,19 @@ public class ElementUtil {
                         System.out.println("addressString  ="+xssClear(element.getElementsByClass("job-search-card__location").text()));
                         System.out.println("address        ="+v.getAddress());
 
-                        System.out.println("salaryString   ="+ getSalaryLinkedin(title));
+                        System.out.println("salaryString   ="+ getSalaryFromText(title));
                         System.out.println("salaryMin      ="+v.getSalaryMin());
                         System.out.println("salaryMan      ="+v.getSalaryMax());
 
                         System.out.println("urlString      ="+ xssClear(element.getElementsByTag("a").first().attr("href")));
                         System.out.println("url            ="+v.getUrl());
-                        System.out.println("skillsString   ="xssClear(element.getElementsByClass("sh-info").text()));
+                        System.out.println("skillsString   ="+xssClear(element.getElementsByClass("sh-info").text()));
                         System.out.println("skills         ="+v.getSkills());
+
 */
 /* djinni
-                        System.out.println("element=\n"+element);
+                        System.out.println(i++ + "-".repeat(150));
+//                        System.out.println("element=\n"+element);
                         System.out.println("dateString     =" + xssClear(element.getElementsByAttributeValueStarting("class", "text-date").text()));
                         System.out.println("date           ="+ v.getReleaseDate());
                         System.out.println("titleString    ="+ xssClear(element.getElementsByClass("profile").tagName("a").text()));
@@ -600,6 +683,29 @@ public class ElementUtil {
                         System.out.println("skillsString   =" + xssClear(element.getElementsByClass("card-description").text()));
                         System.out.println("skills         =" + v.getSkills());
  */
+/*   reed
+                        System.out.println(i++ + "-".repeat(150));
+                        System.out.println("dateString     =" + xssClear(element.getElementsByClass("job-result-heading__posted-by").text()));
+                        System.out.println("date           =" + v.getReleaseDate());
+                        System.out.println("titleString    =" + xssClear(element.getElementsByTag("a").attr("title")));
+                        System.out.println("title          =" + v.getTitle());
+
+                        System.out.println("emploNameString=" + xssClear(element.getElementsByClass("company-name").text()));
+                        System.out.println("employerName   =" + v.getEmployerName());
+
+                        System.out.println("addressString  =" + xssClear(element.getElementsByClass("job-metadata__item--location").text()));
+                        System.out.println("address        =" + v.getAddress());
+
+                        System.out.println("salaryString1  =" + xssClear(element.getElementsByClass("job-metadata__item--salary").text()));
+                        System.out.println("salaryMin      =" + v.getSalaryMin());
+                        System.out.println("salaryMan      =" + v.getSalaryMax());
+
+                        System.out.println("urlString      =" + xssClear(element.getElementsByTag("a").attr("href")));
+                        System.out.println("url            =" + v.getUrl());
+                        System.out.println("skillsString   =" + xssClear(element.getElementsByClass("skills").text()));
+                        System.out.println("skills         =" + v.getSkills());
+
+*/
 /*jooble
                         System.out.println(i++ + "+".repeat(150));
                         if (v.getSalaryMin() != 1 || v.getSalaryMax() != 1)System.out.println("element=\n" + element);

@@ -19,19 +19,22 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesJooble;
 import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.UrlUtil.getLevel;
-import static ua.training.top.util.collect.data.UrlUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getJooble;
+import static ua.training.top.util.collect.data.PageUtil.getPage;
+import static ua.training.top.util.collect.data.WorkplaceUtil.*;
 
 public class UAJoobleStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAJoobleStrategy.class);
-    private static final String url = "https://ua.jooble.org/SearchResult?date=3%s%s%s&ukw=%s%s";
+    private static final String url = "https://%sjooble.org/SearchResult?date=3%s%s&ukw=%s%s";
     //    https://ua.jooble.org/SearchResult?date=3&rgns=Польща&ukw=java
 
-    protected Document getDocument(String workplace, String language, String level, String page) {
-        return DocumentUtil.getDocument(format(url, workplace.equals("remote") ? "&loc=2" : "",
-                getJooble(workplace), getPage(jooble, page), language, getLevel(jooble, level)));
+    protected Document getDocument(String country, String workplace, String language, String level, String page) {
+        String city = workplace.equals("remote") ? getRemoteByCountry(country) : getCityByCountry(country, workplace);
+        return DocumentUtil.getDocument(format(url,
+                country.equals("us") || country.equals("il") ? "" : getJoin(country, "."),
+                workplace.equals("all") ? "" : getJoin("&rgns=", city), getPage(jooble, page),
+                language, getLevel(jooble, level)));
     }
 
     @Override
@@ -41,16 +44,16 @@ public class UAJoobleStrategy implements Strategy {
         if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
-        String[] workplaces = workplace.equals("foreign") ?
-                getForeign() : workplace.equals("украина") ? getUA() : new String[]{workplace};
+        String country = getCountryByCity(workplace);
+        String[] workplaces = isMatch(foreignAria, workplace) ? getForeign() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
         for (String location : workplaces) {
             int page = 1;
             while (true) {
-                Document doc = getDocument(location, language, level, valueOf(page));
+                Document doc = getDocument(country, location, language, level, valueOf(page));
                 Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesJooble(elements, freshen));
+                set.addAll(getVacanciesJooble(elements, freshen, country));
                 if (page < getMaxPages(jooble, location)) page++;
                 else break;
             }
@@ -62,10 +65,5 @@ public class UAJoobleStrategy implements Strategy {
     public static String[] getForeign() {
         return new String[]{"Канада", "Польща", "Німеччина", "Швеція", "Ізраїль", "Швейцарія", "США", "Франція", "Італія",
                 "Фінляндія", "Велика Британія", "ОАЕ", "Чехія", "Словаччина"};
-    }
-
-    public static String[] getUA() {
-        return new String[]{"Київ", "Харків", "Львів", "Одеса", "Дніпро", "Вінниця", "Ужгород", "Івано-Франківськ",
-                "Полтава", "Запоріжжя", "Черкаси", "Чернігів", "Тернопіль"};
     }
 }

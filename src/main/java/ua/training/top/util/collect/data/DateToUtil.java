@@ -65,22 +65,26 @@ public class DateToUtil {
     static LocalDate getLocalDate(int number, String name) {
         return isMatch(monthsOfYearAria, name) ? LocalDate.of(now().getYear(), getMonth(name), number) :
                 switch (name) {
-                    case "nowa", "сейчас", "минуту", "минуты", "минут" -> LocalDateTime.now().minusMinutes(number).toLocalDate();
-                    case "годину", "години", "годин", "час", "часа", "часов", "hours", "hour" -> LocalDateTime.now().minusHours(number).toLocalDate();
-                    case "день", "дня", "дней", "day", "days", "today", "днів", "дні", "сьогодні", "сегодня" -> now().minusDays(number);
-                    case "неделя", "недели", "неделю" -> now().minusWeeks(number);
-                    case "месяц", "месяца" -> now().minusMonths(number);
+                    case "nowa", "сейчас", "минуту", "минуты", "минут", "minut", "minute", "minuten", "сега", "минута", "минути" -> LocalDateTime.now().minusMinutes(number).toLocalDate();
+                    case "годину", "години", "годин", "час", "часа", "часов", "hours", "hour", "stunden", "std.", "godzin", "godzina", "godziny" -> LocalDateTime.now().minusHours(number).toLocalDate();
+                    case "день", "дня", "дней", "day", "days", "today", "tag", "tage", "tagen", "днів", "дні", "сьогодні", "сегодня", "dzień", "dni", "ден", "дни" -> now().minusDays(number);
+                    case "неделя", "недели", "неделю", "week", "weeks", "wochen", "tydzień", "седмица" -> now().minusWeeks(number);
+                    case "месяц", "месяца", "month", "months", "monat", "monate", "miesiąc", "miesiące", "месец", "месеци" -> now().minusMonths(number);
                     default -> defaultDate;
                 };
     }
 
     static String formatToNumAndWord(String originText) {
+        originText = originText.indexOf("vor") != -1 ?
+                originText.replaceAll("vor ", "").replaceAll("einem", "1") : originText;
         return originText.replaceAll("nowa", "0 минут").replaceAll("сейчас", "0 минут")
                 .replaceAll("только что", "0 минут")
                 .replaceAll("сьогодні", "0 сьогодні").replaceAll("сегодня", "0 сьогодні")
-                .replaceAll("today", "0 сегодня").replaceAll("yesterday", "1 сьогодні")
-                .replaceAll("вчора", "1 сьогодні")
-                .replaceAll("вчера", "1 день");
+                .replaceAll("today", "0 сегодня").replaceAll("днес", "0 сегодня")
+                .replaceAll("heute", "0 сегодня")
+                .replaceAll("yesterday", "1 сьогодні").replaceAll("вчера", "1 день")
+                .replaceAll("вчора", "1 сьогодні").replaceAll("gestern", "1 сьогодні")
+                .replaceAll("einem", "1");
     }
 
     public static int getMonth(String month) {

@@ -42,7 +42,7 @@ public class AutoRefreshUtil {
                     Map.entry(3, new Provider(new JobBankStrategy())),
                     Map.entry(4, new Provider(new JobsBGStrategy())),
                     Map.entry(5, new Provider(new JobsMarketStrategy())),
-                    Map.entry(6, new Provider(new JobsStrategy())),
+                    Map.entry(6, new Provider(new JobsDouStrategy())),
                     Map.entry(7, new Provider(new LinkedinStrategy())),
                     Map.entry(8, new Provider(new NofluffjobsStrategy())),
 //                    Map.entry(5, new Provider(new RabotaStrategy())),

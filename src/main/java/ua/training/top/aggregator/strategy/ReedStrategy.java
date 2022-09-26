@@ -16,25 +16,26 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesITJobsWatch;
+import static ua.training.top.util.collect.ElementUtil.getVacanciesReed;
 import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getUK;
 
-public class ItJobsWatchStrategy implements Strategy {
-    private final static Logger log = LoggerFactory.getLogger(ItJobsWatchStrategy.class);
-    private final static String url = "https://www.itjobswatch.co.uk/search?%s%ss=date%s";
-//https://www.itjobswatch.co.uk/search?q=java+middle&l=London&s=date&start=50
+public class ReedStrategy implements Strategy {
+    private final static Logger log = LoggerFactory.getLogger(ReedStrategy.class);
+    private final static String url = "https://www.reed.co.uk/jobs/%s%sjobs%s?%sparentsector=it-telecoms&orgId=1&agency=True&direct=True&datecreatedoffset=LastTwoWeeks%s";
+//https://www.reed.co.uk/jobs/java-jobs-in-london?pageno=2&parentsector=it-telecoms&orgId=1&agency=True&direct=True&datecreatedoffset=LastTwoWeeks&hideTrainingJobs=True
 
     protected Document getDocument(String workplace, String page, String level, String language) {
-        workplace = isMatch(citiesUK, workplace) ? getUK(workplace) : "all";
         return DocumentUtil.getDocument(format(url,
-                language.equals("all") && level.equals("all") ? "" : getJoin("q=",
-                        level.equals("all") ? language : language.equals("all") ? level : getJoin(language, "+", level), "&"),
-                workplace.equals("all") ? "" : getJoin("l=", workplace, "&"),
-                getPage(itJobsWatch, page)));
+                language.equals("all") ? "" : getJoin(language,"-"),
+                "", workplace.equals("all") ? "" : getJoin("-in-", workplace),
+                getPage(reed, page),
+                isMatch(of("intern", "trainee", "интерн", "internship", "стажировка", "стажер", "стажист"), level) ?
+                        "hideTrainingJobs=True" : ""));
     }
 
     @Override
@@ -42,21 +43,21 @@ public class ItJobsWatchStrategy implements Strategy {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
         workplace = isMatch(ukAria, remoteAria, foreignAria, workplace) || workplace.equals("all") ? "all" :
-                isMatch(citiesUK, workplace) ? getUK(workplace).toLowerCase() : "-1";
+                isMatch(citiesUK, workplace)? getUK(workplace).toLowerCase() : "-1";
         if (workplace.equals("-1")) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while (true) {
-            Document doc = getDocument(workplace, valueOf(page * 50 - 50), level, language);
-            Elements elements = doc == null ? null : doc.getElementsByClass("job");
+            Document doc = getDocument(workplace, valueOf(page), level, language);
+            Elements elements = doc == null ? null : doc.getElementsByAttributeValueEnding("class","details");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesITJobsWatch(elements, freshen));
+            set.addAll(getVacanciesReed(elements, freshen));
             if (page < getMaxPages(itJob, freshen.getWorkplace())) page++;
             else break;
         }
-        reCall(set.size(), new ItJobsWatchStrategy());
+        reCall(set.size(), new ReedStrategy());
         return new ArrayList<>(set);
     }
 }

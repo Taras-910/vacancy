@@ -125,23 +125,17 @@ public class AggregatorService {
         setTestAuthorizedUser(asAdmin());
 
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                asNewFreshen("all", "all", "london", UPGRADE));
+                asNewFreshen("java", "all", "all", UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
-/*
-        String salaryString = "London - Lynx Recruitment Ltd Salary: GBP 45,000 - 55,000 Annual Posted: 2 hours ago";
-//        String titleString = "1st Executive Limited Salary: $60,000 Posted: 1 hour ago";
-        System.out.println(Arrays.toString(getToSalaries(salaryString)));
-        System.out.println(Arrays.toString(getToSalaries(getSalaryFromText(salaryString))));
-*/
     }
-
-
 }
-//dateString     =yesterday
-//date           =2022-09-08
+
+//https://nofluffjobs.com/pl/praca-it/backend?page=1&criteria=category%3Dtesting%20requirement%3Djava
+//
+
 //                                   *      *
 //  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
 //all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291

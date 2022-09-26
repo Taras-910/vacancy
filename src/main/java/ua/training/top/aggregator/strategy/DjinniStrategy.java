@@ -19,26 +19,22 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesDjinni;
 import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.UrlUtil.getLevel;
-import static ua.training.top.util.collect.data.UrlUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getDjinni;
+import static ua.training.top.util.collect.data.PageUtil.getPage;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getDjinniShortcut;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_en;
 
 public class DjinniStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
-    private static final String url = "https://djinni.co/jobs/keyword-%s/%s%s%s";
-    //    https://djinni.co/jobs/keyword-java/?region=other&exp_level=1y&page=2
-    //https://djinni.co/jobs/keyword-%s/%s%s%s
-
+    private static final String url = "https://djinni.co/jobs/keyword-%s/%s%s%s%s";
+    //    https://djinni.co/jobs/keyword-java/lviv/?region=other&exp_level=1y&page=2
+    //https://djinni.co/jobs/keyword-%s/%s%s%s%s
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-
-        return DocumentUtil.getDocument(format(url,
-                language,
-                getDjinni(workplace),
-                level.equals("all") ? "" : getJoin("&", getLevel(djinni, level)),
-                getPage(djinni, page)));
-    }
+        String city = isMatch(uaAria, workplace) ? getJoin(getUA_en(workplace).toLowerCase(), "/") : "";
+        return DocumentUtil.getDocument(format(url, language, city, getDjinniShortcut(workplace),
+                level.equals("all") ? "" : getJoin("&", getLevel(djinni, level)), getPage(djinni, page)));}
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
@@ -60,8 +56,4 @@ public class DjinniStrategy implements Strategy {
         reCall(set.size(), new DjinniStrategy());
         return new ArrayList<>(set);
     }
-
-//    public static String getWrokplaceDjinni(String workplace) {
-//        return workplace.equals("all") ? "" : getJoin("keywords=%28",workplace,"%29&full_text=on");
-//    }
 }

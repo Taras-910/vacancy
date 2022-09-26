@@ -25,7 +25,7 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_date_jobs_bg;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getJobsBG;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getBG_en;
 
 public class JobsBGStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsBGStrategy.class);
@@ -35,10 +35,10 @@ public class JobsBGStrategy implements Strategy {
 //https://www.jobs.bg/front_job_search.php?subm=1&categories%5B%5D=56&domains%5B%5D=2&techs%5B%5D=Java&location_sid=6&keywords%5B%5D=middle&last=6
 
     protected Document getDocument(String workplace, String page, String level, String language) {
-        return DocumentUtil.getDocument(format(url,
-                part_url,
+        String city = isMatch(citiesBg, workplace) ? getBG_en(workplace) : "";
+        return DocumentUtil.getDocument(format(url, part_url,
                 language.equals("all") || isMatch(foreignAria, workplace)? "" : getJoin("&techs%5B%5D=", language),
-                workplace.equals("all") ? "" : workplace.equals("remote") ? "&is_distance_job=1" : workplace,
+                workplace.equals("all") || isMatch(bgAria, workplace)? "" : workplace.equals("remote") ? "&is_distance_job=1" : city,
                 level.equals("all") ? "" : getJoin("&keywords%5B%5D=", level)));
     }
 
@@ -46,14 +46,14 @@ public class JobsBGStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = isMatch(citiesBg, remoteAria, foreignAria, workplace) || workplace.equals("all") ? workplace : "-1";
-        if (workplace.equals("-1")) {
+        boolean bg = isMatch(bgAria, citiesBg, workplace) || isMatch(remoteAria, foreignAria, workplace) || workplace.equals("all");
+        if (!bg) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while (true) {
-            Document doc = getDocument(getJobsBG(workplace), valueOf(page), level, language);
+            Document doc = getDocument(workplace, valueOf(page), level, language);
             Elements elements = doc == null ? null : doc.getElementsByTag("li");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getVacanciesJobsBG(elements, freshen));

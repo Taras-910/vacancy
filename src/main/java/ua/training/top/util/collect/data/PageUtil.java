@@ -6,6 +6,19 @@ import static ua.training.top.util.collect.data.DataUtil.*;
 
 public class PageUtil {
 
+    public static String getPage(String siteName, String page) {
+        return switch (siteName) {
+            case jobcareer, rabota -> page.equals("1") ? "" : getJoin("page=",page);
+            case djinni, work, itJob, nofluff -> page.equals("1") ? "" : getJoin("&page=",page);
+            case indeed, indeed_ca -> page.equals("0") ? "" : getJoin("&start=",page,"0");
+            case jooble -> page.equals("1") ? "" : getJoin("&p=",page);
+            case itJobsWatch -> page.equals("0") ? "" : page;
+            case reed -> page.equals("1") ? "" : getJoin("pageno=", page, "&");
+            case cwjobs -> page.equals("1") ? "" : getJoin("page=", page, "&");
+            default -> page;
+        };
+    }
+
     public static int getMaxPages(String site, String city) {
         int pages = switch (city) {
             case "all" -> switch (site) {
