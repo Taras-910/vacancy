@@ -60,6 +60,6 @@ public class WorkStrategy implements Strategy {
     }
 
     public static String getAddrWork(String address) {
-        return address.indexOf("VIP · ") > -1 ? address.replaceAll("VIP · ", "") : address;
+        return isContains(address, "VIP · ") ? address.replaceAll("VIP · ", "") : address;
     }
 }

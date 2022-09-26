@@ -48,11 +48,6 @@ public class AggregatorService {
     @Autowired
     @SuppressWarnings("deprecation")
     public void setEnvironment(Environment environment) {
-        System.out.println("=".repeat(100));
-        System.out.println(Arrays.toString(environment.getDefaultProfiles()));
-        System.out.println(Arrays.toString(environment.getActiveProfiles()));
-        System.out.println("+".repeat(100));
-
         herokuRestriction = environment.acceptsProfiles(Profiles.HEROKU);
     }
 
@@ -133,22 +128,17 @@ public class AggregatorService {
     }
 }
 
-//https://nofluffjobs.com/pl/praca-it/backend?page=1&criteria=category%3Dtesting%20requirement%3Djava
-//
-
 //                                   *      *
-//  djinni*12 grc*20 habr*25 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
-//all     100   40     20    10     14   2х14    4    25   25*20 10*20   27    2        291
-//remote  100   33     13    10      1      3    4     9     7    13x20   9    -        202
-//Киев    100    4     20     -      1      2    -    12    25    22     13    2        201
-//foreign 120    1      1    10     14   2х14    4     1     -    1*14*   3    -        169
-//Минск   100    6     20     -      1      2    -     1     -     2      3    2        137
-//Украина   6    6      -     -     14   2х14    -     6    25    2*14*  27    2        128
-//Харьков  46    2      -     -      1      2    -     4          11      5    1         72
-//Львов    40    -      -     -      1      2    -     3          20      3    1         70
-//Москва    -   40     20     -      1      3    -     -     -     -      -    3         67
-//Санкт-Петербург20    20     -      1      3    -     -     -     -      -    4         48
-//Одесса   30    -      -     -      1      2    -     2     2     6      3    1         47
-//                              trainee=164
+//   djinni*12 jobMar jobs linked nof rab*40 indeed joble work jobcareer total
+//all     100   10     14   2х14    4    25   25*20 10*20   27    2        291
+//remote  100   10      1      3    4     9     7    13x20   9    -        202
+//Киев    100    -      1      2    -    12    25    22     13    2        201
+//foreign 120   10     14   2х14    4     1     -    1*14*   3    -        169
+//Минск   100    -      1      2    -     1     -     2      3    2        137
+//Украина   6    -     14   2х14    -     6    25    2*14*  27    2        128
+//Харьков  46    -      1      2    -     4          11      5    1         72
+//Львов    40    -      1      2    -     3          20      3    1         70
+//Одесса   30    -      1      2    -     2     2     6      3    1         47
+//                trainee=164
 
 

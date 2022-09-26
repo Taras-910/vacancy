@@ -65,20 +65,21 @@ public class JobsBGStrategy implements Strategy {
     }
 
     public static String getSkills(String employerName, String skills) {
-        skills = skills.indexOf("[") != -1 || skills.indexOf("]") != -1 ? skills.replaceAll("[\\[\\]]", "") : skills;
-        return employerName.indexOf(" ") != -1 ? skills.substring(0, skills.indexOf(employerName.split(" ")[0]) - 2) : skills;
+        skills = isContains(skills, "[") || isContains(skills, "]") ? skills.replaceAll("[\\[\\]]", "") : skills;
+        return isContains(employerName, " ") ? skills.substring(0, skills.indexOf(employerName.split(" ")[0]) - 2) : skills;
     }
 
     public static String getAddress(String address) {
         address = address.replaceAll("Месторабота: wifi ", "");
-        return address.indexOf(";") != -1 ? address.substring(0, address.indexOf(";")) : address;
+        return isContains(address, ";") ? address.substring(0, address.indexOf(";")) : address;
     }
 
     public static LocalDate getDateJobsBG(String date) {
         Matcher m = pattern_date_jobs_bg.matcher(date);
         if(m.find()) {
             String[] parts = m.group().split("\\.");
-            return LocalDate.of(parseInt(getJoin("20",parts[2])), parseInt(parts[1]), parseInt(parts[0]));
+            return parts.length != 3 ? defaultDate :
+                    LocalDate.of(parseInt(getJoin("20",parts[2])), parseInt(parts[1]), parseInt(parts[0]));
         }
         return defaultDate;
     }

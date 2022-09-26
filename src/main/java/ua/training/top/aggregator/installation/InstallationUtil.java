@@ -14,7 +14,7 @@ import static ua.training.top.service.AggregatorService.herokuRestriction;
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
     public static int
-            periodKeeping = 28,
+            periodKeeping = 21,
             limitVacanciesKeeping = 4250,
             limitFreshensFilterKeeping = 200,
             limitVotesKeeping = limitVacanciesKeeping / 10,

@@ -150,9 +150,9 @@ public class SalaryUtil {
             result = getJoin(result, m.group().replaceAll("[^\\d-k\\s]", "")
                     .replaceAll("k","000"));
         }
-        result = result.indexOf("-") != -1 ?
+        result = isContains(result, "-") ?
                 result.replace("-", getJoin(code.equals("₭")?"000000 -":" -", code)) : getJoin(code,result);
-        return getJoin(result, title.indexOf("month") == -1 ? " year" : " month");
+        return getJoin(result, isContains(title, "month") ? " year" : " month");
     }
 
 }

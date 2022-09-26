@@ -75,7 +75,7 @@ public class DateToUtil {
     }
 
     static String formatToNumAndWord(String originText) {
-        originText = originText.indexOf("vor") != -1 ?
+        originText = isContains(originText, "vor") ?
                 originText.replaceAll("vor ", "").replaceAll("einem", "1") : originText;
         return originText.replaceAll("nowa", "0 минут").replaceAll("сейчас", "0 минут")
                 .replaceAll("только что", "0 минут")

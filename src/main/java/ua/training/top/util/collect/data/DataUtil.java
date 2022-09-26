@@ -159,19 +159,19 @@ public class DataUtil {
                     "ростов-на-дону", "нижний новгород", "казань", "самара", "воронеж");
 
     public static boolean isMatch(List<String> area, String text) {
-        return area.stream().anyMatch(a -> text.toLowerCase().indexOf(a) != -1);
+        return area.stream().anyMatch(a -> isContains(text.toLowerCase(), a));
+    }
+
+    public static boolean isMatch(List<String> list1, List<String> list2, String text) {
+        List<String> list = new ArrayList(list1);
+        list.addAll(list2);
+        return isMatch(list, text);
     }
 
     public static boolean isMatch(List<String> list1, List<String> list2, List<String> list3, String text) {
         List<String> list = new ArrayList(list1);
         list.addAll(list2);
         list.addAll(list3);
-        return isMatch(list, text);
-    }
-
-    public static boolean isMatch(List<String> list1, List<String> list2, String text) {
-        List<String> list = new ArrayList(list1);
-        list.addAll(list2);
         return isMatch(list, text);
     }
 
@@ -199,23 +199,26 @@ public class DataUtil {
     }
 
     public static String getToName(String compName) {
-        return isEmpty(compName) ? link : compName.indexOf(",") != -1 ? compName.split(",")[0].trim() : compName;
+        return isEmpty(compName) ? link : isContains(compName, ",") ? compName.split(",")[0].trim() : compName;
     }
 
     public static String getToSkills(String skills) {
         if (isEmpty(skills)) {
             return link;
         }
-        skills = skills.indexOf("Experience level:") != -1 ? skills.substring(skills.indexOf("Experience level:")) : skills;
+        skills = isContains(skills, "Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
         return correctJavaScript(skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills);
     }
 
     public static String correctJavaScript(String text) {
-        return text.indexOf("Java Script") != -1 ? text.replaceAll("Java Script", "JavaScript") : text;
+        return isContains(text, "Java Script") ? text.replaceAll("Java Script", "JavaScript") : text;
     }
-}
 
-    /*    public static final List<String>
+    public static boolean isContains(String text, String s) {
+        return text.indexOf(s) != -1;
+    }
+
+  /*    public static final List<String>
             usdAria = of("usd", "$", "us$"),
             eurAria = of("eur", "€"),
             plnAria = of("pln", "zł", "₲"),
@@ -347,3 +350,6 @@ public class DataUtil {
             citiesRU = of("russia", "россия", "росія", "ru", "st petersburg", "санкт петербург", "санкт-петербург","spb",
                     "москва", "moskow", "msk", "новосибирск", "екатеринбург", "томск", "краснодар", "пермь", "ульяновск",
                     "ростов-на-дону", "нижний новгород", "казань", "самара", "воронеж");*/
+}
+
+

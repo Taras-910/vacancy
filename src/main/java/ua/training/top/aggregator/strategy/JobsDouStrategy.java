@@ -27,15 +27,6 @@ public class JobsDouStrategy implements Strategy {
     private static final String url_trainee = "https://jobs.dou.ua/first-job/?from=exp";
     private static final String url = "https://jobs.dou.ua/%s/%s%s%s%s%s";
     // https://jobs.dou.ua/vacancies/?remote&from=maybecategory=Java&descr=1&city=Софія&exp=1-3
-    //https://jobs.dou.ua/%s/%s%s%s%s%s
-    //
-    //part1 = isMach(foreignAria, workplace) ? jobs : vacancies
-    //part2 = workplace.equals(all) && language.equals(all) && level.equals(all) ?  “” : ?
-    //part3 = isMach(remoteAria, workplace) ? jobs : remote&from=maybe : “”
-    //
-    //language = language.equals(all) || isMach(remoteAria, workplace) ? “” : category= language&descr=1
-    //workplace = workplace.eguals(all) || isMach(remoteAria, workplace) ? “” : isMach(citiesUA)  ? &city=getUA_ua(workplace) : &city=getJobsDouForeign(workplace)
-    //level = level.equals(all) || isMach(remoteAria, workplace) ?  “” :  &exp=1-3
 
     protected Document getDocument(String workplace, String language, String level) {
         return DocumentUtil.getDocument(isMatch(traineeAria, workplace) ? url_trainee : format(url,
