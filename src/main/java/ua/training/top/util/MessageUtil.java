@@ -25,6 +25,8 @@ public class MessageUtil {
             not_found = "Not found entity with {}",
             not_find_driver = "Could not find DB driver",
             not_be_null = " entity must not be null ",
-            number_inform = "\n{} list.size={}\n",
+            number_inform = "\n{}\ntime: {} ms\nlist.size={}\n",
+            empty_inform = "No filtering records found, refresh DB",
             setting_delay = "-".repeat(8)+" delay={} min {} sec"+"-".repeat(8);
+
 }

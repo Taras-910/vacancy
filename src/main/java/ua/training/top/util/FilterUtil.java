@@ -4,13 +4,27 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import static ua.training.top.util.FilterAriaUtil.mapAriaFilter;
-import static ua.training.top.util.collect.data.DataUtil.citiesUA;
-import static ua.training.top.util.collect.data.DataUtil.getJoin;
+import static java.util.List.of;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 
 public class FilterUtil {
+    public static Map<String, List<String>> mapAriaFilter;
+    static {
+        mapAriaFilter = new TreeMap<>();
+        FilterMapUtil fau = new FilterMapUtil();
+        List<String> list = getCommonList(of(levelAria, foreignAria, remoteAria, uaAria, citiesUA, plnAria, citiesPl,
+                caAria, citiesCa, ukAria, citiesUK, bgAria, citiesBg, deAria, citiesDe, ilAria, citiesIl, uaAria,
+                citiesUA, czAria, citiesCz, skAria, citiesSk, aeAria, citiesAe, frAria, citiesFr, itAria, citiesIt,
+                fiAria, citiesFi, chAria, citiesCh, seAria, citiesSe, otherAria));
+        mapAriaFilter = list.stream()
+                .distinct()
+                .collect(Collectors.toMap(s -> s, fau::getAria));
+    }
 
     public static List<Vacancy> getFilter(List<Vacancy> vacancies, Freshen f) {
         return vacancies.stream()
@@ -30,9 +44,9 @@ public class FilterUtil {
             case "trainee", "стажировка", "стажер", "internship", "интерн", "intern"
                     -> mapAriaFilter.get(field).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
             case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном", "за_кордоном" ->
-                    citiesUA.stream().noneMatch(cityUA -> text.indexOf(cityUA) > -1);
-            default -> mapAriaFilter.get(field).size() == 1 ? text.indexOf(field) > -1 : mapAriaFilter.get(field).stream()
-                    .anyMatch(a -> text.indexOf(a) > -1);
+                    citiesUA.stream().noneMatch(cityUA -> isContains(text, cityUA));
+            default -> mapAriaFilter.get(field).size() == 1 ? isContains(text, field) : mapAriaFilter.get(field).stream()
+                    .anyMatch(a -> isContains(text, a));
         };
     }
 }

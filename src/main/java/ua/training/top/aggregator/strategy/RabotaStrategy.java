@@ -17,8 +17,9 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesRabota;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.getJoin;
+import static ua.training.top.util.collect.data.HelpUtil.isMatch;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getRabota;
@@ -50,7 +51,7 @@ public class RabotaStrategy implements Strategy {
             Document doc = getDocument(getRabota(workplace), language, level, valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByClass("card");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesRabota(elements, freshen));
+//            set.addAll(getVacanciesRabota(elements, freshen));
             if (page < getMaxPages(rabota, freshen.getWorkplace())) page++;
             else break;
         }

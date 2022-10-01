@@ -25,22 +25,23 @@ public class Dispatcher {
         else {
             return new Starter(
                     /*new Provider(new CaIndeedStrategy()),*/   /*только ca*/
-                    /*new Provider(new CwJobsStrategy())*/      /*только uk*/                             // не работает!!!!!!!!!!
+                    /*new Provider(new CwJobsStrategy())*/      /*только uk*/                // не работает!!!!!!!!!!
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
                     new Provider(new ItJobsStrategy()),       /*только ca*/
                     new Provider(new ItJobsWatchStrategy()),  /*только uk*/
                     new Provider(new JobBankStrategy()),      /*только ca - от правительства канады*/
 
                     new Provider(new JobsBGStrategy()),       /*только bg*/
-                    new Provider(new JobsMarketStrategy()),   /*только за_рубежем USA!!!*/
-                    new Provider(new JobsDouStrategy()),         /*полезные статьи  */
+                    /*new Provider(new JobsMarketStrategy()),*/   /*только за_рубежем USA!!!*/
+                    new Provider(new JobsMarketUA()),          /*только UA !!!*/
+                    new Provider(new JobsDouStrategy()),      /*полезные статьи  */
                     new Provider(new LinkedinStrategy()),     /*нет удаленно  нет salary*/
 
                     new Provider(new NofluffjobsStrategy()),  /*только pl*/
                     /*new Provider(new RabotaStrategy()),*/     /*мало за_рубежем Украина ??? страница: js-функция */     //!!!!!!!!!!
-                    /*new Provider(new ReedStrategy())*/        /*только uk*/                             // не работает!!!!!!!!!!
+                    /*new Provider(new ReedStrategy())*/        /*только uk*/             // не работает!!!!!!!!!!
                     /*new Provider(new UAIndeedStrategy()),*/   /*только ua // нет salary*/
-                    new Provider(new UAJoobleStrategy()),     /*меняет теги ua, bg, ca, uk, de */
+                    new Provider(new UAJoobleStrategy()),     /*меняет теги //ua, bg, ca, uk, de */
                     new Provider(new WorkStrategy()),         /*нет за_рубежем*/
                     new Provider(new ZaplataStrategy())       /*только bg*/
             );

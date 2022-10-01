@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesJobBank;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.ElementUtil.getJobBank;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.isMatches;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getCa;
 
 public class JobBankStrategy implements Strategy {
@@ -26,7 +28,7 @@ public class JobBankStrategy implements Strategy {
 //    https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=java&locationstring=Toronto%2C+ON
 
     protected Document getDocument(String workplace, String language, String level) {
-        workplace = isMatch(citiesCa, remoteAria, workplace) ? getCa(workplace) : "Canada";
+        workplace = isMatches(of(citiesCa, remoteAria), workplace) ? getCa(workplace) : "Canada";
         return DocumentUtil.getDocument(format(url, language.equals("all") ? "java" : language, workplace));
     }
 
@@ -34,7 +36,7 @@ public class JobBankStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        boolean ca = isMatch(caAria, citiesCa, workplace) ||isMatch(foreignAria, remoteAria, workplace) || workplace.equals("all");
+        boolean ca = isMatches(of(caAria, citiesCa, foreignAria, remoteAria, of("all")), workplace);
         if (!ca) {
             return new ArrayList<>();
         }
@@ -42,7 +44,7 @@ public class JobBankStrategy implements Strategy {
         Document doc = getDocument(workplace, language, level);
         Elements elements = doc == null ? null : doc.getElementsByClass("resultJobItem");
         if (doc == null || elements == null) return new ArrayList<>();
-        set.addAll(getVacanciesJobBank(elements, freshen));
+        set.addAll(getJobBank(elements, freshen));
 
         reCall(set.size(), new JobBankStrategy());
         return new ArrayList<>(set);

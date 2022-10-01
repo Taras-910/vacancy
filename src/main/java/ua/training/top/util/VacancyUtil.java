@@ -11,16 +11,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.List.of;
-import static ua.training.top.util.MessageUtil.check_error_data;
-import static ua.training.top.util.MessageUtil.not_be_null;
-import static ua.training.top.util.collect.data.DataUtil.link;
+import static ua.training.top.util.MessageUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.link;
 
 public class VacancyUtil {
     public static Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
-        return vacancies.isEmpty() ? getEmpty() :
-                vacancies.stream()
+        return vacancies.isEmpty() ? getEmpty() : vacancies.stream()
                         .map(vacancy -> getTo(vacancy, votes))
                         .collect(Collectors.toList());
     }
@@ -43,8 +41,7 @@ public class VacancyUtil {
 
     private static List<VacancyTo> getEmpty() {
         return of(new VacancyTo(0, "", "", "", -1, -1,"",
-                "No filtering records found, refresh DB", LocalDate.now(), "", "",
-                "",false));
+                empty_inform, LocalDate.now(), "", "", "",false));
     }
 
     public static Vacancy getForUpdate(VacancyTo vTo, Vacancy v) {

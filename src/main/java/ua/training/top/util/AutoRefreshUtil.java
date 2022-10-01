@@ -40,10 +40,13 @@ public class AutoRefreshUtil {
                     Map.entry(1, new Provider(new ItJobsStrategy())),
                     Map.entry(2, new Provider(new ItJobsWatchStrategy())),
                     Map.entry(3, new Provider(new JobBankStrategy())),
+
                     Map.entry(4, new Provider(new JobsBGStrategy())),
-                    Map.entry(5, new Provider(new JobsMarketStrategy())),
+//                    Map.entry(5, new Provider(new JobsMarketStrategy())),
+                    Map.entry(5, new Provider(new JobsMarketUA())),
                     Map.entry(6, new Provider(new JobsDouStrategy())),
                     Map.entry(7, new Provider(new LinkedinStrategy())),
+
                     Map.entry(8, new Provider(new NofluffjobsStrategy())),
 //                    Map.entry(5, new Provider(new RabotaStrategy())),
 //                    Map.entry(6, new Provider(new UAIndeedStrategy())),
@@ -59,7 +62,7 @@ public class AutoRefreshUtil {
             2, "болгария",
             3, "foreign",
             4, "remote",
-            5, "онтарио",
+            5, "canada",
             6, "львов",
             7, "польша"
     ),

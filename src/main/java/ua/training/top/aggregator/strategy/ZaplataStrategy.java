@@ -16,9 +16,12 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesZaplata;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.isMatch;
+import static ua.training.top.util.collect.data.HelpUtil.isMatches;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
@@ -30,7 +33,7 @@ public class ZaplataStrategy implements Strategy {
             part_url = "200%3B10000",
             url = "https://www.zaplata.bg/ru/software/%s%sfirma-organizacia/?q=%s&price=%s%s";
 //https://www.zaplata.bg/ru/software/sofia/stazhanti-studenti/firma-organizacia/?q=java&price=200%3B10000&page=2
-
+//https://www.zaplata.bg/ru/software/firma-organizacia/?q=java&price=200%3B100001
     protected Document getDocument(String workplace, String level, String language, String page) {
         String city = isMatch(citiesBg, workplace) ? getBG_en(workplace) : "";
         return DocumentUtil.getDocument(format(url, workplace.equals("all") ? "" : city, getLevel(zaplata, level),
@@ -41,8 +44,8 @@ public class ZaplataStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = isMatch(bgAria, remoteAria, foreignAria, workplace) ? "all" : workplace;
-        boolean bg = isMatch(citiesBg, workplace) || workplace.equals("all");
+        workplace = isMatches(of(bgAria, remoteAria, foreignAria), workplace) ? "all" : workplace;
+        boolean bg = isMatch((citiesBg), workplace) || workplace.equals("all");
         if (!bg) {
             return new ArrayList<>();
         }

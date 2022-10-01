@@ -19,7 +19,8 @@ import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.isMatch;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getLinkedin;
@@ -58,7 +59,7 @@ public class LinkedinStrategy implements Strategy {
             int page = 0;
             while(true) {
                 Document doc = getDocument(location, language, level, valueOf(page));
-                Elements elements = doc == null ? null : doc.getElementsByTag("li");
+                Elements elements = doc == null ? null : doc.getElementsByClass("base-card");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesLinkedin(elements, freshen));
                 if (page < getMaxPages(linkedin, freshen.getWorkplace())) page++;
@@ -68,12 +69,6 @@ public class LinkedinStrategy implements Strategy {
         List<VacancyTo> result = new ArrayList<>(set);
         reCall(result.size(), new LinkedinStrategy());
         return result;
-    }
-
-    public static String getToLinkedin(String address) {
-        String[] addressParts = address.split(",");
-        return addressParts.length > 1 && addressParts[0].trim().equalsIgnoreCase(addressParts[1].trim()) ?
-                address.substring(address.indexOf(",") + 1).trim() : address;
     }
 
     private static String[] getForeign() {

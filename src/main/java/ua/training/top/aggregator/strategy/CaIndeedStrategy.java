@@ -16,9 +16,11 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesCaIndeed;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.getJoin;
+import static ua.training.top.util.collect.data.HelpUtil.isMatches;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getCa;
@@ -38,7 +40,7 @@ public class CaIndeedStrategy implements Strategy {
         String workplace = getCa(freshen.getWorkplace()), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, freshen.getWorkplace(), language);
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (workplace.equals("-1")) {
+        if (!isMatches(of(caAria, citiesCa), workplace)) {
             return new ArrayList<>();
         }
         int page = 0;
@@ -46,7 +48,7 @@ public class CaIndeedStrategy implements Strategy {
             Document doc = getDocument(workplace, language, level, valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByTag("li");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesCaIndeed(elements, freshen));
+//            set.addAll(getVacanciesCaIndeed(elements, freshen));
             if (page < getMaxPages(indeed, freshen.getWorkplace())) page++;
             else break;
         }

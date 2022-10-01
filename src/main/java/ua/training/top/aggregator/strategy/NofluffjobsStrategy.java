@@ -19,12 +19,13 @@ import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getNofluffjobsVacancies;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getPl;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_en;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getCityByCodeISO;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getCodeISOByCity;
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
@@ -32,25 +33,29 @@ public class NofluffjobsStrategy implements Strategy {
             url = "https://nofluffjobs.com/%s/%sbackend?criteria=category%s%s%s%s";
 // https://nofluffjobs.com/pl/warszawa/backend?criteria=category%3Dtesting%20seniority%3Dmid%20requirement%3DJava&page=1
 
-    protected Document getDocument(String workplace, String page, String level, String language) {
-        String city = isMatch(citiesPl, workplace) ? getPl(workplace).toLowerCase() : getUA_en(workplace).toLowerCase();
-        return DocumentUtil.getDocument(format(url, isMatch(citiesUA, uaAria, workplace) ? "ua" : "pl",
-                isMatch(remoteAria, workplace) ? "praca-zdalna/" : isMatch(foreignAria, of("all"), workplace) ?
-                        "" : getJoin(city.equals("kyiv") ? "kiev" : city, "/"),
-                part, getLevel(nofluff, level), language.equals("all") ? "" : getJoin(part_language, language),
+    protected Document getDocument(String codeISO, String workplace, String page, String level, String language) {
+        String city = getCityByCodeISO(codeISO, workplace).toLowerCase();
+        return DocumentUtil.getDocument(format(url,
+                isMatch(of("all", "remote"), codeISO) ? "ua" : codeISO.equals("foreign") ? "pl" : codeISO,
+                isMatch(remoteAria, workplace) ? getNoff("ua") : isMatches(of(foreignAria, of("all")), workplace) ?
+                        "" : getJoin(city.equals("kyiv") ? "kiev" : city, isEmpty(city) ? "" : "/"),
+                part,
+                getLevel(nofluff, level), language.equals("all") ? "" : getJoin(part_language, language),
                 getPage(nofluff, page)));
     }
+
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        if (!isMatch(citiesPl, citiesUA, workplace) && isMatch(plAria, uaAria, workplace)) {
+        String codeISO = getCodeISOByCity(workplace);
+        if (!isMatch(List.of("pl", "ua", "cz", "sk", "hu", "remote", "foreign", "all"), codeISO)) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while (true) {
-            Document doc = getDocument(workplace, valueOf(page), level, language);
+            Document doc = getDocument(codeISO, workplace, valueOf(page), level, language);
             Elements elements = doc == null ? null : doc.getElementsByClass("posting-list-item");
             if (elements == null || elements.size() == 0) break;
             set.addAll(getNofluffjobsVacancies(elements, freshen));
@@ -64,5 +69,18 @@ public class NofluffjobsStrategy implements Strategy {
     public static String getToNofluffAddress(String address) {
         address = address.equals("") ? "Польша" : address.replaceAll("Zdalna", "Remote");
         return address;
+    }
+
+    public static String getNoff(String country) {
+        return switch (country) {
+            case "ua" -> "viddalena-robota/";
+            case "pl" -> "praca-zdalna/";
+            case "cz" -> "prace-na-dalku/";
+            case "sk" -> "praca-na-dialku/";
+            case "hu" -> "tavmunka/";
+            case "de" -> "Homeoffice/";
+            case "bg" -> "Дистанционната%20работа/";
+            default -> "Remote"; // ca, uk
+        };
     }
 }

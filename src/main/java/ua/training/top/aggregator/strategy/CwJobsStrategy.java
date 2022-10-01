@@ -16,9 +16,10 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesCwJobs;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getUK;
@@ -39,7 +40,7 @@ public class CwJobsStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = isMatch(remoteAria, foreignAria, workplace) || workplace.equals("all") ? "all" :
+        workplace = isMatches(of(remoteAria, foreignAria, of("all")), workplace) ? "all" :
                 isMatch(citiesUK, workplace)? getUK(workplace).toLowerCase() : "-1";
         if (workplace.equals("-1")) {
             return new ArrayList<>();
@@ -50,7 +51,7 @@ public class CwJobsStrategy implements Strategy {
             Document doc = getDocument(workplace, valueOf(page), level, language);
             Elements elements = doc == null ? null : doc.getElementsByAttributeValue("data-at","job-item");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesCwJobs(elements, freshen));
+//            set.addAll(getVacanciesCwJobs(elements, freshen));
             if (page < getMaxPages(itJob, freshen.getWorkplace())) page++;
             else break;
         }

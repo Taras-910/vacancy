@@ -15,17 +15,18 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getJobsMarket;
-import static ua.training.top.util.collect.data.ConstantsUtil.get_vacancy;
-import static ua.training.top.util.collect.data.ConstantsUtil.jobsmarket;
+import static ua.training.top.util.collect.ElementUtil.getJobsMarketUA;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.isMatches;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 
-public class JobsMarketStrategy implements Strategy {
-    private final static Logger log = LoggerFactory.getLogger(JobsMarketStrategy.class);
+public class JobsMarketUA implements Strategy {
+    private final static Logger log = LoggerFactory.getLogger(JobsMarketUA.class);
     private static final String url = "https://jobsmarket.com.ua/search?position=%s&page=%s";
-//    private static final String url = "https://jobsmarket.io/search?position=%s&page=%s";
-    //    https://jobsmarket.io/search?position=Java%20Developer&page=2
+//    private static final String url = "https://jobsmarket.com.ua/search?position=%s&page=%s";
+//    https://jobsmarket.com.ua/search?position=Java%20Developer&page=2
 
     protected Document getDocument(String position, String page) {
         return DocumentUtil.getDocument(format(url, position, page));
@@ -35,7 +36,7 @@ public class JobsMarketStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        if (!isWorkplaceJobsMarket(workplace)) {
+        if (!isMatches(of(uaAria, remoteAria, of("all")), workplace)) {
            return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
@@ -47,18 +48,14 @@ public class JobsMarketStrategy implements Strategy {
             int page = 1;
             while (true) {
                 Document doc = getDocument(position, String.valueOf(page));
-                Elements elements = doc == null ? null : doc.getElementsByAttributeValue("class", "card");
+                Elements elements = doc == null ? null : doc.getElementsByClass("job-description");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getJobsMarket(elements, freshen));
+                set.addAll(getJobsMarketUA(elements, freshen));
                 if (page < getMaxPages(jobsmarket, position)) page++;
                 else break;
             }
         }
-        reCall(set.size(), new JobsMarketStrategy());
+        reCall(set.size(), new JobsMarketUA());
         return new ArrayList<>(set);
-    }
-
-    public static boolean isWorkplaceJobsMarket(String workplace) {
-        return workplace.equals("all") || workplace.equals("foreign") || workplace.equals("remote");
     }
 }

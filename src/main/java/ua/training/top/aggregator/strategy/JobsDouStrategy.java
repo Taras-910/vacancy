@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesJobs;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.ElementUtil.getJobsDou;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getJobsDouForeign;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_ua;
@@ -34,7 +36,7 @@ public class JobsDouStrategy implements Strategy {
                 workplace.equals("all") && language.equals("all") && level.equals("all") ?  "" : "?",
                 isMatch(remoteAria, workplace) ? "remote&from=maybe" : "",
                 language.equals("all") || isMatch(remoteAria, workplace) ? "" : getJoin("category=", language, "&descr=1"),
-                workplace.equals("all") || isMatch(remoteAria, workplace) || isMatch(foreignAria, workplace) ? "" :
+                workplace.equals("all") || isMatches(of(remoteAria, foreignAria), workplace) ? "" :
                         getJoin(level.equals("all") && language.equals("all") ? "" : "&","city=",
                                 isMatch(citiesUA, workplace) ? getUA_ua(workplace) : getJobsDouForeign(workplace)),
                 level.equals("all") || isMatch(remoteAria, workplace) ? "" : getLevel(jobs, level)));
@@ -54,7 +56,7 @@ public class JobsDouStrategy implements Strategy {
                 if(i-- == 0) break;
                 continue;
             }
-            set.addAll(getVacanciesJobs(elements, freshen));
+            set.addAll(getJobsDou(elements, freshen));
         }
         reCall(set.size(), new JobsDouStrategy());
         return new ArrayList<>(set);

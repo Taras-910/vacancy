@@ -18,17 +18,15 @@ import ua.training.top.util.collect.data.ToUtil;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitVacanciesKeeping;
-import static ua.training.top.model.Goal.UPGRADE;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.collect.data.DataUtil.finish_message;
+import static ua.training.top.util.collect.data.ConstantsUtil.finish_message;
+import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
 import static ua.training.top.util.collect.data.ToUtil.getAnchorEmployer;
 import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
 
@@ -119,14 +117,44 @@ public class AggregatorService {
     public static void main(String[] args) {
         setTestAuthorizedUser(asAdmin());
 
-        List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                asNewFreshen("java", "all", "all", UPGRADE));
-        AtomicInteger i = new AtomicInteger(1);
-        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
-        log.info("\n\ncommon = {}", vacancyTos.size());
+//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(
+//                asNewFreshen("java", "all", "all", UPGRADE));
+//        AtomicInteger i = new AtomicInteger(1);
+//        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
+//        log.info("\n\ncommon = {}", vacancyTos.size());
+
+        String salary = "$130,000 - $140,000 / year";
+        System.out.println(getToSalaries(salary));
 
     }
 }
+
+
+
+//   у.е. work
+//                    /*new Provider(new CaIndeedStrategy()),*/   /*только ca*/
+//                    /*new Provider(new CwJobsStrategy())*/      /*только uk*/                // не работает!!!!!!!!!!
+//                    new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
+//                    new Provider(new ItJobsStrategy()),       /*только ca*/
+//                    new Provider(new ItJobsWatchStrategy()),  /*только uk*/
+
+//                    new Provider(new JobBankStrategy()),      /*только ca - от правительства канады*/
+//                    new Provider(new JobsBGStrategy()),       /*только bg*/
+
+//                    new Provider(new JobsMarketStrategy()),   /*только за_рубежем USA!!!*/
+// salary???   on site: $130,000 - $140,000 / year
+
+
+//                    new Provider(new JobsDouStrategy()),      /*полезные статьи  */
+//                    new Provider(new LinkedinStrategy()),     /*нет удаленно  нет salary*/
+//                    new Provider(new NofluffjobsStrategy()),  /*только pl*/
+//                    /*new Provider(new RabotaStrategy()),*/     /*мало за_рубежем Украина ??? страница: js-функция */     //!!!!!!!!!!
+//                    /*new Provider(new ReedStrategy())*/        /*только uk*/             // не работает!!!!!!!!!!
+//                    /*new Provider(new UAIndeedStrategy()),*/   /*только ua // нет salary*/
+//                    new Provider(new UAJoobleStrategy()),     /*меняет теги //ua, bg, ca, uk, de */
+//                    new Provider(new WorkStrategy()),         /*нет за_рубежем*/
+//                    new Provider(new ZaplataStrategy())       /*только bg*/
+
 
 //                                   *      *
 //   djinni*12 jobMar jobs linked nof rab*40 indeed joble work jobcareer total

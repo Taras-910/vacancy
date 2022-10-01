@@ -5,7 +5,9 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.aggregator.installation.InstallationUtil.maxLengthText;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 
 public class ToUtil {
 
@@ -35,6 +37,46 @@ public class ToUtil {
 
     public static boolean isToValid(Freshen f, String text) {
         String temp = text.toLowerCase();
-        return (temp.contains(f.getLanguage()) || isMatch(workersIT, temp)) && wasteSkills.stream().noneMatch(temp::contains);
+        return (f.getLanguage().equals("all") || temp.contains(f.getLanguage()) || isMatch(workersIT, temp))
+                && wasteSkills.stream().noneMatch(temp::contains);
     }
+
+    public static String getToTitle(String title) {
+        return isEmpty(title) ? link : getUpperStart(correctJavaScript(title));
+    }
+
+    public static String getToName(String compName) {
+        return isEmpty(compName) ? link : isContains(compName, ",") ? compName.split(",")[0].trim() : compName;
+    }
+
+    public static String getToSkills(String skills) {
+        if (isEmpty(skills)) {
+            return link;
+        }
+        skills = isContains(skills, "Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
+        return correctJavaScript(skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills);
+    }
+
+    public static String correctJavaScript(String text) {
+        return isContains(text, "Java Script") ? text.replaceAll("Java Script", "JavaScript") : text;
+    }
+
+    public static String getToUrl(String site, String url){
+        String prefix = switch (site) {
+            case djinni -> "https://djinni.co";
+            case cwjobs -> "https://www.cwjobs.co.uk/";
+            case nofluff -> "https://nofluffjobs.com";
+            case indeed -> "https://ua.indeed.com/viewjob?jk=";
+            case indeed_ca -> "https://ca.indeed.com/viewjob?jk=";
+            case jooble -> "jooble.org/desc/";
+            case rabota -> "https://rabota.ua";
+            case reed -> "https://www.reed.co.uk/";
+            case work -> "https://www.work.ua";
+            case jobBank -> "https://www.jobbank.gc.ca";
+            case itJobsWatch -> "https://www.itjobswatch.co.uk";
+            default -> "";
+        };
+        return getJoin(prefix,url);
+    }
+
 }

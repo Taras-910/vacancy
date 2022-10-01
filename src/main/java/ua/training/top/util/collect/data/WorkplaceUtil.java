@@ -1,12 +1,14 @@
 package ua.training.top.util.collect.data;
 
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static java.util.List.of;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 
 public class WorkplaceUtil {
 
     public static String getDjinniShortcut(String city) {
-        String workplace =  isMatch(uaAria, citiesUA, city) ? "UKR" : isMatch(plAria, citiesPl, city) ? "POL" :
-                isMatch(deAria, citiesDe, city) ? "DEU" : city.equals("all") ? "eu" : city.equals("remote") ? "remote" :  "other";
+        String workplace =  isMatches(of(uaAria, citiesUA), city) ? "UKR" : isMatches(of(plAria, citiesPl), city) ? "POL" :
+                isMatches(of(deAria, citiesDe), city) ? "DEU" : city.equals("all") ? "eu" : city.equals("remote") ? "remote" :  "other";
         return getJoin("?",city.equals("remote") ? "employment=" : "region=",workplace);
     }
 
@@ -14,13 +16,13 @@ public class WorkplaceUtil {
         return switch (workplace) {
             case "all", "canada", "канада", "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном" -> "all";
             case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "remote";
-            case "манитоба", "манітоба", "manitoba" -> "&location=Manitoba&location-id=MB&location-type=2";
             case "ontario", "онтарио", "онтаріо" -> "&location=Ontario&location-id=ON&location-type=2";
-            case "ottawa", "оттава" -> "&location=Ottawa%2C+ON&location-id=315580&location-type=1";
             case "альберта", "alberta" -> "&location=Alberta&location-id=AB&location-type=2";
+            case "ottawa", "оттава" -> "&location=Ottawa%2C+ON&location-id=315580&location-type=1";
             case "quebec", "квебек" -> "&location=Quebec%2C+QC&location-id=117253&location-type=1";
             case "toronto", "торонто" -> "&location=Toronto%2C+ON&location-id=481104&location-type=1";
             case "montréal", "монреаль" -> "&location=Montreal%2C+QC&location-id=182156&location-type=1";
+            case "манитоба", "манітоба", "manitoba" -> "&location=Manitoba&location-id=MB&location-type=2";
             case "vancouver", "ванкувер" -> "&location=Vancouver%2C+BC&location-id=775867&location-type=1";
             case "calgary", "калгарі", "калгари" -> "&location=Calgary%2C+AB&location-id=647636&location-type=1";
             case "brampton", "брэмптон", "бремптон" -> "&location=Brampton%2C+ON&location-id=420051&location-type=1";
@@ -60,126 +62,137 @@ public class WorkplaceUtil {
     public static String getLinkedin(String city){
         return switch (city) {
             case "київ", "киев", "kyiv", "kiev" -> "&location=Киев%2C%20Киев%2C%20Украина&geoId=104035893";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> "&location=Днепропетровск%2C%20Днепропетровская%20область%2C%20Украина&geoId=103663309";
-            case "одеса", "одесса", "odessa", "odesa" -> "&location=Одесса%2C%20Одесская%20область%2C%20Украина&geoId=100182723";
-            case "львів", "львов", "lviv" -> "&location=Львов%2C%20Львовская%20область%2C%20Украина&geoId=104983263";
-            case "харьків", "харьков", "kharkiv" -> "&location=Харьков%2C%20Харьковская%20область%2C%20Украина&geoId=103352426";
-            case "вінниця", "винница" -> "&location=Винница%2C%20Винницкая%20область%2C%20Украина&geoId=106030501";
-            case "ужгород" -> "&location=Ужгород%2C%20Закарпатская%20область%2C%20Украина&geoId=106974374";
-            case "івано-франківск", "ивано-франковск" -> "&location=Ивано-Франковск%2C%20Ивано-Франковская%20область%2C%20Украина&geoId=109800298";
             case "полтава" -> "&location=Полтава%2C%20Полтавская%20область%2C%20Украина&geoId=102507522";
+            case "ужгород" -> "&location=Ужгород%2C%20Закарпатская%20область%2C%20Украина&geoId=106974374";
+            case "вінниця", "винница" -> "&location=Винница%2C%20Винницкая%20область%2C%20Украина&geoId=106030501";
+            case "львів", "львов", "lviv" -> "&location=Львов%2C%20Львовская%20область%2C%20Украина&geoId=104983263";
+            case "одеса", "одесса", "odessa", "odesa" -> "&location=Одесса%2C%20Одесская%20область%2C%20Украина&geoId=100182723";
+            case "харьків", "харьков", "kharkiv" -> "&location=Харьков%2C%20Харьковская%20область%2C%20Украина&geoId=103352426";
+            case "чернігів", "чернигов", "chernigiv" -> "&location=Чернигов%2C%20Черниговская%20область%2C%20Украина&geoId=100735342";
+            case "тернопіль", "тернополь", "ternopil" -> "&location=Тернополь%2C%20Тернопольская%20область%2C%20Украина&geoId=101854836";
             case "запоріжжя", "запорожье", "zaporizhzhya" -> "&location=Запорожье%2C%20Запорожская%20область%2C%20Украина&geoId=104184784";
             case "черкаси", "черкассы", "cherkasy", "cherkassy" -> "&location=Черкассы%2C%20Черкасская%20область%2C%20Украина&geoId=104320082";
-            case "тернопіль", "тернополь", "ternopil" -> "&location=Тернополь%2C%20Тернопольская%20область%2C%20Украина&geoId=101854836";
-            case "чернігів", "чернигов", "chernigiv" -> "&location=Чернигов%2C%20Черниговская%20область%2C%20Украина&geoId=100735342";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "&location=Днепропетровск%2C%20Днепропетровская%20область%2C%20Украина&geoId=103663309";
+            case "івано-франківск", "ивано-франковск" -> "&location=Ивано-Франковск%2C%20Ивано-Франковская%20область%2C%20Украина&geoId=109800298";
 
             case "канада", "canada" -> "&location=Канада&geoId=101174742";
             case "toronto", "торонто", "ontario", "онтарио", "онтаріо" -> "&location=Торонто%2C%20Онтарио%2C%20Канада&geoId=100025096";
-            case "calgary", "калгарі", "калгари" -> "&location=Калгари%2C%20Альберта%2C%20Канада&geoId=102199904";
-            case "edmonton", "едмонтон", "эдмонтон" -> "&location=Эдмонтон%2C%20Альберта%2C%20Канада&geoId=106535873";
-            case "vancouver", "ванкувер", "британська колумбія", "британская колумбия", "british columbia" -> "&location=Ванкувер%2C%20Британская%20Колумбия%2C%20Канада&geoId=103366113";
-            case "brampton", "брэмптон", "бремптон" -> "&location=Брамптон%2C%20Онтарио%2C%20Канада&geoId=104669182";
-            case "ottawa", "оттава" -> "&location=Оттава%2C%20Онтарио%2C%20Канада&geoId=106234700";
             case "mississauga", "миссиссога", "міссісога" -> "&location=Миссиссога%2C%20Онтарио%2C%20Канада&geoId=101788145";
-            case "виннипег", "вінніпег", "winnipeg", "манитоба", "манітоба", "manitoba" -> "&location=Виннипег%2C%20Манитоба%2C%20Канада&geoId=101213860";
+            case "edmonton", "едмонтон", "эдмонтон" -> "&location=Эдмонтон%2C%20Альберта%2C%20Канада&geoId=106535873";
+            case "brampton", "брэмптон", "бремптон" -> "&location=Брамптон%2C%20Онтарио%2C%20Канада&geoId=104669182";
+            case "calgary", "калгарі", "калгари" -> "&location=Калгари%2C%20Альберта%2C%20Канада&geoId=102199904";
+            case "vancouver", "ванкувер", "британська колумбія", "британская колумбия", "british columbia"
+                    -> "&location=Ванкувер%2C%20Британская%20Колумбия%2C%20Канада&geoId=103366113";
+            case "ottawa", "оттава" -> "&location=Оттава%2C%20Онтарио%2C%20Канада&geoId=106234700";
+            case "виннипег", "вінніпег", "winnipeg", "манитоба", "манітоба", "manitoba"
+                    -> "&location=Виннипег%2C%20Манитоба%2C%20Канада&geoId=101213860";
 
             case "польща", "польша", "poland", "pol" -> "&location=Польша&geoId=105072130";
-            case "варшава", "warszawa" -> "&location=Варшава%2C%20Мазовецкое%20воеводство%2C%20Польша&geoId=105076658";
-            case "krakow", "краков", "краків" -> "&location=Краков%2C%20Малое%20польское%20воеводство%2C%20Польша&geoId=103263110";
             case "wroclaw", "вроцлав" -> "&location=Вроцлав%2C%20Нижняя%20Силезия%2C%20Польша&geoId=105001681";
-            case "gdansk", "гданськ", "гданск" -> "&location=Гданьск%2C%20Померания%2C%20Польша&geoId=104070045";
-            case "poznan", "познань" -> "&location=Познань%2C%20Великопольское%20воеводство%2C%20Польша&geoId=100231202";
-            case "katowice", "катовіце", "катовице" -> "&location=Катовице%2C%20Силезия%2C%20Польша&geoId=104550910";
             case "lodz", "лодзь" -> "&location=Лодзь%2C%20Лодзинское%20воеводство%2C%20Польша&geoId=106518625";
+            case "gdansk", "гданськ", "гданск" -> "&location=Гданьск%2C%20Померания%2C%20Польша&geoId=104070045";
+            case "katowice", "катовіце", "катовице" -> "&location=Катовице%2C%20Силезия%2C%20Польша&geoId=104550910";
+            case "варшава", "warszawa" -> "&location=Варшава%2C%20Мазовецкое%20воеводство%2C%20Польша&geoId=105076658";
+            case "poznan", "познань" -> "&location=Познань%2C%20Великопольское%20воеводство%2C%20Польша&geoId=100231202";
+            case "krakow", "краков", "краків" -> "&location=Краков%2C%20Малое%20польское%20воеводство%2C%20Польша&geoId=103263110";
 
             case "англія", "англия", "england", "united kingdom" -> "&location=Агломерация%20Лондона%2C%20Великобритания&geoId=90009496";
-            case "london", "лондон" -> "&location=Лондон%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102257491";
-            case "moorgate", "мургейт" -> "&location=Moorgate%2C%20England%2C%20United%20Kingdom&geoId=110555673";
-            case "shoreditch", "шордітч", "шордитч" -> "&location=Shoreditch%2C%20England%2C%20United%20Kingdom&geoId=102848790";
-            case "soho", "сохо" -> "&location=Soho%2C%20England%2C%20United%20Kingdom&geoId=103381863";
-            case "southwark", "саутворк" -> "&location=Southwark%2C%20England%2C%20United%20Kingdom&geoId=109793197";
+            case "cambridgeshire", "кембріджшир", "кембриджшир" -> "&location=Кембриджшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102057244";
             case "westminster", "вестмінстер", "вестминстер" -> "&location=Вестминстер%2C%20Англия%2C%20Соединённое%20Королевство&geoId=106628425";
+            case "birmingham","бірмінгем", "бирмингем" -> "&location=Бирмингем%2C%20Англия%2C%20Соединённое%20Королевство&geoId=100356971";
+            case "scotland", "шотландія", "шотландия" -> "&location=Глазго%2C%20Шотландия%2C%20Соединённое%20Королевство&geoId=102681496";
+            case "lanarkshire", "ланаркшир" -> "&location=Саут-Ланаркшир%2C%20Шотландия%2C%20Соединённое%20Королевство&geoId=103444309";
+            case "bristol", "брістоль", "бристоль" -> "&location=Бристоль%2C%20Англия%2C%20Соединённое%20Королевство&geoId=105982022";
+            case "shoreditch", "шордітч", "шордитч" -> "&location=Shoreditch%2C%20England%2C%20United%20Kingdom&geoId=102848790";
             case "milton", "мілтон", "милтон" -> "&location=Милтон-Кинс%2C%20Англия%2C%20Соединённое%20Королевство&geoId=101356765";
             case "clerkenwell", "клеркенвелл" -> "&location=Кларкенуэлл%2C%20Англия%2C%20Соединённое%20Королевство&geoId=107771707";
-            case "bristol", "брістоль", "бристоль" -> "&location=Бристоль%2C%20Англия%2C%20Соединённое%20Королевство&geoId=105982022";
-            case "leeds", "лідс","лидс" -> "&location=Лидс%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102943586";
-            case "birmingham","бірмінгем", "бирмингем" -> "&location=Бирмингем%2C%20Англия%2C%20Соединённое%20Королевство&geoId=100356971";
-            case "glasgow","глазго" -> "&location=Глазго%2C%20Шотландия%2C%20Соединённое%20Королевство&geoId=102681496";
             case "manchester", "манчестер" -> "&location=Манчестер%2C%20Англия%2C%20Соединённое%20Королевство&geoId=114456426";
             case "yorkshire", "йоркшир" -> "&location=Уэст-Йоркшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=104194865";
-            case "cambridgeshire", "кембріджшир", "кембриджшир" -> "&location=Кембриджшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102057244";
-            case "lanarkshire", "ланаркшир" -> "&location=Саут-Ланаркшир%2C%20Шотландия%2C%20Соединённое%20Королевство&geoId=103444309";
             case "hampshire", "гемпшир" -> "&location=Гэмпшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=106123994";
             case "berkshire", "беркшир" -> "&location=Виндзор%2C%20Англия%2C%20Соединённое%20Королевство&geoId=106443489";
-            case "nottinghamshire", "ноттінгемшир", "ноттингемшир" -> "&location=Ноттингемшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=100245663";
-            case "scotland", "шотландія", "шотландия" -> "&location=Глазго%2C%20Шотландия%2C%20Соединённое%20Королевство&geoId=102681496";
+            case "glasgow","глазго" -> "&location=Глазго%2C%20Шотландия%2C%20Соединённое%20Королевство&geoId=102681496";
+            case "leeds", "лідс","лидс" -> "&location=Лидс%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102943586";
+            case "london", "лондон" -> "&location=Лондон%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102257491";
+            case "southwark", "саутворк" -> "&location=Southwark%2C%20England%2C%20United%20Kingdom&geoId=109793197";
+            case "moorgate", "мургейт" -> "&location=Moorgate%2C%20England%2C%20United%20Kingdom&geoId=110555673";
+            case "nottinghamshire", "ноттінгемшир", "ноттингемшир"
+                    -> "&location=Ноттингемшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=100245663";
+            case "soho", "сохо" -> "&location=Soho%2C%20England%2C%20United%20Kingdom&geoId=103381863";
 
             case "болгария", "болгарія", "bulgaria" -> "&location=Болгария&geoId=105333783";
+            case "варна", "varna" -> "&location=Агломерация%20Варны&geoId=90010197";
+            case "бургас", "burgas" -> "&location=Агломерация%20Бургаса&geoId=90010196";
+            case "ловеч", "lovech" -> "&location=Ловеч%2C+Ловеч%2C+Болгария&geoId=114680252";
+            case "русе", "rousse" -> "&location=Русе%2C%20Русе%2C%20Болгария&geoId=111411131";
+            case "шумен", "shumen" -> "&location=Шумен%2C%20Шумен%2C%20Болгария&geoId=110401202";
+            case "плевен", "pleven" -> "&location=Плевен%2C%20Плевен%2C%20Болгария&geoId=113129693";
+            case "добрич", "dobrich" -> "&location=Добрич%2C%20Добрич%2C%20Болгария&geoId=103914939";
+            case "смолян", "smolyan" -> "&location=Смолян%2C%20Смолян%2C%20Болгария&geoId=105837698";
+            case "банско", "bansko" -> "&location=Банско%2C%20Благоевград%2C%20Болгария&geoId=114686435";
             case "софия", "софія", "sofia" -> "&location=София%2C%20Sofia%20City%2C%20Болгария&geoId=103835801";
             case "пловдив", "пловдів", "plovdiv" -> "&location=Пловдив%2C%20Пловдив%2C%20Болгария&geoId=100783188";
-            case "бургас", "burgas" -> "&location=Агломерация%20Бургаса&geoId=90010196";
-            case "варна", "varna" -> "&location=Агломерация%20Варны&geoId=90010197";
-            case "русе", "rousse" -> "&location=Русе%2C%20Русе%2C%20Болгария&geoId=111411131";
-            case "плевен", "pleven" -> "&location=Плевен%2C%20Плевен%2C%20Болгария&geoId=113129693";
-            case "шумен", "shumen" -> "&location=Шумен%2C%20Шумен%2C%20Болгария&geoId=110401202";
-            case "добрич", "dobrich" -> "&location=Добрич%2C%20Добрич%2C%20Болгария&geoId=103914939";
-            case "банско", "bansko" -> "&location=Банско%2C%20Благоевград%2C%20Болгария&geoId=114686435";
             case "силистра", "сілістра", "silistra" -> "&location=Силистра%2C%20Силистра%2C%20Болгария&geoId=105276859";
-            case "ловеч", "lovech" -> "&location=Ловеч%2C+Ловеч%2C+Болгария&geoId=114680252";
-            case "смолян", "smolyan" -> "&location=Смолян%2C%20Смолян%2C%20Болгария&geoId=105837698";
             case "благоевград", "blagoevgrad" -> "&location=Благоевград%2C%20Благоевград%2C%20Болгария&geoId=109017058";
 
             case "німеччина", "германия", "germany" -> "&location=Германия&geoId=101282230";
             case "берлин", "berlin", "берлін" -> "&location=Берлин%2C%20Берлин%2C%20Германия&geoId=101283667";
             case "маннхейм", "mannheim" -> "&location=Маннхейм%2C%20Баден-Вюртемберг%2C%20Германия&geoId=104877661";
             case "ганновер", "hanover" -> "&location=Ганновер%2C%20Нижняя%20Саксония%2C%20Германия&geoId=102177763";
-            case "дюссельдорф", "dusseldorf" -> "&location=Дюссельдорф%2C%20Северный%20Рейн-Вестфалия%2C%20Германия&geoId=104008204";
-            case "мюнхен", "munich" -> "&location=Мюнхен%2C%20Бавария%2C%20Германия&geoId=100477049";
-            case "франкфурт на майне", "frankfurt" -> "&location=Франкфурт-на-Майне%2C%20Гессен%2C%20Германия&geoId=106150090";
             case "karlsruhe", "карлсруе" -> "&location=Карлсруе%2C%20Баден-Вюртемберг%2C%20Германия&geoId=106523486";
-            case "чехія", "чехия", "czechia" -> "&location=Чехия&geoId=104508036";
-            case "швеція", "швеция", "sweden" -> "&location=Швеция&geoId=105117694";
-            case "фінляндія", "финляндия", "finland" -> "&location=Финляндия&geoId=100456013";
-            case "черногория" -> "&location=Черногория&geoId=100733275";
-            case "сша" -> "&location=Соединенные%20Штаты%20Америки&geoId=103644278";
+            case "дюссельдорф", "dusseldorf"
+                    -> "&location=Дюссельдорф%2C%20Северный%20Рейн-Вестфалия%2C%20Германия&geoId=104008204";
+            case "мюнхен", "munich" -> "&location=Мюнхен%2C%20Бавария%2C%20Германия&geoId=100477049";
+            case "франкфурт на майне", "frankfurt"
+                    -> "&location=Франкфурт-на-Майне%2C%20Гессен%2C%20Германия&geoId=106150090";
 
             case "ізраїль", "ізраіль", "израиль", "israel", "ישראל" -> "&location=Израиль&geoId=101620260";
-            case "иерусалим", "єрусалим", "jerusalem", "ירושלים" -> "&location=Иерусалим%2C%20Центральная%20Ява%2C%20Индонезия&geoId=104618461";
-            case "тель-авив", "тель авив", "тель-авів", "тель авів", "тел-авив", "тел авив", "тел-авів", "тел авів", "tel aviv", "תל אביב" -> "&location=Тель%20Авив-Яфо%2C%20Тель%20Авив%2C%20Израиль&geoId=101570771";
-            case "хайфа", "haifa" , "חיפה" -> "&location=Хайфа%2C%20Хайфа%2C%20Израиль&geoId=101939752";
-            case "ришон-ле-цион", "ришон ле цион", "рішон-ле-ціон", "рішон ле ціон", "рішон-ле-цион", "рішон ле цион", "rishon lezion" , "ראשון לציון" -> "&location=Ришон%20Ле-Цион%2C%20Центральный%20округ%2C%20Израиль&geoId=101028188";
-            case "петах-тиква", "петах тиква", "петах-тіква", "петах тіква", "petah-tikva" , "פתח-תקווה" -> "&location=Петах%20Тиква%2C%20Центральный%20округ%2C%20Израиль&geoId=105752964";
-            case "ашдод", "ashdod" , "אשדוד" -> "&location=Ашдод%2C%20Южный%20округ%2C%20Израиль&geoId=101287413";
-            case "нетания", "нетанія", "netanya" , "נתניה" -> "&location=Нетания%2C%20Центральный%20округ%2C%20Израиль&geoId=102178024";
-            case "беэр-шева", "беэр шева", "беер-шева", "беер шева", "beersheba" , "באר שבע" -> "&location=Беэр%20Шева%2C%20Южный%20округ%2C%20Израиль&geoId=106471739";
-            case "бней-брак", "бней брак", "bnei marriage" , "נישואי בני" -> "&location=Бней-Брак%2C%20Тель%20Авив%2C%20Израиль&geoId=103182455";
-            case "холон", "holon" -> "&location=Холон%2C%20Тель%20Авив%2C%20Израиль&geoId=104624617";
             case "рамат-ган", "рамат ган", "ramat-gan" , "רמת-גן" -> "&location=Рамат%20Ган%2C%20Тель%20Авив%2C%20Израиль&geoId=102981967";
+            case "нетания", "нетанія", "netanya" , "נתניה" -> "&location=Нетания%2C%20Центральный%20округ%2C%20Израиль&geoId=102178024";
+            case "ришон-ле-цион", "ришон ле цион", "рішон-ле-ціон", "рішон ле ціон", "рішон-ле-цион", "рішон ле цион",
+                    "rishon lezion" , "ראשון לציון" -> "&location=Ришон%20Ле-Цион%2C%20Центральный%20округ%2C%20Израиль&geoId=101028188";
+            case "бат-ям", "бат ям", "bat-yam" , "בת-ים" -> "&location=Бат%20Ям%2C%20Тель%20Авив%2C%20Израиль&geoId=100181358";
             case "реховот", "rehovot" , "רחובות" -> "&location=Реховот%2C%20Центральный%20округ%2C%20Израиль&geoId=104300930";
             case "ашкелон", "ashkelon" , "אשקלון" -> "&location=Ашкелон%2C%20Южный%20округ%2C%20Израиль&geoId=102870352";
-            case "бат-ям", "бат ям", "bat-yam" , "בת-ים" -> "&location=Бат%20Ям%2C%20Тель%20Авив%2C%20Израиль&geoId=100181358";
+            case "тель-авив", "тель авив", "тель-авів", "тель авів", "тел-авив", "тел авив", "тел-авів", "тел авів",
+                    "tel aviv", "תל אביב" -> "&location=Тель%20Авив-Яфо%2C%20Тель%20Авив%2C%20Израиль&geoId=101570771";
+            case "ашдод", "ashdod" , "אשדוד" -> "&location=Ашдод%2C%20Южный%20округ%2C%20Израиль&geoId=101287413";
+            case "хайфа", "haifa" , "חיפה" -> "&location=Хайфа%2C%20Хайфа%2C%20Израиль&geoId=101939752";
+            case "петах-тиква", "петах тиква", "петах-тіква", "петах тіква", "petah-tikva" , "פתח-תקווה"
+                    -> "&location=Петах%20Тиква%2C%20Центральный%20округ%2C%20Израиль&geoId=105752964";
+            case "холон", "holon" -> "&location=Холон%2C%20Тель%20Авив%2C%20Израиль&geoId=104624617";
+            case "иерусалим", "єрусалим", "jerusalem", "ירושלים"
+                    -> "&location=Иерусалим%2C%20Центральная%20Ява%2C%20Индонезия&geoId=104618461";
+            case "беэр-шева", "беэр шева", "беер-шева", "беер шева", "beersheba" , "באר שבע"
+                    -> "&location=Беэр%20Шева%2C%20Южный%20округ%2C%20Израиль&geoId=106471739";
+            case "бней-брак", "бней брак", "bnei marriage" , "נישואי בני"
+                    -> "&location=Бней-Брак%2C%20Тель%20Авив%2C%20Израиль&geoId=103182455";
 
             case "швейцарія", "швейцария", "switzerland" -> "&location=Саксонская+Швейцария%2C+Саксония%2C+Германия&geoId=100017800";
-            case "франція", "франция", "france" -> "&location=Франция&geoId=105015875";
-            case "італія", "италия", "italy" -> "&location=Италия&geoId=103350119";
-            case "сінгапур", "сингапур", "singapore" -> "&location=Сингапур&geoId=102454443";
             case "оаэ", "оае", "эмираты", "emirates" -> "&location=Объединенные%20Арабские%20Эмираты&geoId=104305776";
-            case "турция", "турція", "turkey" -> "&location=Турция&geoId=102105699";
-            case "норвегія", "норвегия", "norway" -> "&location=Норвегия&geoId=103819153";
-            case "австралія", "австралия", "australia" -> "&location=Австралия&geoId=101452733";
-            case "філіппіни", "филиппины", "philippines" -> "&location=Филиппины&geoId=103121230";
-            case "естонія", "эстония", "estonia" -> "&location=Эстония&geoId=102974008";
             case "netherlands", "голландия", "нідерланди" -> "&location=Голландия&geoId=102890719";
-            case "латвия", "латвія", "latvia" -> "&location=Латвия&geoId=104341318";
-            case "литва", "lithuania" -> "&location=Литва&geoId=101464403";
-            case "румыния", "руминія", "romania" -> "&location=Румыния&geoId=106670623";
-            case "венгрия", "венргія", "hungary" -> "&location=Венгрия&geoId=100288700";
-            case "дания",  "данія", "denmark" -> "&location=Дания&geoId=104514075";
-            case "бельгия",  "бельгія", "belgium" -> "&location=Бельгия&geoId=100565514";
+            case "філіппіни", "филиппины", "philippines" -> "&location=Филиппины&geoId=103121230";
+            case "австралія", "австралия", "australia" -> "&location=Австралия&geoId=101452733";
+            case "фінляндія", "финляндия", "finland" -> "&location=Финляндия&geoId=100456013";
+            case "сінгапур", "сингапур", "singapore" -> "&location=Сингапур&geoId=102454443";
             case "словакия", "словакія", "slovakia" -> "&location=Словакия&geoId=103119917";
-            case "греция", "греція", "greece" -> "&location=Греция&geoId=104677530";
-            case "кипр", "кіпр", "cyprus" -> "&location=Кипр&geoId=106774002";
+            case "норвегія", "норвегия", "norway" -> "&location=Норвегия&geoId=103819153";
+            case "бельгия",  "бельгія", "belgium" -> "&location=Бельгия&geoId=100565514";
+            case "естонія", "эстония", "estonia" -> "&location=Эстония&geoId=102974008";
+            case "венгрия", "венргія", "hungary" -> "&location=Венгрия&geoId=100288700";
+            case "румыния", "руминія", "romania" -> "&location=Румыния&geoId=106670623";
+            case "франція", "франция", "france" -> "&location=Франция&geoId=105015875";
             case "грузия", "грузія", "georgia" -> "&location=Грузия&geoId=106315325";
+            case "турция", "турція", "turkey" -> "&location=Турция&geoId=102105699";
+            case "греция", "греція", "greece" -> "&location=Греция&geoId=104677530";
+            case "латвия", "латвія", "latvia" -> "&location=Латвия&geoId=104341318";
+            case "швеція", "швеция", "sweden" -> "&location=Швеция&geoId=105117694";
+            case "сша" -> "&location=Соединенные%20Штаты%20Америки&geoId=103644278";
+            case "італія", "италия", "italy" -> "&location=Италия&geoId=103350119";
+            case "дания",  "данія", "denmark" -> "&location=Дания&geoId=104514075";
+            case "чехія", "чехия", "czechia" -> "&location=Чехия&geoId=104508036";
+            case "кипр", "кіпр", "cyprus" -> "&location=Кипр&geoId=106774002";
+            case "литва", "lithuania" -> "&location=Литва&geoId=101464403";
+            case "черногория" -> "&location=Черногория&geoId=100733275";
             case "мінськ", "минск" -> "&location=Минск%2C%20Минск%2C%20Республика%20Беларусь&geoId=105415465";
             default -> "&location=Украина&geoId=102264497"; //"украина", "україна", "ukraine", "all"
         };
@@ -230,7 +243,7 @@ public class WorkplaceUtil {
             case "британська колумбія", "британская колумбия", "british columbia" -> "British+Columbia";
             case "альберта", "alberta" -> "Alberta";
             case "манитоба", "манітоба", "manitoba" -> "Manitoba";
-            default -> "-1";
+            default -> "";
         };
     }
 
@@ -272,30 +285,28 @@ public class WorkplaceUtil {
     }
 
     public static String getJoobleUA(String workplace){
-        String city = workplace;
-        switch (city) {
-            case "київ", "киев", "kyiv", "kiev" -> city = "Київ";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> city = "Дніпро";
-            case "харків", "харьков", "kharkiv" -> city = "Харків";
-            case "одеса", "одесса", "odessa" -> city = "Одеса";
-            case "львів", "львов", "lviv" -> city = "Львів";
-            case "миколаїв", "николаев", "mykolaiv" -> city = "Миколаїв";
-            case "вінниця", "винница", "vinnitsia" -> city = "Вінниця";
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> city = "Запоріжжя";
-            case "чорновці", "черновцы", "chernivtsi" -> city = "Чорновці";
-            case "чернігів", "чернигов", "chernigiv" -> city = "Чернігів";
-            case "івано-франківськ", "ивано-франковск" -> city = "Івано-Франківськ";
-            case "ужгород", "uzhgorod" -> city = "Ужгород";
-            case "мінськ", "минск" -> city = "Мінськ%2C%20Білорусь";
-            case "варшава" -> city = "Варшава%2C%20Польща";
-            case "краків", "краков" -> city = "Краків%2C%20Польща";
-            case "германия", "німеччина", "germany" -> city = "Німеччина";
-            case "польша", "польща", "poland" -> city = "Польща";
-            case "канада", "canada" -> city = "Канада";
-            case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном" -> city = "за%20кордоном";
-            default -> city = workplace;
-        }
-        return city;
+        return switch (workplace) {
+            case "київ", "киев", "kyiv", "kiev" -> "Київ";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
+            case "харків", "харьков", "kharkiv" -> "Харків";
+            case "одеса", "одесса", "odessa" -> "Одеса";
+            case "львів", "львов", "lviv" -> "Львів";
+            case "миколаїв", "николаев", "mykolaiv" -> "Миколаїв";
+            case "вінниця", "винница", "vinnitsia" -> "Вінниця";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Запоріжжя";
+            case "чорновці", "черновцы", "chernivtsi" -> "Чорновці";
+            case "чернігів", "чернигов", "chernigiv" -> "Чернігів";
+            case "івано-франківськ", "ивано-франковск" -> "Івано-Франківськ";
+            case "ужгород", "uzhgorod" -> "Ужгород";
+            case "мінськ", "минск" -> "Мінськ%2C%20Білорусь";
+            case "варшава" -> "Варшава%2C%20Польща";
+            case "краків", "краков" -> "Краків%2C%20Польща";
+            case "германия", "німеччина", "germany" -> "Німеччина";
+            case "польша", "польща", "poland" -> "Польща";
+            case "канада", "canada" -> "Канада";
+            case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном" -> "за%20кордоном";
+            default -> workplace;
+        };
     }
 
     public static String getUA_ua(String city){
@@ -338,7 +349,7 @@ public class WorkplaceUtil {
             case "львів", "львов", "lviv" -> "Lviv";
             case "ужгород", "uzhgorod" -> "Uzhgorod";
             case "івано-франківськ", "ивано-франковск" -> "Ivano-Frankivsk";
-            case "тернопіль", "тернополь", "ternopil" -> "Тернопіль";
+            case "тернопіль", "тернополь", "ternopil" -> "Ternopil";
             default -> "";
         };
     }
@@ -352,6 +363,27 @@ public class WorkplaceUtil {
             case "poznan", "познань" -> "Poznan";
             case "katowice", "катовіце", "катовице" -> "Katowice";
             case "lodz", "лодзь" -> "Lodz";
+            default -> "";
+        };
+    }
+
+    public static String getCZ(String city) {
+        return switch (city) {
+            case "прага", "prague" -> "Prague";
+            case "брно", "brno" -> "Brno";
+            case "острава", "ostrava" -> "Ostrava";
+            case "плзень", "pilsen" -> "Pilsen";
+            case "оломоуц", "olomouc", "катовице" -> "Katowice";
+            case "карлові вари", "карлови вари", "karlovyvary" -> "Karlovy Vary";
+            default -> "";
+        };
+    }
+
+    public static String getSK(String city) {
+        return switch (city) {
+            case "братислава", "братіслава", "bratislava" -> "Bratislava";
+            case "кошице", "кошіце", "košice" -> "Košice";
+            case "прешов", "prešov" -> "Ostrava";
             default -> "";
         };
     }
@@ -372,7 +404,7 @@ public class WorkplaceUtil {
             case "ловеч", "lovech" -> "lovech/";
             case "смолян", "smolyan" -> "smolyan/";
             case "благоевград", "blagoevgrad" -> "blagoevgrad/";
-            default -> "";
+            default -> "bulgaria/";
         };
     }
 
@@ -398,6 +430,7 @@ public class WorkplaceUtil {
 
     public static String getUK(String city){
         return  switch (city) {
+//            case "велика британія" -> "Велика%20Британія";
             case "london", "лондон" -> "London";
             case "st james", "cент джеймс", "st_james", "cент_джеймс" -> "St James";
             case "moorgate", "мургейт" -> "Moorgate";
@@ -439,17 +472,89 @@ public class WorkplaceUtil {
         };
     }
 
-    public static String getRemoteByCountry(String country) {
-        return switch (country) {
-            case "ua" -> "Віддалено";
-            case "bg" -> "Дистанционната%20работа";
-            case "pl" -> "Zdalna";
-            case "de" -> "Homeoffice";
-            default -> "Remote"; // ca, uk
+    public static String getAe(String city){
+        return  switch (city) {
+            case "дубай", "дубаи", "дубаі", "dubai" -> "Dubai";
+            case "abu dhabi","абу-дабі", "абу-даби", "абу даби", "абу дабі" -> "Abu Dhabi";
+            case "эль-айн", "эль айн", "ель-айн", "ель айн", "al ain" -> "Al Ain";
+            case "шарджа",  "sharjah" -> "Sharjah";
+            default -> "";
         };
     }
 
-    public static String getCityByCountry(String country, String workplace) {
+    public static String getFr(String city){
+        return  switch (city) {
+            case "париж", "paris" -> "Paris";
+            case "марсель", "marseille" -> "Marseille";
+            case "лион", "ліон", "lyon" -> "Lyon";
+            case "тулуза", "toulouse" -> "Toulouse";
+            case "ницца", "ніцца", "nice" -> "Nice";
+            case "нант", "nantes" -> "Nantes";
+            case "страсбург", "strasbourg" -> "Strasbourg";
+            case "монпелье", "монпельє", "montpellier" -> "Montpellier";
+            case "бордо", "bordeaux" -> "Bordeaux";
+            case "лилль", "лілль", "lille" -> "Lille";
+            case "ренн", "rennes" -> "Rennes";
+            default -> "";
+        };
+    }
+
+    public static String getIt(String city){
+        return  switch (city) {
+            case "рим", "roma" -> "Roma";
+            case "лацио", "лаціо", "lazio" -> "Lazio";
+            case "милан", "мілан", "milano" -> "Milano";
+            case "ломбардия", "ломбардія", "lombardia" -> "Lombardia";
+            case "неаполь", "napoli" -> "Napoli";
+            case "кампания", "кампанія", "campania" -> "Campania";
+            case "турин", "torino" -> "Torino";
+            case "пьемонт", "пємонт", "piemonte" -> "Piemonte";
+            case "палермо", "palermo" -> "Palermo";
+            case "сицилия", "сицілія", "sicilia" -> "Sicilia";
+            case "генуя", "genova" -> "Genova";
+            case "лигурия", "лігурія", "liguria" -> "Liguria";
+            case "болонья", "bologna" -> "Bologna";
+            case "эмилия-романья", "эмілія-романья", "эмилия романья", "эмілія романья", "emilia-romagna" -> "Emilia-romagna";
+            case "флоренция", "флоренція", "firenze" -> "Firenze";
+            default -> "";
+        };
+    }
+
+    public static String getFi(String city){
+        return  switch (city) {
+            case "хельсинки", "хельсінкі", "helsinki" -> "Helsinki";
+            case "еспоо", "эспоо", "espoo" -> "Espoo";
+            case "тампере", "tampere" -> "Tampere";
+            case "вантаа", "vantaa" -> "Vantaa";
+            case "турку", "turku" -> "Turku";
+            default -> "";
+        };
+    }
+
+    public static String getCh(String city){
+        return  switch (city) {
+            case "цюрих", "цюріх", "zürich" -> "Zürich";
+            case "женева", "genève" -> "Genève";
+            case "базель", "basel" -> "Basel";
+            case "лозанна", "lausanne" -> "Lausanne";
+            case "берн", "bern" -> "Bern";
+            case "винтертур", "winterthur" -> "Winterthur";
+            case "люцерн", "luzern" -> "Luzern";
+            case "санкт-галлен", "санкт-гален", "санкт галлен", "санкт гален", "st. gallen" -> "St. Gallen";
+            default -> "";
+        };
+    }
+
+    public static String getSe(String city){
+        return  switch (city) {
+            case "стокгольм", "stockholm" -> "Stockholm";
+            case "гётеборг", "гетеборг", "gothenburg" -> "Gothenburg";
+            case "мальмё", "мальме", "malmö" -> "Malmö";
+            default -> "";
+        };
+    }
+
+    public static String getCityByCodeISO(String country, String workplace) {
         return switch (country) {
             case "ca" -> getCa(workplace);
             case "uk" -> getUK(workplace);
@@ -457,19 +562,31 @@ public class WorkplaceUtil {
             case "pl" -> getPl(workplace);
             case "de" -> getDe(workplace);
             case "us" -> getUS(workplace);
+            case "cz" -> getCZ(workplace);
+            case "sk" -> getSK(workplace);
+            case "ae" -> getAe(workplace);
+            case "fr" -> getFr(workplace);
+            case "it" -> getIt(workplace);
+            case "fi" -> getFi(workplace);
+            case "ch" -> getCh(workplace);
+            case "se" -> getSe(workplace);
+            case "ua" -> getJoobleUA(workplace);
 //            case "il" -> getIl(workplace);
             default -> getJoobleUA(workplace);
         };
     }
 
-    public static String getCountryByCity(String workplace) {
-        return isMatch(citiesCa, caAria, workplace) ? "ca" : isMatch(citiesBg, bgAria, workplace) ? "bg" :
-                isMatch(citiesDe, deAria, workplace) ? "de" : isMatch(citiesPl, plAria, workplace) ? "pl" :
-                        isMatch(citiesUS, usAria, workplace) ? "us" : isMatch(citiesIl, ilAria, workplace) ? "il" :
-                                isMatch(citiesUK, ukAria, workplace) ? "uk" : "ua";
+    public static String getCodeISOByCity(String workplace) {
+        return isMatches(of(citiesUA, uaAria), workplace) ? "ua" : isMatches(of(citiesUS, usAria), workplace) ? "us" :
+               isMatches(of(citiesCa, caAria), workplace) ? "ca" : isMatches(of(citiesBg, bgAria), workplace) ? "bg" :
+               isMatches(of(citiesDe, deAria), workplace) ? "de" : isMatches(of(citiesPl, plAria), workplace) ? "pl" :
+               isMatches(of(citiesUK, ukAria), workplace) ? "uk" : isMatches(of(citiesIl, ilAria), workplace) ? "il" :
+               isMatches(of(citiesSk, skAria), workplace) ? "sk" : isMatches(of(citiesCz, czAria), workplace) ? "cz" :
+               isMatches(of(citiesAe, aeAria), workplace) ? "ae" : isMatches(of(citiesFr, frAria), workplace) ? "fr" :
+               isMatches(of(citiesIt, itAria), workplace) ? "it" : isMatches(of(citiesFi, fiAria), workplace) ? "fi" :
+               isMatches(of(citiesCh, chAria), workplace) ? "ch" : isMatches(of(citiesSe, seAria), workplace) ? "se" :
+               isMatches(of(foreignAria), workplace) ? "foreign" : isMatches(of(remoteAria), workplace) ? "remote" : "all";
     }
-}
-
     /*public static String getIl(String workplace) { // linkedin
         return switch (workplace) {
             case "израиль", "ізраіль", "israel", "ישראל" -> "Израиль&geoId=101620260";
@@ -490,3 +607,7 @@ public class WorkplaceUtil {
             default -> "";
         };
     }*/
+}
+
+
+

@@ -17,8 +17,9 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesIndeed;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.get_vacancy;
+import static ua.training.top.util.collect.data.ConstantsUtil.indeed;
+import static ua.training.top.util.collect.data.HelpUtil.getJoin;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getIndeed;
@@ -46,7 +47,7 @@ public class UAIndeedStrategy implements Strategy {
             Document doc = getDocument(workplace, language, level, valueOf(page));
             Elements elements = doc == null ? null : doc.getElementsByAttributeValueStarting("id", "job_");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesIndeed(elements, freshen));
+//            set.addAll(getVacanciesIndeed(elements, freshen));
             if (page < getMaxPages(indeed, freshen.getWorkplace())) page++;
             else break;
         }

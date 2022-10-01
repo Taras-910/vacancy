@@ -2,7 +2,8 @@ package ua.training.top.util.collect.data;
 
 import static java.lang.Math.min;
 import static ua.training.top.aggregator.installation.InstallationUtil.limitCallPages;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.getJoin;
 
 public class PageUtil {
 

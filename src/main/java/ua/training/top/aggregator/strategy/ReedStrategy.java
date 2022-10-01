@@ -18,8 +18,8 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesReed;
-import static ua.training.top.util.collect.data.DataUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getUK;
@@ -34,15 +34,14 @@ public class ReedStrategy implements Strategy {
                 language.equals("all") ? "" : getJoin(language,"-"),
                 "", workplace.equals("all") ? "" : getJoin("-in-", workplace),
                 getPage(reed, page),
-                isMatch(of("intern", "trainee", "интерн", "internship", "стажировка", "стажер", "стажист"), level) ?
-                        "hideTrainingJobs=True" : ""));
+                isMatch(traineeAria, level) ? "hideTrainingJobs=True" : ""));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, workplace, language);
-        workplace = isMatch(ukAria, remoteAria, foreignAria, workplace) || workplace.equals("all") ? "all" :
+        workplace = isMatches(of(ukAria, remoteAria, foreignAria), workplace) || workplace.equals("all") ? "all" :
                 isMatch(citiesUK, workplace)? getUK(workplace).toLowerCase() : "-1";
         if (workplace.equals("-1")) {
             return new ArrayList<>();
@@ -53,7 +52,7 @@ public class ReedStrategy implements Strategy {
             Document doc = getDocument(workplace, valueOf(page), level, language);
             Elements elements = doc == null ? null : doc.getElementsByAttributeValueEnding("class","details");
             if (elements == null || elements.size() == 0) break;
-            set.addAll(getVacanciesReed(elements, freshen));
+//            set.addAll(getVacanciesReed(elements, freshen));
             if (page < getMaxPages(itJob, freshen.getWorkplace())) page++;
             else break;
         }

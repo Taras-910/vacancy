@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
-import static java.lang.Float.parseFloat;
 import static java.util.List.of;
-import static ua.training.top.util.collect.data.DataUtil.*;
-import static ua.training.top.util.collect.data.PatternUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.HelpUtil.*;
+import static ua.training.top.util.collect.data.PatternUtil.pattern_find_salary;
+import static ua.training.top.util.collect.data.PatternUtil.pattern_salary_transform_points;
 
 public class SalaryUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
@@ -28,53 +28,68 @@ public class SalaryUtil {
             rate_bgn_to_usd = 1.96f,
             usd_one_to_one = 1.0f;
 
-     public static Integer[] getToSalaries(String originText) {            //₵ ₮
-         originText = getRemovedZeroPart(originText).toLowerCase();
-         if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
+    public static Integer[] getToSalaries(String originText) {            //₵ ₮
+        originText = originText.toLowerCase();
+        if (isEmpty(originText) || !isMatch(allSalaries, originText)) {
             return new Integer[]{1, 1};
         }
-        String text = originText.replaceAll(",", ".");
-        String code = getCurrencyCode(text);
-        List<String> values = getMonetaryAmount(text, code);
+        String code = getCurrencyCode(originText);
+        String text = getWithCode(originText, code);
+        List<Float> values = getMonetaryAmount(text);
         if (!values.isEmpty()) {
+            float period = getPeriod(getShortLength(text, code));
+            float rate = getRate(code);
             Integer[] salaries = new Integer[2];
-            int amountMin = getAmount(values.get(0), code, text);
+            int amountMin = getAmount(values.get(0), period, rate);
             salaries[0] = values.size() < 2 ? (isFrom(text) ? amountMin : 1) : amountMin;
-            salaries[1] = values.size() < 2 ? (isFrom(text) ? 1 : amountMin) : getAmount(values.get(1), code, text);
-            return salaries;
+            salaries[1] = values.size() < 2 ? (isFrom(text) ? 1 : amountMin) : getAmount(values.get(1), period, rate);
+            return checkLimitUpAndDown(salaries);
         }
         return new Integer[]{1, 1};
     }
 
-    public static int getAmount(String valuesPart, String code, String text) {
-        String value = valuesPart.replaceAll("\\.", "");
+    public static int getAmount(float value, float period, float rate) {
         int amount = 1;
         try {
-            amount = (int) ((parseFloat(value) * getPeriod(text) / getRate(code) * getPoint(valuesPart))
-                    * (pattern_is_kilo.matcher(text).find() ? 1000 : 1));
+            amount = (int) (value * period / rate);
         } catch (NumberFormatException e) {
             log.error(error, e, value);
         }
-        return amount <= 12000000 ? amount :  amount / 12 <= 12000000 ? amount / 12 : Math.min(amount / 100, 12000000);
+        return amount;
     }
 
-    public static List<String> getMonetaryAmount(String text, String code) {
-        List<String> parts = new ArrayList<>();
-        Matcher mt = pattern_monetary_amount.matcher(getReplacementText(text, code));
-        while (mt.find()) {
-            parts.add(mt.group());
-        }
-        List<String> amounts = parts.stream()
-                .filter(p -> p.contains(code))
-                .map(m -> getReplace(m, wasteSalary, ""))
-                .collect(Collectors.toList()),
-                monetaryAmounts = new ArrayList<>();
-        amounts.forEach(s -> {
-            if (pattern_is_number_greater_300.matcher(s).find()) {
-                monetaryAmounts.add(s);
+    private static Integer[] checkLimitUpAndDown(Integer[] amount) {
+        Integer[] result = new Integer[2];
+        boolean exceed = false;
+        for (int i = amount.length - 1; i >= 0 ; --i) {
+            int a = amount[i];
+            if (a > 3000000) {
+                exceed = true;
+                log.error(wrong_salary_value, a/100);
             }
-        });
-        return monetaryAmounts;
+            result[i] = a < 30000 ? 1 : !exceed ? a : Math.min(a / 12, 5000000);
+        }
+        return result;
+    }
+
+
+    private static List<Float> getMonetaryAmount(String text) {
+        List<Float> list = new ArrayList();
+        Matcher m = pattern_find_salary.matcher(text);
+        while (m.find()) {
+            String s = getReplace(m.group(), of(currency_code, space_code), "");
+            list.add(getTransform(s.replaceAll(",", ".")));
+        }
+        return list;
+    }
+
+    private static float getTransform(String text) {
+        Matcher m = pattern_salary_transform_points.matcher(text);
+        while (m.find()) {
+            text = text.replaceFirst("\\.", "");
+        }
+        String salary = text.replaceAll(punctuation_code, "");
+        return  Float.parseFloat(salary) * (isContains(text, "k") ? 100000 : 100);
     }
 
     public static float getPeriod(String text) {
@@ -82,32 +97,25 @@ public class SalaryUtil {
                 isMatch(hourAria, text) ? 22.0f * 8.0f : 1.0f;
     }
 
-    private static int getPoint(String str) {
-        int decimalPoint = str.length() - str.lastIndexOf(".");
-        return str.indexOf(".") == -1 ? 100 : decimalPoint == 3 ? 1 : decimalPoint == 2 ? 10 : 100;
-    }
-
     public static String getCurrencyCode(String text) {
-        return isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ? "₴" : isMatch(eurAria, text) ?
-                "€" : isMatch(bynAria, text) ? "₱" : isMatch(rubAria, text) ? "₽" : isMatch(plnAria, text) ?
-                "₲" : isMatch(gbrAria, text) ? "₤" : isMatch(kztAria, text) ? "₸" : isMatch(cadAria, text) ?
-                "₡" : isMatch(czeAria, text) ? "₭" : isMatch(bgnAria, text) ? "₾" : "";
+        return isMatch(cadAria, text) ? "₡" : isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ?
+                "₴" : isMatch(eurAria, text) ? "€" : isMatch(bynAria, text) ? "₱" : isMatch(plnAria, text) ?
+                "₲" : isMatch(gbrAria, text) ? "₤" : isMatch(kztAria, text) ? "₸" : isMatch(czeAria, text) ?
+                "₭" : isMatch(bgnAria, text) ? "₾" : "";
     }
 
-    public static String getReplacementText(String text, String code) {
-        text = text.replaceAll(monetary_amount_regex, code.equals("$") ? "\\$" : code.equals("kč") ? "₭" : code);
+    public static String getWithCode(String text, String code) {
         return switch (code) {
-            case "$" -> getReplace(text, usdAria, "\\$");
-            case "₴" -> getReplace(text, hrnAria, "₴");
-            case "€" -> getReplace(text, eurAria, "€");
-            case "₽" -> getReplace(text, rubAria, "₽");
-            case "₤" -> getReplace(text, gbrAria, "₤");
-            case "₲" -> getReplace(text, plnAria, "₲");
-            case "₸" -> getReplace(text, kztAria, "₸");
-            case "₡" -> getReplace(text, cadAria, "₡");
-            case "₱" -> getReplace(text, bynAria, "₱");
-            case "₭" -> getReplace(text, czeAria, "₭");
-            case "₾" -> getReplace(text, bgnAria, "₾");
+            case "$" -> getReplace(text, of("usd"), "\\$");
+            case "₡" -> getReplace(text, cadAria_regex, code);
+            case "₴" -> getReplace(text, hrnAria, code);
+            case "€" -> getReplace(text, eurAria, code);
+            case "₤" -> getReplace(text, gbrAria, code);
+            case "₲" -> getReplace(text, plnAria, code);
+            case "₸" -> getReplace(text, kztAria, code);
+            case "₱" -> getReplace(text, bynAria, code);
+            case "₭" -> getReplace(text, czeAria, code);
+            case "₾" -> getReplace(text, bgnAria, code);
             default -> text;
         };
     }
@@ -128,31 +136,12 @@ public class SalaryUtil {
         };
     }
 
-    public static boolean isFrom(String originText) { return isMatch(of("от", "від"), originText); }
-
-    public static String getRemovedZeroPart(String text){
-        Matcher m = pattern_remove_zero_part.matcher(text.toLowerCase());
-        int i = 0;
-        while(m.find()){
-            text = getJoin(text.substring(0, m.start() - i), text.substring(m.end() - 1 - i));
-            i += 3;
-        }
-        return text;
-     }
-
-    public static String getSalaryFromText(String title) {
-        String text = getRemovedZeroPart(title).toLowerCase();
-        String code = getCurrencyCode(text);
-        String result = code;
-        text = getReplacementText(text, code);
-        Matcher m = pattern_salaries_from_title.matcher(text);
-        while(m.find()){
-            result = getJoin(result, m.group().replaceAll("[^\\d-k\\s]", "")
-                    .replaceAll("k","000"));
-        }
-        result = isContains(result, "-") ?
-                result.replace("-", getJoin(code.equals("₭")?"000000 -":" -", code)) : getJoin(code,result);
-        return getJoin(result, isContains(title, "month") ? " year" : " month");
+    public static boolean isFrom(String originText) {
+        return isMatch(of("от", "від", "from"), originText);
     }
 
+    private static String getShortLength(String text, String code) {
+        return text.length() < 50 ? text :
+                text.substring(Math.max(text.indexOf(code) - 25, 0), Math.min(text.lastIndexOf(code) + 25, text.length()));
+    }
 }

@@ -12,8 +12,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.installation.InstallationUtil.reasonDateLoading;
-import static ua.training.top.util.collect.data.DataUtil.common_number_vacancyTos;
-import static ua.training.top.util.collect.data.DataUtil.error_select;
+import static ua.training.top.util.collect.data.ConstantsUtil.common_number_vacancyTos;
+import static ua.training.top.util.collect.data.ConstantsUtil.error_select;
 import static ua.training.top.util.collect.data.ToUtil.getFilled;
 
 @Repository

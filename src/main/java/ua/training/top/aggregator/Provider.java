@@ -7,6 +7,8 @@ import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import static ua.training.top.util.MessageUtil.number_inform;
@@ -20,8 +22,10 @@ public class Provider {
     }
 
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
+        Instant start = Instant.now();
         List<VacancyTo> list = strategy.getVacancies(freshen);
-        log.info(number_inform, this.strategy.getClass().getCanonicalName(), list.size());
+        long timeElapsed = Duration.between(start, Instant.now()).toMillis();
+        log.info(number_inform, this.strategy.getClass().getSimpleName(), timeElapsed, list.size());
         return list;
     }
 

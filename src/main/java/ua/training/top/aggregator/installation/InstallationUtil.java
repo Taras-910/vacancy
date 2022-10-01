@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 import static ua.training.top.aggregator.Starter.allProviders;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
+import static ua.training.top.util.collect.data.ConstantsUtil.recall;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
@@ -44,7 +45,7 @@ public class InstallationUtil {
 
     public static void reCall(int listSize, Strategy strategy){
         if (listSize == 0 && repeatToCall > 0){
-            log.info("reCall attemptToCall={}", repeatToCall);
+            log.info(recall, repeatToCall);
             allProviders.addLast(new Provider(strategy));
             repeatToCall--;
         }
