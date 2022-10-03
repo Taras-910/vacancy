@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.aggregator.installation.InstallationUtil.reasonPeriodKeeping;
+import static ua.training.top.aggregator.InstallationUtil.reasonPeriodKeeping;
 import static ua.training.top.model.Goal.FILTER;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FilterUtil.getFilter;

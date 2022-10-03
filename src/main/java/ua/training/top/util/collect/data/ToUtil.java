@@ -5,9 +5,9 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 
-import static ua.training.top.aggregator.installation.InstallationUtil.maxLengthText;
+import static ua.training.top.aggregator.InstallationUtil.maxLengthText;
+import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.*;
 
 public class ToUtil {
 

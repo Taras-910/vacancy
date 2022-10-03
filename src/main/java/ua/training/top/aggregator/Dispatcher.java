@@ -2,10 +2,10 @@ package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.strategy.*;
+import ua.training.top.aggregator.strategies.*;
 
-import static ua.training.top.aggregator.installation.InstallationUtil.autoRefreshProviders;
-import static ua.training.top.aggregator.installation.InstallationUtil.testProvider;
+import static ua.training.top.aggregator.InstallationUtil.autoRefreshProviders;
+import static ua.training.top.aggregator.InstallationUtil.testProvider;
 import static ua.training.top.util.AutoRefreshUtil.getKey;
 import static ua.training.top.util.AutoRefreshUtil.mapStrategies;
 

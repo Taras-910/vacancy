@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,10 +16,10 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.List.of;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getJobsMarketUA;
+import static ua.training.top.util.collect.data.CommonUtil.isMatches;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.isMatches;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 
 public class JobsMarketUA implements Strategy {

@@ -11,7 +11,7 @@ public class ConstantsUtil {
             space_code = "\\p{Zs}",
             currency_code = "\\p{Sc}",
             punctuation_code = "[kup\\p{Pd}до]",
-            recall = "reCall attemptToCall={}",
+            recall = "reCall repeatToCall={}",
             document_url = "GetDocument url={}\n",
             filter_address_jobs_bg = "\\s((3p)|(Стаж)|(chair)|(Отпуск.*))|(wifi\\s)",
             document_user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15",
@@ -27,10 +27,13 @@ public class ConstantsUtil {
             jooble = "joobleStrategy", linkedin = "linkedinStrategy", indeed_ca = "CaIndeedStrategy",
             zaplata = "zaplataStrategy", jobsmarket = "jobsmarketStrategy", indeed = "UAIndeedStrategy", cwjobs = "CwJobsStrategy",
             itJob = "itJobStrategy", jabsBG = "JobsBGStrategy", itJobsWatch = "ItJobsWatchStrategy", reed = "ReedStrategy",
-            middle = "middle", trainee = "trainee", junior = "junior", senior = "senior", expert = "expert";
+            middle = "middle", trainee = "trainee", junior = "junior", senior = "senior", expert = "expert",
+            USDPLN = "USDPLN", USDEUR="USDEUR", USDGBP="USDGBP", USDBUR="USDBUR", USDUAH="USDUAH", USDKZT="USDKZT",
+            USDCAD="USDCAD", USDCZK="USDCZK", USDBGN="USDBGN", USDUSD="USDUSD";
 
     public static final List<String>
-            usdAria = of("usd", "$"),
+            usdAria = of("usd", "у.е.", "$"),
+            usdAria_regex = of("usd", "у.е."),
             eurAria = of("euro", "eur", "€"),
             plnAria = of("pln", "zł", "₲"),
             czeAria = of("₭", "kč", "₭č"),
@@ -41,9 +44,10 @@ public class ConstantsUtil {
             hrnAria = of("hrn", "uah", "грн.", "грн", "₴"),
             bynAria = of("бел. руб", "бел руб", "br", "byn", "byr", "₱"),
             bgnAria = of("bgn", "bg", "lev", "лев", "лв.", "₾"),
-            allSalaries = of("грн.", "грн", "uah", "hrn", "₴", "$", "usd", "eur", "euro", "€", "pln", "zł", "₲", "gbp",
-                    "£", "₤", "₱", "бел. руб", "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$", "c$",
-                    "₡","₭", "kč", "₭č", "bgn", "bg", "lev", "лев", "лв.", "₾"),
+            allSalaries = of("грн.", "грн", "uah", "hrn", "₴", "$", "usd", "у.е.", "eur", "euro", "€", "pln", "zł", "₲",
+                    "gbp", "£", "₤", "₱", "бел. руб", "бел руб", "руб", "₽", "kzt", "тг", "₸", "br", "byn", "cad", "ca$",
+                    "c$", "₡","₭", "kč", "₭č", "bgn", "bg", "lev", "лев", "лв.", "₾"),
+            ratesAria = of("USDPLN", "USDEUR", "USDGBP", "USDBUR", "USDUAH", "USDKZT", "USDCAD", "USDCZK", "USDBGN"),
             yearAria = of("год", "рік", "year", "annually", "annual", "annum", "rok", "jahr", "година"),
             monthAriaDate = of("měsícem", "месяц", "месяца", "month", "months", "monat", "monate", "miesiąc",
                     "miesiące", "månader", "месец", "месеци", "mese", "mois"),

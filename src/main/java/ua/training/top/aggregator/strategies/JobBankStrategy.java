@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,10 +16,10 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.List.of;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getJobBank;
+import static ua.training.top.util.collect.data.CommonUtil.isMatches;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.isMatches;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getCa;
 
 public class JobBankStrategy implements Strategy {
@@ -35,6 +35,7 @@ public class JobBankStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
+        language = language.equals("ruby on rails") ? "Ruby+on+Rails" : language;
         log.info(get_vacancy, workplace, language);
         boolean ca = isMatches(of(caAria, citiesCa, foreignAria, remoteAria, of("all")), workplace);
         if (!ca) {

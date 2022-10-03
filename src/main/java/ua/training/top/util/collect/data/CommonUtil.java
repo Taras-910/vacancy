@@ -6,7 +6,7 @@ import java.util.List;
 
 import static ua.training.top.util.collect.data.ConstantsUtil.link;
 
-public class HelpUtil {
+public class CommonUtil {
     private static StringBuilder builder;
 
     public static String getJoin(String ...text) {

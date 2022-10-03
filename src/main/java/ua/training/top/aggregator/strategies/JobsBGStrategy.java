@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -20,12 +20,12 @@ import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getJobsBG;
+import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
 import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
-import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_date_jobs_bg;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getBG_en;

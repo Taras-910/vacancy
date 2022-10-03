@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,10 +16,10 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.List.of;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getJobsDou;
+import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getJobsDouForeign;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_ua;
@@ -45,6 +45,7 @@ public class JobsDouStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
+        language = language.equals("ruby on rails") ? "Ruby+on+Rails" : language;
         log.info(get_vacancy, workplace, language);
         String[] cities = isMatch(uaAria, workplace) ? getUA() : isMatch(foreignAria, workplace) ? getForeign() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();

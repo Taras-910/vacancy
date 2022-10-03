@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS rate;
 DROP TABLE IF EXISTS vote;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS vacancy;
@@ -81,5 +82,14 @@ CREATE TABLE vote
     CONSTRAINT votes_idx UNIQUE (vacancy_id, user_id),
     FOREIGN KEY (vacancy_id) REFERENCES VACANCY (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
+);
+
+CREATE TABLE rate
+(
+    id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name               TEXT                 NOT NULL,
+    value              DOUBLE PRECISION     NOT NULL,
+    local_date         TIMESTAMP            NOT NULL,
+    CONSTRAINT rate_idx UNIQUE (name)
 );
 

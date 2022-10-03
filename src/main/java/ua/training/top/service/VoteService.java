@@ -11,7 +11,7 @@ import ua.training.top.repository.VoteRepository;
 import java.util.List;
 
 import static ua.training.top.SecurityUtil.authUserId;
-import static ua.training.top.aggregator.installation.InstallationUtil.limitVotesKeeping;
+import static ua.training.top.aggregator.InstallationUtil.limitVotesKeeping;
 import static ua.training.top.util.DateTimeUtil.thisDay;
 import static ua.training.top.util.ValidationUtil.checkNotFoundData;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;

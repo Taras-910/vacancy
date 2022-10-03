@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -17,10 +17,10 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getWork;
+import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.*;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
@@ -42,6 +42,7 @@ public class WorkStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
+        language = language.equals("ruby on rails") ? "ruby+on+rails+программист" : language;
         log.info(get_vacancy, workplace, language);
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (isMatch(citiesRU, workplace)) {

@@ -70,15 +70,21 @@
     Вакансии можно фильтровать / обновлять / отмечать (меняется цвет строки, индивидуальный выбор сохраняется в базе
     данных).<br/>Весь REST интерфейс покрывается JUnit тестами, при этом используется Spring MVC Test и Spring Security
     Test.<br/>БД хранит актуальные вакансии, не старше 2-х недельной давности и авто-обновляется из 9-ти ресурсов:<br/>
-    <a href="https://djinni.co">Djinni</a>,
-    <a href="https://jobsmarket.io">JobsMarket</a>,
-    <a href="https://jobs.dou.ua">Jobs</a>,
-    <a href="https://www.linkedin.com">LinkedIn</a>,
-    <a href="https://nofluffjobs.com/">NoFluffJobs</a>,
-    <a href="https://rabota.ua">Rabota</a>,
-    <a href="https://ua.indeed.com">UAIndeed</a>,
-    <a href="https://ua.jooble.org">UAJooble</a>,
-    <a href="https://www.work.ua">Work</a>
+    <a href="https://djinni.co/jobs/keyword-java/">Djinni</a>,
+    <a href="https://www.itjobs.ca/en/search-jobs/">ItJobs</a>,
+    <a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,
+    <a href="https://www.jobbank.gc.ca/jobsearch/jobsearch">JobBan</a>,
+    <a href="https://www.jobs.bg/front_job_search.php">JobsBG</a>,
+    <%--<a href="https://jobsmarket.io">JobsMarket</a>,--%>
+    <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarket</a>,
+    <a href="https://jobs.dou.ua/first-job/">JobsDou</a>,
+    <a href="https://www.linkedin.com/jobs/search?position=1&pageNum=0">LinkedIn</a>,
+    <a href="https://nofluffjobs.com/pl/warszawa/backend?lang=uk">NoFluffJobs</a>,
+    <%--<a href="https://rabota.ua">Rabota</a>,--%>
+    <%--<a href="https://ua.indeed.com">UAIndeed</a>,--%>
+    <a href="https://ua.jooble.org/SearchResult">UAJooble</a>,
+    <a href="https://www.work.ua/ru/jobs-kyiv-java/">Work</a>,
+    <a href="https://www.zaplata.bg/ru/software/firma-organizacia/">Zaplata</a>
 </div>
 <br>
 <div class="container jumbotron py-0">

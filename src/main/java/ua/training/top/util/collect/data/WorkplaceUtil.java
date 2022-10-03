@@ -1,8 +1,8 @@
 package ua.training.top.util.collect.data;
 
 import static java.util.List.of;
+import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.*;
 
 public class WorkplaceUtil {
 

@@ -17,7 +17,7 @@ public class MessageUtil {
             exist_end_replace = "Vacancy {} already existed in the database but was replaced by {}",
             check_error_data = "Error null data of resume {}",
             error_request = "{} at request {} {}",
-            error_data = "ошибка данных",
+            error_data = "data error",
             invite_sign_in = "?message=You are registered already. Please Sign in&username=",
             must_has_id = "Entity must has id",
             no_authorized_user_found = "No authorized user found",
@@ -25,7 +25,7 @@ public class MessageUtil {
             not_found = "Not found entity with {}",
             not_find_driver = "Could not find DB driver",
             not_be_null = " entity must not be null ",
-            number_inform = "\n{}\ntime: {} ms\nlist.size={}\n",
+            time_number_inform = "\n{} time: {} ms list.size={}\n",
             empty_inform = "No filtering records found, refresh DB",
             setting_delay = "-".repeat(8)+" delay={} min {} sec"+"-".repeat(8);
 

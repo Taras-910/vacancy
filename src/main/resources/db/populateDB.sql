@@ -1,3 +1,4 @@
+DELETE FROM rate;
 DELETE FROM freshen;
 DELETE FROM vote;
 DELETE FROM user_roles;
@@ -36,6 +37,10 @@ VALUES ('Middle Game Developer', 100000, 200000, 'https://grc.ua/vacancy/4000693
 INSERT INTO vote (local_date, vacancy_id, user_id)
 VALUES ('2020-10-25', 100006, 100000),
        ('2020-10-25', 100007, 100001);
+
+INSERT INTO rate (name, value, local_date)
+VALUES ('USDEUR', 1.02021, '2020-10-25'),
+       ('USDGBP', 0.89565, '2020-10-25');
 
 
 

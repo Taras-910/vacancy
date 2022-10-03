@@ -9,8 +9,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static java.util.List.of;
+import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.*;
 
 public class FilterUtil {
     public static Map<String, List<String>> mapAriaFilter;

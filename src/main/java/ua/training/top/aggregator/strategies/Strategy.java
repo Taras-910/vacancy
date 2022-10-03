@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;

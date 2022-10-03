@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getJobsMarket;
 import static ua.training.top.util.collect.data.ConstantsUtil.get_vacancy;
 import static ua.training.top.util.collect.data.ConstantsUtil.jobsmarket;

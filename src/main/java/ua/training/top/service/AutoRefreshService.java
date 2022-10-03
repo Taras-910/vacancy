@@ -11,8 +11,8 @@ import ua.training.top.model.Freshen;
 import ua.training.top.util.MessageUtil;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
-import static ua.training.top.aggregator.installation.InstallationUtil.offAutoRefreshProviders;
-import static ua.training.top.aggregator.installation.InstallationUtil.setAutoRefreshProviders;
+import static ua.training.top.aggregator.InstallationUtil.offAutoRefreshProviders;
+import static ua.training.top.aggregator.InstallationUtil.setAutoRefreshProviders;
 import static ua.training.top.util.AutoRefreshUtil.*;
 import static ua.training.top.util.UserUtil.asAdmin;
 
@@ -36,8 +36,9 @@ public class AutoRefreshService {
         setAutoRefreshProviders();
         aggregatorService.refreshDB(new Freshen(randomFreshen(
                 mapLanguage.get(getKey(2)),
-                mapWorkplace.get(getKey(8)),
-                mapLevel.get(getKey(3)))));
+                mapLevel.get(getKey(3)),
+                mapWorkplace.get(getKey(8))
+                )));
         offAutoRefreshProviders();
     }
 
@@ -50,8 +51,9 @@ public class AutoRefreshService {
         setAutoRefreshProviders();
         aggregatorService.refreshDB(new Freshen(randomFreshen(
                 mapLanguage.get(getKey(2)),
-                mapWorkplace.get(getKey(8)),
-                mapLevel.get(getKey(6)))));
+                mapLevel.get(getKey(6)),
+                mapWorkplace.get(getKey(8))
+                )));
         offAutoRefreshProviders();
     }
 
@@ -60,5 +62,6 @@ public class AutoRefreshService {
         log.info("Scheduled everyDay");
         setTestAuthorizedUser(asAdmin());
         aggregatorService.deleteOutDated();
+        aggregatorService.updateRate();
     }
 }

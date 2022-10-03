@@ -3,8 +3,8 @@ package ua.training.top.util;
 import java.util.List;
 
 import static java.util.List.of;
+import static ua.training.top.util.collect.data.CommonUtil.getCommonList;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.getCommonList;
 
 public class FilterMapUtil {
 

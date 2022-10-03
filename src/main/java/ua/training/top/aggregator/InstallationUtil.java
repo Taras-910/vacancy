@@ -1,19 +1,20 @@
-package ua.training.top.aggregator.installation;
+package ua.training.top.aggregator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.training.top.aggregator.Provider;
-import ua.training.top.aggregator.strategy.Strategy;
+import ua.training.top.aggregator.strategies.Strategy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static ua.training.top.aggregator.Provider.getRates;
 import static ua.training.top.aggregator.Starter.allProviders;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
 import static ua.training.top.util.collect.data.ConstantsUtil.recall;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
+    public static final String baseCurrency = "usd";
     public static int
             periodKeeping = 21,
             limitVacanciesKeeping = 4250,
@@ -25,6 +26,7 @@ public class InstallationUtil {
 
     public static LocalDate
             reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),
+            reasonValidRate = LocalDateTime.now().toLocalDate().minusDays(7),
             reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(periodKeeping);
 
 //    public static boolean testProvider = true;
@@ -50,4 +52,13 @@ public class InstallationUtil {
             repeatToCall--;
         }
     }
+
+    public static void reCallRate(int size) {
+        if (size == 0 && repeatToCall > 0){
+            log.info(recall, repeatToCall);
+            repeatToCall--;
+            getRates();
+        }
+    }
+
 }

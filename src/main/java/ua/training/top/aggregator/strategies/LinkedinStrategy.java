@@ -1,4 +1,4 @@
-package ua.training.top.aggregator.strategy;
+package ua.training.top.aggregator.strategies;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,11 +16,11 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
-import static ua.training.top.aggregator.installation.InstallationUtil.reCall;
+import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
 import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
+import static ua.training.top.util.collect.data.CommonUtil.isMatch;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.HelpUtil.isMatch;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getLinkedin;
@@ -38,11 +38,12 @@ public class LinkedinStrategy implements Strategy {
                 language, getLinkedin(workplace),
                 workplace.equals("remote") ? "" : "&f_WT=2", getLevel(linkedin, level), page));
     }
-
+// Ruby%20on%20Rails
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
-        log.info(get_vacancy, workplace, language);
+        language = language.equals("ruby on rails") ? "Ruby%20on%20Rails" : language;
+                log.info(get_vacancy, workplace, language);
         if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }

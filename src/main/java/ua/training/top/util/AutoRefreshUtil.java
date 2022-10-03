@@ -3,7 +3,7 @@ package ua.training.top.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.aggregator.Provider;
-import ua.training.top.aggregator.strategy.*;
+import ua.training.top.aggregator.strategies.*;
 import ua.training.top.model.Freshen;
 
 import java.util.Map;

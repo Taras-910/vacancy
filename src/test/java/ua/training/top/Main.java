@@ -2,16 +2,13 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.training.top.aggregator.strategy.TestStrategy;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.service.VacancyService;
-import ua.training.top.util.FilterUtil;
-import ua.training.top.util.FreshenUtil;
+import ua.training.top.service.AggregatorService;
+import ua.training.top.service.FreshenService;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.UserTestData.USER_ID;
-import static ua.training.top.util.VacancyUtil.fromTos;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,16 +35,25 @@ public class Main {
 //        ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
 //        VacancyRestController vacancyRestController = appCtx.getBean(VacancyRestController.class);
 //        UserService userService = appCtx.getBean(UserService.class);
-//        FreshenService freshenService = appCtx.getBean(FreshenService.class);
-//        AggregatorService aggregatorService = appCtx.getBean(AggregatorService.class);
+        FreshenService freshenService = appCtx.getBean(FreshenService.class);
+        AggregatorService aggregatorService = appCtx.getBean(AggregatorService.class);
+//        RateService rateService = appCtx.getBean(RateService.class);
 //        EmployerService employerService = appCtx.getBean(EmployerService.class);
-        VacancyService vacancyService = appCtx.getBean(VacancyService.class);
+//        VacancyService vacancyService = appCtx.getBean(VacancyService.class);
 //        VoteService voteService = appCtx.getBean(VoteService.class);
+//        RateRepository repository = appCtx.getBean(RateRepository.class);
 
         System.out.println(".".repeat(120));
+        aggregatorService.rateInit();
+        aggregatorService.updateRate();
 
-        System.out.println(FilterUtil.getFilter(fromTos(TestStrategy.getTestList()), FreshenUtil.asNewFreshen("all", "all",
-                "canada", null)));
+//        freshenService.getAll().forEach(System.out::println);
+
+//        freshenService.update();
+
+
+//        String salary = "40000 грн";
+//        System.out.println(Arrays.toString(getToSalaries(salary)));
 
 
         System.out.println(".".repeat(120));
