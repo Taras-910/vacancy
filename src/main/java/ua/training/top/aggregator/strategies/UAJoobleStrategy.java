@@ -46,8 +46,7 @@ public class UAJoobleStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(),
                 language = freshen.getLanguage().replaceAll(" ", "%20");
-
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         if (isMatches(of(citiesRU, ilAria, citiesIl), workplace)) {
             return new ArrayList<>();
         }

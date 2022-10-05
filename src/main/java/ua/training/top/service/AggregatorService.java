@@ -18,15 +18,17 @@ import ua.training.top.util.collect.data.ToUtil;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.InstallationUtil.limitVacanciesKeeping;
+import static ua.training.top.model.Goal.UPGRADE;
+import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.finish_message;
-import static ua.training.top.util.collect.data.SalaryUtil.mapRates;
 import static ua.training.top.util.collect.data.ToUtil.getAnchorEmployer;
 import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
 
@@ -54,11 +56,9 @@ public class AggregatorService {
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);
         Instant start = Instant.now();
-        rateInit();
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
-
+        Freshen newFreshen = freshenService.create(freshen);
         if (!vacancyTos.isEmpty()) {
-            Freshen newFreshen = freshenService.create(freshen);
             List<Vacancy>
                     vacanciesDb = vacancyService.getAll(),
                     vacanciesCreate = new ArrayList<>(),
@@ -116,13 +116,8 @@ public class AggregatorService {
         freshenService.deleteOutDated();
     }
 
-    public void updateRate() {
-        rateInit();
-        rateService.updateRate();
-    }
-
-    public void rateInit() {
-        rateService.getAll().forEach(r -> mapRates.put(r.getName(), r));
+    public void updateRateDB() {
+        rateService.updateRateDB();
     }
 
     public static void main(String[] args) {
@@ -132,11 +127,12 @@ public class AggregatorService {
         rates.forEach(rate -> log.info("\nrate № {}\n{}\n", i.getAndIncrement(), rate.toString()));
         log.info("\n\ncommon = {}", rates.size());*/
 
-//        List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-//                asNewFreshen("java", "all", "all", UPGRADE));
-//        AtomicInteger i = new AtomicInteger(1);
-//        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
-//        log.info("\n\ncommon = {}", vacancyTos.size());
+        List<VacancyTo> vacancyTos = getAllProviders().selectBy(
+                asNewFreshen("java", "all", "all", UPGRADE));
+        AtomicInteger i = new AtomicInteger(1);
+        vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
+        log.info("\n\ncommon = {}", vacancyTos.size());
 
     }
 }
+

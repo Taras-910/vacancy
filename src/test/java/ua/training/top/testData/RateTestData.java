@@ -13,9 +13,16 @@ import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 public class RateTestData {
     public static TestMatcher<Rate> RATE_MATCHER = TestMatcher.usingFieldsComparator(Rate.class);
     public static final int RATE1_ID = START_SEQ + 10;
-    public static final int RATE2_ID = RATE1_ID + 1;
-    public static final Rate rate1 = new Rate(RATE1_ID,  "USDEUR", 1.02021, of(2020,10,25));
-    public static final Rate rate2 = new Rate(RATE2_ID,  "USDGBP", 0.89565, of(2020,10,25));
+    public static final Rate rate1 = new Rate(RATE1_ID,  "USDUSD", 1.0, of(2022,10,05));
+    public static final Rate rate2 = new Rate(RATE1_ID + 1,  "USDUAH", 36.53, of(2022,10,05));
+    public static final Rate rate3 = new Rate(RATE1_ID + 2,  "USDPLN", 4.8544, of(2022,10,05));
+    public static final Rate rate4 = new Rate(RATE1_ID + 3,  "USDKZT", 469.5, of(2022,10,05));
+    public static final Rate rate5 = new Rate(RATE1_ID + 4,  "USDGBP", 0.87148, of(2022,10,05));
+    public static final Rate rate6 = new Rate(RATE1_ID + 5,  "USDEUR", 1.00711, of(2022,10,05));
+    public static final Rate rate7 = new Rate(RATE1_ID + 6,  "USDCZK", 24.7275, of(2022,10,05));
+    public static final Rate rate8 = new Rate(RATE1_ID + 7,  "USDCAD", 1.35791, of(2022,10,05));
+    public static final Rate rate9 = new Rate(RATE1_ID + 8,  "USDBGN", 1.9701, of(2022,10,05));
+    public static final Rate rate10 = new Rate(RATE1_ID + 8,  "USDBYR", 2.52, of(2022,10,05));
 
     public static Rate getNew() {
         return new Rate(null, "USDUAH", 36.9300, now());
@@ -28,5 +35,4 @@ public class RateTestData {
     public static List<Rate> allRate(){
         return Arrays.asList(rate1, rate2);
     }
-
 }

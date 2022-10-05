@@ -37,7 +37,7 @@ public class UAIndeedStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = getIndeed(freshen.getWorkplace()), level = freshen.getLevel(), language = freshen.getLanguage();
-        log.info(get_vacancy, freshen.getWorkplace(), language);
+        log.info(get_vacancy, language, level, freshen.getWorkplace());
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (workplace.equals("-1")) {
             return new ArrayList<>();

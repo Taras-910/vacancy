@@ -35,7 +35,8 @@ public class LinkedinStrategy implements Strategy {
 //        String country = getCountryByCity(workplace);
         return DocumentUtil.getDocument(format(url,
 //                country.equals("us") ? "" : getJoin(country, "."),
-                language, getLinkedin(workplace),
+                language.equals("all") ? "" : language,
+                getLinkedin(workplace),
                 workplace.equals("remote") ? "" : "&f_WT=2", getLevel(linkedin, level), page));
     }
 // Ruby%20on%20Rails
@@ -43,7 +44,7 @@ public class LinkedinStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby%20on%20Rails" : language;
-                log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }

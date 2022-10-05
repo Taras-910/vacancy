@@ -30,22 +30,23 @@ public class AutoRefreshService {
     public void weekDay() {
 //        int delayWithinMinutes = 4;
         int delayWithinMinutes = 9;
-        log.info(MessageUtil.delay, delayWithinMinutes);
-        setRandomDelay(1000 * 60 * delayWithinMinutes);
-        setTestAuthorizedUser(asAdmin());
-        setAutoRefreshProviders();
-        aggregatorService.refreshDB(new Freshen(randomFreshen(
+        Freshen freshen = new Freshen(randomFreshen(
                 mapLanguage.get(getKey(2)),
                 mapLevel.get(getKey(3)),
                 mapWorkplace.get(getKey(8))
-                )));
+        ));
+        log.info(MessageUtil.delay_week_day_freshen, delayWithinMinutes, freshen);
+        setRandomDelay(1000 * 60 * delayWithinMinutes);
+        setTestAuthorizedUser(asAdmin());
+        setAutoRefreshProviders();
+        aggregatorService.refreshDB(freshen);
         offAutoRefreshProviders();
     }
 
     @Scheduled(cron = "0 0,20,40 11-17 * * SAT")
     public void weekEnd() {
         int delayMinutesMax = 19;
-        log.info("someTimesByHour delayMinutesMax={}", delayMinutesMax);
+        log.info(MessageUtil.delay, delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
@@ -62,6 +63,15 @@ public class AutoRefreshService {
         log.info("Scheduled everyDay");
         setTestAuthorizedUser(asAdmin());
         aggregatorService.deleteOutDated();
-        aggregatorService.updateRate();
+    }
+
+    @Scheduled(cron = "0 0 10 * * MON,THU")
+    public void TwiceByWeek() {
+        log.info("Scheduled everyDay");
+        int delayWithinMinutes = 480; // 8 hours
+        log.info(MessageUtil.delay, delayWithinMinutes);
+        setRandomDelay(1000 * 60 * delayWithinMinutes);
+        setTestAuthorizedUser(asAdmin());
+        aggregatorService.updateRateDB();
     }
 }

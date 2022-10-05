@@ -9,7 +9,10 @@ import org.springframework.util.Assert;
 import ua.training.top.model.Rate;
 import ua.training.top.repository.RateRepository;
 
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
 import static ua.training.top.aggregator.Provider.getRates;
@@ -20,6 +23,7 @@ import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class RateService {
     private final static Logger log = LoggerFactory.getLogger(RateService.class);
+    public static Map<String, Rate> mapRates = new HashMap<>();
 
     @Autowired
     private RateRepository repository;
@@ -31,7 +35,6 @@ public class RateService {
 
     public Rate getByName(String name) {
         log.info("get by name {}", name);
-//        return checkNotFound(repository.getByName(name), name);
         System.out.println("repository.equals(null)="+(repository == null));
         return repository.getByName(name);
     }
@@ -56,15 +59,31 @@ public class RateService {
     }
 
     @Transactional
-    public void updateRate() {
+    public void deleteAll() {
+        log.info("deleteAll");
+        repository.deleteAll();
+    }
+
+    @Transactional
+    public void updateRateDB() {
         log.info("update rate by baseCurrency {}", baseCurrency);
         List<Rate> ratesNew = getRates();
         List<Rate> ratesDB = getAll();
-        ratesNew.forEach(ratesDB::remove);
         if(!ratesDB.isEmpty()){
+            ratesNew.forEach(ratesDB::remove);
             ratesNew.addAll(ratesDB);
         }
-        repository.deleteAll();
-        repository.saveAll(ratesNew);
+        if(!ratesNew.isEmpty() && repository != null){
+            repository.deleteAll();
+        }
+        if(repository != null) repository.saveAll(ratesNew);
+    }
+
+    @PostConstruct
+    public void CurrencyRatesMapInit() {
+        log.info("currency rates map init \n{}\n", ": <|> ".repeat(20));
+        List<Rate> rates = getAll();
+        rates.forEach(r -> mapRates.put(r.getName(), r));
+        System.out.println("\nmapRates=\n"+mapRates.toString());
     }
 }

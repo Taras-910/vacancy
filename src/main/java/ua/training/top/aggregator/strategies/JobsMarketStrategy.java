@@ -15,27 +15,32 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.ElementUtil.getJobsMarket;
-import static ua.training.top.util.collect.data.ConstantsUtil.get_vacancy;
-import static ua.training.top.util.collect.data.ConstantsUtil.jobsmarket;
+import static ua.training.top.util.collect.data.CommonUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 
 public class JobsMarketStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsMarketStrategy.class);
-    private static final String url = "https://jobsmarket.com.ua/search?position=%s&page=%s";
+    private static final String url = "https://%sjobsmarket.io/search?position=%s&page=%s";
 //    private static final String url = "https://jobsmarket.io/search?position=%s&page=%s";
     //    https://jobsmarket.io/search?position=Java%20Developer&page=2
 
-    protected Document getDocument(String position, String page) {
-        return DocumentUtil.getDocument(format(url, position, page));
+    protected Document getDocument(String codeISO, String position, String page) {
+        codeISO = isEmpty(codeISO) ? "" : getJoin(codeISO, ".");
+        return DocumentUtil.getDocument(format(url, codeISO, position, page));
     }
-
+//// jobsMarket  us  uk  de
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        String workplace = freshen.getWorkplace(), language = freshen.getLanguage();
-        log.info(get_vacancy, workplace, language);
-        if (!isWorkplaceJobsMarket(workplace)) {
+        String workplace = freshen.getWorkplace(), language = freshen.getLanguage(), level = freshen.getLevel();
+        log.info(get_vacancy, language, level, workplace);
+        String codeISO = isMatches(of(usAria, citiesUA, of("remote", "foreign", "all")), workplace ) ? "us" :
+                isMatches(of(ukAria, citiesUK), workplace) ? "uk" :
+                        isMatches(of(deAria, citiesDe), workplace) ? "de" : "";
+        if (!isMatches(of(usAria, citiesUA, ukAria, citiesUK, deAria, citiesDe, of("remote", "foreign", "all")), workplace)) {
            return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
@@ -46,8 +51,11 @@ public class JobsMarketStrategy implements Strategy {
         for(String position : positions) {
             int page = 1;
             while (true) {
-                Document doc = getDocument(position, String.valueOf(page));
-                Elements elements = doc == null ? null : doc.getElementsByAttributeValue("class", "card");
+                Document doc = getDocument(codeISO, position, String.valueOf(page));
+                Elements elements = doc == null ? null : doc.getElementsByClass("item-block");
+//                System.out.println("elements="+elements.size());
+//                System.out.println("doc="+doc);
+
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getJobsMarket(elements, freshen));
                 if (page < getMaxPages(jobsmarket, position)) page++;
@@ -56,9 +64,5 @@ public class JobsMarketStrategy implements Strategy {
         }
         reCall(set.size(), new JobsMarketStrategy());
         return new ArrayList<>(set);
-    }
-
-    public static boolean isWorkplaceJobsMarket(String workplace) {
-        return workplace.equals("all") || workplace.equals("foreign") || workplace.equals("remote");
     }
 }

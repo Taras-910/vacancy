@@ -48,7 +48,7 @@ public class JobsBGStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         boolean bg = isMatches(of(bgAria, citiesBg, remoteAria, foreignAria, of("all")), workplace);
         if (!bg) {
             return new ArrayList<>();

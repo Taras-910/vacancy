@@ -29,19 +29,23 @@ import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_en;
 
 public class DjinniStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(DjinniStrategy.class);
-    private static final String url = "https://djinni.co/jobs/keyword-%s/%s%s%s%s";
+    private static final String url = "https://djinni.co/jobs/%s%s%s%s%s";
     //    https://djinni.co/jobs/keyword-java/lviv/?region=other&exp_level=1y&page=2
-    //https://djinni.co/jobs/keyword-%s/%s%s%s%s
+    //https://djinni.co/jobs%s/%s%s%s%s
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-        String city = isMatch(uaAria, workplace) ? getJoin(getUA_en(workplace).toLowerCase(), "/") : "";
-        return DocumentUtil.getDocument(format(url, language, city, getDjinniShortcut(workplace),
+        String city = isMatch(uaAria, workplace) ? getUA_en(workplace).toLowerCase() : "";
+        return DocumentUtil.getDocument(format(url,
+                language.equals("all") ? "" : getJoin("keyword-", language, "/"),
+                city,
+                getDjinniShortcut(workplace),
                 level.equals("all") ? "" : getJoin("&", getLevel(djinni, level)), getPage(djinni, page)));}
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
-        log.info(get_vacancy, workplace, language);
+
+        log.info(get_vacancy, language, level, workplace);
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();

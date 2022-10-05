@@ -41,7 +41,7 @@ public class ItJobsStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         workplace = isMatch(caAria, workplace) ? "all" :
                 isMatches(of(citiesCa, remoteAria, foreignAria, of("all")),workplace) ? workplace : "-1";
         if (workplace.equals("-1")) {

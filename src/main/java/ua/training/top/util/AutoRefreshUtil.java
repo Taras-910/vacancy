@@ -42,28 +42,28 @@ public class AutoRefreshUtil {
                     Map.entry(3, new Provider(new JobBankStrategy())),
 
                     Map.entry(4, new Provider(new JobsBGStrategy())),
-//                    Map.entry(5, new Provider(new JobsMarketStrategy())),
-                    Map.entry(5, new Provider(new JobsMarketUA())),
-                    Map.entry(6, new Provider(new JobsDouStrategy())),
-                    Map.entry(7, new Provider(new LinkedinStrategy())),
+                    Map.entry(5, new Provider(new JobsMarketStrategy())),
+                    Map.entry(6, new Provider(new JobsMarketUA())),
+                    Map.entry(7, new Provider(new JobsDouStrategy())),
+                    Map.entry(8, new Provider(new LinkedinStrategy())),
 
-                    Map.entry(8, new Provider(new NofluffjobsStrategy())),
+                    Map.entry(9, new Provider(new NofluffjobsStrategy())),
 //                    Map.entry(5, new Provider(new RabotaStrategy())),
 //                    Map.entry(6, new Provider(new UAIndeedStrategy())),
-                    Map.entry(9, new Provider(new UAJoobleStrategy())),
-                    Map.entry(10, new Provider(new WorkStrategy())),
-                    Map.entry(11, new Provider(new ZaplataStrategy()))
+                    Map.entry(10, new Provider(new UAJoobleStrategy())),
+                    Map.entry(11, new Provider(new WorkStrategy())),
+                    Map.entry(12, new Provider(new ZaplataStrategy()))
             );
 
     public static final Map<Integer, String>
             mapWorkplace = Map.of(
             0, "торонто",
             1, "киев",
-            2, "болгария",
-            3, "foreign",
-            4, "remote",
-            5, "canada",
-            6, "львов",
+            2, "foreign",
+            3, "remote",
+            4, "canada",
+            5, "украина",
+            6, "болгария",
             7, "польша"
     ),
             mapLevel = Map.of(
@@ -75,8 +75,8 @@ public class AutoRefreshUtil {
                     5, "junior"
             ),
             mapLanguage = Map.of(
-                    0, "java",
-                    1, "ruby"
+                    0, "ruby",
+                    1, "java"
     );
 
     public static Freshen randomFreshen(String workplace, String level) {
@@ -84,6 +84,6 @@ public class AutoRefreshUtil {
     }
 
     public static Freshen randomFreshen(String language, String level, String workplace) {
-        return new Freshen(null, now(), language, level, workplace, singleton(UPGRADE), ADMIN_ID);
+        return new Freshen(null, now(), language, "all", workplace, singleton(UPGRADE), ADMIN_ID);
     }
 }

@@ -38,7 +38,7 @@ public class CaIndeedStrategy implements Strategy {
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = getCa(freshen.getWorkplace()), level = freshen.getLevel(), language = freshen.getLanguage();
-        log.info(get_vacancy, freshen.getWorkplace(), language);
+        log.info(get_vacancy, language, level, workplace);
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (!isMatches(of(caAria, citiesCa), workplace)) {
             return new ArrayList<>();

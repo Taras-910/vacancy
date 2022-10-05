@@ -13,9 +13,11 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
 import static ua.training.top.util.MessageUtil.time_number_inform;
+import static ua.training.top.util.collect.data.ConstantsUtil.ratesAria;
 
 public class Provider {
     private static final Logger log = LoggerFactory.getLogger(Provider.class);
@@ -36,6 +38,8 @@ public class Provider {
     public static List<Rate> getRates(){
         RateProvider rateProvider = new TradingEconomicsProvider();
 //        RateProvider rateProvider = new TestProvider();
-        return rateProvider.getRates(baseCurrency);
+        return rateProvider.getRates(baseCurrency).stream()
+                .filter(r -> ratesAria.contains(r.getName()))
+                .collect(Collectors.toList());
     }
 }

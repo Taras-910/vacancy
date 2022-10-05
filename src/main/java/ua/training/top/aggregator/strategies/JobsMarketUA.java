@@ -34,15 +34,15 @@ public class JobsMarketUA implements Strategy {
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
-        String workplace = freshen.getWorkplace(), language = freshen.getLanguage();
-        log.info(get_vacancy, workplace, language);
+        String workplace = freshen.getWorkplace(), language = freshen.getLanguage(), level = freshen.getLevel();
+        log.info(get_vacancy, language, level, workplace);
         if (!isMatches(of(uaAria, remoteAria, of("all")), workplace)) {
            return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
         String[] positions = freshen.getLanguage().equals("java") ? new String[]{"Java%20Developer",
                 "Java%20Backend%20Engineer%20-", "Java%20API%20Developer", "Java%20Automation%20Engineer%2FSDET"} :
-                new String[]{"Kotlin%20Developer", "Kotlin%2FReact%20Fullstack%20Developer%20(m%2Fw%2Fd)"};
+                new String[]{"Kotlin%20Developer", "Kotlin%2FReact%20Fullstack%20Developer%20"};
         log.info("language={} positions={}", freshen.getLanguage(), positions);
         for(String position : positions) {
             int page = 1;

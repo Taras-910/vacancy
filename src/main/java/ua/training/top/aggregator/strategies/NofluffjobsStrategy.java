@@ -39,16 +39,17 @@ public class NofluffjobsStrategy implements Strategy {
                 isMatch(of("all", "remote"), codeISO) ? "ua" : codeISO.equals("foreign") ? "pl" : codeISO,
                 isMatch(remoteAria, workplace) ? getNoff("ua") : isMatches(of(foreignAria, of("all")), workplace) ?
                         "" : getJoin(city.equals("kyiv") ? "kiev" : city, isEmpty(city) ? "" : "/"),
-                part,
-                getLevel(nofluff, level), language.equals("all") ? "" : getJoin(part_language, language),
+                part, getLevel(nofluff, level),
+                language.equalsIgnoreCase("all") ? "" : getJoin(part_language, language),
                 getPage(nofluff, page)));
     }
-
+//    all all singapore
+//https://nofluffjobs.com/ua/singapore/backend?criteria=category%3Dtesting%20requirement%3DAll
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "%27Ruby%20on%20Rails%27" : getUpperStart(language);
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         String codeISO = getCodeISOByCity(workplace);
         if (!isMatch(List.of("pl", "ua", "cz", "sk", "hu", "remote", "foreign", "all"), codeISO)) {
             return new ArrayList<>();

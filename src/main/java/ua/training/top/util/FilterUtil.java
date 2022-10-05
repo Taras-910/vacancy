@@ -36,17 +36,17 @@ public class FilterUtil {
 
     public static boolean isSuit(Vacancy v, String field, String fieldKind) {
         String text = (fieldKind.equals("workplace") ?
-                getJoin(v.getSkills(),v.getTitle(),v.getEmployer().getAddress()).toLowerCase() : //? toLowerCase()
+                getJoin(v.getSkills(),v.getTitle(),v.getEmployer().getAddress()).toLowerCase() :
                 getJoin(v.getSkills(),v.getTitle())).toLowerCase();
         return switch (field.toLowerCase()) {
             case "all" -> true;
             case "java", "react", "ruby" -> text.matches(".*\\b" + field + "\\b.*");
             case "trainee", "стажировка", "стажер", "internship", "интерн", "intern"
-                    -> mapAriaFilter.get(field).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
+                    -> mapAriaFilter.getOrDefault(field, of(field)).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
             case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном", "за_кордоном" ->
                     citiesUA.stream().noneMatch(cityUA -> isContains(text, cityUA));
-            default -> mapAriaFilter.get(field).size() == 1 ? isContains(text, field) : mapAriaFilter.get(field).stream()
-                    .anyMatch(a -> isContains(text, a));
+            default -> mapAriaFilter.getOrDefault(field, of(field)).size() == 1 ? isContains(text, field) :
+                mapAriaFilter.getOrDefault(field, of(field)).stream().anyMatch(a -> isContains(text, a));
         };
     }
 }

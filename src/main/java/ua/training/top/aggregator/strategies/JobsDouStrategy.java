@@ -37,16 +37,15 @@ public class JobsDouStrategy implements Strategy {
                 isMatch(remoteAria, workplace) ? "remote&from=maybe" : "",
                 language.equals("all") || isMatch(remoteAria, workplace) ? "" : getJoin("category=", language, "&descr=1"),
                 workplace.equals("all") || isMatches(of(remoteAria, foreignAria), workplace) ? "" :
-                        getJoin(level.equals("all") && language.equals("all") ? "" : "&","city=",
-                                isMatch(citiesUA, workplace) ? getUA_ua(workplace) : getJobsDouForeign(workplace)),
+                        getJoin(level.equals("all") && language.equals("all") ? "" : "&","city=", isMatch(citiesUA, workplace) ? getUA_ua(workplace) : getJobsDouForeign(workplace)),
                 level.equals("all") || isMatch(remoteAria, workplace) ? "" : getLevel(jobs, level)));
     }
-
+// workplace = all ???   https://jobs.dou.ua/vacancies/?category=java&descr=1&city=all
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby+on+Rails" : language;
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         String[] cities = isMatch(uaAria, workplace) ? getUA() : isMatch(foreignAria, workplace) ? getForeign() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
         int i = cities.length;

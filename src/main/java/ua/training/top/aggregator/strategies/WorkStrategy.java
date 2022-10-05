@@ -28,14 +28,17 @@ import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_en;
 
 public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
-    private static final String url = "https://www.work.ua/ru/jobs-it%s-%s%s/?advs=1%s&notitle=1&days=123%s";
+    private static final String url = "https://www.work.ua/ru/jobs%s-it%s%s/?advs=1%s&notitle=1&days=123%s";
     //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=123&page=1
 //https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=123%s
 
     protected Document getDocument(String workspace, String language, String level, String page) {
         workspace = isMatches(of(uaAria, remoteAria, of("all")), workspace) ? "" : isMatch(citiesUA, workspace) ?
                 getJoin("-", getUA_en(workspace).toLowerCase()) : "-other";
-        return DocumentUtil.getDocument(format(url, workspace, language, getLevel(work, level),
+        return DocumentUtil.getDocument(format(url,
+                workspace,
+                language.equals("all") ? "" : getJoin("-", language),
+                level.equals("all") ? "" : getJoin(language.equals("all") ? "-" : "+", getLevel(work, level)),
                 workspace.equals("remote") ? "&employment=76" : "", getPage(work, page)));
     }
 
@@ -43,7 +46,7 @@ public class WorkStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "ruby+on+rails+программист" : language;
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         Set<VacancyTo> set = new LinkedHashSet<>();
         if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();

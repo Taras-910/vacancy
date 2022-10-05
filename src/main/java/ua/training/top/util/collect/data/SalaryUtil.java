@@ -3,17 +3,14 @@ package ua.training.top.util.collect.data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Rate;
-import ua.training.top.service.RateService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 import static java.util.List.of;
-import static ua.training.top.aggregator.InstallationUtil.reasonValidRate;
+import static ua.training.top.service.RateService.mapRates;
 import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_find_salary;
@@ -21,9 +18,6 @@ import static ua.training.top.util.collect.data.PatternUtil.pattern_salary_trans
 
 public class SalaryUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
-    public static final RateService rateService = new RateService();
-    public static final Map<String, Rate> mapRates = new TreeMap<>();
-
 
     public static Integer[] getToSalaries(String originText) {            //₵ ₮
         originText = originText.toLowerCase();
@@ -60,7 +54,7 @@ public class SalaryUtil {
         boolean exceed = false;
         for (int i = amount.length - 1; i >= 0 ; --i) {
             int a = amount[i];
-            if (a > 3000000) {
+            if (a > 4000000) {
                 exceed = true;
                 log.error(wrong_salary_value, a/100);
             }
@@ -68,7 +62,6 @@ public class SalaryUtil {
         }
         return result;
     }
-
 
     private static List<Double> getMonetaryAmount(String text) {
         List<Double> list = new ArrayList();
@@ -96,7 +89,7 @@ public class SalaryUtil {
 
     public static String getCurrencyCode(String text) {
         return isMatch(cadAria, text) ? "₡" : isMatch(usdAria, text) ? "$" : isMatch(hrnAria, text) ?
-                "₴" : isMatch(eurAria, text) ? "€" : isMatch(bynAria, text) ? "₱" : isMatch(plnAria, text) ?
+                "₴" : isMatch(eurAria, text) ? "€" : isMatch(byrAria, text) ? "₱" : isMatch(plnAria, text) ?
                 "₲" : isMatch(gbrAria, text) ? "₤" : isMatch(kztAria, text) ? "₸" : isMatch(czeAria, text) ?
                 "₭" : isMatch(bgnAria, text) ? "₾" : "";
     }
@@ -110,7 +103,7 @@ public class SalaryUtil {
             case "₤" -> getReplace(text, gbrAria, code);
             case "₲" -> getReplace(text, plnAria, code);
             case "₸" -> getReplace(text, kztAria, code);
-            case "₱" -> getReplace(text, bynAria, code);
+            case "₱" -> getReplace(text, byrAria, code);
             case "₭" -> getReplace(text, czeAria, code);
             case "₾" -> getReplace(text, bgnAria, code);
             default -> text;
@@ -125,12 +118,16 @@ public class SalaryUtil {
             case "₤" -> USDGBP;
             case "₸" -> USDKZT;
             case "₡" -> USDCAD;
-            case "₱" -> USDBUR;
+            case "₱" -> USDBYR;
             case "₾" -> USDBGN;
             case "₭" -> USDCZK;
             default -> USDUSD;
         };
-        return getValue(name);
+        Rate r = mapRates.getOrDefault(name, new Rate(null, 1.0, LocalDate.now()));
+        if(r.getName() == null){
+            log.error("currency rate not found for currency {}", name);
+        }
+        return r.getValue();
     }
 
     public static boolean isFrom(String originText) {
@@ -141,30 +138,4 @@ public class SalaryUtil {
         return text.length() < 50 ? text :
                 text.substring(Math.max(text.indexOf(code) - 25, 0), Math.min(text.lastIndexOf(code) + 25, text.length()));
     }
-
-    public static Double getValue(String name) {
-        Rate rate = mapRates.getOrDefault(name, new Rate(null, 1.0, LocalDate.now()));
-
-        if(rate.getLocalDate().isBefore(reasonValidRate)) {
-            rateService.updateRate();
-        }
-        return rate.getValue();
-    }
-
-    public static Double getValue_test (String name) {
-        return switch (name) {
-            case USDPLN -> 4.75;
-            case USDEUR -> 1.01;
-            case USDGBP -> 0.86;
-            case USDBUR -> 2.52;
-            case USDUAH -> 36.91;
-            case USDKZT -> 472.31;
-            case USDCAD -> 1.31;
-            case USDCZK -> 24.1;
-            case USDBGN -> 1.96;
-            default -> 1.0; // USDUSD
-
-        };
-    }
-
 }

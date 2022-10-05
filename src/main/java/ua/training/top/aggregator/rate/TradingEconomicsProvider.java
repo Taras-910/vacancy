@@ -16,6 +16,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static ua.training.top.aggregator.InstallationUtil.reCallRate;
 import static ua.training.top.util.collect.DocumentUtil.getDocument;
+import static ua.training.top.util.collect.data.ConstantsUtil.USDUSD;
 import static ua.training.top.util.collect.data.ConstantsUtil.error;
 import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.collect.xss.XssUtil.xssClear;
@@ -53,6 +54,7 @@ public class TradingEconomicsProvider implements RateProvider {
                 log.error(error, e.getLocalizedMessage(), element);
             }
         }
+        list.add(new Rate(USDUSD, 1.0, LocalDate.now()));
         return list;
     }
 }

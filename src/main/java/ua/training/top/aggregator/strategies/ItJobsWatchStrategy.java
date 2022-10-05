@@ -27,8 +27,10 @@ import static ua.training.top.util.collect.data.WorkplaceUtil.getUK;
 
 public class ItJobsWatchStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(ItJobsWatchStrategy.class);
-    private final static String url = "https://www.itjobswatch.co.uk/search?%s%ss=date%s";
+    private final static String url = "https://www.itjobswatch.co.uk/search?%s%s%s";
 //https://www.itjobswatch.co.uk/search?q=java+middle&l=London&s=date&start=50
+//https://www.itjobswatch.co.uk/search?q=Java+developer&s=date
+//https://www.itjobswatch.co.uk/search?q=Java+developer&s=date50
 
     protected Document getDocument(String workplace, String page, String level, String language) {
         workplace = isMatch(citiesUK, workplace) ? getUK(workplace) : "all";
@@ -43,7 +45,7 @@ public class ItJobsWatchStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby+on+Rails" : language.equals("java") ? "Java+developer" : language;
-                log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         workplace = isMatches(of(ukAria, remoteAria, foreignAria, of("all")), workplace) ? "all" :
                 isMatch(citiesUK, workplace) ? getUK(workplace).toLowerCase() : "-1";
         if (workplace.equals("-1")) {

@@ -36,7 +36,7 @@ public class JobBankStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby+on+Rails" : language;
-        log.info(get_vacancy, workplace, language);
+        log.info(get_vacancy, language, level, workplace);
         boolean ca = isMatches(of(caAria, citiesCa, foreignAria, remoteAria, of("all")), workplace);
         if (!ca) {
             return new ArrayList<>();

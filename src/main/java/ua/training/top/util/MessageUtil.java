@@ -11,6 +11,7 @@ public class MessageUtil {
             "u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$",
             all = "all",
             delay = "There is set delay within {} minutes",
+            delay_week_day_freshen = "There is set delay within {} minutes for Freshen {}",
             email_matcher = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
             email_error = "[email] must be in the format of an email address",
             email_not_be_null = "email must not be null",

@@ -13,7 +13,7 @@ public class LevelUtil {
                 case nofluff -> "%20seniority%3Dtrainee";
                 case rabota -> "&profLevelIDs=2";
                 case jooble -> "&workExp=2";
-                case work -> "+trainee";
+                case work -> "trainee";
                 case zaplata -> "stazhanti-studenti/";
                 default -> "";
             };
@@ -25,7 +25,7 @@ public class LevelUtil {
                 case nofluff -> "%20seniority%3Djunior";
                 case rabota -> "&profLevelIDs=3";
                 case jooble -> "&workExp=1";
-                case work -> "+junior";
+                case work -> "junior";
                 case zaplata -> "stazhanti-studenti/";
                 default -> "";
             };
@@ -37,7 +37,7 @@ public class LevelUtil {
                 case nofluff -> "%20seniority%3Dmid";
                 case rabota -> "&profLevelIDs=4";
                 case jooble -> "%20middle";
-                case work -> "+middle";
+                case work -> "middle";
                 case zaplata -> "sluzhiteli-rabotnitsi/";
                 default -> "";
             };
@@ -49,7 +49,7 @@ public class LevelUtil {
                 case nofluff -> "%20seniority%3Dsenior";
                 case rabota -> "&profLevelIDs=5";
                 case jooble -> "%20senior";
-                case work -> "+senior";
+                case work -> "senior";
                 case zaplata -> "eksperti-spetsialisti/";
                 default -> "";
             };
@@ -61,7 +61,7 @@ public class LevelUtil {
                 case nofluff -> "%20seniority%3Dexpert";
                 case rabota -> "&profLevelIDs=6";
                 case jooble -> "%20expert";
-                case work -> "+expert";
+                case work -> "expert";
                 case zaplata -> "menidzhmant/";
                 default -> "";
             };

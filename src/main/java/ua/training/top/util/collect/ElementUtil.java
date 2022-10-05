@@ -257,16 +257,17 @@ public class ElementUtil {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").text()));
                 if (localDate.isAfter(reasonDateLoading)) {
-                    String title, salaries, skills = getToSkills(xssClear(element.getElementsByClass("card-body").text()));
+                    String title, salary, skills = getToSkills(xssClear(element.getElementsByClass("card-body").text()));
                     title = getToTitle(xssClear(element.getElementsByClass("link").text()));
-                    salaries = xssClear(element.getElementsByClass("text-muted").tagName("strong").text().replaceAll(",", ""));
+                    salary = xssClear(element.getElementsByClass("text-muted").tagName("strong").text());
+                    Integer[] salaries = getToSalaries(salary);
                     if (isToValid(freshen, getJoin(title,skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("cursor-pointer").text())));
                         v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("fa-map-marker-alt").next().text())));
-                        v.setSalaryMin(getToSalaries(salaries)[0]);
-                        v.setSalaryMax(getToSalaries(salaries)[1]);
+                        v.setSalaryMin(salaries[0]);
+                        v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
                         v.setSkills(skills);
                         v.setReleaseDate(localDate);
@@ -759,6 +760,36 @@ public class ElementUtil {
                         System.out.println("url            =" + v.getUrl());
 
                         System.out.println("skillsString  =" + xssClear(element.getElementsByAttribute("alt").eachAttr("alt").toString()));
+                        System.out.println("skills         =" + v.getSkills());
+*/
+// jobsMarket
+/*
+                        System.out.println(i++ + "-".repeat(150));
+                        Elements elementList = element.select("span");
+                        System.out.print("elementList: "+ elementList.size()+" \n");
+                        elementList.forEach(e -> System.out.println(" ::: "+ e.ownText() + " ::: "));
+                        System.out.println();
+
+                        System.out.println(". ".repeat(75));
+//                        System.out.println("element=\n" + element);
+                        System.out.println("dateString     =" + xssClear(xssClear(element.getElementsByTag("time").text())));
+                        System.out.println("date           =" + v.getReleaseDate());
+                        System.out.println("titleString    =" + xssClear(element.getElementsByClass("link").text()));
+                        System.out.println("title          =" + v.getTitle());
+
+                        System.out.println("emploNameString=" + xssClear(element.getElementsByClass("cursor-pointer").text()));
+                        System.out.println("employerName   =" + v.getEmployerName());
+
+                        System.out.println("addressString  =" + xssClear(element.getElementsByClass("fa-map-marker-alt").next().text()));
+                        System.out.println("address        =" + v.getAddress());
+
+                        System.out.println("salaryString   =" + xssClear(element.getElementsByClass("text-muted").tagName("strong").text()));
+                        System.out.println("salaryMin      =" + v.getSalaryMin());
+                        System.out.println("salaryMan      =" + v.getSalaryMax());
+
+                        System.out.println("urlString      =" + xssClear(element.getElementsByTag("a").first().attr("href")));
+                        System.out.println("url            =" + v.getUrl());
+                        System.out.println("skillsString   =" + xssClear(element.getElementsByClass("card-body").text().trim()));
                         System.out.println("skills         =" + v.getSkills());
 */
 // jobsMarketUA

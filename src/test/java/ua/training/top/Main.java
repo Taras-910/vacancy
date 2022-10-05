@@ -2,12 +2,17 @@ package ua.training.top;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ua.training.top.model.Rate;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.AggregatorService;
 import ua.training.top.service.FreshenService;
+import ua.training.top.service.RateService;
+
+import java.util.Map;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
+import static ua.training.top.service.RateService.mapRates;
 import static ua.training.top.testData.UserTestData.USER_ID;
 
 public class Main {
@@ -37,17 +42,23 @@ public class Main {
 //        UserService userService = appCtx.getBean(UserService.class);
         FreshenService freshenService = appCtx.getBean(FreshenService.class);
         AggregatorService aggregatorService = appCtx.getBean(AggregatorService.class);
-//        RateService rateService = appCtx.getBean(RateService.class);
+        RateService rateService = appCtx.getBean(RateService.class);
 //        EmployerService employerService = appCtx.getBean(EmployerService.class);
 //        VacancyService vacancyService = appCtx.getBean(VacancyService.class);
 //        VoteService voteService = appCtx.getBean(VoteService.class);
 //        RateRepository repository = appCtx.getBean(RateRepository.class);
 
         System.out.println(".".repeat(120));
-        aggregatorService.rateInit();
-        aggregatorService.updateRate();
+//        rateService.getAll().forEach(System.out::println);
+//        rateService.deleteAll();
+//        aggregatorService.CurrencyRateMapInit();
 
-//        freshenService.getAll().forEach(System.out::println);
+        rateService.CurrencyRatesMapInit();
+
+        for (Map.Entry e : mapRates.entrySet()) {
+            System.out.println(e.getKey() + " : " + (Rate)e.getValue());
+        }
+//        rateService.getAll().forEach(System.out::println);
 
 //        freshenService.update();
 

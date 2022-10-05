@@ -22,20 +22,24 @@ public class FilterMapUtil {
             case "харків", "харьков", "kharkiv" -> of("харків", "харьков", "kharkiv");
             case "дніпро", "днепр", "dnipro" -> of("дніпро", "днепр", "dnipro");
             case "одеса", "одесса", "odesa" -> of("одеса", "одесса", "odesa");
-            case "львів", "львов", "lviv" -> of("львів", "львов", "lviv");
-            case "ужгород", "uzhgorod" -> of("ужгород", "uzhgorod");
-            case "полтава", "poltava" -> of("полтава", "poltava");
-            case "луцк", "луцьк" -> of("луцк", "луцьк", "lutsk");
-            case "житомир", "zhytomyr" -> of("житомир", "zhytomyr");
             case "хмельницький", "khmelnitsky" -> of("хмельницький", "khmelnitsky");
             case "вінниця", "винница", "vinnitsia" -> of("вінниця", "винница", "vinnitsia");
             case "рівне", "ровно", "rivne", "rovno" -> of("рівне", "ровно", "rivne", "rovno");
             case "миколаїв", "николаев", "mykolaiv" -> of("миколаїв", "николаев", "mykolaiv");
-            case "чернігів", "чернигов", "chernigiv" -> of("чернігів", "чернигов", "chernigiv");
-            case "тернопіль", "тернополь", "ternopil" -> of("тернопіль", "тернополь", "ternopil");
-            case "чорновці", "черновцы", "chernivtsi" -> of("чорновці", "черновцы", "chernivtsi");
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> of("запоріжжя", "запорожье", "zaporizhzhya");
+            case "кировоград", "кіровоград", "kirovograd" -> of("кировоград", "кіровоград", "kirovograd");
+            case "каменец-подольский", "камянець-подільський" -> of("каменец-подольский", "камянець-подільський");
             case "івано-франківськ", "ивано-франковск", "ivano-frankivsk" -> of("івано-франківськ", "ивано-франковск", "ivano-frankivsk");
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> of("запоріжжя", "запорожье", "zaporizhzhya");
+            case "чорновці", "черновцы", "chernivtsi" -> of("чорновці", "черновцы", "chernivtsi");
+            case "тернопіль", "тернополь", "ternopil" -> of("тернопіль", "тернополь", "ternopil");
+            case "чернігів", "чернигов", "chernigiv" -> of("чернігів", "чернигов", "chernigiv");
+            case "жовті-води", "желтые-воды" -> of("жовті-води", "желтые-воды");
+            case "кривой-рог", "кривий-ріг" -> of("кривой-рог", "кривий-ріг");
+            case "луцк", "луцьк", "lutsk" -> of("луцк", "луцьк", "lutsk");
+            case "львів", "львов", "lviv" -> of("львів", "львов", "lviv");
+            case "житомир", "zhytomyr" -> of("житомир", "zhytomyr");
+            case "ужгород", "uzhgorod" -> of("ужгород", "uzhgorod");
+            case "полтава", "poltava" -> of("полтава", "poltava");
 
             case "польша", "польща", "poland", "polski", "pol" -> getCommonList(of(plAria, citiesPl));
             case "poznan", "познань" -> of("poznan", "познань");
@@ -260,6 +264,8 @@ public class FilterMapUtil {
             case "нашвилл", "нашвілл", "нeшвилл", "нeшвілл", "nashville" ->
                     of("нашвилл", "нашвілл", "nashville", "нeшвилл", "нeшвілл");
             case "minsk", "минск", "мінськ" -> of("minsk", "минск", "мінськ");
+            case "singapore", "сингапур", "сінгапур" -> of("singapore", "сингапур", "сінгапур");
+            case "thailand", "таіланд", "таиланд" -> of("thailand", "таіланд", "таиланд");
             default -> of(text);
         };
     }
