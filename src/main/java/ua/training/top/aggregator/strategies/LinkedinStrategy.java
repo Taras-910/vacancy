@@ -45,9 +45,6 @@ public class LinkedinStrategy implements Strategy {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby%20on%20Rails" : language;
         log.info(get_vacancy, language, level, workplace);
-        if (isMatch(citiesRU, workplace)) {
-            return new ArrayList<>();
-        }
         String[] cityOrCountry;
         if(!herokuRestriction) {
         cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(citiesCa, workplace) ? getCanada() :

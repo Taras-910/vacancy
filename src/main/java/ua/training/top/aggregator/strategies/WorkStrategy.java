@@ -48,9 +48,6 @@ public class WorkStrategy implements Strategy {
         language = language.equals("ruby on rails") ? "ruby+on+rails+программист" : language;
         log.info(get_vacancy, language, level, workplace);
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (isMatch(citiesRU, workplace)) {
-            return new ArrayList<>();
-        }
         int page = 1;
         while (true) {
             Document doc = getDocument(workplace, language, level, valueOf(page));

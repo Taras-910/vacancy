@@ -12,8 +12,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.InstallationUtil.reasonDateLoading;
-import static ua.training.top.util.collect.data.ConstantsUtil.common_number_vacancyTos;
-import static ua.training.top.util.collect.data.ConstantsUtil.error_select;
+import static ua.training.top.util.collect.data.CommonUtil.isMatch;
+import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.ToUtil.getFilled;
 
 @Repository
@@ -29,6 +29,10 @@ public class Starter implements StarterInterface {
 
     @Override
     public List<VacancyTo> selectBy(Freshen freshen){
+        if(isMatch(citiesRU, freshen.getWorkplace())){
+            return new ArrayList<>();
+        }
+
         allProviders = new ArrayDeque<>(Arrays.asList(providers));
         Set<VacancyTo> set = new HashSet<>();
         while(allProviders.peek()!=null){

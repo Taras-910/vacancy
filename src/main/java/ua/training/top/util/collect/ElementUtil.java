@@ -191,7 +191,7 @@ public class ElementUtil {
                     String url, title = getToTitle(xssClear(element.getElementsByClass("noctitle").text()));
                     url = xssClear(element.getElementsByTag("a").attr("href"));
                     Integer[] salaries = getToSalaries(getJoin(xssClear(element.getElementsByClass("salary").text()), " cad"));
-                    if (true) {
+                    if (isToValid(freshen, title)) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(isContains(title, "Verified") ? title.split("Verified")[0] : title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("business").text())));

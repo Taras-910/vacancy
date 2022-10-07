@@ -47,9 +47,6 @@ public class DjinniStrategy implements Strategy {
 
         log.info(get_vacancy, language, level, workplace);
         Set<VacancyTo> set = new LinkedHashSet<>();
-        if (isMatch(citiesRU, workplace)) {
-            return new ArrayList<>();
-        }
         int page = 1;
         while (true) {
             Document doc = getDocument(workplace, language, level, valueOf(page));

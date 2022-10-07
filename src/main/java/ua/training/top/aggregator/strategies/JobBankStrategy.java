@@ -38,7 +38,7 @@ public class JobBankStrategy implements Strategy {
         language = language.equals("ruby on rails") ? "Ruby+on+Rails" : language;
         log.info(get_vacancy, language, level, workplace);
         boolean ca = isMatches(of(caAria, citiesCa, foreignAria, remoteAria, of("all")), workplace);
-        if (!ca) {
+        if (!ca || language.equals("all")) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();

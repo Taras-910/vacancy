@@ -18,8 +18,8 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.util.collect.data.CommonUtil.getJoin;
-import static ua.training.top.util.collect.data.CommonUtil.isMatch;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.collect.data.ConstantsUtil.get_vacancy;
+import static ua.training.top.util.collect.data.ConstantsUtil.rabota;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getRabota;
@@ -42,9 +42,6 @@ public class RabotaStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, language, level, workplace);
-        if (isMatch(citiesRU, workplace)) {
-            return new ArrayList<>();
-        }
         Set<VacancyTo> set = new LinkedHashSet<>();
         int page = 1;
         while(true) {
