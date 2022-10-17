@@ -64,7 +64,6 @@ public class WorkplaceUtil {
     public static String getLinkedin(String city){
         return switch (city) {
             case "київ", "киев", "kyiv", "kiev" -> "&location=Киев%2C%20Киев%2C%20Украина&geoId=104035893";
-
             case "полтава", "poltava" -> "&location=Poltava%2C%20Poltava%2C%20Ukraine&geoId=102507522";
             case "ужгород" -> "&location=Ужгород%2C%20Закарпатская%20область%2C%20Украина&geoId=106974374";
             case "вінниця", "винница" -> "&location=Винница%2C%20Винницкая%20область%2C%20Украина&geoId=106030501";

@@ -39,12 +39,15 @@ public class LinkedinStrategy implements Strategy {
                 getLinkedin(workplace),
                 workplace.equals("remote") ? "" : "&f_WT=2", getLevel(linkedin, level), page));
     }
-// Ruby%20on%20Rails
+
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby%20on%20Rails" : language;
         log.info(get_vacancy, language, level, workplace);
+        if(isMatch(citiesRU, workplace)){
+            return new ArrayList<>();
+        }
         String[] cityOrCountry;
         if(!herokuRestriction) {
         cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(citiesCa, workplace) ? getCanada() :
@@ -58,7 +61,7 @@ public class LinkedinStrategy implements Strategy {
             int page = 0;
             while(true) {
                 Document doc = getDocument(location, language, level, valueOf(page));
-                Elements elements = doc == null ? null : doc.getElementsByClass("base-card");
+                Elements elements = doc == null ? null : doc.getElementsByClass("base-search-card__info");
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getVacanciesLinkedin(elements, freshen));
                 if (page < getMaxPages(linkedin, freshen.getWorkplace())) page++;

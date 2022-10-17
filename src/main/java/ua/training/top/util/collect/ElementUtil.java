@@ -347,14 +347,14 @@ public class ElementUtil {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").tagName("time").attr("datetime")));
                 if (localDate.isAfter(reasonDateLoading)) {
-                    Elements elementList = element.getElementsByTag("span");
-                    String title = xssClear(elementList.get(0).ownText());
+                    Elements elementList = element.getElementsByAttributeStarting("h");
+                    String title = xssClear(element.getElementsByClass("base-search-card__title").text());
                     Integer[] salaries = pattern_is_money_value.matcher(title).find() ? getToSalaries(title) : new Integer[]{1, 1};
                     if (true) {
                         VacancyTo v = new VacancyTo();
-                        v.setTitle(getLinkIfEmpty(xssClear(elementList.get(0).ownText())));
+                        v.setTitle(title);
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("base-search-card__subtitle").tagName("a").text())));
-                        v.setAddress(xssClear(elementList.get(1).ownText()));
+                        v.setAddress(xssClear(element.getElementsByClass("job-search-card__location").text()));
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
@@ -880,34 +880,33 @@ public class ElementUtil {
 // linkedin
 /* linkedin
 
+
                         System.out.println(i++ + "-".repeat(150));
                         System.out.print("elementList: "+elementList.size()+" \n");
                         elementList.forEach(e -> System.out.println(" ::: "+ e.ownText() + " ::: "));
                         System.out.println();
 
-
                         System.out.println("dateString     =" + xssClear(element.getElementsByTag("time").tagName("time").attr("datetime")));
                         System.out.println("date           ="+ v.getReleaseDate());
-                        System.out.println("titleString    ="+ xssClear(title));
+                        System.out.println("titleString    ="+ xssClear(element.getElementsByClass("base-search-card__title").text()));
                         System.out.println("title          ="+v.getTitle());
 
                         System.out.println("emploNameString="+ xssClear(element.getElementsByClass("base-search-card__subtitle").tagName("a").text()));
                         System.out.println("employerName   ="+v.getEmployerName());
 
-                        System.out.println("addressString  ="+xssClear(elementList.get(1).ownText()));
+                        System.out.println("addressString  ="+xssClear(element.getElementsByClass("job-search-card__location").text()));
                         System.out.println("address        ="+v.getAddress());
 
                         System.out.println("salaryString   ="+ title);
                         System.out.println("salaryMin      ="+v.getSalaryMin());
                         System.out.println("salaryMan      ="+v.getSalaryMax());
 
-                        System.out.println("urlString      ="+ xssClear(element.getElementsByTag("a").first().attr("href")));
-                        System.out.println("urlString1      ="+ xssClear(element.getElementsByTag("a").attr("href")));
-                        System.out.println("urlString2      ="+ xssClear(element.getElementsByTag("base-card__full-link").attr("href")));
+                        System.out.println("urlString      ="+ xssClear(element.getElementsByTag("a").attr("href")));
                         System.out.println("url            ="+v.getUrl());
 
                         System.out.println("skillsString   ="+xssClear(element.getElementsByClass("sh-info").text()));
                         System.out.println("skills         ="+v.getSkills());
+
 */
 // rabota
 /* rabota страница - js-функция

@@ -122,6 +122,7 @@ public class AggregatorService {
 
     public static void main(String[] args) {
         setTestAuthorizedUser(asAdmin());
+        /*rate*/
         /*AtomicInteger i = new AtomicInteger(1);
         List<Rate> rates = getRateProvider().getRates(baseCurrency);
         rates.forEach(rate -> log.info("\nrate № {}\n{}\n", i.getAndIncrement(), rate.toString()));

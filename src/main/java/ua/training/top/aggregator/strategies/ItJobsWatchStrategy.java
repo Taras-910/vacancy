@@ -27,7 +27,7 @@ import static ua.training.top.util.collect.data.WorkplaceUtil.getUK;
 
 public class ItJobsWatchStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(ItJobsWatchStrategy.class);
-    private final static String url = "https://www.itjobswatch.co.uk/search?%s%s%s";
+    private final static String url = "https://www.itjobswatch.co.uk/%s%s%s%s";
 //https://www.itjobswatch.co.uk/search?q=java+middle&l=London&s=date&start=50
 //https://www.itjobswatch.co.uk/search?q=Java+developer&s=date
 //https://www.itjobswatch.co.uk/search?q=Java+developer&s=date50
@@ -35,12 +35,13 @@ public class ItJobsWatchStrategy implements Strategy {
     protected Document getDocument(String workplace, String page, String level, String language) {
         workplace = isMatch(citiesUK, workplace) ? getUK(workplace) : "all";
         return DocumentUtil.getDocument(format(url,
-                language.equals("all") && level.equals("all") ? "" : getJoin("q=",
-                        level.equals("all") ? language : language.equals("all") ? level : getJoin(language, "+", level), "&"),
+                language.equals("all") && level.equals("all") && workplace.equals("all") ? "IT-Jobs" : "search?",
+                language.equals("all") && level.equals("all") ? "" : getJoin("q=", level.equals("all") ?
+                        language : language.equals("all") ? level : getJoin(language, "+", level), "&"),
                 workplace.equals("all") ? "" : getJoin("l=", workplace, "&"),
                 getPage(itJobsWatch, page)));
     }
-//Ruby+on+Rails  Java+developer
+
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
