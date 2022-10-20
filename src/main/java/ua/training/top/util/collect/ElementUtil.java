@@ -23,7 +23,7 @@ import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
 import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_is_money_value;
-import static ua.training.top.util.collect.data.SalaryUtil.getToSalaries;
+import static ua.training.top.util.collect.data.SalaryToUtil.getToSalaries;
 import static ua.training.top.util.collect.data.ToUtil.*;
 import static ua.training.top.util.collect.xss.XssUtil.xssClear;
 
@@ -38,8 +38,8 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByClass("date").text()));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, title = getToTitle(xssClear(element.getElementsByAttribute("title").first().text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("job-snippet").text()));
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    skills = getToSkills(xssClear(element.getElementsByClass("job-snippet").text()), freshen);
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("companyName").text())));
@@ -92,15 +92,15 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
             try {
-                String date  = xssClear(element.getElementsByAttributeValueStarting("class", "text-date").text());
+                String date = xssClear(element.getElementsByAttributeValueStarting("class", "text-date").text());
                 LocalDate localDate = getToLocalDate(date);
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, salary, title = getToTitle(xssClear(element.getElementsByClass("profile").tagName("a").text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("list-jobs__description").text()));
+                    skills = getToSkills(xssClear(element.getElementsByClass("list-jobs__description").text()), freshen);
                     salary = xssClear(element.getElementsByClass("public-salary-item").text());
                     salary = isEmpty(salary) ? skills : salary;
                     Integer[] salaries = getToSalaries(salary.replaceAll(date, ""));
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("list-jobs__details__info").tagName("a").first().child(1).text())));
@@ -138,7 +138,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
-                        v.setSkills(getToSkills(skills));
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -156,13 +156,13 @@ public class ElementUtil {
             Elements listData = element.select("span, div");
             String dateString = xssClear(element.getElementsByTag("time").text());
             LocalDate localDate = isContains(dateString, "30+") ? reasonDateLoading.plusDays(1) : getToLocalDate(dateString);
-            if (localDate.isAfter(reasonDateLoading) && listData.size() >=7) {
+            if (localDate.isAfter(reasonDateLoading) && listData.size() >= 7) {
                 try {
                     String salary, skills, title = getToTitle(xssClear(element.getElementsByClass("jobTitle").first().text()));
                     skills = xssClear(listData.get(4).ownText());
                     salary = xssClear(listData.get(7).ownText());
-                    Integer[] salaries = getToSalaries(isMatch( of("Daily", "Annual"), salary) ? salary : getJoin(salary, " year"));
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    Integer[] salaries = getToSalaries(isMatch(of("Daily", "Annual"), salary) ? salary : getJoin(salary, " year"));
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(xssClear(listData.get(3).ownText()));
@@ -170,7 +170,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(getToUrl(itJobsWatch, xssClear(element.getElementsByTag("a").attr("href"))));
-                        v.setSkills(getToSkills(skills));
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -199,7 +199,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(getToUrl(jobBank, isContains(url, ";") ? url.split(";")[0] : url));
-                        v.setSkills(link);
+                        v.setSkills(getToSkills("", freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -230,8 +230,8 @@ public class ElementUtil {
                     } catch (Exception e) {
                         salary = xssClear(element.getElementsByTag("b").text());
                     }
-                    Integer [] salaries = getToSalaries(salary);
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    Integer[] salaries = getToSalaries(salary);
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(employerName);
@@ -239,7 +239,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -257,11 +257,11 @@ public class ElementUtil {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").text()));
                 if (localDate.isAfter(reasonDateLoading)) {
-                    String title, salary, skills = getToSkills(xssClear(element.getElementsByClass("card-body").text()));
+                    String title, salary, skills = getToSkills(xssClear(element.getElementsByClass("card-body").text()), freshen);
                     title = getToTitle(xssClear(element.getElementsByClass("link").text()));
                     salary = xssClear(element.getElementsByClass("text-muted").tagName("strong").text());
                     Integer[] salaries = getToSalaries(salary);
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("cursor-pointer").text())));
@@ -278,8 +278,8 @@ public class ElementUtil {
                 log.error(error, e.getLocalizedMessage(), element);
             }
         }
-       return list;
-   }
+        return list;
+    }
 
     public static List<VacancyTo> getJobsMarketUA(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
@@ -290,7 +290,7 @@ public class ElementUtil {
                     String title, skills = xssClear(element.getElementsByClass("mt-1").text().trim());
                     title = element.select("a,strong").get(0).ownText();
                     Integer[] salaries = getToSalaries(xssClear(element.getElementsByClass("text-success").tagName("strong").text()));
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(element.select("a,strong").get(1).ownText());
@@ -319,8 +319,8 @@ public class ElementUtil {
             if (localDate.isAfter(reasonDateLoading)) {
                 try {
                     String skills, title = getToTitle(xssClear(element.getElementsByTag("a").first().text()));
-                    skills = getLinkIfEmpty(xssClear(element.getElementsByClass("sh-info").text()));
-                    Integer[]salaries = getToSalaries(xssClear(element.getElementsByClass("salary").text()));
+                    skills = xssClear(element.getElementsByClass("sh-info").text());
+                    Integer[] salaries = getToSalaries(xssClear(element.getElementsByClass("salary").text()));
                     if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
@@ -329,10 +329,10 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href")));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
-                   }
+                    }
                 } catch (Exception e) {
                     log.error(error, e.getLocalizedMessage(), element);
                 }
@@ -347,7 +347,6 @@ public class ElementUtil {
             try {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").tagName("time").attr("datetime")));
                 if (localDate.isAfter(reasonDateLoading)) {
-                    Elements elementList = element.getElementsByAttributeStarting("h");
                     String title = xssClear(element.getElementsByClass("base-search-card__title").text());
                     Integer[] salaries = pattern_is_money_value.matcher(title).find() ? getToSalaries(title) : new Integer[]{1, 1};
                     if (true) {
@@ -358,7 +357,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
-                        v.setSkills(link);
+                        v.setSkills(getToSkills("", freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -377,9 +376,9 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(element.getElementsByClass("new-label").text());
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, title = getToTitle(xssClear(element.getElementsByClass("posting-title__position").text()));
-                    skills = getToSkills(xssClear(element.getElementsByTag("common-posting-item-tag").text()));
+                    skills = xssClear(element.getElementsByTag("common-posting-item-tag").text());
                     Integer[] salaries = getToSalaries(xssClear(element.getElementsByAttributeValueContaining("class", "salary").text()));
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(xssClear(element.getElementsByClass("posting-title__company").text()).substring(2).trim());
@@ -387,7 +386,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(getToUrl(nofluff, xssClear(element.getElementsByTag("a").attr("href"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -406,10 +405,10 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByClass("publication-time").text()));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, salaries, title = getToTitle(xssClear(element.getElementsByClass("card-title").text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("card-description").text()));
+                    skills = xssClear(element.getElementsByClass("card-description").text());
                     salaries = xssClear(element.getElementsByClass("salary").text());
                     salaries = isEmpty(salaries) ? title : skills;
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("company-name").text())));
@@ -417,7 +416,7 @@ public class ElementUtil {
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(rabota, xssClear(element.getElementsByTag("a").attr("href"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -445,7 +444,7 @@ public class ElementUtil {
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(reed, xssClear(element.getElementsByTag("a").attr("href"))));
-                        v.setSkills(link);
+                        v.setSkills(getToSkills("", freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -464,8 +463,8 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByClass("date").text()));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, title = getToTitle(xssClear(element.getElementsByAttribute("title").first().text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("job-snippet").text()));
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    skills = xssClear(element.getElementsByClass("job-snippet").text());
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(xssClear(element.getElementsByClass("companyName").text()))));
@@ -473,7 +472,7 @@ public class ElementUtil {
                         v.setSalaryMin(1);
                         v.setSalaryMax(1);
                         v.setUrl(getToUrl(indeed, xssClear(element.getElementsByTag("a").tagName("a").attr("data-jk"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -498,10 +497,10 @@ public class ElementUtil {
                 }
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, salary, title = getToTitle(xssClear(element.getElementsByTag("header").tagName("span").text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("_9jGwm1"/*"_10840"*/).text()));
+                    skills = xssClear(element.getElementsByClass("_9jGwm1"/*"_10840"*/).text());
                     salary = xssClear(element.getElementsByClass("jNebTl"/*"a7943"*/).text());
                     Integer[] salaries = getToSalaries(!isEmpty(salary) ? getJoin(skills, "month") : salary);
-                    if (isToValid(freshen, getJoin(title,skills))) {
+                    if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
                         v.setEmployerName(getToName(xssClear(element.getElementsByClass("Ya0gV9"/*"efaa8"*/).text())));
@@ -509,7 +508,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(getJoin("https://", codeISO.equals("all") ? "" : getJoin(codeISO, "."), getToUrl(jooble, xssClear(element.getElementsByTag("article").attr("id")))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -529,7 +528,7 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("a").first().attr("title")));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String address, skills, title = getToTitle(xssClear(element.getElementsByTag("a").first().text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("overflow").text()));
+                    skills = xssClear(element.getElementsByClass("overflow").text());
                     Integer[] salaries = getToSalaries(xssClear(element.getElementsByTag("b").tagName("b").first().text()));
                     address = xssClear(dataAddress.get(dataAddress.size() - 1).ownText());
                     if (isToValid(freshen, getJoin(title, skills))) {
@@ -540,7 +539,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(getToUrl(work, xssClear(element.getElementsByTag("a").attr("href"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -573,7 +572,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
-                        v.setSkills(freshen.getLanguage().equals("all") ? link : freshen.getLanguage());
+                        v.setSkills(getToSkills("", freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -584,6 +583,8 @@ public class ElementUtil {
         }
         return list;
     }
+}
+
 // cwJobs
 /* cwJobs
 *                         System.out.println(i++ + "-".repeat(150));
@@ -880,6 +881,7 @@ public class ElementUtil {
 // linkedin
 /* linkedin
 
+                    Elements elementList = element.getElementsByAttributeStarting("h");
 
                         System.out.println(i++ + "-".repeat(150));
                         System.out.print("elementList: "+elementList.size()+" \n");
@@ -1048,5 +1050,5 @@ public class ElementUtil {
                         System.out.println("skills         =" + v.getSkills());
 
 */
-}
+
 

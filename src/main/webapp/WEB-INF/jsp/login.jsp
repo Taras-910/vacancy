@@ -78,7 +78,7 @@
     <%--<a href="https://jobsmarket.io">JobsMarket</a>,--%>
     <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarket</a>,
     <a href="https://jobs.dou.ua/first-job/">JobsDou</a>,
-    <a href="https://www.linkedin.com/jobs/search?position=1&pageNum=0">LinkedIn</a>,
+    <a href="https://www.linkedin.com/jobs/search?position=1&pageNum=0">Linkedin</a>,
     <a href="https://nofluffjobs.com/pl/warszawa/backend?lang=uk">NoFluffJobs</a>,
     <%--<a href="https://rabota.ua">Rabota</a>,--%>
     <%--<a href="https://ua.indeed.com">UAIndeed</a>,--%>

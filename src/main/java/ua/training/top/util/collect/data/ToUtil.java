@@ -49,9 +49,9 @@ public class ToUtil {
         return isEmpty(compName) ? link : isContains(compName, ",") ? compName.split(",")[0].trim() : compName;
     }
 
-    public static String getToSkills(String skills) {
+    public static String getToSkills(String skills, Freshen freshen) {
         if (isEmpty(skills)) {
-            return link;
+            return freshen.getLanguage().equals("all") ? link : getUpperStart(freshen.getLanguage());
         }
         skills = isContains(skills, "Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
         return correctJavaScript(skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills);

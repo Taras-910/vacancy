@@ -50,7 +50,7 @@ public class LinkedinStrategy implements Strategy {
         }
         String[] cityOrCountry;
         if(!herokuRestriction) {
-        cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(citiesCa, workplace) ? getCanada() :
+        cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(caAria, workplace) ? getCanada() :
                         isMatch(uaAria, workplace) ? getUA() : new String[]{workplace};
         } else {
             cityOrCountry = workplace.equals("all") ? new String[]{"украина"} : new String[]{workplace};

@@ -16,8 +16,8 @@ import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_find_salary;
 import static ua.training.top.util.collect.data.PatternUtil.pattern_salary_transform_points;
 
-public class SalaryUtil {
-    public static final Logger log = LoggerFactory.getLogger(SalaryUtil.class);
+public class SalaryToUtil {
+    public static final Logger log = LoggerFactory.getLogger(SalaryToUtil.class);
 
     public static Integer[] getToSalaries(String originText) {            //₵ ₮
         originText = originText.toLowerCase();
@@ -125,7 +125,7 @@ public class SalaryUtil {
         };
         Rate r = mapRates.getOrDefault(name, new Rate(null, 1.0, LocalDate.now()));
         if(r.getName() == null){
-            log.error("currency rate not found for currency {}", name);
+            log.error(currency_rate_not_found, name);
         }
         return r.getValue();
     }

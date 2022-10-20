@@ -66,8 +66,8 @@ public class AutoRefreshService {
     }
 
     @Scheduled(cron = "0 0 10 * * MON,THU")
-    public void TwiceByWeek() {
-        log.info("Scheduled everyDay");
+    public void twiceByWeek() {
+        log.info("Scheduled twiceByWeek");
         int delayWithinMinutes = 480; // 8 hours
         log.info(MessageUtil.delay, delayWithinMinutes);
         setRandomDelay(1000 * 60 * delayWithinMinutes);

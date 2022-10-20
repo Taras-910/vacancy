@@ -53,9 +53,6 @@ public class JobsMarketStrategy implements Strategy {
             while (true) {
                 Document doc = getDocument(codeISO, position, String.valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("item-block");
-//                System.out.println("elements="+elements.size());
-//                System.out.println("doc="+doc);
-
                 if (elements == null || elements.size() == 0) break;
                 set.addAll(getJobsMarket(elements, freshen));
                 if (page < getMaxPages(jobsmarket, position)) page++;
