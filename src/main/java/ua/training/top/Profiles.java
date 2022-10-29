@@ -9,16 +9,16 @@ public class Profiles {
 
     //  Get DB profile depending of DB driver in classpath
     public static String getActiveDbProfile() {
-        if (isClassExists("org.postgresql.Driver")) {
+        if (isClassExists()) {
             return POSTGRES_DB;
         } else {
             throw new IllegalStateException(not_find_driver);
         }
     }
 
-    private static boolean isClassExists(String name) {
+    private static boolean isClassExists() {
         try {
-            Class.forName(name);
+            Class.forName("org.postgresql.Driver");
             return true;
         } catch (ClassNotFoundException ex) {
             return false;

@@ -29,9 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.EmployerTestData.EMPLOYER_MATCHER;
-import static ua.training.top.testData.TestUtil.readFromJson;
-import static ua.training.top.testData.TestUtil.userHttpBasic;
-import static ua.training.top.testData.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.TestUtil.*;
 import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
@@ -42,7 +40,7 @@ import static ua.training.top.util.VacancyUtil.getTos;
 @Transactional
 class VacancyRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VacancyRestController.REST_URL + '/';
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(VacancyRestControllerTest.class);
     @Autowired
     private VacancyService vacancyService;
     @Autowired
@@ -76,15 +74,6 @@ class VacancyRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VACANCY_TO_MATCHER.contentJson(getTos(List.of(vacancy1, vacancy2), voteService.getAllForAuth())));
-    }
-
-    @Test
-    void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + VACANCY1_ID)
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isNoContent());
-        setTestAuthorizedUser(admin);
-        assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY1_ID));
     }
 
     @Test
@@ -188,5 +177,15 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Transactional
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + VACANCY2_ID)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isNoContent());
+        setTestAuthorizedUser(admin);
+        assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY2_ID));
     }
 }

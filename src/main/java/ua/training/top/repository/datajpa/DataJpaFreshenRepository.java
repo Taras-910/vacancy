@@ -52,10 +52,7 @@ public class DataJpaFreshenRepository implements FreshenRepository {
 
     @Override
     public List<Freshen> getAll() {
-        return crudRepository.findAll().stream().map(f -> {
-            f.setVacancies(null);
-            return f;
-        }).collect(Collectors.toList());
+        return crudRepository.findAll().stream().peek(f -> f.setVacancies(null)).collect(Collectors.toList());
     }
 }
 

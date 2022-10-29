@@ -10,7 +10,7 @@ import java.io.IOException;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
 
 public class DocumentUtil {
-    private static Logger log = LoggerFactory.getLogger(DocumentUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(DocumentUtil.class);
     public static Document getDocument(String url){
         log.info(document_url, url);
         Document document = null;

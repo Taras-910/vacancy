@@ -27,7 +27,7 @@ public class DataJpaRateRepository implements RateRepository {
 
     @Override
     public Rate getByName(String name) {
-        return repository.getByName(name);
+        return Optional.ofNullable(repository.getByName(name)).orElse(null);
     }
 
     @Override

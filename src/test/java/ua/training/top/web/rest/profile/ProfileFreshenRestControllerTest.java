@@ -82,7 +82,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         List<Freshen> allFreshens = freshenService.getAll();
         /*https://stackoverflow.com/questions/9933403/subtracting-one-arraylist-from-another-arraylist*/
-        freshensDbBefore.forEach(i -> allFreshens.remove(i));
+        freshensDbBefore.forEach(allFreshens::remove);
         Freshen newFreshen = allFreshens.get(0);
         freshen.setRecordedDate(newFreshen.getRecordedDate());
         freshen.setUserId(newFreshen.getUserId());

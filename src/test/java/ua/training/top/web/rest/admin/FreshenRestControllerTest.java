@@ -27,7 +27,7 @@ import static ua.training.top.testData.UserTestData.admin;
 
 class FreshenRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = FreshenRestController.REST_URL + '/';
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(FreshenRestControllerTest.class);
     @Autowired
     private FreshenService service;
 

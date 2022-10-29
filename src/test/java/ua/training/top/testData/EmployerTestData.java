@@ -6,7 +6,7 @@ import ua.training.top.model.Employer;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 
 public class EmployerTestData {
-    public static TestMatcher<Employer> EMPLOYER_MATCHER = TestMatcher.usingFieldsComparator(Employer.class,"vacancies");
+    public static final TestMatcher<Employer> EMPLOYER_MATCHER = TestMatcher.usingFieldsComparator(Employer.class,"vacancies");
 
     public static final int EMPLOYER1_ID = START_SEQ + 2;
     public static final int EMPLOYER2_ID = EMPLOYER1_ID + 1;

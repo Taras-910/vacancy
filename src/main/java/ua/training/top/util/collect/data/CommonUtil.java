@@ -29,7 +29,7 @@ public class CommonUtil {
 
     public static List<String> getCommonList(List<List<String>> lists) {
         List<String> list = new ArrayList();
-        lists.forEach(l -> list.addAll(l));
+        lists.forEach(list::addAll);
         return list;
     }
 

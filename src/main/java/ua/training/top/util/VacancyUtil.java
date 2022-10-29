@@ -15,7 +15,7 @@ import static ua.training.top.util.MessageUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.link;
 
 public class VacancyUtil {
-    public static Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;
+    public static final Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
         return vacancies.isEmpty() ? getEmpty() : vacancies.stream()

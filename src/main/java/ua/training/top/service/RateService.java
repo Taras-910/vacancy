@@ -17,13 +17,12 @@ import java.util.Map;
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
 import static ua.training.top.aggregator.Provider.getRates;
 import static ua.training.top.util.MessageUtil.not_be_null;
-import static ua.training.top.util.ValidationUtil.checkNew;
-import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
+import static ua.training.top.util.ValidationUtil.*;
 
 @Service
 public class RateService {
     private final static Logger log = LoggerFactory.getLogger(RateService.class);
-    public static Map<String, Rate> mapRates = new HashMap<>();
+    public static final Map<String, Rate> mapRates = new HashMap<>();
 
     @Autowired
     private RateRepository repository;
@@ -35,8 +34,7 @@ public class RateService {
 
     public Rate getByName(String name) {
         log.info("get by name {}", name);
-        System.out.println("repository.equals(null)="+(repository == null));
-        return repository.getByName(name);
+        return checkNotFound(repository.getByName(name), name);
     }
 
     public List<Rate> getAll() {

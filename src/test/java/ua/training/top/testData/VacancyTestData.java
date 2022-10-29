@@ -15,7 +15,7 @@ import static ua.training.top.testData.FreshenTestData.freshen1;
 import static ua.training.top.testData.FreshenTestData.freshen2;
 
 public class VacancyTestData {
-    public static TestMatcher<Vacancy> VACANCY_MATCHER = TestMatcher
+    public static final TestMatcher<Vacancy> VACANCY_MATCHER = TestMatcher
             .usingFieldsComparator(Vacancy.class,"employer", "freshen", "recordedDate");
 
     public static final int VACANCY1_ID = START_SEQ + 6;

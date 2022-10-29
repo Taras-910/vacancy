@@ -24,7 +24,7 @@ import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCityByCodeISO;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getCityByCodeISOofCountry;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getCodeISOByCity;
 
 public class NofluffjobsStrategy implements Strategy {
@@ -34,7 +34,7 @@ public class NofluffjobsStrategy implements Strategy {
 // https://nofluffjobs.com/pl/warszawa/backend?criteria=category%3Dtesting%20seniority%3Dmid%20requirement%3DJava&page=1
 
     protected Document getDocument(String codeISO, String workplace, String page, String level, String language) {
-        String city = getCityByCodeISO(codeISO, workplace).toLowerCase();
+        String city = getCityByCodeISOofCountry(codeISO, workplace).toLowerCase();
         return DocumentUtil.getDocument(format(url,
                 isMatch(of("all", "remote"), codeISO) ? "ua" : codeISO.equals("foreign") ? "pl" : codeISO,
                 isMatch(remoteAria, workplace) ? getNoff("ua") : isMatches(of(foreignAria, of("all")), workplace) ?

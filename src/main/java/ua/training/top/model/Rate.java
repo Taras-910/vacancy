@@ -39,6 +39,10 @@ public class Rate  extends AbstractBaseEntity implements Serializable {
         this.id = id;
     }
 
+    public Rate(Rate r) {
+        this(r.id, r.name, r.getValue(), r.getLocalDate());
+    }
+
     public Rate() {}
 
     public String getName() {

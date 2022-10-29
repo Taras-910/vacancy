@@ -32,15 +32,14 @@ public class JobsMarketStrategy implements Strategy {
         codeISO = isEmpty(codeISO) ? "" : getJoin(codeISO, ".");
         return DocumentUtil.getDocument(format(url, codeISO, position, page));
     }
-//// jobsMarket  us  uk  de
+
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), language = freshen.getLanguage(), level = freshen.getLevel();
         log.info(get_vacancy, language, level, workplace);
-        String codeISO = isMatches(of(usAria, citiesUA, of("remote", "foreign", "all")), workplace ) ? "us" :
-                isMatches(of(ukAria, citiesUK), workplace) ? "uk" :
-                        isMatches(of(deAria, citiesDe), workplace) ? "de" : "";
-        if (!isMatches(of(usAria, citiesUA, ukAria, citiesUK, deAria, citiesDe, of("remote", "foreign", "all")), workplace)) {
+        String codeISO = isMatches(of(usAria, citiesUS, of("remote", "foreign", "all")), workplace ) ? "us" :
+                isMatches(of(ukAria, citiesUK), workplace) ? "uk" : isMatches(of(deAria, citiesDe), workplace) ? "de" : "";
+        if (!isMatches(of(usAria, citiesUS, ukAria, citiesUK, deAria, citiesDe, of("remote", "foreign", "all")), workplace)) {
            return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
@@ -63,3 +62,4 @@ public class JobsMarketStrategy implements Strategy {
         return new ArrayList<>(set);
     }
 }
+// jobsMarket only: us  uk  de

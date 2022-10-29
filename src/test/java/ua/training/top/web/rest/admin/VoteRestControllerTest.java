@@ -30,7 +30,7 @@ import static ua.training.top.testData.VoteTestData.*;
 
 class VoteRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteRestController.REST_URL + '/';
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(VoteRestControllerTest.class);
     @Autowired
     private VoteService service;
 

@@ -15,19 +15,18 @@ import static ua.training.top.util.collect.data.ConstantsUtil.recall;
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);
     public static final String baseCurrency = "usd";
-    public static int
+    public static final int
             periodKeeping = 28,
             limitVacanciesKeeping = 4250,
             limitFreshensFilterKeeping = 200,
             limitVotesKeeping = limitVacanciesKeeping / 10,
             maxLengthText = 250,
-            repeatToCall = 3,
             limitCallPages = herokuRestriction ? 1 : 2;
+    public static int repeatToCall = 3;
 
-    public static LocalDate
-            reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2),
-            reasonValidRate = LocalDateTime.now().toLocalDate().minusDays(7),
-            reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(periodKeeping);
+    public static final LocalDate reasonDateLoading = LocalDateTime.now().toLocalDate().minusDays(periodKeeping / 2);
+    public static LocalDate reasonPeriodKeeping = LocalDateTime.now().toLocalDate().minusDays(periodKeeping);
+    public static final LocalDate reasonValidRate = LocalDateTime.now().toLocalDate().minusDays(7);
 
 //    public static boolean testProvider = true;
     public static boolean testProvider = false;

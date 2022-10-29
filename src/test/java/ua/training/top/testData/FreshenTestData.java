@@ -13,7 +13,7 @@ import static ua.training.top.testData.UserTestData.ADMIN_ID;
 import static ua.training.top.testData.UserTestData.USER_ID;
 
 public class FreshenTestData {
-    public static TestMatcher<Freshen> FRESHEN_MATCHER = TestMatcher.usingFieldsComparator(Freshen.class,"recordedDate", "vacancies");
+    public static final TestMatcher<Freshen> FRESHEN_MATCHER = TestMatcher.usingFieldsComparator(Freshen.class,"recordedDate", "vacancies");
 
     public static final int FRESHEN1_ID = START_SEQ + 4;
     public static final int FRESHEN2_ID = FRESHEN1_ID + 1;

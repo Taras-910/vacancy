@@ -24,7 +24,7 @@ import static ua.training.top.util.collect.data.ConstantsUtil.*;
 import static ua.training.top.util.collect.data.LevelUtil.getLevel;
 import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
 import static ua.training.top.util.collect.data.PageUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCityByCodeISO;
+import static ua.training.top.util.collect.data.WorkplaceUtil.getCityByCodeISOofCountry;
 import static ua.training.top.util.collect.data.WorkplaceUtil.getCodeISOByCity;
 
 public class UAJoobleStrategy implements Strategy {
@@ -33,7 +33,7 @@ public class UAJoobleStrategy implements Strategy {
     //    https://ua.jooble.org/SearchResult?date=3&rgns=Польща&ukw=java
 
     protected Document getDocument(String codeISO, String workplace, String language, String level, String page) {
-        String city = getCityByCodeISO(codeISO, workplace);
+        String city = getCityByCodeISOofCountry(codeISO, workplace);
         return DocumentUtil.getDocument(format(url,
                 isMatch((of("us", "il", "all")), codeISO) ? "" : getJoin(codeISO, "."),
                 codeISO.equals("all") || workplace.equals("all") || isEmpty(city) ? "" : getJoin("&rgns=", city),
@@ -47,7 +47,7 @@ public class UAJoobleStrategy implements Strategy {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(),
                 language = freshen.getLanguage().replaceAll(" ", "%20");
         log.info(get_vacancy, language, level, workplace);
-        if (isMatches(of(ilAria, citiesIl), workplace)) {
+        if (isMatches(of(ilAria, citiesIl, citiesRU), workplace)) {
             return new ArrayList<>();
         }
         String[] workplaces = isMatch(foreignAria, workplace) ? getForeign() : new String[]{workplace};

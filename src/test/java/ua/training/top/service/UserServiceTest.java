@@ -11,6 +11,7 @@ import ua.training.top.util.exception.NotFoundException;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
+import static ua.training.top.testData.TestUtil.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import static ua.training.top.testData.VacancyTestData.VACANCY1_ID;
 
 public class VacancyToTestData {
-    public static TestMatcher<VacancyTo> VACANCY_TO_MATCHER = TestMatcher.usingFieldsComparator(VacancyTo.class, "");
+    public static final TestMatcher<VacancyTo> VACANCY_TO_MATCHER = TestMatcher.usingFieldsComparator(VacancyTo.class, "");
 
     public static final VacancyTo vacancyTo1 = new VacancyTo(VACANCY1_ID, "Middle Game Developer",
             "Huuuge Games", "Киев", 100000, 200000,

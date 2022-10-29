@@ -10,8 +10,10 @@ import ua.training.top.util.exception.NotFoundException;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
+import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.FreshenTestData.*;
-import static ua.training.top.testData.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.TestUtil.NOT_FOUND;
+import static ua.training.top.testData.UserTestData.admin;
 
 public class FreshenServiceTest extends AbstractServiceTest{
 
@@ -20,6 +22,7 @@ public class FreshenServiceTest extends AbstractServiceTest{
 
     @Test
     public void create() throws Exception {
+        setTestAuthorizedUser(admin);
         Freshen created = service.create(FreshenTestData.getNew());
         int newId = created.id();
         Freshen newFreshen = FreshenTestData.getNew();

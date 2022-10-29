@@ -23,13 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.top.testData.TestUtil.readFromJson;
-import static ua.training.top.testData.TestUtil.userHttpBasic;
+import static ua.training.top.testData.TestUtil.*;
 import static ua.training.top.testData.UserTestData.*;
 
 class UserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = UserRestController.REST_URL + '/';
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(UserRestControllerTest.class);
     @Autowired
     private UserService service;
 

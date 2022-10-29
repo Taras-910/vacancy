@@ -114,11 +114,21 @@
 
   <dependencies>
 
+<!--
+    &lt;!&ndash;DataBase&ndash;&gt;
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.3.4</version>
+    </dependency>
+
     <dependency>
       <groupId>org.postgresql</groupId>
     <artifactId>postgresql</artifactId>
     <version>${postgresql.version}</version>
   </dependency>
+-->
+
 
     <!-- Logging with SLF4J & LogBack -->
     <dependency>
@@ -358,6 +368,17 @@
 
 
   <profiles>
+
+    <profile>
+      <id>hsqldb</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+          <version>2.5.1</version>
+        </dependency>
+      </dependencies>
+    </profile>
 
     <profile>
       <id>postgres</id>

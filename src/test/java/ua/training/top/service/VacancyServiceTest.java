@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.EmployerTestData.EMPLOYER1_ID;
 import static ua.training.top.testData.EmployerTestData.EMPLOYER_MATCHER;
-import static ua.training.top.testData.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.TestUtil.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.*;
 import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;

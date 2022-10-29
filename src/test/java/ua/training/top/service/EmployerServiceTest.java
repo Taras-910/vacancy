@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 import static ua.training.top.testData.EmployerTestData.*;
-import static ua.training.top.testData.UserTestData.NOT_FOUND;
+import static ua.training.top.testData.TestUtil.NOT_FOUND;
 
 public class EmployerServiceTest extends AbstractServiceTest {
 

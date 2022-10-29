@@ -205,15 +205,15 @@ public class WorkplaceUtil {
         return switch (workplace) {
             case "remote", "relocate", "удаленно", "віддалено", "all", "украина", "україна", "ukraine" -> "украина";
             case "київ", "киев", "kyiv", "kiev" -> "киев";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> "днепр";
             case "одеса", "одесса", "odessa" -> "одесса";
             case "львів", "львов", "lviv" -> "львов";
-            case "харьків", "харьков", "kharkiv" -> "харьков";
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> "запорожье";
-            case "миколаїв", "николаев", "mykolaiv" -> "николаев";
-            case "чорновці", "черновцы", "chernivtsi" -> "черновцы";
-            case "чернігів", "чернигов", "chernigiv" -> "чернигов";
             case "вінниця", "винница" -> "винница";
+            case "харьків", "харьков", "kharkiv" -> "харьков";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "днепр";
+            case "миколаїв", "николаев", "mykolaiv" -> "николаев";
+            case "чернігів", "чернигов", "chernigiv" -> "чернигов";
+            case "чорновці", "черновцы", "chernivtsi" -> "черновцы";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "запорожье";
             default -> !isMatch(citiesUA, workplace) || isMatch(foreignAria, workplace) ? "другие_страны" : "украина";
         };
     }
@@ -222,8 +222,8 @@ public class WorkplaceUtil {
         return switch (workplace) {
             case "украина", "україна", "ukraine", "all" -> "&l=Украина";
             case "remote", "relocate", "удаленно", "віддалено", "віддалена робота" -> "&rbl=Удаленно&jlid=f00b7fa4b055cc00";
-            case "київ", "киев", "kyiv", "kiev" -> "&rbl=Киев&jlid=e9ab1a23f8e591f1";
             case "дніпро", "днепр", "dnipro", "dnepr" -> "&rbl=Днепр,+Днепропетровская+область&jlid=030c410a355d8014";
+            case "київ", "киев", "kyiv", "kiev" -> "&rbl=Киев&jlid=e9ab1a23f8e591f1";
             case "одеса", "одесса", "odessa" -> "&rbl=Одесса&jlid=240fe96bd3c6e402";
             case "львів", "львов", "lviv" -> "&rbl=Львов&jlid=6ea57808cf02b292";
             case "харьків", "харьков", "kharkiv" -> "&rbl=Харьков&jlid=6fb70c8a2ab37b1f";
@@ -234,55 +234,55 @@ public class WorkplaceUtil {
     public static String getCa(String workplace) {
         return switch (workplace) {
             case "canada", "all", "канада" -> "Canada";
-            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "Remote";
-            case "toronto", "торонто" -> "Toronto%2C+ON";
-            case "calgary", "калгарі", "калгари" -> "Calgary%2C+AB";
-            case "ontario", "онтарио", "онтаріо" -> "Ontario";
-            case "edmonton", "едмонтон", "эдмонтон" -> "Edmonton%2C+AB";
-            case "vancouver", "ванкувер" -> "Vancouver%2C+BC";
-            case "brampton", "брэмптон", "бремптон" -> "Brampton%2C+ON";
+            case "альберта", "alberta" -> "Alberta";
             case "ottawa", "оттава" -> "Ottawa%2C+ON";
+            case "toronto", "торонто" -> "Toronto%2C+ON";
+            case "ontario", "онтарио", "онтаріо" -> "Ontario";
+            case "vancouver", "ванкувер" -> "Vancouver%2C+BC";
+            case "манитоба", "манітоба", "manitoba" -> "Manitoba";
+            case "calgary", "калгарі", "калгари" -> "Calgary%2C+AB";
+            case "brampton", "брэмптон", "бремптон" -> "Brampton%2C+ON";
+            case "edmonton", "едмонтон", "эдмонтон" -> "Edmonton%2C+AB";
             case "mississauga", "миссиссога", "міссісога" -> "Mississauga%2C+ON";
             case "британська колумбія", "британская колумбия", "british columbia" -> "British+Columbia";
-            case "альберта", "alberta" -> "Alberta";
-            case "манитоба", "манітоба", "manitoba" -> "Manitoba";
+            case "remote", "relocate", "релокейт", "удаленно", "віддалено", "віддалена робота" -> "Remote";
             default -> "";
         };
     }
 
     public static String getUS(String workplace) {
         return switch (workplace) {
-            case "нью-йорк", "new york" -> "New%20York%2C%20NY";
-            case "лос-анджелес", "лос анджелес", "los angeles" -> "Los%20Angeles%2C%20CA";
-            case "чикаго", "чікаго", "chicago" -> "Chicago%2C%20IL";
-            case "хьюстон", "houston" -> "Houston%2C%20TX";
-            case "финикс", "фінікс", "phoenix" -> "Phoenix%2C%20AZ";
-            case "филадельфия", "філадельфія", "philadelphia" -> "Philadelphia%2C%20PA";
-            case "сан-антонио", "сан антонио", "сан-антоніо", "сан антоніо", "san antonio" -> "San%20Antonio%2C%20TX";
-            case "сан-диего", "сан диего", "сан-діего", "сан діего", "san diego" -> "San%20Diego%2C%20CA";
+//            case "джэксонвилл", "джэксонвілл", "jacksonville" -> "";
+            case "бостон", "boston" -> "Boston%2C%20MA";
             case "даллас", "dallas" -> "Dallas%2C%20TX";
+            case "денвер", "denver" -> "Denver%2C%20CO";
+            case "хьюстон", "houston" -> "Houston%2C%20TX";
+            case "детройт", "detroit" -> "Detroit%2C%20MI";
+            case "портленд", "portland" -> "Portland%2C%20OR";
+            case "эль-пасо", "el paso" -> "El%20Paso%2C%20TX";
+            case "колумбус", "columbus" -> "Columbus%2C%20OH";
+            case "шарлотт", "charlotte" -> "Charlotte%2C%20NC";
             case "сан-хосе", "san jose" -> "San%20Jose%2C%20CA";
             case "остин", "остін", "austin" -> "Austin%2C%20TX";
-            case "джэксонвилл", "джэксонвілл", "jacksonville" -> "";
-            case "форт-уэрт", "форт уэрт", "форт-уерт", "форт уерт", "fort worth" -> "Jacksonville%2C%20FL";
-            case "колумбус", "columbus" -> "Columbus%2C%20OH";
-            case "индианаполис", "індіанаполіс", "indianapolis" -> "Indianapolis%2C%20IN";
-            case "шарлотт", "charlotte" -> "Charlotte%2C%20NC";
-            case "сан-франциско", "сан франциско", "сан-франціско", "сан франціско", "san francisco" -> "San%20Francisco%2C%20CA";
+            case "нью-йорк", "new york" -> "New%20York%2C%20NY";
             case "сиэтл", "сіэтл", "seattle" -> "Seattle%2C%20WA";
-            case "денвер", "denver" -> "Denver%2C%20CO";
-            case "оклахома-сити", "оклахома сити", "оклахома-сіті", "оклахома сіті", "oklahoma city" -> "Oklahoma%20City%2C%20OK";
-            case "нашвилл", "нашвілл", "nashville" -> "Nashville%2C%20TN";
-            case "эль-пасо", "el paso" -> "El%20Paso%2C%20TX";
-            case "вашингтон", "вашінгтон", "washington" -> "Washington%2C%20PA";
-            case "бостон", "boston" -> "Boston%2C%20MA";
-            case "лас-вегас", "лас вегас", "las vegas" -> "Las%20Vegas%2C%20NV";
-            case "портленд", "portland" -> "Portland%2C%20OR";
-            case "детройт", "detroit" -> "Detroit%2C%20MI";
-            case "луисвилл", "луісвілл", "louisville" -> "Louisville%2C%20KY";
+            case "чикаго", "чікаго", "chicago" -> "Chicago%2C%20IL";
+            case "финикс", "фінікс", "phoenix" -> "Phoenix%2C%20AZ";
             case "мемфис", "мемфіс", "memphis" -> "Memphis%2C%20TX";
-            case "балтимор", "балтімор", "baltimore" -> "Baltimore%2C%20MD";
             case "сакраменто", "sacramento" -> "Sacramento%2C%20CA";
+            case "нашвилл", "нашвілл", "nashville" -> "Nashville%2C%20TN";
+            case "балтимор", "балтімор", "baltimore" -> "Baltimore%2C%20MD";
+            case "луисвилл", "луісвілл", "louisville" -> "Louisville%2C%20KY";
+            case "лас-вегас", "лас вегас", "las vegas" -> "Las%20Vegas%2C%20NV";
+            case "вашингтон", "вашінгтон", "washington" -> "Washington%2C%20PA";
+            case "филадельфия", "філадельфія", "philadelphia" -> "Philadelphia%2C%20PA";
+            case "индианаполис", "індіанаполіс", "indianapolis" -> "Indianapolis%2C%20IN";
+            case "лос-анджелес", "лос анджелес", "los angeles" -> "Los%20Angeles%2C%20CA";
+            case "сан-диего", "сан диего", "сан-діего", "сан діего", "san diego" -> "San%20Diego%2C%20CA";
+            case "форт-уэрт", "форт уэрт", "форт-уерт", "форт уерт", "fort worth" -> "Jacksonville%2C%20FL";
+            case "сан-антонио", "сан антонио", "сан-антоніо", "сан антоніо", "san antonio" -> "San%20Antonio%2C%20TX";
+            case "сан-франциско", "сан франциско", "сан-франціско", "сан франціско", "san francisco" -> "San%20Francisco%2C%20CA";
+            case "оклахома-сити", "оклахома сити", "оклахома-сіті", "оклахома сіті", "oklahoma city" -> "Oklahoma%20City%2C%20OK";
             default -> ""; // "сша", "америка", "usa", "united states of america", "america"
         };
     }
@@ -290,23 +290,23 @@ public class WorkplaceUtil {
     public static String getJoobleUA(String workplace){
         return switch (workplace) {
             case "київ", "киев", "kyiv", "kiev" -> "Київ";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
-            case "харків", "харьков", "kharkiv" -> "Харків";
-            case "одеса", "одесса", "odessa" -> "Одеса";
             case "львів", "львов", "lviv" -> "Львів";
+            case "одеса", "одесса", "odessa" -> "Одеса";
+            case "харків", "харьков", "kharkiv" -> "Харків";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
             case "миколаїв", "николаев", "mykolaiv" -> "Миколаїв";
             case "вінниця", "винница", "vinnitsia" -> "Вінниця";
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Запоріжжя";
             case "чорновці", "черновцы", "chernivtsi" -> "Чорновці";
             case "чернігів", "чернигов", "chernigiv" -> "Чернігів";
             case "івано-франківськ", "ивано-франковск" -> "Івано-Франківськ";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Запоріжжя";
             case "ужгород", "uzhgorod" -> "Ужгород";
-            case "мінськ", "минск" -> "Мінськ%2C%20Білорусь";
-            case "варшава" -> "Варшава%2C%20Польща";
-            case "краків", "краков" -> "Краків%2C%20Польща";
-            case "германия", "німеччина", "germany" -> "Німеччина";
-            case "польша", "польща", "poland" -> "Польща";
             case "канада", "canada" -> "Канада";
+            case "варшава" -> "Варшава%2C%20Польща";
+            case "польша", "польща", "poland" -> "Польща";
+            case "краків", "краков" -> "Краків%2C%20Польща";
+            case "мінськ", "минск" -> "Мінськ%2C%20Білорусь";
+            case "германия", "німеччина", "germany" -> "Німеччина";
             case "другие страны", "foreign", "за_рубежем", "за рубежом", "за кордоном" -> "за%20кордоном";
             default -> workplace;
         };
@@ -315,25 +315,25 @@ public class WorkplaceUtil {
     public static String getUA_ua(String city){
         return  switch (city) {
             case "київ", "киев", "kyiv", "kiev" -> "Київ";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
-            case "харків", "харьков", "kharkiv" -> "Харків";
-            case "одеса", "одесса", "odessa", "odesa" -> "Одеса";
+            case "луцк", "луцьк" -> "Луцьк";
+            case "суми", "сумы", "sumi" -> "Суми";
+            case "полтава", "poltava" -> "Полтава";
+            case "житомир", "zhytomyr" -> "Житомир";
+            case "ужгород", "uzhgorod" -> "Ужгород";
             case "львів", "львов", "lviv" -> "Львів";
-            case "миколаїв", "николаев", "mykolaiv" -> "Миколаїв";
+            case "харків", "харьков", "kharkiv" -> "Харків";
+            case "рівне", "ровно", "rivne", "rovno" -> "Рівне";
             case "вінниця", "винница", "vinnitsia" -> "Вінниця";
+            case "одеса", "одесса", "odessa", "odesa" -> "Одеса";
+            case "хмельницький", "khmelnitsky" -> "Хмельницький";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
+            case "миколаїв", "николаев", "mykolaiv" -> "Миколаїв";
+            case "чернігів", "чернигов", "chernigiv" -> "Чернігів";
+            case "чернівці", "черновцы", "chernivtsi" -> "Чернівці";
+            case "тернопіль", "тернополь", "ternopil" -> "Тернопіль";
             case "запоріжжя", "запорожье", "zaporizhzhya" -> "Запоріжжя";
             case "черкаси", "черкассы", "cherkasy", "cherkassy" -> "Черкаси";
-            case "суми", "сумы", "sumi" -> "Суми";
-            case "чернігів", "чернигов", "chernigiv" -> "Чернігів";
             case "івано-франківськ", "ивано-франковск", "ivano-frankivsk" -> "Івано-Франківськ";
-            case "ужгород", "uzhgorod" -> "Ужгород";
-            case "чернівці", "черновцы", "chernivtsi" -> "Чернівці";
-            case "полтава", "poltava" -> "Полтава";
-            case "хмельницький", "khmelnitsky" -> "Хмельницький";
-            case "рівне", "ровно", "rivne", "rovno" -> "Рівне";
-            case "житомир", "zhytomyr" -> "Житомир";
-            case "луцк", "луцьк" -> "Луцьк";
-            case "тернопіль", "тернополь", "ternopil" -> "Тернопіль";
             default -> "";
         };
     }
@@ -341,18 +341,18 @@ public class WorkplaceUtil {
     public static String getUA_en(String workplace) {
         return switch (workplace) {
             case "київ", "киев", "kiev", "kyiv" -> "Kyiv";
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Zaporizhzhya";
-            case "миколаїв", "николаев", "mykolaiv" -> "Mykolaiv";
             case "чорновці", "черновцы", "chernivtsi" -> "Chernivtsi";
             case "чернігів", "чернигов", "chernigiv" -> "Chernigiv";
             case "вінниця", "винница", "vinnitsia" -> "Vinnitsia";
             case "харків", "харьков", "kharkiv" -> "Kharkiv";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> "Dnipro";
             case "одеса", "одесса", "odessa" -> "Odesa";
             case "львів", "львов", "lviv" -> "Lviv";
             case "ужгород", "uzhgorod" -> "Uzhgorod";
-            case "івано-франківськ", "ивано-франковск" -> "Ivano-Frankivsk";
+            case "дніпро", "днепр", "dnipro", "dnepr" -> "Dnipro";
+            case "миколаїв", "николаев", "mykolaiv" -> "Mykolaiv";
             case "тернопіль", "тернополь", "ternopil" -> "Ternopil";
+            case "івано-франківськ", "ивано-франковск" -> "Ivano-Frankivsk";
+            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Zaporizhzhya";
             default -> "";
         };
     }
@@ -374,8 +374,8 @@ public class WorkplaceUtil {
         return switch (city) {
             case "прага", "prague" -> "Prague";
             case "брно", "brno" -> "Brno";
-            case "острава", "ostrava" -> "Ostrava";
             case "плзень", "pilsen" -> "Pilsen";
+            case "острава", "ostrava" -> "Ostrava";
             case "оломоуц", "olomouc", "катовице" -> "Katowice";
             case "карлові вари", "карлови вари", "karlovyvary" -> "Karlovy Vary";
             default -> "";
@@ -394,19 +394,19 @@ public class WorkplaceUtil {
     public static String getBG_en(String workplace) {
         return  switch (workplace) {
             case "софия", "софія", "sofia" -> "sofia/";
-            case "пловдив", "пловдів", "plovdiv" -> "plovdiv/";
-            case "бургас", "burgas" -> "burgas/";
             case "варна", "varna" -> "varna/";
             case "русе", "rousse" -> "rousse/";
-            case "плевен", "pleven" -> "gr-pleven/";
+            case "ловеч", "lovech" -> "lovech/";
             case "шумен", "shumen" -> "shumen/";
             case "ямполь", "yampol" -> "jampol/";
-            case "добрич", "dobrich" -> "dobrich/";
             case "банско", "bansko" -> "bansko/";
-            case "силистра", "сілістра", "silistra" -> "silistra/";
-            case "ловеч", "lovech" -> "lovech/";
+            case "бургас", "burgas" -> "burgas/";
+            case "добрич", "dobrich" -> "dobrich/";
             case "смолян", "smolyan" -> "smolyan/";
+            case "плевен", "pleven" -> "gr-pleven/";
+            case "пловдив", "пловдів", "plovdiv" -> "plovdiv/";
             case "благоевград", "blagoevgrad" -> "blagoevgrad/";
+            case "силистра", "сілістра", "silistra" -> "silistra/";
             default -> "bulgaria/";
         };
     }
@@ -414,19 +414,19 @@ public class WorkplaceUtil {
     public static String getBG_bg(String workplace) {
         return  switch (workplace) {
             case "софия", "софія", "sofia" -> "гр.%20София";
-            case "пловдив", "пловдів", "plovdiv" -> "гр.%20Пловдив";
             case "бургас", "burgas" -> "гр.%20Бургас";
+            case "плевен", "pleven" -> "гр.%20Плевен";
+            case "ямполь", "yampol" -> "гр.%20Ямполь";
+            case "банско", "bansko" -> "гр.%20Банско";
+            case "шумен", "shumen" -> "гр.%20Шумен";
             case "варна", "varna" -> "гр.%20Варна";
             case "русе", "rousse" -> "гр.%20Русе";
-            case "плевен", "pleven" -> "гр.%20Плевен";
-            case "шумен", "shumen" -> "гр.%20Шумен";
-            case "ямполь", "yampol" -> "гр.%20Ямполь";
-            case "добрич", "dobrich" -> "гр.%20Добрич";
-            case "банско", "bansko" -> "гр.%20Банско";
-            case "силистра", "сілістра", "silistra" -> "гр.%20Силистра";
             case "ловеч", "lovech" -> "гр.%20Ловеч";
+            case "добрич", "dobrich" -> "гр.%20Добрич";
             case "смолян", "smolyan" -> "гр.%20Смолян";
+            case "пловдив", "пловдів", "plovdiv" -> "гр.%20Пловдив";
             case "благоевград", "blagoevgrad" -> "гр.%20Благоевград";
+            case "силистра", "сілістра", "silistra" -> "гр.%20Силистра";
             default -> "";
         };
     }
@@ -435,27 +435,27 @@ public class WorkplaceUtil {
         return  switch (city) {
 //            case "велика британія" -> "Велика%20Британія";
             case "london", "лондон" -> "London";
-            case "st james", "cент джеймс", "st_james", "cент_джеймс" -> "St James";
-            case "moorgate", "мургейт" -> "Moorgate";
-            case "shoreditch", "шордітч", "шордитч" -> "Shoreditch";
             case "soho", "сохо" -> "Soho";
-            case "southwark", "саутворк" -> "Southwark";
-            case "aldersgate", "олдерсгейт" -> "Aldersgate";
-            case "lee bank","лі бенк", "ли бенк" -> "Lee Bank";
-            case "westminster", "вестмінстер", "вестминстер" -> "Westminster";
-            case "milton", "мілтон", "милтон" -> "Milton";
-            case "clerkenwell", "клеркенвелл" -> "Clerkenwell";
-            case "bristol", "брістоль", "бристоль" -> "Bristol";
-            case "leeds", "лідс","лидс" -> "Leeds";
-            case "birmingham","бірмінгем", "бирмингем" -> "Birmingham";
-            case "glasgow","глазго" -> "Glasgow";
-            case "manchester", "манчестер" -> "Manchester";
             case "avon", "ейвон" -> "Avon";
-            case "yorkshire", "йоркшир" -> "Yorkshire";
-            case "cambridgeshire", "кембріджшир", "кембриджшир" -> "Cambridgeshire";
-            case "lanarkshire", "ланаркшир" -> "Lanarkshire";
+            case "glasgow","глазго" -> "Glasgow";
+            case "leeds", "лідс","лидс" -> "Leeds";
+            case "moorgate", "мургейт" -> "Moorgate";
             case "hampshire", "гемпшир" -> "Hampshire";
             case "berkshire", "беркшир" -> "Berkshire";
+            case "yorkshire", "йоркшир" -> "Yorkshire";
+            case "southwark", "саутворк" -> "Southwark";
+            case "milton", "мілтон", "милтон" -> "Milton";
+            case "manchester", "манчестер" -> "Manchester";
+            case "aldersgate", "олдерсгейт" -> "Aldersgate";
+            case "lanarkshire", "ланаркшир" -> "Lanarkshire";
+            case "clerkenwell", "клеркенвелл" -> "Clerkenwell";
+            case "lee bank","лі бенк", "ли бенк" -> "Lee Bank";
+            case "bristol", "брістоль", "бристоль" -> "Bristol";
+            case "shoreditch", "шордітч", "шордитч" -> "Shoreditch";
+            case "birmingham","бірмінгем", "бирмингем" -> "Birmingham";
+            case "westminster", "вестмінстер", "вестминстер" -> "Westminster";
+            case "cambridgeshire", "кембріджшир", "кембриджшир" -> "Cambridgeshire";
+            case "st james", "cент джеймс", "st_james", "cент_джеймс" -> "St James";
             case "nottinghamshire", "ноттінгемшир", "ноттингемшир" -> "Nottinghamshire";
             case "scotland", "шотландія", "шотландия" -> "Scotland";
             default -> "";
@@ -464,13 +464,13 @@ public class WorkplaceUtil {
 
     public static String getDe(String city){
         return  switch (city) {
-            case "берлин", "berlin", "берлін" -> "Berlin";
-            case "мангейм", "mannheim" -> "Mannheim";
-            case "ганновер", "hanover" -> "Hanover";
             case "дюссельдорф", "dusseldorf" -> "Dusseldorf";
-            case "мюнхен", "munich" -> "Munich";
+            case "берлин", "berlin", "берлін" -> "Berlin";
             case "франкфурт", "frankfurt" -> "Frankfurt";
             case "karlsruhe", "карлсруе" -> "Karlsruhe";
+            case "мангейм", "mannheim" -> "Mannheim";
+            case "ганновер", "hanover" -> "Hanover";
+            case "мюнхен", "munich" -> "Munich";
             default -> "Germany";
         };
     }
@@ -488,15 +488,15 @@ public class WorkplaceUtil {
     public static String getFr(String city){
         return  switch (city) {
             case "париж", "paris" -> "Paris";
-            case "марсель", "marseille" -> "Marseille";
-            case "лион", "ліон", "lyon" -> "Lyon";
             case "тулуза", "toulouse" -> "Toulouse";
             case "ницца", "ніцца", "nice" -> "Nice";
-            case "нант", "nantes" -> "Nantes";
             case "страсбург", "strasbourg" -> "Strasbourg";
+            case "марсель", "marseille" -> "Marseille";
             case "монпелье", "монпельє", "montpellier" -> "Montpellier";
-            case "бордо", "bordeaux" -> "Bordeaux";
             case "лилль", "лілль", "lille" -> "Lille";
+            case "бордо", "bordeaux" -> "Bordeaux";
+            case "лион", "ліон", "lyon" -> "Lyon";
+            case "нант", "nantes" -> "Nantes";
             case "ренн", "rennes" -> "Rennes";
             default -> "";
         };
@@ -505,20 +505,20 @@ public class WorkplaceUtil {
     public static String getIt(String city){
         return  switch (city) {
             case "рим", "roma" -> "Roma";
+            case "турин", "torino" -> "Torino";
+            case "генуя", "genova" -> "Genova";
+            case "неаполь", "napoli" -> "Napoli";
+            case "болонья", "bologna" -> "Bologna";
+            case "палермо", "palermo" -> "Palermo";
             case "лацио", "лаціо", "lazio" -> "Lazio";
             case "милан", "мілан", "milano" -> "Milano";
-            case "ломбардия", "ломбардія", "lombardia" -> "Lombardia";
-            case "неаполь", "napoli" -> "Napoli";
-            case "кампания", "кампанія", "campania" -> "Campania";
-            case "турин", "torino" -> "Torino";
-            case "пьемонт", "пємонт", "piemonte" -> "Piemonte";
-            case "палермо", "palermo" -> "Palermo";
-            case "сицилия", "сицілія", "sicilia" -> "Sicilia";
-            case "генуя", "genova" -> "Genova";
             case "лигурия", "лігурія", "liguria" -> "Liguria";
-            case "болонья", "bologna" -> "Bologna";
-            case "эмилия-романья", "эмілія-романья", "эмилия романья", "эмілія романья", "emilia-romagna" -> "Emilia-romagna";
+            case "сицилия", "сицілія", "sicilia" -> "Sicilia";
+            case "пьемонт", "пємонт", "piemonte" -> "Piemonte";
             case "флоренция", "флоренція", "firenze" -> "Firenze";
+            case "кампания", "кампанія", "campania" -> "Campania";
+            case "ломбардия", "ломбардія", "lombardia" -> "Lombardia";
+            case "эмилия-романья", "эмілія-романья", "эмилия романья", "эмілія романья", "emilia-romagna" -> "Emilia-romagna";
             default -> "";
         };
     }
@@ -537,12 +537,12 @@ public class WorkplaceUtil {
     public static String getCh(String city){
         return  switch (city) {
             case "цюрих", "цюріх", "zürich" -> "Zürich";
+            case "люцерн", "luzern" -> "Luzern";
             case "женева", "genève" -> "Genève";
             case "базель", "basel" -> "Basel";
-            case "лозанна", "lausanne" -> "Lausanne";
             case "берн", "bern" -> "Bern";
+            case "лозанна", "lausanne" -> "Lausanne";
             case "винтертур", "winterthur" -> "Winterthur";
-            case "люцерн", "luzern" -> "Luzern";
             case "санкт-галлен", "санкт-гален", "санкт галлен", "санкт гален", "st. gallen" -> "St. Gallen";
             default -> "";
         };
@@ -551,13 +551,13 @@ public class WorkplaceUtil {
     public static String getSe(String city){
         return  switch (city) {
             case "стокгольм", "stockholm" -> "Stockholm";
-            case "гётеборг", "гетеборг", "gothenburg" -> "Gothenburg";
             case "мальмё", "мальме", "malmö" -> "Malmö";
+            case "гётеборг", "гетеборг", "gothenburg" -> "Gothenburg";
             default -> "";
         };
     }
 
-    public static String getCityByCodeISO(String country, String workplace) {
+    public static String getCityByCodeISOofCountry(String country, String workplace) {
         return switch (country) {
             case "ca" -> getCa(workplace);
             case "uk" -> getUK(workplace);
@@ -573,7 +573,7 @@ public class WorkplaceUtil {
             case "fi" -> getFi(workplace);
             case "ch" -> getCh(workplace);
             case "se" -> getSe(workplace);
-            case "ua" -> getJoobleUA(workplace);
+            case "ua" -> getUA_ua(workplace);
             default -> !Pattern.compile("\\p{L1}").matcher(workplace).find() ? getJoobleUA(workplace) : getUpperStart(workplace);
         };
     }

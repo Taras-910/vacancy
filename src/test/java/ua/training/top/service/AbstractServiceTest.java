@@ -35,7 +35,7 @@ public abstract class AbstractServiceTest {
     public Stopwatch stopwatch = new Stopwatch(){
         @Override
         protected void finished(long nanos, Description description) {
-            String message = String.format("%s%s%d millis", description.getMethodName(), " finished: spent = ", TimeUnit.NANOSECONDS.toMillis(nanos));
+            String message = String.format("\n%-25s%s%3d millis", description.getMethodName(), " finished: spent = ", TimeUnit.NANOSECONDS.toMillis(nanos));
             listResult.add(message);
             log.info(message);
         }

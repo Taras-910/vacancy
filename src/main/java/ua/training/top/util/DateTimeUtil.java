@@ -1,12 +1,13 @@
 package ua.training.top.util;
 
 import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import static ua.training.top.util.collect.data.CommonUtil.isEmpty;
 
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
@@ -20,14 +21,14 @@ public class DateTimeUtil {
     }
 
     public static @Nullable LocalTime parseLocalTime(@Nullable String str) {
-        return StringUtils.isEmpty(str) ? null : LocalTime.parse(str);
+        return isEmpty(str) ? null : LocalTime.parse(str);
     }
 
     public static @Nullable LocalDate parseLocalDate(@Nullable String str) {
-        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
+        return isEmpty(str) ? null : LocalDate.parse(str);
     }
 
     public static @Nullable LocalDateTime parseLocalDateTime(@Nullable String str) {
-        return StringUtils.isEmpty(str) ? null : LocalDateTime.parse(str);
+        return isEmpty(str) ? null : LocalDateTime.parse(str);
     }
 }

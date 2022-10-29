@@ -10,7 +10,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
-import static ua.training.top.testData.UserTestData.*;
+import static ua.training.top.testData.TestUtil.NOT_FOUND;
+import static ua.training.top.testData.UserTestData.ADMIN_ID;
+import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.testData.VoteTestData.*;
 import static ua.training.top.util.DateTimeUtil.thisDay;

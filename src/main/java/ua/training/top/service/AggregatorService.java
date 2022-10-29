@@ -15,7 +15,6 @@ import ua.training.top.to.VacancyTo;
 import ua.training.top.util.EmployerUtil;
 import ua.training.top.util.collect.data.ToUtil;
 
-import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -111,7 +110,7 @@ public class AggregatorService {
         }
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void deleteOutDated() {
         log.info("deleteOutDated");
         vacancyService.deleteOutDated();
@@ -136,7 +135,6 @@ public class AggregatorService {
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());
 
-
     }
 }
-
+// NofluffjobsStrategy add HL

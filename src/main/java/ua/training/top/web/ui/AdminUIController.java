@@ -20,7 +20,7 @@ import static ua.training.top.util.MessageUtil.email_matcher;
 @RestController
 @RequestMapping(value = "/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminUIController {
-    public static Logger log = LoggerFactory.getLogger(AdminUIController.class);
+    public static final Logger log = LoggerFactory.getLogger(AdminUIController.class);
     @Autowired
     UserService service;
 
