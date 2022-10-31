@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Rate;
 import ua.training.top.repository.RateRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +32,7 @@ public class DataJpaRateRepository implements RateRepository {
     }
 
     @Override
-    public List<Rate> getAll() {
-        return Optional.of(repository.getAll()).orElse(null);
-    }
+    public List<Rate> getAll() { return  Optional.of(repository.findAll()).orElse(new ArrayList<>()); }
 
     @Transactional
     @Override
@@ -43,7 +42,8 @@ public class DataJpaRateRepository implements RateRepository {
 
     @Transactional
     @Override
-    public List<Rate> saveAll(List<Rate> rates) {
+    public List<Rate> updateAll(List<Rate> rates) {
+        deleteAll();
         return repository.saveAll(rates);
     }
 

@@ -139,6 +139,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
@@ -368,6 +374,18 @@
 
 
   <profiles>
+
+    <profile>
+      <id>h2</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.h2database</groupId>
+          <artifactId>h2</artifactId>
+          <version>2.1.214</version>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
 
     <profile>
       <id>hsqldb</id>

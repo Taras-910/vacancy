@@ -38,7 +38,7 @@ INSERT INTO vote (local_date, vacancy_id, user_id)
 VALUES ('2020-10-25', 100006, 100000),
        ('2020-10-25', 100007, 100001);
 
-INSERT INTO rate (name, value, local_date)
+INSERT INTO rate (name, value_rate, date_rate)
 VALUES ('USDUSD', 1.0, '2020-10-25'),
        ('USDUAH', 36.53, '2020-10-25'),
        ('USDPLN', 4.8544, '2020-10-25'),

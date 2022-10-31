@@ -1,5 +1,6 @@
 package ua.training.top.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import static ua.training.top.testData.RateTestData.*;
 import static ua.training.top.testData.TestUtil.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.admin;
 
+@Ignore
 public class RateServiceTest extends AbstractServiceTest{
 
     @Autowired

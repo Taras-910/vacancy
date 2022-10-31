@@ -16,7 +16,7 @@ public class MessageUtil {
             email_error = "[email] must be in the format of an email address",
             email_not_be_null = "email must not be null",
             exist_end_replace = "Vacancy {} already existed in the database but was replaced by {}",
-            check_error_data = "Error null data of resume {}",
+            check_error_data = "Error null data of entity {}",
             error_request = "{} at request {} {}",
             error_data = "data error",
             invite_sign_in = "?message=You are registered already. Please Sign in&username=",

@@ -4,23 +4,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ua.training.top.aggregator.Provider;
 import ua.training.top.model.Rate;
 import ua.training.top.repository.RateRepository;
 
-import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServlet;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
-import static ua.training.top.aggregator.Provider.getRates;
+import static ua.training.top.aggregator.InstallationUtil.reasonValidRate;
 import static ua.training.top.util.MessageUtil.not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
-public class RateService {
+public class RateService extends HttpServlet {
     private final static Logger log = LoggerFactory.getLogger(RateService.class);
     public static final Map<String, Rate> mapRates = new HashMap<>();
 
@@ -42,7 +43,6 @@ public class RateService {
         return repository.getAll();
     }
 
-    @Transactional
     public Rate create(Rate rate) {
         log.info("create {}", rate);
         Assert.notNull(rate, not_be_null);
@@ -50,38 +50,29 @@ public class RateService {
         return repository.save(rate);
     }
 
-    @Transactional
     public void delete(int id) {
         log.info("delete {}", id);
         checkNotFoundWithId(repository.delete(id), id);
     }
 
-    @Transactional
     public void deleteAll() {
         log.info("deleteAll");
         repository.deleteAll();
     }
 
-    @Transactional
     public void updateRateDB() {
         log.info("update rate by baseCurrency {}", baseCurrency);
-        List<Rate> ratesNew = getRates();
-        List<Rate> ratesDB = getAll();
-        if(!ratesDB.isEmpty()){
-            ratesNew.forEach(ratesDB::remove);
-            ratesNew.addAll(ratesDB);
-        }
+        List<Rate> ratesNew = Provider.getRates();
         if(!ratesNew.isEmpty() && repository != null){
-            repository.deleteAll();
+            repository.updateAll(ratesNew);
         }
-        if(repository != null) repository.saveAll(ratesNew);
     }
 
-    @PostConstruct
-    public void CurrencyRatesMapInit() {
-        log.info("currency rates map init \n{}\n", ": <|> ".repeat(20));
-        List<Rate> rates = getAll();
-        rates.forEach(r -> mapRates.put(r.getName(), r));
-        System.out.println("\nmapRates=\n"+mapRates.toString());
+    public boolean CurrencyRatesMapInit() {
+        log.info("currency rates map init \n{}", ": <|> ".repeat(20));
+        getAll().forEach(r -> mapRates.put(r.getName(), r));
+        Rate rate = mapRates.values().stream()
+                .min(Comparator.comparing(Rate::getDateRate)).orElse(null);
+        return rate == null || rate.getDateRate().isBefore(reasonValidRate);
     }
 }

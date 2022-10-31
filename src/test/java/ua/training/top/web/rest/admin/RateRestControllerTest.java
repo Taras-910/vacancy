@@ -1,5 +1,6 @@
 package ua.training.top.web.rest.admin;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.admin;
 
+@Ignore
 class RateRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RateRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(RateRestControllerTest.class);

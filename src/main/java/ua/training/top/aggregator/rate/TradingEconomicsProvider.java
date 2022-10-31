@@ -27,18 +27,18 @@ public class TradingEconomicsProvider implements RateProvider {
 //    https://tradingeconomics.com/currencies?base=usd
 
     public List<Rate> getRates(String baseCurrency) {
-        log.info("get rates of baseCurrency {}", baseCurrency);
+        log.info("get getTradingEconomicsList rates of baseCurrency {}", baseCurrency);
         Set<Rate> set = new LinkedHashSet<>();
         Document doc = getDocument(format(url, baseCurrency));
         Elements elements = doc == null ? null : doc.getElementsByAttributeValueStarting("class", "datatable-row");
         if (elements != null && elements.size() != 0) {
-            set.addAll(getRatesList(elements));
+            set.addAll(getTradingEconomicsList(elements));
         }
         reCallRate(set.size());
         return new ArrayList<>(set);
     }
 
-    private List<Rate> getRatesList(Elements elements) {
+    private List<Rate> getTradingEconomicsList(Elements elements) {
         List<Rate> list = new ArrayList();
         for (Element element : elements) {
             try {
@@ -46,8 +46,8 @@ public class TradingEconomicsProvider implements RateProvider {
                 if (/*localDate.isAfter(reasonValidRate)*/true) {
                     Rate r = new Rate();
                     r.setName(xssClear(element.getElementsByTag("a").tagName("b").text()));
-                    r.setValue(Double.parseDouble(xssClear(element.getElementsByAttributeValue("id", "p").text())));
-                    r.setLocalDate(localDate);
+                    r.setValueRate(Double.parseDouble(xssClear(element.getElementsByAttributeValue("id", "p").text())));
+                    r.setDateRate(localDate);
                     list.add(r);
                 }
             } catch (Exception e) {

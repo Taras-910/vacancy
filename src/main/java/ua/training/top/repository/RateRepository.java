@@ -13,7 +13,7 @@ public interface RateRepository {
     // null if not found, when updated
     Rate save(Rate rate);
 
-    List<Rate> saveAll(List<Rate> rates);
+    List<Rate> updateAll(List<Rate> rates);
 
     // false if not found
     boolean delete(int id);

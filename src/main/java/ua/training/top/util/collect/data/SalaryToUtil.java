@@ -127,7 +127,7 @@ public class SalaryToUtil {
         if(r.getName() == null){
             log.error(currency_rate_not_found, name);
         }
-        return r.getValue();
+        return r.getValueRate();
     }
 
     public static boolean isFrom(String originText) {

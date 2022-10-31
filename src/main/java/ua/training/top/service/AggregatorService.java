@@ -55,6 +55,7 @@ public class AggregatorService {
 
     public void refreshDB(Freshen freshen) {
         log.info("refreshDB by freshen {}", freshen);
+        boolean isRateOld = rateService.CurrencyRatesMapInit();
         Instant start = Instant.now();
         List<VacancyTo> vacancyTos = getAllProviders().selectBy(freshen);
         Freshen newFreshen = freshenService.create(freshen);
@@ -88,6 +89,9 @@ public class AggregatorService {
             executeRefreshDb(mapUniqueTos, vacanciesDb, vacanciesUpdate, vacanciesCreate, newFreshen);
             long timeElapsed = Duration.between(start, Instant.now()).toMillis();
             log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(), newFreshen);
+            if (isRateOld) {
+                updateRateDB();
+            }
         }
     }
 
@@ -110,7 +114,6 @@ public class AggregatorService {
         }
     }
 
-//    @PostConstruct
     public void deleteOutDated() {
         log.info("deleteOutDated");
         vacancyService.deleteOutDated();
@@ -118,6 +121,7 @@ public class AggregatorService {
     }
 
     public void updateRateDB() {
+        log.info("updateRateDB");
         rateService.updateRateDB();
     }
 

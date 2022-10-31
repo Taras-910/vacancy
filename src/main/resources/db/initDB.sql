@@ -88,8 +88,8 @@ CREATE TABLE rate
 (
     id        INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name               TEXT                 NOT NULL,
-    value              DOUBLE PRECISION     NOT NULL,
-    local_date         TIMESTAMP            NOT NULL,
+    value_rate              DOUBLE PRECISION     NOT NULL,
+    date_rate         TIMESTAMP            NOT NULL,
     CONSTRAINT rate_idx UNIQUE (name)
 );
 
