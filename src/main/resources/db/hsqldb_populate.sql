@@ -9,6 +9,7 @@ DELETE FROM users;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
+
 INSERT INTO users (name, email, password, registered)
 VALUES ('Admin', 'admin@gmail.com', '{noop}admin', '2020-01-30 8:00:00'),
        ('User', 'user@yandex.ru', '{noop}password', '2020-01-30 8:00:00');
@@ -49,5 +50,3 @@ VALUES ('USDUSD', 1.0, '2020-10-25'),
        ('USDCAD', 1.35791, '2020-10-25'),
        ('USDBGN', 1.9701, '2020-10-25'),
        ('USDBYR', 2.52, '2020-10-25');
-
-

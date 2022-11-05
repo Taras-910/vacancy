@@ -44,7 +44,7 @@ public class Main {
 
         System.out.println(".".repeat(120));
 
-        System.out.println(rateService.getAll());
+        System.out.println(userService.getAll());
 
 
 

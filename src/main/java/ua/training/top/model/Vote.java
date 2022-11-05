@@ -14,10 +14,10 @@ import java.util.Objects;
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vacancy_id"}, name = "votes_idx")})
 public class Vote extends AbstractBaseEntity {
 
-    @Column(name = "local_date", nullable = false)
+    @Column(name = "date_vote", nullable = false)
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate localDate;
+    private LocalDate dateVote;
 
     @Column(name = "vacancy_id", nullable = false)
     @NotNull
@@ -29,20 +29,20 @@ public class Vote extends AbstractBaseEntity {
 
     public Vote(){}
 
-    public Vote(Integer id, @NotNull LocalDate localDate, @NotNull Integer vacancyId, @NotNull Integer userId) {
+    public Vote(Integer id, @NotNull LocalDate dateVote, @NotNull Integer vacancyId, @NotNull Integer userId) {
         super(id);
-        this.localDate = localDate;
+        this.dateVote = dateVote;
         this.vacancyId = vacancyId;
         this.userId = userId;
     }
 
     public Vote(Vote l) {
-        this(l.getId(), l.getLocalDate(), l.getVacancyId(), l.getUserId());
+        this(l.getId(), l.getDateVote(), l.getVacancyId(), l.getUserId());
     }
 
-    public LocalDate getLocalDate() { return localDate; }
+    public LocalDate getDateVote() { return dateVote; }
 
-    public void setLocalDate(LocalDate date) { this.localDate = date; }
+    public void setDateVote(LocalDate dateVote) { this.dateVote = dateVote; }
 
     public Integer getVacancyId() { return vacancyId; }
 
@@ -56,7 +56,7 @@ public class Vote extends AbstractBaseEntity {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", localDate=" + localDate +
+                ", dateVote=" + dateVote +
                 ", vacancyId=" + vacancyId +
                 ", userId=" + userId +
                 '}';
