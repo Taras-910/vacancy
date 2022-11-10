@@ -6,14 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.training.top.aggregator.Provider;
+import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Rate;
 import ua.training.top.repository.RateRepository;
 
-import javax.servlet.http.HttpServlet;
+import java.io.Serializable;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
 import static ua.training.top.aggregator.InstallationUtil.reasonValidRate;
@@ -21,9 +22,9 @@ import static ua.training.top.util.MessageUtil.not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service
-public class RateService extends HttpServlet {
+public class RateService extends AbstractBaseEntity implements Serializable {
     private final static Logger log = LoggerFactory.getLogger(RateService.class);
-    public static final Map<String, Rate> mapRates = new HashMap<>();
+    public static final Map<String, Rate> mapRates = new ConcurrentHashMap<>();
 
     @Autowired
     private RateRepository repository;
@@ -71,8 +72,7 @@ public class RateService extends HttpServlet {
     public boolean CurrencyRatesMapInit() {
         log.info("currency rates map init \n{}", ": <|> ".repeat(20));
         getAll().forEach(r -> mapRates.put(r.getName(), r));
-        Rate rate = mapRates.values().stream()
-                .min(Comparator.comparing(Rate::getDateRate)).orElse(null);
+        Rate rate = mapRates.values().stream().min(Comparator.comparing(Rate::getDateRate)).orElse(null);
         return rate == null || rate.getDateRate().isBefore(reasonValidRate);
     }
 }

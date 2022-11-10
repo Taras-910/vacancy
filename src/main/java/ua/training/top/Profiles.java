@@ -3,7 +3,7 @@ package ua.training.top;
 public class Profiles {
     public static final String
             POSTGRES_DB = "postgres",
-            H2_DB = "h2db",
+            H2 = "h2",
             HSQL_DB = "hsqldb",
             HEROKU = "heroku";
 
@@ -14,7 +14,7 @@ public class Profiles {
         } else if (isClassExists("org.hsqldb.jdbcDriver")) {
             return HSQL_DB;
         } else if (isClassExists("org.h2.Driver")) {
-            return H2_DB;
+            return H2;
         } else {
             throw new IllegalStateException("Could not find DB driver");
         }

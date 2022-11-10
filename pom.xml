@@ -19,40 +19,44 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <spring.version>5.3.0</spring.version>
-    <spring.security.version>5.4.1</spring.security.version>
-    <spring-data-jpa.version>2.4.0</spring-data-jpa.version>
-    <jackson-json.version>2.11.3</jackson-json.version>
-    <tomcat.version>9.0.41</tomcat.version>
+    <spring.version>5.3.23</spring.version>
+    <spring.security.version>5.7.5</spring.security.version>
+    <spring-data-jpa.version>2.7.5</spring-data-jpa.version>
+
+    <jackson-json.version>2.14.0</jackson-json.version>
+    <tomcat.version>9.0.68</tomcat.version>
 
     <!-- Logging -->
-    <logback.version>1.2.3</logback.version>
-    <slf4j.version>1.7.30</slf4j.version>
+    <logback.version>1.4.4</logback.version>
+    <slf4j.version>2.0.3</slf4j.version>
 
     <!--DB-->
     <postgresql.version>42.2.17</postgresql.version>
+    <hsqldb.version>2.7.0</hsqldb.version>
+    <h2database.version>2.1.210</h2database.version>
 
     <!--    Tests  -->
-    <junit.jupiter.version>5.7.0</junit.jupiter.version>
-    <assertj.version>3.17.2</assertj.version>
+    <junit.jupiter.version>5.9.1</junit.jupiter.version>
+    <assertj.version>3.23.1</assertj.version>
     <hamcrest.version>2.2</hamcrest.version>
-    <json-path.version>2.5.0</json-path.version>
+    <json-path.version>2.7.0</json-path.version>
 
     <!-- Hibernate -->
-    <hibernate.version>5.4.22.Final</hibernate.version>
-    <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
-    <jsoup.version>1.13.1</jsoup.version>
+    <hibernate.version>5.6.14.Final</hibernate.version>
+    <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+
+    <jsoup.version>1.14.3</jsoup.version>
     <javax-el.version>3.0.1-b12</javax-el.version>
 
     <!--Cache-->
-    <ehcache.version>3.9.0</ehcache.version>
+    <ehcache.version>3.9.9</ehcache.version>
 
     <!--webjars-->
-    <webjars-bootstrap.version>4.5.3</webjars-bootstrap.version>
-    <webjars-jquery.version>3.5.1</webjars-jquery.version>
+    <webjars-jquery.version>3.6.1</webjars-jquery.version>
+    <webjars-bootstrap.version>4.6.2</webjars-bootstrap.version>
+    <webjars-datatables.version>1.12.1</webjars-datatables.version>
     <webjars-datetimepicker.version>2.5.20-1</webjars-datetimepicker.version>
     <webjars-noty.version>3.1.4</webjars-noty.version>
-    <webjars-datatables.version>1.10.21</webjars-datatables.version>
   </properties>
 
   <build>
@@ -114,22 +118,6 @@
 
   <dependencies>
 
-<!--
-    &lt;!&ndash;DataBase&ndash;&gt;
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>2.3.4</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>${postgresql.version}</version>
-  </dependency>
--->
-
-
     <!-- Logging with SLF4J & LogBack -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -140,13 +128,13 @@
 
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
-      <version>2.0.3</version>
+      <artifactId>jul-to-slf4j</artifactId> <!--2.0.3--><!--+-->
+      <version>${slf4j.version}</version>
     </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
+      <artifactId>logback-classic</artifactId> <!--1.4.4--><!--+-->
       <version>${logback.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -160,17 +148,17 @@
     <!-- Spring -->
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
+      <artifactId>spring-context-support</artifactId> <!--5.3.23-->  <!--+-->
     </dependency>
     <dependency>
-      <groupId>org.springframework.data</groupId>
+      <groupId>org.springframework.data</groupId> <!--2.7.5-->        <!--+-->
       <artifactId>spring-data-jpa</artifactId>
       <version>${spring-data-jpa.version}</version>
     </dependency>
     <!--swagger-->
     <dependency>
       <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
+      <artifactId>springfox-swagger2</artifactId> <!--3.0.0-->
       <version>2.9.2</version>
     </dependency>
     <dependency>
@@ -182,7 +170,7 @@
     <!-- security -->
     <dependency>
       <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
+      <artifactId>spring-security-web</artifactId> <!--5.7.5-->    <!--+-->
       <version>${spring.security.version}</version>
     </dependency>
     <dependency>
@@ -199,17 +187,17 @@
     <!--- ORM -->
     <dependency>
       <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
+      <artifactId>hibernate-core</artifactId>  <!--6.1.5.Final--> <!--!!!???--> <!--5.6.14-->
       <version>${hibernate.version}</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate-validator.version}</version>
+      <version>${hibernate-validator.version}</version> <!--8.0.0.Final--> <!--???--> <!--6.2.5-->
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
+      <artifactId>jsoup</artifactId> <!--1.15.3-->   <!--???-->
       <version>${jsoup.version}</version>
     </dependency>
     <dependency>
@@ -221,7 +209,7 @@
     <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
     <dependency>
       <groupId>org.glassfish</groupId>
-      <artifactId>javax.el</artifactId>
+      <artifactId>javax.el</artifactId>   <!--3.0.1-b12-->
       <version>${javax-el.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -229,12 +217,12 @@
     <!-- Cache -->
     <dependency>
       <groupId>javax.cache</groupId>
-      <artifactId>cache-api</artifactId>
-      <version>1.1.0</version>
+      <artifactId>cache-api</artifactId> <!--1.1.1--> <!--+-->
+      <version>1.1.1</version>
     </dependency>
     <dependency>
       <groupId>org.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
+      <artifactId>ehcache</artifactId> <!--3.10.2--> <!--?--> <!--3.9.9-->
       <scope>runtime</scope>
       <version>${ehcache.version}</version>
     </dependency>
@@ -242,14 +230,14 @@
     <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>2.4.0-b180830.0438</version>
+      <artifactId>jaxb-runtime</artifactId>   <!--4.0.1--> <!--?--> <!--4.0.0-->
+      <version>4.0.0</version>
     </dependency>
 
     <!--Web-->
     <dependency>
       <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-servlet-api</artifactId>
+      <artifactId>tomcat-servlet-api</artifactId> <!--10.1.1--> <!--?--> <!--9.0.68-->
       <version>${tomcat.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -263,17 +251,19 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
+
     </dependency>
 
     <!-- Webjars (static dependencies distributed as JAR files) -->
     <dependency>
       <groupId>org.webjars</groupId>
-      <artifactId>jquery</artifactId>
+      <artifactId>jquery</artifactId>   <!--3.6.1--> <!--+-->
       <version>${webjars-jquery.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
+      <artifactId>bootstrap</artifactId>  <!--5.2.2--> <!--?--> <!--4.6.2-->
       <version>${webjars-bootstrap.version}</version>
       <exclusions>
         <exclusion>
@@ -287,9 +277,10 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.webjars</groupId>
-      <artifactId>datatables</artifactId>
+      <artifactId>datatables</artifactId> <!--1.12.1--> <!--+-->
       <version>${webjars-datatables.version}</version>
       <exclusions>
         <exclusion>
@@ -298,6 +289,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>datetimepicker</artifactId>
@@ -322,33 +314,33 @@
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jsr310</artifactId>
+      <artifactId>jackson-datatype-jsr310</artifactId> <!--2.14.0--> <!--+-->
       <version>${jackson-json.version}</version>
     </dependency>
 
     <!--Test-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
+      <artifactId>junit-jupiter-engine</artifactId> <!--5.9.1--> <!--+-->
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-core</artifactId>
+      <artifactId>hamcrest-core</artifactId> <!--2.2--> <!--+-->
       <version>${hamcrest.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.jayway.jsonpath</groupId>
-      <artifactId>json-path</artifactId>
+      <artifactId>json-path</artifactId> <!--2.7.0--> <!--+-->
       <version>${json-path.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13</version>
+      <artifactId>junit</artifactId> <!--4.13.2--> <!--+-->
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -359,14 +351,14 @@
 
     <dependency>
       <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
+      <artifactId>spring-security-test</artifactId>  <!--5.7.5--> <!--+-->
       <version>${spring.security.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
+      <artifactId>assertj-core</artifactId> <!--3.23.1-->
       <version>${assertj.version}</version>
       <scope>test</scope>
     </dependency>
@@ -376,12 +368,12 @@
   <profiles>
 
     <profile>
-      <id>h2db</id>
+      <id>h2</id>
       <dependencies>
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
-          <version>2.1.210</version>
+          <version>${h2database.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -392,7 +384,7 @@
         <dependency>
           <groupId>org.hsqldb</groupId>
           <artifactId>hsqldb</artifactId>
-          <version>2.7.0</version>
+          <version>${hsqldb.version}</version>
         </dependency>
       </dependencies>
     </profile>
