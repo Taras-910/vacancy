@@ -1,10 +1,12 @@
 package ua.training.top.web.rest.admin;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -14,8 +16,6 @@ import ua.training.top.testData.RateTestData;
 import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,6 +34,14 @@ class RateRestControllerTest extends AbstractControllerTest {
     @Autowired
     private RateService service;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setup() {
+        cacheManager.getCache("rate").clear();
+    }
+
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + RATE1_ID)
@@ -47,12 +55,12 @@ class RateRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAll() throws Exception {
-        Iterable<Rate> iterable = List.of(rate9, rate10, rate8, rate7, rate6, rate5, rate4, rate3, rate2, rate1);
+        Iterable<Rate> allRates = allRates();
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RATE_MATCHER.contentJson(iterable));
+                .andExpect(RATE_MATCHER.contentJson(allRates));
     }
 
     @Test

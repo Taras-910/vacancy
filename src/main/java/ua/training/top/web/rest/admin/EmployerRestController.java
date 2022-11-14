@@ -30,6 +30,7 @@ public class EmployerRestController {
 
     @GetMapping("/{id}")
     public Employer get(@PathVariable int id) {
+        log.info("get");
         return service.get(id);
     }
 

@@ -38,21 +38,21 @@ public class AutoRefreshUtil {
 //                    Map.entry(0, new Provider(new CaIndeedStrategy())),
                     Map.entry(0, new Provider(new DjinniStrategy())),
                     Map.entry(1, new Provider(new ItJobsStrategy())),
-                    Map.entry(2, new Provider(new ItJobsWatchStrategy())),
-                    Map.entry(3, new Provider(new JobBankStrategy())),
+//                    Map.entry(2, new Provider(new ItJobsWatchStrategy())),
+                    Map.entry(2, new Provider(new JobBankStrategy())),
 
-                    Map.entry(4, new Provider(new JobsBGStrategy())),
-                    Map.entry(5, new Provider(new JobsMarketStrategy())),
-                    Map.entry(6, new Provider(new JobsMarketUA())),
-                    Map.entry(7, new Provider(new JobsDouStrategy())),
-                    Map.entry(8, new Provider(new LinkedinStrategy())),
+                    Map.entry(3, new Provider(new JobsBGStrategy())),
+                    Map.entry(4, new Provider(new JobsMarketStrategy())),
+                    Map.entry(5, new Provider(new JobsMarketUA())),
+                    Map.entry(6, new Provider(new JobsDouStrategy())),
+                    Map.entry(7, new Provider(new LinkedinStrategy())),
 
-                    Map.entry(9, new Provider(new NofluffjobsStrategy())),
+                    Map.entry(8, new Provider(new NofluffjobsStrategy())),
 //                    Map.entry(5, new Provider(new RabotaStrategy())),
 //                    Map.entry(6, new Provider(new UAIndeedStrategy())),
-                    Map.entry(10, new Provider(new UAJoobleStrategy())),
-                    Map.entry(11, new Provider(new WorkStrategy())),
-                    Map.entry(12, new Provider(new ZaplataStrategy()))
+                    Map.entry(9, new Provider(new UAJoobleStrategy())),
+                    Map.entry(10, new Provider(new WorkStrategy())),
+                    Map.entry(11, new Provider(new ZaplataStrategy()))
             );
 
     public static final Map<Integer, String>

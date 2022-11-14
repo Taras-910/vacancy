@@ -42,7 +42,8 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(vote1));
+                .andExpect(VOTE_MATCHER.contentJson(vote1))
+        ;
     }
 
     @Test
@@ -90,6 +91,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
         setTestAuthorizedUser(admin);
+        updated.setDateVote(LocalDate.now());
         VOTE_MATCHER.assertMatch(service.get(VOTE1_ID), updated);
     }
 

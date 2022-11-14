@@ -4,7 +4,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
+import ua.training.top.model.Vacancy;
 import ua.training.top.service.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.UserTestData.USER_ID;
@@ -13,6 +17,8 @@ public class Main {
     public static void main(String[] args) {
         ConfigurableApplicationContext appCtx =
                 new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml"}, false);
+
+
         appCtx.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile());
         appCtx.refresh();
 
@@ -21,14 +27,14 @@ public class Main {
         setTestAuthorizedUser(admin);
 //        setTestAuthorizedUser(user);
 
-/*
-        System.out.println("Bean definition names: ");
+        String[] beans = appCtx.getBeanDefinitionNames();
+        System.out.println("Bean definition names: "+ beans.length);
+        System.out.println("profiles="+Profiles.getActiveDbProfile());
         System.out.println("=".repeat(120));
-        for(String s : appCtx.getBeanDefinitionNames()) {
+        for(String s : beans) {
             System.out.println(s);
         }
         System.out.println("=".repeat(120));
-*/
 
 //        VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
 //        ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
@@ -42,13 +48,26 @@ public class Main {
         VoteService voteService = appCtx.getBean(VoteService.class);
 //        RateRepository repository = appCtx.getBean(RateRepository.class);
 
-        System.out.println(".".repeat(120));
+        delim();
 
-        System.out.println(userService.getAll());
+        List<Vacancy> list1 = vacancyService.getAll();
+        List<Vacancy> list2 = list1.stream()
+                .filter(v -> !v.getUrl().contains("linkedin"))
+                .filter(v -> !v.getUrl().contains("jobs.dou"))
+                .filter(v -> !v.getUrl().contains("grc.ua"))
+                .filter(v -> v.getUrl().contains("?"))
+                .peek(System.out::println)
+                .collect(Collectors.toList());
+        System.out.println("size="+list1.size());
+        System.out.println("size="+list2.size());
 
+//        vacancyService.deleteList(list2);
 
-
-        System.out.println(".".repeat(120));
+        delim();
         appCtx.close();
+    }
+
+    private static void delim() {
+        System.out.println(".".repeat(120));
     }
 }

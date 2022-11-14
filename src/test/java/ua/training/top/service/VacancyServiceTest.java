@@ -1,7 +1,9 @@
 package ua.training.top.service;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.training.top.AbstractTest;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Goal;
@@ -29,7 +31,7 @@ import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
 
-public class VacancyServiceTest extends AbstractServiceTest {
+public class VacancyServiceTest extends AbstractTest {
 
     @Autowired
     private VacancyService vacancyService;
@@ -43,7 +45,7 @@ public class VacancyServiceTest extends AbstractServiceTest {
     @Test
     public void get() throws Exception {
         Vacancy vacancy = vacancyService.get(VACANCY1_ID);
-        VACANCY_MATCHER.assertMatch(vacancy, vacancy1);
+        Assert.assertEquals(vacancy, vacancy1);
     }
 
     @Test

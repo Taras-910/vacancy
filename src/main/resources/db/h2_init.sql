@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS VACANCY
 CREATE TABLE IF NOT EXISTS VOTE
 (
     ID INTEGER DEFAULT NEXTVAL('GLOBAL_SEQ') PRIMARY KEY NOT NULL,
-    DATE_VOTE            DATE                     NOT NULL,
+    DATE_VOTE             DATE                     NOT NULL,
     VACANCY_ID            INTEGER                  NOT NULL,
     USER_ID               INTEGER                  NOT NULL,
     CONSTRAINT VOTES_IDX UNIQUE (VACANCY_ID, USER_ID),

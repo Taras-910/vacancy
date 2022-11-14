@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,11 +15,13 @@ import java.util.Objects;
 public class Employer extends AbstractBaseEntity{
 
     @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
+    @Size(max = 255)
     private String name;
 
     @NotNull
     @Column(name = "address")
+    @Size(max = 255)
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer")

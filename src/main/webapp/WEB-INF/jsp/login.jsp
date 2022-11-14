@@ -73,7 +73,7 @@
     <a href="https://djinni.co/jobs/keyword-java/">Djinni</a>,
     <a href="https://www.itjobs.ca/en/search-jobs/">ItJobs</a>,
     <a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,
-    <a href="https://www.jobbank.gc.ca/jobsearch/jobsearch">JobBan</a>,
+    <a href="https://www.jobbank.gc.ca/jobsearch/jobsearch">JobBank</a>,
     <a href="https://www.jobs.bg/front_job_search.php">JobsBG</a>,
     <%--<a href="https://jobsmarket.io">JobsMarket</a>,--%>
     <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarket</a>,

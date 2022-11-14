@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.EAGER;
 public class Vacancy extends AbstractBaseEntity {
 
     @NotNull
-    @Size(min = 2, max = 256)
+    @Size(max = 255)
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
@@ -33,10 +33,12 @@ public class Vacancy extends AbstractBaseEntity {
     private Integer salaryMax;
 
     @Column(name = "link")
+    @Size(min = 3, max = 255)
     private String url;
 
     @NotNull
     @Column(name = "skills")
+    @Size(max = 255)
     private String skills;
 
     @Column(name = "release_date")

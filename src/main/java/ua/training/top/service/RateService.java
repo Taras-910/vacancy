@@ -3,6 +3,8 @@ package ua.training.top.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.training.top.aggregator.Provider;
@@ -39,11 +41,13 @@ public class RateService extends AbstractBaseEntity implements Serializable {
         return checkNotFound(repository.getByName(name), name);
     }
 
+    @Cacheable(value = "rate")
     public List<Rate> getAll() {
         log.info("getAll");
         return repository.getAll();
     }
 
+    @CacheEvict(value = "rate", allEntries = true)
     public Rate create(Rate rate) {
         log.info("create {}", rate);
         Assert.notNull(rate, not_be_null);
@@ -51,16 +55,19 @@ public class RateService extends AbstractBaseEntity implements Serializable {
         return repository.save(rate);
     }
 
+    @CacheEvict(value = "rate", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
         checkNotFoundWithId(repository.delete(id), id);
     }
 
+    @CacheEvict(value = "rate", allEntries = true)
     public void deleteAll() {
         log.info("deleteAll");
         repository.deleteAll();
     }
 
+    @CacheEvict(value = "rate", allEntries = true)
     public void updateRateDB() {
         log.info("update rate by baseCurrency {}", baseCurrency);
         List<Rate> ratesNew = Provider.getRates();

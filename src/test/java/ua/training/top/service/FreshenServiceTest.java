@@ -3,6 +3,7 @@ package ua.training.top.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.top.AbstractTest;
 import ua.training.top.model.Freshen;
 import ua.training.top.testData.FreshenTestData;
 import ua.training.top.util.exception.NotFoundException;
@@ -15,7 +16,7 @@ import static ua.training.top.testData.FreshenTestData.*;
 import static ua.training.top.testData.TestUtil.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.admin;
 
-public class FreshenServiceTest extends AbstractServiceTest{
+public class FreshenServiceTest extends AbstractTest {
 
     @Autowired
     private FreshenService service;

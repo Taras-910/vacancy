@@ -11,15 +11,15 @@ import java.util.Objects;
 public class VacancyTo extends BaseTo implements Serializable, Comparable<VacancyTo> {
 
     @NotNull
-    @Size(min = 2, max = 250)
+    @Size(min = 2, max = 255)
     private String title;
 
     @NotNull
-    @Size(min = 2, max = 512)
+    @Size(min = 2, max = 255)
     private String employerName;
 
     @NotNull
-    @Size(min = 2, max = 512)
+    @Size(min = 2, max = 255)
     private String address;
 
     @NotNull
@@ -29,11 +29,11 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     private Integer salaryMax;
 
     @NotNull
-    @Size(min = 4, max = 1000)
+    @Size(min = 4, max = 255)
     String url;
 
     @NotNull
-    @Size(min = 3, max = 1024)
+    @Size(min = 3, max = 255)
     String skills;
 
     private LocalDate releaseDate;

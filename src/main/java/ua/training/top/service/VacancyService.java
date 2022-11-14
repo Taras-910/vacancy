@@ -102,6 +102,12 @@ public class VacancyService {
     }
 
     @Transactional
+    public void deleteList(List<Vacancy> list) {
+        log.info("delete deleteList");
+        repository.deleteList(list);
+    }
+
+    @Transactional
     public void deleteOutDated() {
         log.info("deleteOutDated reasonPeriodKeeping {}", reasonPeriodKeeping);
         repository.deleteOutDated(reasonPeriodKeeping);

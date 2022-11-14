@@ -1,5 +1,7 @@
 package ua.training.top.model;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "rate")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Rate  extends AbstractBaseEntity implements Serializable {
 
     @NotNull

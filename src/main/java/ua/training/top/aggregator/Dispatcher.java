@@ -19,8 +19,8 @@ public class Dispatcher {
         else if (autoRefreshProviders) {
             return new Starter(
                     mapStrategies.get(getKey(4)),     //0...3
-                    mapStrategies.get(getKey(5) + 4), //4...8
-                    mapStrategies.get(getKey(4) + 9));//9...12
+                    mapStrategies.get(getKey(4) + 4), //4...7
+                    mapStrategies.get(getKey(4) + 8));//8...11
         }
         else {
             return new Starter(
@@ -28,7 +28,7 @@ public class Dispatcher {
                     /*new Provider(new CwJobsStrategy())*/      /*только uk*/                // не работает!!!!!!!!!!
                     new Provider(new DjinniStrategy()),       /*за_рубежем === удаленно*/
                     new Provider(new ItJobsStrategy()),       /*только ca*/
-                    new Provider(new ItJobsWatchStrategy()),  /*только uk*/
+                    /*new Provider(new ItJobsWatchStrategy()),*/  /*только uk*/
                     new Provider(new JobBankStrategy()),      /*только ca - от правительства канады*/
 
                     new Provider(new JobsBGStrategy()),       /*только bg*/

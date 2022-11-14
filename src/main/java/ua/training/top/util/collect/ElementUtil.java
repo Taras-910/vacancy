@@ -38,7 +38,7 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(xssClear(element.getElementsByClass("date").text()));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, title = getToTitle(xssClear(element.getElementsByAttribute("title").first().text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("job-snippet").text()), freshen);
+                    skills = xssClear(element.getElementsByClass("job-snippet").text());
                     if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();
                         v.setTitle(getLinkIfEmpty(title));
@@ -47,7 +47,7 @@ public class ElementUtil {
                         v.setSalaryMin(1);
                         v.setSalaryMax(1);
                         v.setUrl(getToUrl(indeed, xssClear(element.getElementsByTag("a").tagName("a").attr("data-jk"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -76,7 +76,7 @@ public class ElementUtil {
                         v.setSalaryMin(getToSalaries(salaries)[0]);
                         v.setSalaryMax(getToSalaries(salaries)[1]);
                         v.setUrl(getToUrl(cwjobs, xssClear(element.getElementsByTag("a").attr("href"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -96,7 +96,7 @@ public class ElementUtil {
                 LocalDate localDate = getToLocalDate(date);
                 if (localDate.isAfter(reasonDateLoading)) {
                     String skills, salary, title = getToTitle(xssClear(element.getElementsByClass("profile").tagName("a").text()));
-                    skills = getToSkills(xssClear(element.getElementsByClass("list-jobs__description").text()), freshen);
+                    skills = xssClear(element.getElementsByClass("list-jobs__description").text());
                     salary = xssClear(element.getElementsByClass("public-salary-item").text());
                     salary = isEmpty(salary) ? skills : salary;
                     Integer[] salaries = getToSalaries(salary.replaceAll(date, ""));
@@ -108,7 +108,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(getToUrl(djinni, xssClear(element.getElementsByClass("profile").first().attr("href"))));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }
@@ -154,9 +154,10 @@ public class ElementUtil {
         List<VacancyTo> list = new ArrayList();
         for (Element element : elements) {
             Elements listData = element.select("span, div");
-            String dateString = xssClear(element.getElementsByTag("time").text());
+            String url, dateString = xssClear(element.getElementsByTag("time").text());
             LocalDate localDate = isContains(dateString, "30+") ? reasonDateLoading.plusDays(1) : getToLocalDate(dateString);
-            if (localDate.isAfter(reasonDateLoading) && listData.size() >= 7) {
+            url = xssClear(element.getElementsByTag("a").attr("href"));
+            if (localDate.isAfter(reasonDateLoading) && listData.size() >= 7 && !url.contains("?jr=")) {
                 try {
                     String salary, skills, title = getToTitle(xssClear(element.getElementsByClass("jobTitle").first().text()));
                     skills = xssClear(listData.get(4).ownText());
@@ -169,7 +170,7 @@ public class ElementUtil {
                         v.setAddress(xssClear(listData.get(2).ownText()).split(" -")[0]);
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
-                        v.setUrl(getToUrl(itJobsWatch, xssClear(element.getElementsByTag("a").attr("href"))));
+                        v.setUrl(getToUrl(itJobsWatch, url));
                         v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
@@ -298,7 +299,7 @@ public class ElementUtil {
                         v.setSalaryMin(salaries[0]);
                         v.setSalaryMax(salaries[1]);
                         v.setUrl(xssClear(element.getElementsByTag("a").attr("href")));
-                        v.setSkills(skills);
+                        v.setSkills(getToSkills(skills, freshen));
                         v.setReleaseDate(localDate);
                         list.add(v);
                     }

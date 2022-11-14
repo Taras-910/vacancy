@@ -2,6 +2,7 @@ package ua.training.top.repository.datajpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.model.Rate;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaRateRepository implements RateRepository {
+    private static final Sort SORT_NAME = Sort.by(Sort.Direction.ASC, "name");
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final CrudRateRepository repository;
 
@@ -32,7 +34,9 @@ public class DataJpaRateRepository implements RateRepository {
     }
 
     @Override
-    public List<Rate> getAll() { return  Optional.of(repository.findAll()).orElse(new ArrayList<>()); }
+    public List<Rate> getAll() {
+        return  Optional.of(repository.findAll(SORT_NAME)).orElse(new ArrayList<>());
+    }
 
     @Transactional
     @Override

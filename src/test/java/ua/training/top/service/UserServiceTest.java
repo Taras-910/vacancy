@@ -1,8 +1,11 @@
 package ua.training.top.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import ua.training.top.AbstractTest;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.testData.UserTestData;
@@ -14,10 +17,18 @@ import static org.junit.Assert.assertThrows;
 import static ua.training.top.testData.TestUtil.NOT_FOUND;
 import static ua.training.top.testData.UserTestData.*;
 
-public class UserServiceTest extends AbstractServiceTest {
+public class UserServiceTest extends AbstractTest {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setup() {
+        cacheManager.getCache("users").clear();
+    }
 
     @Test
     public void create() throws Exception {

@@ -72,8 +72,7 @@ public class DataJpaVacancyRepository implements VacancyRepository {
 
     @Override
     public Vacancy get(int id) {
-//        Vacancy v = vacancyRepository.findById(id).orElse(null);
-        return Optional.of(vacancyRepository.getOne(id)).orElse(null);
+        return vacancyRepository.findById(id).orElse(null);
     }
 
     @Override

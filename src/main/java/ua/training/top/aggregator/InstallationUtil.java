@@ -21,7 +21,7 @@ public class InstallationUtil {
             limitVacanciesKeeping = 4250,
             limitFreshensFilterKeeping = 200,
             limitVotesKeeping = limitVacanciesKeeping / 10,
-            maxLengthText = 250,
+            maxLengthText = 255,
             limitCallPages = herokuRestriction ? 1 : 2;
     public static int repeatToCall = 3;
 
