@@ -13,16 +13,16 @@
     <div class="container">
         <button class="btn btn-outline-primary" onclick="add()">
             <span class="fa fa-plus"></span>
-            Добавить
+             new user
         </button>
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>
-                <th>Имя</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th></th>
-                <th>Регистрирован</th>
+                <th>Registered</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -35,7 +35,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Добавить</h4>
+                <h4 class="modal-title">Add</h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -43,7 +43,7 @@
                     <input type="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="name" class="col-form-label">Имя</label>
+                        <label for="name" class="col-form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name"
                                placeholder="Имя">
                     </div>
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="col-form-label">Пароль</label>
+                        <label for="password" class="col-form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
                                placeholder="Пароль">
                     </div>
@@ -64,11 +64,11 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
-                    Отменить
+                    Back
                 </button>
                 <button type="button" class="btn btn-primary" onclick="save()">
                     <span class="fa fa-check"></span>
-                    Сохранить
+                    Save
                 </button>
             </div>
         </div>

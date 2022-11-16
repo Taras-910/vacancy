@@ -27,7 +27,7 @@ public class AutoRefreshService {
 
     //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
     @Scheduled(cron = "0 0,10,20,30,40,50 10-18 * * MON-FRI")
-    public void weekDay() {
+    public void workDay() {
 //        int delayWithinMinutes = 4;
         int delayWithinMinutes = 9;
         Freshen freshen = new Freshen(randomFreshen(
@@ -66,7 +66,7 @@ public class AutoRefreshService {
     }
 
     @Scheduled(cron = "0 0 10 * * MON,THU")
-    public void twiceByWeek() {
+    public void twiceInWeek() {
         log.info("Scheduled twiceByWeek");
         int delayWithinMinutes = 480; // 8 hours
         log.info(MessageUtil.delay, delayWithinMinutes);

@@ -9,9 +9,9 @@
         <sec:authorize access="isAuthenticated()">
             <form class="form-inline my-2" action="logout" method="post">
                 <sec:authorize access="hasRole('ADMIN')">
-                    <a class="btn btn-info mr-1" href="users">Пользователи</a>
+                    <a class="btn btn-info mr-1" href="users">all users</a>
                 </sec:authorize>
-                <a class="btn btn-info mr-1" href="profile">профиль ${user.name}</a>
+                <a class="btn btn-info mr-1" href="profile">profile ${user.name}</a>
                 <button class="btn btn-primary my-1" type="submit">
                     <span class="fa fa-sign-out"></span>
                 </button>

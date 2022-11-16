@@ -1,6 +1,6 @@
 package ua.training.top.web.rest.profile;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -36,7 +36,7 @@ import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.VacancyUtil.fromTos;
 
-class ProfileFreshenRestControllerTest extends AbstractControllerTest {
+public class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ProfileFreshenRestController.REST_URL + '/';
     @Autowired
     private FreshenService freshenService;
@@ -46,7 +46,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     private EmployerService employerService;
 
     @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + FRESHEN2_ID)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
@@ -56,7 +56,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getOwn() throws Exception {
+    public void getOwn() throws Exception {
         Iterable<Freshen> freshens = List.of(freshen2);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(user)))
@@ -66,7 +66,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void refreshDB() throws Exception  {
+    public void refreshDB() throws Exception  {
         Freshen freshen = new Freshen(null, null, "Java", "middle", "Киев", Collections.singleton(Goal.UPGRADE),null );
         List<Vacancy> vacanciesDbBefore = vacancyService.getAll();
         List<Freshen> freshensDbBefore = freshenService.getAll();
@@ -93,15 +93,15 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         List<Vacancy> allVacancies = vacancyService.getAll();
         List<Vacancy> newVacancies = allVacancies.stream()
                 .filter(v -> !vacanciesDbBefore.contains(v)).collect(Collectors.toList());
-        assertEquals(vacanciesTest.stream()
-                .filter(v -> !newVacancies.contains(v)).collect(Collectors.toList()).size(), 0);
+        assertEquals((int) vacanciesTest.stream()
+                .filter(v -> !newVacancies.contains(v)).count(), 0);
 
         Set<Employer> employersTest = new HashSet<>(getEmployersFromTos(getTestList()));
         List<Employer> allEmployers = employerService.getAll();
         List<Employer> newEmployers = allEmployers.stream()
                 .filter(e -> !employersDbBefore.contains(e)).collect(Collectors.toList());
-        assertEquals(employersTest.stream()
-                .filter(v -> !newEmployers.contains(v)).collect(Collectors.toList()).size(), 0);
+        assertEquals((int) employersTest.stream()
+                .filter(v -> !newEmployers.contains(v)).count(), 0);
     }
 }
 

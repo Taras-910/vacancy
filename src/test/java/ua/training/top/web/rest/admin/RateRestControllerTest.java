@@ -1,8 +1,7 @@
 package ua.training.top.web.rest.admin;
 
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,7 @@ import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.admin;
 
-@Ignore
-class RateRestControllerTest extends AbstractControllerTest {
+public class RateRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RateRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(RateRestControllerTest.class);
 
@@ -43,7 +41,7 @@ class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + RATE1_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -54,7 +52,7 @@ class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAll() throws Exception {
         Iterable<Rate> allRates = allRates();
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -64,7 +62,7 @@ class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    public void create() throws Exception {
         Rate newRate = new Rate(RateTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,7 +76,7 @@ class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    public void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + RATE1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())

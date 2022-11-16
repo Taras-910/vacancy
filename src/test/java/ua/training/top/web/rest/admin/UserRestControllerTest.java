@@ -1,7 +1,7 @@
 package ua.training.top.web.rest.admin;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ua.training.top.testData.TestUtil.*;
 import static ua.training.top.testData.UserTestData.*;
 
-class UserRestControllerTest extends AbstractControllerTest {
+public class UserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = UserRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(UserRestControllerTest.class);
     @Autowired
@@ -43,7 +43,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -54,7 +54,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getNotFound() throws Exception {
+    public void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -62,7 +62,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getByEmail() throws Exception {
+    public void getByEmail() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "by?email=" + admin.getEmail())
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -71,7 +71,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    public void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -81,7 +81,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    void update() throws Exception {
+    public void update() throws Exception {
         User updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(admin))
@@ -92,7 +92,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    public void create() throws Exception {
         User newUser = new User(getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
@@ -108,7 +108,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void register() throws Exception {
+    public void register() throws Exception {
         User newUser = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.USER);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .with(userHttpBasic(admin))
@@ -125,7 +125,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAll() throws Exception {
         Iterable<User> iterable = List.of(admin, user);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -135,7 +135,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void enable() throws Exception {
+    public void enable() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL + USER_ID)
                 .param("enabled", "false")
                 .with(userHttpBasic(admin))
@@ -146,13 +146,13 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getUnAuth() throws Exception {
+    public void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void getForbidden() throws Exception {
+    public void getForbidden() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isForbidden());

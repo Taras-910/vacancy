@@ -1,6 +1,6 @@
 package ua.training.top.web.rest.admin;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,13 @@ import static ua.training.top.testData.TestUtil.readFromJson;
 import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.admin;
 
-class EmployerRestControllerTest extends AbstractControllerTest {
+public class EmployerRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = EmployerRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(EmployerRestControllerTest.class);
     @Autowired
     private EmployerService service;
 @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + EMPLOYER1_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -42,7 +42,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAll() throws Exception {
         Iterable<Employer> iterable = List.of(employer1, employer2);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -52,7 +52,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    public void create() throws Exception {
         Employer newEmployer = new Employer(null, "newEmployer", "newAddress");
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -67,7 +67,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
 
     @Transactional
     @Test
-    void update() throws Exception {
+    public void update() throws Exception {
         Employer updated = new Employer(employer1);
         updated.setName("newNameEmployer");
         perform(MockMvcRequestBuilders.put(REST_URL)
@@ -79,7 +79,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    public void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + EMPLOYER1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())

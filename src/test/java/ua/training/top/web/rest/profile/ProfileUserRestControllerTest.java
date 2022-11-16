@@ -1,6 +1,6 @@
 package ua.training.top.web.rest.profile;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -23,7 +23,7 @@ import static ua.training.top.testData.TestUtil.userHttpBasic;
 import static ua.training.top.testData.UserTestData.USER_MATCHER;
 import static ua.training.top.testData.UserTestData.user;
 
-class ProfileUserRestControllerTest extends AbstractControllerTest {
+public class ProfileUserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ProfileUserRestController.REST_URL;
 
     @Autowired
@@ -32,7 +32,7 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
     UserService service;
 
     @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
@@ -43,7 +43,7 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    public void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(user)))
                 .andDo(print())
@@ -54,7 +54,7 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    void update() throws Exception {
+    public void update() throws Exception {
         User updated = new User(user);
         updated.setName("NewName");
         perform(MockMvcRequestBuilders.put(REST_URL)
@@ -68,7 +68,7 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void register() throws Exception {
+    public void register() throws Exception {
         User newUser = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.USER);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -75,14 +75,14 @@
                                        placeholder="workplace...">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
-                                    <option value='Киев'>Киев</option>
-                                    <option value='Минск'>Минск</option>
-                                    <option value='Львов'>Львов</option>
-                                    <option value='Харьков'>Харьков</option>
-                                    <option value='Днепр'>Днепр</option>
-                                    <option value='Украина'>Украина</option>
-                                    <option value='Канада'>Канада</option>
-                                    <option value='Польша'>Польша</option>
+                                    <option value='Киев'>Kyiv</option>
+                                    <option value='Минск'>Minsk</option>
+                                    <option value='Львов'>Lviv</option>
+                                    <option value='Харьков'>Kharkiv</option>
+                                    <option value='Днепр'>Dnipro</option>
+                                    <option value='Украина'>Ukraine</option>
+                                    <option value='Канада'>Canada</option>
+                                    <option value='Польша'>Poland</option>
                                     <option value='remote'>remote</option>
                                     <option value='foreign'>foreign</option>
                                 </datalist>
@@ -91,13 +91,13 @@
                         <div class="col-sm-2">
                             <button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
                                 <span class="fa fa-filter"></span>
-                                Фильтровать
+                                Filter
                             </button>
                         </div>
                         <div class="col-md-2 ml-md-auto">
                             <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
-                                Сбросить
+                                Reset
                             </button>
                         </div>
                     </div>
@@ -110,13 +110,13 @@
                 <sec:authorize access="hasRole('ADMIN')">
                     <button class="col-md-2 btn btn-primary mt-2" onclick="add()">
                         <span class="fa fa-plus text-left"></span>
-                        Добавить
+                         new vacancy
                     </button>
                 </sec:authorize>
                 </div>
                 <button class=" col-md-2 btn btn-info bs-popover-right mt-2" onclick="refreshDB()">
                     <span class="fa fa-refresh text-left pull-right"></span>
-                    Обновить БД
+                    Refresh DB
                 </button>
             </div>
         </div>
@@ -126,13 +126,13 @@
                 <tr>
                     <th hidden>id</th>
                     <th hidden>link</th>
-                    <th class="col-auto">Вакансия</th>
-                    <th class="col-auto">Компания</th>
-                    <th class="col-auto">Город</th>
-                    <th class="col-auto"><h7>от $</h7></th>
-                    <th class="col-auto"><h7>до $</h7></th>
-                    <th class="col" style="text-align: center;">Требования</th>
-                    <th class="col-auto text-nowrap">Дата</th>
+                    <th class="col-auto">Vacancy</th>
+                    <th class="col-auto">Employer</th>
+                    <th class="col-auto">Workplace</th>
+                    <th class="col-auto"><h7>from</h7></th>
+                    <th class="col-auto"><h7>to $</h7></th>
+                    <th class="col" style="text-align: center;">Skills</th>
+                    <th class="col-auto text-nowrap">Date</th>
                     <th class="toVote"></th>
                     <th hidden>work place</th>
                     <th hidden>language</th>
@@ -151,46 +151,46 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Добавить</h4>
+                    <h4 class="modal-title">Add</h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="detailsForm">
                         <input type="hidden" id="id" name="id">
                         <div class="form-group not_update_visible">
-                            <label for="title" class="col-form-label">Название вакансии</label>
+                            <label for="title" class="col-form-label">Vacancy name</label>
                             <input type="text" class="form-control" id="title" name="title">
                         </div>
                         <div class="form-group not_update_visible">
-                            <label for="employerName" class="col-form-label">Работодатель</label>
+                            <label for="employerName" class="col-form-label">Employer</label>
                             <input type="text" class="form-control" id="employerName" name="employerName">
                         </div>
                         <div class="form-group not_update_visible">
-                            <label for="address" class="col-form-label">Адрес</label>
+                            <label for="address" class="col-form-label">Address</label>
                             <input type="text" class="form-control" id="address" name="address">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMin" class="col-form-label">з/п от (usd cent)</label>
+                            <label for="salaryMin" class="col-form-label">from (usd cent)</label>
                             <input type="number" class="form-control" id="salaryMin" name="salaryMin">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMax" class="col-form-label">з/п до (usd cent)</label>
+                            <label for="salaryMax" class="col-form-label">to (usd cent)</label>
                             <input type="number" class="form-control" id="salaryMax" name="salaryMax">
                         </div>
                         <div class="form-group">
-                            <label for="url" class="col-form-label">Ссылка</label>
+                            <label for="url" class="col-form-label">url</label>
                             <input type="text" class="form-control" id="url" name="url"
                                    placeholder="https://www.example.com">
                         </div>
                         <div class="form-group">
-                            <label for="skills" class="col-form-label">Требуемые знания, навыки, ...</label>
+                            <label for="skills" class="col-form-label">Skills, навыки, ...</label>
                             <input type="text" class="form-control" id="skills" name="skills">
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="releaseDate" name="releaseDate">
                         </div>
                         <div class="form-group">
-                            <label for="languageCode" class="col-form-label">Язык программирования</label>
+                            <label for="languageCode" class="col-form-label">Language</label>
                             <input type="text" class="form-control" id="languageCode" name="language">
                         </div>
                         <div class="form-group">
@@ -201,11 +201,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        Отменить
+                        back
                     </button>
                     <button type="button" class="btn btn-primary" onclick="save()">
                         <span class="fa fa-check"></span>
-                        Сохранить
+                        save
                     </button>
                 </div>
             </div>
@@ -223,7 +223,7 @@
                     <form id="detailsUpdateForm">
                         <input type="hidden" id="idUpdate" name="id">
                         <div class="form-group not_update_visible">
-                            <label for="title" class="col-form-label">Вакансия</label>
+                            <label for="title" class="col-form-label">Vacancy</label>
                             <input type="text" class="form-control" id="titleUpdate" name="title">
                         </div>
                         <div class="form-group not_update_visible">
@@ -233,11 +233,11 @@
                             <input type="hidden" class="form-control" id="addressUpdate" name="address">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMin" class="col-form-label">з/п от (usd cent)</label>
+                            <label for="salaryMin" class="col-form-label">from (usd cent)</label>
                             <input type="number" class="form-control" id="salaryMinUpdate" name="salaryMin">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMax" class="col-form-label">з/п до (usd cent)</label>
+                            <label for="salaryMax" class="col-form-label">to (usd cent)</label>
                             <input type="number" class="form-control" id="salaryMaxUpdate" name="salaryMax">
                         </div>
                         <div class="form-group">
@@ -246,7 +246,7 @@
                                    placeholder="https://www.example.com">
                         </div>
                         <div class="form-group">
-                            <label for="skills" class="col-form-label">Требования</label>
+                            <label for="skills" class="col-form-label">Skills</label>
                             <input type="text" class="form-control" id="skillsUpdate" name="skills">
                         </div>
                         <div class="form-group">
@@ -263,11 +263,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        Отменить
+                        back
                     </button>
                     <button type="button" class="btn btn-primary" onclick="updateVacancyTo()">
                         <span class="fa fa-check"></span>
-                        Сохранить
+                        save
                     </button>
                 </div>
             </div>
@@ -278,7 +278,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header box" style="text-align: center;">
-                    <h6><em>Подтвердите ваше действие !</em></h6>
+                    <h6><em>Confirm pls !</em></h6>
                 </div>
                 <div class="modal-body">
                     <form id="detailsDeleteForm">
@@ -289,11 +289,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        Отменить
+                        back
                     </button>
                     <button type="button" class="btn btn-primary" onclick="deleteVacancyTo()">
                         <span class="fa fa-check"></span>
-                        Удалить
+                        delete
                     </button>
                 </div>
             </div>
@@ -305,7 +305,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header box">
-                <h5 class="modal-title">Обновить БД по параметрам:</h5>
+                <h5 class="modal-title">Refresh DB by datas:</h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -371,14 +371,14 @@
                         placeholder="please enter the place of work you need">
                         <datalist id="city_name_2">
                             <option value='all' selected>all</option>
-                            <option value='Киев'>Киев</option>
-                            <option value='Минск'>Минск</option>
-                            <option value='Львов'>Львов</option>
-                            <option value='Харьков'>Харьков</option>
-                            <option value='Днепр'>Днепр</option>
-                            <option value='Украина'>Украина</option>
-                            <option value='Канада'>Канада</option>
-                            <option value='Польша'>Польша</option>
+                            <option value='Киев'>Kyiv</option>
+                            <option value='Минск'>Minsk</option>
+                            <option value='Львов'>Lviv</option>
+                            <option value='Харьков'>Kharkiv</option>
+                            <option value='Днепр'>Dnipro</option>
+                            <option value='Украина'>Ukraine</option>
+                            <option value='Канада'>Canada</option>
+                            <option value='Польша'>Poland</option>
                             <option value='remote'>remote</option>
                             <option value='foreign'>foreign</option>
                         </datalist>
@@ -390,18 +390,18 @@
                 </form>
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
-                <h7><em>идет загрузка... подождите минуту или две...<br>
-                    через 2 мин жмите  </em><h6 class="fa fa-filter text-info">  Фильтровать</h6>
+                <h7><em>loading... wait min or two...<br>
+                    after 2 min set  </em><h6 class="fa fa-filter text-info">  Filter</h6>
                 </h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
-                    Отменить
+                    Back
                 </button>
                 <button type="button" class="btn btn-info" onclick="sendRefresh()">
-                    Обновить  
+                    Enter  
                     <span class="spinner-border spinner-border-sm" id="spinner1" style="visibility: hidden"></span>
                 </button>
             </div>

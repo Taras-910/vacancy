@@ -1,6 +1,6 @@
 package ua.training.top.web.rest.admin;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,26 +28,25 @@ import static ua.training.top.testData.UserTestData.admin;
 import static ua.training.top.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.testData.VoteTestData.*;
 
-class VoteRestControllerTest extends AbstractControllerTest {
+public class VoteRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(VoteRestControllerTest.class);
     @Autowired
     private VoteService service;
 
     @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VOTE1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(vote1))
-        ;
+                .andExpect(VOTE_MATCHER.contentJson(vote1));
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAll() throws Exception {
         Iterable<Vote> iterable = List.of(vote1, vote2);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -57,7 +56,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAllForAuthUser() throws Exception {
+    public void getAllForAuthUser() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "auth")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -66,7 +65,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    public void create() throws Exception {
         Vote newVote = new Vote(null, LocalDate.now(), VACANCY2_ID, ADMIN_ID);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("vacancyId", String.valueOf(VACANCY2_ID))
@@ -81,7 +80,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void update() throws Exception {
+    public void update() throws Exception {
         Vote updated = new Vote(vote1);
         updated.setVacancyId(VACANCY2_ID);
         perform(MockMvcRequestBuilders.put(REST_URL + VOTE1_ID)
@@ -96,7 +95,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
+    public void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + VOTE1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -106,7 +105,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void setVote() throws Exception {
+    public void setVote() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)
                         .param("toVote", String.valueOf(true))
                         .contentType(MediaType.APPLICATION_JSON)

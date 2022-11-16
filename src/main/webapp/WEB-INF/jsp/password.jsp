@@ -21,10 +21,10 @@
                 <div class="modal-body">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onChange="onChange()">
                         <span class="fa fa-close"></span>
-                        Отменить
+                        back
                     </button>
                     <button type="button" class="btn btn-info" onclick="sendRefresh()">
-                        Обновить
+                        sava
                         <span class="spinner-border spinner-border-sm" id="spinner" style="visibility: hidden"></span>
                     </button>
                 </div>

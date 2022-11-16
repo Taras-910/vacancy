@@ -1,6 +1,6 @@
 package ua.training.top.web;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import ua.training.top.testData.UserTestData;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,10 +9,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ua.training.top.testData.TestUtil.userAuth;
 import static ua.training.top.testData.UserTestData.admin;
 
-class RootControllerTest extends AbstractControllerTest {
+public class RootControllerTest extends AbstractControllerTest {
+
+    public RootControllerTest() {
+    }
 
     @Test
-    void getUsers() throws Exception {
+    public void getUsers() throws Exception {
         perform(get("/users")
                 .with(userAuth(admin)))
                 .andDo(print())
@@ -22,7 +25,7 @@ class RootControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void unAuth() throws Exception {
+    public void unAuth() throws Exception {
         perform(get("/users"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -30,7 +33,7 @@ class RootControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getVacancies() throws Exception {
+    public void getVacancies() throws Exception {
         perform(get("/vacancies")
                 .with(userAuth(UserTestData.user)))
                 .andDo(print())

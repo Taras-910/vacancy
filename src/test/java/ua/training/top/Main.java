@@ -4,11 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.model.Vacancy;
 import ua.training.top.service.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.testData.UserTestData.USER_ID;
@@ -27,6 +23,7 @@ public class Main {
         setTestAuthorizedUser(admin);
 //        setTestAuthorizedUser(user);
 
+/*       // all beans
         String[] beans = appCtx.getBeanDefinitionNames();
         System.out.println("Bean definition names: "+ beans.length);
         System.out.println("profiles="+Profiles.getActiveDbProfile());
@@ -35,6 +32,7 @@ public class Main {
             System.out.println(s);
         }
         System.out.println("=".repeat(120));
+*/
 
 //        VacancyUIController vacancyUIController = appCtx.getBean(VacancyUIController.class);
 //        ProfileVacancyRestController profileVacancyRestController = appCtx.getBean(ProfileVacancyRestController.class);
@@ -50,18 +48,15 @@ public class Main {
 
         delim();
 
-        List<Vacancy> list1 = vacancyService.getAll();
-        List<Vacancy> list2 = list1.stream()
-                .filter(v -> !v.getUrl().contains("linkedin"))
-                .filter(v -> !v.getUrl().contains("jobs.dou"))
-                .filter(v -> !v.getUrl().contains("grc.ua"))
-                .filter(v -> v.getUrl().contains("?"))
-                .peek(System.out::println)
-                .collect(Collectors.toList());
-        System.out.println("size="+list1.size());
-        System.out.println("size="+list2.size());
 
-//        vacancyService.deleteList(list2);
+        System.out.println(rateService.getAll());
+        System.out.println("-".repeat(120));
+        System.out.println(rateService.getAll());
+        System.out.println("-".repeat(120));
+        System.out.println(rateService.CurrencyRatesMapInit());
+        System.out.println("-".repeat(120));
+        System.out.println(rateService.getAll());
+
 
         delim();
         appCtx.close();

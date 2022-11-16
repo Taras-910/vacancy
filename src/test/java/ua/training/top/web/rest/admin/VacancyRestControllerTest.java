@@ -1,6 +1,6 @@
 package ua.training.top.web.rest.admin;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ import static ua.training.top.util.VacancyUtil.fromTo;
 import static ua.training.top.util.VacancyUtil.getTos;
 
 @Transactional
-class VacancyRestControllerTest extends AbstractControllerTest {
+public class VacancyRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VacancyRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(VacancyRestControllerTest.class);
     @Autowired
@@ -49,7 +49,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     private EmployerService employerService;
 
     @Test
-    void get() throws Exception {
+    public void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -59,7 +59,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getNotFound() throws Exception {
+    public void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -67,7 +67,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -77,7 +77,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void deleteNotFound() throws Exception {
+    public void deleteNotFound() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNotFound());
@@ -85,7 +85,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    void update() throws Exception {
+    public void update() throws Exception {
         VacancyTo updated = new VacancyTo(VacancyTestData.getToUpdated());
         perform(MockMvcRequestBuilders
                 .put(REST_URL + VACANCY1_ID)
@@ -100,7 +100,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    void updateInvalid() throws Exception {
+    public void updateInvalid() throws Exception {
         VacancyTo invalid = new VacancyTo(VacancyTestData.getToUpdated());
         invalid.setEmployerName(null);
         perform(MockMvcRequestBuilders.put(REST_URL + VACANCY1_ID)
@@ -113,7 +113,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    void createVacancyAndEmployer() throws Exception {
+    public void createVacancyAndEmployer() throws Exception {
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
@@ -138,7 +138,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    void createInvalid() throws Exception {
+    public void createInvalid() throws Exception {
         VacancyTo invalid = new VacancyTo(VacancyToTestData.getNew());
         invalid.setTitle(null);
         perform(MockMvcRequestBuilders.post(REST_URL)
@@ -150,7 +150,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getByFilter() throws Exception {
+    public void getByFilter() throws Exception {
         setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
                 .param("language", "java")
@@ -163,7 +163,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getByFilterInvalid() throws Exception {
+    public void getByFilterInvalid() throws Exception {
         setTestAuthorizedUser(admin);
         perform(MockMvcRequestBuilders.get(REST_URL + "filter")
                 .param("language", "")
@@ -174,14 +174,14 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getUnAuth() throws Exception {
+    public void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + VACANCY1_ID))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @Transactional
-    void delete() throws Exception {
+    public void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + VACANCY2_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent());

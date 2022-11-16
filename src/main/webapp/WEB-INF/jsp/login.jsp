@@ -29,12 +29,12 @@
         <br/>
         <sec:authorize access="isAnonymous()">
             <p>
-                <a class="btn btn-lg btn-info" href="profile/register">Регистрация &raquo;</a>
+                <a class="btn btn-lg btn-info" href="profile/register">Registration &raquo;</a>
                 <button type="submit" class="btn btn-lg btn-outline-primary" onclick="login('user@yandex.ru', 'password')">
-                    Зайти как User
+                    Log in as User
                 </button>
                 <button type="submit" class="btn btn-lg btn-outline-primary" onclick="login('admin@gmail.com', 'admin')">
-                    Зайти как Admin
+                    Log in as Admin
                 </button>
             </p>
         </sec:authorize>
@@ -42,7 +42,7 @@
             <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
             <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,
-            <a href="http://spring.io/blog/2014/05/07/preview-spring-security-test-method-security">Spring Security Test</a>,
+            <a href="http://spring.io/blog/2014/05/07/preview-spring-security-test-method-security">Spring Security-Test</a>,
             <a href="https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#scheduling-task-scheduler">Spring TaskScheduler</a>,<br>
             <a href="https://jsoup.org">Jsoup HTML Parser</a>,
             <a href="http://hibernate.org/orm/">Hibernate ORM</a>,
@@ -51,11 +51,13 @@
             <a href="https://github.com/FasterXML/jackson">Json Jackson</a>,
             <a href="http://ru.wikipedia.org/wiki/JSP">JSP</a>,
             <a href="http://en.wikipedia.org/wiki/JavaServer_Pages_Standard_Tag_Library">JSTL</a>,
-            <a href="http://tomcat.apache.org/">Apache Tomcat</a>,<br>
-            <a href="http://www.webjars.org/">WebJars</a>,
+            <a href="http://tomcat.apache.org/">Apache Tomcat</a>,
+            <a href="http://www.webjars.org/">WebJars</a>,<br>
             <a href="http://datatables.net/">DataTables plugin</a>,
             <a href="http://ehcache.org">EHCACHE</a>,
             <a href="http://www.postgresql.org/">PostgreSQL</a>,
+            <a href="https://hsqldb.org">HSQLDB</a>,
+            <a href="https://www.h2database.com">H2DB</a>,
             <a href="http://junit.org/">JUnit</a>,
             <a href="http://hamcrest.org/JavaHamcrest/">Hamcrest</a>
             <a href="http://jquery.com/">jQuery</a>,
@@ -68,16 +70,16 @@
     доступа на основе ролей (USER, ADMIN).<br/>Администратор может создавать / редактировать / удалять пользователей и
     вакансии, пользователи могут управлять своим профилем через UI (по AJAX) и по REST интерфейсу с базовой авторизацией.
     Вакансии можно фильтровать / обновлять / отмечать (меняется цвет строки, индивидуальный выбор сохраняется в базе
-    данных).<br/>Весь REST интерфейс покрывается JUnit тестами, при этом используется Spring MVC Test и Spring Security
-    Test.<br/>БД хранит актуальные вакансии, не старше 2-х недельной давности и авто-обновляется из 9-ти ресурсов:<br/>
+    данных).<br/>REST и все сервисы покрываются JUnit тестами, при этом используется Spring MVC Test и Spring Security
+    Test.<br/>Для тестов используется HSQLDB. Актуальные вакансии хранятся в PostgreSQL(или H2DB), обновляются из ресурсов:<br/>
     <a href="https://djinni.co/jobs/keyword-java/">Djinni</a>,
     <a href="https://www.itjobs.ca/en/search-jobs/">ItJobs</a>,
-    <a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,
+    <%--<a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,--%>
     <a href="https://www.jobbank.gc.ca/jobsearch/jobsearch">JobBank</a>,
     <a href="https://www.jobs.bg/front_job_search.php">JobsBG</a>,
-    <%--<a href="https://jobsmarket.io">JobsMarket</a>,--%>
-    <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarket</a>,
+    <a href="https://jobsmarket.io">JobsMarket</a>,
     <a href="https://jobs.dou.ua/first-job/">JobsDou</a>,
+    <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarket</a>,
     <a href="https://www.linkedin.com/jobs/search?position=1&pageNum=0">Linkedin</a>,
     <a href="https://nofluffjobs.com/pl/warszawa/backend?lang=uk">NoFluffJobs</a>,
     <%--<a href="https://rabota.ua">Rabota</a>,--%>

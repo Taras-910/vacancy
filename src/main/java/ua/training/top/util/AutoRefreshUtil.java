@@ -57,14 +57,14 @@ public class AutoRefreshUtil {
 
     public static final Map<Integer, String>
             mapWorkplace = Map.of(
-            0, "торонто",
-            1, "киев",
+            0, "toronto",
+            1, "київ",
             2, "foreign",
             3, "remote",
             4, "canada",
-            5, "украина",
-            6, "болгария",
-            7, "польша"
+            5, "україна",
+            6, "bulgaria",
+            7, "poland"
     ),
             mapLevel = Map.of(
                     0, "all",
