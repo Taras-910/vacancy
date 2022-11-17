@@ -27,7 +27,7 @@
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>
-                            <spring:message code="common.return"/>
+                            <spring:message code="common.close"/>
                         </a>
                         <button type="submit" class="btn btn-primary">
                             <span class="fa fa-check"></span>

@@ -97,7 +97,7 @@
                         <div class="col-md-2 ml-md-auto">
                             <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
-                                <th><spring:message code="common.back"/></th>
+                                <th><spring:message code="common.reset"/></th>
                             </button>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        <spring:message code="common.back"/>
+                        <spring:message code="common.close"/>
                     </button>
                     <button type="button" class="btn btn-primary" onclick="save()">
                         <span class="fa fa-check"></span>
@@ -270,7 +270,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        <spring:message code="common.back"/>
+                        <spring:message code="common.close"/>
                     </button>
                     <button type="button" class="btn btn-primary" onclick="updateVacancyTo()">
                         <span class="fa fa-check"></span>
@@ -404,7 +404,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
-                    <spring:message code="common.back"/>
+                    <spring:message code="common.close"/>
                 </button>
                 <button type="button" class="btn btn-info" onclick="sendRefresh()">
                     <spring:message code="vacancy.refresh"/>  
