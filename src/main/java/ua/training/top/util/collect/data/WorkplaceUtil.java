@@ -121,7 +121,7 @@ public class WorkplaceUtil {
                     -> "&location=Ноттингемшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=100245663";
             case "soho", "сохо" -> "&location=Soho%2C%20England%2C%20United%20Kingdom&geoId=103381863";
 
-            case "болгария", "болгарія", "bulgaria" -> "&location=Болгария&geoId=105333783";
+            case "българия", "болгария", "болгарія", "bulgaria" -> "&location=Болгария&geoId=105333783";
             case "варна", "varna" -> "&location=Агломерация%20Варны&geoId=90010197";
             case "бургас", "burgas" -> "&location=Агломерация%20Бургаса&geoId=90010196";
             case "ловеч", "lovech" -> "&location=Ловеч%2C+Ловеч%2C+Болгария&geoId=114680252";

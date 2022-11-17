@@ -20,7 +20,7 @@
                             <div class="col-md-4 mb-3 col-form-label">
                                 <input class="form-control" type="text" name="language" id="language"
                                        list="language_name" style="width:98%;border:2px solid #0397ba"
-                                       placeholder="please enter language...">
+                                       placeholder="<spring:message code="vacancy.select_or_print_your"/> language...">
                                 <datalist id="language_name">
                                     <option value='all' selected>all</option>
                                     <option value='Java'>Java</option>
@@ -58,7 +58,7 @@
                             <div class="col-md-4 mb-3 col-form-label">
                                 <input class="form-control" type="text" name="level" id="level" list="level_name"
                                        style="width:101%;border:2px solid #0397ba"
-                                       placeholder="level...">
+                                       placeholder="<spring:message code="vacancy.select_or_print_your"/> level...">
                                 <datalist id="level_name">
                                     <option value='all' selected>all</option>
                                     <option value='Trainee'>Trainee</option>
@@ -72,17 +72,17 @@
                             <div class="col-md-4 mb-3 col-form-label">
                                 <input class="form-control" type="text" name="workplace" id="workplace" list="city_name"
                                        style="width:101%;border:2px solid #0397ba"
-                                       placeholder="workplace...">
+                                       placeholder="<spring:message code="vacancy.select_or_print_your"/> workplace...">
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
-                                    <option value='Киев'>Kyiv</option>
-                                    <option value='Минск'>Minsk</option>
-                                    <option value='Львов'>Lviv</option>
-                                    <option value='Харьков'>Kharkiv</option>
-                                    <option value='Днепр'>Dnipro</option>
-                                    <option value='Украина'>Ukraine</option>
-                                    <option value='Канада'>Canada</option>
-                                    <option value='Польша'>Poland</option>
+                                    <option value='Kyiv'>Kyiv</option>
+                                    <option value='Minsk'>Minsk</option>
+                                    <option value='Lviv'>Lviv</option>
+                                    <option value='Kharkiv'>Kharkiv</option>
+                                    <option value='Dnipro'>Dnipro</option>
+                                    <option value='Ukraine'>Ukraine</option>
+                                    <option value='Canada'>Canada</option>
+                                    <option value='Poland'>Poland</option>
                                     <option value='remote'>remote</option>
                                     <option value='foreign'>foreign</option>
                                 </datalist>
@@ -91,13 +91,13 @@
                         <div class="col-sm-2">
                             <button class="btn-sm btn-outline-info" onclick="updateFilteredTable()">
                                 <span class="fa fa-filter"></span>
-                                Filter
+                                <th><spring:message code="vacancy.filter"/></th>
                             </button>
                         </div>
                         <div class="col-md-2 ml-md-auto">
                             <button class="btn-sm btn-outline-danger" onclick="clearFilter()">
                                 <span class="fa fa-remove"></span>
-                                Reset
+                                <th><spring:message code="common.back"/></th>
                             </button>
                         </div>
                     </div>
@@ -110,13 +110,13 @@
                 <sec:authorize access="hasRole('ADMIN')">
                     <button class="col-md-2 btn btn-primary mt-2" onclick="add()">
                         <span class="fa fa-plus text-left"></span>
-                         new vacancy
+                        <th><spring:message code="vacancy.vew_vacancy"/></th>
                     </button>
                 </sec:authorize>
                 </div>
                 <button class=" col-md-2 btn btn-info bs-popover-right mt-2" onclick="refreshDB()">
                     <span class="fa fa-refresh text-left pull-right"></span>
-                    Refresh DB
+                    <th><spring:message code="vacancy.refresh_db"/></th>
                 </button>
             </div>
         </div>
@@ -126,13 +126,13 @@
                 <tr>
                     <th hidden>id</th>
                     <th hidden>link</th>
-                    <th class="col-auto">Vacancy</th>
-                    <th class="col-auto">Employer</th>
-                    <th class="col-auto">Workplace</th>
-                    <th class="col-auto"><h7>from</h7></th>
-                    <th class="col-auto"><h7>to $</h7></th>
-                    <th class="col" style="text-align: center;">Skills</th>
-                    <th class="col-auto text-nowrap">Date</th>
+                    <th class="col-auto"><spring:message code="vacancy.vacancy"/></th>
+                    <th class="col-auto"><spring:message code="vacancy.employer"/></th>
+                    <th class="col-auto"><spring:message code="vacancy.workplace"/></th>
+                    <th class="col-auto"><h7><spring:message code="vacancy.from"/></h7></th>
+                    <th class="col-auto"><h7><spring:message code="vacancy.to"/></h7></th>
+                    <th class="col" style="text-align: center;"><spring:message code="vacancy.skills"/></th>
+                    <th class="col-auto text-nowrap"><spring:message code="vacancy.date"/></th>
                     <th class="toVote"></th>
                     <th hidden>work place</th>
                     <th hidden>language</th>
@@ -151,47 +151,54 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add</h4>
+                    <h4 class="modal-title"><spring:message code="common.add"/></h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="detailsForm">
                         <input type="hidden" id="id" name="id">
                         <div class="form-group not_update_visible">
-                            <label for="title" class="col-form-label">Vacancy name</label>
-                            <input type="text" class="form-control" id="title" name="title">
+                            <label for="title" class="col-form-label"><spring:message code="vacancy.vacancy_name"/></label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.vacancy_name_"/>">
                         </div>
                         <div class="form-group not_update_visible">
-                            <label for="employerName" class="col-form-label">Employer</label>
-                            <input type="text" class="form-control" id="employerName" name="employerName">
+                            <label for="employerName" class="col-form-label"><spring:message code="vacancy.employer"/></label>
+                            <input type="text" class="form-control" id="employerName" name="employerName"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.employer_"/>">
                         </div>
                         <div class="form-group not_update_visible">
-                            <label for="address" class="col-form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address">
+                            <label for="address" class="col-form-label"><spring:message code="vacancy.address"/></label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.address_"/>">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMin" class="col-form-label">from (usd cent)</label>
-                            <input type="number" class="form-control" id="salaryMin" name="salaryMin">
+                            <label for="salaryMin" class="col-form-label"><spring:message code="vacancy.from_cent"/></label>
+                            <input type="number" class="form-control" id="salaryMin" name="salaryMin"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.from_cent_"/>">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMax" class="col-form-label">to (usd cent)</label>
-                            <input type="number" class="form-control" id="salaryMax" name="salaryMax">
+                            <label for="salaryMax" class="col-form-label"><spring:message code="vacancy.to_cent"/></label>
+                            <input type="number" class="form-control" id="salaryMax" name="salaryMax"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.to_cent_"/>">
                         </div>
                         <div class="form-group">
-                            <label for="url" class="col-form-label">url</label>
+                            <label for="url" class="col-form-label"><spring:message code="vacancy.url"/></label>
                             <input type="text" class="form-control" id="url" name="url"
                                    placeholder="https://www.example.com">
                         </div>
                         <div class="form-group">
-                            <label for="skills" class="col-form-label">Skills, навыки, ...</label>
-                            <input type="text" class="form-control" id="skills" name="skills">
+                            <label for="skills" class="col-form-label"><spring:message code="vacancy.skills_knowledge_experience"/></label>
+                            <input type="text" class="form-control" id="skills" name="skills"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.skills_knowledge_experience_"/>">
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="releaseDate" name="releaseDate">
                         </div>
                         <div class="form-group">
-                            <label for="languageCode" class="col-form-label">Language</label>
-                            <input type="text" class="form-control" id="languageCode" name="language">
+                            <label for="languageCode" class="col-form-label"><spring:message code="vacancy.language"/></label>
+                            <input type="text" class="form-control" id="languageCode" name="language"
+                                   placeholder="<spring:message code="vacancy.print"/> <spring:message code="vacancy.language_"/>">
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="workplace1" name="workplace">
@@ -201,11 +208,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        back
+                        <spring:message code="common.back"/>
                     </button>
                     <button type="button" class="btn btn-primary" onclick="save()">
                         <span class="fa fa-check"></span>
-                        save
+                        <spring:message code="common.save"/>
                     </button>
                 </div>
             </div>
@@ -216,14 +223,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header box">
-                    <h4 class="modal-title">Редактировать</h4>
+                    <h4 class="modal-title"><spring:message code="common.edit"/></h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="detailsUpdateForm">
                         <input type="hidden" id="idUpdate" name="id">
                         <div class="form-group not_update_visible">
-                            <label for="title" class="col-form-label">Vacancy</label>
+                            <label for="title" class="col-form-label"><spring:message code="vacancy.vacancy"/></label>
                             <input type="text" class="form-control" id="titleUpdate" name="title">
                         </div>
                         <div class="form-group not_update_visible">
@@ -233,20 +240,20 @@
                             <input type="hidden" class="form-control" id="addressUpdate" name="address">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMin" class="col-form-label">from (usd cent)</label>
+                            <label for="salaryMin" class="col-form-label"><spring:message code="vacancy.from_cent"/></label>
                             <input type="number" class="form-control" id="salaryMinUpdate" name="salaryMin">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMax" class="col-form-label">to (usd cent)</label>
+                            <label for="salaryMax" class="col-form-label"><spring:message code="vacancy.to_cent"/></label>
                             <input type="number" class="form-control" id="salaryMaxUpdate" name="salaryMax">
                         </div>
                         <div class="form-group">
-                            <label for="url" class="col-form-label"></label>
+                            <label for="url" class="col-form-label"><spring:message code="vacancy.url"/></label>
                             <input type="text" class="form-control" id="urlUpdate" name="url"
                                    placeholder="https://www.example.com">
                         </div>
                         <div class="form-group">
-                            <label for="skills" class="col-form-label">Skills</label>
+                            <label for="skills" class="col-form-label"><spring:message code="vacancy.skills"/></label>
                             <input type="text" class="form-control" id="skillsUpdate" name="skills">
                         </div>
                         <div class="form-group">
@@ -263,11 +270,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        back
+                        <spring:message code="common.back"/>
                     </button>
                     <button type="button" class="btn btn-primary" onclick="updateVacancyTo()">
                         <span class="fa fa-check"></span>
-                        save
+                        <spring:message code="common.save"/>
                     </button>
                 </div>
             </div>
@@ -282,7 +289,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="detailsDeleteForm">
-                        <label for="idDelete" ><em>'Are you sure?'</em></label>
+                        <label for="idDelete" ><em><spring:message code="common.you_sure"/></em></label>
                         <input type="hidden" id="idDelete" name="id">
                     </form>
                 </div>
@@ -305,7 +312,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header box">
-                <h5 class="modal-title">Refresh DB by datas:</h5>
+                <h5 class="modal-title"><spring:message code="vacancy.refresh_db_by"/></h5>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -315,9 +322,9 @@
                         <input type="hidden" class="form-control" id="recordedDate" name="recordedDate">
                     </div>
                     <div class="form-group">
-                        <label for="languageTask"><h7 class="btn-outline-info"><em>please enter language...</em></h7></label>
+                        <label for="languageTask"><h7 class="btn-outline-info"><em><spring:message code="vacancy.select_or_print_your"/> language...</em></h7></label>
                         <input class="form-control" type="text" name="language" id="languageTask" list="language_name_2"
-                        placeholder="please enter any language">
+                        placeholder="<spring:message code="vacancy.please_enter"/> language...">
                         <datalist id="language_name_2">
                             <option value='all' selected>all</option>
                             <option value='Java'>Java</option>
@@ -353,9 +360,9 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="levelTask"><h7 class="btn-outline-info"><em>level...</em></h7></label>
+                        <label for="levelTask"><h7 class="btn-outline-info"><em><spring:message code="vacancy.select_or_print_your"/> level...</em></h7></label>
                         <input class="form-control" type="text" name="level" id="levelTask" list="level_2"
-                        placeholder="please enter any level">
+                        placeholder="<spring:message code="vacancy.please_enter"/> level...">
                         <datalist id="level_2">
                             <option value='Trainee'>Trainee</option>
                             <option value='Junior'>Junior</option>
@@ -366,19 +373,19 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="workplaceTask"><h7 class="btn-outline-info"><em>location...</em></h7></label>
+                        <label for="workplaceTask"><h7 class="btn-outline-info"><em><spring:message code="vacancy.select_or_print_your"/> workplace...</em></h7></label>
                         <input class="form-control" type="text" name="workplace" id="workplaceTask" list="city_name_2"
-                        placeholder="please enter the place of work you need">
+                        placeholder="<spring:message code="vacancy.please_enter_workplace"/>">
                         <datalist id="city_name_2">
                             <option value='all' selected>all</option>
-                            <option value='Киев'>Kyiv</option>
-                            <option value='Минск'>Minsk</option>
-                            <option value='Львов'>Lviv</option>
-                            <option value='Харьков'>Kharkiv</option>
-                            <option value='Днепр'>Dnipro</option>
-                            <option value='Украина'>Ukraine</option>
-                            <option value='Канада'>Canada</option>
-                            <option value='Польша'>Poland</option>
+                            <option value='Kyiv'>Kyiv</option>
+                            <option value='Minsk'>Minsk</option>
+                            <option value='Lviv'>Lviv</option>
+                            <option value='Kharkiv'>Kharkiv</option>
+                            <option value='Dnipro'>Dnipro</option>
+                            <option value='Ukraine'>Ukraine</option>
+                            <option value='Canada'>Canada</option>
+                            <option value='Poland'>Poland</option>
                             <option value='remote'>remote</option>
                             <option value='foreign'>foreign</option>
                         </datalist>
@@ -390,18 +397,17 @@
                 </form>
             </div>
             <span class="d-flex justify-content-center" id="spinner2" style="visibility: hidden">
-                <h7><em>loading... wait min or two...<br>
-                    after 2 min set  </em><h6 class="fa fa-filter text-info">  Filter</h6>
+                <h7><em><spring:message code="vacancy.wait"/></em><h6 class="fa fa-filter text-info"> <spring:message code="vacancy.filter"/></h6>
                 </h7>
             </span>
             <h7 class="modal-title"></h7>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
-                    Back
+                    <spring:message code="common.back"/>
                 </button>
                 <button type="button" class="btn btn-info" onclick="sendRefresh()">
-                    Enter  
+                    <spring:message code="vacancy.refresh"/>  
                     <span class="spinner-border spinner-border-sm" id="spinner1" style="visibility: hidden"></span>
                 </button>
             </div>

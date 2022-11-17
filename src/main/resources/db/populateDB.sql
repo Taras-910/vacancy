@@ -2,9 +2,9 @@ DELETE FROM rate;
 DELETE FROM freshen_goal;
 DELETE FROM freshen;
 DELETE FROM vote;
-DELETE FROM user_roles;
 DELETE FROM employer;
 DELETE FROM vacancy;
+DELETE FROM user_roles;
 DELETE FROM users;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;

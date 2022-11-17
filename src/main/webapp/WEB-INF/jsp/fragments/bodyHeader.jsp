@@ -1,17 +1,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
-        <a href="vacancies" class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">   4000+ NEW programmer vacancies 🔥</h3></a>
+        <a href="vacancies" class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">   4000+ <spring:message code="body_header.title"/> 🔥</h3></a>
 
         <sec:authorize access="isAuthenticated()">
             <form class="form-inline my-2" action="logout" method="post">
                 <sec:authorize access="hasRole('ADMIN')">
-                    <a class="btn btn-info mr-1" href="users">all users</a>
+                    <a class="btn btn-info mr-1" href="users"><spring:message code="body_header.users"/></a>
                 </sec:authorize>
-                <a class="btn btn-info mr-1" href="profile">profile ${user.name}</a>
+                <a class="btn btn-info mr-1" href="profile"><spring:message code="body_header.profile"/> ${user.name}</a>
                 <button class="btn btn-primary my-1" type="submit">
                     <span class="fa fa-sign-out"></span>
                 </button>

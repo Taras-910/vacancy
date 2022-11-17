@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="vacancy" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
@@ -10,7 +11,14 @@
     <div class="container">
         <div class="row">
             <div class="col-5 offset-3">
-                <h3>${register ? 'registration' : 'profile'} ${user.name}</h3>
+                <c:choose>
+                    <c:when test="${register}">
+                        <h3><p><spring:message code="profile.register"/></p></h3>
+                    </c:when>
+                    <c:otherwise>
+                        <h3><p><spring:message code="profile.profile"/> ${user.name}</p></h3>
+                    </c:otherwise>
+                </c:choose>
                 <form:form class="form-group" modelAttribute="user" method="post" action="${register ? 'profile/register' : 'profile'}"
                            charset="utf-8" accept-charset="UTF-8">
                     <vacancy:inputField labelCode="name" name="name"/>
@@ -19,11 +27,11 @@
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>
-                            back
+                            <spring:message code="common.back"/>
                         </a>
                         <button type="submit" class="btn btn-primary">
                             <span class="fa fa-check"></span>
-                            save
+                            <spring:message code="common.save"/>
                         </button>
                     </div>
                 </form:form>

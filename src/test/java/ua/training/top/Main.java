@@ -48,14 +48,9 @@ public class Main {
 
         delim();
 
-
-        System.out.println(rateService.getAll());
-        System.out.println("-".repeat(120));
-        System.out.println(rateService.getAll());
-        System.out.println("-".repeat(120));
-        System.out.println(rateService.CurrencyRatesMapInit());
-        System.out.println("-".repeat(120));
-        System.out.println(rateService.getAll());
+        System.out.println(userService.getAll());
+        userService.update(admin, 100000);
+        System.out.println(userService.getAll());
 
 
         delim();

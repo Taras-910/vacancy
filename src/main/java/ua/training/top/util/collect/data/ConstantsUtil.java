@@ -100,7 +100,7 @@ public class ConstantsUtil {
                     "wuppertal", "билефельд", "білефельд", "bielefeld", "бонн", "bonn", "мюнстер", "münster", "аугсбург",
                     "augsburg", "висбаден", "вісбаден", "wiesbaden", "гельзенкирхен", "гельзенкірхен", "gelsenkirchen",
                     "мёнхенгладбах", "mönchengladbach", "брауншвейг", "braunschweig"),
-            bgAria = of("bulgaria", "болгария", "болгарія"),
+            bgAria = of("българия", "bulgaria", "болгария", "болгарія"),
             citiesBg = of("софия", "софія", "sofia",  "варна", "varna", "пловдив", "пловдів", "plovdiv", "бургас",
                     "burgas", "русе", "rousse", "плевен", "pleven", "шумен", "shumen", "ямполь", "yampol", "добрич",
                     "dobrich", "банско", "bansko", "силистра", "сілістра", "silistra", "ловеч", "lovech", "смолян",

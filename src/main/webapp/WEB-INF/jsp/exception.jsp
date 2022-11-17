@@ -8,10 +8,8 @@
 <div class="jumbotron">
     <div class="container text-center">
         <br>
-        <%--<h4 class="my-3">${status}</h4>--%>
         <h4 class="my-5">${message}</h4>
-        <%--<h3>Ошибка проверки данных</h3>--%>
-        <h3>Ошибка проверки данных</h3>
+        <h3><spring:message code="exception.error_data"/></h3>
         <h4 class="my-5">${exception}</h4>
     </div>
 </div>

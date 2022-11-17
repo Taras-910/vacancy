@@ -7,7 +7,7 @@
 <body>
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
-        <div class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">   4000+ NEW programmer vacancies 🔥</h3></div>
+        <div class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">   4000+ <spring:message code="body_header.title"/> 🔥</h3></div>
         <form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
             <input class="form-control mr-1" type="text" placeholder="Email" name="username">
             <input class="form-control mr-1" type="password" placeholder="Password" name="password">
@@ -29,16 +29,16 @@
         <br/>
         <sec:authorize access="isAnonymous()">
             <p>
-                <a class="btn btn-lg btn-info" href="profile/register">Registration &raquo;</a>
+                <a class="btn btn-lg btn-info" href="profile/register"><spring:message code="login.registration"/></a>
                 <button type="submit" class="btn btn-lg btn-outline-primary" onclick="login('user@yandex.ru', 'password')">
-                    Log in as User
+                    <spring:message code="login.as_user"/>
                 </button>
                 <button type="submit" class="btn btn-lg btn-outline-primary" onclick="login('admin@gmail.com', 'admin')">
-                    Log in as Admin
+                    <spring:message code="login.as_admin"/>
                 </button>
             </p>
         </sec:authorize>
-        <div class="lead py-3">Стек технологий: 
+        <div class="lead py-3"><spring:message code="login.stack"/>
             <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
             <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,
@@ -66,12 +66,7 @@
         </div>
     </div>
 <div class="container lead py-3">
-    <a href="https://github.com/JavaOPs/topjava">Java Enterprise проект</a> с регистрацией / авторизацией и правами
-    доступа на основе ролей (USER, ADMIN).<br/>Администратор может создавать / редактировать / удалять пользователей и
-    вакансии, пользователи могут управлять своим профилем через UI (по AJAX) и по REST интерфейсу с базовой авторизацией.
-    Вакансии можно фильтровать / обновлять / отмечать (меняется цвет строки, индивидуальный выбор сохраняется в базе
-    данных).<br/>REST и все сервисы покрываются JUnit тестами, при этом используется Spring MVC Test и Spring Security
-    Test.<br/>Для тестов используется HSQLDB. Актуальные вакансии хранятся в PostgreSQL(или H2DB), обновляются из ресурсов:<br/>
+    <a href="https://github.com/JavaOPs/topjava"><spring:message code="login.project"/></a> <spring:message code="login.body"/>
     <a href="https://djinni.co/jobs/keyword-java/">Djinni</a>,
     <a href="https://www.itjobs.ca/en/search-jobs/">ItJobs</a>,
     <%--<a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,--%>
@@ -91,7 +86,7 @@
 <br>
 <div class="container jumbotron py-0">
     <div class="col">
-        <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api Documentation</a>
+        <a class="btn btn-lg btn-success my-4" href="swagger-ui.html" target="_blank">Swagger REST Api <spring:message code="login.doc"/></a>
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>

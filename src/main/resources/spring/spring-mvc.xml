@@ -58,4 +58,12 @@
     <mvc:interceptors>
         <bean class="ua.training.top.web.interceptor.ModelInterceptor"/>
     </mvc:interceptors>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:cacheSeconds="5"
+          p:defaultEncoding="UTF-8">
+        <property name="basenames" value="file:///#{systemEnvironment[TOP_ROOT]}/config/messages/app"/>
+        <property name="fallbackToSystemLocale" value="false"/>
+    </bean>
+
 </beans>

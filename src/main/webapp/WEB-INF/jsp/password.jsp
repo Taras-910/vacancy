@@ -12,9 +12,9 @@
         <div class="row">
             <div class="col-5 offset-3">
                 <form>
-                    <label>Password: </label>
+                    <label><spring:message code="password.password"/> </label>
                     <input name="password" type="password" onChange="onChange()" /> <br />
-                    <label>Confirm : </label><br />
+                    <label><spring:message code="password.confirm"/> </label><br />
                     <input name="confirm"  type="password" onChange="onChange()" />
                     <input type="submit" />
                 </form>

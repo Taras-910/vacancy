@@ -2,6 +2,7 @@ package ua.training.top.to;
 
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -23,9 +24,11 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     private String address;
 
     @NotNull
+    @Min(1)
     private Integer salaryMin;
 
     @NotNull
+    @Min(1)
     private Integer salaryMax;
 
     @NotNull
