@@ -13,7 +13,7 @@
             <div class="col-5 offset-3">
                 <c:choose>
                     <c:when test="${register}">
-                        <h3><p><spring:message code="profile.register"/></p></h3>
+                        <h3><p><spring:message code="profile.register"/><br><spring:message code="user.user_new"/></p></h3>
                     </c:when>
                     <c:otherwise>
                         <h3><p><spring:message code="profile.profile"/> ${user.name}</p></h3>
@@ -27,7 +27,7 @@
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>
-                            <spring:message code="common.back"/>
+                            <spring:message code="common.return"/>
                         </a>
                         <button type="submit" class="btn btn-primary">
                             <span class="fa fa-check"></span>

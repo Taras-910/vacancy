@@ -14,7 +14,7 @@
     <div class="container">
         <button class="btn btn-outline-primary" onclick="add()">
             <span class="fa fa-plus"></span>
-             new user
+             <spring:message code="user.add_new"/>
         </button>
         <table class="table table-striped" id="datatable">
             <thead>
@@ -36,40 +36,37 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add</h4>
+                <h4 class="modal-title"><spring:message code="profile.profile"/> <spring:message code="user.user_new"/></h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="detailsForm">
                     <input type="hidden" id="id" name="id">
-
                     <div class="form-group">
-                        <label for="name" class="col-form-label">Name</label>
+                        <label for="name" class="col-form-label"><spring:message code="user.name"/></label>
                         <input type="text" class="form-control" id="name" name="name"
-                               placeholder="Имя">
+                               placeholder="<spring:message code="vacancy.print"/> <spring:message code="user.name_"/>">
                     </div>
-
                     <div class="form-group">
-                        <label for="email" class="col-form-label">Еmail</label>
+                        <label for="email" class="col-form-label"><spring:message code="user.email"/></label>
                         <input type="email" class="form-control" id="email" name="email"
-                               placeholder="Еmail">
+                               placeholder="<spring:message code="vacancy.print"/> <spring:message code="user.email_"/>">
                     </div>
-
                     <div class="form-group">
-                        <label for="password" class="col-form-label">Password</label>
+                        <label for="password" class="col-form-label"><spring:message code="user.password"/></label>
                         <input type="password" class="form-control" id="password" name="password"
-                               placeholder="Пароль">
+                               placeholder="<spring:message code="vacancy.print"/> <spring:message code="user.password_"/>">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
-                    Back
+                    <spring:message code="common.return"/>
                 </button>
                 <button type="button" class="btn btn-primary" onclick="save()">
                     <span class="fa fa-check"></span>
-                    Save
+                    <spring:message code="common.save"/>
                 </button>
             </div>
         </div>
@@ -78,43 +75,3 @@
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
-
-<%--<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
-<html>
-<jsp:include page="fragments/headTag.jsp"/>
-<body>
-<jsp:include page="fragments/bodyHeader.jsp"/>
-
-<section>
-    <h3><spring:message code="user.title"/></h3>
-
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-        <tr>
-            <th><spring:message code="user.name"/></th>
-            <th><spring:message code="user.email"/></th>
-            <th><spring:message code="user.roles"/></th>
-            <th><spring:message code="user.active"/></th>
-            <th><spring:message code="user.registered"/></th>
-        </tr>
-        </thead>
-        <c:forEach items="${requestScope.users}" var="user">
-            <jsp:useBean id="user" type="ru.javawebinar.topjava.model.User"/>
-            <tr>
-                <td><c:out value="${user.name}"/></td>
-                <td><a href="mailto:${user.email}">${user.email}</a></td>
-                <td>${user.roles}</td>
-                <td>${user.enabled}</td>
-                <td><fmt:formatDate value="${user.registered}" pattern="dd-MM-yyyy"/></td>
-            </tr>
-        </c:forEach>
-    </table>
-</section>
-<jsp:include page="fragments/footer.jsp"/>
-</body>
-</html>
---%>
