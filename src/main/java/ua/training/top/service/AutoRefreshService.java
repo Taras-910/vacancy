@@ -31,8 +31,8 @@ public class AutoRefreshService {
 //        int delayWithinMinutes = 4;
         int delayWithinMinutes = 9;
         Freshen freshen = new Freshen(randomFreshen(
-                mapLanguage.get(getKey(2)),
-                mapLevel.get(getKey(3)),
+                mapLanguage.get(getKey(4)),
+                mapLevel.get(getKey(4)),
                 mapWorkplace.get(getKey(8))
         ));
         log.info(MessageUtil.delay_week_day_freshen, delayWithinMinutes, freshen);
