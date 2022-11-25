@@ -20,9 +20,8 @@
     <logger name="result" level="INFO" additivity="false">
         <appender-ref ref="result"/>
     </logger>
-
-        <logger name="org.hsqldb" level="debug"/>
-        <logger name="org.springframework.jdbc" level="info"/>
+    <logger name="org.hsqldb" level="debug"/>
+    <logger name="org.springframework.jdbc" level="info"/>
     <logger name="ua.training.top" level="debug"/>
 
     <root level="INFO">

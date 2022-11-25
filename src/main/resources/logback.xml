@@ -6,11 +6,13 @@
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
         <file>${TOP_ROOT}/log/top.log</file>
-
         <encoder>
             <charset>UTF-8</charset>
             <pattern>%date %-5level %logger{50}.%M:%L - %msg%n</pattern>
         </encoder>
+        <!--<param name="MaxFileSize" value="200MB" />-->
+        <param name="MaxFileSize" value="5MB" />
+        <param name="MaxBackupIndex" value="4" />
     </appender>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -22,8 +24,10 @@
 
     <logger name="ua.training.top" level="debug"/>
     <logger name="org.springframework.cache.ehcache.EhCacheCacheManager" level="info"/>
-<!--    <logger name="org.springframework.orm.jpa.JpaTransactionManager" level="debug"/>-->
-<!--    <logger name="org.springframework.security" level="info"/>-->
+    <!--<logger name="org.springframework.web" level="DEBUG"/>-->  <!--to see url of Controllers-->
+    <logger name="org.springframework.orm.jpa.JpaTransactionManager" level="debug"/> <!--to see Transaction-->
+    <!--<logger name="org.springframework.orm.jpa" level="debug"/> -->  <!--to see Transaction-->
+    <!--    <logger name="org.springframework.security" level="info"/>-->
 
     <root level="info">
         <appender-ref ref="file"/>

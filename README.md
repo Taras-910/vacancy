@@ -20,30 +20,31 @@ Users can control own profile and vote vacancy which like him, reload DB by ever
 
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 =======================================================================
-- основные классы приложения: [Vacancy, Employer, User, Vote, Freshen]
-- все данные хранятся в базе данных [PostgreSQL, Heroku PostgreSQL]
-- обслуживаются запросы авторизованных пользователей (profile)
-- анонимных пользователям (anonymous) предлагается пройти регистрацию и авторизацию
-- обновление данных из ресурсов, также ответы на запросы используют класс ТО [VacancyTo]
-- бизнес-логика находится в слое сервисов 
-- выборка данных из ресурсов и сортировка настроены преимущественно на сегмент `middle`
-- репозиторий [Spring Data JPA]
-- транзакционность [Springframework]
-- пул коннектов [Tomcat]
-- кеш [EhCache-based Cache], кешируются "список всех юзеров"
-- для Rest базовая авторизация [SpringSecurity]
-- доступ к ресурсам по ролям:
+- main application classes: [Vacancy, Employer, User, Vote, Freshen]
+- all data is stored in database [PostgreSQL, Heroku PostgreSQL]
+- tests use the database [HSQLDB] 
+- requests of authorized users are served (profile)
+- Anonymous users are invited to register and log in
+- updating data from resources, also responses to requests use the TO class [VacancyTo]
+- business logic is in the services layer
+- selection of data from resources and sorting are configured mainly for the `middle` segment
+- repository [Spring Data JPA]
+- transactional [Springframework]
+- connection pool [Tomcat]
+- cache [EhCache-based Cache], cached "list of all users"
+- for Rest basic authorization [SpringSecurity]
+- access to resources by roles:
   `/rest/admin/**'`  - 'ADMIN'
   `/rest/profile/**` - 'USER'
-  `/anonymous/**`    - доступ для регистрации
-- для UI учетные данные авторизованного юзера хранятся в сессии
-- тестирование REST контроллеров [Junit5]
-- тестирование сервисов [Junit4]
-- браузер [AJAX, DataTables, jQuery, jQuery notification plugin, Bootstrap]   
-- обработка ошибок [ExceptionInfoHandler, GlobalExceptionHandler]
-- приложение развернуто на Heroku `http://vacancy021.herokuapp.com`
+  `/anonymous/**` - login access
+- for UI, the credentials of an authorized user are stored in the session
+- testing REST controllers [Junit5]
+- service testing [Junit4]
+- browser [AJAX, DataTables, jQuery, jQuery notification plugin, Bootstrap]
+- error handling [ExceptionInfoHandler, GlobalExceptionHandler]
+- application deployed on Heroku `http://vacancy021.herokuapp.com`
 
-- `curl` - примеры команд тестирования для rest profile:
+- `curl` - examples of test commands for rest profile:
 
 #### rest profile vacancies getAll
 `curl --location --request GET 'http://localhost:8080/vacancy/rest/profile/vacancies' \

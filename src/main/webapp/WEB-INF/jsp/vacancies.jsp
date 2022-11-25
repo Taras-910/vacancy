@@ -76,13 +76,13 @@
                                 <datalist id="city_name">
                                     <option value='all' selected>all</option>
                                     <option value='Kyiv'>Kyiv</option>
-                                    <option value='Minsk'>Minsk</option>
-                                    <option value='Lviv'>Lviv</option>
-                                    <option value='Kharkiv'>Kharkiv</option>
-                                    <option value='Dnipro'>Dnipro</option>
                                     <option value='Ukraine'>Ukraine</option>
                                     <option value='Canada'>Canada</option>
                                     <option value='Poland'>Poland</option>
+                                    <option value='Lviv'>Lviv</option>
+                                    <option value='Kharkiv'>Kharkiv</option>
+                                    <option value='Dnipro'>Dnipro</option>
+                                    <option value='Minsk'>Minsk</option>
                                     <option value='remote'>remote</option>
                                     <option value='foreign'>foreign</option>
                                 </datalist>
@@ -379,13 +379,13 @@
                         <datalist id="city_name_2">
                             <option value='all' selected>all</option>
                             <option value='Kyiv'>Kyiv</option>
-                            <option value='Minsk'>Minsk</option>
-                            <option value='Lviv'>Lviv</option>
-                            <option value='Kharkiv'>Kharkiv</option>
-                            <option value='Dnipro'>Dnipro</option>
                             <option value='Ukraine'>Ukraine</option>
                             <option value='Canada'>Canada</option>
                             <option value='Poland'>Poland</option>
+                            <option value='Lviv'>Lviv</option>
+                            <option value='Kharkiv'>Kharkiv</option>
+                            <option value='Dnipro'>Dnipro</option>
+                            <option value='Minsk'>Minsk</option>
                             <option value='remote'>remote</option>
                             <option value='foreign'>foreign</option>
                         </datalist>
@@ -407,7 +407,7 @@
                     <spring:message code="common.close"/>
                 </button>
                 <button type="button" class="btn btn-info" onclick="sendRefresh()">
-                    <spring:message code="vacancy.refresh"/>  
+                    <spring:message code="vacancy.refresh"/>
                     <span class="spinner-border spinner-border-sm" id="spinner1" style="visibility: hidden"></span>
                 </button>
             </div>
