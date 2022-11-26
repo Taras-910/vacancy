@@ -1,4 +1,4 @@
-package ua.training.top.testData;
+package ua.training.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Vacancy;
@@ -8,11 +8,11 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static ua.training.testData.EmployerTestData.employer1;
+import static ua.training.testData.EmployerTestData.employer2;
+import static ua.training.testData.FreshenTestData.freshen1;
+import static ua.training.testData.FreshenTestData.freshen2;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
-import static ua.training.top.testData.EmployerTestData.employer1;
-import static ua.training.top.testData.EmployerTestData.employer2;
-import static ua.training.top.testData.FreshenTestData.freshen1;
-import static ua.training.top.testData.FreshenTestData.freshen2;
 
 public class VacancyTestData {
     public static final TestMatcher<Vacancy> VACANCY_MATCHER = TestMatcher

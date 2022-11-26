@@ -1,13 +1,14 @@
 package ua.training.top.web;
 
-import org.junit.Test;
-import ua.training.top.testData.UserTestData;
+import org.junit.jupiter.api.Test;
+import ua.training.testData.UserTestData;
+import ua.training.top.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static ua.training.top.testData.TestUtil.userAuth;
-import static ua.training.top.testData.UserTestData.admin;
+import static ua.training.testData.TestUtil.userAuth;
+import static ua.training.testData.UserTestData.admin;
 
 public class RootControllerTest extends AbstractControllerTest {
 

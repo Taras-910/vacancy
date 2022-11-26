@@ -1,4 +1,4 @@
-package ua.training.top.testData;
+package ua.training.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Vote;
@@ -7,11 +7,11 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static ua.training.testData.UserTestData.ADMIN_ID;
+import static ua.training.testData.UserTestData.USER_ID;
+import static ua.training.testData.VacancyTestData.VACANCY1_ID;
+import static ua.training.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
-import static ua.training.top.testData.UserTestData.ADMIN_ID;
-import static ua.training.top.testData.UserTestData.USER_ID;
-import static ua.training.top.testData.VacancyTestData.VACANCY1_ID;
-import static ua.training.top.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.top.util.DateTimeUtil.thisDay;
 
 public class VoteTestData {

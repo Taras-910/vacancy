@@ -5,7 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
@@ -14,14 +14,14 @@ import java.util.Objects;
 @Table(name = "employer", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "address"}, name = "employers_idx")})
 public class Employer extends AbstractBaseEntity{
 
-    @NotNull
+    @NotBlank
     @Column(name = "name")
     @Size(max = 255)
     private String name;
 
-    @NotNull
+    @NotBlank
     @Column(name = "address")
-    @Size(max = 255)
+    @Size(min = 1, max = 255)
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer")

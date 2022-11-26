@@ -6,7 +6,7 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -26,17 +26,17 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime recordedDate;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2, max = 100)
     @Column(name = "language")
     private String language;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2, max = 100)
     @Column(name = "level")
     private String level;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2, max = 100)
     @Column(name = "workplace")
     private String workplace;

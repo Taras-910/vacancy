@@ -8,6 +8,7 @@ import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Vacancy;
 import ua.training.top.repository.EmployerRepository;
+import ua.training.top.util.ValidationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static ua.training.top.util.EmployerUtil.checkDataEmployer;
 import static ua.training.top.util.MessageUtil.not_be_null;
+import static ua.training.top.util.ValidationUtil.checkNew;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -42,8 +44,10 @@ public class EmployerService {
     }
 
     public Employer create(Employer employer) {
+        log.info("create {}", employer);
         Assert.notNull(employer, not_be_null);
-        checkDataEmployer(employer);
+        checkNew(employer);
+        ValidationUtil.validate(employer);
         return repository.save(employer);
     }
 

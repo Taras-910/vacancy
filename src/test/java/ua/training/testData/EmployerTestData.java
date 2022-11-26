@@ -1,4 +1,4 @@
-package ua.training.top.testData;
+package ua.training.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Employer;

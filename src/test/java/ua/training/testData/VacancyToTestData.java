@@ -1,11 +1,11 @@
-package ua.training.top.testData;
+package ua.training.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
 
-import static ua.training.top.testData.VacancyTestData.VACANCY1_ID;
+import static ua.training.testData.VacancyTestData.VACANCY1_ID;
 
 public class VacancyToTestData {
     public static final TestMatcher<VacancyTo> VACANCY_TO_MATCHER = TestMatcher.usingFieldsComparator(VacancyTo.class, "");

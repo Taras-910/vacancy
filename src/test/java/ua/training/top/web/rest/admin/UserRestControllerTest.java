@@ -1,7 +1,7 @@
 package ua.training.top.web.rest.admin;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.testData.UserTestData;
+import ua.training.top.AbstractControllerTest;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
-import ua.training.top.testData.UserTestData;
 import ua.training.top.util.exception.NotFoundException;
-import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
 
 import java.util.List;
@@ -25,10 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.top.testData.TestUtil.*;
-import static ua.training.top.testData.UserTestData.*;
-
-public class UserRestControllerTest extends AbstractControllerTest {
+import static ua.training.testData.TestUtil.*;
+import static ua.training.testData.UserTestData.*;
+class UserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = UserRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(UserRestControllerTest.class);
     @Autowired
@@ -38,12 +37,12 @@ public class UserRestControllerTest extends AbstractControllerTest {
     private CacheManager cacheManager;
 
     @Before
-    public void setup() {
+    void setup() {
         cacheManager.getCache("users").clear();
     }
 
     @Test
-    public void get() throws Exception {
+    void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -54,7 +53,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getNotFound() throws Exception {
+    void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -62,7 +61,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getByEmail() throws Exception {
+    void getByEmail() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "by?email=" + admin.getEmail())
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -71,7 +70,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void delete() throws Exception {
+    void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -81,7 +80,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional
-    public void update() throws Exception {
+    void update() throws Exception {
         User updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(admin))
@@ -92,7 +91,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    void create() throws Exception {
         User newUser = new User(getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .with(userHttpBasic(admin))
@@ -108,7 +107,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void register() throws Exception {
+    void register() throws Exception {
         User newUser = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.USER);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .with(userHttpBasic(admin))
@@ -125,7 +124,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    void getAll() throws Exception {
         Iterable<User> iterable = List.of(admin, user);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -135,7 +134,7 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void enable() throws Exception {
+    void enable() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL + USER_ID)
                 .param("enabled", "false")
                 .with(userHttpBasic(admin))
@@ -146,13 +145,13 @@ public class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getUnAuth() throws Exception {
+    void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void getForbidden() throws Exception {
+    void getForbidden() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isForbidden());

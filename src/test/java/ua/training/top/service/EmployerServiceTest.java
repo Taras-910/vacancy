@@ -1,27 +1,28 @@
 package ua.training.top.service;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.training.top.AbstractTest;
+import ua.training.testData.EmployerTestData;
+import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Employer;
-import ua.training.top.testData.EmployerTestData;
 import ua.training.top.util.exception.NotFoundException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
-import static org.junit.Assert.assertThrows;
-import static ua.training.top.testData.EmployerTestData.*;
-import static ua.training.top.testData.TestUtil.NOT_FOUND;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ua.training.testData.EmployerTestData.*;
+import static ua.training.testData.TestUtil.NOT_FOUND;
 
-public class EmployerServiceTest extends AbstractTest {
+class EmployerServiceTest extends AbstractServiceTest {
 
     @Autowired
     EmployerService service;
 
     @Test
     public void getById() {
-        Assert.assertEquals(service.get(EMPLOYER1_ID), employer1);
+        Assertions.assertEquals(service.get(EMPLOYER1_ID), employer1);
     }
 
     @Test
@@ -31,7 +32,7 @@ public class EmployerServiceTest extends AbstractTest {
     }
 
     @Test
-    public void getErrorData() throws Exception {
+    public void getErrorData() {
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
@@ -43,7 +44,7 @@ public class EmployerServiceTest extends AbstractTest {
     }
 
     @Test
-    public void updateErrorData() throws Exception {
+    public void updateErrorData() {
         assertThrows(IllegalArgumentException.class, () -> service.update(null));
         assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
         assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
@@ -58,18 +59,22 @@ public class EmployerServiceTest extends AbstractTest {
     }
 
     @Test
-    public void createErrorDate() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> service.create(new Employer(null, null, "newAddress")));
-    }
-
-    @Test
     public void delete() {
         service.delete(EMPLOYER1_ID);
         assertThrows(NotFoundException.class, () -> service.get(EMPLOYER1_ID));
     }
 
     @Test
-    public void deletedNotFound() throws Exception {
+    public void deletedNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
+
+    @Test
+    void createWithException(){
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "   ", "Sity")));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, null, "Sity")));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", "   ")));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", null)));
+    }
+
 }

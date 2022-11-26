@@ -1,7 +1,7 @@
 package ua.training.top.web.rest.admin;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +9,23 @@ import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ua.training.testData.RateTestData;
+import ua.training.top.AbstractControllerTest;
 import ua.training.top.model.Rate;
 import ua.training.top.service.RateService;
-import ua.training.top.testData.RateTestData;
 import ua.training.top.util.exception.NotFoundException;
-import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.top.testData.RateTestData.*;
-import static ua.training.top.testData.TestUtil.readFromJson;
-import static ua.training.top.testData.TestUtil.userHttpBasic;
-import static ua.training.top.testData.UserTestData.admin;
+import static ua.training.testData.RateTestData.*;
+import static ua.training.testData.TestUtil.readFromJson;
+import static ua.training.testData.TestUtil.userHttpBasic;
+import static ua.training.testData.UserTestData.admin;
 
-public class RateRestControllerTest extends AbstractControllerTest {
+class RateRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RateRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(RateRestControllerTest.class);
 
@@ -52,7 +52,7 @@ public class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    void getAll() throws Exception {
         Iterable<Rate> allRates = allRates();
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -62,7 +62,7 @@ public class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    void create() throws Exception {
         Rate newRate = new Rate(RateTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +76,7 @@ public class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void delete() throws Exception {
+    void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + RATE1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())

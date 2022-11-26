@@ -21,8 +21,8 @@ Users can control own profile and vote vacancy which like him, reload DB by ever
 Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson).
 =======================================================================
 - main application classes: [Vacancy, Employer, User, Vote, Freshen]
-- all data is stored in database [PostgreSQL, Heroku PostgreSQL]
-- tests use the database [HSQLDB] 
+- all data is stored in database [PostgreSQL, Heroku PostgreSQL], or [H2] (web.xml default param-value h2)
+- tests use the database [HSQLDB], profile [hsqldb-test]
 - requests of authorized users are served (profile)
 - Anonymous users are invited to register and log in
 - updating data from resources, also responses to requests use the TO class [VacancyTo]

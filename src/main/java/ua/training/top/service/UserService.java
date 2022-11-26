@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
+import ua.training.top.util.ValidationUtil;
 import ua.training.top.util.exception.MethodNotAllowedException;
 
 import javax.validation.constraints.NotEmpty;
@@ -45,6 +46,7 @@ public class UserService implements UserDetailsService {
         log.info("create {}", user);
         Assert.notNull(user, not_be_null);
         checkNew(user);
+        ValidationUtil.validate(user);
         if(repository.getByEmail(user.getEmail()) != null){
             throw new DataIntegrityViolationException(user_exist + user.getEmail());
         }

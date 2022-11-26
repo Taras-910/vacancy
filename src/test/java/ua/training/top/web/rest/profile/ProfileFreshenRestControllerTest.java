@@ -1,9 +1,10 @@
 package ua.training.top.web.rest.profile;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ua.training.top.AbstractControllerTest;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Goal;
@@ -11,7 +12,6 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.service.EmployerService;
 import ua.training.top.service.FreshenService;
 import ua.training.top.service.VacancyService;
-import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
 
 import java.util.Collections;
@@ -24,19 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.training.testData.FreshenTestData.*;
+import static ua.training.testData.TestUtil.userHttpBasic;
+import static ua.training.testData.UserTestData.admin;
+import static ua.training.testData.UserTestData.user;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.InstallationUtil.setTestProvider;
 import static ua.training.top.aggregator.InstallationUtil.setTestReasonPeriodToKeep;
 import static ua.training.top.aggregator.strategies.TestStrategy.getTestList;
-import static ua.training.top.testData.FreshenTestData.*;
-import static ua.training.top.testData.TestUtil.userHttpBasic;
-import static ua.training.top.testData.UserTestData.admin;
-import static ua.training.top.testData.UserTestData.user;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.VacancyUtil.fromTos;
 
-public class ProfileFreshenRestControllerTest extends AbstractControllerTest {
+class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = ProfileFreshenRestController.REST_URL + '/';
     @Autowired
     private FreshenService freshenService;
@@ -46,7 +46,7 @@ public class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     private EmployerService employerService;
 
     @Test
-    public void get() throws Exception {
+    void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + FRESHEN2_ID)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
@@ -56,7 +56,7 @@ public class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getOwn() throws Exception {
+    void getOwn() throws Exception {
         Iterable<Freshen> freshens = List.of(freshen2);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(user)))
@@ -66,7 +66,7 @@ public class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void refreshDB() throws Exception  {
+    void refreshDB() throws Exception  {
         Freshen freshen = new Freshen(null, null, "Java", "middle", "Киев", Collections.singleton(Goal.UPGRADE),null );
         List<Vacancy> vacanciesDbBefore = vacancyService.getAll();
         List<Freshen> freshensDbBefore = freshenService.getAll();

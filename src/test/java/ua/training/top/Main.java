@@ -6,8 +6,8 @@ import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.*;
 
+import static ua.training.testData.UserTestData.USER_ID;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
-import static ua.training.top.testData.UserTestData.USER_ID;
 
 public class Main {
     public static void main(String[] args) {

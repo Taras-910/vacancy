@@ -9,6 +9,7 @@ import ua.training.top.model.Vacancy;
 import ua.training.top.repository.VacancyRepository;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
+import ua.training.top.util.ValidationUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -83,6 +84,7 @@ public class VacancyService {
     public Vacancy createVacancyAndEmployer(VacancyTo vacancyTo, Freshen freshenDb) {
         log.info("createVacancyAndEmployer vacancyTo={}", vacancyTo);
         isNullPointerException(vacancyTo);
+        ValidationUtil.validate(vacancyTo);
         Vacancy vacancy = new Vacancy(fromTo(vacancyTo));
         vacancy.setEmployer(employerService.getOrCreate(getEmployerFromTo(vacancyTo)));
         vacancy.setFreshen(freshenDb.isNew() ? freshenService.create(getFreshenFromTo(vacancyTo)) : freshenDb);

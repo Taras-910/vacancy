@@ -23,14 +23,14 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 255)
     private String email;
 
 //    @JsonIgnore
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
-    @NotNull
-    @Size(min = 5, max = 100)
+    @NotBlank
+    @Size(min = 5, max = 255)
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
@@ -55,9 +55,9 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     public User(User u) {
         this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRegistered(), u.getRoles());
     }
-//
-    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name,email, password, true, new Date(),  EnumSet.of(role, roles));
+
+    public User(Integer id, String name, String email, String password, Role... roles) {
+        this(id, name, email, password, true, new Date(),  Set.of(roles));
     }
 
     public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
@@ -110,6 +110,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
                 "id=" + id +
                 ", name=" + name +
                 ", email=" + email +
+                ", password=" + (!password.isEmpty() ? "exist" : "not exist") +
                 ", registered=" + registered +
                 ", roles=" + roles +
                 '}';

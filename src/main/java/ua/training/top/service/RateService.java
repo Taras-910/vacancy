@@ -11,6 +11,7 @@ import ua.training.top.aggregator.Provider;
 import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.model.Rate;
 import ua.training.top.repository.RateRepository;
+import ua.training.top.util.ValidationUtil;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -52,6 +53,7 @@ public class RateService extends AbstractBaseEntity implements Serializable {
         log.info("create {}", rate);
         Assert.notNull(rate, not_be_null);
         checkNew(rate);
+        ValidationUtil.validate(rate);
         return repository.save(rate);
     }
 

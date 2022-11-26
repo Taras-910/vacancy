@@ -1,37 +1,38 @@
 package ua.training.top.service;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.training.top.AbstractTest;
+import ua.training.testData.VacancyToTestData;
+import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Employer;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Goal;
 import ua.training.top.model.Vacancy;
-import ua.training.top.testData.FreshenTestData;
-import ua.training.top.testData.VacancyToTestData;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
 
+import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ua.training.testData.EmployerTestData.*;
+import static ua.training.testData.FreshenTestData.freshen1;
+import static ua.training.testData.TestUtil.NOT_FOUND;
+import static ua.training.testData.UserTestData.admin;
+import static ua.training.testData.VacancyTestData.*;
+import static ua.training.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
-import static ua.training.top.testData.EmployerTestData.EMPLOYER1_ID;
-import static ua.training.top.testData.EmployerTestData.EMPLOYER_MATCHER;
-import static ua.training.top.testData.TestUtil.NOT_FOUND;
-import static ua.training.top.testData.UserTestData.admin;
-import static ua.training.top.testData.VacancyTestData.*;
-import static ua.training.top.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.util.DateTimeUtil.testDate;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
 
-public class VacancyServiceTest extends AbstractTest {
+class VacancyServiceTest extends AbstractServiceTest {
 
     @Autowired
     private VacancyService vacancyService;
@@ -39,46 +40,44 @@ public class VacancyServiceTest extends AbstractTest {
     private VoteService voteService;
     @Autowired
     private EmployerService employerService;
-    @Autowired
-    private FreshenService freshenService;
 
     @Test
-    public void get() throws Exception {
+    void get() {
         Vacancy vacancy = vacancyService.get(VACANCY1_ID);
-        Assert.assertEquals(vacancy, vacancy1);
+        Assertions.assertEquals(vacancy, vacancy1);
     }
 
     @Test
-    public void getNotFound() throws Exception {
+    void getNotFound() {
         assertThrows(NotFoundException.class, () -> vacancyService.get(NOT_FOUND));
     }
 
     @Test
-    public void getAll() throws Exception {
+    void getAll() {
         List<Vacancy> all = vacancyService.getAll();
         VACANCY_MATCHER.assertMatch(all, VACANCIES_GET_ALL);
     }
 
     @Test
-    public void getByParams() throws Exception {
+    void getByParams() {
         Vacancy vacancy = new Vacancy(vacancy1);
         Vacancy vacancyDb = vacancyService.getByParams(vacancy1.getTitle(), vacancy1.getSkills(), EMPLOYER1_ID);
         VACANCY_MATCHER.assertMatch(vacancy, vacancyDb);
     }
 
     @Test
-    public void delete() throws Exception {
+    void delete() {
         vacancyService.delete(VACANCY2_ID);
         assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY2_ID));
     }
 
     @Test
-    public void deleteNotFound() throws Exception {
+    void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> vacancyService.delete(NOT_FOUND));
     }
 
     @Test
-    public void createErrorData() throws Exception {
+    void createErrorData() {
         setTestAuthorizedUser(admin);
         Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "middle","Киев", Collections.singleton(Goal.UPGRADE), null));
         assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen));
@@ -88,10 +87,13 @@ public class VacancyServiceTest extends AbstractTest {
     }
 
     @Test
-    public void createListOfVacancies() throws Exception {
+    void createListOfVacancies() {
         setTestAuthorizedUser(admin);
         List<Vacancy> actual = List.of(vacancy3, vacancy4);
-        int freshenId = freshenService.create(FreshenTestData.getNew()).getId();
+        actual.forEach(v -> {
+            v.setEmployer(employer1);
+            v.setFreshen(freshen1);
+        });
         List<Vacancy> created = vacancyService.createUpdateList(actual);
         for(int i = 0; i < created.size(); i++) {
             actual.get(i).setId(created.get(i).getId());
@@ -100,25 +102,25 @@ public class VacancyServiceTest extends AbstractTest {
     }
 
     @Test
-    public void createListErrorData() throws Exception {
+    void createListErrorData() {
         assertThrows(NullPointerException.class, () -> vacancyService.createUpdateList(List.of(null, new Vacancy(vacancy3))));
         assertThrows(NullPointerException.class, () -> vacancyService.createUpdateList(null));
     }
 
     @Test
-    public void update() throws Exception {
+    void update() {
         VacancyTo vTo = VacancyToTestData.getUpdate();
         Vacancy updated = vacancyService.updateTo(vTo);
         VACANCY_MATCHER.assertMatch(fromTo(vTo), updated);
     }
 
     @Test
-    public void updateErrorData() throws Exception {
+    void updateErrorData() {
         assertThrows(IllegalArgumentException.class, () -> vacancyService.updateTo(new VacancyTo()));
     }
 
     @Test
-    public void createVacancyAndEmployer() throws Exception  {
+    void createVacancyAndEmployer() {
         setTestAuthorizedUser(admin);
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
         Vacancy createdVacancy = vacancyService.createVacancyAndEmployer(newVacancyTo, getFreshenFromTo(newVacancyTo));
@@ -132,5 +134,33 @@ public class VacancyServiceTest extends AbstractTest {
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
         VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy),
                 voteService.getAllForAuth()), newVacancyTo);
+    }
+
+    @Test
+    void createWithException(){
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "   ", "employerName", "address", 100000, 200000,
+                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "   ", "address", 100000, 200000,
+                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "employerName", "   ", 100000, 200000,
+                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "employerName", "address", 0, 200000,
+                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "employerName", "address", 100000, 0,
+                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
+                        "   ", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
+                        "https://aaa.ua", "   ", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
+                new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
+                        "https://aaa.ua", "skills…", null, "java", "middle", "киев", true), freshen1));
     }
 }

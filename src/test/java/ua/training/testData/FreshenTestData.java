@@ -1,4 +1,4 @@
-package ua.training.top.testData;
+package ua.training.testData;
 
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Freshen;
@@ -8,9 +8,9 @@ import java.util.Collections;
 
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
+import static ua.training.testData.UserTestData.ADMIN_ID;
+import static ua.training.testData.UserTestData.USER_ID;
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
-import static ua.training.top.testData.UserTestData.ADMIN_ID;
-import static ua.training.top.testData.UserTestData.USER_ID;
 
 public class FreshenTestData {
     public static final TestMatcher<Freshen> FRESHEN_MATCHER = TestMatcher.usingFieldsComparator(Freshen.class,"recordedDate", "vacancies");

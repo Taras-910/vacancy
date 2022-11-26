@@ -3,6 +3,7 @@ package ua.training.top.to;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -11,11 +12,11 @@ import java.util.Objects;
 
 public class VacancyTo extends BaseTo implements Serializable, Comparable<VacancyTo> {
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 255)
     private String title;
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 255)
     private String employerName;
 
@@ -31,14 +32,15 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     @Min(1)
     private Integer salaryMax;
 
-    @NotNull
+    @NotBlank
     @Size(min = 4, max = 255)
     String url;
 
-    @NotNull
+    @NotBlank
     @Size(min = 3, max = 255)
     String skills;
 
+    @NotNull
     private LocalDate releaseDate;
 
     private String language;
@@ -50,7 +52,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     private boolean toVote = false;
 
     public VacancyTo(Integer id, @NotNull String title, @NotNull String employerName, @NotNull String address, @NotNull Integer salaryMin,
-                     @NotNull Integer salaryMax, @NotNull String url, @NotNull String skills, @Nullable LocalDate releaseDate,
+                     @NotNull Integer salaryMax, @NotBlank String url, @NotBlank String skills, @Nullable LocalDate releaseDate,
                      @Nullable String language, @Nullable String level, @Nullable String workplace, @Nullable boolean toVote) {
         super(id);
         this.title = title;

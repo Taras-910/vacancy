@@ -1,17 +1,17 @@
 package ua.training.top.web.rest.admin;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ua.training.testData.FreshenTestData;
+import ua.training.top.AbstractControllerTest;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
-import ua.training.top.testData.FreshenTestData;
 import ua.training.top.util.exception.NotFoundException;
-import ua.training.top.web.AbstractControllerTest;
 import ua.training.top.web.json.JsonUtil;
 
 import java.util.List;
@@ -20,12 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.top.testData.FreshenTestData.*;
-import static ua.training.top.testData.TestUtil.readFromJson;
-import static ua.training.top.testData.TestUtil.userHttpBasic;
-import static ua.training.top.testData.UserTestData.admin;
+import static ua.training.testData.FreshenTestData.*;
+import static ua.training.testData.TestUtil.readFromJson;
+import static ua.training.testData.TestUtil.userHttpBasic;
+import static ua.training.testData.UserTestData.admin;
 
-public class FreshenRestControllerTest extends AbstractControllerTest {
+class FreshenRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = FreshenRestController.REST_URL + '/';
     private static final Logger log = LoggerFactory.getLogger(FreshenRestControllerTest.class);
     @Autowired
@@ -42,7 +42,7 @@ public class FreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    void getAll() throws Exception {
         Iterable<Freshen> iterable = List.of(freshen1, freshen2);
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(admin)))
@@ -52,7 +52,7 @@ public class FreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    void create() throws Exception {
         Freshen newFreshen = new Freshen(FreshenTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +66,7 @@ public class FreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void delete() throws Exception {
+    void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + FRESHEN1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -75,7 +75,7 @@ public class FreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void update() throws Exception {
+    void update() throws Exception {
         Freshen updated = new Freshen(getUpdated());
         perform(MockMvcRequestBuilders.put(REST_URL + FRESHEN1_ID)
                 .with(userHttpBasic(admin))
