@@ -9,7 +9,7 @@ function enable(chkbox, id) {
         data: "enabled=" + enabled
     }).done(function () {
         chkbox.closest("tr").attr("data-userEnabled", enabled);
-        successNoty(enabled ? "Enabled" : "Disabled");
+        successNoty(enabled ? i18n['common.enabled'] : i18n['common.disabled']);
     }).fail(function () {
         $(chkbox).prop("checked", !enabled);
     });
@@ -54,13 +54,7 @@ $(function () {
                     }
                 },
                 {
-                    "data": "registered",
-                    "render": function (date, type, row) {
-                        if (type === "display") {
-                            return date.substring(0, 10);
-                        }
-                        return date;
-                    }
+                    "data": "registered"
                 },
                 {
                     "orderable": false,
@@ -90,4 +84,17 @@ $(function () {
         }
     };
     makeEditable();
+});
+
+// http://api.jquery.com/jQuery.ajax/#using-converters
+$.ajaxSetup({
+    converters: {
+        "text json": function (stringData) {
+            var json = JSON.parse(stringData);
+            $(json).each(function () {
+                this.registered = this.registered.substr(0, 10);
+            });
+            return json;
+        }
+    }
 });

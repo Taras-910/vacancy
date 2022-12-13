@@ -61,5 +61,9 @@ public class JobsMarketStrategy implements Strategy {
         reCall(set.size(), new JobsMarketStrategy());
         return new ArrayList<>(set);
     }
+
+    public static String getDateJobsMarket(String date) {
+        return isContains(date, "on:") ?  date.split("on:")[1] : date;
+    }
 }
 // jobsMarket only: us  uk  de

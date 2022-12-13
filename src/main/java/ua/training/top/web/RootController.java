@@ -14,6 +14,7 @@ public class RootController {
 
     @GetMapping("/")
     public String root() {
+        log.info("root");
         return "redirect:vacancies";
     }
 
@@ -29,7 +30,8 @@ public class RootController {
     }
 
     @GetMapping("/vacancies")
-    public String getVacancies() {
+    public String getMeals() {
+        log.info("getVacancies");
         return "vacancies";
     }
 }

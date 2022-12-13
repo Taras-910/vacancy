@@ -82,6 +82,10 @@ public class UserService implements UserDetailsService {
         log.info("update {} with id={}", user, id);
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
+        User userByEmail = repository.getByEmail(user.getEmail());
+        if(userByEmail != null && !userByEmail.getId().equals(user.getId())){
+            throw new DataIntegrityViolationException(user_exist + user.getEmail());
+        }
         Assert.notNull(user, not_be_null);
         User userDb = user.getId() == null ? null : repository.get(user.getId());
         checkNotFoundWithId(prepareAndSave(user, userDb), user.id());

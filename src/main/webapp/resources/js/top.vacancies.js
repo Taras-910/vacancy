@@ -8,7 +8,7 @@ function vote(chkbox, id) {
         data: "enabled=" + toVote
     }).done(function () {
         chkbox.closest("tr").attr("vacancy-toVote", toVote);
-        successNoty(toVote ? "Select" : "Deselect");
+        successNoty(toVote ? i18n['common.select'] : i18n['common.deselected']);
     }).fail(function () {
         $(chkbox).prop("checked", !toVote);
     });
@@ -59,7 +59,7 @@ function updateVacancyTo() {
     }).done(function () {
         $("#updateRow").modal("hide");
         ctx.updateTable();
-        successNoty("Saved");
+        successNoty(i18n['common.saved']);
     });
 }
 
@@ -77,7 +77,7 @@ function deleteVacancyTo() {
     }).done(function () {
         $("#deleteRow").modal("hide");
         ctx.updateTable();
-        successNoty("Deleted");
+        successNoty(i18n['common.deleted']);
     });
 }
 

@@ -14,7 +14,7 @@
     <div class="container">
         <button class="btn btn-outline-primary" onclick="add()">
             <span class="fa fa-plus"></span>
-             <spring:message code="user.add_new"/>
+             <spring:message code="user.add"/>
         </button>
         <table class="table table-striped" id="datatable">
             <thead>
@@ -36,7 +36,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><spring:message code="profile.profile"/> <spring:message code="user.user_new"/></h4>
+                <h4 class="modal-title" id="modalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
             </div>
             <div class="modal-body">
@@ -62,7 +62,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
-                    <spring:message code="common.return"/>
+                    <spring:message code="common.close"/>
                 </button>
                 <button type="button" class="btn btn-primary" onclick="save()">
                     <span class="fa fa-check"></span>
@@ -74,4 +74,8 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
+<script type="text/javascript">
+    i18n["addTitle"] = '<spring:message code="user.add"/>';
+    i18n["editTitle"] = '<spring:message code="user.edit"/>';
+</script>
 </html>

@@ -43,13 +43,13 @@ public class AdminUIController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@Valid User user) {
+        log.info("createOrUpdate {}", user);
         if(!user.getEmail().matches(email_matcher)) {
             throw new IllegalArgumentException(email_error);
         }
         if (user.isNew()) {
             service.create(user);
         } else {
-            log.info("createOrUpdate {}", user);
             service.update(user, user.id());
         }
     }

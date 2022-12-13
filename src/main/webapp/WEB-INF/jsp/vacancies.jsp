@@ -110,7 +110,7 @@
                 <sec:authorize access="hasRole('ADMIN')">
                     <button class="col-md-2 btn btn-primary mt-2" onclick="add()">
                         <span class="fa fa-plus text-left"></span>
-                        <th><spring:message code="vacancy.vew_vacancy"/></th>
+                        <th><spring:message code="vacancy.add"/></th>
                     </button>
                 </sec:authorize>
                 </div>
@@ -151,7 +151,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><spring:message code="common.add"/></h4>
+                    <h4 class="modal-title" id="modalTitle"></h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -223,7 +223,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header box">
-                    <h4 class="modal-title"><spring:message code="common.edit"/></h4>
+                    <h4 class="modal-title"><spring:message code="vacancy.edit"/></h4>
                     <button type="button" class="close" data-dismiss="modal" onclick="closeNoty()">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -289,7 +289,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="detailsDeleteForm">
-                        <label for="idDelete" ><em><spring:message code="common.you_sure"/></em></label>
+                        <label for="idDelete" ><em><spring:message code="common.confirm"/></em></label>
                         <input type="hidden" id="idDelete" name="id">
                     </form>
                 </div>
@@ -416,4 +416,8 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
+<script type="text/javascript">
+    i18n["addTitle"] = '<spring:message code="vacancy.add"/>';
+    i18n["editTitle"] = '<spring:message code="vacancy.edit"/>';
+</script>
 </html>

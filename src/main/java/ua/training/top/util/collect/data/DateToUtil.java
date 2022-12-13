@@ -62,7 +62,7 @@ public class DateToUtil {
     }
 
     static String formatToNumAndWord(String originText) {
-        originText = getReplace(originText, of("einem", "Il y a un", "temu", "einem"), "1");
+        originText = getReplace(originText, of("einem", "Il y a un", "temu", "einem", "una", "un"), "1");
         originText = getReplace(originText, of("nowa", "нове", "сейчас", "только что"), "0 минут");
         originText = getReplace(originText, of("сьогодні", "сегодня", "today", "днес", "heute"), "0 сьогодні");
         originText = getReplace(originText, of("yesterday", "вчера", "вчора", "gestern"), "1 сьогодні");

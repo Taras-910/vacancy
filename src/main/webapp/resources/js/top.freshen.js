@@ -31,6 +31,6 @@ function sendRefresh() {
     }).done(function () {
         $("#refreshRow").modal("hide");
         ctx.updateTable();
-        successNoty("Update has finished ");
+        successNoty(i18n['common.updated']);
     });
 }

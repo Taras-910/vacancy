@@ -22,7 +22,7 @@ public class MessageUtil {
             invite_sign_in = "?message=You are registered already. Please Sign in&username=",
             must_has_id = "Entity must has id",
             no_authorized_user_found = "No authorized user found",
-            not_change_data = "Запрещено изменять учетные данные пользователя ",
+            not_change_data = "It is forbidden to change credentials of ",
             not_found = "Not found entity with {}",
             not_find_driver = "Could not find DB driver",
             not_be_null = " entity must not be null ",

@@ -22,7 +22,7 @@ public class Rate  extends AbstractBaseEntity implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @DecimalMax("100.0") @DecimalMin("0.01")
+    @DecimalMax("1000.0") @DecimalMin("0.01")
     @Column(name = "value_rate")
     private Double valueRate;
 

@@ -21,7 +21,7 @@ class FreshenServiceTest extends AbstractServiceTest {
     private FreshenService service;
 
     @Test
-    void create() throws Exception {
+    void create() {
         setTestAuthorizedUser(admin);
         Freshen created = service.create(FreshenTestData.getNew());
         int newId = created.id();

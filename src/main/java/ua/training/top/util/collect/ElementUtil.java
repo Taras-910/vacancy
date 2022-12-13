@@ -17,6 +17,7 @@ import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reasonDateLoading;
 import static ua.training.top.aggregator.strategies.JobsBGStrategy.getAddress;
 import static ua.training.top.aggregator.strategies.JobsBGStrategy.getDateJobsBG;
+import static ua.training.top.aggregator.strategies.JobsMarketStrategy.getDateJobsMarket;
 import static ua.training.top.aggregator.strategies.NofluffjobsStrategy.getToNofluffAddress;
 import static ua.training.top.util.collect.data.CommonUtil.*;
 import static ua.training.top.util.collect.data.ConstantsUtil.*;
@@ -252,11 +253,41 @@ public class ElementUtil {
         return list;
     }
 
+    public static List<VacancyTo> getJobsDou(Elements elements, Freshen freshen) {
+        List<VacancyTo> list = new ArrayList();
+        for (Element element : elements) {
+            String date = xssClear(element.getElementsByClass("date").text());
+            LocalDate localDate = isEmpty(date) ? LocalDate.now() : getToLocalDate(date);
+            if (localDate.isAfter(reasonDateLoading)) {
+                try {
+                    String skills, title = getToTitle(xssClear(element.getElementsByTag("a").first().text()));
+                    skills = xssClear(element.getElementsByClass("sh-info").text());
+                    Integer[] salaries = getToSalaries(xssClear(element.getElementsByClass("salary").text()));
+                    if (isToValid(freshen, getJoin(title, skills))) {
+                        VacancyTo v = new VacancyTo();
+                        v.setTitle(getLinkIfEmpty(title));
+                        v.setEmployerName(getToName(xssClear(element.getElementsByTag("a").last().text())));
+                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("cities").text())));
+                        v.setSalaryMin(salaries[0]);
+                        v.setSalaryMax(salaries[1]);
+                        v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href")));
+                        v.setSkills(getToSkills(skills, freshen));
+                        v.setReleaseDate(localDate);
+                        list.add(v);
+                    }
+                } catch (Exception e) {
+                    log.error(error, e.getLocalizedMessage(), element);
+                }
+            }
+        }
+        return list;
+    }
+
     public static List<VacancyTo> getJobsMarket(Elements elements, Freshen freshen) {
         List<VacancyTo> list = new ArrayList<>();
         for (Element element : elements) {
             try {
-                LocalDate localDate = getToLocalDate(xssClear(element.getElementsByTag("time").text()));
+                LocalDate localDate = getToLocalDate(getDateJobsMarket(xssClear(element.getElementsByTag("time").text())));
                 if (localDate.isAfter(reasonDateLoading)) {
                     String title, salary, skills = getToSkills(xssClear(element.getElementsByClass("card-body").text()), freshen);
                     title = getToTitle(xssClear(element.getElementsByClass("link").text()));
@@ -306,37 +337,6 @@ public class ElementUtil {
                 }
             } catch (Exception e) {
                 log.error(error, e.getLocalizedMessage(), element);
-            }
-        }
-        return list;
-    }
-
-
-    public static List<VacancyTo> getJobsDou(Elements elements, Freshen freshen) {
-        List<VacancyTo> list = new ArrayList();
-        for (Element element : elements) {
-            String date = xssClear(element.getElementsByClass("date").text());
-            LocalDate localDate = isEmpty(date) ? LocalDate.now() : getToLocalDate(date);
-            if (localDate.isAfter(reasonDateLoading)) {
-                try {
-                    String skills, title = getToTitle(xssClear(element.getElementsByTag("a").first().text()));
-                    skills = xssClear(element.getElementsByClass("sh-info").text());
-                    Integer[] salaries = getToSalaries(xssClear(element.getElementsByClass("salary").text()));
-                    if (isToValid(freshen, getJoin(title, skills))) {
-                        VacancyTo v = new VacancyTo();
-                        v.setTitle(getLinkIfEmpty(title));
-                        v.setEmployerName(getToName(xssClear(element.getElementsByTag("a").last().text())));
-                        v.setAddress(getLinkIfEmpty(xssClear(element.getElementsByClass("cities").text())));
-                        v.setSalaryMin(salaries[0]);
-                        v.setSalaryMax(salaries[1]);
-                        v.setUrl(xssClear(element.getElementsByTag("a").first().attr("href")));
-                        v.setSkills(getToSkills(skills, freshen));
-                        v.setReleaseDate(localDate);
-                        list.add(v);
-                    }
-                } catch (Exception e) {
-                    log.error(error, e.getLocalizedMessage(), element);
-                }
             }
         }
         return list;

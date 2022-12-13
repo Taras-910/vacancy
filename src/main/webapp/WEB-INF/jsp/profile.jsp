@@ -13,17 +13,26 @@
             <div class="col-5 offset-3">
                 <c:choose>
                     <c:when test="${register}">
-                        <h3><p><spring:message code="profile.register"/><br><spring:message code="user.user_new"/></p></h3>
+                        <h3><p><spring:message code="common.register"/></p></h3>
                     </c:when>
                     <c:otherwise>
-                        <h3><p><spring:message code="profile.profile"/> ${user.name}</p></h3>
+                        <h3><p><spring:message code="common.profile"/> ${user.name}</p></h3>
                     </c:otherwise>
                 </c:choose>
                 <form:form class="form-group" modelAttribute="user" method="post" action="${register ? 'profile/register' : 'profile'}"
                            charset="utf-8" accept-charset="UTF-8">
-                    <vacancy:inputField labelCode="name" name="name"/>
-                    <vacancy:inputField labelCode="email" name="email"/>
-                    <vacancy:inputField labelCode="password" name="password" inputType="password"/>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label"><spring:message code="user.name"/></label>
+                        <vacancy:inputField labelCode='' name="name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label"><spring:message code="user.email"/></label>
+                        <vacancy:inputField labelCode='' name="email"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label"><spring:message code="user.password"/></label>
+                        <vacancy:inputField labelCode='' name="password" inputType="password"/>
+                    </div>
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>

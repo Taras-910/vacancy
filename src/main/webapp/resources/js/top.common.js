@@ -11,7 +11,7 @@ function makeEditable() {
 }
 
 function add() {
-    $("#modalTitle").html('add');
+    $("#modalTitle").html(i18n["addTitle"]);
     form.find(":input").val("");
     $("#editRow").modal();
 }
@@ -19,7 +19,7 @@ function add() {
 function updateRow(id) {
     $.ajaxSetup({cacheURL: false});
     form.find(":input").val("");
-    $('#modalTitle').html('edit');
+    $("#modalTitle").html(i18n["editTitle"]);
     $.get(ctx.ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
@@ -29,13 +29,13 @@ function updateRow(id) {
 }
 
 function deleteRow(id) {
-    if (confirm('Are you sure?')) {
+    if (confirm(i18n['common.confirm'])) {
         $.ajax({
             url: ctx.ajaxUrl + id,
             type: "DELETE"
         }).done(function () {
             ctx.updateTable();
-            successNoty("Deleted");
+            successNoty(i18n['common.deleted']);
         });
     }
 }
@@ -54,7 +54,7 @@ function save() {
         $("#addRow").modal("hide");
         $("#updateRow").modal("hide");
         ctx.updateTable();
-        successNoty("Saved");
+        successNoty(i18n['common.saved']);
     });
 }
 
@@ -80,9 +80,20 @@ function successNoty(key) {
 function failNoty(jqXHR) {
     closeNoty();
     var errorInfo = jqXHR.responseJSON;
+    var type;
+    var sheetOfCases;
+    if (errorInfo == null) {
+        var array = (jqXHR.responseText.split('"errorType":')[1]).split('"details":[');
+        type = array[0];
+        sheetOfCases = array[1].replace(']}','')
+            .replaceAll('"','').replaceAll(',',"<br>");
+    } else {
+        type = errorInfo.errorType;
+        sheetOfCases = errorInfo.details.join("<br>");
+    }
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + "Error" + ": " + jqXHR.status +
-            "<br>" + errorInfo.errorType + "<br>" + errorInfo.details.join("<br>"),
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"]  + ": "
+            + jqXHR.status + "<br>" + i18n["common.errorType"]  + ": " + type + "<br>" + sheetOfCases,
         type: "error",
         layout: "bottomRight"
     }).show();

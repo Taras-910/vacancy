@@ -75,10 +75,10 @@ public class AutoRefreshUtil {
                     5, "junior"
             ),
             mapLanguage = Map.of(
-                    0, "ruby",
+                    0, "java",
                     1, "java",
                     2, "java",
-                    3, "java"
+                    3, "ruby"
     );
 
     public static Freshen randomFreshen(String workplace, String level) {

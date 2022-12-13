@@ -87,11 +87,7 @@ public class ValidationUtil {
 
     public static Throwable logAndGetRootCause(Logger log, HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
-        if (logException) {
-            log.error(errorType + " at request " + req.getRequestURL(), rootCause);
-        } else {
-            log.warn(error_request, errorType, req.getRequestURL(), rootCause.toString());
-        }
+        log.warn(error_request, errorType, req.getRequestURL(), rootCause.toString());
         return rootCause;
     }
 
@@ -100,6 +96,4 @@ public class ValidationUtil {
             log.error(not_found, id);
         }
     }
-
-
 }
