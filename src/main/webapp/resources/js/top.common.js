@@ -78,12 +78,11 @@ function successNoty(key) {
 }
 
 function failNoty(jqXHR) {
-    let errorInfo = jqXHR.responseJSON ? jqXHR.responseJSON.details :
-        jqXHR.responseText.replaceAll('{"details":["','').replaceAll('"]}','');
+    let errorInfo = jqXHR.responseJSON ? jqXHR.responseJSON : JSON.parse(jqXHR.responseText);
     closeNoty();
     failedNote = new Noty({
         text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" +
-            i18n["common.errorStatus"]  + ": " + jqXHR.status + "<br>" + errorInfo,
+            i18n["common.errorStatus"]  + ": " + jqXHR.status + "<br>" + errorInfo.details.join('<br>'),
         type: "error",
         layout: "bottomRight"
     }).show();
