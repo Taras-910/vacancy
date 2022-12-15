@@ -21,16 +21,18 @@ public class RootController {
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
     public String getUsers() {
+        log.info("getUsers");
         return "users";
     }
 
     @GetMapping(value = "/login")
     public String login() {
+        log.info("login");
         return "login";
     }
 
     @GetMapping("/vacancies")
-    public String getMeals() {
+    public String getVacancies() {
         log.info("getVacancies");
         return "vacancies";
     }

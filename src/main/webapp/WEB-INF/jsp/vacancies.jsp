@@ -285,7 +285,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header box" style="text-align: center;">
-                    <h6><em>Confirm pls !</em></h6>
+                    <h6><em><spring:message code="common.confirm_label"/></em></h6>
                 </div>
                 <div class="modal-body">
                     <form id="detailsDeleteForm">
@@ -296,11 +296,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                         <span class="fa fa-close"></span>
-                        back
+                        <spring:message code="common.close"/>
                     </button>
                     <button type="button" class="btn btn-primary" onclick="deleteVacancyTo()">
                         <span class="fa fa-check"></span>
-                        delete
+                        <spring:message code="common.delete"/>
                     </button>
                 </div>
             </div>
@@ -416,8 +416,7 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
-<script type="text/javascript">
-    i18n["addTitle"] = '<spring:message code="vacancy.add"/>';
-    i18n["editTitle"] = '<spring:message code="vacancy.edit"/>';
-</script>
+<jsp:include page="fragments/i18n.jsp">
+    <jsp:param name="page" value="vacancy"/>
+</jsp:include>
 </html>

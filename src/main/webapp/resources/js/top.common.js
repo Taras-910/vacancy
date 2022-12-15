@@ -78,22 +78,12 @@ function successNoty(key) {
 }
 
 function failNoty(jqXHR) {
+    let errorInfo = jqXHR.responseJSON ? jqXHR.responseJSON.details :
+        jqXHR.responseText.replaceAll('{"details":["','').replaceAll('"]}','');
     closeNoty();
-    var errorInfo = jqXHR.responseJSON;
-    var type;
-    var sheetOfCases;
-    if (errorInfo == null) {
-        var array = (jqXHR.responseText.split('"errorType":')[1]).split('"details":[');
-        type = array[0];
-        sheetOfCases = array[1].replace(']}','')
-            .replaceAll('"','').replaceAll(',',"<br>");
-    } else {
-        type = errorInfo.errorType;
-        sheetOfCases = errorInfo.details.join("<br>");
-    }
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"]  + ": "
-            + jqXHR.status + "<br>" + i18n["common.errorType"]  + ": " + type + "<br>" + sheetOfCases,
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" +
+            i18n["common.errorStatus"]  + ": " + jqXHR.status + "<br>" + errorInfo,
         type: "error",
         layout: "bottomRight"
     }).show();

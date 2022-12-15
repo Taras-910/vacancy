@@ -19,6 +19,8 @@ import ua.training.top.util.ValidationUtil;
 import ua.training.top.util.exception.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static ua.training.top.util.exception.ErrorType.*;
 
@@ -80,7 +82,9 @@ public class ExceptionInfoHandler {
     //    https://stackoverflow.com/questions/538870/should-private-helper-methods-be-static-if-they-can-be-static
     private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType, String... details) {
         Throwable rootCause = ValidationUtil.logAndGetRootCause(log, req, e, logException, errorType);
-        return new ErrorInfo(req.getRequestURL(), errorType,
-                details.length != 0 ? details : new String[]{ValidationUtil.getMessage(rootCause)});
+        String result = details.length != 0 ? List.of(details).stream()
+                .collect(Collectors.joining("<br>")) : ValidationUtil.getMessage(rootCause);
+        return new ErrorInfo(result);
     }
+
 }
