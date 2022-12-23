@@ -12,9 +12,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.InstallationUtil.reasonDateLoading;
-import static ua.training.top.util.collect.data.CommonUtil.isMatch;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.ToUtil.getFilled;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatch;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ToUtil.getFilled;
 
 @Repository
 public class Starter implements StarterInterface {

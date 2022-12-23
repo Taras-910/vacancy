@@ -1,4 +1,4 @@
-package ua.training.top.util.collect.xss;
+package ua.training.top.util.aggregatorUtil.xss;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;

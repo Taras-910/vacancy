@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static ua.training.top.util.MessageUtil.error_data;
+import static ua.training.top.util.MessagesUtil.error_data;
 
 @RestController
 @RequestMapping(value = EmployerRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

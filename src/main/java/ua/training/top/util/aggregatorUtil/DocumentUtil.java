@@ -1,4 +1,4 @@
-package ua.training.top.util.collect;
+package ua.training.top.util.aggregatorUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 
 public class DocumentUtil {
     private static final Logger log = LoggerFactory.getLogger(DocumentUtil.class);

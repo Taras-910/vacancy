@@ -1,4 +1,4 @@
-package ua.training.top.util.collect.data;
+package ua.training.top.util.aggregatorUtil.data;
 import java.util.regex.Pattern;
 
 public class PatternUtil {

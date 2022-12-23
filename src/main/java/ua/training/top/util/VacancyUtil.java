@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.List.of;
-import static ua.training.top.util.MessageUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.link;
+import static ua.training.top.util.MessagesUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.link;
 
 public class VacancyUtil {
     public static final Logger log = LoggerFactory.getLogger(VacancyUtil.class) ;

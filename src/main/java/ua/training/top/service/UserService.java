@@ -6,7 +6,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +15,7 @@ import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
-import ua.training.top.util.ValidationUtil;
+import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.MethodNotAllowedException;
 
 import javax.validation.constraints.NotEmpty;
@@ -24,7 +23,7 @@ import java.util.List;
 
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
-import static ua.training.top.util.MessageUtil.*;
+import static ua.training.top.util.MessagesUtil.*;
 import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
 
@@ -46,10 +45,7 @@ public class UserService implements UserDetailsService {
         log.info("create {}", user);
         Assert.notNull(user, not_be_null);
         checkNew(user);
-        ValidationUtil.validate(user);
-        if(repository.getByEmail(user.getEmail()) != null){
-            throw new DataIntegrityViolationException(user_exist + user.getEmail());
-        }
+        checkDuplicate(user.getEmail());
         return prepareAndSave(user, null);
     }
 
@@ -82,12 +78,10 @@ public class UserService implements UserDetailsService {
         log.info("update {} with id={}", user, id);
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
-        User userByEmail = repository.getByEmail(user.getEmail());
-        if(userByEmail != null && !userByEmail.getId().equals(user.getId())){
-            throw new DataIntegrityViolationException(user_exist + user.getEmail());
-        }
-        Assert.notNull(user, not_be_null);
         User userDb = user.getId() == null ? null : repository.get(user.getId());
+        if (!userDb.getEmail().equals(user.getEmail())) {
+            checkDuplicate(user.getEmail());
+        }
         checkNotFoundWithId(prepareAndSave(user, userDb), user.id());
     }
 
@@ -120,5 +114,12 @@ public class UserService implements UserDetailsService {
             throw new MethodNotAllowedException(not_change_data + person);
         }
     }
+
+    private void checkDuplicate(String email) {
+        if (repository.getByEmail(email) != null) {
+            throw new IllegalRequestDataException("duplicate", email);
+        }
+    }
+
 }
 

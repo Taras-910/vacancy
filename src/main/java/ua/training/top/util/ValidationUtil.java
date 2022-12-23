@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
 import java.util.Set;
 
-import static ua.training.top.util.MessageUtil.*;
+import static ua.training.top.util.MessagesUtil.*;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);

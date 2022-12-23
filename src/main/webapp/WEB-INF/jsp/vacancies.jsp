@@ -6,6 +6,9 @@
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
+<jsp:include page="fragments/i18n.jsp">
+    <jsp:param name="page" value="vacancy"/>
+</jsp:include>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.common.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.vacancies.js" defer></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/top.freshen.js" defer></script>
@@ -416,7 +419,4 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
-<jsp:include page="fragments/i18n.jsp">
-    <jsp:param name="page" value="vacancy"/>
-</jsp:include>
 </html>

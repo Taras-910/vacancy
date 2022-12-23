@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
 import static ua.training.top.aggregator.InstallationUtil.reasonValidRate;
-import static ua.training.top.util.MessageUtil.not_be_null;
+import static ua.training.top.util.MessagesUtil.not_be_null;
 import static ua.training.top.util.ValidationUtil.*;
 
 @Service

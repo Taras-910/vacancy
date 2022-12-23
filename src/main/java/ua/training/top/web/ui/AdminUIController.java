@@ -13,9 +13,6 @@ import ua.training.top.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
-import static ua.training.top.util.MessageUtil.email_error;
-import static ua.training.top.util.MessageUtil.email_matcher;
-
 @ApiIgnore
 @RestController
 @RequestMapping(value = "/admin/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,11 +39,8 @@ public class AdminUIController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Valid User user) {
+    public void createOrUpdate(@Valid @ModelAttribute User user) {
         log.info("createOrUpdate {}", user);
-        if(!user.getEmail().matches(email_matcher)) {
-            throw new IllegalArgumentException(email_error);
-        }
         if (user.isNew()) {
             service.create(user);
         } else {

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.collect.DocumentUtil;
+import ua.training.top.util.aggregatorUtil.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,10 +17,10 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getJobBank;
-import static ua.training.top.util.collect.data.CommonUtil.isMatches;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCa;
+import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobBank;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatches;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getCa;
 
 public class JobBankStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobBankStrategy.class);

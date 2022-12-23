@@ -1,4 +1,4 @@
-package ua.training.top.util.collect.data;
+package ua.training.top.util.aggregatorUtil.data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import java.util.regex.Matcher;
 
 import static java.util.List.of;
 import static ua.training.top.service.RateService.mapRates;
-import static ua.training.top.util.collect.data.CommonUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.PatternUtil.pattern_find_salary;
-import static ua.training.top.util.collect.data.PatternUtil.pattern_salary_transform_points;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_find_salary;
+import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_salary_transform_points;
 
 public class SalaryToUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryToUtil.class);

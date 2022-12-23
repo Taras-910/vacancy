@@ -1,4 +1,4 @@
-package ua.training.top.util.collect;
+package ua.training.top.util.aggregatorUtil;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,14 +19,14 @@ import static ua.training.top.aggregator.strategies.JobsBGStrategy.getAddress;
 import static ua.training.top.aggregator.strategies.JobsBGStrategy.getDateJobsBG;
 import static ua.training.top.aggregator.strategies.JobsMarketStrategy.getDateJobsMarket;
 import static ua.training.top.aggregator.strategies.NofluffjobsStrategy.getToNofluffAddress;
-import static ua.training.top.util.collect.data.CommonUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
-import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
-import static ua.training.top.util.collect.data.PatternUtil.pattern_is_money_value;
-import static ua.training.top.util.collect.data.SalaryToUtil.getToSalaries;
-import static ua.training.top.util.collect.data.ToUtil.*;
-import static ua.training.top.util.collect.xss.XssUtil.xssClear;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.DateToUtil.defaultDate;
+import static ua.training.top.util.aggregatorUtil.data.DateToUtil.getToLocalDate;
+import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_is_money_value;
+import static ua.training.top.util.aggregatorUtil.data.SalaryToUtil.getToSalaries;
+import static ua.training.top.util.aggregatorUtil.data.ToUtil.*;
+import static ua.training.top.util.aggregatorUtil.xss.XssUtil.xssClear;
 
 public class ElementUtil {
     public static final Logger log = LoggerFactory.getLogger(ElementUtil.class);

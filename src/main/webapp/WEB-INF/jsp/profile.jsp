@@ -21,18 +21,12 @@
                 </c:choose>
                 <form:form class="form-group" modelAttribute="user" method="post" action="${register ? 'profile/register' : 'profile'}"
                            charset="utf-8" accept-charset="UTF-8">
-                    <div class="form-group">
-                        <label for="name" class="col-form-label"><spring:message code="user.name"/></label>
-                        <vacancy:inputField labelCode='' name="name"/>
+                    <vacancy:inputField labelCode="user.name" name="name"/>
+                    <div class="${not empty message ? 'error' : ''}">
+                        <vacancy:inputField labelCode="${not empty message ? message : 'user.email'}" name="email"/>
                     </div>
-                    <div class="form-group">
-                        <label for="name" class="col-form-label"><spring:message code="user.email"/></label>
-                        <vacancy:inputField labelCode='' name="email"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="name" class="col-form-label"><spring:message code="user.password"/></label>
-                        <vacancy:inputField labelCode='' name="password" inputType="password"/>
-                    </div>
+                    <vacancy:inputField labelCode="user.password" name="password" inputType="password"/>
+
                     <div class="text-right">
                         <a class="btn btn-secondary" href="#" onclick="window.history.back()">
                             <span class="fa fa-close"></span>
@@ -51,3 +45,4 @@
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
+

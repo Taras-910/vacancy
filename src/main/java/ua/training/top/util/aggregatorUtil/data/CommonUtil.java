@@ -1,10 +1,10 @@
-package ua.training.top.util.collect.data;
+package ua.training.top.util.aggregatorUtil.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ua.training.top.util.collect.data.ConstantsUtil.link;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.link;
 
 public class CommonUtil {
     private static StringBuilder builder;

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.training.top.util.MessageUtil.exist_end_replace;
-import static ua.training.top.util.MessageUtil.update_error_and_redirect;
+import static ua.training.top.util.MessagesUtil.exist_end_replace;
+import static ua.training.top.util.MessagesUtil.update_error_and_redirect;
 
 @Transactional(readOnly = true)
 @Repository

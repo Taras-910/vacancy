@@ -13,24 +13,21 @@ import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.EmployerUtil;
-import ua.training.top.util.collect.data.ToUtil;
+import ua.training.top.util.aggregatorUtil.data.ToUtil;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.InstallationUtil.limitVacanciesKeeping;
-import static ua.training.top.model.Goal.UPGRADE;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.finish_message;
-import static ua.training.top.util.collect.data.ToUtil.getAnchorEmployer;
-import static ua.training.top.util.collect.data.ToUtil.getAnchorVacancy;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.finish_message;
+import static ua.training.top.util.aggregatorUtil.data.ToUtil.getAnchorEmployer;
+import static ua.training.top.util.aggregatorUtil.data.ToUtil.getAnchorVacancy;
 
 @Service
 @EnableScheduling

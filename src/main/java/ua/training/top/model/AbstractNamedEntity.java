@@ -5,7 +5,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import static ua.training.top.util.collect.xss.XssUtil.xssClear;
+import static ua.training.top.util.aggregatorUtil.xss.XssUtil.xssClear;
 
 @MappedSuperclass
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {

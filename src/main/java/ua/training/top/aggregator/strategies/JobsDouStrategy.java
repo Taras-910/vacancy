@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.collect.DocumentUtil;
+import ua.training.top.util.aggregatorUtil.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,12 +17,12 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getJobsDou;
-import static ua.training.top.util.collect.data.CommonUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.LevelUtil.getLevel;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getJobsDouForeign;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getUA_ua;
+import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobsDou;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.LevelUtil.getLevel;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getJobsDouForeign;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getUA_ua;
 
 public class JobsDouStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsDouStrategy.class);

@@ -78,11 +78,16 @@ function successNoty(key) {
 }
 
 function failNoty(jqXHR) {
-    let errorInfo = jqXHR.responseJSON ? jqXHR.responseJSON : JSON.parse(jqXHR.responseText);
+    var status = i18n['common.errorStatus'];
+    var errorInform = jqXHR.responseJSON ? jqXHR.responseJSON.details : JSON.parse(jqXHR.responseText).details;
+    if (errorInform[0].startsWith("duplicate")) {
+        let part = errorInform[0].replace("duplicate","");
+        errorInform[0] = i18n["duplicate"] + part;
+    }
     closeNoty();
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" +
-            i18n["common.errorStatus"]  + ": " + jqXHR.status + "<br>" + errorInfo.details.join('<br>'),
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + status  + ": " + jqXHR.status + "<br>" +
+            errorInform.join('<br>'),
         type: "error",
         layout: "bottomRight"
     }).show();

@@ -91,6 +91,19 @@ class UserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
+    void updateDuplicate() throws Exception {
+        User updated = new User(user);
+        updated.setEmail("admin@gmail.com");
+        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     void create() throws Exception {
         User newUser = new User(getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)

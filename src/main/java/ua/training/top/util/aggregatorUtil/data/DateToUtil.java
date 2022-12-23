@@ -1,4 +1,4 @@
-package ua.training.top.util.collect.data;
+package ua.training.top.util.aggregatorUtil.data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +12,9 @@ import java.util.regex.Matcher;
 import static java.time.LocalDate.now;
 import static java.time.LocalDate.parse;
 import static java.util.List.of;
-import static ua.training.top.util.collect.data.CommonUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.PatternUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.PatternUtil.*;
 
 public class DateToUtil {
     private final static Logger log = LoggerFactory.getLogger(DateToUtil.class);

@@ -18,8 +18,6 @@ import java.util.List;
 
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
-import static ua.training.top.util.MessageUtil.url_error;
-import static ua.training.top.util.MessageUtil.url_matcher;
 
 @ApiIgnore
 @RestController
@@ -49,11 +47,8 @@ public class VacancyUIController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Valid VacancyTo vacancyTo) {
+    public void createOrUpdate(@Valid @ModelAttribute VacancyTo vacancyTo) {
         log.info("createOrUpdate vacancyTo={}", vacancyTo);
-        if(!vacancyTo.getUrl().matches(url_matcher)) {
-            throw new IllegalArgumentException(url_error);
-        }
         if (vacancyTo.isNew()) {
             vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));
         } else {
@@ -63,7 +58,7 @@ public class VacancyUIController {
 
     @Transactional
     @GetMapping(value = "/filter")
-    public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
+    public List<VacancyTo> getByFilter(@Valid @ModelAttribute Freshen freshen) {
         log.info("getByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
         return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.collect.DocumentUtil;
+import ua.training.top.util.aggregatorUtil.DocumentUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -21,14 +21,14 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getJobsBG;
-import static ua.training.top.util.collect.data.CommonUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.DateToUtil.defaultDate;
-import static ua.training.top.util.collect.data.DateToUtil.getToLocalDate;
-import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.PatternUtil.pattern_date_jobs_bg;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getBG_en;
+import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobsBG;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.DateToUtil.defaultDate;
+import static ua.training.top.util.aggregatorUtil.data.DateToUtil.getToLocalDate;
+import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
+import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_date_jobs_bg;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getBG_en;
 
 public class JobsBGStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsBGStrategy.class);

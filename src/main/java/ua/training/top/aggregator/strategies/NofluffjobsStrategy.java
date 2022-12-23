@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.collect.DocumentUtil;
+import ua.training.top.util.aggregatorUtil.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,14 +18,14 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
-import static ua.training.top.util.collect.ElementUtil.getNofluffjobsVacancies;
-import static ua.training.top.util.collect.data.CommonUtil.*;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.LevelUtil.getLevel;
-import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.PageUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCityByCodeISOofCountry;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getCodeISOByCity;
+import static ua.training.top.util.aggregatorUtil.ElementUtil.getNofluffjobsVacancies;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.LevelUtil.getLevel;
+import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
+import static ua.training.top.util.aggregatorUtil.data.PageUtil.getPage;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getCityByCodeISOofCountry;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getCodeISOByCity;
 
 public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);

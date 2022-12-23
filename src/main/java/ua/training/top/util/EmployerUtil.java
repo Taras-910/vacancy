@@ -6,7 +6,7 @@ import ua.training.top.to.VacancyTo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.training.top.util.MessageUtil.not_be_null;
+import static ua.training.top.util.MessagesUtil.not_be_null;
 
 public class EmployerUtil {
 

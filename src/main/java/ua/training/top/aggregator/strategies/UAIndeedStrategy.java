@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.collect.DocumentUtil;
+import ua.training.top.util.aggregatorUtil.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,12 +17,12 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
-import static ua.training.top.util.collect.data.CommonUtil.getJoin;
-import static ua.training.top.util.collect.data.ConstantsUtil.get_vacancy;
-import static ua.training.top.util.collect.data.ConstantsUtil.indeed;
-import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.PageUtil.getPage;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getIndeed;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.getJoin;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.get_vacancy;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.indeed;
+import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
+import static ua.training.top.util.aggregatorUtil.data.PageUtil.getPage;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getIndeed;
 
 public class UAIndeedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAIndeedStrategy.class);

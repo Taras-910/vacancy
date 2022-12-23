@@ -1,6 +1,6 @@
-package ua.training.top.util.collect.data;
+package ua.training.top.util.aggregatorUtil.data;
 
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 
 public class LevelUtil {
 

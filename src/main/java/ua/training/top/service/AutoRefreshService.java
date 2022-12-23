@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.training.top.model.Freshen;
-import ua.training.top.util.MessageUtil;
+import ua.training.top.util.MessagesUtil;
 
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.InstallationUtil.offAutoRefreshProviders;
@@ -35,7 +35,7 @@ public class AutoRefreshService {
                 mapLevel.get(getKey(4)),
                 mapWorkplace.get(getKey(8))
         ));
-        log.info(MessageUtil.delay_week_day_freshen, delayWithinMinutes, freshen);
+        log.info(MessagesUtil.delay_week_day_freshen, delayWithinMinutes, freshen);
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
@@ -46,7 +46,7 @@ public class AutoRefreshService {
     @Scheduled(cron = "0 0,20,40 11-17 * * SAT")
     public void weekEnd() {
         int delayMinutesMax = 19;
-        log.info(MessageUtil.delay, delayMinutesMax);
+        log.info(MessagesUtil.delay, delayMinutesMax);
         setRandomDelay(1000 * 60 * delayMinutesMax);
         setTestAuthorizedUser(asAdmin());
         setAutoRefreshProviders();
@@ -69,7 +69,7 @@ public class AutoRefreshService {
     public void twiceInWeek() {
         log.info("Scheduled twiceByWeek");
         int delayWithinMinutes = 480; // 8 hours
-        log.info(MessageUtil.delay, delayWithinMinutes);
+        log.info(MessagesUtil.delay, delayWithinMinutes);
         setRandomDelay(1000 * 60 * delayWithinMinutes);
         setTestAuthorizedUser(asAdmin());
         aggregatorService.updateRateDB();

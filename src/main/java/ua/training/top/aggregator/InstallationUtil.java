@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import static ua.training.top.aggregator.Provider.getRates;
 import static ua.training.top.aggregator.Starter.allProviders;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
-import static ua.training.top.util.collect.data.ConstantsUtil.recall;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.recall;
 
 public class InstallationUtil {
     private static final Logger log = LoggerFactory.getLogger(InstallationUtil.class);

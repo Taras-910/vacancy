@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Freshen;
 import ua.training.top.to.VacancyTo;
-import ua.training.top.util.collect.DocumentUtil;
+import ua.training.top.util.aggregatorUtil.DocumentUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,12 +18,12 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
-import static ua.training.top.util.collect.ElementUtil.getVacanciesLinkedin;
-import static ua.training.top.util.collect.data.CommonUtil.isMatch;
-import static ua.training.top.util.collect.data.ConstantsUtil.*;
-import static ua.training.top.util.collect.data.LevelUtil.getLevel;
-import static ua.training.top.util.collect.data.PageUtil.getMaxPages;
-import static ua.training.top.util.collect.data.WorkplaceUtil.getLinkedin;
+import static ua.training.top.util.aggregatorUtil.ElementUtil.getVacanciesLinkedin;
+import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatch;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.LevelUtil.getLevel;
+import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
+import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getLinkedin;
 
 public class LinkedinStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(LinkedinStrategy.class);
