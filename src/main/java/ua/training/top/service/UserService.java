@@ -15,7 +15,6 @@ import org.springframework.util.Assert;
 import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
-import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.MethodNotAllowedException;
 
 import javax.validation.constraints.NotEmpty;
@@ -45,7 +44,6 @@ public class UserService implements UserDetailsService {
         log.info("create {}", user);
         Assert.notNull(user, not_be_null);
         checkNew(user);
-        checkDuplicate(user.getEmail());
         return prepareAndSave(user, null);
     }
 
@@ -79,9 +77,6 @@ public class UserService implements UserDetailsService {
         checkModificationAllowed(id);
         assureIdConsistent(user, id);
         User userDb = user.getId() == null ? null : repository.get(user.getId());
-        if (!userDb.getEmail().equals(user.getEmail())) {
-            checkDuplicate(user.getEmail());
-        }
         checkNotFoundWithId(prepareAndSave(user, userDb), user.id());
     }
 
@@ -114,12 +109,5 @@ public class UserService implements UserDetailsService {
             throw new MethodNotAllowedException(not_change_data + person);
         }
     }
-
-    private void checkDuplicate(String email) {
-        if (repository.getByEmail(email) != null) {
-            throw new IllegalRequestDataException("duplicate", email);
-        }
-    }
-
 }
 

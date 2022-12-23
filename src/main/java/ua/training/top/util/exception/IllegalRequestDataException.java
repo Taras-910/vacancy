@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "wrong request")  // 409
 public class IllegalRequestDataException extends RuntimeException {
-    public IllegalRequestDataException(String... msg) {
-        super(String.join(" ", msg));
+    public IllegalRequestDataException(String msg) {
+        super( msg);
     }
 }
 

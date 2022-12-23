@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 import static ua.training.top.SecurityUtil.authUserId;
@@ -34,7 +35,7 @@ public class ProfileUserRestController {
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> register(@RequestBody User user) {
+    public ResponseEntity<User> register(@Valid @RequestBody User user) {
         User created = service.create(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
@@ -43,7 +44,7 @@ public class ProfileUserRestController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody User user) {
+    public void update(@Valid @RequestBody User user) {
         service.update(user, authUserId());
     }
 }

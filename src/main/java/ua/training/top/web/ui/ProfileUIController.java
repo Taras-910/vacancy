@@ -15,7 +15,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.SecurityUtil;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
-import ua.training.top.repository.UserRepository;
 import ua.training.top.service.UserService;
 
 import javax.validation.Valid;
@@ -27,8 +26,6 @@ public class ProfileUIController {
 public static final Logger log = LoggerFactory.getLogger(ProfileUIController.class);
     @Autowired
     UserService service;
-    @Autowired
-    UserRepository repository;
 
     @GetMapping
     public String profile() {
@@ -43,11 +40,6 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             return "profile";
         }
         else {
-            if (repository.getByEmail(user.getEmail()) != null ) {
-                model.addAttribute("register", true);
-                model.addAttribute("message","user.duplicate");
-                return "/profile";
-            }
             service.update(user, SecurityUtil.authUserId());
             SecurityUtil.get().update(user);
             status.setComplete();
@@ -71,11 +63,6 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
             return "profile";
         }
         else {
-            if (repository.getByEmail(user.getEmail()) != null ) {
-                model.addAttribute("register", true);
-                model.addAttribute("message","user.duplicate");
-                return "/profile";
-            }
             service.create(user);
             status.setComplete();
             return "redirect:/login?message=user.invite&username=" + user.getEmail();

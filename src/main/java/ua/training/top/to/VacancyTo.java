@@ -40,7 +40,6 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     @Size(min = 3, max = 255)
     String skills;
 
-    @NotNull
     private LocalDate releaseDate;
 
     private String language;

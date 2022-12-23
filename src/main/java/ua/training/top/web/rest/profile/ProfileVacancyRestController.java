@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.VacancyService;
-import ua.training.top.service.VoteService;
 import ua.training.top.to.VacancyTo;
 
 import javax.validation.Valid;
@@ -26,8 +25,6 @@ public class ProfileVacancyRestController {
     public static final Logger log = LoggerFactory.getLogger(ProfileVacancyRestController.class);
     @Autowired
     private VacancyService vacancyService;
-    @Autowired
-    private VoteService voteService;
 
     @GetMapping("/{id}")
     public VacancyTo get(@PathVariable int id) {
