@@ -2,6 +2,8 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.NestedExceptionUtils;
+import org.springframework.lang.NonNull;
 import ua.training.top.model.AbstractBaseEntity;
 import ua.training.top.util.exception.ErrorType;
 import ua.training.top.util.exception.IllegalRequestDataException;
@@ -11,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
 import java.util.Set;
 
-import static ua.training.top.util.MessagesUtil.*;
+import static ua.training.top.util.MessagesUtil.must_has_id;
+import static ua.training.top.util.MessagesUtil.not_found;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -70,27 +73,26 @@ public class ValidationUtil {
         }
     }
 
-    //  http://stackoverflow.com/a/28565320/548473
-    public static Throwable getRootCause(Throwable t) {
-        Throwable result = t;
-        Throwable cause;
-
-        while (null != (cause = result.getCause()) && (result != cause)) {
-            result = cause;
-        }
-        return result;
+    //  https://stackoverflow.com/a/65442410/548473
+    @NonNull
+    public static Throwable getRootCause(@NonNull Throwable t) {
+        Throwable rootCause = NestedExceptionUtils.getRootCause(t);
+        return rootCause != null ? rootCause : t;
     }
 
     public static String getMessage(Throwable e) {
         return e.getLocalizedMessage() != null ? e.getLocalizedMessage() : e.getClass().getName();
     }
 
-    public static Throwable logAndGetRootCause(Logger log, HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
+    public static Throwable logAndGetRootCause(Logger log, HttpServletRequest req, Exception e, boolean logStackTrace, ErrorType errorType) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
-        log.warn(error_request, errorType, req.getRequestURL(), rootCause.toString());
+        if (logStackTrace) {
+            log.error(errorType + " at request " + req.getRequestURL(), rootCause);
+        } else {
+            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+        }
         return rootCause;
     }
-
     public static void checkNotFoundData(boolean found, Object id) {
         if (!found) {
             log.error(not_found, id);

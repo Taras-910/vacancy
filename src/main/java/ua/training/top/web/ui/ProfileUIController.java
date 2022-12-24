@@ -16,13 +16,14 @@ import ua.training.top.SecurityUtil;
 import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
+import ua.training.top.web.AbstractUserController;
 
 import javax.validation.Valid;
 
 @ApiIgnore
 @Controller
 @RequestMapping("/profile")
-public class ProfileUIController {
+public class ProfileUIController extends AbstractUserController {
 public static final Logger log = LoggerFactory.getLogger(ProfileUIController.class);
     @Autowired
     UserService service;

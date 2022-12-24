@@ -30,6 +30,10 @@ $(function () {
             "info": true,
             "columns": [
                 {
+                    "data": "id",
+                    "visible": false
+                },
+                {
                     "data": "name"
                 },
                 {
