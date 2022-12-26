@@ -31,6 +31,9 @@
                 </property>
             </bean>
         </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
+        </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
     <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
@@ -66,8 +69,12 @@
         <constructor-arg ref="messageSource"/>
     </bean>
 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="uk"/>
+    </bean>
+
     <mvc:interceptors>
         <bean class="ua.training.top.web.interceptor.ModelInterceptor"/>
     </mvc:interceptors>
-    
+
 </beans>

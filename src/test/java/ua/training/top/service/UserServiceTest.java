@@ -82,9 +82,8 @@ class UserServiceTest extends AbstractServiceTest {
     void createWithException(){
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, null, "mail@yandex.ru", "password", USER)));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "  ", "mail@yandex.ru", "password", USER)));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", null, "password", USER)));
+        validateRootCause(NullPointerException.class, () -> service.create(new User(null, "User", null, "password", USER)));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "  ", "password", USER)));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", null, USER)));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", "  ", USER)));
+        validateRootCause(IllegalArgumentException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", null, USER)));
     }
 }

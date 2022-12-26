@@ -8,6 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
@@ -40,29 +41,24 @@ public class ExceptionInfoHandler {
     @Autowired
     private MessageSourceAccessor messageSourceAccessor;
 
-    //  http://stackoverflow.com/a/22358422/548473
-    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(NullPointerException.class)
-    public ErrorInfo handleError(HttpServletRequest req, NullPointerException e) {
-        return logAndGetErrorInfo(req, e, false, DATA_NOT_FOUND);
-    }
 
     //  http://stackoverflow.com/a/22358422/548473
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(NotFoundException.class)
-    public ErrorInfo notFoundError(HttpServletRequest req, NotFoundException e) {
+    public ResponseEntity<ErrorInfo> notFoundError(HttpServletRequest req, NotFoundException e) {
         return logAndGetErrorInfo(req, e, false, DATA_NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
+    public ResponseEntity<ErrorInfo> conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         String rootMsg = ValidationUtil.getRootCause(e).getMessage();
         if (rootMsg != null) {
             String lowerCaseMsg = rootMsg.toLowerCase();
             for (Map.Entry<String, String> entry : CONSTRAINTS_I18N_MAP.entrySet()) {
                 if (lowerCaseMsg.contains(entry.getKey())) {
-                    return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, messageSourceAccessor.getMessage(entry.getValue()));
+                    return logAndGetErrorInfo(req, e, false, DATA_ERROR,
+                            getMessage(req.getRequestURI(), entry.getValue(), messageSourceAccessor));
                 }
             }
         }
@@ -71,29 +67,38 @@ public class ExceptionInfoHandler {
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler(BindException.class)
-    public ErrorInfo bindValidationError(HttpServletRequest req, BindException e) {
+    public ResponseEntity<ErrorInfo> bindValidationError(HttpServletRequest req, BindException e) {
         String[] details = e.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> String.format("[%s] %s", fieldError.getField(), fieldError.getDefaultMessage()))
                 .toArray(String[]::new);
+
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, details);
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
-    public ErrorInfo validationError(HttpServletRequest req, Exception e) {
+    public ResponseEntity<ErrorInfo> validationError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ErrorInfo internalError(HttpServletRequest req, Exception e) {
+    public ResponseEntity<ErrorInfo> internalError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, true, APP_ERROR);
     }
 
     //    https://stackoverflow.com/questions/538870/should-private-helper-methods-be-static-if-they-can-be-static
-    private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType, String... details) {
-        Throwable rootCause = ValidationUtil.logAndGetRootCause(log, req, e, logException, errorType);
-        return new ErrorInfo(req.getRequestURL(), errorType,
-                details.length != 0 ? details : new String[]{ValidationUtil.getMessage(rootCause)});
+    private ResponseEntity<ErrorInfo> logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logStackTrace, ErrorType errorType, String... details) {
+        Throwable rootCause = ValidationUtil.logAndGetRootCause(log, req, e, logStackTrace, errorType);
+        return ResponseEntity.status(errorType.getStatus())
+                .body(new ErrorInfo(req.getRequestURL(), errorType,
+                        getMessage(req.getRequestURI(), errorType.getErrorCode(), messageSourceAccessor),
+                        details.length != 0 ? details : new String[]{ValidationUtil.getMessage(rootCause)})
+                );
     }
+
+    public static String getMessage(String uri, String value, MessageSourceAccessor messageSourceAccessor) {
+        return uri.contains("/rest") ? value : messageSourceAccessor.getMessage(value);
+    }
+
 }

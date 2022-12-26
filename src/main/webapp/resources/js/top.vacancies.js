@@ -97,6 +97,9 @@ $(function () {
                 "targets": "_all"
             }],
             "info": true,
+            "language": {
+                "search": i18n["common.search"]
+            },
             "columns": [
                 {
                     "data": "id",

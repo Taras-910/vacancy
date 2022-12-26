@@ -3,11 +3,9 @@ package ua.training.top.web.rest.profile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.top.AbstractControllerTest;
-import ua.training.top.model.Role;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 import ua.training.top.util.exception.NotFoundException;
@@ -17,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.training.testData.TestUtil.readFromJson;
 import static ua.training.testData.TestUtil.userHttpBasic;
 import static ua.training.testData.UserTestData.USER_MATCHER;
 import static ua.training.testData.UserTestData.user;
@@ -78,21 +75,5 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    void register() throws Exception {
-        User newUser = new User(null, "newName", "newemail@ya.ru", "newPassword", Role.USER);
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newUser)))
-                .andDo(print())
-                .andExpect(status().isCreated());
-
-        User created = readFromJson(action, User.class);
-        int newId = created.id();
-        newUser.setId(newId);
-        USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(service.get(newId), newUser);
     }
 }

@@ -159,8 +159,5 @@ class VacancyServiceTest extends AbstractServiceTest {
         validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
                 new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
                         "https://aaa.ua", "   ", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
-                        "https://aaa.ua", "skills…", null, "java", "middle", "киев", true), freshen1));
     }
 }
