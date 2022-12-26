@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 abstract public class AbstractControllerTest {
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
-
+    private static final Locale UK_LOCALE = new Locale("uk");
     static {
         CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
         CHARACTER_ENCODING_FILTER.setForceEncoding(true);
@@ -63,7 +63,7 @@ abstract public class AbstractControllerTest {
     }
 
     private String getMessage(String code) {
-        return messageSourceAccessor.getMessage(code, Locale.ENGLISH);
+        return messageSourceAccessor.getMessage(code, UK_LOCALE);
     }
 
     public ResultMatcher errorType(ErrorType type) {
