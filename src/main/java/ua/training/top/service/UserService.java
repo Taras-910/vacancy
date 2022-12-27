@@ -16,6 +16,7 @@ import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.repository.UserRepository;
 import ua.training.top.util.exception.MethodNotAllowedException;
+import ua.training.top.util.exception.UpdateRestrictionException;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -105,8 +106,7 @@ public class UserService implements UserDetailsService {
 
     protected void checkModificationAllowed(int id) throws MethodNotAllowedException{
         if (herokuRestriction && id < START_SEQ + 2) {
-            String person = id == START_SEQ ? "Admin" : "User";
-            throw new MethodNotAllowedException(not_change_data + person);
+            throw new UpdateRestrictionException();
         }
     }
 }

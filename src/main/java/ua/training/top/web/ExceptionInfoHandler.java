@@ -7,25 +7,21 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ua.training.top.util.ValidationUtil;
-import ua.training.top.util.exception.ErrorInfo;
-import ua.training.top.util.exception.ErrorType;
-import ua.training.top.util.exception.IllegalRequestDataException;
-import ua.training.top.util.exception.NotFoundException;
+import ua.training.top.util.exception.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+import static ua.training.top.util.ValidationUtil.getMessage;
 import static ua.training.top.util.exception.ErrorType.*;
 
 @RestControllerAdvice(annotations = {RestController.class, Controller.class})
@@ -43,13 +39,18 @@ public class ExceptionInfoHandler {
 
 
     //  http://stackoverflow.com/a/22358422/548473
-    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+//    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorInfo> notFoundError(HttpServletRequest req, NotFoundException e) {
         return logAndGetErrorInfo(req, e, false, DATA_NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)  // 409
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<ErrorInfo> updateRestrictionError(HttpServletRequest req, ApplicationException appEx) {
+        return logAndGetErrorInfo(req, appEx, false, appEx.getType(), messageSourceAccessor.getMessage(appEx.getMsgCode()));
+    }
+
+//    @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorInfo> conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         String rootMsg = ValidationUtil.getRootCause(e).getMessage();
@@ -65,7 +66,7 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, true, DATA_ERROR);
     }
 
-    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
+//    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorInfo> bindValidationError(HttpServletRequest req, BindException e) {
         String[] details = e.getBindingResult().getFieldErrors().stream()
@@ -75,13 +76,13 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, details);
     }
 
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)  // 422
+//    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorInfo> validationError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> internalError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, true, APP_ERROR);
@@ -93,12 +94,7 @@ public class ExceptionInfoHandler {
         return ResponseEntity.status(errorType.getStatus())
                 .body(new ErrorInfo(req.getRequestURL(), errorType,
                         getMessage(req.getRequestURI(), errorType.getErrorCode(), messageSourceAccessor),
-                        details.length != 0 ? details : new String[]{ValidationUtil.getMessage(rootCause)})
+                        details.length != 0 ? details : new String[]{getMessage(rootCause)})
                 );
     }
-
-    public static String getMessage(String uri, String value, MessageSourceAccessor messageSourceAccessor) {
-        return uri.contains("/rest") ? value : messageSourceAccessor.getMessage(value);
-    }
-
 }

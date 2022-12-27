@@ -2,6 +2,7 @@ package ua.training.top.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 import ua.training.top.model.AbstractBaseEntity;
@@ -65,7 +66,7 @@ public class ValidationUtil {
     }
 
     public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
-//      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
+    //  conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
         if (entity.isNew()) {
             entity.setId(id);
         } else if (entity.id() != id) {
@@ -97,5 +98,9 @@ public class ValidationUtil {
         if (!found) {
             log.error(not_found, id);
         }
+    }
+
+    public static String getMessage(String uri, String value, MessageSourceAccessor messageSourceAccessor) {
+        return uri.contains("/rest") ? value : messageSourceAccessor.getMessage(value);
     }
 }
