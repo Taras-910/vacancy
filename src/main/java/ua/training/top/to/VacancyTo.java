@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static ua.training.top.util.aggregatorUtil.xss.XssUtil.xssClear;
+
 public class VacancyTo extends BaseTo implements Serializable, Comparable<VacancyTo> {
 
     @NotBlank
@@ -80,7 +82,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setEmployerName(String employerName) {
-        this.employerName = employerName;
+        this.employerName = xssClear(employerName);
     }
 
     public String getAddress() {
@@ -88,7 +90,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = xssClear(address);
     }
 
     public String getTitle() {
@@ -96,7 +98,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = xssClear(title);
     }
 
     public LocalDate getReleaseDate() {
@@ -128,7 +130,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.url = xssClear(url);
     }
 
     public String getSkills() {
@@ -136,7 +138,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setSkills(String skills) {
-        this.skills = skills;
+        this.skills = xssClear(skills);
     }
 
     public String getLanguage() {
@@ -144,12 +146,12 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setLanguage(String language) {
-        this.language = language;
+        this.language = xssClear(language);
     }
 
     public String getLevel() { return level; }
 
-    public void setLevel(String level) { this.level = level; }
+    public void setLevel(String level) { this.level = xssClear(level); }
 
     public boolean isToVote() {
         return toVote;
@@ -164,7 +166,7 @@ public class VacancyTo extends BaseTo implements Serializable, Comparable<Vacanc
     }
 
     public void setWorkplace(String workplace) {
-        this.workplace = workplace;
+        this.workplace = xssClear(workplace);
     }
 
     @Override

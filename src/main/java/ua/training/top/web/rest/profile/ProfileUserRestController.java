@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.AuthorizedUser;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
@@ -24,13 +25,13 @@ public class ProfileUserRestController extends AbstractUserController {
     UserService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@AuthenticationPrincipal AuthorizedUser authUser) {
+    public User get(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
         return service.get(authUser.getId());
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal AuthorizedUser authUser) {
+    public void delete(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
         service.delete(authUser.getId());
     }
 
@@ -45,8 +46,7 @@ public class ProfileUserRestController extends AbstractUserController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody User user, @AuthenticationPrincipal AuthorizedUser authUser) {
+    public void update(@Valid @RequestBody User user, @ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
         service.update(user, authUser.getId());
     }
-
 }

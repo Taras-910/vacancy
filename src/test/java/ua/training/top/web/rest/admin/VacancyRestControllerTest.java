@@ -23,6 +23,7 @@ import ua.training.top.web.json.JsonUtil;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,6 +33,7 @@ import static ua.training.testData.TestUtil.*;
 import static ua.training.testData.UserTestData.admin;
 import static ua.training.testData.VacancyTestData.*;
 import static ua.training.testData.VacancyToTestData.VACANCY_TO_MATCHER;
+import static ua.training.testData.VacancyToTestData.vacancyTo1;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
@@ -188,4 +190,19 @@ class VacancyRestControllerTest extends AbstractControllerTest {
         setTestAuthorizedUser(admin);
         assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY2_ID));
     }
+
+    @Test
+    void updateHtmlUnsafe() throws Exception {
+        VacancyTo invalid = new VacancyTo(vacancyTo1);
+        invalid.setTitle(vacancyTo1.getTitle()+"<script>alert(123)</script>");
+        perform(MockMvcRequestBuilders.put(REST_URL + VACANCY1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        Vacancy vacancyDB = vacancyService.get(VACANCY1_ID);
+        assertEquals(vacancyDB.getTitle(), vacancyTo1.getTitle());
+    }
+
 }
