@@ -31,12 +31,15 @@ public class UAJoobleStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(UAJoobleStrategy.class);
     private static final String url = "https://%sjooble.org/SearchResult?date=3%s%s%s%s";
     //    https://ua.jooble.org/SearchResult?date=3&rgns=Польща&ukw=java
+    //    https://ua.jooble.org/SearchResult?loc=2&p=2&ukw=java
 
-    protected Document getDocument(String codeISO, String workplace, String language, String level, String page) {
-        String city = getCityByCodeISOofCountry(codeISO, workplace);
+    protected Document getDocument(String codeCountry, String workplace, String language, String level, String page) {
+        String city = getCityByCodeISOofCountry(codeCountry, workplace);
+        String varCountry = codeCountry.equals("remote") ? "ua" : codeCountry;
         return DocumentUtil.getDocument(format(url,
-                isMatch((of("us", "il", "all")), codeISO) ? "" : getJoin(codeISO, "."),
-                codeISO.equals("all") || workplace.equals("all") || isEmpty(city) ? "" : getJoin("&rgns=", city),
+                isMatch((of("us", "il", "all")), codeCountry) ? "" : getJoin(varCountry, "."),
+                codeCountry.equals("remote") ? "&loc=2" :
+                        codeCountry.equals("all") || workplace.equals("all") || isEmpty(city) ? "" : getJoin("&rgns=", city),
                 getPage(jooble, page),
                 language.equals("all") ? "" : getJoin("&ukw=", language),
                 getLevel(jooble, level)));
@@ -53,13 +56,13 @@ public class UAJoobleStrategy implements Strategy {
         String[] workplaces = isMatch(foreignAria, workplace) ? getForeign() : new String[]{workplace};
         Set<VacancyTo> set = new LinkedHashSet<>();
         for (String location : workplaces) {
-            String codeISO = getCodeISOByCity(location);
+            String codeCountry = getCodeISOByCity(location);
             int page = 1;
             while (true) {
-                Document doc = getDocument(codeISO, location, language, level, valueOf(page));
+                Document doc = getDocument(codeCountry, location, language, level, valueOf(page));
                 Elements elements = doc == null ? null : doc.select("[data-test-name=_jobCard]");
                 if (elements == null || elements.size() == 0) break;
-                set.addAll(getVacanciesJooble(elements, freshen, codeISO));
+                set.addAll(getVacanciesJooble(elements, freshen, codeCountry));
                 if (page < getMaxPages(jooble, location)) page++;
                 else break;
             }
@@ -72,4 +75,11 @@ public class UAJoobleStrategy implements Strategy {
         return new String[]{"Канада", "Польща", "Німеччина", "Швеція", "Швейцарія", "США", "Франція", "Італія",
                 "Фінляндія", "Велика Британія", "ОАЭ", "Чехія", "Словаччина"};
     }
+
+    public static String getJoobleDate(String codeISO, String dateString) {
+        return codeISO.equals("cz") && isContains(dateString, "před") &&!isContains(dateString, "měsícem") ? dateString.replaceAll("před", "") : dateString;
+    }
+
+
+
 }

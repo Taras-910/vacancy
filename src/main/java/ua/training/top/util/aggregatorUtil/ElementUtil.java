@@ -19,6 +19,7 @@ import static ua.training.top.aggregator.strategies.JobsBGStrategy.getAddress;
 import static ua.training.top.aggregator.strategies.JobsBGStrategy.getDateJobsBG;
 import static ua.training.top.aggregator.strategies.JobsMarketStrategy.getDateJobsMarket;
 import static ua.training.top.aggregator.strategies.NofluffjobsStrategy.getToNofluffAddress;
+import static ua.training.top.aggregator.strategies.UAJoobleStrategy.getJoobleDate;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.DateToUtil.defaultDate;
@@ -491,7 +492,8 @@ public class ElementUtil {
             try {
                 LocalDate localDate;
                 try {
-                    localDate = getToLocalDate(xssClear(element.getElementsByClass("caption e0VAhp"/*"caption _04443"*/).text()));
+                    String dateString = xssClear(element.getElementsByClass("caption e0VAhp"/*"caption _04443"*/).text());
+                    localDate = getToLocalDate(getJoobleDate(codeISO, dateString));
                 } catch (Exception e) {
                     log.error(error, "LocalDate", e.getMessage());
                     localDate = defaultDate;
