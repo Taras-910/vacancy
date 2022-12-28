@@ -4,13 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+import ua.training.top.AuthorizedUser;
 import ua.training.top.model.Vote;
 import ua.training.top.service.VoteService;
 
 import java.util.List;
-
-import static ua.training.top.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(value = ProfileVoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,13 +26,13 @@ public class ProfileVoteRestController {
 
     @GetMapping("/{id}")
     public Vote get(@PathVariable int id) {
-        log.info("get by id {} for user {}", id, authUserId());
+        log.info("get by id {}", id);
         return service.get(id);
     }
 
     @GetMapping
-    public List<Vote> getAllForAuth() {
-        log.info("get all for authUserId");
+    public List<Vote> getAllAuth(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
+        log.info("get all for authUserId {}", authUser.getId());
         return service.getAllForAuth();
     }
 

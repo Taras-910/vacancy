@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
 
@@ -26,14 +27,14 @@ public class FreshenRestController {
     @Autowired
     private FreshenService service;
 
-    @GetMapping
-    public List<Freshen> getAll() {
-        return service.getAll();
-    }
-
     @GetMapping("/{id}")
     public Freshen get(@PathVariable int id) {
         return service.get(id);
+    }
+
+    @GetMapping
+    public List<Freshen> getAll() {
+        return service.getAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -57,6 +58,7 @@ public class FreshenRestController {
         service.update(freshen, id);
     }
 
+    @ApiIgnore
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid Freshen freshen) {

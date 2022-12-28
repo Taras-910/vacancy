@@ -2,8 +2,6 @@ package ua.training.top.web.rest.admin;
 
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
@@ -17,17 +15,17 @@ import ua.training.top.util.exception.NotFoundException;
 import ua.training.top.web.json.JsonUtil;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.testData.RateTestData.*;
-import static ua.training.testData.TestUtil.readFromJson;
-import static ua.training.testData.TestUtil.userHttpBasic;
-import static ua.training.testData.UserTestData.admin;
+import static ua.training.testData.TestUtil.*;
+import static ua.training.testData.UserTestData.*;
+import static ua.training.top.util.exception.ErrorType.VALIDATION_ERROR;
 
 class RateRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RateRestController.REST_URL + '/';
-    private static final Logger log = LoggerFactory.getLogger(RateRestControllerTest.class);
 
     @Autowired
     private RateService service;
@@ -52,6 +50,20 @@ class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void getUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void getAll() throws Exception {
         Iterable<Rate> allRates = allRates();
         perform(MockMvcRequestBuilders.get(REST_URL)
@@ -66,7 +78,7 @@ class RateRestControllerTest extends AbstractControllerTest {
         Rate newRate = new Rate(RateTestData.getNew());
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(admin))
+                .with(userHttpBasic(admin)).with(csrf())
                 .content(JsonUtil.writeValue(newRate)))
                 .andExpect(status().isCreated());
         Rate created = readFromJson(action, Rate.class);
@@ -76,11 +88,38 @@ class RateRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void createInvalid() throws Exception {
+        Rate invalid = new Rate(RateTestData.getNew());
+        invalid.setName("n".repeat(7));
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)).with(csrf())
+                .content(JsonUtil.writeValue(invalid)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR));
+    }
+
+    @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + RATE1_ID)
-                .with(userHttpBasic(admin)))
+                .with(userHttpBasic(admin)).with(csrf()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> service.get(RATE1_ID));
+    }
+
+    @Test
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
+                .with(userHttpBasic(admin)).with(csrf()))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void deleteForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + RATE1_ID)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isForbidden());
     }
 }

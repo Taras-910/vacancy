@@ -32,6 +32,11 @@ public class FreshenService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
+    public List<Freshen> getAllAuth(int authId) {
+        log.info("getAllAuth {}", authId);
+        return repository.getAllAuth(authId);
+    }
+
     public List<Freshen> getAll() {
         log.info("getAll");
         return repository.getAll();

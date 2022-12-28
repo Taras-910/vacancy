@@ -6,16 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.training.testData.VacancyToTestData;
 import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Employer;
-import ua.training.top.model.Freshen;
-import ua.training.top.model.Goal;
 import ua.training.top.model.Vacancy;
 import ua.training.top.to.VacancyTo;
 import ua.training.top.util.VacancyUtil;
 import ua.training.top.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,7 +24,6 @@ import static ua.training.testData.VacancyToTestData.VACANCY_TO_MATCHER;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.util.DateTimeUtil.testDate;
 import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
-import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
 
@@ -77,17 +72,7 @@ class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void createErrorData() {
-        setTestAuthorizedUser(admin);
-        Freshen freshen = asNewFreshen(new Freshen(null, null, "Java", "middle","Киев", Collections.singleton(Goal.UPGRADE), null));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net/1/11", "Java Core", testDate, "java", "middle","киев", false), freshen));
-        assertThrows(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11", null, testDate, "java", "middle","киев", false), freshen));
-    }
-
-    @Test
-    void createListOfVacancies() {
+    void createListVacancies() {
         setTestAuthorizedUser(admin);
         List<Vacancy> actual = List.of(vacancy3, vacancy4);
         actual.forEach(v -> {
@@ -102,7 +87,7 @@ class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void createListErrorData() {
+    void createListVacanciesInvalid() {
         assertThrows(NullPointerException.class, () -> vacancyService.createUpdateList(List.of(null, new Vacancy(vacancy3))));
         assertThrows(NullPointerException.class, () -> vacancyService.createUpdateList(null));
     }
@@ -115,7 +100,7 @@ class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void updateErrorData() {
+    void updateInvalid() {
         assertThrows(IllegalArgumentException.class, () -> vacancyService.updateTo(new VacancyTo()));
     }
 
@@ -137,27 +122,18 @@ class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void createWithException(){
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "   ", "employerName", "address", 100000, 200000,
-                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "   ", "address", 100000, 200000,
-                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "employerName", "   ", 100000, 200000,
-                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "employerName", "address", 0, 200000,
-                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "employerName", "address", 100000, 0,
-                        "https://aaa.ua", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
-                        "   ", "skills…", LocalDate.now(), "java", "middle", "киев", true), freshen1));
-        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(
-                new VacancyTo(null, "title", "employerName", "address", 100000, 200000,
-                        "https://aaa.ua", "   ", LocalDate.now(), "java", "middle", "киев", true), freshen1));
+    void createVacancyAndEmployerInvalid(){
+        setTestAuthorizedUser(admin);
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "   ", "employerName", "address", 100000, 200000, "https://aaa.ua", "skills…", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "title", "   ", "address", 100000, 200000, "https://aaa.ua", "skills…", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "title", "employerName", "   ", 100000, 200000, "https://aaa.ua", "skills…", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "title", "employerName", "address", 0, 200000, "https://aaa.ua", "skills…", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "title", "employerName", "address", 100000, 0, "https://aaa.ua", "skills…", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "title", "employerName", "address", 100000, 200000, "   ", "skills…", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(ConstraintViolationException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "title", "employerName", "address", 100000, 200000, "https://aaa.ua", "   ", testDate, "java", "middle", "киев", true), freshen1));
+        validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, null, "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen1));
+        validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen1));
+        validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net/1/11", "Java Core", testDate, "java", "middle","киев", false), freshen1));
+        validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11", null, testDate, "java", "middle","киев", false), freshen1));
     }
 }

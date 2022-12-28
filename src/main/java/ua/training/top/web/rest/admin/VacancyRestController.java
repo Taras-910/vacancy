@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Freshen;
 import ua.training.top.model.Vacancy;
 import ua.training.top.service.VacancyService;
@@ -50,6 +51,7 @@ public class VacancyRestController {
         vacancyService.updateTo(vacancyTo);
     }
 
+    @ApiIgnore
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vacancy> createVacancyAndEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
         Vacancy created = vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));

@@ -1,6 +1,6 @@
 package ua.training.top.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,9 +51,9 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @Column(name = "user_id")
     private Integer userId;
 
+    @ApiModelProperty(hidden = true)
     @Fetch(FetchMode.JOIN)
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "freshen")
-    @JsonManagedReference(value="freshen-movement") //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private List<Vacancy> vacancies;
 
     public Freshen(Integer id, LocalDateTime recordedDate, String language, String level, String workplace, Collection<Goal> goals, Integer userId) {

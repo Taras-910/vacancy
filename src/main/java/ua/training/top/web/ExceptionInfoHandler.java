@@ -28,20 +28,16 @@ import static ua.training.top.util.exception.ErrorType.*;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
     private static final Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
-
     public static final String EXCEPTION_DUPLICATE_EMAIL = "user.duplicate";
-
     private static final Map<String, String> CONSTRAINTS_I18N_MAP = Map.of(
             "users_unique_email_idx", EXCEPTION_DUPLICATE_EMAIL);
 
     @Autowired
     private MessageSourceAccessor messageSourceAccessor;
 
-
     //  http://stackoverflow.com/a/22358422/548473
-//    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorInfo> notFoundError(HttpServletRequest req, NotFoundException e) {
+    @ExceptionHandler({NotFoundException.class, NullPointerException.class})
+    public ResponseEntity<ErrorInfo> notFoundError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, DATA_NOT_FOUND);
     }
 
@@ -50,8 +46,7 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, appEx, false, appEx.getType(), messageSourceAccessor.getMessage(appEx.getMsgCode()));
     }
 
-//    @ResponseStatus(HttpStatus.CONFLICT)  // 409
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)     // 409
     public ResponseEntity<ErrorInfo> conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         String rootMsg = ValidationUtil.getRootCause(e).getMessage();
         if (rootMsg != null) {
@@ -66,8 +61,7 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, true, DATA_ERROR);
     }
 
-//    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler(BindException.class)
+    @ExceptionHandler(BindException.class)                       // 422
     public ResponseEntity<ErrorInfo> bindValidationError(HttpServletRequest req, BindException e) {
         String[] details = e.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> String.format("[%s] %s", fieldError.getField(), fieldError.getDefaultMessage()))
@@ -76,13 +70,12 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, details);
     }
 
-//    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class,
+            HttpMessageNotReadableException.class})               // 422
     public ResponseEntity<ErrorInfo> validationError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
     }
 
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> internalError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, true, APP_ERROR);
@@ -94,7 +87,6 @@ public class ExceptionInfoHandler {
         return ResponseEntity.status(errorType.getStatus())
                 .body(new ErrorInfo(req.getRequestURL(), errorType,
                         getMessage(req.getRequestURI(), errorType.getErrorCode(), messageSourceAccessor),
-                        details.length != 0 ? details : new String[]{getMessage(rootCause)})
-                );
+                        details.length != 0 ? details : new String[]{getMessage(rootCause)}));
     }
 }

@@ -21,7 +21,7 @@ class EmployerServiceTest extends AbstractServiceTest {
     EmployerService service;
 
     @Test
-    public void getById() {
+    public void get() {
         Assertions.assertEquals(service.get(EMPLOYER1_ID), employer1);
     }
 
@@ -32,7 +32,7 @@ class EmployerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void getErrorData() {
+    public void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
@@ -44,7 +44,7 @@ class EmployerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void updateErrorData() {
+    public void updateInvalid() {
         assertThrows(IllegalArgumentException.class, () -> service.update(null));
         assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
         assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
@@ -59,6 +59,14 @@ class EmployerServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void createInvalid(){
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "   ", "Sity")));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, null, "Sity")));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", "   ")));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", null)));
+    }
+
+    @Test
     public void delete() {
         service.delete(EMPLOYER1_ID);
         assertThrows(NotFoundException.class, () -> service.get(EMPLOYER1_ID));
@@ -67,14 +75,6 @@ class EmployerServiceTest extends AbstractServiceTest {
     @Test
     public void deletedNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
-    }
-
-    @Test
-    void createWithException(){
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "   ", "Sity")));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, null, "Sity")));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", "   ")));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", null)));
     }
 
 }

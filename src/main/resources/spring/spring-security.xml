@@ -27,6 +27,8 @@
         <intercept-url pattern="/swagger-resources/**" access="permitAll()"/>
         <intercept-url pattern="/v2/api-docs/**" access="permitAll()"/>
 
+        <intercept-url pattern="/profile/freshen" access="isAuthenticated()"/>
+
         <intercept-url pattern="/profile/register" access="isAnonymous()"/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>

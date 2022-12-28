@@ -26,7 +26,7 @@ class RateServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void getNotValid() {
+    void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
@@ -52,7 +52,7 @@ class RateServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void deleteNotValid() {
+    void deleteInvalid() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 
@@ -70,12 +70,12 @@ class RateServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void getByNotFoundName() {
-        assertThrows(NotFoundException.class, () -> service.getByName("notFoundName"));
+    void getByNameInvalid() {
+        assertThrows(NotFoundException.class, () -> service.getByName("NameInvalid"));
     }
 
     @Test
-    void createWithException(){
+    void createInvalid(){
         validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"   ",0.897, now())));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,null,0.897, now())));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"USDGBP",0.0, now())));

@@ -21,13 +21,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.training.testData.FreshenTestData.*;
 import static ua.training.testData.TestUtil.userHttpBasic;
-import static ua.training.testData.UserTestData.admin;
-import static ua.training.testData.UserTestData.user;
+import static ua.training.testData.UserTestData.*;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.InstallationUtil.setTestProvider;
 import static ua.training.top.aggregator.InstallationUtil.setTestReasonPeriodToKeep;
@@ -56,6 +56,12 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void getOwn() throws Exception {
         Iterable<Freshen> freshens = List.of(freshen2);
         perform(MockMvcRequestBuilders.get(REST_URL)
@@ -76,7 +82,7 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
         setTestReasonPeriodToKeep();
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(admin))
+                .with(userHttpBasic(admin)).with(csrf())
                 .content(JsonUtil.writeValue(asNewFreshen(freshen))))
                 .andDo(print())
                 .andExpect(status().isNoContent());

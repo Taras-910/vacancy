@@ -47,7 +47,7 @@ class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void getAllForAuthUser() {
+    void getAllAuth() {
         List<Vote> all = service.getAllForAuth();
         VOTE_MATCHER.assertMatch(List.of(vote1), all);
     }
@@ -76,7 +76,7 @@ class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void updateIllegalArgument() {
+    void updateInvalid() {
         assertThrows(NotFoundException.class, () -> service.update(NOT_FOUND, VACANCY2_ID));
     }
 
@@ -88,5 +88,10 @@ class VoteServiceTest extends AbstractServiceTest {
         newVote.setId(newId);
         VOTE_MATCHER.assertMatch(newVote, created);
         VOTE_MATCHER.assertMatch(newVote, service.get(newId));
+    }
+
+    @Test
+    void createInvalid() {
+        assertThrows(NotFoundException.class, () -> service.update(VACANCY2_ID, NOT_FOUND));
     }
 }

@@ -75,8 +75,6 @@
     </bean>
 
     <mvc:interceptors>
-        <bean class="ua.training.top.web.interceptor.ModelInterceptor"/>
-
         <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <property name="paramName" value="lang"/>
         </bean>

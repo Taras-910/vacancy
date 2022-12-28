@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.User;
 import ua.training.top.service.UserService;
 
@@ -66,11 +67,10 @@ public class UserRestController {
         return service.getByEmail(email);
     }
 
+    @ApiIgnore
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         service.enable(id, enabled);
     }
-
-
 }

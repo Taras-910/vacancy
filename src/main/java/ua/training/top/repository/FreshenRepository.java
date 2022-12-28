@@ -17,6 +17,8 @@ public interface FreshenRepository {
 
     List<Freshen> getAll();
 
+    List<Freshen> getAllAuth(int authId);
+
     void deleteList(List<Freshen> listToDelete);
 
     void deleteOutDated(LocalDateTime outPeriodToKeep);

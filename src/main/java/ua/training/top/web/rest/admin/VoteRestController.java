@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Vote;
 import ua.training.top.service.VoteService;
 
@@ -37,7 +38,7 @@ public class VoteRestController {
     }
 
     @GetMapping("/auth")
-    public List<Vote> getAllForAuthUser() {
+    public List<Vote> getAuth() {
         log.info("get all for authUserId");
         return service.getAllForAuth();
     }
@@ -66,6 +67,7 @@ public class VoteRestController {
         service.delete(id);
     }
 
+    @ApiIgnore
     @PostMapping( value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void setVote(@PathVariable(name = "id") int vacancyId, @RequestParam boolean toVote) {
         log.info(toVote ? "enable {}" : "disable {}", vacancyId);

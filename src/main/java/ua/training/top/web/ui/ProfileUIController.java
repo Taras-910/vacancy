@@ -38,7 +38,6 @@ public static final Logger log = LoggerFactory.getLogger(ProfileUIController.cla
     @PostMapping
     public String updateProfile(@Valid User user, BindingResult result, SessionStatus status, @AuthenticationPrincipal AuthorizedUser authUser) {
         if (result.hasErrors()) {
-//            model.addAttribute("register", false);
             return "profile";
         }
         service.update(user, authUser.getId());

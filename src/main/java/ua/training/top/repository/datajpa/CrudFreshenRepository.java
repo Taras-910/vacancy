@@ -19,4 +19,7 @@ public interface CrudFreshenRepository extends JpaRepository<Freshen, Integer> {
 
     @Query("SELECT f FROM Freshen f WHERE f.recordedDate<:reasonLocalDateTime")
     List<Freshen> getOutDated(@Param("reasonLocalDateTime") LocalDateTime reasonLocalDateTime);
+
+    @Query("SELECT f FROM Freshen f WHERE f.userId=:id")
+    List<Freshen> getAllAuth(@Param("id") int authId);
 }

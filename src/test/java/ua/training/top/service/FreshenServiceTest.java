@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.training.testData.FreshenTestData;
 import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Freshen;
+import ua.training.top.util.exception.IllegalRequestDataException;
 import ua.training.top.util.exception.NotFoundException;
 
 import java.util.List;
@@ -21,14 +22,20 @@ class FreshenServiceTest extends AbstractServiceTest {
     private FreshenService service;
 
     @Test
-    void create() {
-        setTestAuthorizedUser(admin);
-        Freshen created = service.create(FreshenTestData.getNew());
-        int newId = created.id();
-        Freshen newFreshen = FreshenTestData.getNew();
-        newFreshen.setId(newId);
-        FRESHEN_MATCHER.assertMatch(created, newFreshen);
-        FRESHEN_MATCHER.assertMatch(service.get(newId), newFreshen);
+    void get() {
+        Freshen freshen = service.get(FRESHEN1_ID);
+        FRESHEN_MATCHER.assertMatch(freshen, freshen1);
+    }
+
+    @Test
+    void getNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
+    }
+
+    @Test
+    void getAll() {
+        List<Freshen> all = service.getAll();
+        FRESHEN_MATCHER.assertMatch(all, freshen1, freshen2);
     }
 
     @Test
@@ -43,14 +50,21 @@ class FreshenServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void get() {
-        Freshen freshen = service.get(FRESHEN1_ID);
-        FRESHEN_MATCHER.assertMatch(freshen, freshen1);
+    void create() {
+        setTestAuthorizedUser(admin);
+        Freshen created = service.create(FreshenTestData.getNew());
+        int newId = created.id();
+        Freshen newFreshen = FreshenTestData.getNew();
+        newFreshen.setId(newId);
+        FRESHEN_MATCHER.assertMatch(created, newFreshen);
+        FRESHEN_MATCHER.assertMatch(service.get(newId), newFreshen);
     }
 
     @Test
-    void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
+    void createInvalid() {
+        Freshen invalid = new Freshen(freshen1);
+        invalid.setWorkplace("n".repeat(101));
+        validateRootCause(IllegalRequestDataException.class, () -> service.create(invalid));
     }
 
     @Test
@@ -59,11 +73,4 @@ class FreshenServiceTest extends AbstractServiceTest {
         service.update(updated, FRESHEN1_ID);
         FRESHEN_MATCHER.assertMatch(service.get(FRESHEN1_ID), FreshenTestData.getUpdated());
     }
-
-    @Test
-    void getAll() {
-        List<Freshen> all = service.getAll();
-        FRESHEN_MATCHER.assertMatch(all, freshen1, freshen2);
-    }
-
 }

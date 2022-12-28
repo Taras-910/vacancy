@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.*;
 import java.util.Set;
 
-import static ua.training.top.util.MessagesUtil.must_has_id;
-import static ua.training.top.util.MessagesUtil.not_found;
+import static ua.training.top.util.MessagesUtil.*;
 
 public class ValidationUtil {
     public static final Logger log = LoggerFactory.getLogger(ValidationUtil.class);
@@ -55,7 +54,7 @@ public class ValidationUtil {
 
     public static void checkNotFound(boolean found, String msg) {
         if (!found) {
-            throw new NotFoundException("Not found entity with " + msg);
+            throw new NotFoundException(not_found + msg);
         }
     }
 
@@ -90,13 +89,13 @@ public class ValidationUtil {
         if (logStackTrace) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
         } else {
-            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+            log.warn(error_request, errorType, req.getRequestURL(), rootCause.toString());
         }
         return rootCause;
     }
     public static void checkNotFoundData(boolean found, Object id) {
         if (!found) {
-            log.error(not_found, id);
+            log.error(not_found + id);
         }
     }
 

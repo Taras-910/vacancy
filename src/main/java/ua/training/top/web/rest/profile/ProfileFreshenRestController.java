@@ -5,15 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+import ua.training.top.AuthorizedUser;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.FreshenService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static ua.training.top.SecurityUtil.authUserId;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 
 @RestController
@@ -25,20 +26,20 @@ public class ProfileFreshenRestController {
     @Autowired
     private FreshenService service;
 
-    @GetMapping
-    public List<Freshen> getAllOwn() {
-        return service.getAll().stream().filter(f -> authUserId() == f.getUserId()).collect(Collectors.toList());
-    }
-
     @GetMapping("/{id}")
     public Freshen get(@PathVariable int id) {
-        return getAllOwn().stream().filter(f -> f.getId() == id).findFirst().orElse(null);
+        return service.get(id);
     }
 
+    @GetMapping
+    public List<Freshen> getAllAuth(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
+        return service.getAllAuth(authUser.getId());
+    }
+
+    @ApiIgnore
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void refreshDB(@Valid @RequestBody Freshen freshen) {
-        log.info("refreshDB freshen {}", freshen);
         service.refreshDB(asNewFreshen(freshen));
     }
 

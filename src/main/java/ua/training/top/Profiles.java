@@ -4,7 +4,7 @@ public class Profiles {
     public static final String
             POSTGRES_DB = "postgres",
             H2 = "h2",
-            HSQL_DB = "hsqldb",
+            HSQL_DB = "hsqldb-test",
             HEROKU = "heroku";
 
     //  Get DB profile depending of DB driver in classpath

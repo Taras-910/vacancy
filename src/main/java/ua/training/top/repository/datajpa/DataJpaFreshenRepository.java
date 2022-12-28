@@ -8,8 +8,9 @@ import ua.training.top.model.Freshen;
 import ua.training.top.repository.FreshenRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Repository
@@ -52,7 +53,12 @@ public class DataJpaFreshenRepository implements FreshenRepository {
 
     @Override
     public List<Freshen> getAll() {
-        return crudRepository.findAll().stream().peek(f -> f.setVacancies(null)).collect(Collectors.toList());
+        return crudRepository.findAll();
+    }
+
+    @Override
+    public List<Freshen> getAllAuth(int authId) {
+        return Optional.ofNullable(crudRepository.getAllAuth(authId)).orElse(new ArrayList<Freshen>());
     }
 }
 
