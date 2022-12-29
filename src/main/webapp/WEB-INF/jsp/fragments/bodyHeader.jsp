@@ -6,10 +6,10 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark py-0">
     <div class="container">
         <a href="vacancies" class="navbar-brand">
-            <h3>
+            <h4>
                 <img src="resources/images/icon-vacancy.png">
                    4000+ <spring:message code="body_header.title"/> 🔥
-            </h3>
+            </h4>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +23,7 @@
                             <sec:authorize access="hasRole('ADMIN')">
                                <a class="btn btn-info mr-1" href="users"><spring:message code="body_header.users"/></a>
                             </sec:authorize>
-                            <a class="btn btn-info mr-1" href="profile"><sec:authentication property="principal.user.name"/> <spring:message code="common.profile"/></a>
+                            <a class="btn btn-info mr-1" href="profile"><spring:message code="common.profile"/>: <sec:authentication property="principal.user.name"/></a>
                             <button class="btn btn-primary my-1" type="submit">
                                 <span class="fa fa-sign-out"></span>
                             </button>
@@ -48,6 +48,10 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=uk">Українська</a>
                         <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>
+                        <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=pl">Polski</a>
+                        <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=bg">Български</a>
+                        <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=fr">Français</a>
+                        <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=de">Deutsch</a>
                         <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=ru">Русский</a>
                     </div>
                 </li>

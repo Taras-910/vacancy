@@ -7,19 +7,25 @@
 <body>
 <nav class="navbar navbar-dark bg-dark py-0">
     <div class="container">
-        <div class="navbar-brand"><h3><img src="resources/images/icon-vacancy.png">    4000+ <spring:message code="body_header.title"/> 🔥</h3></div>
+        <div class="navbar-brand"><h4><img src="resources/images/icon-vacancy.png">    4000+ <spring:message code="body_header.title"/> 🔥</h4></div>
         <form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
+            <div>
             <input class="form-control mr-1" type="text" placeholder="Email" name="username">
             <input class="form-control mr-1" type="password" placeholder="Password" name="password">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button class="btn btn-success" type="submit">
                 <span class="fa fa-sign-in"></span>
             </button>
+            </div>
             <div class="nav-item dropdown">
                 <a class="dropdown-toggle nav-link my-1 ml-2" data-toggle="dropdown">${pageContext.response.locale}</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=uk">Українська</a>
                     <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">English</a>
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=pl">Polski</a>
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=bg">Български</a>
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=fr">Français</a>
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=de">Deutsch</a>
                     <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_uri']}?lang=ru">Русский</a>
                 </div>
             </div>
