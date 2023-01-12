@@ -85,7 +85,8 @@ public class AggregatorService {
                     .collect(Collectors.groupingBy(EmployerUtil::getEmployerFromTo));
             executeRefreshDb(mapUniqueTos, vacanciesDb, vacanciesUpdate, vacanciesCreate, newFreshen);
             long timeElapsed = Duration.between(start, Instant.now()).toMillis();
-            log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(), newFreshen);
+            log.info(finish_message, timeElapsed, vacanciesCreate.size(), vacanciesUpdate.size(),
+                    newFreshen.getLanguage(), newFreshen.getLevel(), newFreshen.getWorkplace());
             if (isRateOld) {
                 updateRateDB();
             }
@@ -141,3 +142,22 @@ public class AggregatorService {
     }
 }
 // NofluffjobsStrategy add HL
+//el-CY	Greek (Cyprus)
+//el-GR	Greek (Greece)
+// me Черногория
+
+// cy Кипр
+//Лимасол
+//Строволос
+//Никосия
+//Ларнака
+//Лакатамия
+//Пафос
+
+// gr Греция
+//Афины
+//Салоники
+//Патры
+//Пирей
+//Перистери //!!!
+//Никея  //!!!

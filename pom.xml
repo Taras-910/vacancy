@@ -404,7 +404,7 @@
     </profile>
 
     <profile>
-      <id>hsqldb-test</id>
+      <id>hsqldb</id>
       <dependencies>
         <dependency>
           <groupId>org.hsqldb</groupId>

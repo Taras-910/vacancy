@@ -1,6 +1,6 @@
 package ua.training.top.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,7 +51,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @Column(name = "user_id")
     private Integer userId;
 
-    @ApiModelProperty(hidden = true)
+    @JsonIgnore
     @Fetch(FetchMode.JOIN)
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "freshen")
     private List<Vacancy> vacancies;

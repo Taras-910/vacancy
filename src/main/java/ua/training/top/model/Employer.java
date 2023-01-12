@@ -1,6 +1,6 @@
 package ua.training.top.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -24,7 +24,8 @@ public class Employer extends AbstractBaseEntity{
     @Size(min = 1, max = 255)
     private String address;
 
-    @ApiModelProperty(hidden = true)
+//    @ApiModelProperty(hidden = true)
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer")
 //    @JsonManagedReference(value="employer-movement") // https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473

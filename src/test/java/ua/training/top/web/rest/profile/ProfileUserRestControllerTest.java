@@ -30,7 +30,7 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
     @Autowired
     private ProfileUserRestController controller;
     @Autowired
-    UserService service;
+    private UserService service;
 
     @Test
     void get() throws Exception {

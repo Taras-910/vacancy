@@ -17,7 +17,7 @@ public class ConstantsUtil {
             filter_address_jobs_bg = "\\s((3p)|(Стаж)|(chair)|(Отпуск.*))|(wifi\\s)",
             document_user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15",
             internet_connection_error = "There may broken internet connection or exception={} by url={} ",
-            finish_message = "\nfinish is ok,\ntime: {}ms\ncreated: {}\nupdated: {}\nFreshen: {}\n" + ":".repeat(120),
+            finish_message = "finish is ok,\ntime:      {}ms\ncreated:   {}\nupdated:   {}\nlanguage:  {}\nlevel:     {}\nworkplace: {}\n" + ":".repeat(120),
             error = "There is error \ne={}\n for parse \n{}",
             common_number_vacancyTos = "Common number vacancyTos = {}",
             get_vacancy = "getVacancies language={} level={} workplace={} ",
