@@ -28,25 +28,22 @@ public class FilterUtil {
 
     public static List<Vacancy> getFilter(List<Vacancy> vacancies, Freshen f) {
         return vacancies.stream()
-                .filter(v -> isSuit(v, f.getLanguage(), "language")
+                .filter(v -> isSuit(v, f.getLanguage(), "lang")
                         && isSuit(v, f.getLevel(), "level")
-                        && isSuit(v, f.getWorkplace(), "workplace"))
+                        && isSuit(v, f.getWorkplace(), "work"))
                 .collect(Collectors.toList());
     }
 
-    public static boolean isSuit(Vacancy v, String field, String fieldKind) {
-        String text = (fieldKind.equals("workplace") ? getJoin(v.getSkills(),v.getTitle(),v.getEmployer().getAddress()) :
-                getJoin(v.getSkills(),v.getTitle())).toLowerCase();
+    public static boolean isSuit(Vacancy v, String field, String label) {
+        String text = getJoin(v.getSkills(), label.equals("work") ? v.getEmployer().getAddress() : v.getTitle()).toLowerCase();
         return switch (field.toLowerCase()) {
             case "all" -> true;
             case "java", "react", "ruby" -> text.matches(".*\\b" + field + "\\b.*");
             case "trainee", "стажировка", "стажер", "internship", "интерн", "intern"
                     -> mapAriaFilter.getOrDefault(field, of(field)).stream().anyMatch(a -> text.matches(".*\\b" + a + "\\b.*"));
             case "другие страны", "інші країни", "інші_країни", "foreign", "за_рубежем", "за рубежом", "за рубежем",
-                    "за кордоном", "за_кордоном" ->
-                    citiesUA.stream().noneMatch(cityUA -> isContains(text, cityUA));
-            default -> mapAriaFilter.getOrDefault(field, of(field)).size() == 1 ? isContains(text, field) :
-                mapAriaFilter.getOrDefault(field, of(field)).stream().anyMatch(a -> isContains(text, a));
+                    "за кордоном", "за_кордоном" -> citiesUA.stream().noneMatch(cityUA -> isContains(text, cityUA));
+            default -> mapAriaFilter.getOrDefault(field, of(field)).stream().anyMatch(a -> isContains(text, a));
         };
     }
 }

@@ -60,6 +60,14 @@ public class SalaryToUtil {
             }
             result[i] = a < 30000 ? 1 : !exceed ? a : Math.min(a / 12, 5000000);
         }
+        return checkLikeTrue(result);
+    }
+
+    private static Integer[] checkLikeTrue(Integer[] result) {
+        if (result[0] > result[1] && result[1] != 1 ) {
+            result[1] = result[0];
+            result[0] = 1;
+        }
         return result;
     }
 
