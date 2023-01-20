@@ -131,7 +131,7 @@ public class SalaryToUtil {
             case "₭" -> USDCZK;
             default -> USDUSD;
         };
-        Rate r = mapRates.getOrDefault(name, new Rate(null, 1.0, LocalDate.now()));
+        Rate r = mapRates.getOrDefault(name, new Rate(null, null, 1.0, LocalDate.now()));
         if(r.getName() == null){
             log.error(currency_rate_not_found, name);
         }

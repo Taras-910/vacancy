@@ -62,6 +62,7 @@ public class VacancyRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @ApiIgnore
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
         log.info("getByFilter freshen={}", freshen);

@@ -54,7 +54,7 @@ public class TradingEconomicsProvider implements RateProvider {
                 log.error(error, e.getLocalizedMessage(), element);
             }
         }
-        list.add(new Rate(USDUSD, 1.0, LocalDate.now()));
+        list.add(new Rate(null, USDUSD, 1.0, LocalDate.now()));
         return list;
     }
 }

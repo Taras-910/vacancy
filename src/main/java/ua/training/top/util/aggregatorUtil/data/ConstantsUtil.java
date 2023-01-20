@@ -52,7 +52,7 @@ public class ConstantsUtil {
             ratesAria = of("USDUSD", "USDPLN", "USDEUR", "USDGBP", "USDBYR", "USDUAH", "USDKZT", "USDCAD", "USDCZK", "USDBGN"),
             yearAria = of("год", "рік", "year", "annually", "annual", "annum", "rok", "jahr", "година"),
             monthAriaDate = of("měsícem", "месяц", "месяца", "month", "months", "monat", "monate", "miesiąc",
-                    "miesiące", "månader", "месец", "месеци", "mese", "mois"),
+                    "miesiące", "månad", "månader", "месец", "месеци", "mese", "mois"),
             weekAriaDate = of("неделя", "недели", "неделю", "week", "weeks", "wochen", "tydzień", "седмица"),
             dayAria = of("день", "дня", "дней", "днів", "дні", "дни", "сьогодні", "сегодня", "days", "day",
                     "daily", "today", "dzień", "dny", "tagen", "tage", "tag", "dagar", "dag", "dni", "ден", "giorno",

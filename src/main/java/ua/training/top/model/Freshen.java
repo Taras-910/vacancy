@@ -56,13 +56,7 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "freshen")
     private List<Vacancy> vacancies;
 
-    public Freshen(Integer id, LocalDateTime recordedDate, String language, String level, String workplace, Collection<Goal> goals, Integer userId) {
-        this(id, recordedDate, language, level, workplace, userId);
-        setGoals((Set<Goal>) goals);
-    }
-
-    public Freshen(Freshen f){
-        this(f.getId(), f.recordedDate, f.language, f.level, f.workplace, f.getGoals(), f.userId);
+    public Freshen() {
     }
 
     public Freshen(Integer id, LocalDateTime recordedDate, String language, String level, String workplace, Integer userId){
@@ -74,7 +68,13 @@ public class Freshen extends AbstractBaseEntity implements Serializable {
         this.userId = userId;
     }
 
-    public Freshen() {
+    public Freshen(Integer id, LocalDateTime recordedDate, String language, String level, String workplace, Collection<Goal> goals, Integer userId) {
+        this(id, recordedDate, language, level, workplace, userId);
+        setGoals((Set<Goal>) goals);
+    }
+
+    public Freshen(Freshen f){
+        this(f.getId(), f.recordedDate, f.language, f.level, f.workplace, f.getGoals(), f.userId);
     }
 
     public LocalDateTime getRecordedDate() {

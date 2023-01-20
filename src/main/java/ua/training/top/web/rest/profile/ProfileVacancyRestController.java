@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 import ua.training.top.model.Freshen;
 import ua.training.top.service.VacancyService;
 import ua.training.top.to.VacancyTo;
@@ -23,6 +24,7 @@ import static ua.training.top.util.FreshenUtil.asNewFreshen;
 public class ProfileVacancyRestController {
     static final String REST_URL = "/rest/profile/vacancies";
     public static final Logger log = LoggerFactory.getLogger(ProfileVacancyRestController.class);
+
     @Autowired
     private VacancyService vacancyService;
 
@@ -36,6 +38,7 @@ public class ProfileVacancyRestController {
         return vacancyService.getAllTos();
     }
 
+    @ApiIgnore
     @Transactional
     @GetMapping(value = "/filter")
     public List<VacancyTo> getByFilter(@Valid Freshen freshen) {

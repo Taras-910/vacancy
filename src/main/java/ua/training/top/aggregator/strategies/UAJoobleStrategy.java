@@ -77,9 +77,11 @@ public class UAJoobleStrategy implements Strategy {
     }
 
     public static String getJoobleDate(String codeISO, String dateString) {
-        return codeISO.equals("cz") && isContains(dateString, "před") &&!isContains(dateString, "měsícem") ? dateString.replaceAll("před", "") : dateString;
+        if(codeISO.equals("se")) {
+            dateString = isContains(dateString, "sedan") ? dateString.replace("sedan", "") : dateString;
+            dateString = isContains(dateString, "en") ? dateString.replace("en", "1") : dateString;
+        }
+        return codeISO.equals("cz") && isContains(dateString, "před") &&!isContains(dateString, "měsícem") ?
+                dateString.replaceAll("před", "") : dateString;
     }
-
-
-
 }

@@ -39,7 +39,6 @@ import static ua.training.top.util.EmployerUtil.getEmployerFromTo;
 import static ua.training.top.util.VacancyUtil.fromTo;
 import static ua.training.top.util.VacancyUtil.getTos;
 
-@Transactional
 class VacancyRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VacancyRestController.REST_URL + '/';
     @Autowired
@@ -185,6 +184,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     void deleteNotFound() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
                 .with(userHttpBasic(admin)).with(csrf()))
@@ -192,6 +192,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     void deleteForbidden() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + VACANCY2_ID)
                 .with(userHttpBasic(user)))
@@ -199,6 +200,7 @@ class VacancyRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     void updateHtmlUnsafe() throws Exception {
         VacancyTo invalid = new VacancyTo(vacancyTo1);
         invalid.setTitle(vacancyTo1.getTitle()+"<script>alert(123)</script>");

@@ -31,22 +31,18 @@ public class Rate  extends AbstractBaseEntity implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateRate;
 
-    public Rate(@NotNull @Size(min = 6, max = 6) String name, @NotNull Double valueRate, LocalDate dateRate) {
+    public Rate() {}
+
+    public Rate(Integer id, @NotNull @Size(min = 6, max = 6) String name, @NotNull Double valueRate, LocalDate dateRate) {
+        super(id);
         this.name = name;
         this.valueRate = valueRate;
         this.dateRate = dateRate;
     }
 
-    public Rate(Integer id, @NotNull @Size(min = 6, max = 6) String name, @NotNull Double valueRate, LocalDate dateRate) {
-        this(name, valueRate, dateRate);
-        this.id = id;
-    }
-
     public Rate(Rate r) {
         this(r.id, r.name, r.getValueRate(), r.getDateRate());
     }
-
-    public Rate() {}
 
     public String getName() {
         return name;

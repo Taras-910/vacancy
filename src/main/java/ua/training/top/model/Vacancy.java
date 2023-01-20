@@ -1,8 +1,10 @@
 package ua.training.top.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,7 +16,7 @@ import java.util.Objects;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
-@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames ={ "title", "skills"}, name = "vacancy_idx")})
+@Table(name = "vacancy", uniqueConstraints = {@UniqueConstraint(columnNames ={"title", "skills"}, name = "vacancy_idx")})
 public class Vacancy extends AbstractBaseEntity {
 
     @NotNull
@@ -23,12 +25,12 @@ public class Vacancy extends AbstractBaseEntity {
     private String title;
 
     @NotNull
-//    @Range(min = 1, max = 10000000)
+    @Range(min = 1, max = 10000000)
     @Column(name = "salary_min")
     private Integer salaryMin;
 
     @NotNull
-//    @Range(min = 1, max = 10000000)
+    @Range(min = 1, max = 10000000)
     @Column(name = "salary_max")
     private Integer salaryMax;
 
@@ -45,12 +47,14 @@ public class Vacancy extends AbstractBaseEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate releaseDate;
 
+    @ApiModelProperty(hidden = true)
     @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "employer_id", nullable = false)
     @JsonBackReference(value="employer-movement")  //https://stackoverflow.com/questions/20119142/jackson-multiple-back-reference-properties-with-name-defaultreference
     private Employer employer;
 
+    @ApiModelProperty(hidden = true)
     @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "freshen_id", nullable = false)
@@ -58,10 +62,6 @@ public class Vacancy extends AbstractBaseEntity {
     private Freshen freshen;
 
     public Vacancy() {
-    }
-
-    public Vacancy(String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate) {
-        this(null, title, salaryMin, salaryMax, url, skills, releaseDate);
     }
 
     public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate) {
@@ -72,10 +72,6 @@ public class Vacancy extends AbstractBaseEntity {
         this.url = url;
         this.skills = skills;
         this.releaseDate = releaseDate;
-    }
-
-    public Vacancy(Integer id, String title, Integer salaryMin, Integer salaryMax, String url, String skills, LocalDate releaseDate, Employer employer) {
-        this(id, title, salaryMin, salaryMax, url, skills, releaseDate);
     }
 
     public Vacancy(Vacancy v) {

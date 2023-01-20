@@ -52,10 +52,6 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     public User() {
     }
 
-    public User(User u) {
-        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRegistered(), u.getRoles());
-    }
-
     public User(Integer id, String name, String email, String password, Role... roles) {
         this(id, name, email, password, true, new Date(),  Set.of(roles));
     }
@@ -67,6 +63,10 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
         this.enabled = enabled;
         this.registered = registered;
         setRoles(roles);
+    }
+
+    public User(User u) {
+        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRegistered(), u.getRoles());
     }
 
     public String getEmail() {
