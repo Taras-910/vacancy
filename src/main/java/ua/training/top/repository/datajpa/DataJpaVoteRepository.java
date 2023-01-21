@@ -23,6 +23,22 @@ public class DataJpaVoteRepository implements VoteRepository {
         this.userRepository = userRepository;
     }
 
+    @Override
+    public Vote get(int id, int userId) {
+        Vote vote = voteRepository.findById(id).orElse(null);
+        return vote != null && vote.getUserId() == userId ? vote : null;
+    }
+
+    @Override
+    public List<Vote> getAllAuth(int userId) {
+        return Optional.ofNullable(voteRepository.getAllAuth(userId)).orElse(null);
+    }
+
+    @Override
+    public List<Vote> getAll() {
+        return voteRepository.findAll();
+    }
+
     @Transactional
     @Override
     public Vote save(Vote vote, int userID) {
@@ -41,22 +57,6 @@ public class DataJpaVoteRepository implements VoteRepository {
     @Override
     public boolean deleteByVacancyId(int vacancyId, int authUserId) {
         return voteRepository.deleteByVacancyId(vacancyId, authUserId) != 0;
-    }
-
-    @Override
-    public Vote get(int id, int userId) {
-        Vote vote = voteRepository.findById(id).orElse(null);
-        return vote != null && vote.getUserId() == userId ? vote : null;
-    }
-
-    @Override
-    public List<Vote> getAllForAuth(int userId) {
-        return Optional.ofNullable(voteRepository.getAllForAuth(userId)).orElse(null);
-    }
-
-    @Override
-    public List<Vote> getAll() {
-        return voteRepository.findAll();
     }
 
     @Transactional

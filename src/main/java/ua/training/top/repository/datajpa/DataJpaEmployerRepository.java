@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static ua.training.top.util.MessageUtil.redirect;
+
 @Transactional(readOnly = true)
 @Repository
 public class DataJpaEmployerRepository implements EmployerRepository {
@@ -30,43 +32,6 @@ public class DataJpaEmployerRepository implements EmployerRepository {
     @Override
     public List<Employer> getAll() {
         return Optional.of(repository.getAll()).orElse(null);
-    }
-
-    @Transactional
-    @Override
-    public boolean delete(int id) {
-        return Optional.of(repository.delete(id)).orElse(0) != 0;
-    }
-
-    @Transactional
-    @Override
-    public List<Employer> createList(ArrayList<Employer> employers) {
-        List<Employer> employersDb = new ArrayList<>();
-        try {
-            employersDb = repository.saveAll(employers);
-        } catch (Exception e) {
-            for(Employer employer : employers) {
-                log.error("error {} redirect on method save", employer);
-                employersDb.add(save(employer));
-            }
-        }
-        return employersDb;
-    }
-
-    @Transactional
-    @Override
-    public void deleteList(List<Employer> list) {
-        repository.deleteAll(list);
-    }
-
-    @Transactional
-    @Override
-    public Employer save(Employer employer) {
-        log.info("save employer {}", employer);
-        if(employer.isNew()){
-            return repository.save(employer);
-        }
-        return get(employer.getId()) != null ? repository.save(employer) : null;
     }
 
     @Transactional
@@ -95,5 +60,42 @@ public class DataJpaEmployerRepository implements EmployerRepository {
             return listByName.get(0);
         }
         return doubleEmployer == null ? listByName.get(0) : doubleEmployer;
+    }
+
+    @Transactional
+    @Override
+    public Employer save(Employer employer) {
+        log.info("save employer {}", employer);
+        if(employer.isNew()){
+            return repository.save(employer);
+        }
+        return get(employer.getId()) != null ? repository.save(employer) : null;
+    }
+
+    @Transactional
+    @Override
+    public List<Employer> createList(ArrayList<Employer> employers) {
+        List<Employer> employersDb = new ArrayList<>();
+        try {
+            employersDb = repository.saveAll(employers);
+        } catch (Exception e) {
+            for(Employer employer : employers) {
+                log.error(redirect, employer);
+                employersDb.add(save(employer));
+            }
+        }
+        return employersDb;
+    }
+
+    @Transactional
+    @Override
+    public boolean delete(int id) {
+        return Optional.of(repository.delete(id)).orElse(0) != 0;
+    }
+
+    @Transactional
+    @Override
+    public void deleteList(List<Employer> list) {
+        repository.deleteAll(list);
     }
 }

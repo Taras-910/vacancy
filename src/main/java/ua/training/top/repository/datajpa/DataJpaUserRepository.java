@@ -18,18 +18,6 @@ public class DataJpaUserRepository implements UserRepository {
         this.crudRepository = crudRepository;
     }
 
-    @Transactional
-    @Override
-    public User save(User user) {
-        return crudRepository.save(user);
-    }
-
-    @Transactional
-    @Override
-    public boolean delete(int id) {
-        return crudRepository.delete(id) != 0;
-    }
-
     @Override
     public User get(int id) {
         return crudRepository.findById(id).orElse(null);
@@ -43,5 +31,17 @@ public class DataJpaUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         return crudRepository.findAll(SORT_NAME_EMAIL);
+    }
+
+    @Transactional
+    @Override
+    public User save(User user) {
+        return crudRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public boolean delete(int id) {
+        return crudRepository.delete(id) != 0;
     }
 }

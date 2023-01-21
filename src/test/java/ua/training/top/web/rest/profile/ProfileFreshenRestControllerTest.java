@@ -35,9 +35,10 @@ import static ua.training.top.aggregator.strategies.TestStrategy.getTestList;
 import static ua.training.top.util.EmployerUtil.getEmployersFromTos;
 import static ua.training.top.util.FreshenUtil.asNewFreshen;
 import static ua.training.top.util.VacancyUtil.fromTos;
+import static ua.training.top.web.rest.profile.ProfileFreshenRestController.REST_URL;
 
 class ProfileFreshenRestControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = ProfileFreshenRestController.REST_URL + '/';
+    private static final String REST_URL_SLASH = REST_URL + '/';
     @Autowired
     private FreshenService freshenService;
     @Autowired
@@ -47,17 +48,18 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + FRESHEN2_ID)
-                .with(userHttpBasic(user)))
-                .andExpect(status().isOk())
+        System.out.println(freshenService.getAll());
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + FRESHEN2_ID)
+                .with(userHttpBasic(user)).with(csrf()))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(FRESHEN_MATCHER.contentJson(freshen2));
     }
 
     @Test
     void getUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -65,7 +67,8 @@ class ProfileFreshenRestControllerTest extends AbstractControllerTest {
     void getOwn() throws Exception {
         Iterable<Freshen> freshens = List.of(freshen2);
         perform(MockMvcRequestBuilders.get(REST_URL)
-                .with(userHttpBasic(user)))
+                .with(userHttpBasic(user)).with(csrf()))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(FRESHEN_MATCHER.contentJson(freshens));

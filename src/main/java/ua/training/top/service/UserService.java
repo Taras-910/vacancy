@@ -23,7 +23,7 @@ import java.util.List;
 
 import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
-import static ua.training.top.util.MessagesUtil.*;
+import static ua.training.top.util.MessageUtil.*;
 import static ua.training.top.util.UserUtil.prepareToSave;
 import static ua.training.top.util.ValidationUtil.*;
 

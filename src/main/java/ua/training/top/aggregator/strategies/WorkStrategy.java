@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getWork;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -30,15 +31,15 @@ public class WorkStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(WorkStrategy.class);
     private static final String url = "https://www.work.ua/ru/jobs%s-it%s%s/?advs=1%s&notitle=1&days=123%s";
     //за 7 дней сорт по дате   https://www.work.ua/ru/jobs-kyiv-java/?days=123&page=1
-//https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=123%s
+    //https://www.work.ua/ru/jobs%s-%s%s/?advs=1%s&notitle=1&days=123%s
 
     protected Document getDocument(String workspace, String language, String level, String page) {
-        workspace = isMatches(of(uaAria, remoteAria, of("all")), workspace) ? "" : isMatch(citiesUA, workspace) ?
+        workspace = isMatches(of(uaAria, remoteAria, of(all)), workspace) ? "" : isMatch(citiesUA, workspace) ?
                 getJoin("-", getUA_en(workspace).toLowerCase()) : "-other";
         return DocumentUtil.getDocument(format(url,
                 workspace,
-                language.equals("all") ? "" : getJoin("-", language),
-                level.equals("all") ? "" : getJoin(language.equals("all") ? "-" : "+", getLevel(work, level)),
+                language.equals(all) ? "" : getJoin("-", language),
+                level.equals(all) ? "" : getJoin(language.equals(all) ? "-" : "+", getLevel(work, level)),
                 workspace.equals("remote") ? "&employment=76" : "", getPage(work, page)));
     }
 

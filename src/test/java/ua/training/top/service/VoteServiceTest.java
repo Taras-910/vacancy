@@ -42,30 +42,24 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void getAll() {
-        List<Vote> all = service.getAllForAuth();
+        List<Vote> all = service.getAllAuth();
         VOTE_MATCHER.assertMatch(allVotes(), all);
     }
 
     @Test
     void getAllAuth() {
-        List<Vote> all = service.getAllForAuth();
+        List<Vote> all = service.getAllAuth();
         VOTE_MATCHER.assertMatch(List.of(vote1), all);
     }
 
     @Test
-    void delete() {
-        service.delete(VOTE1_ID);
-        assertThrows(NotFoundException.class, () -> service.get(VOTE1_ID));
-    }
-
-    @Test
-    void deletedNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
-    }
-
-    @Test
-    void deleteNotOwn() {
-        assertThrows(NotFoundException.class, () -> service.delete(VOTE2_ID));
+    void create() {
+        Vote created = service.create(VACANCY2_ID);
+        int newId = created.id();
+        Vote newVote = new Vote(null, thisDay, VACANCY2_ID, ADMIN_ID);
+        newVote.setId(newId);
+        VOTE_MATCHER.assertMatch(newVote, created);
+        VOTE_MATCHER.assertMatch(newVote, service.get(newId));
     }
 
     @Test
@@ -81,17 +75,22 @@ class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void create() {
-        Vote created = service.create(VACANCY2_ID);
-        int newId = created.id();
-        Vote newVote = new Vote(null, thisDay, VACANCY2_ID, ADMIN_ID);
-        newVote.setId(newId);
-        VOTE_MATCHER.assertMatch(newVote, created);
-        VOTE_MATCHER.assertMatch(newVote, service.get(newId));
+    void createInvalid() {
+        assertThrows(NotFoundException.class, () -> service.update(VACANCY2_ID, NOT_FOUND));
+    }
+    @Test
+    void delete() {
+        service.delete(VOTE1_ID);
+        assertThrows(NotFoundException.class, () -> service.get(VOTE1_ID));
     }
 
     @Test
-    void createInvalid() {
-        assertThrows(NotFoundException.class, () -> service.update(VACANCY2_ID, NOT_FOUND));
+    void deletedNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
+    }
+
+    @Test
+    void deleteNotOwn() {
+        assertThrows(NotFoundException.class, () -> service.delete(VOTE2_ID));
     }
 }

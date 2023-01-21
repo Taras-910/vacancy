@@ -15,9 +15,9 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static ua.training.top.aggregator.InstallationUtil.reCallRate;
+import static ua.training.top.util.MessageUtil.error;
 import static ua.training.top.util.aggregatorUtil.DocumentUtil.getDocument;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.USDUSD;
-import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.error;
 import static ua.training.top.util.aggregatorUtil.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.aggregatorUtil.xss.XssUtil.xssClear;
 

@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getITJob;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -28,13 +29,13 @@ import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getITJobs;
 public class ItJobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(ItJobsStrategy.class);
     private final static String url = "https://www.itjobs.ca/en/search-jobs/?search=1%s%s%s%s%s";
-//https://www.itjobs.ca/en/search-jobs/?search=1&categories=155%2C168&keywords=java+middle&location=Toronto%2C+ON&location-id=481104&location-type=1&page=2
+    //https://www.itjobs.ca/en/search-jobs/?search=1&categories=155%2C168&keywords=java+middle&location=Toronto%2C+ON&location-id=481104&location-type=1&page=2
 
     protected Document getDocument(String workplace, String page, String level, String language) {
-        return DocumentUtil.getDocument(format(url, !language.equals("all") || !level.equals("all") ? "&keywords=" :  "",
-                language.equals("all") ? "" : language,
-                level.equals("all") ? "" : language.equals("all") ? level : getJoin("+", level),
-                workplace.equals("all") ? "" : workplace.equals("remote") ? "&teleworking=true" : workplace,
+        return DocumentUtil.getDocument(format(url, !language.equals(all) || !level.equals(all) ? "&keywords=" :  "",
+                language.equals(all) ? "" : language,
+                level.equals(all) ? "" : language.equals(all) ? level : getJoin("+", level),
+                workplace.equals(all) ? "" : workplace.equals("remote") ? "&teleworking=true" : workplace,
                 getPage(itJob, page)));
     }
 
@@ -42,8 +43,8 @@ public class ItJobsStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, language, level, workplace);
-        workplace = isMatch(caAria, workplace) ? "all" :
-                isMatches(of(citiesCa, remoteAria, foreignAria, of("all")),workplace) ? workplace : "-1";
+        workplace = isMatch(caAria, workplace) ? all :
+                isMatches(of(citiesCa, remoteAria, foreignAria, of(all)),workplace) ? workplace : "-1";
         if (workplace.equals("-1")) {
             return new ArrayList<>();
         }

@@ -12,8 +12,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.InstallationUtil.reasonDateLoading;
+import static ua.training.top.util.MessageUtil.common_number_vacancyTos;
+import static ua.training.top.util.MessageUtil.error_select;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatch;
-import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.citiesRU;
 import static ua.training.top.util.aggregatorUtil.data.ToUtil.getFilled;
 
 @Repository

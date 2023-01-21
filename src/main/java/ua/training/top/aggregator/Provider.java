@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.InstallationUtil.baseCurrency;
-import static ua.training.top.util.MessagesUtil.time_number_inform;
+import static ua.training.top.util.MessageUtil.time_number_inform;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.ratesAria;
 
 public class Provider {

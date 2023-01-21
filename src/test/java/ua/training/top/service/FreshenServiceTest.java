@@ -39,17 +39,6 @@ class FreshenServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void delete() {
-        service.delete(FRESHEN1_ID);
-        assertThrows(NotFoundException.class, () -> service.get(FRESHEN1_ID));
-    }
-
-    @Test
-    void deletedNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
-    }
-
-    @Test
     void create() {
         setTestAuthorizedUser(admin);
         Freshen created = service.create(FreshenTestData.getNew());
@@ -72,5 +61,16 @@ class FreshenServiceTest extends AbstractServiceTest {
         Freshen updated = FreshenTestData.getUpdated();
         service.update(updated, FRESHEN1_ID);
         FRESHEN_MATCHER.assertMatch(service.get(FRESHEN1_ID), FreshenTestData.getUpdated());
+    }
+
+    @Test
+    void delete() {
+        service.delete(FRESHEN1_ID);
+        assertThrows(NotFoundException.class, () -> service.get(FRESHEN1_ID));
+    }
+
+    @Test
+    void deletedNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 }

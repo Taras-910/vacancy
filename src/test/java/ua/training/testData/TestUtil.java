@@ -1,7 +1,5 @@
 package ua.training.testData;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class TestUtil {
-    private static final Logger log = LoggerFactory.getLogger(TestUtil.class);
     public static final int NOT_FOUND = 10;
 
     public static String getContent(MvcResult result) throws UnsupportedEncodingException {

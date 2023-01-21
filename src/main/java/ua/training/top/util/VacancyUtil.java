@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.List.of;
-import static ua.training.top.util.MessagesUtil.*;
+import static ua.training.top.util.MessageUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.link;
 
 public class VacancyUtil {
@@ -74,7 +74,7 @@ public class VacancyUtil {
         String[] line = {v.getTitle(), v.getEmployerName(), v.getAddress(), v.getSkills(), v.getUrl()};
         for(String text : line) {
             if (text == null || text.equals("")) {
-                log.error(check_error_data, v);
+                log.error(check_null_data, v);
                 return false;
             }
         }

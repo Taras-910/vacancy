@@ -1,8 +1,6 @@
 package ua.training.top.web.rest.admin;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -27,16 +25,16 @@ import static ua.training.testData.UserTestData.admin;
 import static ua.training.testData.VacancyTestData.VACANCY2_ID;
 import static ua.training.testData.VoteTestData.*;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
+import static ua.training.top.web.rest.admin.VoteRestController.REST_URL;
 
 class VoteRestControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = VoteRestController.REST_URL + '/';
-    private static final Logger log = LoggerFactory.getLogger(VoteRestControllerTest.class);
+    private static final String REST_URL_SLASH = REST_URL + '/';
     @Autowired
     private VoteService service;
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VOTE1_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + VOTE1_ID)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -47,7 +45,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -55,7 +53,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -71,7 +69,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAllAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "auth")
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "auth")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -104,7 +102,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         Vote updated = new Vote(vote1);
         updated.setVacancyId(VACANCY2_ID);
-        perform(MockMvcRequestBuilders.put(REST_URL + VOTE1_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + VOTE1_ID)
                 .param("vacancyId", String.valueOf(VACANCY2_ID))
                 .with(userHttpBasic(admin)).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -117,7 +115,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + VOTE1_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + VOTE1_ID)
                 .with(userHttpBasic(admin)).with(csrf()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -127,14 +125,14 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + NOT_FOUND)
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND)
                 .with(userHttpBasic(admin)).with(csrf()))
                 .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     void setVote() throws Exception {
-        perform(MockMvcRequestBuilders.post(REST_URL + VACANCY2_ID)
+        perform(MockMvcRequestBuilders.post(REST_URL_SLASH + VACANCY2_ID)
                         .param("toVote", String.valueOf(true))
                         .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin)).with(csrf()))

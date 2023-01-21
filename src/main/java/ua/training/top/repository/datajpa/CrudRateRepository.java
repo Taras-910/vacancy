@@ -16,14 +16,14 @@ public interface CrudRateRepository extends JpaRepository<Rate, Integer> {
     @Query("DELETE FROM Rate e WHERE e.id=:id")
     int delete(@Param("id") int id);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Rate e")
+    void deleteList();
+
     @Query("SELECT e FROM Rate e ORDER BY e.name ASC")
     List<Rate> getAll();
 
     @Query("SELECT e FROM Rate e WHERE e.name=:name")
     Rate getByName(@Param("name") String name);
-
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Rate e")
-    void deleteList();
 }

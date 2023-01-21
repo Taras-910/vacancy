@@ -46,6 +46,7 @@ public class FilterMapUtil {
             case "wroclaw", "вроцлав" -> of("wroclaw", "вроцлав");
             case "krakow", "краков", "краків" -> of("krakow", "краков", "краків");
             case "gdansk", "гданськ", "гданск" -> of("gdansk", "гданськ", "гданск");
+
             case "canada", "канада", "canad", "канад" -> getCommonList(of(caAria, citiesCa));
             case "ottawa", "оттава" -> of("ottawa", "оттава");
             case "ontario", "онтарио" -> of("ontario", "онтарио");
@@ -79,6 +80,7 @@ public class FilterMapUtil {
             case "смолян", "smolyan" -> of("смолян", "smolyan");
             case "пловдив", "пловдів", "plovdiv" -> of("пловдив", "пловдів", "plovdiv");
             case "силистра", "сілістра", "silistra" -> of("силистра", "сілістра", "silistra");
+
             case "англія", "велика британія", "великобританія", "англия", "england", "united kingdom" -> getCommonList(of(ukAria, citiesUK));
             case "london", "лондон" -> of("london", "лондон");
             case "avon", "ейвон" -> of("avon", "ейвон");
@@ -134,6 +136,7 @@ public class FilterMapUtil {
             case "билефельд", "білефельд", "bielefeld" -> of("билефельд", "білефельд", "bielefeld");
             case "дюссельдорф", "dusseldorf", "düsseldorf" -> of("дюссельдорф", "dusseldorf", "düsseldorf");
             case "гельзенкирхен", "гельзенкірхен", "gelsenkirchen" -> of("гельзенкирхен", "гельзенкірхен", "gelsenkirchen");
+
             case "чехия", "чехія", "сzech" -> getCommonList(of(czAria, citiesCz));
             case "брно", "brno" -> of("брно", "brno");
             case "прага", "prague" -> of("прага", "prague");
@@ -152,6 +155,7 @@ public class FilterMapUtil {
             case "abu dhabi", "абу-дабі", "абу-даби", "абу дабі", "абу даби" -> of("abu dhabi", "абу-дабі", "абу-даби",
                     "абу дабі", "абу даби");
             case "эль-айн", "ель-айн", "эль айн", "ель айн", "al ain" -> of("эль-айн", "ель-айн", "эль айн", "ель айн", "al ain");
+
             case "франция", "франція", "france" -> getCommonList(of(frAria, citiesFr));
             case "париж", "paris" -> of("париж", "paris");
             case "ренн", "rennes" -> of("ренн", "rennes");

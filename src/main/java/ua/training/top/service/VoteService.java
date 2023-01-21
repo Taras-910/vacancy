@@ -26,9 +26,8 @@ public class VoteService {
     }
 
     public Vote get(int id) {
-        int userId = authUserId();
-        log.info("get by id {} for user {}", id, userId);
-        Vote vote = repository.get(id, userId);
+        log.info("get by id {} for user {}", id, authUserId());
+        Vote vote = repository.get(id, authUserId());
         return checkNotFoundWithId(vote, id);
     }
 
@@ -37,9 +36,9 @@ public class VoteService {
         return repository.getAll();
     }
 
-    public List<Vote> getAllForAuth() {
+    public List<Vote> getAllAuth() {
         log.info("get all for User {}", authUserId());
-        return repository.getAllForAuth(authUserId());
+        return repository.getAllAuth(authUserId());
     }
 
     @Transactional

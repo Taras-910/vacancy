@@ -21,6 +21,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobsBG;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -35,21 +36,21 @@ public class JobsBGStrategy implements Strategy {
     private final static String
             part_url = "subm=1&categories%5B%5D=56&domains%5B%5D=2",
             url = "https://www.jobs.bg/front_job_search.php?%s%s%s%s&last=5";
-//https://www.jobs.bg/front_job_search.php?subm=1&categories%5B%5D=56&domains%5B%5D=2&techs%5B%5D=Java&location_sid=1&last=5
-//    https://www.jobs.bg/front_job_search.php?subm=1&categories%5B%5D=56&domains%5B%5D=2&techs%5B%5D=java&last=5
+    // https://www.jobs.bg/front_job_search.php?subm=1&categories%5B%5D=56&domains%5B%5D=2&techs%5B%5D=Java&location_sid=1&last=5
+    // https://www.jobs.bg/front_job_search.php?subm=1&categories%5B%5D=56&domains%5B%5D=2&techs%5B%5D=java&last=5
     protected Document getDocument(String workplace, String page, String level, String language) {
         String city = isMatch(citiesBg, workplace) ? getBG_en(workplace) : "";
         return DocumentUtil.getDocument(format(url, part_url,
-                language.equals("all") || isMatch(foreignAria, workplace)? "" : getJoin("&techs%5B%5D=", language),
-                workplace.equals("all") || isMatch(bgAria, workplace) ? "" : workplace.equals("remote") ? "&is_distance_job=1" : city,
-                level.equals("all") ? "" : getJoin("&keywords%5B%5D=", level)));
+                language.equals(all) || isMatch(foreignAria, workplace)? "" : getJoin("&techs%5B%5D=", language),
+                workplace.equals(all) || isMatch(bgAria, workplace) ? "" : workplace.equals("remote") ? "&is_distance_job=1" : city,
+                level.equals(all) ? "" : getJoin("&keywords%5B%5D=", level)));
     }
 
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, language, level, workplace);
-        boolean bg = isMatches(of(bgAria, citiesBg, remoteAria, foreignAria, of("all")), workplace);
+        boolean bg = isMatches(of(bgAria, citiesBg, remoteAria, foreignAria, of(all)), workplace);
         if (!bg) {
             return new ArrayList<>();
         }

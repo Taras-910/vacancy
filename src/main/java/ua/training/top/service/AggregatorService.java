@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.InstallationUtil.limitVacanciesKeeping;
+import static ua.training.top.util.MessageUtil.finish_message;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
-import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.finish_message;
 import static ua.training.top.util.aggregatorUtil.data.ToUtil.getAnchorEmployer;
 import static ua.training.top.util.aggregatorUtil.data.ToUtil.getAnchorVacancy;
 

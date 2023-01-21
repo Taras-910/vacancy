@@ -39,10 +39,11 @@ public class VacancyUIController {
         return vacancyService.getAllTos();
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        vacancyService.delete(id);
+    @Transactional
+    @GetMapping(value = "/filter")
+    public List<VacancyTo> getByFilter(@Valid @ModelAttribute Freshen freshen) {
+        log.info("getByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
+        return vacancyService.getTosByFilter(asNewFreshen(freshen));
     }
 
     @PostMapping
@@ -56,11 +57,10 @@ public class VacancyUIController {
         }
     }
 
-    @Transactional
-    @GetMapping(value = "/filter")
-    public List<VacancyTo> getByFilter(@Valid @ModelAttribute Freshen freshen) {
-        log.info("getByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
-        return vacancyService.getTosByFilter(asNewFreshen(freshen));
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        vacancyService.delete(id);
     }
 
     @PostMapping("/{id}")

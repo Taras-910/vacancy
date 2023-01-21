@@ -37,12 +37,31 @@ class RateServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void getByName() {
+        Rate rate = service.getByName(rate10.getName());
+        RATE_MATCHER.assertMatch(rate, rate10);
+    }
+
+    @Test
+    void getByNameInvalid() {
+        assertThrows(NotFoundException.class, () -> service.getByName("NameInvalid"));
+    }
+
+    @Test
     void create() {
         Rate testRate = new Rate(getNew());
         Rate createdRate = service.create(testRate);
         int newId = createdRate.id();
         testRate.setId(newId);
         RATE_MATCHER.assertMatch(testRate, createdRate);
+    }
+
+    @Test
+    void createInvalid(){
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"   ",0.897, now())));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,null,0.897, now())));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"USDGBP",0.0, now())));
+        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"USDGBP",0.897, null)));
     }
 
     @Test
@@ -61,24 +80,5 @@ class RateServiceTest extends AbstractServiceTest {
         service.deleteAll();
         List<Rate> all = service.getAll();
         assertEquals(0, all.size());
-    }
-
-    @Test
-    void getByName() {
-        Rate rate = service.getByName(rate10.getName());
-        RATE_MATCHER.assertMatch(rate, rate10);
-    }
-
-    @Test
-    void getByNameInvalid() {
-        assertThrows(NotFoundException.class, () -> service.getByName("NameInvalid"));
-    }
-
-    @Test
-    void createInvalid(){
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"   ",0.897, now())));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,null,0.897, now())));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"USDGBP",0.0, now())));
-        validateRootCause(ConstraintViolationException.class, () -> service.create(new Rate(null,"USDGBP",0.897, null)));
     }
 }

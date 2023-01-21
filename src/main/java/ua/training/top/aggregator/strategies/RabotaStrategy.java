@@ -17,8 +17,9 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.getJoin;
-import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.get_vacancy;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.all;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.rabota;
 import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
 import static ua.training.top.util.aggregatorUtil.data.PageUtil.getPage;
@@ -30,11 +31,11 @@ public class RabotaStrategy implements Strategy {
 
     protected Document getDocument(String workplace, String language, String level, String page) {
         return  DocumentUtil.getDocument(format(url, workplace.equals("украина") || workplace.equals("киев") ? "zapros/" : "",
-                language.equals("all") ? "" : language,
-                level.equals("all") ? "" : language.equals("all") ? level : getJoin("-", level),
-                workplace.equals("remote") ? level.equals("all") && language.equals("all") ? "віддалено" : "-віддалено" : "",
-                language.equals("all") && level.equals("all") && !workplace.equals("remote")  ?  "" : "/",
-                workplace.equals("украина") && level.equals("all") &&  language.equals("all") ? "all/"  : "",
+                language.equals(all) ? "" : language,
+                level.equals(all) ? "" : language.equals(all) ? level : getJoin("-", level),
+                workplace.equals("remote") ? level.equals(all) && language.equals(all) ? "віддалено" : "-віддалено" : "",
+                language.equals(all) && level.equals(all) && !workplace.equals("remote")  ?  "" : "/",
+                workplace.equals("украина") && level.equals(all) &&  language.equals(all) ? "all/"  : "",
                 workplace, getPage(rabota, page)));
     }
 

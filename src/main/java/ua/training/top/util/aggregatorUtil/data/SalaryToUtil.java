@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 
 import static java.util.List.of;
 import static ua.training.top.service.RateService.mapRates;
+import static ua.training.top.util.MessageUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_find_salary;

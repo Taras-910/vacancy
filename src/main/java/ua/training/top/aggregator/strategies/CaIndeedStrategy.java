@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.getJoin;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatches;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -31,7 +32,7 @@ public class CaIndeedStrategy implements Strategy {
     //https://ca.indeed.com/jobs?q=java+middle&l=Ontario&start=10
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-        return DocumentUtil.getDocument(format(url, language, level.equals("all") ? "" : getJoin("+",level),
+        return DocumentUtil.getDocument(format(url, language, level.equals(all) ? "" : getJoin("+",level),
                 getJoin("&l=",workplace), getPage(indeed_ca, page)));
     }
 

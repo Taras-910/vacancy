@@ -29,12 +29,6 @@ public class ProfileUserRestController extends AbstractUserController {
         return service.get(authUser.getId());
     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
-        service.delete(authUser.getId());
-    }
-
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@Valid @RequestBody User user) {
@@ -48,5 +42,11 @@ public class ProfileUserRestController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user, @ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
         service.update(user, authUser.getId());
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
+        service.delete(authUser.getId());
     }
 }

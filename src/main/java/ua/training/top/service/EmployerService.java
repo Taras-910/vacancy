@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ua.training.top.util.EmployerUtil.checkDataEmployer;
-import static ua.training.top.util.MessagesUtil.not_be_null;
+import static ua.training.top.util.MessageUtil.not_be_null;
 import static ua.training.top.util.ValidationUtil.checkNew;
 import static ua.training.top.util.ValidationUtil.checkNotFoundWithId;
 

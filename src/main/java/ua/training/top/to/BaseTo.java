@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import ua.training.top.HasId;
 
 public abstract class BaseTo implements HasId {
+
     @ApiModelProperty(hidden = true)
     protected Integer id;
 

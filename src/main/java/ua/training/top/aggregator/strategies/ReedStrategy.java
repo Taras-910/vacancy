@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
@@ -27,12 +28,12 @@ import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getUK;
 public class ReedStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(ReedStrategy.class);
     private final static String url = "https://www.reed.co.uk/jobs/%s%sjobs%s?%sparentsector=it-telecoms&orgId=1&agency=True&direct=True&datecreatedoffset=LastTwoWeeks%s";
-//https://www.reed.co.uk/jobs/java-jobs-in-london?pageno=2&parentsector=it-telecoms&orgId=1&agency=True&direct=True&datecreatedoffset=LastTwoWeeks&hideTrainingJobs=True
+    //https://www.reed.co.uk/jobs/java-jobs-in-london?pageno=2&parentsector=it-telecoms&orgId=1&agency=True&direct=True&datecreatedoffset=LastTwoWeeks&hideTrainingJobs=True
 
     protected Document getDocument(String workplace, String page, String level, String language) {
         return DocumentUtil.getDocument(format(url,
-                language.equals("all") ? "" : getJoin(language,"-"),
-                "", workplace.equals("all") ? "" : getJoin("-in-", workplace),
+                language.equals(all) ? "" : getJoin(language,"-"),
+                "", workplace.equals(all) ? "" : getJoin("-in-", workplace),
                 getPage(reed, page),
                 isMatch(traineeAria, level) ? "hideTrainingJobs=True" : ""));
     }
@@ -41,7 +42,7 @@ public class ReedStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         log.info(get_vacancy, language, level, workplace);
-        workplace = isMatches(of(ukAria, remoteAria, foreignAria), workplace) || workplace.equals("all") ? "all" :
+        workplace = isMatches(of(ukAria, remoteAria, foreignAria), workplace) || workplace.equals(all) ? all :
                 isMatch(citiesUK, workplace)? getUK(workplace).toLowerCase() : "-1";
         if (workplace.equals("-1")) {
             return new ArrayList<>();

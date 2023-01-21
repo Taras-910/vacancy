@@ -22,6 +22,21 @@ public class DataJpaFreshenRepository implements FreshenRepository {
         this.crudRepository = crudRepository;
     }
 
+    @Override
+    public Freshen get(int id) {
+        return crudRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Freshen> getAll() {
+        return crudRepository.findAll();
+    }
+
+    @Override
+    public List<Freshen> getAllAuth(int authId) {
+        return Optional.ofNullable(crudRepository.getAllAuth(authId)).orElse(new ArrayList<Freshen>());
+    }
+
     @Transactional
     @Override
     public Freshen save(Freshen freshen) {
@@ -44,21 +59,6 @@ public class DataJpaFreshenRepository implements FreshenRepository {
     @Override
     public void deleteOutDated(LocalDateTime reasonLocalDateTime) {
         deleteList(crudRepository.getOutDated(reasonLocalDateTime));
-    }
-
-    @Override
-    public Freshen get(int id) {
-        return crudRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Freshen> getAll() {
-        return crudRepository.findAll();
-    }
-
-    @Override
-    public List<Freshen> getAllAuth(int authId) {
-        return Optional.ofNullable(crudRepository.getAllAuth(authId)).orElse(new ArrayList<Freshen>());
     }
 }
 

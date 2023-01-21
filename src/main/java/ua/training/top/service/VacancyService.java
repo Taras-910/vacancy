@@ -45,7 +45,7 @@ public class VacancyService {
 
     public VacancyTo getTo(int id) {
         log.info("getTo vacancy {}", id);
-        return VacancyUtil.getTo(get(id), voteService.getAllForAuth());
+        return VacancyUtil.getTo(get(id), voteService.getAllAuth());
     }
 
     public List<Vacancy> getAll() {
@@ -55,14 +55,14 @@ public class VacancyService {
 
     public List<VacancyTo> getAllTos() {
         log.info("getAllTos for user {}", authUserId());
-        return getTos(getAll(), voteService.getAllForAuth());
+        return getTos(getAll(), voteService.getAllAuth());
     }
 
     @Transactional
     public List<VacancyTo> getTosByFilter(Freshen freshen) {
         log.info("getTosByFilter language={} level={} workplace={}", freshen.getLanguage(), freshen.getLevel(), freshen.getWorkplace());
         freshen.setGoals(Collections.singleton(FILTER));
-        return getTos(getFilter(repository.getAll(), freshen), voteService.getAllForAuth());
+        return getTos(getFilter(repository.getAll(), freshen), voteService.getAllAuth());
     }
 
     public Vacancy getByParams(String title, String skills, int employerId) {

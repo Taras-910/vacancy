@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getVacanciesJooble;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -37,11 +38,11 @@ public class UAJoobleStrategy implements Strategy {
         String city = getCityByCodeISOofCountry(codeCountry, workplace);
         String varCountry = codeCountry.equals("remote") ? "ua" : codeCountry;
         return DocumentUtil.getDocument(format(url,
-                isMatch((of("us", "il", "all")), codeCountry) ? "" : getJoin(varCountry, "."),
+                isMatch((of("us", "il", all)), codeCountry) ? "" : getJoin(varCountry, "."),
                 codeCountry.equals("remote") ? "&loc=2" :
-                        codeCountry.equals("all") || workplace.equals("all") || isEmpty(city) ? "" : getJoin("&rgns=", city),
+                        codeCountry.equals(all) || workplace.equals(all) || isEmpty(city) ? "" : getJoin("&rgns=", city),
                 getPage(jooble, page),
-                language.equals("all") ? "" : getJoin("&ukw=", language),
+                language.equals(all) ? "" : getJoin("&ukw=", language),
                 getLevel(jooble, level)));
     }
 

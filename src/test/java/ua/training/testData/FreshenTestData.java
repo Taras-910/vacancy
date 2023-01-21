@@ -14,7 +14,6 @@ import static ua.training.top.model.AbstractBaseEntity.START_SEQ;
 
 public class FreshenTestData {
     public static final TestMatcher<Freshen> FRESHEN_MATCHER = TestMatcher.usingFieldsComparator(Freshen.class,"recordedDate", "vacancies");
-
     public static final int FRESHEN1_ID = START_SEQ + 4;
     public static final int FRESHEN2_ID = FRESHEN1_ID + 1;
     public static final Freshen freshen1 = new Freshen(FRESHEN1_ID, of(2020, 10, 25, 12,0), "java", "middle", "киев", Collections.singleton(Goal.UPGRADE), ADMIN_ID);

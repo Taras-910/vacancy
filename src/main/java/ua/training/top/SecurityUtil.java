@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ua.training.top.model.User;
 
 import static java.util.Objects.requireNonNull;
-import static ua.training.top.util.MessagesUtil.no_authorized_user_found;
+import static ua.training.top.util.MessageUtil.no_authorized_user_found;
 
 public class SecurityUtil {
 

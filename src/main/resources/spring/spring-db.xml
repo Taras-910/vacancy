@@ -17,12 +17,10 @@
        http://www.springframework.org/schema/data/jpa
        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-<!--
-    <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+<!--    <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
-    </jdbc:initialize-database>
--->
+    </jdbc:initialize-database>-->
 
     <tx:annotation-driven/>
 
@@ -59,6 +57,13 @@
 
     <context:component-scan base-package="ua.training.**.repository"/>
     <jpa:repositories base-package="ua.training.**.repository"/>
+
+    <beans profile="hsqldb, h2">
+        <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+            <jdbc:script location="${jdbc.initLocation}"/>
+            <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+        </jdbc:initialize-database>
+    </beans>
 
     <beans profile="h2">
         <bean class="org.springframework.beans.factory.config.MethodInvokingBean">

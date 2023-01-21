@@ -7,31 +7,21 @@ import static java.util.List.of;
 public class ConstantsUtil {
 
     public static final String
+            all = "all",
             link = "see the card",
             space_code = "\\p{Zs}",
             currency_code = "\\p{Sc}",
             punctuation_code = "[kup\\p{Pd}до]",
-            recall = "reCall repeatToCall={}",
-            document_url = "GetDocument url={}\n",
-            currency_rate_not_found = "currency rate not found for currency {}",
             filter_address_jobs_bg = "\\s((3p)|(Стаж)|(chair)|(Отпуск.*))|(wifi\\s)",
-            document_user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15",
-            internet_connection_error = "There may broken internet connection or exception={} by url={} ",
-            finish_message = "finish is ok,\ntime:      {}ms\ncreated:   {}\nupdated:   {}\nlanguage:  {}\nlevel:     {}\nworkplace: {}\n" + ":".repeat(120),
-            error = "There is error \ne={}\n for parse \n{}",
-            common_number_vacancyTos = "Common number vacancyTos = {}",
-            get_vacancy = "getVacancies language={} level={} workplace={} ",
-            error_select = "Select error e {}",
-            wrong_salary_value = "check if the {} usd/month is wrong salary value",
-            jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy",
-            jobs = "jobsStrategy", djinni = "DjinniStrategy", nofluff = "NofluffjobsStrategy", jobBank = "jobBankStrategy",
-            jooble = "joobleStrategy", linkedin = "linkedinStrategy", indeed_ca = "CaIndeedStrategy",
-            zaplata = "zaplataStrategy", jobsmarket = "jobsmarketStrategy", indeed = "UAIndeedStrategy", cwjobs = "CwJobsStrategy",
-            itJob = "itJobStrategy", jabsBG = "JobsBGStrategy", itJobsWatch = "ItJobsWatchStrategy", reed = "ReedStrategy",
+            agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15",
+            djinni = "DjinniStrategy", nofluff = "NofluffjobsStrategy", jobBank = "jobBankStrategy", jooble = "joobleStrategy",
+            jobsmarket = "jobsmarketStrategy", indeed = "UAIndeedStrategy", cwjobs = "CwJobsStrategy", itJob = "itJobStrategy",
+            jobcareer = "JobCareerStrategy", work = "WorkStrategyStrategy", rabota = "RabotaStrategy", jobs = "jobsStrategy",
+            linkedin = "linkedinStrategy", indeed_ca = "CaIndeedStrategy", zaplata = "zaplataStrategy",
+            jabsBG = "JobsBGStrategy", itJobsWatch = "ItJobsWatchStrategy", reed = "ReedStrategy",
             middle = "middle", trainee = "trainee", junior = "junior", senior = "senior", expert = "expert",
             USDPLN = "USDPLN", USDEUR="USDEUR", USDGBP="USDGBP", USDBYR="USDBYR", USDUAH="USDUAH", USDKZT="USDKZT",
-            USDCAD="USDCAD", USDCZK="USDCZK", USDBGN="USDBGN", USDUSD="USDUSD"
-    ;
+            USDCAD="USDCAD", USDCZK="USDCZK", USDBGN="USDBGN", USDUSD="USDUSD";
 
     public static final List<String>
             usdAria = of("usd", "у.е.", "$"),
@@ -127,9 +117,10 @@ public class ConstantsUtil {
             citiesIl = of("тель-авив", "тель авив",
                     "tel aviv", "תל אביב", "хайфа", "haifa" , "חיפה", "ришон-ле-цион", "ришон ле цион", "rishon lezion",
                     "ראשון לציון", "петах-тиква", "петах тиква", "petah-tikva", "פתח-תקווה", "ашдод", "ashdod", "אשדוד",
-                    "нетания", "netanya", "נתניה", "беэр-шева", "беэр шева", "beersheba", "באר שבע", "бней-брак", "бней брак",
-                    "bnei marriage", "נישואי בני", "холон", "holon", "рамат-ган", "рамат ган", "ramat-gan", "רמת-גן",
-                    "реховот", "rehovot", "רחובות", "ашкелон", "ashkelon", "אשקלון", "бат-ям", "бат ям", "bat-yam", "בת-ים"),
+                    "нетания", "netanya", "נתניה", "беэр-шева", "беэр шева", "beersheba", "באר שבע", "бней-брак",
+                    "бней брак", "bnei marriage", "נישואי בני", "холон", "holon", "рамат-ган", "рамат ган", "ramat-gan",
+                    "רמת-גן", "реховот", "rehovot", "רחובות", "ашкелон", "ashkelon", "אשקלון", "бат-ям", "бат ям",
+                    "bat-yam", "בת-ים"),
             usAria = of("сша", "америка", "usa", "united states of america", "america"),
             citiesUS = of("нью-йорк", "new york", "лос-анджелес", "лос анджелес",
                     "los angeles", "чикаго", "чікаго", "chicago", "хьюстон", "houston", "финикс", "фінікс", "phoenix",

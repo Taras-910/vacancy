@@ -17,6 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobsMarketUA;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatches;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -25,8 +26,8 @@ import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
 public class JobsMarketUA implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsMarketUA.class);
     private static final String url = "https://jobsmarket.com.ua/search?position=%s&page=%s";
-//    private static final String url = "https://jobsmarket.com.ua/search?position=%s&page=%s";
-//    https://jobsmarket.com.ua/search?position=Java%20Developer&page=2
+    //    private static final String url = "https://jobsmarket.com.ua/search?position=%s&page=%s";
+    //    https://jobsmarket.com.ua/search?position=Java%20Developer&page=2
 
     protected Document getDocument(String position, String page) {
         return DocumentUtil.getDocument(format(url, position, page));

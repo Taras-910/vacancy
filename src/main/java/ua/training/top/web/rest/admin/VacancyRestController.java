@@ -39,10 +39,21 @@ public class VacancyRestController {
         return vacancyService.getAllTos();
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        vacancyService.delete(id);
+    @ApiIgnore
+    @GetMapping(value = "/filter")
+    public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
+        log.info("getByFilter freshen={}", freshen);
+        return vacancyService.getTosByFilter(asNewFreshen(freshen));
+    }
+
+    @ApiIgnore
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Vacancy> createVacancyAndEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
+        Vacancy created = vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,21 +62,9 @@ public class VacancyRestController {
         vacancyService.updateTo(vacancyTo);
     }
 
-    @ApiIgnore
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vacancy> createVacancyAndEmployer(@RequestBody @Valid VacancyTo vacancyTo) {
-        Vacancy created = vacancyService.createVacancyAndEmployer(vacancyTo, getFreshenFromTo(vacancyTo));
-
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @ApiIgnore
-    @GetMapping(value = "/filter")
-    public List<VacancyTo> getByFilter(@Valid Freshen freshen) {
-        log.info("getByFilter freshen={}", freshen);
-        return vacancyService.getTosByFilter(asNewFreshen(freshen));
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        vacancyService.delete(id);
     }
 }

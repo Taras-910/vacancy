@@ -17,6 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobsDou;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -33,12 +34,13 @@ public class JobsDouStrategy implements Strategy {
     protected Document getDocument(String workplace, String language, String level) {
         return DocumentUtil.getDocument(isMatch(traineeAria, workplace) ? url_trainee : format(url,
                 isMatch(foreignAria, workplace) ? "jobs" : "vacancies",
-                workplace.equals("all") && language.equals("all") && level.equals("all") ?  "" : "?",
+                workplace.equals(all) && language.equals(all) && level.equals(all) ?  "" : "?",
                 isMatch(remoteAria, workplace) ? "remote&from=maybe" : "",
-                language.equals("all") || isMatch(remoteAria, workplace) ? "" : getJoin("category=", language, "&descr=1"),
-                workplace.equals("all") || isMatches(of(remoteAria, foreignAria), workplace) ? "" :
-                        getJoin(level.equals("all") && language.equals("all") ? "" : "&","city=", isMatch(citiesUA, workplace) ? getUA_ua(workplace) : getJobsDouForeign(workplace)),
-                level.equals("all") || isMatch(remoteAria, workplace) ? "" : getLevel(jobs, level)));
+                language.equals(all) || isMatch(remoteAria, workplace) ? "" : getJoin("category=", language, "&descr=1"),
+                workplace.equals(all) || isMatches(of(remoteAria, foreignAria), workplace) ? "" :
+                        getJoin(level.equals(all) && language.equals(all) ? "" :
+                                "&","city=", isMatch(citiesUA, workplace) ? getUA_ua(workplace) : getJobsDouForeign(workplace)),
+                level.equals(all) || isMatch(remoteAria, workplace) ? "" : getLevel(jobs, level)));
     }
 // workplace = all ???   https://jobs.dou.ua/vacancies/?category=java&descr=1&city=all
     @Override

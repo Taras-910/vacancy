@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
+import static ua.training.top.util.MessageUtil.document_url;
+import static ua.training.top.util.MessageUtil.internet_connection_error;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.agent;
 
 public class DocumentUtil {
     private static final Logger log = LoggerFactory.getLogger(DocumentUtil.class);
@@ -16,7 +18,7 @@ public class DocumentUtil {
         Document document = null;
         try {
             document = Jsoup.connect(url)
-                    .userAgent(document_user_agent)
+                    .userAgent(agent)
                     .referrer("")
                     .get();
         } catch (IOException e) {

@@ -21,20 +21,14 @@ public class AdminUIController {
     @Autowired
     UserService service;
 
-    @GetMapping
-    public List<User> getAll() {
-        return service.getAll();
-    }
-
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
         return service.get(id);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        service.delete(id);
+    @GetMapping
+    public List<User> getAll() {
+        return service.getAll();
     }
 
     @PostMapping
@@ -46,6 +40,12 @@ public class AdminUIController {
         } else {
             service.update(user, user.id());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        service.delete(id);
     }
 
     @PostMapping("/{id}")

@@ -2,8 +2,6 @@ package ua.training.top.web.rest.admin;
 
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
@@ -33,7 +31,6 @@ import static ua.training.top.util.exception.ErrorType.VALIDATION_ERROR;
 
 class UserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = UserRestController.REST_URL + '/';
-    private static final Logger log = LoggerFactory.getLogger(UserRestControllerTest.class);
     @Autowired
     private UserService service;
 

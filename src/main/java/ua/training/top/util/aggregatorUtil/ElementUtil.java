@@ -20,6 +20,7 @@ import static ua.training.top.aggregator.strategies.JobsBGStrategy.getDateJobsBG
 import static ua.training.top.aggregator.strategies.JobsMarketStrategy.getDateJobsMarket;
 import static ua.training.top.aggregator.strategies.NofluffjobsStrategy.getToNofluffAddress;
 import static ua.training.top.aggregator.strategies.UAJoobleStrategy.getJoobleDate;
+import static ua.training.top.util.MessageUtil.error;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.DateToUtil.defaultDate;

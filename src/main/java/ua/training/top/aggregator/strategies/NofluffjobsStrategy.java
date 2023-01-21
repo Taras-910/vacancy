@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getNofluffjobsVacancies;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -31,16 +32,16 @@ public class NofluffjobsStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(NofluffjobsStrategy.class);
     private final static String part = "%3Dtesting", part_language = "%20requirement%3D",
             url = "https://nofluffjobs.com/%s/%sbackend?criteria=category%s%s%s%s";
-// https://nofluffjobs.com/pl/warszawa/backend?criteria=category%3Dtesting%20seniority%3Dmid%20requirement%3DJava&page=1
+    // https://nofluffjobs.com/pl/warszawa/backend?criteria=category%3Dtesting%20seniority%3Dmid%20requirement%3DJava&page=1
 
     protected Document getDocument(String codeISO, String workplace, String page, String level, String language) {
         String city = getCityByCodeISOofCountry(codeISO, workplace).toLowerCase();
         return DocumentUtil.getDocument(format(url,
-                isMatch(of("all", "remote"), codeISO) ? "ua" : codeISO.equals("foreign") ? "pl" : codeISO,
-                isMatch(remoteAria, workplace) ? getNoff("ua") : isMatches(of(foreignAria, of("all")), workplace) ?
+                isMatch(of(all, "remote"), codeISO) ? "ua" : codeISO.equals("foreign") ? "pl" : codeISO,
+                isMatch(remoteAria, workplace) ? getNoff("ua") : isMatches(of(foreignAria, of(all)), workplace) ?
                         "" : getJoin(city.equals("kyiv") ? "kiev" : city, isEmpty(city) ? "" : "/"),
                 part, getLevel(nofluff, level),
-                language.equalsIgnoreCase("all") ? "" : getJoin(part_language, language),
+                language.equalsIgnoreCase(all) ? "" : getJoin(part_language, language),
                 getPage(nofluff, page)));
     }
 //    all all singapore
@@ -51,7 +52,7 @@ public class NofluffjobsStrategy implements Strategy {
         language = language.equals("ruby on rails") ? "%27Ruby%20on%20Rails%27" : getUpperStart(language);
         log.info(get_vacancy, language, level, workplace);
         String codeISO = getCodeISOByCity(workplace);
-        if (!isMatch(List.of("pl", "ua", "cz", "sk", "hu", "remote", "foreign", "all"), codeISO)) {
+        if (!isMatch(List.of("pl", "ua", "cz", "sk", "hu", "remote", "foreign", all), codeISO)) {
             return new ArrayList<>();
         }
         Set<VacancyTo> set = new LinkedHashSet<>();

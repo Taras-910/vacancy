@@ -45,17 +45,6 @@ class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void delete() {
-        service.delete(USER_ID);
-        assertThrows(NotFoundException.class, () -> service.get(USER_ID));
-    }
-
-    @Test
-    void deletedNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
-    }
-
-    @Test
     void create() {
         User created = service.create(getNew());
         int newId = created.id();
@@ -101,5 +90,15 @@ class UserServiceTest extends AbstractServiceTest {
         validateRootCause(NullPointerException.class, () -> service.update(new User(null, "user", null, "password", USER), USER_ID));
         validateRootCause(ConstraintViolationException.class, () -> service.update(new User(null, "user", "  ", "password", USER), USER_ID));
         validateRootCause(IllegalArgumentException.class, () -> service.update(new User(null, "user", "mail@yandex.ru", null, USER), USER_ID));
+    }
+    @Test
+    void delete() {
+        service.delete(USER_ID);
+        assertThrows(NotFoundException.class, () -> service.get(USER_ID));
+    }
+
+    @Test
+    void deletedNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 }

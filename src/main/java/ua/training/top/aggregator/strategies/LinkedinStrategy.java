@@ -18,6 +18,7 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
 import static ua.training.top.service.AggregatorService.herokuRestriction;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getVacanciesLinkedin;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.isMatch;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -28,14 +29,12 @@ import static ua.training.top.util.aggregatorUtil.data.WorkplaceUtil.getLinkedin
 public class LinkedinStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(LinkedinStrategy.class);
     private static final String url = "https://www.linkedin.com/jobs/search?keywords=%s%s&f_TPR=r86400%s&%sposition=1&pageNum=%s";
-                                    // https://www.linkedin.com/jobs/search?keywords=%s%s&f_TPR=r86400&distance=25&f_E=4&position=1&pageNum=%s
-                                    // https://www.linkedin.com/jobs/search?keywords=Java&geoId=104035893&sortBy=DD&f_TPR=r86400&distance=25&f_E=4&position=1&pageNum=0
+    // https://www.linkedin.com/jobs/search?keywords=%s%s&f_TPR=r86400&distance=25&f_E=4&position=1&pageNum=%s
+    // https://www.linkedin.com/jobs/search?keywords=Java&geoId=104035893&sortBy=DD&f_TPR=r86400&distance=25&f_E=4&position=1&pageNum=0
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-//        String country = getCountryByCity(workplace);
         return DocumentUtil.getDocument(format(url,
-//                country.equals("us") ? "" : getJoin(country, "."),
-                language.equals("all") ? "" : language,
+                language.equals(all) ? "" : language,
                 getLinkedin(workplace),
                 workplace.equals("remote") ? "" : "&f_WT=2", getLevel(linkedin, level), page));
     }
@@ -53,9 +52,8 @@ public class LinkedinStrategy implements Strategy {
         cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(caAria, workplace) ? getCanada() :
                         isMatch(uaAria, workplace) ? getUA() : new String[]{workplace};
         } else {
-            cityOrCountry = workplace.equals("all") ? new String[]{"украина"} : new String[]{workplace};
+            cityOrCountry = workplace.equals(all) ? new String[]{"украина"} : new String[]{workplace};
         }
-
         Set<VacancyTo> set = new LinkedHashSet<>();
             for(String location : cityOrCountry) {
             int page = 0;

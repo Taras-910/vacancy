@@ -17,6 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.List.of;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.ElementUtil.getJobsMarket;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
@@ -25,7 +26,7 @@ import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
 public class JobsMarketStrategy implements Strategy {
     private final static Logger log = LoggerFactory.getLogger(JobsMarketStrategy.class);
     private static final String url = "https://%sjobsmarket.io/search?position=%s&page=%s";
-//    private static final String url = "https://jobsmarket.io/search?position=%s&page=%s";
+    //    private static final String url = "https://jobsmarket.io/search?position=%s&page=%s";
     //    https://jobsmarket.io/search?position=Java%20Developer&page=2
 
     protected Document getDocument(String codeISO, String position, String page) {
@@ -37,7 +38,7 @@ public class JobsMarketStrategy implements Strategy {
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), language = freshen.getLanguage(), level = freshen.getLevel();
         log.info(get_vacancy, language, level, workplace);
-        String codeISO = isMatches(of(usAria, citiesUS, of("remote", "foreign", "all")), workplace ) ? "us" :
+        String codeISO = isMatches(of(usAria, citiesUS, of("remote", "foreign", all)), workplace ) ? "us" :
                 isMatches(of(ukAria, citiesUK), workplace) ? "uk" : isMatches(of(deAria, citiesDe), workplace) ? "de" : "";
         if (!isMatches(of(usAria, citiesUS, ukAria, citiesUK, deAria, citiesDe, of("remote", "foreign", "all")), workplace)) {
            return new ArrayList<>();

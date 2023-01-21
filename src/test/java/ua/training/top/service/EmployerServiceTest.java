@@ -37,20 +37,6 @@ class EmployerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void update() {
-        Employer updated = new Employer(getUpdated());
-        service.update(updated);
-        EMPLOYER_MATCHER.assertMatch(service.get(EMPLOYER1_ID), updated);
-    }
-
-    @Test
-    public void updateInvalid() {
-        assertThrows(IllegalArgumentException.class, () -> service.update(null));
-        assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
-        assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
-    }
-
-    @Test
     public void create() {
         Employer newEmployer = EmployerTestData.getNew();
         Employer created = service.create(newEmployer);
@@ -64,6 +50,20 @@ class EmployerServiceTest extends AbstractServiceTest {
         validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, null, "Sity")));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", "   ")));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new Employer(null, "newName", null)));
+    }
+
+    @Test
+    public void update() {
+        Employer updated = new Employer(getUpdated());
+        service.update(updated);
+        EMPLOYER_MATCHER.assertMatch(service.get(EMPLOYER1_ID), updated);
+    }
+
+    @Test
+    public void updateInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> service.update(null));
+        assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
+        assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
     }
 
     @Test

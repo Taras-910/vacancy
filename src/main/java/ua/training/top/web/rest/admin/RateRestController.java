@@ -2,7 +2,6 @@ package ua.training.top.web.rest.admin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +13,6 @@ import ua.training.top.service.RateService;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-
-import static ua.training.top.util.MessagesUtil.error_data;
 
 @RestController
 @RequestMapping(value = RateRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,16 +38,10 @@ public class RateRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Rate> create(@RequestBody @Valid Rate rate) {
         Rate created = service.create(rate);
-        ResponseEntity<Rate> entity;
-        try {
-            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_URL + "/{id}")
-                    .buildAndExpand(created.getId()).toUri();
-            entity = ResponseEntity.created(uriOfNewResource).body(created);
-        } catch (Exception e) {
-            throw new DataIntegrityViolationException(error_data);
-        }
-        return entity;
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @DeleteMapping("/{id}")

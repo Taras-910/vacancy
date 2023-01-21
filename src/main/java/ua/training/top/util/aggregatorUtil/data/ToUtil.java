@@ -37,14 +37,8 @@ public class ToUtil {
 
     public static boolean isToValid(Freshen f, String text) {
         String temp = text.toLowerCase();
-//        return (temp.contains(f.getLanguage()) ||
-//                f.getLanguage().equals("all") && allLanguages.stream().anyMatch(temp::contains)
-//                 || isMatch(workersIT, temp))
-//                && wasteSkills.stream().noneMatch(temp::contains);
         return (f.getLanguage().equals("all") ? allLanguages.stream().anyMatch(temp::contains) : temp.contains(f.getLanguage())
-                || isMatch(workersIT, temp))
-                && wasteSkills.stream().noneMatch(temp::contains);
-
+                || isMatch(workersIT, temp)) && wasteSkills.stream().noneMatch(temp::contains);
     }
 
     public static String getToTitle(String title) {
@@ -84,5 +78,4 @@ public class ToUtil {
         };
         return getJoin(prefix,url);
     }
-
 }

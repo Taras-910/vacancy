@@ -30,10 +30,10 @@ public class ProfileVoteRestController {
         return service.get(id);
     }
 
-    @GetMapping
+    @GetMapping("/auth")
     public List<Vote> getAllAuth(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("get all for authUserId {}", authUser.getId());
-        return service.getAllForAuth();
+        return service.getAllAuth();
     }
 
     @PostMapping( value = "/{id}")

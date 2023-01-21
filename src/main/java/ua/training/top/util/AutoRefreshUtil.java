@@ -12,7 +12,7 @@ import java.util.Random;
 import static java.time.LocalDateTime.now;
 import static java.util.Collections.singleton;
 import static ua.training.top.model.Goal.UPGRADE;
-import static ua.training.top.util.MessagesUtil.setting_delay;
+import static ua.training.top.util.MessageUtil.setting_delay;
 import static ua.training.top.util.UserUtil.ADMIN_ID;
 
 public class AutoRefreshUtil {

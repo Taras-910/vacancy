@@ -10,7 +10,7 @@ public interface VoteRepository {
 
     List<Vote> getAll();
 
-    List<Vote> getAllForAuth(int userId);
+    List<Vote> getAllAuth(int userId);
 
     Vote save(Vote vote, int userId);
 

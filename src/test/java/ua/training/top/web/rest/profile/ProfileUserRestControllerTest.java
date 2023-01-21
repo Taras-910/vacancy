@@ -58,32 +58,6 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL)
-                .with(userHttpBasic(user)).with(csrf()))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        USER_MATCHER.assertMatch(service.getAll(), admin);
-        setTestAuthorizedUser(user);
-        assertThrows(NotFoundException.class, () -> controller.delete(new AuthorizedUser(user)));
-    }
-
-    @Test
-    void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
-                .with(userHttpBasic(user)))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void deleteForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL)
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
     void register() throws Exception {
         User newUser = new User(null, "newName", "newemail@ya.ua", "newPassword", Role.USER);
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
@@ -150,5 +124,31 @@ class ProfileUserRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL)
+                .with(userHttpBasic(user)).with(csrf()))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        USER_MATCHER.assertMatch(service.getAll(), admin);
+        setTestAuthorizedUser(user);
+        assertThrows(NotFoundException.class, () -> controller.delete(new AuthorizedUser(user)));
+    }
+
+    @Test
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
+                .with(userHttpBasic(user)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isForbidden());
     }
 }

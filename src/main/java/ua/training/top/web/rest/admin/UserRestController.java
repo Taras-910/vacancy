@@ -22,14 +22,19 @@ public class UserRestController {
     @Autowired
     private UserService service;
 
+    @GetMapping("/{id}")
+    public User get(@PathVariable int id) {
+        return service.get(id);
+    }
+
     @GetMapping
     public List<User> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
-        return service.get(id);
+    @GetMapping("/by")
+    public User getByMail(@RequestParam String email) {
+        return service.getByEmail(email);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,21 +55,16 @@ public class UserRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        service.delete(id);
-    }
-
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
         service.update(user, id);
     }
 
-    @GetMapping("/by")
-    public User getByMail(@RequestParam String email) {
-        return service.getByEmail(email);
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        service.delete(id);
     }
 
     @ApiIgnore

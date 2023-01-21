@@ -2,6 +2,7 @@ package ua.training.top.web.rest.admin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,9 @@ import java.util.List;
 public class VoteRestController {
     static final String REST_URL = "/rest/admin/votes";
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private final VoteService service;
 
-    public VoteRestController(VoteService service) {
-        this.service = service;
-    }
+    @Autowired
+    private VoteService service;
 
     @GetMapping("/{id}")
     public Vote get(@PathVariable int id) {
@@ -38,9 +37,9 @@ public class VoteRestController {
     }
 
     @GetMapping("/auth")
-    public List<Vote> getAuth() {
+    public List<Vote> getAllAuth() {
         log.info("get all for authUserId");
-        return service.getAllForAuth();
+        return service.getAllAuth();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -68,6 +67,7 @@ public class VoteRestController {
     }
 
     @ApiIgnore
+//    @ApiModelProperty(hidden = true)
     @PostMapping( value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void setVote(@PathVariable(name = "id") int vacancyId, @RequestParam boolean toVote) {
         log.info(toVote ? "enable {}" : "disable {}", vacancyId);

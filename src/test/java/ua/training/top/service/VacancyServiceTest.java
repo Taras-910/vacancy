@@ -3,6 +3,7 @@ package ua.training.top.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ua.training.testData.VacancyToTestData;
 import ua.training.top.AbstractServiceTest;
 import ua.training.top.model.Employer;
@@ -61,17 +62,6 @@ class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void delete() {
-        vacancyService.delete(VACANCY2_ID);
-        assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY2_ID));
-    }
-
-    @Test
-    void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> vacancyService.delete(NOT_FOUND));
-    }
-
-    @Test
     void createListVacancies() {
         setTestAuthorizedUser(admin);
         List<Vacancy> actual = List.of(vacancy3, vacancy4);
@@ -93,18 +83,7 @@ class VacancyServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void update() {
-        VacancyTo vTo = VacancyToTestData.getUpdate();
-        Vacancy updated = vacancyService.updateTo(vTo);
-        VACANCY_MATCHER.assertMatch(fromTo(vTo), updated);
-    }
-
-    @Test
-    void updateInvalid() {
-        assertThrows(IllegalArgumentException.class, () -> vacancyService.updateTo(new VacancyTo()));
-    }
-
-    @Test
+    @Transactional
     void createVacancyAndEmployer() {
         setTestAuthorizedUser(admin);
         VacancyTo newVacancyTo = new VacancyTo(VacancyToTestData.getNew());
@@ -118,7 +97,7 @@ class VacancyServiceTest extends AbstractServiceTest {
         newEmployer.setId(newIdEmployer);
         EMPLOYER_MATCHER.assertMatch(createdEmployer, newEmployer);
         VACANCY_TO_MATCHER.assertMatch(VacancyUtil.getTo(vacancyService.get(newIdVacancy),
-                voteService.getAllForAuth()), newVacancyTo);
+                voteService.getAllAuth()), newVacancyTo);
     }
 
     @Test
@@ -135,5 +114,28 @@ class VacancyServiceTest extends AbstractServiceTest {
         validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", null, "London", 100, 110, "https://www.ukr.net/1/11","Java Core", testDate, "java", "middle","киев", false), freshen1));
         validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", null, 100, 110, "https://www.ukr.net/1/11", "Java Core", testDate, "java", "middle","киев", false), freshen1));
         validateRootCause(NullPointerException.class, () -> vacancyService.createVacancyAndEmployer(new VacancyTo(null, "Developer", "Microsoft", "London", 100, 110, "https://www.ukr.net/1/11", null, testDate, "java", "middle","киев", false), freshen1));
+    }
+
+    @Test
+    void update() {
+        VacancyTo vTo = VacancyToTestData.getUpdate();
+        Vacancy updated = vacancyService.updateTo(vTo);
+        VACANCY_MATCHER.assertMatch(fromTo(vTo), updated);
+    }
+
+    @Test
+    void updateInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> vacancyService.updateTo(new VacancyTo()));
+    }
+
+    @Test
+    void delete() {
+        vacancyService.delete(VACANCY2_ID);
+        assertThrows(NotFoundException.class, () -> vacancyService.get(VACANCY2_ID));
+    }
+
+    @Test
+    void deleteNotFound() {
+        assertThrows(NotFoundException.class, () -> vacancyService.delete(NOT_FOUND));
     }
 }

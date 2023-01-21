@@ -17,8 +17,9 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static ua.training.top.aggregator.InstallationUtil.reCall;
+import static ua.training.top.util.MessageUtil.get_vacancy;
 import static ua.training.top.util.aggregatorUtil.data.CommonUtil.getJoin;
-import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.get_vacancy;
+import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.all;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.indeed;
 import static ua.training.top.util.aggregatorUtil.data.PageUtil.getMaxPages;
 import static ua.training.top.util.aggregatorUtil.data.PageUtil.getPage;
@@ -30,7 +31,7 @@ public class UAIndeedStrategy implements Strategy {
     //https://ua.indeed.com/jobs?q=java+middle&rbl=Киев&jlid=e9ab1a23f8e591f1&start=10
 
     protected Document getDocument(String workplace, String language, String level, String page) {
-        return DocumentUtil.getDocument(format(url, language, level.equals("all") ? "" :
+        return DocumentUtil.getDocument(format(url, language, level.equals(all) ? "" :
                 getJoin("+",level), workplace, getPage(indeed, page)));
     }
 
