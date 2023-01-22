@@ -557,6 +557,18 @@ public class WorkplaceUtil {
         };
     }
 
+    public static String getGr(String city){
+        return  switch (city) {
+            case "афины", "афіни", "athens" -> "Αθήνα";
+            case "салоники", "салоніки", "thessaloniki"  -> "Θεσσαλονίκη";
+            case "патры", "патри", "patras" -> "Πάτρα";
+            case "пирей", "пірей", "piraeus" -> "Πειραιώς";
+            case "перистери", "peristeri" -> "Περιστέρι";
+            case "никея", "нікея", "nicaea" -> "Νίκαια";
+            default -> "Ελλάδα";
+        };
+    }
+
     public static String getCityByCodeISOofCountry(String country, String workplace) {
         return switch (country) {
             case "ca" -> getCa(workplace);
@@ -573,6 +585,7 @@ public class WorkplaceUtil {
             case "fi" -> getFi(workplace);
             case "ch" -> getCh(workplace);
             case "se" -> getSe(workplace);
+            case "gr" -> getGr(workplace);
             case "ua" -> getUA_ua(workplace);
             default -> !Pattern.compile("\\p{L1}").matcher(workplace).find() ? getJoobleUA(workplace) : getUpperStart(workplace);
         };
@@ -587,6 +600,7 @@ public class WorkplaceUtil {
                isMatches(of(citiesAe, aeAria), workplace) ? "ae" : isMatches(of(citiesFr, frAria), workplace) ? "fr" :
                isMatches(of(citiesIt, itAria), workplace) ? "it" : isMatches(of(citiesFi, fiAria), workplace) ? "fi" :
                isMatches(of(citiesCh, chAria), workplace) ? "ch" : isMatches(of(citiesSe, seAria), workplace) ? "se" :
+               isMatches(of(citiesGr, grAria), workplace) ? "gr" :
                isMatches(of(foreignAria), workplace) ? "foreign" : isMatches(of(remoteAria), workplace) ? "remote" : "all";
     }
 }

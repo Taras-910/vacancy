@@ -55,4 +55,6 @@ public class CommonUtil {
     public static boolean isContains(String text, String s) {
         return text.indexOf(s) != -1;
     }
+
+    public static boolean isCalibrated(String text, String field) { return text.matches(".*\\b" + field + "\\b.*"); }
 }

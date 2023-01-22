@@ -23,9 +23,11 @@ import java.util.stream.Collectors;
 import static ua.training.top.SecurityUtil.setTestAuthorizedUser;
 import static ua.training.top.aggregator.Dispatcher.getAllProviders;
 import static ua.training.top.aggregator.InstallationUtil.limitVacanciesKeeping;
+import static ua.training.top.aggregator.strategies.UAJoobleStrategy.getJoobleDate;
 import static ua.training.top.util.MessageUtil.finish_message;
 import static ua.training.top.util.UserUtil.asAdmin;
 import static ua.training.top.util.VacancyUtil.*;
+import static ua.training.top.util.aggregatorUtil.data.DateToUtil.getToLocalDate;
 import static ua.training.top.util.aggregatorUtil.data.ToUtil.getAnchorEmployer;
 import static ua.training.top.util.aggregatorUtil.data.ToUtil.getAnchorVacancy;
 
@@ -139,6 +141,24 @@ public class AggregatorService {
         log.info("\n\ncommon = {}", vacancyTos.size());
 */
 
+        String code = "gr";
+//        String date = "πριν 12 μέρες";
+//        String date = "1 ημέρες";
+//        String date = "την ημέρα πριν";
+//        String date = "ένα μήνα πριν";
+//        String date = "πριν 18 μέρες";
+//        String date = "2 μήνες πριν";
+//        String date = "πριν 2 ώρες";
+//        String date = "πριν από 1 ώρα";
+//        String date = "ημέρα πριν";
+//        String date = "2 ημέρες πριν";
+        String date = "4 ώρες πριν";
+//        String date = "";
+
+
+        System.out.println(date);
+        System.out.println(getJoobleDate(code, date));
+        System.out.println(getToLocalDate(getJoobleDate(code, date)));
     }
 }
 // NofluffjobsStrategy add HL

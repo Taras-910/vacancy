@@ -144,10 +144,20 @@ public class FilterMapUtil {
             case "острава", "ostrava" -> of("острава", "ostrava");
             case "оломоуц", "olomouc", "катовице" -> of("оломоуц", "olomouc", "катовице");
             case "карлові вари", "карлови вари", "karlovyvary" -> of("карлові вари", "карлови вари", "karlovyvary");
+
             case "словакия", "словакія", "словаччина", "slovakia" -> getCommonList(of(skAria, citiesSk));
             case "прешов", "prešov" -> of("прешов", "prešov");
             case "кошице", "кошіце", "košice" -> of("кошице", "кошіце", "košice");
             case "братислава", "братіслава", "bratislava" -> of("братислава", "братіслава", "bratislava");
+
+            case "греция", "греція", "greece", "ελλάδα" -> getCommonList(of(grAria, citiesGr));
+            case "афины", "афіни", "athens", "αθήνα" -> of("афины", "афіни", "athens", "αθήνα");
+            case "салоники", "салоніки", "thessaloniki", "Θεσσαλονίκη" -> of("салоники", "салоніки", "thessaloniki", "Θεσσαλονίκη");
+            case "патры", "патри", "patras", "πάτρα" -> of("патры", "патри", "patras", "πάτρα");
+            case "пирей", "пірей", "piraeus", "πειραιώς" -> of("пирей", "пірей", "piraeus", "πειραιώς");
+            case "перистери", "peristeri", "περιστέρι" -> of("перистери", "peristeri", "περιστέρι");
+            case "никея", "нікея", "nicaea", "νίκαια" -> of("никея", "нікея", "nicaea", "νίκαια");
+
             case "оаэ", "оае", "эмираты", "объединенные арабские эмираты", "арабские эмираты", "uae", "emirates",
                     "united arab emirates", "arab emirates" -> getCommonList(of(aeAria, citiesAe));
             case "шарджа",  "sharjah" -> of("шарджа",  "sharjah");

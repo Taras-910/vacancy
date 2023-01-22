@@ -44,20 +44,20 @@ public class LinkedinStrategy implements Strategy {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();
         language = language.equals("ruby on rails") ? "Ruby%20on%20Rails" : language;
         log.info(get_vacancy, language, level, workplace);
-        if(isMatch(citiesRU, workplace)){
+        if (isMatch(citiesRU, workplace)) {
             return new ArrayList<>();
         }
         String[] cityOrCountry;
-        if(!herokuRestriction) {
-        cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(caAria, workplace) ? getCanada() :
-                        isMatch(uaAria, workplace) ? getUA() : new String[]{workplace};
+        if (!herokuRestriction) {
+            cityOrCountry = isMatch(foreignAria, workplace) ? getForeign() : isMatch(caAria, workplace) ? getCanada() :
+                    isMatch(uaAria, workplace) ? getUA() : new String[]{workplace};
         } else {
             cityOrCountry = workplace.equals(all) ? new String[]{"украина"} : new String[]{workplace};
         }
         Set<VacancyTo> set = new LinkedHashSet<>();
-            for(String location : cityOrCountry) {
+        for (String location : cityOrCountry) {
             int page = 0;
-            while(true) {
+            while (true) {
                 Document doc = getDocument(location, language, level, valueOf(page));
                 Elements elements = doc == null ? null : doc.getElementsByClass("base-search-card__info");
                 if (elements == null || elements.size() == 0) break;

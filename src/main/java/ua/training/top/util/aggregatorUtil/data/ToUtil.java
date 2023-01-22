@@ -42,7 +42,7 @@ public class ToUtil {
     }
 
     public static String getToTitle(String title) {
-        return isEmpty(title) ? link : getUpperStart(correctJavaScript(title));
+        return isEmpty(title) ? link : getUpperStart(correctToLanguage(title));
     }
 
     public static String getToName(String compName) {
@@ -54,10 +54,10 @@ public class ToUtil {
             return freshen.getLanguage().equals("all") ? link : getUpperStart(freshen.getLanguage());
         }
         skills = isContains(skills, "Experience level:") ? skills.substring(skills.indexOf("Experience level:")) : skills;
-        return correctJavaScript(skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills);
+        return correctToLanguage(skills.length() > maxLengthText ? skills.substring(0, maxLengthText) : skills);
     }
 
-    public static String correctJavaScript(String text) {
+    public static String correctToLanguage(String text) {
         return isContains(text, "Java Script") ? text.replaceAll("Java Script", "JavaScript") : text;
     }
 

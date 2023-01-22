@@ -74,15 +74,23 @@ public class UAJoobleStrategy implements Strategy {
 
     public static String[] getForeign() {
         return new String[]{"Канада", "Польща", "Німеччина", "Швеція", "Швейцарія", "США", "Франція", "Італія",
-                "Фінляндія", "Велика Британія", "ОАЭ", "Чехія", "Словаччина"};
+                "Фінляндія", "Велика Британія", "ОАЭ", "Чехія", "Словаччина", "Греція"};
     }
 
     public static String getJoobleDate(String codeISO, String dateString) {
         if(codeISO.equals("se")) {
             dateString = isContains(dateString, "sedan") ? dateString.replace("sedan", "") : dateString;
-            dateString = isContains(dateString, "en") ? dateString.replace("en", "1") : dateString;
+            return isContains(dateString, "en") ? dateString.replace("en", "1") : dateString;
         }
-        return codeISO.equals("cz") && isContains(dateString, "před") &&!isContains(dateString, "měsícem") ?
+        if(codeISO.equals("gr")) {
+            return switch (dateString) {
+                case "πριν από 1 ώρα", "πριν από μια ώρα" -> "1 година";
+                case "την ημέρα πριν", "ημέρα πριν" -> "1 день";
+                case "ένα μήνα πριν", "πριν από έναν μήνα" -> "1 місяць";
+                default -> isContains(dateString, "πριν") ? dateString.replace("πριν", "") : dateString;
+            };
+        }
+        return codeISO.equals("cz") && isContains(dateString, "před") && !isContains(dateString, "měsícem") ?
                 dateString.replaceAll("před", "") : dateString;
     }
 }

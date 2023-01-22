@@ -66,7 +66,7 @@ public class DateToUtil {
         originText = getReplace(originText, of("einem", "Il y a un", "temu", "einem", "una", "un", "před"), "1");
         originText = getReplace(originText, of("nowa", "нове", "сейчас", "только что"), "0 минут");
         originText = getReplace(originText, of("сьогодні", "сегодня", "today", "днес", "heute"), "0 сьогодні");
-        originText = getReplace(originText, of("yesterday", "вчера", "вчора", "gestern"), "1 сьогодні");
+        originText = getReplace(originText, of("yesterday", "вчера", "вчора", "gestern", "ημέρα πριν"), "1 сьогодні");
         return originText;
     }
 
