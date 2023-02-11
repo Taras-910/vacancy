@@ -99,7 +99,7 @@ public class ValidationUtil {
         }
     }
 
-    public static String getMessage(String uri, String value, MessageSourceAccessor messageSourceAccessor) {
+    public static String getMessageField(String uri, String value, MessageSourceAccessor messageSourceAccessor) {
         return uri.contains("/rest") ? value : messageSourceAccessor.getMessage(value);
     }
 }

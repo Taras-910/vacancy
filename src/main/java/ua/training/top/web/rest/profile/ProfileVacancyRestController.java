@@ -2,7 +2,6 @@ package ua.training.top.web.rest.profile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,11 @@ public class ProfileVacancyRestController {
     static final String REST_URL = "/rest/profile/vacancies";
     public static final Logger log = LoggerFactory.getLogger(ProfileVacancyRestController.class);
 
-    @Autowired
-    private VacancyService vacancyService;
+    private final VacancyService vacancyService;
+
+    public ProfileVacancyRestController(VacancyService vacancyService) {
+        this.vacancyService = vacancyService;
+    }
 
     @GetMapping("/{id}")
     public VacancyTo get(@PathVariable int id) {

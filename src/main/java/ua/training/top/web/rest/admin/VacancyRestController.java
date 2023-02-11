@@ -2,7 +2,6 @@ package ua.training.top.web.rest.admin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,12 @@ import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 public class VacancyRestController {
     static final String REST_URL = "/rest/admin/vacancies";
     public static final Logger log = LoggerFactory.getLogger(VacancyRestController.class);
-    @Autowired
-    private VacancyService vacancyService;
+
+    private final VacancyService vacancyService;
+
+    public VacancyRestController(VacancyService vacancyService) {
+        this.vacancyService = vacancyService;
+    }
 
     @GetMapping("/{id}")
     public VacancyTo get(@PathVariable int id) {

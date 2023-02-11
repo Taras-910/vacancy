@@ -2,7 +2,6 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,8 +21,11 @@ import static ua.training.top.util.UserUtil.asAdmin;
 public class AutoRefreshService {
     public static final Logger log = LoggerFactory.getLogger(AutoRefreshService.class);
 
-    @Autowired
-    private AggregatorService aggregatorService;
+    private final AggregatorService aggregatorService;
+
+    public AutoRefreshService(AggregatorService aggregatorService) {
+        this.aggregatorService = aggregatorService;
+    }
 
     //    @Scheduled(cron = "0 0,5,10,15,20,25,30,35,40,45,50,55 6-23 * * *")
     @Scheduled(cron = "0 0,10,20,30,40,50 10-18 * * MON-FRI")

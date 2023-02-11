@@ -13,7 +13,6 @@ import static ua.training.top.util.ValidationUtil.getRootCause;
         "classpath:spring/spring-app-test.xml",
         "classpath:spring/spring-db.xml"
 })
-//@ExtendWith(SpringExtension.class)
 @ExtendWith(TimingExtension.class)
 @Sql(scripts = "classpath:db/hsqldb_populate.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles(resolver = ActiveDbProfileResolver.class)

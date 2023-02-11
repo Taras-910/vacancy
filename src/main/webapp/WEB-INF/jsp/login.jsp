@@ -81,7 +81,7 @@
         </div>
     </div>
 <div class="container lead py-3">
-    <a href="https://github.com/JavaOPs/topjava"><spring:message code="login.project"/></a> <spring:message code="login.body"/>
+    <a href="https://github.com/Taras-910/vacancy"><spring:message code="login.project"/></a> <spring:message code="login.body"/>
     <a href="https://djinni.co/jobs/keyword-java/">Djinni</a>,
     <a href="https://www.itjobs.ca/en/search-jobs/">ItJobs</a>,
     <%--<a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,--%>

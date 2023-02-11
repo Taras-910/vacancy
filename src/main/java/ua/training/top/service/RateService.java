@@ -2,7 +2,6 @@ package ua.training.top.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,11 +25,14 @@ import static ua.training.top.util.ValidationUtil.*;
 
 @Service
 public class RateService extends AbstractBaseEntity implements Serializable {
-    private final static Logger log = LoggerFactory.getLogger(RateService.class);
+    private static final Logger log = LoggerFactory.getLogger(RateService.class);
     public static final Map<String, Rate> mapRates = new ConcurrentHashMap<>();
 
-    @Autowired
-    private RateRepository repository;
+    private final RateRepository repository;
+
+    public RateService(RateRepository repository) {
+        this.repository = repository;
+    }
 
     public Rate get(int id) {
         log.info("get by id {}", id);

@@ -28,9 +28,10 @@ import static ua.training.testData.TestUtil.*;
 import static ua.training.testData.UserTestData.*;
 import static ua.training.top.util.exception.ErrorType.DATA_ERROR;
 import static ua.training.top.util.exception.ErrorType.VALIDATION_ERROR;
+import static ua.training.top.web.rest.admin.UserRestController.REST_URL;
 
 class UserRestControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = UserRestController.REST_URL + '/';
+    private static final String REST_URL_SLASH = REST_URL + '/';
     @Autowired
     private UserService service;
 
@@ -44,7 +45,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -55,13 +56,13 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + ADMIN_ID))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + NOT_FOUND)
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -69,7 +70,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByEmail() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "by?email=" + admin.getEmail())
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + "by?email=" + admin.getEmail())
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -88,7 +89,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + USER_ID)
                 .with(userHttpBasic(admin)).with(csrf()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -97,7 +98,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void updateForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + ADMIN_ID)
                 .with(userHttpBasic(user)))
                 .andExpect(status().isForbidden());
     }
@@ -106,7 +107,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     @Transactional
     void update() throws Exception {
         User updated = getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + ADMIN_ID)
                 .with(userHttpBasic(admin)).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
@@ -132,7 +133,7 @@ class UserRestControllerTest extends AbstractControllerTest {
 
     @Test
     void enable() throws Exception {
-        perform(MockMvcRequestBuilders.post(REST_URL + USER_ID)
+        perform(MockMvcRequestBuilders.post(REST_URL_SLASH + USER_ID)
                 .param("enabled", "false")
                 .with(userHttpBasic(admin)).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON))
@@ -157,7 +158,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     void updateInvalid() throws Exception {
         User invalid = new User(user);
         invalid.setName("");
-        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin)).with(csrf())
                 .content(jsonWithPassword(invalid, "password")))
@@ -171,7 +172,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     void updateDuplicate() throws Exception {
         User updated = new User(user);
         updated.setEmail("admin@gmail.com");
-        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin)).with(csrf())
                 .content(jsonWithPassword(updated, "password")))
@@ -197,7 +198,7 @@ class UserRestControllerTest extends AbstractControllerTest {
     void updateHtmlUnsafe() throws Exception {
         User invalid = new User(user);
         invalid.setName(user.getName()+"<script>alert(123)</script>");
-        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL_SLASH + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))
                 .with(userHttpBasic(admin)).with(csrf()))

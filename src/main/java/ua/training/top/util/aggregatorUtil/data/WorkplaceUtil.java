@@ -1,5 +1,8 @@
 package ua.training.top.util.aggregatorUtil.data;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.util.List.of;
@@ -8,10 +11,12 @@ import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 
 public class WorkplaceUtil {
 
-    public static String getDjinniShortcut(String city) {
-        String workplace =  isMatches(of(uaAria, citiesUA), city) ? "UKR" : isMatches(of(plAria, citiesPl), city) ? "POL" :
-                isMatches(of(deAria, citiesDe), city) ? "DEU" : city.equals("all") ? "eu" : city.equals("remote") ? "remote" :  "other";
-        return getJoin("?",city.equals("remote") ? "employment=" : "region=",workplace);
+    public static String getDjinni(String workplace) {
+        String region = isMatches(ImmutableList.of(uaAria, citiesUA), workplace) ? "UKR" :
+                        isMatches(ImmutableList.of(plAria, citiesPl), workplace) ? "POL" :
+                        isMatches(ImmutableList.of(deAria, citiesDe), workplace) ? "DEU" :
+                        isMatches(List.of(caAria, citiesCa, usAria, citiesUS), workplace) ? "other" : "eu";
+        return getJoin("region=", region, !isMatch(citiesUA, workplace) ? "" : "&location=" + getUA_en(workplace).toLowerCase());
     }
 
     public static String getITJobs(String workplace) {
@@ -40,23 +45,23 @@ public class WorkplaceUtil {
 
     public static String getJobsDouForeign(String city){
         return  switch (city) {
-            case "краків", "краков", "krakow" -> "Краків";
             case "варшава", "warsaw" -> "Варшава";
             case "вроцлав", "wroclaw" -> "Вроцлав";
             case "гданськ", "гданск", "gdansk" -> "Гданськ";
-            case "софія", "софия", "sofia" -> "Софія";
+            case "краків", "краков", "krakow" -> "Краків";
+            case "познань", "poznan" -> "Познань";
             case "лодзь", "lodz" -> "Лодзь";
-            case "лісабон", "лиссабон", "lisbon" -> "Лісабон";
+            case "варна", "varna" -> "Варна";
             case "прага", "prague" -> "Прага";
+            case "лісабон", "лиссабон", "lisbon" -> "Лісабон";
             case "лімасол", "лимасол", "limasol" -> "Лімасол";
             case "тбілісі", "тбилиси", "tbilisi" -> "Тбілісі";
-            case "рига", "riga" -> "Рига";
             case "таллінн", "таллинн", "tallinn" -> "Таллінн";
-            case "варна", "varna" -> "Варна";
             case "вільнюс", "вильнюс", "vilnius" -> "Вільнюс";
-            case "познань", "poznan" -> "Познань";
             case "берлін", "берлин", "berlin" -> "Берлін";
+            case "софія", "софия", "sofia" -> "Софія";
             case "зелена гура" -> "Зелена%20Гура";
+            case "рига", "riga" -> "Рига";
             default -> "Польща"; // Украина, all
         };
     }
@@ -98,7 +103,7 @@ public class WorkplaceUtil {
             case "poznan", "познань" -> "&location=Познань%2C%20Великопольское%20воеводство%2C%20Польша&geoId=100231202";
             case "krakow", "краков", "краків" -> "&location=Краков%2C%20Малое%20польское%20воеводство%2C%20Польша&geoId=103263110";
 
-            case "англія", "англия", "england", "united kingdom" -> "&location=Агломерация%20Лондона%2C%20Великобритания&geoId=90009496";
+            case "англія", "англия", "великобританія", "великобритания", "england", "united kingdom" -> "&location=Агломерация%20Лондона%2C%20Великобритания&geoId=90009496";
             case "cambridgeshire", "кембріджшир", "кембриджшир" -> "&location=Кембриджшир%2C%20Англия%2C%20Соединённое%20Королевство&geoId=102057244";
             case "westminster", "вестмінстер", "вестминстер" -> "&location=Вестминстер%2C%20Англия%2C%20Соединённое%20Королевство&geoId=106628425";
             case "birmingham","бірмінгем", "бирмингем" -> "&location=Бирмингем%2C%20Англия%2C%20Соединённое%20Королевство&geoId=100356971";
@@ -223,10 +228,10 @@ public class WorkplaceUtil {
             case "украина", "україна", "ukraine", "all" -> "&l=Украина";
             case "remote", "relocate", "удаленно", "віддалено", "віддалена робота" -> "&rbl=Удаленно&jlid=f00b7fa4b055cc00";
             case "дніпро", "днепр", "dnipro", "dnepr" -> "&rbl=Днепр,+Днепропетровская+область&jlid=030c410a355d8014";
+            case "харьків", "харьков", "kharkiv" -> "&rbl=Харьков&jlid=6fb70c8a2ab37b1f";
             case "київ", "киев", "kyiv", "kiev" -> "&rbl=Киев&jlid=e9ab1a23f8e591f1";
             case "одеса", "одесса", "odessa" -> "&rbl=Одесса&jlid=240fe96bd3c6e402";
             case "львів", "львов", "lviv" -> "&rbl=Львов&jlid=6ea57808cf02b292";
-            case "харьків", "харьков", "kharkiv" -> "&rbl=Харьков&jlid=6fb70c8a2ab37b1f";
             default -> "-1";
         };
     }
@@ -252,7 +257,6 @@ public class WorkplaceUtil {
 
     public static String getUS(String workplace) {
         return switch (workplace) {
-//            case "джэксонвилл", "джэксонвілл", "jacksonville" -> "";
             case "бостон", "boston" -> "Boston%2C%20MA";
             case "даллас", "dallas" -> "Dallas%2C%20TX";
             case "денвер", "denver" -> "Denver%2C%20CO";
@@ -288,19 +292,7 @@ public class WorkplaceUtil {
     }
 
     public static String getJoobleUA(String workplace){
-        return switch (workplace) {
-            case "київ", "киев", "kyiv", "kiev" -> "Київ";
-            case "львів", "львов", "lviv" -> "Львів";
-            case "одеса", "одесса", "odessa" -> "Одеса";
-            case "харків", "харьков", "kharkiv" -> "Харків";
-            case "дніпро", "днепр", "dnipro", "dnepr" -> "Дніпро";
-            case "миколаїв", "николаев", "mykolaiv" -> "Миколаїв";
-            case "вінниця", "винница", "vinnitsia" -> "Вінниця";
-            case "чорновці", "черновцы", "chernivtsi" -> "Чорновці";
-            case "чернігів", "чернигов", "chernigiv" -> "Чернігів";
-            case "івано-франківськ", "ивано-франковск" -> "Івано-Франківськ";
-            case "запоріжжя", "запорожье", "zaporizhzhya" -> "Запоріжжя";
-            case "ужгород", "uzhgorod" -> "Ужгород";
+        return isMatch(citiesUA, workplace) ? getUA_ua(workplace) : switch (workplace) {
             case "канада", "canada" -> "Канада";
             case "варшава" -> "Варшава%2C%20Польща";
             case "польша", "польща", "poland" -> "Польща";
@@ -361,10 +353,10 @@ public class WorkplaceUtil {
         return switch (city) {
             case "варшава", "warszawa" -> "Warszawa";
             case "krakow", "краков", "краків" -> "Krakow";
-            case "wroclaw", "вроцлав" -> "Wroclaw";
             case "gdansk", "гданськ", "гданск" -> "Gdansk";
-            case "poznan", "познань" -> "Poznan";
             case "katowice", "катовіце", "катовице" -> "Katowice";
+            case "wroclaw", "вроцлав" -> "Wroclaw";
+            case "poznan", "познань" -> "Poznan";
             case "lodz", "лодзь" -> "Lodz";
             default -> "";
         };
@@ -372,8 +364,8 @@ public class WorkplaceUtil {
 
     public static String getCZ(String city) {
         return switch (city) {
-            case "прага", "prague" -> "Prague";
             case "брно", "brno" -> "Brno";
+            case "прага", "prague" -> "Prague";
             case "плзень", "pilsen" -> "Pilsen";
             case "острава", "ostrava" -> "Ostrava";
             case "оломоуц", "olomouc", "катовице" -> "Katowice";
@@ -433,7 +425,6 @@ public class WorkplaceUtil {
 
     public static String getUK(String city){
         return  switch (city) {
-//            case "велика британія" -> "Велика%20Британія";
             case "london", "лондон" -> "London";
             case "soho", "сохо" -> "Soho";
             case "avon", "ейвон" -> "Avon";

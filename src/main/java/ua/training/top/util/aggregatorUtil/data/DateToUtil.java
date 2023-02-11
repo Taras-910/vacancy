@@ -56,15 +56,15 @@ public class DateToUtil {
     static LocalDate getLocalDate(int number, String name) {
         return isMatch(monthsOfYearAria, name) ? LocalDate.of(now().getYear(), getMonth(name), number) :
                 isMatch(minuteAriaDate, name) ? LocalDateTime.now().minusMinutes(number).toLocalDate() :
-                        isMatch(hourAria, name) ? LocalDateTime.now().minusHours(number).toLocalDate() :
-                                isMatch(dayAria, name) ? now().minusDays(number) :
-                                        isMatch(weekAriaDate, name) ? now().minusWeeks(number) :
-                                            isMatch(monthAriaDate, name) ? now().minusMonths(number) : defaultDate;
+                isMatch(hourAria, name) ? LocalDateTime.now().minusHours(number).toLocalDate() :
+                isMatch(weekAriaDate, name) ? now().minusWeeks(number) :
+                isMatch(dayAria, name) ? now().minusDays(number) :
+                isMatch(monthAriaDate, name) ? now().minusMonths(number) : defaultDate;
     }
 
     static String formatToNumAndWord(String originText) {
         originText = getReplace(originText, of("einem", "Il y a un", "temu", "einem", "una", "un", "před"), "1");
-        originText = getReplace(originText, of("nowa", "нове", "сейчас", "только что"), "0 минут");
+        originText = getReplace(originText, of("nowa", "нове", "сейчас", "только что", "щойно"), "0 минут");
         originText = getReplace(originText, of("сьогодні", "сегодня", "today", "днес", "heute"), "0 сьогодні");
         originText = getReplace(originText, of("yesterday", "вчера", "вчора", "gestern", "ημέρα πριν"), "1 сьогодні");
         return originText;

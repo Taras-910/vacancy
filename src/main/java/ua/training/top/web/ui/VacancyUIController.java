@@ -2,7 +2,6 @@ package ua.training.top.web.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +23,13 @@ import static ua.training.top.util.FreshenUtil.getFreshenFromTo;
 @RequestMapping(value = "profile/vacancies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VacancyUIController {
     public static final Logger log = LoggerFactory.getLogger(VacancyUIController.class);
-    @Autowired
-    private VacancyService vacancyService;
-    @Autowired
-    private VoteService voteService;
+    private final VacancyService vacancyService;
+    private final VoteService voteService;
+
+    public VacancyUIController(VacancyService vacancyService, VoteService voteService) {
+        this.vacancyService = vacancyService;
+        this.voteService = voteService;
+    }
 
     @GetMapping("/{id}")
     public VacancyTo get(@PathVariable int id) {

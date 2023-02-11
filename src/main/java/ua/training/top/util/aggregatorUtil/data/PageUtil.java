@@ -9,8 +9,8 @@ public class PageUtil {
 
     public static String getPage(String siteName, String page) {
         return switch (siteName) {
-            case jobcareer, rabota -> page.equals("1") ? "" : getJoin("page=",page);
-            case djinni, work, itJob -> page.equals("1") ? "" : getJoin("&page=",page);
+            case jobcareer, rabota, djinni -> page.equals("1") ? "" : getJoin("page=",page);
+            case work, itJob -> page.equals("1") ? "" : getJoin("&page=",page);
             case indeed, indeed_ca -> page.equals("0") ? "" : getJoin("&start=",page,"0");
             case jooble -> page.equals("1") ? "" : getJoin("&p=",page);
             case itJobsWatch -> page.equals("0") ? "" : getJoin("s=date", page);

@@ -59,7 +59,7 @@ public class SalaryToUtil {
                 exceed = true;
                 log.error(wrong_salary_value, a/100);
             }
-            result[i] = a < 30000 ? 1 : !exceed ? a : Math.min(a / 12, 5000000);
+            result[i] = a < 30000 ? 1 : !exceed ? a : a / 12 < 5000000 ? a / 12 : 1;
         }
         return checkLikeTrue(result);
     }

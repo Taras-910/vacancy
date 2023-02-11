@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import static ua.training.top.util.ValidationUtil.getMessage;
+import static ua.training.top.util.ValidationUtil.getMessageField;
 import static ua.training.top.util.exception.ErrorType.*;
 
 @RestControllerAdvice(annotations = {RestController.class, Controller.class})
@@ -54,7 +55,7 @@ public class ExceptionInfoHandler {
             for (Map.Entry<String, String> entry : CONSTRAINTS_I18N_MAP.entrySet()) {
                 if (lowerCaseMsg.contains(entry.getKey())) {
                     return logAndGetErrorInfo(req, e, false, DATA_ERROR,
-                            getMessage(req.getRequestURI(), entry.getValue(), messageSourceAccessor));
+                            getMessageField(req.getRequestURI(), entry.getValue(), messageSourceAccessor));
                 }
             }
         }
@@ -86,7 +87,7 @@ public class ExceptionInfoHandler {
         Throwable rootCause = ValidationUtil.logAndGetRootCause(log, req, e, logStackTrace, errorType);
         return ResponseEntity.status(errorType.getStatus())
                 .body(new ErrorInfo(req.getRequestURL(), errorType,
-                        getMessage(req.getRequestURI(), errorType.getErrorCode(), messageSourceAccessor),
+                        getMessageField(req.getRequestURI(), errorType.getErrorCode(), messageSourceAccessor),
                         details.length != 0 ? details : new String[]{getMessage(rootCause)}));
     }
 }

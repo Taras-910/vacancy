@@ -17,9 +17,9 @@ public class FilterUtil {
     static {
         mapAriaFilter = new TreeMap<>();
         FilterMapUtil fau = new FilterMapUtil();
-        List<String> list = getCommonList(of(levelAria, foreignAria, remoteAria, uaAria, citiesUA, plnAria, citiesPl,
-                caAria, citiesCa, ukAria, citiesUK, bgAria, citiesBg, deAria, citiesDe, ilAria, citiesIl, uaAria,
-                citiesUA, czAria, citiesCz, skAria, citiesSk, aeAria, citiesAe, frAria, citiesFr, itAria, citiesIt,
+        List<String> list = getCommonList(of(levelAria, foreignAria, remoteAria, uaAria, citiesUA, plAria, citiesPl,
+                caAria, citiesCa, ukAria, citiesUK, bgAria, citiesBg, deAria, citiesDe, ilAria, citiesIl, usAria,
+                citiesUS, czAria, citiesCz, skAria, citiesSk, aeAria, citiesAe, frAria, citiesFr, itAria, citiesIt,
                 fiAria, citiesFi, chAria, citiesCh, seAria, citiesSe, grAria, citiesGr, otherAria));
         mapAriaFilter = list.stream()
                 .distinct()

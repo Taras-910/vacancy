@@ -1,6 +1,5 @@
 package ua.training.top.web.rest.profile;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +20,11 @@ import java.net.URI;
 public class ProfileUserRestController extends AbstractUserController {
     static final String REST_URL = "/rest/profile/users";
 
-    @Autowired
-    UserService service;
+    private final UserService service;
+
+    public ProfileUserRestController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@ApiIgnore @AuthenticationPrincipal AuthorizedUser authUser) {
