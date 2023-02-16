@@ -11,7 +11,7 @@ Design and implement:
 The task is:
 Build a vacancies search, choice and store in dataBase, which are filling from public resources
 The most popular IT resources were selected:
-# Djinni, HH, Habr, DOU, LinkedIn, No Fluff Jobs, robota, Indeed, Jooble, Work
+# Djinni, ItJobs, JobBank, JobsBG, JobsMarketUA, JobsMarket, DOU, LinkedIn, NoFluffJobs, UAJooble, Work, Zaplata
 All query statistics (updates, filtering, voting) are stored in the database
 
 2 types of users: admin and regular users

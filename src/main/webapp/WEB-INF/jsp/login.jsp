@@ -87,9 +87,9 @@
     <%--<a href="https://www.itjobswatch.co.uk/search">ItJobsWatch</a>,--%>
     <a href="https://www.jobbank.gc.ca/jobsearch/jobsearch">JobBank</a>,
     <a href="https://www.jobs.bg/front_job_search.php">JobsBG</a>,
+    <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarketUA</a>,
     <a href="https://jobsmarket.io">JobsMarket</a>,
     <a href="https://jobs.dou.ua/first-job/">JobsDou</a>,
-    <a href="https://jobsmarket.com.ua/search?position=Java">JobsMarket</a>,
     <a href="https://www.linkedin.com/jobs/search?position=1&pageNum=0">Linkedin</a>,
     <a href="https://nofluffjobs.com/pl/warszawa/backend?lang=uk">NoFluffJobs</a>,
     <%--<a href="https://rabota.ua">Rabota</a>,--%>
