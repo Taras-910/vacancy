@@ -8,7 +8,6 @@ import ua.training.top.to.VacancyTo;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.List.of;
 import static ua.training.top.util.MessageUtil.*;
@@ -19,8 +18,7 @@ public class VacancyUtil {
 
     public static List<VacancyTo> getTos(List<Vacancy> vacancies, List<Vote> votes) {
         return vacancies.isEmpty() ? getEmpty() : vacancies.stream()
-                        .map(vacancy -> getTo(vacancy, votes))
-                        .collect(Collectors.toList());
+                .map(vacancy -> getTo(vacancy, votes)).toList();
     }
 
     public static VacancyTo getTo(Vacancy v, List<Vote> votes) {
@@ -31,7 +29,8 @@ public class VacancyUtil {
     }
 
     public static List<Vacancy> fromTos (List<VacancyTo> vTos) {
-        return vTos.stream().map(VacancyUtil::fromTo).collect(Collectors.toList());
+        return vTos.stream()
+                .map(VacancyUtil::fromTo).toList();
     }
 
     public static Vacancy fromTo(VacancyTo vTo) {

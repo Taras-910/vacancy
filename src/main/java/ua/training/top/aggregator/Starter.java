@@ -9,7 +9,6 @@ import ua.training.top.util.VacancyUtil;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static ua.training.top.aggregator.InstallationUtil.reasonDateLoading;
 import static ua.training.top.util.MessageUtil.common_number_vacancyTos;
@@ -47,8 +46,7 @@ public class Starter implements StarterInterface {
         List<VacancyTo> vacancyTos = set.parallelStream()
                 .filter(VacancyUtil::checkNullDataVacancyTo)
                 .filter(vTo -> reasonDateLoading.isBefore(vTo.getReleaseDate()))
-                .map(vTo -> getFilled(vTo, freshen)).distinct()
-                .collect(Collectors.toList());
+                .map(vTo -> getFilled(vTo, freshen)).distinct().toList();
         log.info(common_number_vacancyTos, vacancyTos.size());
         return vacancyTos;
     }

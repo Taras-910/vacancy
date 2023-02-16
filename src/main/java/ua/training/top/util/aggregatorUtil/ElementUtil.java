@@ -101,7 +101,7 @@ public class ElementUtil {
                     String skills, salary, title = getToTitle(xssClear(element.getElementsByClass("profile").tagName("a").text()));
                     skills = xssClear(element.getElementsByClass("list-jobs__description").text());
                     salary = xssClear(element.getElementsByClass("public-salary-item").text());
-                    salary = isEmpty(salary) ? skills : salary;
+                    /*salary = isEmpty(salary) ? skills : salary;*/
                     Integer[] salaries = getToSalaries(salary.replaceAll(date, ""));
                     if (isToValid(freshen, getJoin(title, skills))) {
                         VacancyTo v = new VacancyTo();

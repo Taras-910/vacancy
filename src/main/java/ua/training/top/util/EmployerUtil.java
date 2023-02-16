@@ -4,14 +4,13 @@ import ua.training.top.model.Employer;
 import ua.training.top.to.VacancyTo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ua.training.top.util.MessageUtil.not_be_null;
 
 public class EmployerUtil {
 
     public static List<Employer> getEmployersFromTos(List<VacancyTo> vTos) {
-        return vTos.stream().map(EmployerUtil::getEmployerFromTo).collect(Collectors.toList());
+        return vTos.stream().map(EmployerUtil::getEmployerFromTo).toList();
     }
 
     public static Employer getEmployerFromTo(VacancyTo vTo) {

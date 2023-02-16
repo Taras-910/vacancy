@@ -7,7 +7,6 @@ import ua.training.top.model.Goal;
 import ua.training.top.to.VacancyTo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.time.LocalDateTime.now;
 import static java.util.Collections.singleton;
@@ -38,8 +37,7 @@ public class FreshenUtil {
         return freshensDb.stream()
                 .filter(f -> f.getGoals().contains(FILTER))
                 .sorted(FreshenUtil::compareDate)
-                .skip(limitFreshensFilterKeeping)
-                .collect(Collectors.toList());
+                .skip(limitFreshensFilterKeeping).toList();
     }
 
     public static int compareDate(Freshen f1, Freshen f2) {

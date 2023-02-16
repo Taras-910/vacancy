@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.training.top.model.Rate;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,6 +15,7 @@ import static ua.training.top.util.aggregatorUtil.data.CommonUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.ConstantsUtil.*;
 import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_find_salary;
 import static ua.training.top.util.aggregatorUtil.data.PatternUtil.pattern_salary_transform_points;
+import static ua.training.top.util.aggregatorUtil.data.RateUtil.mapRatesTest;
 
 public class SalaryToUtil {
     public static final Logger log = LoggerFactory.getLogger(SalaryToUtil.class);
@@ -132,8 +132,8 @@ public class SalaryToUtil {
             case "₭" -> USDCZK;
             default -> USDUSD;
         };
-        Rate r = mapRates.getOrDefault(name, new Rate(null, null, 1.0, LocalDate.now()));
-        if(r.getName() == null){
+        Rate r = mapRates.getOrDefault(name, mapRatesTest.get(name));
+        if(mapRates.isEmpty()){
             log.error(currency_rate_not_found, name);
         }
         return r.getValueRate();

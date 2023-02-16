@@ -132,11 +132,9 @@ public class AggregatorService {
         log.info("\n\ncommon = {}", rates.size());*/
 
         /*List<VacancyTo> vacancyTos = getAllProviders().selectBy(
-                FreshenUtil.asNewFreshen("all", "all", "all", Goal.UPGRADE));
+                FreshenUtil.asNewFreshen("java", "all", "украина", Goal.UPGRADE));
         AtomicInteger i = new AtomicInteger(1);
         vacancyTos.forEach(vacancyNet -> log.info("\nvacancyNet № {}\n{}\n", i.getAndIncrement(), vacancyNet.toString()));
         log.info("\n\ncommon = {}", vacancyTos.size());*/
-
-
     }
 }

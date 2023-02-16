@@ -3,7 +3,6 @@ package ua.training.testData;
 import ua.training.top.TestMatcher;
 import ua.training.top.model.Rate;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static java.time.LocalDate.now;
@@ -33,6 +32,6 @@ public class RateTestData {
     }
 
     public static List<Rate> allRates(){
-        return Arrays.asList(rate10, rate9, rate8, rate7, rate6, rate5, rate4, rate3, rate2, rate1);
+        return List.of(rate10, rate9, rate8, rate7, rate6, rate5, rate4, rate3, rate2, rate1);
     }
 }

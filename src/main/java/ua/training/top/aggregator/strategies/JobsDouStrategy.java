@@ -30,6 +30,7 @@ public class JobsDouStrategy implements Strategy {
     private static final String url_trainee = "https://jobs.dou.ua/first-job/?from=exp";
     private static final String url = "https://jobs.dou.ua/%s/%s%s%s%s%s";
     // https://jobs.dou.ua/vacancies/?remote&from=maybecategory=Java&descr=1&city=Софія&exp=1-3
+    // workplace = all ???   https://jobs.dou.ua/vacancies/?category=java&descr=1&city=all
 
     protected Document getDocument(String workplace, String language, String level) {
         return DocumentUtil.getDocument(isMatch(traineeAria, workplace) ? url_trainee : format(url,
@@ -42,7 +43,7 @@ public class JobsDouStrategy implements Strategy {
                                 "&","city=", isMatch(citiesUA, workplace) ? getUA_ua(workplace) : getJobsDouForeign(workplace)),
                 level.equals(all) || isMatch(remoteAria, workplace) ? "" : getLevel(jobs, level)));
     }
-// workplace = all ???   https://jobs.dou.ua/vacancies/?category=java&descr=1&city=all
+
     @Override
     public List<VacancyTo> getVacancies(Freshen freshen) throws IOException {
         String workplace = freshen.getWorkplace(), level = freshen.getLevel(), language = freshen.getLanguage();

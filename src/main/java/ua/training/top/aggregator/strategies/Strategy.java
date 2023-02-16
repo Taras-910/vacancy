@@ -7,5 +7,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface Strategy {
-    List<VacancyTo> getVacancies (Freshen doubleString) throws IOException;
+    List<VacancyTo> getVacancies (Freshen freshen) throws IOException;
 }

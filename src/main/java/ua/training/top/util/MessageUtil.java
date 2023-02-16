@@ -8,7 +8,6 @@ public class MessageUtil {
             delay_week_day_freshen = "There is set delay within {} minutes for Freshen {}",
             delay = "There is set delay within {} minutes",
             document_url = "GetDocument url={}\n",
-            error_data = "data error",
             error_request = "{} at request {} {}",
             error_select = "Select error e {}",
             error = "There is error \ne={}\n for parse \n{}",

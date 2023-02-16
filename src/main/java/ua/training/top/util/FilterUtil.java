@@ -28,10 +28,10 @@ public class FilterUtil {
 
     public static List<Vacancy> getFilter(List<Vacancy> vacancies, Freshen f) {
         return vacancies.stream()
-                .filter(v -> isSuit(getJoin(v.getSkills(), " ", v.getTitle()).toLowerCase(), f.getLanguage())
-                        && isSuit(getJoin(v.getSkills(),  " ", v.getTitle()).toLowerCase(), f.getLevel())
+                .filter(v -> isSuit(getJoin(v.getSkills(), " ", v.getTitle()).toLowerCase().toLowerCase(), f.getLanguage())
+                        && isSuit(getJoin(v.getSkills(),  " ", v.getTitle()).toLowerCase().toLowerCase(), f.getLevel())
                         && isSuit(getJoin(v.getSkills(), " ", v.getEmployer().getAddress()).toLowerCase(), f.getWorkplace()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static boolean isSuit(String checkedText, String field) {
