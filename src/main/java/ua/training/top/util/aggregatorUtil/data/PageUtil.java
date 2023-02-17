@@ -56,7 +56,7 @@ public class PageUtil {
                 case rabota, work -> 9;
                 default -> 1;
             };
-            case "украина" -> switch (site) {
+            case "україна" -> switch (site) {
                 case djinni -> 6;
                 case linkedin, jooble -> 2; //100-52 10-18 3-18
                 case rabota -> 6;
@@ -64,7 +64,7 @@ public class PageUtil {
                 case work -> 27;
                 default -> 1;
             };
-            case "киев" -> switch (site) {
+            case "київ" -> switch (site) {
                 case djinni -> 100;
                 case linkedin -> 2;
                 case rabota -> 12;
@@ -73,15 +73,14 @@ public class PageUtil {
                 case work  -> 13;
                 default -> 1;
             };
-
-            case "одесса", "днепр" -> switch (site) {
+            case "одеса", "дніпро" -> switch (site) {
                 case djinni -> 30;
                 case linkedin, rabota -> 2;
                 case jooble -> 6;
                 case work -> 3;
                 default -> 1;
             };
-            case "харьков" -> switch (site) {
+            case "харків" -> switch (site) {
                 case djinni -> 46;
                 case linkedin -> 2;
                 case indeed -> 1/*3*/;
@@ -90,13 +89,12 @@ public class PageUtil {
                 case work -> 5;
                 default -> 1;
             };
-            case "минск" -> switch (site) {
+            case "мінськ" -> switch (site) {
                 case linkedin, jooble -> 2;
                 case work -> 3;
                 default -> 1;
             };
-
-            case "львов" -> switch (site) {
+            case "львів" -> switch (site) {
                 case djinni -> 40;
                 case linkedin -> 2;
                 case rabota, work -> 3;
@@ -104,6 +102,7 @@ public class PageUtil {
                 case indeed -> 1/*2*/;
                 default -> 1;
             };
+            case "ужгород",  "запоріжжя",  "черкаси",  "вінниця",  "івано-франківськ",  "полтава"  -> 1;
             default -> switch (site) {
                 case djinni -> 5;
                 case linkedin, rabota, jobsmarket, zaplata -> 2;
