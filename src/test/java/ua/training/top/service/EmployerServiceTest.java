@@ -18,26 +18,26 @@ import static ua.training.testData.TestUtil.NOT_FOUND;
 class EmployerServiceTest extends AbstractServiceTest {
 
     @Autowired
-    EmployerService service;
+    private EmployerService service;
 
     @Test
-    public void get() {
+    void get() {
         Assertions.assertEquals(service.get(EMPLOYER1_ID), employer1);
     }
 
     @Test
-    public void getAll() {
+    void getAll() {
         List<Employer> all = service.getAll();
         EMPLOYER_MATCHER.assertMatch(all, employer1, employer2);
     }
 
     @Test
-    public void getNotFound() {
+    void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
     @Test
-    public void create() {
+    void create() {
         Employer newEmployer = EmployerTestData.getNew();
         Employer created = service.create(newEmployer);
         newEmployer.setId(created.getId());
@@ -53,27 +53,27 @@ class EmployerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void update() {
+    void update() {
         Employer updated = new Employer(getUpdated());
         service.update(updated);
         EMPLOYER_MATCHER.assertMatch(service.get(EMPLOYER1_ID), updated);
     }
 
     @Test
-    public void updateInvalid() {
+    void updateInvalid() {
         assertThrows(IllegalArgumentException.class, () -> service.update(null));
         assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, null, "newAddress")));
         assertThrows(IllegalArgumentException.class, () -> service.update(new Employer(EMPLOYER1_ID, "Новый", null)));
     }
 
     @Test
-    public void delete() {
+    void delete() {
         service.delete(EMPLOYER1_ID);
         assertThrows(NotFoundException.class, () -> service.get(EMPLOYER1_ID));
     }
 
     @Test
-    public void deletedNotFound() {
+    void deletedNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 
