@@ -27,6 +27,7 @@ class EmployerRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = EmployerRestController.REST_URL + '/';
     @Autowired
     private EmployerService service;
+
     @Test
     void get() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + EMPLOYER1_ID)

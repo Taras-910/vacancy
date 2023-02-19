@@ -29,7 +29,6 @@ class RateRestControllerTest extends AbstractControllerTest {
 
     @Autowired
     private RateService service;
-
     @Autowired
     private CacheManager cacheManager;
 

@@ -22,7 +22,7 @@ import static ua.training.top.util.DateTimeUtil.thisDay;
 class VoteServiceTest extends AbstractServiceTest {
 
     @Autowired
-    VoteService service;
+    private VoteService service;
 
     @BeforeEach
     void setup() {

@@ -34,12 +34,11 @@ class UserRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL_SLASH = REST_URL + '/';
     @Autowired
     private UserService service;
-
     @Autowired
     private CacheManager cacheManager;
 
     @Before
-    void setup() {
+    public void setup() {
         cacheManager.getCache("users").clear();
     }
 

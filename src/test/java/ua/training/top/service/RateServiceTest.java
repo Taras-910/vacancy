@@ -17,7 +17,7 @@ import static ua.training.testData.TestUtil.NOT_FOUND;
 
 class RateServiceTest extends AbstractServiceTest {
     @Autowired
-    RateService service;
+    private RateService service;
 
     @Test
     void get() {
